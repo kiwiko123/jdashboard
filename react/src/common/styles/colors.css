@@ -1,0 +1,19 @@
+.background-black {
+    background-color: black;
+}
+
+.color-white {
+    color: white;
+}
+
+.color-gray-light {
+    color: lightgray;
+}
+
+.color-gray-dark {
+    color: darkslategray;
+}
+
+.color-gray {
+    color: gray;
+}

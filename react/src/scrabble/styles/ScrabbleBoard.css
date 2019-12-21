@@ -1,0 +1,15 @@
+.border-white {
+    border-style: solid;
+    border-color: white;
+}
+
+.game-cell {
+    width: 3.25rem;
+    height: 3.25rem;
+}
+
+.parent-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
