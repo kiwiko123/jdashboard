@@ -3,7 +3,7 @@ import {
     get,
     isEmpty,
 } from 'lodash';
-import RequestService from '../../common/js/requests';
+import { RequestService } from '../../common/js/requests';
 import {
     NEW_GAME_URL,
     PLAY_MOVE_URL,
@@ -127,6 +127,7 @@ export default class ScrabbleGame extends Component {
     }
 
     _updateGameState(response) {
+        this._requestService.setPersistentPayload({ gameId: response.id });
         this.setState({
             board: get(response, 'board', []),
             player: get(response, 'player', {}),
@@ -167,9 +168,7 @@ export default class ScrabbleGame extends Component {
 
     _onPlayerSubmitTiles() {
         const payload = {
-            board: this.state.board,
             player: this.state.player,
-            opponent: this.state.opponent,
         };
         this._requestService.post(PLAY_MOVE_URL, payload);
     }

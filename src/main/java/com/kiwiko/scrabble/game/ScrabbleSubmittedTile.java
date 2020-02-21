@@ -6,12 +6,11 @@ public class ScrabbleSubmittedTile extends ScrabbleTile {
     private final int column;
 
     public ScrabbleSubmittedTile(
-            long id,
             String character,
             String playerId,
             int row,
             int column) {
-        super(id, character, playerId);
+        super(character, playerId);
         this.row = row;
         this.column = column;
     }

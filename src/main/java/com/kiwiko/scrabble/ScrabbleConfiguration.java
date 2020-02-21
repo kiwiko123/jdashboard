@@ -2,8 +2,8 @@ package com.kiwiko.scrabble;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.kiwiko.memory.caching.api.CacheService;
 import com.kiwiko.scrabble.api.ScrabbleGameService;
-import com.kiwiko.scrabble.data.LongIncrementor;
 import com.kiwiko.scrabble.game.helpers.ScrabbleGameHelper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,13 +23,10 @@ public class ScrabbleConfiguration {
     }
 
     @Bean
-    public ScrabbleGameService scrabbleGameService(ScrabbleGameHelper scrabbleGameHelper) {
-        return new ScrabbleGameService(scrabbleGameHelper);
-    }
-
-    @Bean
-    public LongIncrementor longIncrementor() {
-        return new LongIncrementor();
+    public ScrabbleGameService scrabbleGameService(
+            CacheService cacheService,
+            ScrabbleGameHelper scrabbleGameHelper) {
+        return new ScrabbleGameService(cacheService, scrabbleGameHelper);
     }
 
 

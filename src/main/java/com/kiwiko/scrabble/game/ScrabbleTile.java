@@ -1,21 +1,18 @@
 package com.kiwiko.scrabble.game;
 
+import com.kiwiko.persistence.LongIdentifiable;
+
 import java.util.Objects;
 
-public class ScrabbleTile {
+public class ScrabbleTile extends LongIdentifiable {
 
-    private final long id;
     private final String character;
     private final String playerId;
 
-    public ScrabbleTile(long id, String character, String playerId) {
-        this.id = id;
+    public ScrabbleTile(String character, String playerId) {
+        super();
         this.character = character;
         this.playerId = playerId;
-    }
-
-    public long getId() {
-        return id;
     }
 
     public String getCharacter() {
@@ -28,29 +25,24 @@ public class ScrabbleTile {
 
     @Override
     public String toString() {
-        return String.format("ScrabbleTile(\"%d\", \"%s\", \"%s\")", id, character, playerId);
+        return String.format("ScrabbleTile(\"%d\", \"%s\", \"%s\")", getId(), character, playerId);
     }
 
     @Override
     public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        }
-
-        if (getClass() != other.getClass()) {
+        if (!super.equals(other)) {
             return false;
         }
 
         ScrabbleTile otherTile = (ScrabbleTile) other;
-        return id == otherTile.id
-                && Objects.equals(character, otherTile.character)
+        return Objects.equals(character, otherTile.character)
                 && Objects.equals(playerId, otherTile.playerId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
-                id,
+                getId(),
                 character,
                 playerId);
     }

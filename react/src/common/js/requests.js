@@ -5,6 +5,18 @@ import {
 	startsWith
 } from 'lodash';
 
+function normalizeUrl(base, url) {
+    if (!isEmpty(base)) {
+        if (!startsWith(url, '/')) {
+            url = `/${url}`;
+        }
+        if (!endsWith(url, '/')) {
+            url = `${url}/`;
+        }
+    }
+    return `${base}${url}`;
+}
+
 async function postBody(url, payload) {
     const params = {
         method: 'POST',
@@ -15,11 +27,11 @@ async function postBody(url, payload) {
         body: JSON.stringify(payload),
     };
 
-    const response = await fetch(url, params);
-    return await response.json();
+    return fetch(url, params)
+        .then(response => response.json());
 }
 
-export default class RequestService {
+export class RequestService {
 
 	constructor(base_url = '', persistentPayload = {}) {
 		this._base_url = base_url
@@ -28,8 +40,8 @@ export default class RequestService {
 
 	async get(url) {
 		url = this._normalize_url(url);
-		const response = await fetch(url);
-		return await response.json();
+		return fetch(url)
+		    .then(response => response.json());
 	}
 
 	async post(url, payload) {
@@ -38,17 +50,12 @@ export default class RequestService {
 		return postBody(url, requestData);
 	}
 
-	_normalize_url(url) {
-		if (!isEmpty(this._base_url)) {
-			if (!startsWith(url, '/')) {
-				url = `/${url}`;
-			}
-			if (!endsWith(url, '/')) {
-				url = `${url}/`;
-			}
-		}
+	setPersistentPayload(payload) {
+	    this._persistentPayload = payload;
+	}
 
-		return `${this._base_url}${url}`;
+	_normalize_url(url) {
+		return normalizeUrl(this._base_url, url);
 	}
 
 	_get_persistent_payload(payload = {}) {

@@ -1,12 +1,10 @@
 package com.kiwiko.scrabble.game.helpers;
 
 import com.google.common.collect.HashMultiset;
-import com.kiwiko.scrabble.data.LongIncrementor;
 import com.kiwiko.scrabble.game.ScrabbleGame;
 import com.kiwiko.scrabble.game.ScrabblePlayer;
 import com.kiwiko.scrabble.game.ScrabbleTile;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,12 +18,9 @@ public class ScrabbleGameHelper {
 
     private static final Random random = new Random();
 
-    @Inject
-    private LongIncrementor longIncrementor;
-
     public ScrabblePlayer createPlayer(String playerId, int numberOfTiles) {
         Collection<ScrabbleTile> availableTiles = makeRandomCharacters(numberOfTiles).stream()
-                .map(character -> new ScrabbleTile(longIncrementor.increment(), character, playerId))
+                .map(character -> new ScrabbleTile(character, playerId))
                 .collect(Collectors.collectingAndThen(Collectors.toList(), HashMultiset::create));
 
         return new ScrabblePlayer(playerId, availableTiles, HashMultiset.create(), HashMultiset.create());
