@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public class RequestContextService {
 
+    public static final String REQUEST_CONTEXT_SESSION_KEY = "requestContext";
     private static final String keyIdentifierPrefix = "request-context-";
 
     @Inject
@@ -19,22 +20,23 @@ public class RequestContextService {
         return request.getRequestURI();
     }
 
-    public String getRequestKey(HttpServletRequest request) {
-        String requestUrl = getRequestUrl(request);
-        return getRequestKey(requestUrl);
-    }
-
-    public String getRequestKey(String requestUrl) {
-        return String.format("%s%s", keyIdentifierPrefix, requestUrl);
-    }
-
     public Optional<RequestContext> getRequestContext(String requestUrl) {
         String requestKey = getRequestKey(requestUrl);
-        return cacheService.get(requestKey);
+        return cacheService.get(requestKey, RequestContext.class)
+                .filter(requestContext -> requestContext.getEndInstant() == null);
+    }
+
+    public Optional<RequestContext> getRequestContext(HttpServletRequest request) {
+        String requestUrl = getRequestUrl(request);
+        return getRequestContext(requestUrl);
     }
 
     public void saveRequestContext(String requestUrl, RequestContext context) {
         String requestKey = getRequestKey(requestUrl);
         cacheService.cache(requestKey, context, Duration.ofDays(1));
+    }
+
+    private String getRequestKey(String requestUrl) {
+        return String.format("%s%s", keyIdentifierPrefix, requestUrl);
     }
 }

@@ -1,11 +1,11 @@
 package com.kiwiko.scrabble.game;
 
-import com.kiwiko.persistence.LongIdentifiable;
+import com.kiwiko.persistence.identification.GeneratedLongIdentifiable;
 import org.springframework.lang.Nullable;
 
 import java.util.Optional;
 
-public class ScrabbleGame extends LongIdentifiable {
+public class ScrabbleGame extends GeneratedLongIdentifiable {
 
     private final ScrabbleGameBoard board;
     private final ScrabblePlayer player;

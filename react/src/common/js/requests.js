@@ -1,8 +1,7 @@
 import {
 	endsWith,
-	get,
 	isEmpty,
-	startsWith
+	startsWith,
 } from 'lodash';
 
 function normalizeUrl(base, url) {
@@ -38,9 +37,18 @@ export class RequestService {
 		this._persistentPayload = persistentPayload;
 	}
 
-	async get(url) {
-		url = this._normalize_url(url);
-		return fetch(url)
+	async get(url, payload = {}) {
+		let requestUrl = this._normalize_url(url);
+		if (!isEmpty(payload)) {
+		    const data = {};
+		    Object.entries(this._get_persistent_payload(payload))
+		        .map(([key, value]) => [key, encodeURIComponent(value)])
+		        .forEach(([key, value]) => { data[key] = value; });
+		    const encodedParameters = encodeURIComponent(data);
+            requestUrl = `${requestUrl}?${encodedParameters}`;
+		}
+
+		return fetch(requestUrl)
 		    .then(response => response.json());
 	}
 

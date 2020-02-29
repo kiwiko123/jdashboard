@@ -1,23 +1,36 @@
 package com.kiwiko.scrabble.game;
 
-import com.kiwiko.scrabble.ScrabbleConfiguration;
+import com.kiwiko.scrabble.errors.ScrabbleException;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ScrabbleGameBoard {
 
     private final List<List<ScrabbleTile>> board;
     private final int rowCount;
     private final int columnCount;
+    private int tileCount;
 
     public ScrabbleGameBoard(int rows, int columns) {
         this.rowCount = rows;
         this.columnCount = columns;
         List<ScrabbleTile> row = new ArrayList<ScrabbleTile>(Collections.nCopies(columns, null));
         board = new ArrayList<>(Collections.nCopies(rows, row));
+        tileCount = 0;
+    }
+
+    private ScrabbleGameBoard(ScrabbleGameBoard other) {
+        board = other.board.stream()
+                .map(ArrayList::new)
+                .collect(Collectors.toList());
+        rowCount = other.rowCount;
+        columnCount = other.columnCount;
+        tileCount = other.tileCount;
     }
 
     public int getRowCount() {
@@ -28,13 +41,19 @@ public class ScrabbleGameBoard {
         return columnCount;
     }
 
+    public boolean isEmpty() {
+        return tileCount == 0;
+    }
+
     /**
      * For serialization purposes only.
      * This method is protected to remain visible by Jackson,
      * but should not be used for accessing the board.
      * Use {@link #get(int, int)} instead.
      *
-     * @see ScrabbleConfiguration#jackson2ObjectMapperBuilder()
+     * TODO remove this?
+     *
+     * @see com.kiwiko.mvc.configuration.MvcConfiguration#jackson2ObjectMapperBuilder()
      */
     protected List<List<ScrabbleTile>> getBoard() {
         return board;
@@ -49,8 +68,30 @@ public class ScrabbleGameBoard {
         return Optional.ofNullable(result);
     }
 
+    public void set(int row, int column, ScrabbleTile tile) {
+        if (get(row, column).isPresent()) {
+            throw new ScrabbleException(String.format("Position (%d, %d) is taken", row, column));
+        }
+        board.get(row).set(column, tile);
+        ++tileCount;
+    }
+
     public boolean isValidCoordinate(int row, int column) {
         return row >= 0 && row < getRowCount() && column >= 0 && column < getColumnCount();
+    }
+
+    /**
+     * Returns a copy of the current board, with the given submitted tiles applied to it.
+     * Does not modify {@code this}.
+     *
+     * @param tiles the tiles to apply to the new board.
+     * @return a copy of the current board, with the given tiles applied to it.
+     */
+    public ScrabbleGameBoard applyView(Collection<ScrabbleSubmittedTile> tiles) {
+        ScrabbleGameBoard copy = new ScrabbleGameBoard(this);
+        tiles.stream()
+                .forEach(tile -> copy.set(tile.getRow(), tile.getColumn(), tile));
+        return copy;
     }
 
     public void print() {

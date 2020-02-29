@@ -4,11 +4,11 @@ import classnames from 'classnames';
 import { get } from 'lodash';
 import { onDragStart } from './util/gameUI';
 import TextCell from './TextCell';
+import { PLAYER_IDS } from '../js/constants';
 
 import '../styles/ScrabbleBoard.css';
 
 function onDragTileOutOfBoard(event, tile) {
-    event.preventDefault();
     const payload = JSON.stringify(tile);
     onDragStart(event, payload);
 }
@@ -70,17 +70,25 @@ export default class ScrabbleBoard extends Component {
     }
 
     _getCell({ tile, rowIndex, columnIndex }) {
+        const isOccupied = Boolean(tile);
         const key = `cell-${rowIndex}${columnIndex}`;
-        const className = classnames('border-white', 'parent-center', 'game-cell');
+        const className = classnames('border-white', 'parent-center', 'game-cell', {
+            clickable: isOccupied,
+        });
         const text = get(tile, 'character');
+        const submittedTile = {
+            ...tile,
+            row: rowIndex,
+            column: columnIndex,
+        };
 
         return (
             <TextCell
                 key={key}
                 className={className}
                 text={text}
-                draggable={!tile}
-                onDragStart={event => onDragTileOutOfBoard(event, tile)}
+                draggable={isOccupied && tile.playerId === PLAYER_IDS.PLAYER}
+                onDragStart={event => onDragTileOutOfBoard(event, submittedTile)}
                 onDrop={event => this.props.dropTileHandler(event, rowIndex, columnIndex)}
             />
         );

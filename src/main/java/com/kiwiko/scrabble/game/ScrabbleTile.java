@@ -1,10 +1,10 @@
 package com.kiwiko.scrabble.game;
 
-import com.kiwiko.persistence.LongIdentifiable;
+import com.kiwiko.persistence.identification.GeneratedLongIdentifiable;
 
 import java.util.Objects;
 
-public class ScrabbleTile extends LongIdentifiable {
+public class ScrabbleTile extends GeneratedLongIdentifiable {
 
     private final String character;
     private final String playerId;

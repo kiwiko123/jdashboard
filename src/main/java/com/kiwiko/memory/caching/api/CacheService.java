@@ -8,9 +8,11 @@ public interface CacheService {
 
     /**
      * @param key
+     * @param clazz the type of T, to which the cached value will be cast.
      * @param <T> the cached value's type.
      * @return the cached value associated with the given key, if any.
      */
+    <T> Optional<T> get(String key, Class<T> clazz);
     <T> Optional<T> get(String key);
 
     /**

@@ -5,11 +5,13 @@ import com.kiwiko.scrabble.errors.ScrabbleException;
 import com.kiwiko.scrabble.game.ScrabbleGame;
 import com.kiwiko.scrabble.game.ScrabbleGameBoard;
 import com.kiwiko.scrabble.game.ScrabblePlayer;
+import com.kiwiko.scrabble.game.ScrabbleSubmittedTile;
 import com.kiwiko.scrabble.game.ScrabbleTile;
 import com.kiwiko.scrabble.game.helpers.ScrabbleGameHelper;
 
 import javax.inject.Inject;
 import java.time.Duration;
+import java.util.Collection;
 import java.util.Optional;
 
 public class ScrabbleGameService {
@@ -39,13 +41,14 @@ public class ScrabbleGameService {
                 opponent);
 
         String cacheKey = getGameCacheKey(game.getId());
-        cacheService.cache(cacheKey, game, Duration.ofSeconds(30));
+        cacheService.cache(cacheKey, game, Duration.ofHours(1));
         return game;
     }
 
-    public Optional<ScrabbleGame> getGameById(long id) {
+    public ScrabbleGame getGameById(long id) {
         String cacheKey = getGameCacheKey(id);
-        return cacheService.get(cacheKey);
+        return cacheService.get(cacheKey, ScrabbleGame.class)
+                .orElseThrow(() -> new ScrabbleException(String.format("Failed to retrieve ScrabbleGame for game ID %d", id)));
     }
 
     public ScrabblePlayer getPlayerById(ScrabbleGame game, String playerId) {
@@ -61,6 +64,10 @@ public class ScrabbleGameService {
     public boolean placeMove(ScrabbleGame game, ScrabblePlayer player, ScrabbleTile move) {
         // TODO
         return false;
+    }
+
+    public boolean areTilesValid(ScrabbleGame game, Collection<ScrabbleSubmittedTile> tiles) {
+        return gameHelper.areTilesValid(game, tiles);
     }
 
     private String getGameCacheKey(long id) {

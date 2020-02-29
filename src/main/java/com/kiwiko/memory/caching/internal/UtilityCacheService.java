@@ -3,9 +3,15 @@ package com.kiwiko.memory.caching.internal;
 import com.kiwiko.memory.caching.api.CacheService;
 
 import java.time.temporal.TemporalAmount;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 abstract class UtilityCacheService implements CacheService {
+
+    @Override
+    public <T> Optional<T> get(String key, Class<T> clazz) {
+        return get(key).map(clazz::cast);
+    }
 
     @Override
     public <T> void cache(String key, T value) {

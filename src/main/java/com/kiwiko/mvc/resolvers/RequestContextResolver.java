@@ -1,5 +1,6 @@
 package com.kiwiko.mvc.resolvers;
 
+import com.kiwiko.mvc.requests.api.RequestError;
 import com.kiwiko.mvc.requests.data.RequestContext;
 import com.kiwiko.mvc.requests.api.RequestContextService;
 import org.springframework.core.MethodParameter;
@@ -28,9 +29,10 @@ public class RequestContextResolver implements HandlerMethodArgumentResolver {
             @Nullable ModelAndViewContainer mavContainer,
             NativeWebRequest webRequest,
             @Nullable WebDataBinderFactory binderFactory) throws Exception {
-        return Optional.ofNullable(webRequest.getNativeRequest(HttpServletRequest.class))
-                .map(requestContextService::getRequestUrl)
-                .flatMap(requestContextService::getRequestContext)
-                .orElseThrow(() -> new IllegalStateException("Failed to find RequestContext for web request"));
+        HttpServletRequest httpServletRequest = Optional.ofNullable(webRequest.getNativeRequest(HttpServletRequest.class))
+                .orElseThrow(() -> new RequestError("Failed to create HttpServletRequest"));
+        String requestUrl = requestContextService.getRequestUrl(httpServletRequest);
+        return requestContextService.getRequestContext(httpServletRequest)
+                .orElseThrow(() -> new RequestError(String.format("Failed to find RequestContext for \"%s\"", requestUrl)));
     }
 }
