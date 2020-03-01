@@ -1,9 +1,20 @@
 import {
 	endsWith,
-	get,
 	isEmpty,
-	startsWith
+	startsWith,
 } from 'lodash';
+
+function normalizeUrl(base, url) {
+    if (!isEmpty(base)) {
+        if (!startsWith(url, '/')) {
+            url = `/${url}`;
+        }
+        if (!endsWith(url, '/')) {
+            url = `${url}/`;
+        }
+    }
+    return `${base}${url}`;
+}
 
 async function postBody(url, payload) {
     const params = {
@@ -15,21 +26,30 @@ async function postBody(url, payload) {
         body: JSON.stringify(payload),
     };
 
-    const response = await fetch(url, params);
-    return await response.json();
+    return fetch(url, params)
+        .then(response => response.json());
 }
 
-export default class RequestService {
+export class RequestService {
 
 	constructor(base_url = '', persistentPayload = {}) {
 		this._base_url = base_url
 		this._persistentPayload = persistentPayload;
 	}
 
-	async get(url) {
-		url = this._normalize_url(url);
-		const response = await fetch(url);
-		return await response.json();
+	async get(url, payload = {}) {
+		let requestUrl = this._normalize_url(url);
+		if (!isEmpty(payload)) {
+		    const data = {};
+		    Object.entries(this._get_persistent_payload(payload))
+		        .map(([key, value]) => [key, encodeURIComponent(value)])
+		        .forEach(([key, value]) => { data[key] = value; });
+		    const encodedParameters = encodeURIComponent(data);
+            requestUrl = `${requestUrl}?${encodedParameters}`;
+		}
+
+		return fetch(requestUrl)
+		    .then(response => response.json());
 	}
 
 	async post(url, payload) {
@@ -38,17 +58,12 @@ export default class RequestService {
 		return postBody(url, requestData);
 	}
 
-	_normalize_url(url) {
-		if (!isEmpty(this._base_url)) {
-			if (!startsWith(url, '/')) {
-				url = `/${url}`;
-			}
-			if (!endsWith(url, '/')) {
-				url = `${url}/`;
-			}
-		}
+	setPersistentPayload(payload) {
+	    this._persistentPayload = payload;
+	}
 
-		return `${this._base_url}${url}`;
+	_normalize_url(url) {
+		return normalizeUrl(this._base_url, url);
 	}
 
 	_get_persistent_payload(payload = {}) {

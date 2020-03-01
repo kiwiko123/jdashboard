@@ -59,6 +59,7 @@ export default class DashboardPage extends Component {
                     <h1 className="color-white">
                         {this.props.title}
                     </h1>
+                    {headerButtons}
                 </div>
                 <div className="body">
                     {this.props.children}

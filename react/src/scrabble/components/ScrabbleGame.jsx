@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import {
-    get,
-    isEmpty,
-} from 'lodash';
-import RequestService from '../../common/js/requests';
+import { get, merge } from 'lodash';
+import { RequestService } from '../../common/js/requests';
 import {
     NEW_GAME_URL,
+    VALIDATE_MOVE_URL,
     PLAY_MOVE_URL,
 } from '../js/urls';
 import { renderPlayerTiles } from './util/gameUI';
@@ -56,6 +54,7 @@ export default class ScrabbleGame extends Component {
         this._onDropTileOnBoard = this._onDropTileOnBoard.bind(this);
         this._onPlayerSubmitTiles = this._onPlayerSubmitTiles.bind(this);
         this._onPlayerRecallTiles = this._onPlayerRecallTiles.bind(this);
+        this._onPlayerDropTileOutOfBoard = this._onPlayerDropTileOutOfBoard.bind(this);
 
         this._requestService = new RequestService(SERVER_URL);
         this._onNewGame();
@@ -68,6 +67,7 @@ export default class ScrabbleGame extends Component {
         return (
             <ClickTarget
                 className="ScrabbleGame"
+                onDrop={this._onPlayerDropTileOutOfBoard}
             >
                 <div className="board parent-center">
                     <ScrabbleBoard
@@ -127,6 +127,7 @@ export default class ScrabbleGame extends Component {
     }
 
     _updateGameState(response) {
+        this._requestService.setPersistentPayload({ gameId: response.id });
         this.setState({
             board: get(response, 'board', []),
             player: get(response, 'player', {}),
@@ -135,6 +136,7 @@ export default class ScrabbleGame extends Component {
     }
 
     _onDropTileOnBoard(event, rowIndex, columnIndex) {
+        event.stopPropagation();
         const payload = event.dataTransfer.getData('text/plain');
         const tile = JSON.parse(payload);
         console.log(JSON.stringify(tile));
@@ -163,26 +165,21 @@ export default class ScrabbleGame extends Component {
             },
             canSubmit: submittedTiles.length > 0,
         });
+
+        this._validatePlayerTiles(submittedTiles);
     }
 
     _onPlayerSubmitTiles() {
         const payload = {
-            board: this.state.board,
             player: this.state.player,
-            opponent: this.state.opponent,
         };
         this._requestService.post(PLAY_MOVE_URL, payload);
     }
 
     _onPlayerRecallTiles() {
-        const { board, player } = this.state;
-        const matrix = [...board.board];
-        player.submittedTiles.forEach((tile) => { matrix[tile.row][tile.column] = null; });
+        const { player } = this.state;
+        this._removeTilesFromBoard(player.submittedTiles);
         this.setState({
-            board: {
-                ...board,
-                board: matrix,
-            },
             player: {
                 ...player,
                 availableTiles: [
@@ -190,6 +187,39 @@ export default class ScrabbleGame extends Component {
                     ...player.submittedTiles,
                 ],
                 submittedTiles: [],
+            },
+        });
+    }
+
+    _validatePlayerTiles(tiles) {
+        const payload = { tiles };
+        this._requestService.post(VALIDATE_MOVE_URL, payload);
+    }
+
+    _onPlayerDropTileOutOfBoard(event) {
+        const payload = event.dataTransfer.getData('text/plain');
+        const tile = JSON.parse(payload);
+        const player = { ...this.state.player };
+        merge(player, {
+            availableTiles: [
+                ...player.availableTiles,
+                tile,
+            ],
+            submittedTiles: player.submittedTiles.filter(t => t.id !== tile.id),
+        });
+        this.setState({ player });
+        this._removeTilesFromBoard([tile]);
+    }
+
+    _removeTilesFromBoard(tiles) {
+        const { board, player } = this.state;
+        const matrix = [...board.board];
+        tiles.forEach((tile) => { matrix[tile.row][tile.column] = null; });
+
+        this.setState({
+            board: {
+                ...board,
+                board: matrix,
             },
         });
     }

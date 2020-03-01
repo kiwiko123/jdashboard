@@ -1,9 +1,11 @@
 package com.kiwiko.scrabble.game;
 
-import javax.annotation.Nullable;
+import com.kiwiko.persistence.identification.GeneratedLongIdentifiable;
+import org.springframework.lang.Nullable;
+
 import java.util.Optional;
 
-public class ScrabbleGame {
+public class ScrabbleGame extends GeneratedLongIdentifiable {
 
     private final ScrabbleGameBoard board;
     private final ScrabblePlayer player;
@@ -14,6 +16,7 @@ public class ScrabbleGame {
             ScrabbleGameBoard board,
             ScrabblePlayer player,
             ScrabblePlayer opponent) {
+        super();
         this.board = board;
         this.player = player;
         this.opponent = opponent;

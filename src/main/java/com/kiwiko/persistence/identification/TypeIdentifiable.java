@@ -1,0 +1,77 @@
+package com.kiwiko.persistence.identification;
+
+import javax.annotation.Nonnull;
+import java.util.Objects;
+import java.util.Optional;
+
+/**
+ * Provides an ID for an object.
+ * The ID is guaranteed to be non-null.
+ *
+ * @param <T> the type of the ID.
+ */
+public abstract class TypeIdentifiable<T> implements Identifiable<T> {
+
+    private T id;
+
+    /**
+     * Default, preferred constructor for creating an object with an ID.
+     * @param id
+     */
+    public TypeIdentifiable(T id) {
+        setId(id);
+    }
+
+    /**
+     * Package-private default constructor.
+     * Because Java requires invoking a base class' constructor in the first line,
+     * derived classes can benefit from this if they need to execute additional logic to calculate an ID.
+     * Use {@link #setId(T)} to set the ID after the first line of the constructor.
+     */
+    TypeIdentifiable() { }
+
+    /**
+     * @return the non-null ID of the object.
+     */
+    @Override
+    @Nonnull
+    public final T getId() {
+        return Optional.ofNullable(id)
+                .orElseThrow(() -> new IllegalArgumentException("id wasn't properly initialized"));
+    }
+
+    /**
+     * Package-private setter for a derived class to set its ID in its constructor after the first line.
+     * @param id
+     */
+    void setId(T id) {
+        if (id == null) {
+            throw new IllegalArgumentException(String.format("%s cannot have a null ID", getClass().getName()));
+        }
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s(id=%s)", getClass().getSimpleName(), getId().toString());
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+
+        if (other == null || !Identifiable.class.isAssignableFrom(other.getClass())) {
+            return false;
+        }
+
+        Identifiable<T> otherIdentifiable = (Identifiable<T>) other;
+        return Objects.equals(id, otherIdentifiable.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+}
