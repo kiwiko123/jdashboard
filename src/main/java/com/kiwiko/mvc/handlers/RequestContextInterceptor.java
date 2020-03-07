@@ -23,7 +23,7 @@ public class RequestContextInterceptor extends HandlerInterceptorAdapter {
         Instant now = Instant.now();
         String requestUrl = requestContextService.getRequestUrl(request);
         RequestContext requestContext = new RequestContext(requestUrl, now, null);
-        requestContextService.saveRequestContext(requestUrl, requestContext);
+        requestContextService.saveRequestContext(requestContext);
 
         HttpSession session = request.getSession();
         session.setAttribute(RequestContextService.REQUEST_CONTEXT_SESSION_KEY, requestContext);
@@ -46,7 +46,7 @@ public class RequestContextInterceptor extends HandlerInterceptorAdapter {
         if (session != null) {
             session.setAttribute(RequestContextService.REQUEST_CONTEXT_SESSION_KEY, requestContext);
         }
-        requestContextService.saveRequestContext(requestUrl, requestContext);
+        requestContextService.saveRequestContext(requestContext);
 
         super.postHandle(request, response, handler, modelAndView);
     }

@@ -1,0 +1,26 @@
+.Banner {
+    display: flex;
+    align-items: center;
+    border: 1px solid;
+    border-radius: 1rem;
+}
+
+.banner-icon {
+    padding: 1rem;
+}
+
+.banner-icon.success {
+    color: green;
+}
+
+.banner-icon.danger {
+    color: red;
+}
+
+.banner-icon.warning {
+    color: yellow;
+}
+
+.banner-icon.info {
+    color: cornflowerblue;
+}

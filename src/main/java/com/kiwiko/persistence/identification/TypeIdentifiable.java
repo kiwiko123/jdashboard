@@ -16,39 +16,26 @@ public abstract class TypeIdentifiable<T> implements Identifiable<T> {
 
     /**
      * Default, preferred constructor for creating an object with an ID.
-     * @param id
+     *
+     * @param id the non-null ID.
+     * @throws IllegalArgumentException if a null value is provided as the ID.
      */
-    public TypeIdentifiable(T id) {
+    public TypeIdentifiable(T id) throws IllegalArgumentException {
         setId(id);
     }
 
-    /**
-     * Package-private default constructor.
-     * Because Java requires invoking a base class' constructor in the first line,
-     * derived classes can benefit from this if they need to execute additional logic to calculate an ID.
-     * Use {@link #setId(T)} to set the ID after the first line of the constructor.
-     */
-    TypeIdentifiable() { }
+    protected TypeIdentifiable() {
+        T calculatedId = calculateId().orElse(null);
+        setId(calculatedId);
+    }
 
     /**
-     * @return the non-null ID of the object.
+     * @return the non-null ID of the object
      */
     @Override
     @Nonnull
     public final T getId() {
-        return Optional.ofNullable(id)
-                .orElseThrow(() -> new IllegalArgumentException("id wasn't properly initialized"));
-    }
-
-    /**
-     * Package-private setter for a derived class to set its ID in its constructor after the first line.
-     * @param id
-     */
-    void setId(T id) {
-        if (id == null) {
-            throw new IllegalArgumentException(String.format("%s cannot have a null ID", getClass().getName()));
-        }
-        this.id = id;
+        return id;
     }
 
     @Override
@@ -73,5 +60,23 @@ public abstract class TypeIdentifiable<T> implements Identifiable<T> {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    /**
+     * Override this to return the ID that {@link #TypeIdentifiable()} should set.
+     * Useful for requiring logic to pre-compute an ID in the constructor.
+     *
+     * @return the ID that {@link #TypeIdentifiable()} will set
+     * @see GeneratedLongIdentifiable
+     */
+    protected Optional<T> calculateId() {
+        return Optional.empty();
+    }
+
+    private void setId(T id) {
+        if (id == null) {
+            throw new IllegalArgumentException(String.format("%s cannot have a null ID", getClass().getName()));
+        }
+        this.id = id;
     }
 }

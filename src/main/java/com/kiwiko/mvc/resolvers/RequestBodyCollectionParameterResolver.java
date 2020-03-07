@@ -13,7 +13,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -50,6 +49,8 @@ public class RequestBodyCollectionParameterResolver extends CacheableRequestBody
                         collectionParameter.name(),
                         jsonBody.toString()));
             }
+
+            // If the value is neither present nor required, return an empty collection.
             return parameter.getParameterType().getDeclaredConstructor().newInstance();
         }
 

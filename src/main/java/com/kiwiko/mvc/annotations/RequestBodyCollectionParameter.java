@@ -28,7 +28,7 @@ public @interface RequestBodyCollectionParameter {
     /**
      * @return the type of objects that the {@link java.util.Collection} holds.
      */
-    Class<?> valueType();
+    Class<?> valueType() default Object.class;
 
     /**
      * If the parameter is required, but it's not found in the request body,

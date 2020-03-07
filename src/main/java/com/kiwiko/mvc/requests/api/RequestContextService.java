@@ -31,8 +31,8 @@ public class RequestContextService {
         return getRequestContext(requestUrl);
     }
 
-    public void saveRequestContext(String requestUrl, RequestContext context) {
-        String requestKey = getRequestKey(requestUrl);
+    public void saveRequestContext(RequestContext context) {
+        String requestKey = getRequestKey(context.getUri());
         cacheService.cache(requestKey, context, Duration.ofDays(1));
     }
 
