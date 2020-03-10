@@ -7,7 +7,6 @@ import {
     VALIDATE_MOVE_URL,
     PLAY_MOVE_URL,
 } from '../js/urls';
-import { logger } from '../../common/js/logs';
 
 const SERVER_URL = 'http://localhost:8080';
 

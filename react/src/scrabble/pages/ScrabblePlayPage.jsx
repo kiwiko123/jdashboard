@@ -5,16 +5,14 @@ import ScrabbleGame from '../components/ScrabbleGame';
 import ReceivingElement from '../../state/components/ReceivingElement';
 import ScrabbleAlerts from '../components/ScrabbleAlerts';
 import ScrabbleGameBroadcaster from '../state/ScrabbleGameBroadcaster';
-import ScrabbleGameReceiver from '../state/ScrabbleGameReceiver';
-import ScrabbleErrorReceiver from '../state/ScrabbleErrorReceiver';
+import ScrabbleErrorBroadcaster from '../state/ScrabbleErrorBroadcaster';
 
 import '../styles/ScrabblePlayPage.css';
 
 
 export default function ScrabblePlayPage({ history }) {
   const scrabbleGameBroadcaster = new ScrabbleGameBroadcaster();
-  const scrabbleGameReceiver = new ScrabbleGameReceiver([scrabbleGameBroadcaster]);
-  const scrabbleErrorReceiver = new ScrabbleErrorReceiver([scrabbleGameBroadcaster]);
+  const scrabbleErrorBroadcaster = new ScrabbleErrorBroadcaster([scrabbleGameBroadcaster]);
 
   return (
       <DashboardPage
@@ -23,10 +21,10 @@ export default function ScrabblePlayPage({ history }) {
         appId="scrabble"
         history={history}
       >
-        <ReceivingElement receiver={scrabbleErrorReceiver}>
+        <ReceivingElement broadcaster={scrabbleErrorBroadcaster}>
             <ScrabbleAlerts />
         </ReceivingElement>
-        <ReceivingElement receiver={scrabbleGameReceiver} delayRenderForReceiver={true}>
+        <ReceivingElement broadcaster={scrabbleGameBroadcaster}>
             <ScrabbleGame />
         </ReceivingElement>
       </DashboardPage>
