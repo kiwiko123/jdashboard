@@ -15,13 +15,15 @@ import java.lang.annotation.Target;
  *
  * Example:
  * {@code @RequestBodyCollectionParameter(name = "cars", valueType = Car.class) Set<Car> cars}
+ *
+ * @see RequestBodyParameter
  */
 @Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RequestBodyCollectionParameter {
 
     /**
-     * @return the name/path/key of the object in the request's body.
+     * @see RequestBodyParameter#name()
      */
     String name();
 
@@ -31,10 +33,7 @@ public @interface RequestBodyCollectionParameter {
     Class<?> valueType() default Object.class;
 
     /**
-     * If the parameter is required, but it's not found in the request body,
-     * throws a {@link com.kiwiko.mvc.requests.api.RequestError}.
-     *
-     * @return true if the parameter is required, or false if not.
+     * @see RequestBodyParameter#required()
      */
     boolean required() default true;
 }

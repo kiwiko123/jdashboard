@@ -6,7 +6,7 @@ import java.time.temporal.TemporalAmount;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-abstract class UtilityCacheService implements CacheService {
+abstract class PartialCacheService implements CacheService {
 
     @Override
     public <T> Optional<T> get(String key, Class<T> clazz) {

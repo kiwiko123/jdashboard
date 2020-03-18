@@ -4,10 +4,10 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.kiwiko.memory.caching.api.CacheService;
 import com.kiwiko.memory.caching.internal.InMemoryCacheService;
-import com.kiwiko.mvc.handlers.RequestContextInterceptor;
-import com.kiwiko.mvc.handlers.RequestErrorInterceptor;
-import com.kiwiko.mvc.metrics.api.LogService;
-import com.kiwiko.mvc.metrics.internal.ConsoleLogService;
+import com.kiwiko.mvc.interceptors.RequestContextInterceptor;
+import com.kiwiko.mvc.interceptors.RequestErrorInterceptor;
+import com.kiwiko.metrics.api.LogService;
+import com.kiwiko.metrics.internal.ConsoleLogService;
 import com.kiwiko.mvc.requests.api.RequestContextService;
 import com.kiwiko.mvc.json.PropertyObjectMapper;
 import com.kiwiko.mvc.resolvers.RequestBodyCollectionParameterResolver;
@@ -84,7 +84,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
     }
 
     /**
-     * Allows protected and public getters to be serialized as a web response.
+     * Allows public, protected, and private fields to be serialized in a web response.
      */
     @Bean
     public Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder() {

@@ -1,12 +1,21 @@
 import { throttle } from 'lodash';
 import { logger } from '../common/js/logs';
 
+function some(iterable, predicate) {
+    for (const item of iterable) {
+        if (predicate(item)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 /**
  * Recursively checks if the current broadcaster is present in any of its listeners.
  * Returns true if any sub-listener links to the broadcaster defined by `id`.
  */
 function isPresentInListeners(broadcaster, id) {
-    return broadcaster.constructor.getId() !== id && broadcaster.listeners.some(listener => isPresentInListeners(listener, id));
+    return broadcaster.constructor.getId() === id || some(broadcaster.listeners, listener => isPresentInListeners(listener, id));
 }
 
 /**
@@ -37,7 +46,7 @@ export default class Broadcaster {
      */
     constructor(broadcasters = []) {
         this.state = {};
-        this.listeners = [];
+        this.listeners = new Set();
 
         this.register = this.register.bind(this);
         this.updaters = new Map();
@@ -93,11 +102,15 @@ export default class Broadcaster {
      * Do not override this.
      */
     register(broadcaster) {
+        if (this.listeners.has(broadcaster)) {
+            logger.info(`Attempting to register duplicate broadcaster ${broadcaster.constructor.getId()}`);
+            return;
+        }
         if (isPresentInListeners(broadcaster, this.constructor.getId())) {
             logger.error(`Failed to register ${broadcaster.constructor.getId()}; cycle detected in listeners`);
             return;
         }
-        this.listeners.push(broadcaster);
+        this.listeners.add(broadcaster);
         broadcaster.receive(this.getState(), this.constructor.getId());
     }
 

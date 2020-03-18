@@ -1,4 +1,4 @@
-package com.kiwiko.mvc.metrics.api;
+package com.kiwiko.metrics.api;
 
 public interface LogService {
 

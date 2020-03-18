@@ -5,7 +5,7 @@ import classnames from 'classnames';
 
 import '../styles/ScrabbleAlerts.css';
 
-const ScrabbleAlerts = ({ alerts }) => {
+const ScrabbleAlerts = ({ alerts, className }) => {
     const banners = alerts.map(alert => (
         <Banner
             key={alert.id}
@@ -16,8 +16,9 @@ const ScrabbleAlerts = ({ alerts }) => {
         </Banner>
     ));
 
+    const componentClassName = classnames('ScrabbleAlerts', className);
     return (
-        <div className="ScrabbleAlerts">
+        <div className={componentClassName}>
             {banners}
         </div>
     );
@@ -29,10 +30,12 @@ ScrabbleAlerts.propTypes = {
         type: PropTypes.string.isRequired,
         message: PropTypes.string.isRequired,
     })),
+    className: PropTypes.string,
 };
 
 ScrabbleAlerts.defaultProps = {
     alerts: [],
+    className: null,
 };
 
 export default ScrabbleAlerts;

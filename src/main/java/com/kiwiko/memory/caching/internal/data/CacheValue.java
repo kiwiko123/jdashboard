@@ -1,4 +1,4 @@
-package com.kiwiko.memory.caching.data;
+package com.kiwiko.memory.caching.internal.data;
 
 import org.springframework.lang.Nullable;
 

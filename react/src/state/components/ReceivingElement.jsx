@@ -1,7 +1,10 @@
 import React, { PureComponent, cloneElement } from 'react';
 import PropTypes from 'prop-types';
+import { isEmpty } from 'lodash';
 import Broadcaster from '../Broadcaster';
 import { logger } from '../../common/js/logs';
+
+let id = 0;
 
 /**
  * A component that accepts a Broadcaster and a child that's a React component.
@@ -11,8 +14,6 @@ import { logger } from '../../common/js/logs';
  * the broadcaster internally _tells_ it when to update.
  */
 export default class ReceivingElement extends PureComponent {
-
-    static id = 0;
 
     static propTypes = {
         broadcaster: PropTypes.instanceOf(Broadcaster).isRequired,
@@ -27,7 +28,7 @@ export default class ReceivingElement extends PureComponent {
         super(props);
         this.update = this.update.bind(this);
         this.state = { updateCount: 0 };
-        this.id = this.constructor.id++;
+        this.id = id++;
     }
 
     render() {
@@ -36,10 +37,11 @@ export default class ReceivingElement extends PureComponent {
             broadcaster.setUpdater(this.update, this.id);
         }
         const childrenProps = broadcaster.getState();
+        const element = isEmpty(childrenProps) ? children : cloneElement(children, childrenProps);
 
         return (
             <>
-                {cloneElement(children, childrenProps)}
+                {element}
             </>
         )
     }

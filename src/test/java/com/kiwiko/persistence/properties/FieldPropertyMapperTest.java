@@ -1,5 +1,7 @@
 package com.kiwiko.persistence.properties;
 
+import com.kiwiko.persistence.properties.api.PropertyMapper;
+import com.kiwiko.persistence.properties.internal.FieldPropertyMapper;
 import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,11 +12,11 @@ import static org.hamcrest.Matchers.notNullValue;
 
 public class FieldPropertyMapperTest {
 
-    private FieldPropertyMapper<CarEntity, CarDTO> carPropertyMapper;
+    private PropertyMapper<CarEntity, CarDTO> carPropertyMapper;
 
     @Before
     public void setUp() {
-        carPropertyMapper = new FieldPropertyMapper<>();
+        carPropertyMapper = new CarPropertyMapper();
     }
 
     @Test
@@ -23,7 +25,7 @@ public class FieldPropertyMapperTest {
         CarEntity carEntity = new CarEntity(make, "red", 4);
         CarDTO carDTO = new CarDTO();
 
-        CarDTO copied = carPropertyMapper.toTargetType(carEntity, carDTO);
+        CarDTO copied = carPropertyMapper.toTargetType(carEntity);
         MatcherAssert.assertThat("Expected \"make\" to have been copied", copied.getMake(), is(notNullValue()));
         MatcherAssert.assertThat("Expected \"make\" to have been copied", copied.getMake(), is(equalTo(make)));
     }
@@ -34,7 +36,7 @@ public class FieldPropertyMapperTest {
         CarEntity carEntity = new CarEntity("Honda", color, 4);
         CarDTO carDTO = new CarDTO();
 
-        CarDTO copied = carPropertyMapper.toTargetType(carEntity, carDTO);
+        CarDTO copied = carPropertyMapper.toTargetType(carEntity);
         MatcherAssert.assertThat("Expected \"color\" to have been copied", copied.getColor(), is(notNullValue()));
         MatcherAssert.assertThat("Expected \"color\" to have been copied", copied.getColor(), is(equalTo(color)));
     }
@@ -45,7 +47,7 @@ public class FieldPropertyMapperTest {
         CarEntity carEntity = new CarEntity("Honda", "red", numberOfWheels);
         CarDTO carDTO = new CarDTO();
 
-        CarDTO copied = carPropertyMapper.toTargetType(carEntity, carDTO);
+        CarDTO copied = carPropertyMapper.toTargetType(carEntity);
         MatcherAssert.assertThat("Expected \"numberOfWheels\" to have been copied", copied.getNumberOfWheels(), is(equalTo(numberOfWheels)));
     }
 
@@ -88,6 +90,14 @@ public class FieldPropertyMapperTest {
 
         public int getNumberOfWheels() {
             return numberOfWheels;
+        }
+    }
+
+    private static class CarPropertyMapper extends FieldPropertyMapper<CarEntity, CarDTO> {
+
+        @Override
+        protected Class<CarDTO> getTargetType() {
+            return CarDTO.class;
         }
     }
 }

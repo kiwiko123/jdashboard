@@ -4,18 +4,19 @@ import com.kiwiko.persistence.identification.GeneratedLongIdentifiable;
 
 import javax.annotation.Nullable;
 import java.time.Instant;
+import java.util.Optional;
 
 public class RequestContext extends GeneratedLongIdentifiable {
 
     private final String uri;
     private final Instant startInstant;
-    private @Nullable Instant endInstant;
+    private Optional<Instant> endInstant;
 
-    public RequestContext(String uri, Instant startInstant, Instant endInstant) {
+    public RequestContext(String uri, Instant startInstant, @Nullable Instant endInstant) {
         super();
         this.uri = uri;
         this.startInstant = startInstant;
-        this.endInstant = endInstant;
+        this.endInstant = Optional.ofNullable(endInstant);
     }
 
     public String getUri() {
@@ -26,13 +27,15 @@ public class RequestContext extends GeneratedLongIdentifiable {
         return startInstant;
     }
 
-    @Nullable
-    public Instant getEndInstant() {
+    public Optional<Instant> getEndInstant() {
         return endInstant;
     }
 
+    /**
+     * @param endInstant the non-null end instant
+     */
     public void setEndInstant(Instant endInstant) {
-        this.endInstant = endInstant;
+        this.endInstant = Optional.of(endInstant);
     }
 
     @Override

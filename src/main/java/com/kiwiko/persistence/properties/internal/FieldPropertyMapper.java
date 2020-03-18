@@ -1,6 +1,10 @@
-package com.kiwiko.persistence.properties;
+package com.kiwiko.persistence.properties.internal;
 
+import com.kiwiko.persistence.properties.api.PropertyMapper;
+
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -9,22 +13,42 @@ import java.util.Optional;
  * @param <SourceType>
  * @param <TargetType>
  */
-public class FieldPropertyMapper<SourceType, TargetType> implements PropertyMapper<SourceType, TargetType> {
+public abstract class FieldPropertyMapper<SourceType, TargetType> implements PropertyMapper<SourceType, TargetType> {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public TargetType toTargetType(SourceType source, TargetType target) {
-        copyToTarget(source, target);
-        return target;
-    }
-
-    private void copyToTarget(SourceType source, TargetType target) {
+    public void toTarget(SourceType source, TargetType target) {
         Arrays.stream(source.getClass().getDeclaredFields())
                 .filter(field -> canMap(field, target.getClass()))
                 .forEach(field -> copyField(source, field, target));
     }
+
+    @Override
+    public TargetType toTargetType(SourceType source) {
+        Constructor<TargetType> constructor;
+
+        try {
+            constructor = getTargetType().getDeclaredConstructor();
+        } catch (NoSuchMethodException e) {
+            return null;
+        }
+
+        constructor.trySetAccessible();
+        TargetType result;
+
+        try {
+            result = constructor.newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            return null;
+        }
+
+        toTarget(source, result);
+        return result;
+    }
+
+    protected abstract Class<TargetType> getTargetType();
 
     /**
      * Given a declared field and a target class, determine if the target class has a field of the same name and type.
@@ -44,30 +68,15 @@ public class FieldPropertyMapper<SourceType, TargetType> implements PropertyMapp
         Field targetField = getDeclaredField(target.getClass(), declaredField.getName())
                 .orElseThrow(() -> new IllegalArgumentException(String.format("No such field \"%s\"", declaredField.getName())));
 
-        // If either the source or target fields are non-public,
-        // temporarily make them accessible.
-        boolean isSourceFieldAccessible = declaredField.canAccess(source);
-        if (!isSourceFieldAccessible) {
-            declaredField.setAccessible(true);
-        }
-        boolean isTargetFieldAccessible = targetField.canAccess(target);
-        if (!isTargetFieldAccessible) {
-            targetField.setAccessible(true);
-        }
+        // Make the fields accessible.
+        declaredField.trySetAccessible();
+        targetField.trySetAccessible();
 
         // Copy the value from the source field to the target field.
         try {
             targetField.set(target, declaredField.get(source));
         } catch (IllegalAccessException e) {
             throw new IllegalStateException(e);
-        }
-
-        // If the fields' access was modified, revert these changes.
-        if (!isSourceFieldAccessible) {
-            declaredField.setAccessible(false);
-        }
-        if (!isTargetFieldAccessible) {
-            targetField.setAccessible(false);
         }
     }
 

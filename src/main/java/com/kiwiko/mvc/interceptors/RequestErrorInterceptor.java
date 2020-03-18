@@ -1,13 +1,12 @@
-package com.kiwiko.mvc.handlers;
+package com.kiwiko.mvc.interceptors;
 
-import com.kiwiko.mvc.metrics.api.LogService;
+import com.kiwiko.metrics.api.LogService;
 import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Optional;
 
 public class RequestErrorInterceptor extends HandlerInterceptorAdapter {
 
@@ -19,9 +18,10 @@ public class RequestErrorInterceptor extends HandlerInterceptorAdapter {
                                 HttpServletResponse response,
                                 Object handler,
                                 @Nullable Exception ex) throws Exception {
+        if (ex != null) {
+            String message = String.format("Uncaught exception while handling request %s", request.getRequestURI());
+            logService.error(message, ex);
+        }
         super.afterCompletion(request, response, handler, ex);
-        Optional.ofNullable(ex)
-                .ifPresent(exception ->
-                        logService.error(String.format("Uncaught exception while handling request %s", request.getRequestURI()), exception));
     }
 }

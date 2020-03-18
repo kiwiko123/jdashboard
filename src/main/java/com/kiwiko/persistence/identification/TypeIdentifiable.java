@@ -2,11 +2,10 @@ package com.kiwiko.persistence.identification;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * Provides an ID for an object.
- * The ID is guaranteed to be non-null.
+ * {@link #getId()} provides safe access to the ID -- it's guaranteed to be non-null and cannot be overridden.
  *
  * @param <T> the type of the ID.
  */
@@ -17,15 +16,23 @@ public abstract class TypeIdentifiable<T> implements Identifiable<T> {
     /**
      * Default, preferred constructor for creating an object with an ID.
      *
-     * @param id the non-null ID.
-     * @throws IllegalArgumentException if a null value is provided as the ID.
+     * @param id the non-null ID
+     * @throws IllegalArgumentException if a null value is provided as the ID
      */
     public TypeIdentifiable(T id) throws IllegalArgumentException {
         setId(id);
     }
 
+    /**
+     * Sets the result of {@link #generateId()} as the object's ID.
+     * Override {@link #generateId()} to allow derived instances to be instantiated without an explicit ID.
+     * For example,
+     * an implementation of {@link #generateId()} could return a monotonically increasing number on every invocation.
+     *
+     * @throws IllegalArgumentException if a null value is provided as the ID
+     */
     protected TypeIdentifiable() {
-        T calculatedId = calculateId().orElse(null);
+        T calculatedId = generateId();
         setId(calculatedId);
     }
 
@@ -69,14 +76,17 @@ public abstract class TypeIdentifiable<T> implements Identifiable<T> {
      * @return the ID that {@link #TypeIdentifiable()} will set
      * @see GeneratedLongIdentifiable
      */
-    protected Optional<T> calculateId() {
-        return Optional.empty();
+    protected T generateId() {
+        return null;
     }
+
+    protected void validateId(T id) throws RuntimeException { }
 
     private void setId(T id) {
         if (id == null) {
             throw new IllegalArgumentException(String.format("%s cannot have a null ID", getClass().getName()));
         }
+        validateId(id);
         this.id = id;
     }
 }
