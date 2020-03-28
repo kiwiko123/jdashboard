@@ -1,6 +1,6 @@
 package com.kiwiko.mvc.resolvers;
 
-import com.kiwiko.mvc.annotations.RequestBodyCollectionParameter;
+import com.kiwiko.mvc.requests.api.RequestBodyCollectionParameter;
 import com.kiwiko.mvc.json.PropertyObjectMapper;
 import com.kiwiko.mvc.requests.api.RequestError;
 import com.kiwiko.mvc.json.data.IntermediateJsonBody;
@@ -13,7 +13,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -50,6 +49,8 @@ public class RequestBodyCollectionParameterResolver extends CacheableRequestBody
                         collectionParameter.name(),
                         jsonBody.toString()));
             }
+
+            // If the value is neither present nor required, return an empty collection.
             return parameter.getParameterType().getDeclaredConstructor().newInstance();
         }
 

@@ -66,8 +66,8 @@ public class ScrabbleGameService {
         return false;
     }
 
-    public boolean areTilesValid(ScrabbleGame game, Collection<ScrabbleSubmittedTile> tiles) {
-        return gameHelper.areTilesValid(game, tiles);
+    public Collection<ScrabbleSubmittedTile> getInvalidTiles(ScrabbleGame game, Collection<ScrabbleSubmittedTile> tiles) {
+        return gameHelper.getInvalidTiles(game, tiles);
     }
 
     private String getGameCacheKey(long id) {

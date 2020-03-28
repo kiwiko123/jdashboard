@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { get } from 'lodash';
-import { onDragStart } from './util/gameUI';
+import { onDragStart } from '../../common/js/drag';
 import TextCell from './TextCell';
 import { PLAYER_IDS } from '../js/constants';
 

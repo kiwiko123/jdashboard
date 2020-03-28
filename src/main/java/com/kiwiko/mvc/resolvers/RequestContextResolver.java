@@ -14,6 +14,11 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
+/**
+ * Resolver that allows the retrieval of a {@link RequestContext} object by way of method argument.
+ * For any method represented by a {@link org.springframework.web.bind.annotation.RequestMapping},
+ * add an argument of type {@link RequestContext} to gain information about the current request.
+ */
 public class RequestContextResolver implements HandlerMethodArgumentResolver {
 
     @Inject
@@ -31,7 +36,7 @@ public class RequestContextResolver implements HandlerMethodArgumentResolver {
             @Nullable WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest httpServletRequest = Optional.ofNullable(webRequest.getNativeRequest(HttpServletRequest.class))
                 .orElseThrow(() -> new RequestError("Failed to create HttpServletRequest"));
-        String requestUrl = requestContextService.getRequestUrl(httpServletRequest);
+        String requestUrl = requestContextService.getRequestUri(httpServletRequest);
         return requestContextService.getRequestContext(httpServletRequest)
                 .orElseThrow(() -> new RequestError(String.format("Failed to find RequestContext for \"%s\"", requestUrl)));
     }

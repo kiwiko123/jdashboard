@@ -16,23 +16,23 @@ public class RequestContextService {
     @Inject
     private CacheService cacheService;
 
-    public String getRequestUrl(HttpServletRequest request) {
+    public String getRequestUri(HttpServletRequest request) {
         return request.getRequestURI();
     }
 
     public Optional<RequestContext> getRequestContext(String requestUrl) {
         String requestKey = getRequestKey(requestUrl);
         return cacheService.get(requestKey, RequestContext.class)
-                .filter(requestContext -> requestContext.getEndInstant() == null);
+                .filter(requestContext -> !requestContext.getEndInstant().isPresent());
     }
 
     public Optional<RequestContext> getRequestContext(HttpServletRequest request) {
-        String requestUrl = getRequestUrl(request);
+        String requestUrl = getRequestUri(request);
         return getRequestContext(requestUrl);
     }
 
-    public void saveRequestContext(String requestUrl, RequestContext context) {
-        String requestKey = getRequestKey(requestUrl);
+    public void saveRequestContext(RequestContext context) {
+        String requestKey = getRequestKey(context.getUri());
         cacheService.cache(requestKey, context, Duration.ofDays(1));
     }
 

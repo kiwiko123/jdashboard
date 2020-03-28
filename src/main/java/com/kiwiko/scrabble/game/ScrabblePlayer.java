@@ -1,10 +1,10 @@
 package com.kiwiko.scrabble.game;
 
-import com.kiwiko.games.api.GamePlayer;
+import com.kiwiko.persistence.identification.TypeIdentifiable;
 
 import java.util.Collection;
 
-public class ScrabblePlayer extends GamePlayer {
+public class ScrabblePlayer extends TypeIdentifiable<String> {
 
     private final Collection<ScrabbleTile> availableTiles;
     private final Collection<ScrabbleTile> playedTiles;

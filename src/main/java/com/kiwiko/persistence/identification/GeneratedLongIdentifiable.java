@@ -2,15 +2,21 @@ package com.kiwiko.persistence.identification;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-public class GeneratedLongIdentifiable extends TypeIdentifiable<Long> {
+public abstract class GeneratedLongIdentifiable extends TypeIdentifiable<Long> {
 
     private static Map<String, Long> ids = new HashMap<>();
 
     public GeneratedLongIdentifiable() {
+        super();
+    }
+
+    @Override
+    protected Long generateId() {
         String key = getClass().getName();
         long id = ids.getOrDefault(key, 1l);
-        setId(id);
         ids.put(key, id + 1);
+        return id;
     }
 }

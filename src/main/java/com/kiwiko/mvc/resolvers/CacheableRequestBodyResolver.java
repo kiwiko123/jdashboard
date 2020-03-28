@@ -31,8 +31,14 @@ abstract class CacheableRequestBodyResolver {
     @Inject
     private RequestContextService requestContextService;
 
+    /**
+     * Determines the duration of time to cache a given request's body.
+     * Increase this value when debugging!
+     *
+     * @return the duration of time to cache a given request's body.
+     */
     protected TemporalAmount getRequestBodyCacheDuration() {
-        return Duration.ofSeconds(3);
+        return Duration.ofSeconds(60);
     }
 
     /**
@@ -45,9 +51,7 @@ abstract class CacheableRequestBodyResolver {
      * @return true if the request body should be manually deserialized, or false if not.
      */
     protected boolean shouldDeserializeFromRequest(HttpServletRequest request) {
-        RequestContext currentRequestContext = Optional.of(request.getSession())
-                .map(session -> session.getAttribute(RequestContextService.REQUEST_CONTEXT_SESSION_KEY))
-                .map(requestContext -> (RequestContext) requestContext)
+        RequestContext currentRequestContext = requestContextService.getRequestContext(request)
                 .orElse(null);
 
         if (currentRequestContext == null) {

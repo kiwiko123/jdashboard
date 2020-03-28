@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Button from 'react-bootstrap/Button';
@@ -31,40 +31,44 @@ function createHeaderButtons({ history, appId }) {
     ));
 }
 
-export default class DashboardPage extends Component {
-    static propTypes = {
-        children: PropTypes.node.isRequired,
-        className: PropTypes.string,
-        title: PropTypes.string.isRequired,
-        appId: PropTypes.string.isRequired,
-        history: PropTypes.shape({
-            push: PropTypes.func.isRequired,
-        }).isRequired,
-    };
+const DashboardPage = ({
+    children, className, title, appId, history,
+}) => {
+    useEffect(() => {
+        document.title = title;
+    });
 
-    static defaultProps = {
-        className: null,
-    };
+    const pageClassName = classnames('DashboardPage', className);
+    const headerButtons = createHeaderButtons({ history, appId });
 
-    render() {
-        const className = classnames('DashboardPage', this.props.className);
-        const headerButtons = createHeaderButtons({
-            history: this.props.history,
-            appId: this.props.appId,
-        });
-
-        return (
-            <div className={className}>
-                <div className="header row">
-                    <h1 className="color-white">
-                        {this.props.title}
-                    </h1>
-                    {headerButtons}
-                </div>
-                <div className="body">
-                    {this.props.children}
-                </div>
+    return (
+        <div className={pageClassName}>
+            <div className="header row">
+                <h1 className="color-white">
+                    {title}
+                </h1>
+                {headerButtons}
             </div>
-        );
-    }
+            <div className="body">
+                {children}
+            </div>
+        </div>
+    );
 }
+
+DashboardPage.propTypes = {
+    children: PropTypes.node.isRequired,
+    className: PropTypes.string,
+    title: PropTypes.string,
+    appId: PropTypes.string.isRequired,
+    history: PropTypes.shape({
+        push: PropTypes.func.isRequired,
+    }).isRequired,
+};
+
+DashboardPage.defaultProps = {
+    className: null,
+    title: 'Dashboard',
+};
+
+export default DashboardPage;
