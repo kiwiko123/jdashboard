@@ -4,15 +4,19 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.kiwiko.memory.caching.api.CacheService;
 import com.kiwiko.memory.caching.internal.InMemoryCacheService;
+import com.kiwiko.metrics.api.CaptureMetrics;
+import com.kiwiko.mvc.interceptors.CaptureMetricsMethodInterceptor;
 import com.kiwiko.mvc.interceptors.RequestContextInterceptor;
 import com.kiwiko.mvc.interceptors.RequestErrorInterceptor;
 import com.kiwiko.metrics.api.LogService;
 import com.kiwiko.metrics.internal.ConsoleLogService;
+import com.kiwiko.mvc.lifecycle.dependencies.data.DependencyBinding;
 import com.kiwiko.mvc.requests.api.RequestContextService;
 import com.kiwiko.mvc.json.PropertyObjectMapper;
 import com.kiwiko.mvc.resolvers.RequestBodyCollectionParameterResolver;
 import com.kiwiko.mvc.resolvers.RequestBodyParameterResolver;
 import com.kiwiko.mvc.resolvers.RequestContextResolver;
+import org.springframework.aop.Advisor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -24,6 +28,12 @@ import java.util.List;
 
 @Configuration
 public class MvcConfiguration implements WebMvcConfigurer {
+
+    private ConfigurationHelper configurationHelper;
+
+    public MvcConfiguration() {
+        configurationHelper = new ConfigurationHelper();
+    }
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
@@ -81,6 +91,14 @@ public class MvcConfiguration implements WebMvcConfigurer {
     @Bean
     public RequestErrorInterceptor requestErrorInterceptor() {
         return new RequestErrorInterceptor();
+    }
+
+    @Bean
+    public Advisor captureMetricsAdvisor() {
+        DependencyBinding binding = new DependencyBinding(LogService.class, ConsoleLogService.class);
+        CaptureMetricsMethodInterceptor instance = configurationHelper
+                .createWithManualInjection(new CaptureMetricsMethodInterceptor(), binding);
+        return configurationHelper.createAnnotationBean(CaptureMetrics.class, instance);
     }
 
     /**

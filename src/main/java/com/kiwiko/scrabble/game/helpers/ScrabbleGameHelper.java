@@ -3,6 +3,7 @@ package com.kiwiko.scrabble.game.helpers;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableSet;
 import com.kiwiko.dataStructures.Pair;
+import com.kiwiko.metrics.api.CaptureMetrics;
 import com.kiwiko.scrabble.game.ScrabbleGame;
 import com.kiwiko.scrabble.game.ScrabbleGameBoard;
 import com.kiwiko.scrabble.game.ScrabblePlayer;
@@ -12,11 +13,9 @@ import com.kiwiko.scrabble.game.ScrabbleTile;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -52,6 +51,7 @@ public class ScrabbleGameHelper {
         return false;
     }
 
+    @CaptureMetrics
     public Collection<ScrabbleSubmittedTile> getInvalidTiles(ScrabbleGame game, Collection<ScrabbleSubmittedTile> submittedTiles) {
         ScrabbleGameBoard board = game.getBoard();
 

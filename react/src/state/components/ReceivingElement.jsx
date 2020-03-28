@@ -48,7 +48,8 @@ export default class ReceivingElement extends PureComponent {
 
     update() {
         const { updateCount } = this.state;
+        const { broadcaster } = this.props;
         this.setState({ updateCount: updateCount + 1 });
-        logger.debug(`ReceivingElement re-render #${updateCount}`);
+        logger.debug(`ReceivingElement ${broadcaster.constructor.getId()} re-render #${updateCount}`);
     }
 }

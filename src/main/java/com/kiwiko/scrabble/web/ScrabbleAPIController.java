@@ -1,7 +1,7 @@
 package com.kiwiko.scrabble.web;
 
-import com.kiwiko.mvc.annotations.RequestBodyCollectionParameter;
-import com.kiwiko.mvc.annotations.RequestBodyParameter;
+import com.kiwiko.mvc.requests.api.RequestBodyCollectionParameter;
+import com.kiwiko.mvc.requests.api.RequestBodyParameter;
 import com.kiwiko.mvc.json.data.ResponseBuilder;
 import com.kiwiko.mvc.json.data.ResponsePayload;
 import com.kiwiko.scrabble.api.ScrabbleGameService;

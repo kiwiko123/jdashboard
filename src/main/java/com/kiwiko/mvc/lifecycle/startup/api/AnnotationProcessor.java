@@ -1,4 +1,4 @@
-package com.kiwiko.mvc.lifecycle.api;
+package com.kiwiko.mvc.lifecycle.startup.api;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;

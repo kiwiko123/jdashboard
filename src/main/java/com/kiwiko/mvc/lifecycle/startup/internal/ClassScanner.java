@@ -1,9 +1,10 @@
-package com.kiwiko.mvc.lifecycle;
+package com.kiwiko.mvc.lifecycle.startup.internal;
 
 import com.kiwiko.Application;
 import com.kiwiko.metrics.api.LogService;
 import com.kiwiko.metrics.internal.ConsoleLogService;
-import com.kiwiko.mvc.lifecycle.api.ClassProcessor;
+import com.kiwiko.mvc.lifecycle.dependencies.manual.api.annotations.InjectManually;
+import com.kiwiko.mvc.lifecycle.startup.api.ClassProcessor;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.RegexPatternTypeFilter;
@@ -18,11 +19,10 @@ import java.util.stream.Collectors;
 public class ClassScanner {
 
     private final Set<ClassProcessor> classProcessors;
-    private final LogService logService;
+    @InjectManually private LogService logService;
 
     public ClassScanner() {
         classProcessors = new HashSet<>();
-        logService = new ConsoleLogService();
     }
 
     public <T extends ClassProcessor> ClassScanner register(Class<T> classProcessorType) {

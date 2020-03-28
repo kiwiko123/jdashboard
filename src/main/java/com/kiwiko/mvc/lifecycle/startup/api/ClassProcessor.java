@@ -1,4 +1,4 @@
-package com.kiwiko.mvc.lifecycle.api;
+package com.kiwiko.mvc.lifecycle.startup.api;
 
 import com.kiwiko.metrics.api.LogService;
 import com.kiwiko.metrics.internal.ConsoleLogService;

@@ -1,6 +1,6 @@
 package com.kiwiko.mvc.resolvers;
 
-import com.kiwiko.mvc.annotations.RequestBodyCollectionParameter;
+import com.kiwiko.mvc.requests.api.RequestBodyCollectionParameter;
 import com.kiwiko.mvc.json.PropertyObjectMapper;
 import com.kiwiko.mvc.requests.api.RequestError;
 import com.kiwiko.mvc.json.data.IntermediateJsonBody;
