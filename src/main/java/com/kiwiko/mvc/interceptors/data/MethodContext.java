@@ -26,10 +26,16 @@ public class MethodContext {
         return methodArguments;
     }
 
+    /**
+     * @return the instance of the annotated method's class
+     */
     public Optional<Object> getInstance() {
         return instance;
     }
 
+    /**
+     * @return the annotated method that's being intercepted
+     */
     public Method getMethod() {
         return method;
     }

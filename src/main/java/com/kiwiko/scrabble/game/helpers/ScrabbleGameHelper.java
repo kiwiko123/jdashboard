@@ -3,7 +3,6 @@ package com.kiwiko.scrabble.game.helpers;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableSet;
 import com.kiwiko.dataStructures.Pair;
-import com.kiwiko.metrics.api.CaptureMetrics;
 import com.kiwiko.scrabble.game.ScrabbleGame;
 import com.kiwiko.scrabble.game.ScrabbleGameBoard;
 import com.kiwiko.scrabble.game.ScrabblePlayer;
@@ -51,7 +50,6 @@ public class ScrabbleGameHelper {
         return false;
     }
 
-    @CaptureMetrics
     public Collection<ScrabbleSubmittedTile> getInvalidTiles(ScrabbleGame game, Collection<ScrabbleSubmittedTile> submittedTiles) {
         ScrabbleGameBoard board = game.getBoard();
 

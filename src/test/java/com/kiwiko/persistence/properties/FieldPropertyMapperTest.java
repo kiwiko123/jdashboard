@@ -1,7 +1,7 @@
 package com.kiwiko.persistence.properties;
 
+import com.kiwiko.persistence.properties.api.FieldPropertyMapper;
 import com.kiwiko.persistence.properties.api.PropertyMapper;
-import com.kiwiko.persistence.properties.internal.FieldPropertyMapper;
 import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.Test;

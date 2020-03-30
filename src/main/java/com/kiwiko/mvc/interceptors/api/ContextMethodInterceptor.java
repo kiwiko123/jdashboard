@@ -7,12 +7,24 @@ import com.kiwiko.mvc.interceptors.data.MethodContext;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
-public abstract class WebMethodInterceptor implements MethodInterceptor {
+public abstract class ContextMethodInterceptor implements MethodInterceptor {
 
-    @InjectManually private LogService logService;
+    @InjectManually protected LogService logService;
 
+    /**
+     * Override this to execute any logic prior to the annotated method's execution.
+     *
+     * @param context
+     */
     protected void preHandle(MethodContext context) { }
 
+    /**
+     * Override this to execute any logic immediately following the intercepted method's execution.
+     * {@link #postHandle(PostMethodContext)} will still be invoked even if the intercepted method threw an {@link Exception};
+     * the exception will be re-thrown after this.
+     *
+     * @param context
+     */
     protected void postHandle(PostMethodContext context) { }
 
     @Override

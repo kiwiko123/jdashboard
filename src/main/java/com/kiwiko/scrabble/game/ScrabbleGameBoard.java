@@ -1,5 +1,6 @@
 package com.kiwiko.scrabble.game;
 
+import com.kiwiko.mvc.MvcConfiguration;
 import com.kiwiko.scrabble.errors.ScrabbleException;
 
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class ScrabbleGameBoard {
      *
      * TODO remove this?
      *
-     * @see com.kiwiko.mvc.configuration.MvcConfiguration#jackson2ObjectMapperBuilder()
+     * @see MvcConfiguration#jackson2ObjectMapperBuilder()
      */
     protected List<List<ScrabbleTile>> getBoard() {
         return board;

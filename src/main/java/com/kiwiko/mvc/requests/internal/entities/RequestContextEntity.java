@@ -1,11 +1,11 @@
 package com.kiwiko.mvc.requests.internal.entities;
 
-import com.kiwiko.persistence.entities.InMemoryDataEntity;
+import com.kiwiko.persistence.identification.GeneratedLongIdentifiable;
 
 import javax.annotation.Nullable;
 import java.time.Instant;
 
-public class RequestContextEntity extends InMemoryDataEntity {
+public class RequestContextEntity extends GeneratedLongIdentifiable {
 
     private String uri;
     private Instant startInstant;

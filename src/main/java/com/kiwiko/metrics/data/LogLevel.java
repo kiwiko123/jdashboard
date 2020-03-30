@@ -1,7 +1,6 @@
 package com.kiwiko.metrics.data;
 
 public enum LogLevel {
-
     DEBUG("debug"),
     INFO("info"),
     WARN("warn"),

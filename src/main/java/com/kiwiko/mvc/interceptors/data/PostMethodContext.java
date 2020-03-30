@@ -7,20 +7,27 @@ import java.util.Optional;
 
 public class PostMethodContext extends MethodContext {
 
-    private final Optional<Object> methodResult;
-    private final Optional<Throwable> exception;
+    private final @Nullable Object methodResult;
+    private final @Nullable Exception exception;
 
-    public PostMethodContext(MethodInvocation methodInvocation, @Nullable Object methodResult, @Nullable Throwable exception) {
+    public PostMethodContext(MethodInvocation methodInvocation, @Nullable Object methodResult, @Nullable Exception exception) {
         super(methodInvocation);
-        this.methodResult = Optional.ofNullable(methodResult);
-        this.exception = Optional.ofNullable(exception);
+        this.methodResult = methodResult;
+        this.exception = exception;
     }
 
-    public Optional<Object> getMethodResult() {
+    /**
+     * @return the returned value of the method
+     */
+    @Nullable
+    public Object getMethodResult() {
         return methodResult;
     }
 
-    public Optional<Throwable> getException() {
-        return exception;
+    /**
+     * @return the exception that the annotated method threw, if any
+     */
+    public Optional<Exception> getException() {
+        return Optional.ofNullable(exception);
     }
 }

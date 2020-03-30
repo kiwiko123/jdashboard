@@ -11,6 +11,5 @@ public interface PropertyMapper<SourceType, TargetType> {
      * @return the target object, whose fields have been modified.
      */
     void toTarget(SourceType source, TargetType target);
-
     TargetType toTargetType(SourceType source);
 }

@@ -11,7 +11,7 @@ public abstract class LevelBasedLogService implements LogService {
 
     private static final int MAX_STACK_TRACE_LIMIT = 25;
 
-    private Set<LogLevel> enabledLogLevels;
+    private final Set<LogLevel> enabledLogLevels;
 
     public LevelBasedLogService() {
         enabledLogLevels = Arrays.stream(LogLevel.values())

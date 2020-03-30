@@ -10,8 +10,8 @@ import com.kiwiko.scrabble.game.ScrabblePlayer;
 import com.kiwiko.scrabble.game.ScrabbleSubmittedTile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
@@ -25,14 +25,14 @@ public class ScrabbleAPIController {
     @Inject
     private ScrabbleGameService scrabbleGameService;
 
-    @RequestMapping(path = "/scrabble/api/new-game", method = RequestMethod.GET)
+    @GetMapping(path = "/scrabble/api/new-game")
     public ResponseEntity<ResponsePayload> newGame() {
         return new ResponseBuilder()
                 .withBody(scrabbleGameService.createGame())
                 .toResponseEntity();
     }
 
-    @RequestMapping(path = "/scrabble/api/submit-tiles", method = RequestMethod.POST)
+    @PostMapping(path = "/scrabble/api/submit-tiles")
     public ResponseEntity<ResponsePayload> submitTiles(
             @RequestBodyParameter(name = "gameId") long gameId,
             @RequestBodyParameter(name = "player") ScrabblePlayer player) {
@@ -42,7 +42,7 @@ public class ScrabbleAPIController {
                 .toResponseEntity();
     }
 
-    @RequestMapping(path = "/scrabble/api/validate-move", method = RequestMethod.POST)
+    @PostMapping(path = "/scrabble/api/validate-move")
     public ResponseEntity<ResponsePayload> getInvalidSubmittedTiles(
             @RequestBodyParameter(name = "gameId") long gameId,
             @RequestBodyCollectionParameter(name = "tiles", valueType = ScrabbleSubmittedTile.class) List<ScrabbleSubmittedTile> submittedTiles) {

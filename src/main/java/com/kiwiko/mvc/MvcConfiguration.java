@@ -1,10 +1,11 @@
-package com.kiwiko.mvc.configuration;
+package com.kiwiko.mvc;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.kiwiko.memory.caching.api.CacheService;
 import com.kiwiko.memory.caching.internal.InMemoryCacheService;
 import com.kiwiko.metrics.api.CaptureMetrics;
+import com.kiwiko.mvc.configuration.ConfigurationHelper;
 import com.kiwiko.mvc.interceptors.CaptureMetricsMethodInterceptor;
 import com.kiwiko.mvc.interceptors.RequestContextInterceptor;
 import com.kiwiko.mvc.interceptors.RequestErrorInterceptor;

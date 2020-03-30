@@ -1,5 +1,6 @@
 package com.kiwiko.mvc.lifecycle.dependencies.manual.data;
 
+import com.kiwiko.lang.reflection.ReflectionHelper;
 import com.kiwiko.metrics.api.LogService;
 import com.kiwiko.metrics.internal.ConsoleLogService;
 import com.kiwiko.mvc.lifecycle.dependencies.data.DependencyBinding;
@@ -8,7 +9,6 @@ import com.kiwiko.mvc.lifecycle.startup.api.errors.LifecycleException;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,11 +16,13 @@ public class InjectManuallyConfigurer<T> {
 
     private T instance;
     private final Set<DependencyBinding> dependencyBindings;
+    private ReflectionHelper reflectionHelper;
     private final LogService logService;
 
     public InjectManuallyConfigurer() {
         instance = null;
         dependencyBindings = new HashSet<>();
+        reflectionHelper = new ReflectionHelper();
         logService = new ConsoleLogService();
     }
 
@@ -33,7 +35,7 @@ public class InjectManuallyConfigurer<T> {
     }
 
     public T create() {
-        Arrays.stream(instance.getClass().getDeclaredFields())
+        reflectionHelper.getFields(instance.getClass()).stream()
                 .filter(field -> field.getDeclaredAnnotation(InjectManually.class) != null)
                 .filter(field -> supportsDependencyBinding(field.getType()))
                 .forEach(this::injectInstance);
