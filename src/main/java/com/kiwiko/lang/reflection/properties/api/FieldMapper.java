@@ -1,11 +1,10 @@
-package com.kiwiko.persistence.properties.api;
+package com.kiwiko.lang.reflection.properties.api;
 
 import com.kiwiko.lang.reflection.ReflectionHelper;
 import com.kiwiko.lang.types.TypesHelper;
 import com.kiwiko.metrics.api.LogService;
-import com.kiwiko.persistence.properties.api.PropertyMapper;
+import com.kiwiko.metrics.impl.ConsoleLogService;
 
-import javax.inject.Inject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -16,11 +15,17 @@ import java.util.stream.Stream;
  * @param <SourceType>
  * @param <TargetType>
  */
-public abstract class FieldPropertyMapper<SourceType, TargetType> implements PropertyMapper<SourceType, TargetType> {
+public abstract class FieldMapper<SourceType, TargetType> implements PropertyMapper<SourceType, TargetType> {
 
-    @Inject private ReflectionHelper reflectionHelper;
-    @Inject private TypesHelper typesHelper;
-    @Inject private LogService logService;
+    private final ReflectionHelper reflectionHelper;
+    private final TypesHelper typesHelper;
+    private final LogService logService;
+
+    public FieldMapper() {
+        reflectionHelper = new ReflectionHelper();
+        typesHelper = new TypesHelper();
+        logService = new ConsoleLogService();
+    }
 
     protected abstract Class<TargetType> getTargetType();
 

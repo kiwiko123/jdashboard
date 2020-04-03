@@ -16,6 +16,7 @@ public class UserEntity extends AuditableDataEntity {
 
     private Long id;
     private String emailAddress;
+    private String encryptedPassword;
     private Instant createdDate;
     private Instant lastUpdatedDate;
 
@@ -39,6 +40,15 @@ public class UserEntity extends AuditableDataEntity {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    @Column(name = "encrypted_password", nullable = false)
+    public String getEncryptedPassword() {
+        return encryptedPassword;
+    }
+
+    public void setEncryptedPassword(String encryptedPassword) {
+        this.encryptedPassword = encryptedPassword;
     }
 
     @Column(name = "created_date", nullable = false)

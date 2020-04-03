@@ -4,19 +4,23 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.kiwiko.memory.caching.api.CacheService;
 import com.kiwiko.memory.caching.internal.InMemoryCacheService;
+import com.kiwiko.memory.performance.api.Throttle;
 import com.kiwiko.metrics.api.CaptureMetrics;
 import com.kiwiko.mvc.configuration.ConfigurationHelper;
 import com.kiwiko.mvc.interceptors.CaptureMetricsMethodInterceptor;
 import com.kiwiko.mvc.interceptors.RequestContextInterceptor;
 import com.kiwiko.mvc.interceptors.RequestErrorInterceptor;
 import com.kiwiko.metrics.api.LogService;
-import com.kiwiko.metrics.internal.ConsoleLogService;
-import com.kiwiko.mvc.lifecycle.dependencies.data.DependencyBinding;
+import com.kiwiko.metrics.impl.ConsoleLogService;
+import com.kiwiko.mvc.interceptors.ThrottleMethodInterceptor;
+import com.kiwiko.mvc.lifecycle.dependencies.manual.data.InjectManuallyConfigurer;
 import com.kiwiko.mvc.requests.api.RequestContextService;
 import com.kiwiko.mvc.json.PropertyObjectMapper;
 import com.kiwiko.mvc.resolvers.RequestBodyCollectionParameterResolver;
 import com.kiwiko.mvc.resolvers.RequestBodyParameterResolver;
 import com.kiwiko.mvc.resolvers.RequestContextResolver;
+import com.kiwiko.mvc.security.environments.api.EnvironmentService;
+import com.kiwiko.mvc.security.environments.internal.WebApplicationEnvironmentService;
 import org.springframework.aop.Advisor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -65,6 +69,11 @@ public class MvcConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
+    public EnvironmentService environmentService() {
+        return new WebApplicationEnvironmentService();
+    }
+
+    @Bean
     public LogService logService() {
         return new ConsoleLogService();
     }
@@ -96,10 +105,21 @@ public class MvcConfiguration implements WebMvcConfigurer {
 
     @Bean
     public Advisor captureMetricsAdvisor() {
-        DependencyBinding binding = new DependencyBinding(LogService.class, ConsoleLogService.class);
-        CaptureMetricsMethodInterceptor instance = configurationHelper
-                .createWithManualInjection(new CaptureMetricsMethodInterceptor(), binding);
+        CaptureMetricsMethodInterceptor instance = new InjectManuallyConfigurer<CaptureMetricsMethodInterceptor>()
+                .withBinding(LogService.class, ConsoleLogService.class)
+                .withInstance(new CaptureMetricsMethodInterceptor())
+                .create();
         return configurationHelper.createAnnotationBean(CaptureMetrics.class, instance);
+    }
+
+    @Bean
+    public Advisor throttleAdvisor() {
+        ThrottleMethodInterceptor instance = new InjectManuallyConfigurer<ThrottleMethodInterceptor>()
+                .withBinding(CacheService.class, InMemoryCacheService.class)
+                .withBinding(LogService.class, ConsoleLogService.class)
+                .withInstance(new ThrottleMethodInterceptor())
+                .create();
+        return configurationHelper.createAnnotationBean(Throttle.class, instance);
     }
 
     /**

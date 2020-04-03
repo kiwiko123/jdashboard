@@ -1,6 +1,5 @@
-package com.kiwiko.metrics.internal;
+package com.kiwiko.metrics.api;
 
-import com.kiwiko.metrics.api.LogService;
 import com.kiwiko.metrics.data.LogLevel;
 
 import java.util.Arrays;
@@ -9,7 +8,7 @@ import java.util.stream.Collectors;
 
 public abstract class LevelBasedLogService implements LogService {
 
-    private static final int MAX_STACK_TRACE_LIMIT = 25;
+    protected static final int MAX_STACK_TRACE_LIMIT = 10;
 
     private final Set<LogLevel> enabledLogLevels;
 
@@ -50,6 +49,10 @@ public abstract class LevelBasedLogService implements LogService {
      */
     protected boolean shouldLog(LogLevel logLevel) {
         return enabledLogLevels.contains(logLevel);
+    }
+
+    protected int getMaxStackTraceLimit() {
+        return MAX_STACK_TRACE_LIMIT;
     }
 
     @Override

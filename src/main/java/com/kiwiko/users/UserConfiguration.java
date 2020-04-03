@@ -1,7 +1,9 @@
 package com.kiwiko.users;
 
+import com.kiwiko.mvc.security.authentication.api.PasswordService;
+import com.kiwiko.users.internal.UserEntityPasswordService;
 import com.kiwiko.users.api.UserService;
-import com.kiwiko.users.internal.UserEntityPropertyMapper;
+import com.kiwiko.users.internal.UserEntityMapper;
 import com.kiwiko.users.internal.UserEntityService;
 import com.kiwiko.users.internal.dataAccess.UserEntityDAO;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +23,12 @@ public class UserConfiguration {
     }
 
     @Bean
-    public UserEntityPropertyMapper userEntityPropertyMapper() {
-        return new UserEntityPropertyMapper();
+    public UserEntityMapper userEntityPropertyMapper() {
+        return new UserEntityMapper();
+    }
+
+    @Bean
+    public PasswordService passwordService() {
+        return new UserEntityPasswordService();
     }
 }

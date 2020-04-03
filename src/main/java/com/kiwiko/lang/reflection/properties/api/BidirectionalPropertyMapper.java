@@ -1,4 +1,4 @@
-package com.kiwiko.persistence.properties.api;
+package com.kiwiko.lang.reflection.properties.api;
 
 public interface BidirectionalPropertyMapper<SourceType, TargetType> extends PropertyMapper<SourceType, TargetType> {
 

@@ -1,4 +1,4 @@
-package com.kiwiko.persistence.properties.api;
+package com.kiwiko.lang.reflection.properties.api;
 
 public interface PropertyMapper<SourceType, TargetType> {
 

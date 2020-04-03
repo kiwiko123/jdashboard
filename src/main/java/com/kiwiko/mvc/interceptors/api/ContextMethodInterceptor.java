@@ -9,7 +9,8 @@ import org.aopalliance.intercept.MethodInvocation;
 
 public abstract class ContextMethodInterceptor implements MethodInterceptor {
 
-    @InjectManually protected LogService logService;
+    @InjectManually
+    protected LogService logService;
 
     /**
      * Override this to execute any logic prior to the annotated method's execution.
@@ -27,11 +28,19 @@ public abstract class ContextMethodInterceptor implements MethodInterceptor {
      */
     protected void postHandle(PostMethodContext context) { }
 
+    protected boolean canInvoke() {
+        return true;
+    }
+
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         MethodContext context = new MethodContext(invocation);
         PostMethodContext postContext = new PostMethodContext(invocation, null, null);
         preHandle(context);
+
+        if (!canInvoke()) {
+            return null;
+        }
 
         Object result = null;
         try {

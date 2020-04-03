@@ -1,7 +1,9 @@
 package com.kiwiko.users.web;
 
+import com.kiwiko.memory.performance.api.Throttle;
 import com.kiwiko.mvc.json.data.ResponseBuilder;
 import com.kiwiko.mvc.json.data.ResponsePayload;
+import com.kiwiko.mvc.requests.api.RequestBodyParameter;
 import com.kiwiko.users.api.UserService;
 import com.kiwiko.users.data.User;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
+import java.time.temporal.ChronoUnit;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -21,6 +24,7 @@ public class UserAPIController {
     @Inject
     private UserService userService;
 
+    @Throttle(maxWait = 5, timeUnit = ChronoUnit.SECONDS)
     @GetMapping(path = "/users/api/get/byEmail/{emailAddress}")
     public ResponseEntity<ResponsePayload> getUserDataByEmailAddress(@PathVariable(name = "emailAddress") String emailAddress) {
         User user = userService.getByEmailAddress(emailAddress)
@@ -36,6 +40,16 @@ public class UserAPIController {
         User result = userService.create(user);
         return new ResponseBuilder()
                 .withBody(result)
+                .toResponseEntity();
+    }
+
+    @PostMapping(path = "/users/api/credentials/authenticate")
+    public ResponseEntity<ResponsePayload> authenticateUserCredentials(
+            @RequestBodyParameter(name = "emailAddress") String emailAddress,
+            @RequestBodyParameter(name = "password") String password) {
+        boolean isValid = userService.isValidUser(emailAddress, password);
+        return new ResponseBuilder()
+                .withBody(isValid)
                 .toResponseEntity();
     }
 }

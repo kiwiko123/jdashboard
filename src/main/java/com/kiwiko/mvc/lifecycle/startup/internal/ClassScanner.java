@@ -2,7 +2,6 @@ package com.kiwiko.mvc.lifecycle.startup.internal;
 
 import com.kiwiko.Application;
 import com.kiwiko.metrics.api.LogService;
-import com.kiwiko.metrics.internal.ConsoleLogService;
 import com.kiwiko.mvc.lifecycle.dependencies.manual.api.annotations.InjectManually;
 import com.kiwiko.mvc.lifecycle.startup.api.ClassProcessor;
 import org.springframework.beans.factory.config.BeanDefinition;

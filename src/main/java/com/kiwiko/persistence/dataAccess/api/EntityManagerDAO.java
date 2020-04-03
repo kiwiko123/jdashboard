@@ -18,7 +18,9 @@ import java.util.Optional;
 @Repository
 public abstract class EntityManagerDAO<T> {
 
-    @PersistenceContext private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
+
     protected final Class<T> entityType;
 
     public EntityManagerDAO() {

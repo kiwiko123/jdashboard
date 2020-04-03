@@ -11,4 +11,6 @@ public interface UserService {
     Optional<User> getByEmailAddress(String emailAddress);
 
     User create(User user);
+
+    boolean isValidUser(String emailAddress, String password);
 }

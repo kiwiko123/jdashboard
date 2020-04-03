@@ -8,7 +8,7 @@ import java.util.Optional;
 public class PostMethodContext extends MethodContext {
 
     private final @Nullable Object methodResult;
-    private final @Nullable Exception exception;
+    private @Nullable Exception exception;
 
     public PostMethodContext(MethodInvocation methodInvocation, @Nullable Object methodResult, @Nullable Exception exception) {
         super(methodInvocation);
@@ -29,5 +29,9 @@ public class PostMethodContext extends MethodContext {
      */
     public Optional<Exception> getException() {
         return Optional.ofNullable(exception);
+    }
+
+    public void clearException() {
+        exception = null;
     }
 }

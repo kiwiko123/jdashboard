@@ -5,7 +5,7 @@ import com.kiwiko.persistence.identification.Identifiable;
 import java.time.Instant;
 import java.util.Objects;
 
-public abstract class DataEntityDTO implements Identifiable<Long> {
+public abstract class AuditableDataEntityDTO implements Identifiable<Long> {
 
     private Long id;
     private Instant createdDate;
@@ -41,11 +41,11 @@ public abstract class DataEntityDTO implements Identifiable<Long> {
         if (this == other) {
             return true;
         }
-        if (other == null || !DataEntityDTO.class.isAssignableFrom(other.getClass())) {
+        if (other == null || !AuditableDataEntityDTO.class.isAssignableFrom(other.getClass())) {
             return false;
         }
 
-        DataEntityDTO otherDTO = (DataEntityDTO) other;
+        AuditableDataEntityDTO otherDTO = (AuditableDataEntityDTO) other;
         return Objects.equals(getId(), otherDTO.getId());
     }
 

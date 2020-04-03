@@ -1,7 +1,7 @@
-package com.kiwiko.persistence.properties;
+package com.kiwiko.lang.reflection.properties;
 
-import com.kiwiko.persistence.properties.api.FieldPropertyMapper;
-import com.kiwiko.persistence.properties.api.PropertyMapper;
+import com.kiwiko.lang.reflection.properties.api.FieldMapper;
+import com.kiwiko.lang.reflection.properties.api.PropertyMapper;
 import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +10,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
-public class FieldPropertyMapperTest {
+public class FieldMapperTest {
 
     private PropertyMapper<CarEntity, CarDTO> carPropertyMapper;
 
@@ -93,7 +93,7 @@ public class FieldPropertyMapperTest {
         }
     }
 
-    private static class CarPropertyMapper extends FieldPropertyMapper<CarEntity, CarDTO> {
+    private static class CarPropertyMapper extends FieldMapper<CarEntity, CarDTO> {
 
         @Override
         protected Class<CarDTO> getTargetType() {

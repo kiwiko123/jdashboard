@@ -1,6 +1,4 @@
-package com.kiwiko.memory.caching.internal;
-
-import com.kiwiko.memory.caching.api.CacheService;
+package com.kiwiko.memory.caching.api;
 
 import java.time.temporal.TemporalAmount;
 import java.util.Optional;

@@ -1,5 +1,6 @@
-package com.kiwiko.metrics.internal;
+package com.kiwiko.metrics.impl;
 
+import com.kiwiko.metrics.api.LevelBasedLogService;
 import com.kiwiko.metrics.data.LogLevel;
 
 public class ConsoleLogService extends LevelBasedLogService {
