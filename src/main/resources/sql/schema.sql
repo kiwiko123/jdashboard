@@ -5,3 +5,13 @@ CREATE TABLE users (
     created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     last_updated_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
+
+CREATE TABLE request_contexts (
+    request_context_id BIGSERIAL PRIMARY KEY,
+    uri TEXT NOT NULL,
+    start_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    end_time TIMESTAMP WITH TIME ZONE,
+    created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    last_updated_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    user_id BIGINT REFERENCES users(user_id)
+);

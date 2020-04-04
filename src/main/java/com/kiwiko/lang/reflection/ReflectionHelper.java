@@ -1,9 +1,8 @@
 package com.kiwiko.lang.reflection;
 
 import java.lang.reflect.Field;
-import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Deque;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -19,14 +18,14 @@ public class ReflectionHelper {
      * @return all fields for the given class and its parent classes
      */
     public Collection<Field> getFields(Class<?> type) {
-        Deque<Field> fields = new ArrayDeque<>();
+        Collection<Field> fields = new ArrayList<>();
         Set<String> visitedFieldNames = new HashSet<>();
         Class<?> nextType = type;
 
         while (canSearchUpwards(nextType)) {
             for (Field field : nextType.getDeclaredFields()) {
                 if (!visitedFieldNames.contains(field.getName())) {
-                    fields.addFirst(field);
+                    fields.add(field);
                     visitedFieldNames.add(field.getName());
                 }
             }

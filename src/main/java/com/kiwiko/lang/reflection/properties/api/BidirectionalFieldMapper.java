@@ -1,39 +1,26 @@
 package com.kiwiko.lang.reflection.properties.api;
 
-import com.kiwiko.lang.reflection.properties.internal.TypeInstantiatedFieldMapper;
-
-public abstract class BidirectionalFieldMapper<SourceType, TargetType> implements BidirectionalPropertyMapper<SourceType, TargetType> {
-
-    private final TypeInstantiatedFieldMapper<SourceType, TargetType> sourceToTargetPropertyMapper;
-    private final TypeInstantiatedFieldMapper<TargetType, SourceType> targetToSourcePropertyMapper;
-
-    public BidirectionalFieldMapper() {
-        this.sourceToTargetPropertyMapper = new TypeInstantiatedFieldMapper<SourceType, TargetType>()
-                .withTargetType(getTargetType());
-        this.targetToSourcePropertyMapper = new TypeInstantiatedFieldMapper<TargetType, SourceType>()
-                .withTargetType(getSourceType());
-    }
+/**
+ * A class that uses reflection to copy fields from type A to type B, and type B to type A.
+ *
+ * @param <SourceType>
+ * @param <TargetType>
+ */
+public abstract class BidirectionalFieldMapper<SourceType, TargetType>
+        extends FieldMapper<SourceType, TargetType>
+        implements BidirectionalPropertyMapper<SourceType, TargetType> {
 
     protected abstract Class<SourceType> getSourceType();
-    protected abstract Class<TargetType> getTargetType();
 
     @Override
-    public void toTarget(SourceType source, TargetType target) {
-        sourceToTargetPropertyMapper.toTarget(source, target);
+    public void toSource(TargetType source, SourceType destination) {
+        copyFieldsToObject(source, destination);
     }
 
     @Override
-    public TargetType toTargetType(SourceType source) {
-        return sourceToTargetPropertyMapper.toTargetType(source);
-    }
-
-    @Override
-    public void toSource(TargetType target, SourceType source) {
-        targetToSourcePropertyMapper.toTarget(target, source);
-    }
-
-    @Override
-    public SourceType toSourceType(TargetType target) {
-        return targetToSourcePropertyMapper.toTargetType(target);
+    public SourceType toSourceType(TargetType source) {
+        SourceType result = createDefaultInstance(getSourceType());
+        toSource(source, result);
+        return result;
     }
 }

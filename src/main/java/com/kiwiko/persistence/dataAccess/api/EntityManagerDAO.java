@@ -1,5 +1,6 @@
 package com.kiwiko.persistence.dataAccess.api;
 
+import com.kiwiko.persistence.identification.Identifiable;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -16,7 +17,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 @Repository
-public abstract class EntityManagerDAO<T> {
+public abstract class EntityManagerDAO<T extends Identifiable<Long>> {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -49,12 +50,15 @@ public abstract class EntityManagerDAO<T> {
         return createQuery(query).getResultList();
     }
 
-    public void save(T entity) {
-        entityManager.persist(entity);
+    public T save(T entity) {
+        return entityManager.merge(entity);
     }
 
     public void delete(T entity) {
-        entityManager.remove(entity);
+        T managedEntity = getProxyById(entity.getId())
+                .orElseThrow(() -> new PersistenceException(
+                        String.format("Failed to find entity of type %s with ID %d", entity.getClass().getName(), entity.getId())));
+        entityManager.remove(managedEntity);
     }
 
     protected CriteriaBuilder criteriaBuilder() {

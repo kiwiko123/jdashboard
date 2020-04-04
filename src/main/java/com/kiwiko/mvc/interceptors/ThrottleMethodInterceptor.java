@@ -1,7 +1,7 @@
 package com.kiwiko.mvc.interceptors;
 
 import com.kiwiko.memory.caching.api.CacheService;
-import com.kiwiko.memory.performance.api.Throttle;
+import com.kiwiko.memory.performance.api.annotations.Throttle;
 import com.kiwiko.memory.performance.api.errors.ThrottleException;
 import com.kiwiko.metrics.api.LogService;
 import com.kiwiko.mvc.interceptors.api.ContextMethodInterceptor;

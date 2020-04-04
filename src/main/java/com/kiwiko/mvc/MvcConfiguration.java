@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.kiwiko.memory.caching.api.CacheService;
 import com.kiwiko.memory.caching.internal.InMemoryCacheService;
-import com.kiwiko.memory.performance.api.Throttle;
+import com.kiwiko.memory.performance.api.annotations.Throttle;
 import com.kiwiko.metrics.api.CaptureMetrics;
 import com.kiwiko.mvc.configuration.ConfigurationHelper;
 import com.kiwiko.mvc.interceptors.CaptureMetricsMethodInterceptor;
@@ -14,7 +14,7 @@ import com.kiwiko.metrics.api.LogService;
 import com.kiwiko.metrics.impl.ConsoleLogService;
 import com.kiwiko.mvc.interceptors.ThrottleMethodInterceptor;
 import com.kiwiko.mvc.lifecycle.dependencies.manual.data.InjectManuallyConfigurer;
-import com.kiwiko.mvc.requests.api.RequestContextService;
+import com.kiwiko.mvc.requests.internal.InMemoryRequestContextService;
 import com.kiwiko.mvc.json.PropertyObjectMapper;
 import com.kiwiko.mvc.resolvers.RequestBodyCollectionParameterResolver;
 import com.kiwiko.mvc.resolvers.RequestBodyParameterResolver;
@@ -64,8 +64,8 @@ public class MvcConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    public RequestContextService requestContextService() {
-        return new RequestContextService();
+    public InMemoryRequestContextService ineMemoryRequestContextService() {
+        return new InMemoryRequestContextService();
     }
 
     @Bean

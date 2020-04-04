@@ -13,12 +13,12 @@ public abstract class AuditableEntityManagerDAO<T extends AuditableEntity> exten
     private EntityManager entityManager;
 
     @Override
-    public void save(T entity) {
+    public T save(T entity) {
         Instant now = Instant.now();
         if (entity.getCreatedDate() == null) {
             entity.setCreatedDate(now);
         }
         entity.setLastUpdatedDate(now);
-        entityManager.persist(entity);
+        return super.save(entity);
     }
 }
