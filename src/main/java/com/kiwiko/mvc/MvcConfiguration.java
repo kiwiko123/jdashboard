@@ -15,7 +15,7 @@ import com.kiwiko.metrics.impl.ConsoleLogService;
 import com.kiwiko.mvc.interceptors.ThrottleMethodInterceptor;
 import com.kiwiko.mvc.lifecycle.dependencies.manual.data.InjectManuallyConfigurer;
 import com.kiwiko.mvc.requests.internal.InMemoryRequestContextService;
-import com.kiwiko.mvc.json.PropertyObjectMapper;
+import com.kiwiko.mvc.json.api.PropertyObjectMapper;
 import com.kiwiko.mvc.resolvers.RequestBodyCollectionParameterResolver;
 import com.kiwiko.mvc.resolvers.RequestBodyParameterResolver;
 import com.kiwiko.mvc.resolvers.RequestContextResolver;

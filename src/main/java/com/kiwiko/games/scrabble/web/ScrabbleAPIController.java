@@ -1,13 +1,15 @@
-package com.kiwiko.scrabble.web;
+package com.kiwiko.games.scrabble.web;
 
+import com.kiwiko.games.state.internal.dataAccess.GameStateEntityDAO;
 import com.kiwiko.mvc.requests.api.RequestBodyCollectionParameter;
 import com.kiwiko.mvc.requests.api.RequestBodyParameter;
 import com.kiwiko.mvc.json.data.ResponseBuilder;
 import com.kiwiko.mvc.json.data.ResponsePayload;
-import com.kiwiko.scrabble.api.ScrabbleGameService;
-import com.kiwiko.scrabble.game.ScrabbleGame;
-import com.kiwiko.scrabble.game.ScrabblePlayer;
-import com.kiwiko.scrabble.game.ScrabbleSubmittedTile;
+import com.kiwiko.games.scrabble.api.ScrabbleGameService;
+import com.kiwiko.games.scrabble.game.ScrabbleGame;
+import com.kiwiko.games.scrabble.game.ScrabblePlayer;
+import com.kiwiko.games.scrabble.game.ScrabbleSubmittedTile;
+import com.kiwiko.mvc.security.environments.api.EnvironmentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,17 +20,21 @@ import javax.inject.Inject;
 import java.util.Collection;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = EnvironmentService.CROSS_ORIGIN_DEV_URL)
 @RestController
 public class ScrabbleAPIController {
 
     @Inject
     private ScrabbleGameService scrabbleGameService;
 
+    @Inject
+    private GameStateEntityDAO gameStateEntityDAO;
+
     @GetMapping(path = "/scrabble/api/new-game")
     public ResponseEntity<ResponsePayload> newGame() {
+        ScrabbleGame game = scrabbleGameService.createGame();
         return new ResponseBuilder()
-                .withBody(scrabbleGameService.createGame())
+                .withBody(game)
                 .toResponseEntity();
     }
 

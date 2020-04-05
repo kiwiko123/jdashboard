@@ -1,8 +1,8 @@
-package com.kiwiko.scrabble;
+package com.kiwiko.games.scrabble;
 
-import com.kiwiko.memory.caching.api.CacheService;
-import com.kiwiko.scrabble.api.ScrabbleGameService;
-import com.kiwiko.scrabble.game.helpers.ScrabbleGameHelper;
+import com.kiwiko.games.scrabble.internal.ScrabbleGameEntityService;
+import com.kiwiko.games.scrabble.api.ScrabbleGameService;
+import com.kiwiko.games.scrabble.game.helpers.ScrabbleGameHelper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,9 +20,7 @@ public class ScrabbleConfiguration {
     }
 
     @Bean
-    public ScrabbleGameService scrabbleGameService(
-            CacheService cacheService,
-            ScrabbleGameHelper scrabbleGameHelper) {
-        return new ScrabbleGameService(cacheService, scrabbleGameHelper);
+    public ScrabbleGameService scrabbleGameService() {
+        return new ScrabbleGameEntityService();
     }
 }

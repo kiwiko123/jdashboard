@@ -1,4 +1,4 @@
-package com.kiwiko.scrabble.errors;
+package com.kiwiko.games.scrabble.errors;
 
 public class ScrabbleException extends RuntimeException {
 

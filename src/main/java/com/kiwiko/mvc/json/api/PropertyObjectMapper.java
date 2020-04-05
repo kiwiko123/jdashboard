@@ -1,10 +1,11 @@
-package com.kiwiko.mvc.json;
+package com.kiwiko.mvc.json.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
+import com.kiwiko.mvc.json.api.errors.JsonException;
 
 import java.util.Collection;
 
@@ -28,11 +29,12 @@ public class PropertyObjectMapper {
         return objectMapper.convertValue(fromValue, toValueType);
     }
 
-    public String writeValueAsString(Object value) {
+    public <T> String writeValueAsString(T value) {
         try {
             return objectMapper.writeValueAsString(value);
         } catch (JsonProcessingException e) {
-
+            String message = String.format("Failed to serialize value of type %s into a string", value.getClass().getName());
+            throw new JsonException(message, e);
         }
     }
 

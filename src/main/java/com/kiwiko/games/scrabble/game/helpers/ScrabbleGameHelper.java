@@ -1,13 +1,13 @@
-package com.kiwiko.scrabble.game.helpers;
+package com.kiwiko.games.scrabble.game.helpers;
 
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableSet;
 import com.kiwiko.dataStructures.Pair;
-import com.kiwiko.scrabble.game.ScrabbleGame;
-import com.kiwiko.scrabble.game.ScrabbleGameBoard;
-import com.kiwiko.scrabble.game.ScrabblePlayer;
-import com.kiwiko.scrabble.game.ScrabbleSubmittedTile;
-import com.kiwiko.scrabble.game.ScrabbleTile;
+import com.kiwiko.games.scrabble.game.ScrabbleGame;
+import com.kiwiko.games.scrabble.game.ScrabbleGameBoard;
+import com.kiwiko.games.scrabble.game.ScrabblePlayer;
+import com.kiwiko.games.scrabble.game.ScrabbleSubmittedTile;
+import com.kiwiko.games.scrabble.game.ScrabbleTile;
 
 import java.util.ArrayList;
 import java.util.Collection;

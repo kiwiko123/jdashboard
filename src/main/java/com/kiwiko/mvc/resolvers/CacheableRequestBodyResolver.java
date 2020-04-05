@@ -3,7 +3,7 @@ package com.kiwiko.mvc.resolvers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.kiwiko.memory.caching.api.CacheService;
 import com.kiwiko.mvc.interceptors.RequestContextInterceptor;
-import com.kiwiko.mvc.json.PropertyObjectMapper;
+import com.kiwiko.mvc.json.api.PropertyObjectMapper;
 import com.kiwiko.mvc.requests.api.RequestContextService;
 import com.kiwiko.mvc.requests.api.RequestError;
 import com.kiwiko.mvc.requests.data.RequestContext;

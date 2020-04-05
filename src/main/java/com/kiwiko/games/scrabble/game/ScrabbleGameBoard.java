@@ -1,7 +1,7 @@
-package com.kiwiko.scrabble.game;
+package com.kiwiko.games.scrabble.game;
 
 import com.kiwiko.mvc.MvcConfiguration;
-import com.kiwiko.scrabble.errors.ScrabbleException;
+import com.kiwiko.games.scrabble.errors.ScrabbleException;
 
 import java.util.ArrayList;
 import java.util.Collection;

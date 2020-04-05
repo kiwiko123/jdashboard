@@ -3,6 +3,7 @@ package com.kiwiko.users.web;
 import com.kiwiko.mvc.json.data.ResponseBuilder;
 import com.kiwiko.mvc.json.data.ResponsePayload;
 import com.kiwiko.mvc.requests.api.RequestBodyParameter;
+import com.kiwiko.mvc.security.environments.api.EnvironmentService;
 import com.kiwiko.users.api.UserService;
 import com.kiwiko.users.data.User;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = EnvironmentService.CROSS_ORIGIN_DEV_URL)
 @RestController
 public class UserAPIController {
 

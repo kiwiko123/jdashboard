@@ -1,4 +1,4 @@
-package com.kiwiko.scrabble.game;
+package com.kiwiko.games.scrabble.game;
 
 import java.util.Objects;
 
