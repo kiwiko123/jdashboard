@@ -3,7 +3,8 @@ CREATE TABLE users (
     email_address TEXT UNIQUE NOT NULL,
     encrypted_password TEXT NOT NULL,
     created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-    last_updated_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+    last_updated_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    is_removed BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE request_contexts (
@@ -13,5 +14,6 @@ CREATE TABLE request_contexts (
     end_time TIMESTAMP WITH TIME ZONE,
     created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     last_updated_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    is_removed BOOLEAN NOT NULL DEFAULT FALSE,
     user_id BIGINT REFERENCES users(user_id)
 );

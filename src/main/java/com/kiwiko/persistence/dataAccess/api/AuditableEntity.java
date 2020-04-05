@@ -13,4 +13,7 @@ public interface AuditableEntity extends Identifiable<Long> {
 
     Instant getLastUpdatedDate();
     void setLastUpdatedDate(Instant lastUpdatedDate);
+
+    boolean getIsRemoved();
+    void setIsRemoved(boolean isRemoved);
 }

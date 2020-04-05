@@ -19,6 +19,7 @@ public class UserEntity extends AuditableDataEntity {
     private String encryptedPassword;
     private Instant createdDate;
     private Instant lastUpdatedDate;
+    private boolean isRemoved;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,5 +72,16 @@ public class UserEntity extends AuditableDataEntity {
     @Override
     public void setLastUpdatedDate(Instant lastUpdatedDate) {
         this.lastUpdatedDate = lastUpdatedDate;
+    }
+
+    @Column(name = "is_removed", nullable = false)
+    @Override
+    public boolean getIsRemoved() {
+        return false;
+    }
+
+    @Override
+    public void setIsRemoved(boolean isRemoved) {
+        this.isRemoved = isRemoved;
     }
 }

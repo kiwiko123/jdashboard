@@ -16,12 +16,13 @@ import java.time.Instant;
 public class RequestContextEntity extends AuditableDataEntity {
 
     private Long id;
-    private Instant createdDate;
-    private Instant lastUpdatedDate;
     private String uri;
     private Instant startTime;
     private @Nullable Instant endTime;
     private @Nullable Long userId;
+    private Instant createdDate;
+    private Instant lastUpdatedDate;
+    private boolean isRemoved;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,6 +57,17 @@ public class RequestContextEntity extends AuditableDataEntity {
     @Override
     public void setLastUpdatedDate(Instant lastUpdatedDate) {
         this.lastUpdatedDate = lastUpdatedDate;
+    }
+
+    @Column(name = "is_removed", nullable = false)
+    @Override
+    public boolean getIsRemoved() {
+        return false;
+    }
+
+    @Override
+    public void setIsRemoved(boolean isRemoved) {
+        this.isRemoved = isRemoved;
     }
 
     @Column(name = "uri", nullable = false)

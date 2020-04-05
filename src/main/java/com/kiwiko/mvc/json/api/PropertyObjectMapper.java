@@ -28,6 +28,14 @@ public class PropertyObjectMapper {
         return objectMapper.convertValue(fromValue, toValueType);
     }
 
+    public String writeValueAsString(Object value) {
+        try {
+            return objectMapper.writeValueAsString(value);
+        } catch (JsonProcessingException e) {
+
+        }
+    }
+
     /**
      * @param fromValue the value to be converted.
      * @param toCollectionType the derivative of {@link Collection} to which the value will be converted.

@@ -8,5 +8,6 @@ public abstract class AuditableDataEntity extends DataEntity implements Auditabl
         Instant now = Instant.now();
         setCreatedDate(now);
         setLastUpdatedDate(now);
+        setIsRemoved(false);
     }
 }
