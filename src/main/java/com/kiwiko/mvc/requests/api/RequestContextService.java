@@ -1,42 +1,21 @@
 package com.kiwiko.mvc.requests.api;
 
-import com.kiwiko.memory.caching.api.CacheService;
 import com.kiwiko.mvc.requests.data.RequestContext;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import java.time.Duration;
+import javax.servlet.http.HttpSession;
+import java.util.Collection;
 import java.util.Optional;
 
-public class RequestContextService {
+public interface RequestContextService {
 
-    public static final String REQUEST_CONTEXT_SESSION_KEY = "requestContext";
-    private static final String keyIdentifierPrefix = "request-context-";
+    String getRequestUri(HttpServletRequest request);
 
-    @Inject
-    private CacheService cacheService;
+    Optional<RequestContext> getById(long requestContextId);
 
-    public String getRequestUrl(HttpServletRequest request) {
-        return request.getRequestURI();
-    }
+    Collection<RequestContext> getRequestContexts(String requestUri);
 
-    public Optional<RequestContext> getRequestContext(String requestUrl) {
-        String requestKey = getRequestKey(requestUrl);
-        return cacheService.get(requestKey, RequestContext.class)
-                .filter(requestContext -> requestContext.getEndInstant() == null);
-    }
+    Optional<RequestContext> getFromSession(HttpSession session, String sessionKey);
 
-    public Optional<RequestContext> getRequestContext(HttpServletRequest request) {
-        String requestUrl = getRequestUrl(request);
-        return getRequestContext(requestUrl);
-    }
-
-    public void saveRequestContext(String requestUrl, RequestContext context) {
-        String requestKey = getRequestKey(requestUrl);
-        cacheService.cache(requestKey, context, Duration.ofDays(1));
-    }
-
-    private String getRequestKey(String requestUrl) {
-        return String.format("%s%s", keyIdentifierPrefix, requestUrl);
-    }
+    RequestContext saveRequestContext(RequestContext context);
 }

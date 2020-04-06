@@ -35,7 +35,7 @@ public class Pair<T, K> {
             return false;
         }
 
-        Pair otherPair = (Pair) other;
+        Pair<T, K> otherPair = (Pair<T, K>) other;
         return Objects.equals(first, otherPair.first) && Objects.equals(second, otherPair.second);
     }
 

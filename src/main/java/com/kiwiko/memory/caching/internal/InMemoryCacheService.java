@@ -1,14 +1,17 @@
 package com.kiwiko.memory.caching.internal;
 
-import com.kiwiko.memory.caching.data.CacheValue;
+import com.kiwiko.memory.caching.api.PartialCacheService;
+import com.kiwiko.memory.caching.internal.data.CacheValue;
 
+import javax.inject.Singleton;
 import java.time.Instant;
 import java.time.temporal.TemporalAmount;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class InMemoryCacheService extends UtilityCacheService {
+@Singleton
+public class InMemoryCacheService extends PartialCacheService {
 
     private static final Map<String, CacheValue> cacheTable = new HashMap<>();
 

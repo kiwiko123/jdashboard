@@ -1,5 +1,7 @@
 import {
 	endsWith,
+	get,
+	identity,
 	isEmpty,
 	startsWith,
 } from 'lodash';
@@ -30,11 +32,33 @@ async function postBody(url, payload) {
         .then(response => response.json());
 }
 
+export function extractResponse(response) {
+    return get(response, 'payload', {});
+}
+
+export function handleErrors(response, errorHandler) {
+    const errors = get(response, 'errors', []);
+    errorHandler(errors);
+    return response;
+}
+
 export class RequestService {
 
 	constructor(base_url = '', persistentPayload = {}) {
 		this._base_url = base_url
 		this._persistentPayload = persistentPayload;
+		this._responseExtractor = identity;
+		this._errorHandler = identity;
+	}
+
+	withResponseExtractor(responseExtractor) {
+	    this._responseExtractor = responseExtractor;
+	    return this;
+	}
+
+	withErrorHandler(errorHandler) {
+	    this._errorHandler = errorHandler;
+	    return this;
 	}
 
 	async get(url, payload = {}) {
@@ -49,13 +73,17 @@ export class RequestService {
 		}
 
 		return fetch(requestUrl)
-		    .then(response => response.json());
+		    .then(response => response.json())
+		    .then(this._errorHandler)
+		    .then(this._responseExtractor);
 	}
 
 	async post(url, payload) {
 		url = this._normalize_url(url);
 		const requestData = this._get_persistent_payload(payload);
-		return postBody(url, requestData);
+		return postBody(url, requestData)
+		    .then(this._errorHandler)
+            .then(this._responseExtractor);
 	}
 
 	setPersistentPayload(payload) {

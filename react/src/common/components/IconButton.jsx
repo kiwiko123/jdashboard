@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
-
-import { classes } from '../js/util';
+import classnames from 'classnames';
 import '../styles/IconButton.css';
 
 
-class IconButton extends React.Component {
+export default class IconButton extends React.Component {
     static propTypes = {
         /* Typically, this will just be the button's text */
         children: PropTypes.node,
@@ -61,13 +60,11 @@ class IconButton extends React.Component {
     }
 
     render() {
-        const buttonClassName = classes({
-            'IconButton': true,
+        const buttonClassName = classnames('IconButton', {
             [this.props.className]: this.props.className,
         });
 
-        const iconClassName = classes({
-            'icon': true,
+        const iconClassName = classnames('icon', {
             'fas fa-circle-notch fa-spin': this.state.isLoading,
             [this.props.fontAwesomeClassName]: !this.state.isLoading,
         });
@@ -93,5 +90,3 @@ class IconButton extends React.Component {
         this.props.onClick();
     }
 }
-
-export default IconButton;

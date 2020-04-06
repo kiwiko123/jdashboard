@@ -2,11 +2,10 @@ package com.kiwiko.persistence.identification;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * Provides an ID for an object.
- * The ID is guaranteed to be non-null.
+ * {@link #getId()} provides safe access to the ID -- it's guaranteed to be non-null and cannot be overridden.
  *
  * @param <T> the type of the ID.
  */
@@ -16,39 +15,34 @@ public abstract class TypeIdentifiable<T> implements Identifiable<T> {
 
     /**
      * Default, preferred constructor for creating an object with an ID.
-     * @param id
+     *
+     * @param id the non-null ID
+     * @throws IllegalArgumentException if a null value is provided as the ID
      */
-    public TypeIdentifiable(T id) {
+    public TypeIdentifiable(T id) throws IllegalArgumentException {
         setId(id);
     }
 
     /**
-     * Package-private default constructor.
-     * Because Java requires invoking a base class' constructor in the first line,
-     * derived classes can benefit from this if they need to execute additional logic to calculate an ID.
-     * Use {@link #setId(T)} to set the ID after the first line of the constructor.
+     * Sets the result of {@link #generateId()} as the object's ID.
+     * Override {@link #generateId()} to allow derived instances to be instantiated without an explicit ID.
+     * For example,
+     * an implementation of {@link #generateId()} could return a monotonically increasing number on every invocation.
+     *
+     * @throws IllegalArgumentException if a null value is provided as the ID
      */
-    TypeIdentifiable() { }
+    protected TypeIdentifiable() {
+        T calculatedId = generateId();
+        setId(calculatedId);
+    }
 
     /**
-     * @return the non-null ID of the object.
+     * @return the non-null ID of the object
      */
     @Override
     @Nonnull
     public final T getId() {
-        return Optional.ofNullable(id)
-                .orElseThrow(() -> new IllegalArgumentException("id wasn't properly initialized"));
-    }
-
-    /**
-     * Package-private setter for a derived class to set its ID in its constructor after the first line.
-     * @param id
-     */
-    void setId(T id) {
-        if (id == null) {
-            throw new IllegalArgumentException(String.format("%s cannot have a null ID", getClass().getName()));
-        }
-        this.id = id;
+        return id;
     }
 
     @Override
@@ -73,5 +67,26 @@ public abstract class TypeIdentifiable<T> implements Identifiable<T> {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    /**
+     * Override this to return the ID that {@link #TypeIdentifiable()} should set.
+     * Useful for requiring logic to pre-compute an ID in the constructor.
+     *
+     * @return the ID that {@link #TypeIdentifiable()} will set
+     * @see GeneratedLongIdentifiable
+     */
+    protected T generateId() {
+        return null;
+    }
+
+    protected void validateId(T id) throws RuntimeException { }
+
+    private void setId(T id) {
+        if (id == null) {
+            throw new IllegalArgumentException(String.format("%s cannot have a null ID", getClass().getName()));
+        }
+        validateId(id);
+        this.id = id;
     }
 }

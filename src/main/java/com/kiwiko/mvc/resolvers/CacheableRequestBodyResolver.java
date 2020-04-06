@@ -2,7 +2,9 @@ package com.kiwiko.mvc.resolvers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.kiwiko.memory.caching.api.CacheService;
-import com.kiwiko.mvc.json.PropertyObjectMapper;
+import com.kiwiko.mvc.interceptors.RequestContextInterceptor;
+import com.kiwiko.mvc.json.api.PropertyObjectMapper;
+import com.kiwiko.mvc.json.api.errors.JsonException;
 import com.kiwiko.mvc.requests.api.RequestContextService;
 import com.kiwiko.mvc.requests.api.RequestError;
 import com.kiwiko.mvc.requests.data.RequestContext;
@@ -31,8 +33,14 @@ abstract class CacheableRequestBodyResolver {
     @Inject
     private RequestContextService requestContextService;
 
+    /**
+     * Determines the duration of time to cache a given request's body.
+     * Increase this value when debugging!
+     *
+     * @return the duration of time to cache a given request's body.
+     */
     protected TemporalAmount getRequestBodyCacheDuration() {
-        return Duration.ofSeconds(3);
+        return Duration.ofSeconds(60);
     }
 
     /**
@@ -45,9 +53,7 @@ abstract class CacheableRequestBodyResolver {
      * @return true if the request body should be manually deserialized, or false if not.
      */
     protected boolean shouldDeserializeFromRequest(HttpServletRequest request) {
-        RequestContext currentRequestContext = Optional.of(request.getSession())
-                .map(session -> session.getAttribute(RequestContextService.REQUEST_CONTEXT_SESSION_KEY))
-                .map(requestContext -> (RequestContext) requestContext)
+        RequestContext currentRequestContext = requestContextService.getFromSession(request.getSession(), RequestContextInterceptor.REQUEST_CONTEXT_ID_SESSION_KEY)
                 .orElse(null);
 
         if (currentRequestContext == null) {
@@ -88,7 +94,7 @@ abstract class CacheableRequestBodyResolver {
 
         try {
             body = propertyObjectMapper.readValue(bodyJson, Map.class);
-        } catch (JsonProcessingException e) {
+        } catch (JsonException e) {
             throw new RequestError("Failed to deserialize request body content", e);
         }
 
@@ -110,7 +116,7 @@ abstract class CacheableRequestBodyResolver {
 
     private RequestBodyCacheData createCacheDataFromRequest(HttpServletRequest request, IntermediateJsonBody body) {
         RequestBodyCacheData cacheData = new RequestBodyCacheData();
-        requestContextService.getRequestContext(request)
+        requestContextService.getFromSession(request.getSession(), RequestContextInterceptor.REQUEST_CONTEXT_ID_SESSION_KEY)
                 .ifPresent(cacheData::setRequestContext);
         cacheData.setBody(body);
         return cacheData;

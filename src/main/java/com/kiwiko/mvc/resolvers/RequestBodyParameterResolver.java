@@ -1,8 +1,8 @@
 package com.kiwiko.mvc.resolvers;
 
-import com.kiwiko.mvc.annotations.RequestBodyParameter;
+import com.kiwiko.mvc.requests.api.RequestBodyParameter;
 import com.kiwiko.mvc.requests.api.RequestError;
-import com.kiwiko.mvc.json.PropertyObjectMapper;
+import com.kiwiko.mvc.json.api.PropertyObjectMapper;
 import com.kiwiko.mvc.json.data.IntermediateJsonBody;
 import org.springframework.core.MethodParameter;
 import org.springframework.lang.Nullable;
