@@ -1,25 +1,34 @@
-package com.kiwiko.games.scrabble.game;
+package com.kiwiko.games.scrabble.game.data;
 
-import com.kiwiko.persistence.identification.GeneratedLongIdentifiable;
+import com.kiwiko.persistence.identification.Identifiable;
 import org.springframework.lang.Nullable;
 
 import java.util.Optional;
 
-public class ScrabbleGame extends GeneratedLongIdentifiable {
+public class ScrabbleGame implements Identifiable<Long> {
 
-    private final ScrabbleGameBoard board;
-    private final ScrabblePlayer player;
-    private final ScrabblePlayer opponent;
+    private Long id;
+    private ScrabbleGameBoard board;
+    private ScrabblePlayer player;
+    private ScrabblePlayer opponent;
     private @Nullable String error;
 
     public ScrabbleGame(
+            Long id,
             ScrabbleGameBoard board,
             ScrabblePlayer player,
             ScrabblePlayer opponent) {
-        super();
+        this.id = id;
         this.board = board;
         this.player = player;
         this.opponent = opponent;
+    }
+
+    private ScrabbleGame() { }
+
+    @Override
+    public Long getId() {
+        return id;
     }
 
     public ScrabbleGameBoard getBoard() {
@@ -40,10 +49,5 @@ public class ScrabbleGame extends GeneratedLongIdentifiable {
 
     public void setError(@Nullable String error) {
         this.error = error;
-    }
-
-    public boolean isGameOver() {
-        // TODO
-        return false;
     }
 }

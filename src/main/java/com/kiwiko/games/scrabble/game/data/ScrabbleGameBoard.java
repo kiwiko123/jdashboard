@@ -1,4 +1,4 @@
-package com.kiwiko.games.scrabble.game;
+package com.kiwiko.games.scrabble.game.data;
 
 import com.kiwiko.mvc.MvcConfiguration;
 import com.kiwiko.games.scrabble.errors.ScrabbleException;
@@ -12,9 +12,9 @@ import java.util.stream.Collectors;
 
 public class ScrabbleGameBoard {
 
-    private final List<List<ScrabbleTile>> board;
-    private final int rowCount;
-    private final int columnCount;
+    private List<List<ScrabbleTile>> board;
+    private int rowCount;
+    private int columnCount;
     private int tileCount;
 
     public ScrabbleGameBoard(int rows, int columns) {
@@ -34,12 +34,34 @@ public class ScrabbleGameBoard {
         tileCount = other.tileCount;
     }
 
+    private ScrabbleGameBoard() { }
+
+    public void setBoard(List<List<ScrabbleTile>> board) {
+        this.board = board;
+    }
+
     public int getRowCount() {
         return rowCount;
     }
 
+    public void setRowCount(int rowCount) {
+        this.rowCount = rowCount;
+    }
+
     public int getColumnCount() {
         return columnCount;
+    }
+
+    public void setColumnCount(int columnCount) {
+        this.columnCount = columnCount;
+    }
+
+    public int getTileCount() {
+        return tileCount;
+    }
+
+    public void setTileCount(int tileCount) {
+        this.tileCount = tileCount;
     }
 
     public boolean isEmpty() {

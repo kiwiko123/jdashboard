@@ -1,7 +1,5 @@
 package com.kiwiko.mvc;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.kiwiko.memory.caching.api.CacheService;
 import com.kiwiko.memory.caching.internal.InMemoryCacheService;
 import com.kiwiko.memory.performance.api.annotations.Throttle;
@@ -24,7 +22,6 @@ import com.kiwiko.mvc.security.environments.internal.WebApplicationEnvironmentSe
 import org.springframework.aop.Advisor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -120,14 +117,5 @@ public class MvcConfiguration implements WebMvcConfigurer {
                 .withInstance(new ThrottleMethodInterceptor())
                 .create();
         return configurationHelper.createAnnotationBean(Throttle.class, instance);
-    }
-
-    /**
-     * Allows public, protected, and private fields to be serialized in a web response.
-     */
-    @Bean
-    public Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder() {
-        return new Jackson2ObjectMapperBuilder()
-                .visibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
     }
 }

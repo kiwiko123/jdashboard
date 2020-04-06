@@ -1,8 +1,9 @@
 package com.kiwiko.games.scrabble;
 
+import com.kiwiko.games.scrabble.game.logic.ScrabbleGameHelper;
 import com.kiwiko.games.scrabble.internal.ScrabbleGameEntityService;
 import com.kiwiko.games.scrabble.api.ScrabbleGameService;
-import com.kiwiko.games.scrabble.game.helpers.ScrabbleGameHelper;
+import com.kiwiko.games.scrabble.game.logic.ScrabbleCreateGameHelper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,6 +14,11 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class ScrabbleConfiguration {
+
+    @Bean
+    public ScrabbleCreateGameHelper scrabbleCreateGameHelper() {
+        return new ScrabbleCreateGameHelper();
+    }
 
     @Bean
     public ScrabbleGameHelper scrabbleGameHelper() {

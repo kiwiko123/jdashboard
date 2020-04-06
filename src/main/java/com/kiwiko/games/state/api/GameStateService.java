@@ -10,4 +10,6 @@ public interface GameStateService {
     Optional<GameState> findForGame(GameType gameType, long gameId);
 
     GameState saveGameState(GameState gameState);
+
+    long getNewGameId(GameType gameType);
 }

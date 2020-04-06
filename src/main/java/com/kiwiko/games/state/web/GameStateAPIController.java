@@ -3,6 +3,7 @@ package com.kiwiko.games.state.web;
 import com.kiwiko.games.state.api.GameStateService;
 import com.kiwiko.games.state.data.GameState;
 import com.kiwiko.games.state.data.GameType;
+import com.kiwiko.games.state.internal.dataAccess.GameStateEntityDAO;
 import com.kiwiko.mvc.json.data.ResponseBuilder;
 import com.kiwiko.mvc.json.data.ResponsePayload;
 import com.kiwiko.mvc.security.environments.api.EnvironmentService;
@@ -29,10 +30,7 @@ public class GameStateAPIController {
         GameType gameType = GameType.getById(gameTypeId)
                 .orElse(null);
         if (gameType == null) {
-            return new ResponseBuilder()
-                    .withError(String.format("No GameType found for \"%s\"", gameTypeId))
-                    .withStatus(HttpStatus.BAD_REQUEST)
-                    .toResponseEntity();
+            return getInvalidGameTypeResponse(gameTypeId);
         }
 
         GameState gameState = gameStateService.findForGame(gameType, gameId)
@@ -45,6 +43,24 @@ public class GameStateAPIController {
 
         return new ResponseBuilder()
                 .withBody(gameState)
+                .toResponseEntity();
+    }
+
+    @GetMapping("/games/state/api/new-game-id/get/{gameType}")
+    public ResponseEntity<ResponsePayload> getNewGameId(@PathVariable(name = "gameType") String gameTypeId) {
+        long newGameId = GameType.getById(gameTypeId)
+                .map(gameStateService::getNewGameId)
+                .orElse(1l);
+
+        return new ResponseBuilder()
+                .withBody(newGameId)
+                .toResponseEntity();
+    }
+
+    private ResponseEntity<ResponsePayload> getInvalidGameTypeResponse(String gameTypeId) {
+        return new ResponseBuilder()
+                .withError(String.format("No GameType found for \"%s\"", gameTypeId))
+                .withStatus(HttpStatus.BAD_REQUEST)
                 .toResponseEntity();
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.kiwiko.memory.caching.api.CacheService;
 import com.kiwiko.mvc.interceptors.RequestContextInterceptor;
 import com.kiwiko.mvc.json.api.PropertyObjectMapper;
+import com.kiwiko.mvc.json.api.errors.JsonException;
 import com.kiwiko.mvc.requests.api.RequestContextService;
 import com.kiwiko.mvc.requests.api.RequestError;
 import com.kiwiko.mvc.requests.data.RequestContext;
@@ -93,7 +94,7 @@ abstract class CacheableRequestBodyResolver {
 
         try {
             body = propertyObjectMapper.readValue(bodyJson, Map.class);
-        } catch (JsonProcessingException e) {
+        } catch (JsonException e) {
             throw new RequestError("Failed to deserialize request body content", e);
         }
 

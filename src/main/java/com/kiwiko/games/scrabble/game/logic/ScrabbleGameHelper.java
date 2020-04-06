@@ -1,53 +1,37 @@
-package com.kiwiko.games.scrabble.game.helpers;
+package com.kiwiko.games.scrabble.game.logic;
 
-import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableSet;
 import com.kiwiko.dataStructures.Pair;
-import com.kiwiko.games.scrabble.game.ScrabbleGame;
-import com.kiwiko.games.scrabble.game.ScrabbleGameBoard;
-import com.kiwiko.games.scrabble.game.ScrabblePlayer;
-import com.kiwiko.games.scrabble.game.ScrabbleSubmittedTile;
-import com.kiwiko.games.scrabble.game.ScrabbleTile;
+import com.kiwiko.games.scrabble.api.ScrabbleGameService;
+import com.kiwiko.games.scrabble.game.data.ScrabbleGame;
+import com.kiwiko.games.scrabble.game.data.ScrabbleGameBoard;
+import com.kiwiko.games.scrabble.game.data.ScrabblePlayer;
+import com.kiwiko.games.scrabble.game.data.ScrabbleSubmittedTile;
 
-import java.util.ArrayList;
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ScrabbleGameHelper {
 
-    private static final Random random = new Random();
-    private static final Set<Pair<Integer, Integer>> coordinateDirections = ImmutableSet.of(
+    private static final Set<Pair<Integer, Integer>> COORDINATE_DIRECTIONS = ImmutableSet.of(
             new Pair<>(0, -1),  // up
             new Pair<>(1, 0),   // right
             new Pair<>(1, 1),   // down
             new Pair<>(-1, 0)); // left
 
-    public ScrabblePlayer createPlayer(String playerId, int numberOfTiles) {
-        Collection<ScrabbleTile> availableTiles = makeRandomCharacters(numberOfTiles).stream()
-                .map(character -> new ScrabbleTile(character, playerId))
-                .collect(Collectors.collectingAndThen(Collectors.toList(), HashMultiset::create));
-
-        return new ScrabblePlayer(playerId, availableTiles, HashMultiset.create(), HashMultiset.create());
-    }
+    @Inject
+    private ScrabbleGameService scrabbleGameService;
 
     public Optional<ScrabblePlayer> getPlayerById(ScrabbleGame game, String playerId) {
         return Stream.of(game.getPlayer(), game.getOpponent())
                 .filter(p -> Objects.equals(p.getId(), playerId))
                 .findFirst();
-    }
-
-    public boolean placeMove(
-            ScrabbleGame game,
-            String playerId,
-            ScrabbleTile move) {
-        return false;
     }
 
     public Collection<ScrabbleSubmittedTile> getInvalidTiles(ScrabbleGame game, Collection<ScrabbleSubmittedTile> submittedTiles) {
@@ -74,7 +58,7 @@ public class ScrabbleGameHelper {
     }
 
     public boolean hasAdjacentTile(ScrabbleGameBoard board, int row, int column) {
-        return coordinateDirections.stream()
+        return COORDINATE_DIRECTIONS.stream()
                 .anyMatch(coordinate -> hasDirectionallyAdjacentTile(board, row, column, coordinate.getFirst(), coordinate.getSecond()));
     }
 
@@ -83,18 +67,5 @@ public class ScrabbleGameHelper {
         int newColumn = column + directionX;
 
         return board.isValidCoordinate(newRow, newColumn) && board.get(newRow, newColumn).isPresent();
-    }
-
-    private List<String> makeRandomCharacters(int size) {
-        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        List<String> randomCharacters = new ArrayList<>();
-
-        for (int i = 0; i < size; ++i) {
-            int index = random.nextInt(alphabet.length());
-            String character = Character.toString(alphabet.charAt(index));
-            randomCharacters.add(character);
-        }
-
-        return randomCharacters;
     }
 }

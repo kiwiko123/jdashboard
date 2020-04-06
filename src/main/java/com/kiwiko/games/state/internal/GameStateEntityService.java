@@ -32,4 +32,12 @@ public class GameStateEntityService implements GameStateService {
         GameStateEntity managedEntity = gameStateEntityDAO.save(entity);
         return mapper.toTargetType(managedEntity);
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public long getNewGameId(GameType gameType) {
+        long maxGameId = gameStateEntityDAO.getMaxGameId(gameType)
+                .orElse(0l);
+        return maxGameId + 1;
+    }
 }
