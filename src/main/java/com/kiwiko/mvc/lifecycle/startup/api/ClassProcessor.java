@@ -1,7 +1,7 @@
 package com.kiwiko.mvc.lifecycle.startup.api;
 
 import com.kiwiko.metrics.api.LogService;
-import com.kiwiko.metrics.internal.ConsoleLogService;
+import com.kiwiko.metrics.impl.ConsoleLogService;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

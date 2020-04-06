@@ -2,7 +2,7 @@ package com.kiwiko.mvc.resolvers;
 
 import com.kiwiko.mvc.requests.api.RequestError;
 import com.kiwiko.mvc.requests.data.RequestContext;
-import com.kiwiko.mvc.requests.api.RequestContextService;
+import com.kiwiko.mvc.requests.internal.InMemoryRequestContextService;
 import org.springframework.core.MethodParameter;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -22,7 +22,7 @@ import java.util.Optional;
 public class RequestContextResolver implements HandlerMethodArgumentResolver {
 
     @Inject
-    private RequestContextService requestContextService;
+    private InMemoryRequestContextService requestContextService;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {

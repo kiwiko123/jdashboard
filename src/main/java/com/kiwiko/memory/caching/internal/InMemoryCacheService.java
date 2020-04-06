@@ -1,5 +1,6 @@
 package com.kiwiko.memory.caching.internal;
 
+import com.kiwiko.memory.caching.api.PartialCacheService;
 import com.kiwiko.memory.caching.internal.data.CacheValue;
 
 import javax.inject.Singleton;

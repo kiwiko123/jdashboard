@@ -2,7 +2,9 @@ package com.kiwiko.mvc.resolvers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.kiwiko.memory.caching.api.CacheService;
-import com.kiwiko.mvc.json.PropertyObjectMapper;
+import com.kiwiko.mvc.interceptors.RequestContextInterceptor;
+import com.kiwiko.mvc.json.api.PropertyObjectMapper;
+import com.kiwiko.mvc.json.api.errors.JsonException;
 import com.kiwiko.mvc.requests.api.RequestContextService;
 import com.kiwiko.mvc.requests.api.RequestError;
 import com.kiwiko.mvc.requests.data.RequestContext;
@@ -51,7 +53,7 @@ abstract class CacheableRequestBodyResolver {
      * @return true if the request body should be manually deserialized, or false if not.
      */
     protected boolean shouldDeserializeFromRequest(HttpServletRequest request) {
-        RequestContext currentRequestContext = requestContextService.getRequestContext(request)
+        RequestContext currentRequestContext = requestContextService.getFromSession(request.getSession(), RequestContextInterceptor.REQUEST_CONTEXT_ID_SESSION_KEY)
                 .orElse(null);
 
         if (currentRequestContext == null) {
@@ -92,7 +94,7 @@ abstract class CacheableRequestBodyResolver {
 
         try {
             body = propertyObjectMapper.readValue(bodyJson, Map.class);
-        } catch (JsonProcessingException e) {
+        } catch (JsonException e) {
             throw new RequestError("Failed to deserialize request body content", e);
         }
 
@@ -114,7 +116,7 @@ abstract class CacheableRequestBodyResolver {
 
     private RequestBodyCacheData createCacheDataFromRequest(HttpServletRequest request, IntermediateJsonBody body) {
         RequestBodyCacheData cacheData = new RequestBodyCacheData();
-        requestContextService.getRequestContext(request)
+        requestContextService.getFromSession(request.getSession(), RequestContextInterceptor.REQUEST_CONTEXT_ID_SESSION_KEY)
                 .ifPresent(cacheData::setRequestContext);
         cacheData.setBody(body);
         return cacheData;

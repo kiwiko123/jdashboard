@@ -1,19 +1,16 @@
 package com.kiwiko.mvc.interceptors;
 
-import com.kiwiko.metrics.api.LogService;
-import com.kiwiko.mvc.interceptors.api.WebMethodInterceptor;
+import com.kiwiko.mvc.interceptors.api.ContextMethodInterceptor;
 import com.kiwiko.mvc.interceptors.data.MethodContext;
 import com.kiwiko.mvc.interceptors.data.PostMethodContext;
-import com.kiwiko.mvc.lifecycle.dependencies.manual.api.annotations.InjectManually;
 import org.springframework.lang.Nullable;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Optional;
 
-public class CaptureMetricsMethodInterceptor extends WebMethodInterceptor {
+public class CaptureMetricsMethodInterceptor extends ContextMethodInterceptor {
 
-    @InjectManually private LogService logService;
     private Instant startTime;
     private @Nullable Instant endTime;
 

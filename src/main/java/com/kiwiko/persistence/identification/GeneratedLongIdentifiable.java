@@ -2,7 +2,6 @@ package com.kiwiko.persistence.identification;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public abstract class GeneratedLongIdentifiable extends TypeIdentifiable<Long> {
 

@@ -1,45 +1,53 @@
 package com.kiwiko.mvc.requests.data;
 
-import com.kiwiko.persistence.identification.GeneratedLongIdentifiable;
+import com.kiwiko.persistence.dataAccess.data.AuditableDataEntityDTO;
+import com.kiwiko.users.data.User;
 
 import javax.annotation.Nullable;
 import java.time.Instant;
 import java.util.Optional;
 
-public class RequestContext extends GeneratedLongIdentifiable {
+public class RequestContext extends AuditableDataEntityDTO {
 
-    private final String uri;
-    private final Instant startInstant;
-    private Optional<Instant> endInstant;
-
-    public RequestContext(String uri, Instant startInstant, @Nullable Instant endInstant) {
-        super();
-        this.uri = uri;
-        this.startInstant = startInstant;
-        this.endInstant = Optional.ofNullable(endInstant);
-    }
+    private String uri;
+    private Instant startTime;
+    private @Nullable Instant endTime;
+    private @Nullable User user;
 
     public String getUri() {
         return uri;
     }
 
-    public Instant getStartInstant() {
-        return startInstant;
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 
-    public Optional<Instant> getEndInstant() {
-        return endInstant;
+    public Instant getStartTime() {
+        return startTime;
     }
 
-    /**
-     * @param endInstant the non-null end instant
-     */
-    public void setEndInstant(Instant endInstant) {
-        this.endInstant = Optional.of(endInstant);
+    public void setStartTime(Instant startTime) {
+        this.startTime = startTime;
+    }
+
+    public Optional<Instant> getEndTime() {
+        return Optional.ofNullable(endTime);
+    }
+
+    public void setEndTime(@Nullable Instant endTime) {
+        this.endTime = endTime;
+    }
+
+    public Optional<User> getUser() {
+        return Optional.ofNullable(user);
+    }
+
+    public void setUser(@Nullable User user) {
+        this.user = user;
     }
 
     @Override
     public String toString() {
-        return String.format("%s(%s, %s)", getClass().getSimpleName(), getId().toString(), getStartInstant().toString());
+        return String.format("%s(%s, %s)", getClass().getSimpleName(), getId().toString(), getStartTime().toString());
     }
 }
