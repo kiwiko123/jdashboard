@@ -18,7 +18,9 @@ import java.util.stream.Collectors;
 public class ClassScanner {
 
     private final Set<ClassProcessor> classProcessors;
-    @InjectManually private LogService logService;
+
+    @InjectManually
+    private LogService logService;
 
     public ClassScanner() {
         classProcessors = new HashSet<>();

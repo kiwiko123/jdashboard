@@ -9,6 +9,8 @@ public interface GameStateService {
 
     Optional<GameState> findForGame(GameType gameType, long gameId);
 
+    <T> Optional<T> reconstructGame(GameType gameType, long gameId, Class<T> gameStateClass);
+
     GameState saveGameState(GameState gameState);
 
     long getNewGameId(GameType gameType);

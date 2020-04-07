@@ -3,7 +3,6 @@ package com.kiwiko.games.state.web;
 import com.kiwiko.games.state.api.GameStateService;
 import com.kiwiko.games.state.data.GameState;
 import com.kiwiko.games.state.data.GameType;
-import com.kiwiko.games.state.internal.dataAccess.GameStateEntityDAO;
 import com.kiwiko.mvc.json.data.ResponseBuilder;
 import com.kiwiko.mvc.json.data.ResponsePayload;
 import com.kiwiko.mvc.security.environments.api.EnvironmentService;

@@ -30,6 +30,7 @@ function getDefaultState() {
             playedTiles: [],
         },
         canSubmit: false,
+        errors: [],
     };
 }
 
@@ -69,7 +70,8 @@ export default class ScrabbleGameBroadcaster extends Broadcaster {
 
     newGame() {
         this.requestService.get(NEW_GAME_URL)
-            .then(this.updateGameState);
+            .then(this.updateGameState)
+            .catch(error => this.setState({ errors: ['There was an error communicating with the server'] }));
         this.setState({
             canSubmit: false,
         });

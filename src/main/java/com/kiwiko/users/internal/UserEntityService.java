@@ -13,9 +13,14 @@ import java.util.Optional;
 
 public class UserEntityService implements UserService {
 
-    @Inject private UserEntityDAO userEntityDAO;
-    @Inject private UserEntityMapper mapper;
-    @Inject private PasswordService passwordService;
+    @Inject
+    private UserEntityDAO userEntityDAO;
+
+    @Inject
+    private UserEntityMapper mapper;
+
+    @Inject
+    private PasswordService passwordService;
 
     @Override
     @Transactional(readOnly = true)

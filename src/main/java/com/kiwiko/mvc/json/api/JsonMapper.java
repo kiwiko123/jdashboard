@@ -1,26 +1,25 @@
 package com.kiwiko.mvc.json.api;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.kiwiko.mvc.json.api.errors.JsonException;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import javax.inject.Inject;
 import java.util.Collection;
 
 /**
  * Wrapper class around {@link ObjectMapper} to allow convenient {@link javax.inject.Inject}ion into classes.
+ *
+ * @see com.kiwiko.mvc.json.JacksonObjectMapperConfiguration#customize(Jackson2ObjectMapperBuilder)
  */
-public class PropertyObjectMapper {
+public class JsonMapper {
 
     @Inject
     private ObjectMapper objectMapper;
 
-    public <T> T readValue(String content, Class<T> valueType) throws JsonException {
+    public <T> T deserialize(String content, Class<T> valueType) throws JsonException {
         try {
             return objectMapper.readValue(content, valueType);
         } catch (JsonProcessingException e) {

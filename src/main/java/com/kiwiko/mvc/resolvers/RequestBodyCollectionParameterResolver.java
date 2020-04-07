@@ -1,7 +1,7 @@
 package com.kiwiko.mvc.resolvers;
 
 import com.kiwiko.mvc.requests.api.RequestBodyCollectionParameter;
-import com.kiwiko.mvc.json.api.PropertyObjectMapper;
+import com.kiwiko.mvc.json.api.JsonMapper;
 import com.kiwiko.mvc.requests.api.RequestError;
 import com.kiwiko.mvc.json.data.IntermediateJsonBody;
 import org.springframework.core.MethodParameter;
@@ -19,7 +19,7 @@ import java.util.Optional;
 public class RequestBodyCollectionParameterResolver extends CacheableRequestBodyResolver implements HandlerMethodArgumentResolver {
 
     @Inject
-    private PropertyObjectMapper propertyObjectMapper;
+    private JsonMapper jsonMapper;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -54,7 +54,7 @@ public class RequestBodyCollectionParameterResolver extends CacheableRequestBody
             return parameter.getParameterType().getDeclaredConstructor().newInstance();
         }
 
-        return propertyObjectMapper.convertCollectionValue(
+        return jsonMapper.convertCollectionValue(
                 value,
                 parameter.getParameterType().asSubclass(Collection.class),
                 collectionParameter.valueType());

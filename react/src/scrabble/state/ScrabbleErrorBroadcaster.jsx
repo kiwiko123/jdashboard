@@ -8,7 +8,7 @@ export default class ScrabbleErrorReceiver extends Broadcaster {
         if (broadcasterId === ScrabbleGameBroadcaster.getId()) {
             const errors = get(state, 'errors', []);
             const alerts = errors.map((errorMessage, index) => ({
-                id: index,
+                id: `${broadcasterId}-${index}`,
                 type: BANNER_TYPES.danger,
                 message: errorMessage,
             }));

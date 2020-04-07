@@ -22,7 +22,8 @@ public class RequestContextInterceptor extends HandlerInterceptorAdapter {
     @Inject
     private RequestContextService requestContextService;
 
-    @Inject private LogService logService;
+    @Inject
+    private LogService logService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

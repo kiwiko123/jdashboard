@@ -36,8 +36,8 @@ export default class ReceivingElement extends PureComponent {
         if (!broadcaster.updater) {
             broadcaster.setUpdater(this.update, this.id);
         }
-        const childrenProps = broadcaster.getState();
-        const element = isEmpty(childrenProps) ? children : cloneElement(children, childrenProps);
+        const broadcasterState = broadcaster.getState();
+        const element = isEmpty(broadcasterState) ? children : cloneElement(children, broadcasterState);
 
         return (
             <>

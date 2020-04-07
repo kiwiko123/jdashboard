@@ -1,7 +1,9 @@
 package com.kiwiko.games.scrabble.web;
 
+import com.kiwiko.games.scrabble.game.data.ScrabbleTile;
 import com.kiwiko.games.scrabble.game.logic.ScrabbleCreateGameHelper;
 import com.kiwiko.games.scrabble.game.logic.ScrabbleGameHelper;
+import com.kiwiko.games.scrabble.game.logic.ScrabbleMoveHelper;
 import com.kiwiko.mvc.requests.api.RequestBodyCollectionParameter;
 import com.kiwiko.mvc.requests.api.RequestBodyParameter;
 import com.kiwiko.mvc.json.data.ResponseBuilder;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.inject.Inject;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = EnvironmentService.CROSS_ORIGIN_DEV_URL)
 @RestController
@@ -34,6 +37,9 @@ public class ScrabbleAPIController {
 
     @Inject
     private ScrabbleCreateGameHelper scrabbleCreateGameHelper;
+
+    @Inject
+    private ScrabbleMoveHelper scrabbleMoveHelper;
 
     @GetMapping(path = "/scrabble/api/new-game")
     public ResponseEntity<ResponsePayload> newGame() {
@@ -61,7 +67,7 @@ public class ScrabbleAPIController {
     }
 
     @PostMapping(path = "/scrabble/api/validate-move")
-    public ResponseEntity<ResponsePayload> getInvalidSubmittedTiles(
+    public ResponseEntity<ResponsePayload> validateMove(
             @RequestBodyParameter(name = "gameId") long gameId,
             @RequestBodyCollectionParameter(name = "tiles", valueType = ScrabbleSubmittedTile.class) List<ScrabbleSubmittedTile> submittedTiles) {
         ScrabbleGame game = scrabbleGameService.getGameById(gameId)
@@ -70,15 +76,25 @@ public class ScrabbleAPIController {
             return gameNotFoundResponse(gameId);
         }
 
-        Collection<ScrabbleSubmittedTile> invalidTiles = scrabbleGameHelper.getInvalidTiles(game, submittedTiles);
-        if (invalidTiles.isEmpty()) {
-            return ResponseBuilder.ok();
+        Collection<ScrabbleSubmittedTile> invalidTiles = scrabbleMoveHelper.getInvalidTiles(game, submittedTiles);
+        if (!invalidTiles.isEmpty()) {
+            return new ResponseBuilder()
+                    .withBody(invalidTiles)
+                    .withError("Invalid tiles")
+                    .toResponseEntity();
         }
 
-        return new ResponseBuilder()
-                .withBody(invalidTiles)
-                .withError("Invalid tiles")
-                .toResponseEntity();
+        String word = submittedTiles.stream()
+                .map(ScrabbleTile::getCharacter)
+                .collect(Collectors.joining());
+        boolean isValidWord = scrabbleMoveHelper.isValidWord(word);
+        if (!isValidWord) {
+            return new ResponseBuilder()
+                    .withError(String.format("\"%s\" is not a word", word))
+                    .toResponseEntity();
+        }
+
+        return ResponseBuilder.ok();
     }
 
     private ResponseEntity<ResponsePayload> gameNotFoundResponse(long gameId) {

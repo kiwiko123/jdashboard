@@ -9,7 +9,8 @@ import java.util.stream.Collectors;
 
 public class TypesHelper {
 
-    @Inject private LogService logService;
+    @Inject
+    private LogService logService;
 
     private static final Map<Class<?>, Class<?>> objectTypesByPrimitiveType = ImmutableMap.of(
             boolean.class, Boolean.class,

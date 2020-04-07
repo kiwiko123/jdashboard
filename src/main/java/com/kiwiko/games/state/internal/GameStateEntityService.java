@@ -5,6 +5,9 @@ import com.kiwiko.games.state.data.GameState;
 import com.kiwiko.games.state.data.GameType;
 import com.kiwiko.games.state.internal.dataAccess.GameStateEntity;
 import com.kiwiko.games.state.internal.dataAccess.GameStateEntityDAO;
+import com.kiwiko.metrics.api.LogService;
+import com.kiwiko.mvc.json.api.JsonMapper;
+import com.kiwiko.mvc.json.api.errors.JsonException;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -18,11 +21,36 @@ public class GameStateEntityService implements GameStateService {
     @Inject
     private GameStateEntityPropertyMapper mapper;
 
+    @Inject
+    private JsonMapper jsonMapper;
+
+    @Inject
+    private LogService logService;
+
     @Transactional(readOnly = true)
     @Override
     public Optional<GameState> findForGame(GameType gameType, long gameId) {
         return gameStateEntityDAO.findForGame(gameType, gameId)
                 .map(mapper::toTargetType);
+    }
+
+    @Override
+    public <T> Optional<T> reconstructGame(GameType gameType, long gameId, Class<T> gameStateClass) {
+        String gameStateJson = findForGame(gameType, gameId)
+                .flatMap(GameState::getGameStateJson)
+                .orElse(null);
+        if (gameStateJson == null) {
+            return Optional.empty();
+        }
+
+        T result = null;
+        try {
+            result = jsonMapper.deserialize(gameStateJson, gameStateClass);
+        } catch (JsonException e) {
+            logService.error(String.format("Error converting game state JSON into class %s", gameStateClass.getName()), e);
+        }
+
+        return Optional.ofNullable(result);
     }
 
     @Transactional

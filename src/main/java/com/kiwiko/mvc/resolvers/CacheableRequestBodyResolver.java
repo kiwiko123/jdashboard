@@ -1,9 +1,8 @@
 package com.kiwiko.mvc.resolvers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.kiwiko.memory.caching.api.CacheService;
 import com.kiwiko.mvc.interceptors.RequestContextInterceptor;
-import com.kiwiko.mvc.json.api.PropertyObjectMapper;
+import com.kiwiko.mvc.json.api.JsonMapper;
 import com.kiwiko.mvc.json.api.errors.JsonException;
 import com.kiwiko.mvc.requests.api.RequestContextService;
 import com.kiwiko.mvc.requests.api.RequestError;
@@ -25,7 +24,7 @@ import java.util.stream.Collectors;
 abstract class CacheableRequestBodyResolver {
 
     @Inject
-    private PropertyObjectMapper propertyObjectMapper;
+    private JsonMapper jsonMapper;
 
     @Inject
     private CacheService cacheService;
@@ -93,7 +92,7 @@ abstract class CacheableRequestBodyResolver {
         Map<String, Object> body;
 
         try {
-            body = propertyObjectMapper.readValue(bodyJson, Map.class);
+            body = jsonMapper.deserialize(bodyJson, Map.class);
         } catch (JsonException e) {
             throw new RequestError("Failed to deserialize request body content", e);
         }
