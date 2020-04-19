@@ -21,4 +21,10 @@ public abstract class AuditableEntityManagerDAO<T extends AuditableEntity> exten
         entity.setLastUpdatedDate(now);
         return super.save(entity);
     }
+
+    @Override
+    public void delete(T entity) {
+        entity.setIsRemoved(true);
+        save(entity);
+    }
 }

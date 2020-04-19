@@ -13,6 +13,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
 import java.util.Optional;
 
 public class RequestBodyParameterResolver extends CacheableRequestBodyResolver implements HandlerMethodArgumentResolver {
@@ -22,11 +23,19 @@ public class RequestBodyParameterResolver extends CacheableRequestBodyResolver i
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(RequestBodyParameter.class);
+        if (!parameter.hasParameterAnnotation(RequestBodyParameter.class)) {
+            return false;
+        }
+
+        if (Collection.class.isAssignableFrom(parameter.getParameterType())) {
+            throw new IllegalArgumentException(String.format("@RequestBodyParameter doesn't support collections; use @RequestBodyCollectionParameter instead"));
+        }
+
+        return true;
     }
 
-    @Override
     @Nullable
+    @Override
     public Object resolveArgument(MethodParameter parameter,
                                   @Nullable ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest,

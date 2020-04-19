@@ -1,6 +1,7 @@
 package com.kiwiko.users.internal;
 
 import com.kiwiko.lang.reflection.properties.api.BidirectionalFieldMapper;
+import com.kiwiko.lang.reflection.properties.api.errors.PropertyMappingException;
 import com.kiwiko.users.data.User;
 import com.kiwiko.users.internal.dataAccess.UserEntity;
 

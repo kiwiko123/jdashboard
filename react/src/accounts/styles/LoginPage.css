@@ -1,0 +1,13 @@
+.fields {
+    margin: 0 auto;
+    width: 30rem;
+}
+
+.label {
+    text-align: right;
+}
+
+.input {
+    float: right;
+    width: 20rem;
+}

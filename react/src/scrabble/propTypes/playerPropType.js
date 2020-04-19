@@ -5,4 +5,5 @@ export default PropTypes.shape({
     id: PropTypes.string.isRequired,
     availableTiles: PropTypes.arrayOf(tilePropType),
     playedTiles: PropTypes.arrayOf(tilePropType),
+    invalidSubmittedTiles: PropTypes.arrayOf(tilePropType),
 });

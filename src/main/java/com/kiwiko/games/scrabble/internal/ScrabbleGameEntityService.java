@@ -25,11 +25,18 @@ public class ScrabbleGameEntityService implements ScrabbleGameService {
     public void saveGame(ScrabbleGame game) {
         String gameJson = jsonMapper.writeValueAsString(game);
 
-        GameState gameState = new GameState();
-        gameState.setGameType(GameType.SCRABBLE);
-        gameState.setGameId(game.getId());
+        GameState gameState = gameStateService.findForGame(GameType.SCRABBLE, game.getId())
+                .orElseGet(() -> createNewScrabbleGameState(game));
         gameState.setGameStateJson(gameJson);
 
         gameStateService.saveGameState(gameState);
+    }
+
+    private GameState createNewScrabbleGameState(ScrabbleGame game) {
+        GameState gameState = new GameState();
+        gameState.setGameType(GameType.SCRABBLE);
+        gameState.setGameId(game.getId());
+
+        return gameState;
     }
 }

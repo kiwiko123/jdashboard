@@ -35,17 +35,18 @@ const Banner = ({
 }) => {
     const bannerClassName = classnames('Banner', className);
     const iconClassName = classnames('banner-icon', type, getIconClassName(type, iconSizeFactor));
+    const icon = type && (<i className={iconClassName} />);
 
     return (
         <div className={bannerClassName}>
-            <i className={iconClassName} />
+            {icon}
             {children}
         </div>
     );
 };
 
 Banner.propTypes = {
-    type: PropTypes.string,
+    type: PropTypes.oneOf([...Object.values(BANNER_TYPES), null]),
     iconSizeFactor: PropTypes.number,
     children: PropTypes.node,
     className: PropTypes.string,

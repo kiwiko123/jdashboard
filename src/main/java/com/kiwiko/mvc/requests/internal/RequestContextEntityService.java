@@ -1,7 +1,7 @@
 package com.kiwiko.mvc.requests.internal;
 
 import com.kiwiko.mvc.requests.api.RequestContextService;
-import com.kiwiko.mvc.requests.data.RequestContext;
+import com.kiwiko.mvc.requests.data.RequestContextDTO;
 import com.kiwiko.mvc.requests.internal.dataAccess.RequestContextEntity;
 import com.kiwiko.mvc.requests.internal.dataAccess.RequestContextEntityDAO;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,21 +30,21 @@ public class RequestContextEntityService implements RequestContextService {
 
     @Transactional(readOnly = true)
     @Override
-    public Optional<RequestContext> getById(long requestContextId) {
+    public Optional<RequestContextDTO> getById(long requestContextId) {
         return requestContextEntityDAO.getById(requestContextId)
                 .map(mapper::toTargetType);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Collection<RequestContext> getRequestContexts(String requestUri) {
+    public Collection<RequestContextDTO> getRequestContexts(String requestUri) {
         return requestContextEntityDAO.getByUri(requestUri, MAX_RESULTS).stream()
                 .map(mapper::toTargetType)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<RequestContext> getFromSession(HttpSession session, String sessionKey) {
+    public Optional<RequestContextDTO> getFromSession(HttpSession session, String sessionKey) {
         return Optional.ofNullable(session)
                 .map(s -> s.getAttribute(sessionKey))
                 .map(requestContextId -> (Long) requestContextId)
@@ -53,7 +53,7 @@ public class RequestContextEntityService implements RequestContextService {
 
     @Transactional
     @Override
-    public RequestContext saveRequestContext(RequestContext context) {
+    public RequestContextDTO saveRequestContext(RequestContextDTO context) {
         RequestContextEntity entity = mapper.toSourceType(context);
         RequestContextEntity result = requestContextEntityDAO.save(entity);
         return mapper.toTargetType(result);

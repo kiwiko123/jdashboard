@@ -3,6 +3,7 @@ package com.kiwiko.metrics.api;
 import com.kiwiko.metrics.data.LogLevel;
 
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -13,8 +14,7 @@ public abstract class LevelBasedLogService implements LogService {
     private final Set<LogLevel> enabledLogLevels;
 
     public LevelBasedLogService() {
-        enabledLogLevels = Arrays.stream(LogLevel.values())
-                .collect(Collectors.toSet());
+        enabledLogLevels = EnumSet.allOf(LogLevel.class);
     }
 
     /**

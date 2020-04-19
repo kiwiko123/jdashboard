@@ -5,7 +5,9 @@ import com.kiwiko.dataStructures.Pair;
 import com.kiwiko.games.scrabble.game.data.ScrabbleGame;
 import com.kiwiko.games.scrabble.game.data.ScrabbleGameBoard;
 import com.kiwiko.games.scrabble.game.data.ScrabbleSubmittedTile;
+import com.kiwiko.games.scrabble.words.api.WordService;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,9 +21,11 @@ public class ScrabbleMoveHelper {
             new Pair<>(1, 1),   // down
             new Pair<>(-1, 0)); // left
 
+    @Inject
+    private WordService wordService;
+
     public boolean isValidWord(String word) {
-        // TODO implementation
-        return true;
+        return wordService.findByWord(word).isPresent();
     }
 
     public Collection<ScrabbleSubmittedTile> getInvalidTiles(ScrabbleGame game, Collection<ScrabbleSubmittedTile> submittedTiles) {

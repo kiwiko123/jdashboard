@@ -1,10 +1,13 @@
 import {
 	endsWith,
-	get,
+	get as lget,
 	identity,
 	isEmpty,
+	isNil,
 	startsWith,
 } from 'lodash';
+
+const SERVER_URL = 'http://localhost:8080';
 
 function normalizeUrl(base, url) {
     if (!isEmpty(base)) {
@@ -21,6 +24,7 @@ function normalizeUrl(base, url) {
 async function postBody(url, payload) {
     const params = {
         method: 'POST',
+        credentials: 'include',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -32,23 +36,27 @@ async function postBody(url, payload) {
         .then(response => response.json());
 }
 
-export function extractResponse(response) {
-    return get(response, 'payload', {});
+function extractResponse(response) {
+    return lget(response, 'payload', {});
 }
 
-export function handleErrors(response, errorHandler) {
-    const errors = get(response, 'errors', []);
+function handleErrors(response, errorHandler) {
+    const errors = lget(response, 'errors', []);
     errorHandler(errors);
     return response;
 }
 
-export class RequestService {
+class RequestService {
 
 	constructor(base_url = '', persistentPayload = {}) {
 		this._base_url = base_url
 		this._persistentPayload = persistentPayload;
 		this._responseExtractor = identity;
 		this._errorHandler = identity;
+	}
+
+	create() {
+	    return new RequestService(this._base_url, this._persistentPayload);
 	}
 
 	withResponseExtractor(responseExtractor) {
@@ -103,3 +111,34 @@ export class RequestService {
 		return result;
 	}
 }
+
+// new API
+async function get(url, { requestParameters = {}, includeCredentials = false } = {}) {
+    let requestUrl = normalizeUrl(SERVER_URL, url);
+    if (!isEmpty(requestParameters)) {
+        const data = {};
+        Object.entries(requestParameters)
+            .map(([key, value]) => [key, encodeURIComponent(value)])
+            .forEach(([key, value]) => { data[key] = value; });
+        const encodedParameters = encodeURIComponent(data);
+        requestUrl = `${requestUrl}?${encodedParameters}`;
+    }
+
+    let fetchPromise;
+    if (includeCredentials) {
+        fetchPromise = fetch(requestUrl, { includeCredentials });
+    } else {
+        fetchPromise = fetch(requestUrl);
+    }
+
+    return fetchPromise
+        .then(response => response.json())
+        .then(payload => isNil(payload) ? {} : payload);
+}
+
+export {
+    get,
+    extractResponse,
+    handleErrors,
+    RequestService,
+};

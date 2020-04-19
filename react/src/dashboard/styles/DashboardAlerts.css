@@ -1,0 +1,10 @@
+.dashboard-alert {
+    background-color: rgba(256, 256, 256, .25);
+    color: white;
+    margin: 0 auto 1rem;
+    width: 95%;
+}
+
+.IconButton.dismiss {
+    margin-left: auto;
+}

@@ -1,6 +1,5 @@
 package com.kiwiko.games.scrabble.game.data;
 
-import com.kiwiko.mvc.MvcConfiguration;
 import com.kiwiko.games.scrabble.errors.ScrabbleException;
 
 import java.util.ArrayList;
@@ -68,20 +67,6 @@ public class ScrabbleGameBoard {
         return tileCount == 0;
     }
 
-    /**
-     * For serialization purposes only.
-     * This method is protected to remain visible by Jackson,
-     * but should not be used for accessing the board.
-     * Use {@link #get(int, int)} instead.
-     *
-     * TODO remove this?
-     *
-     * @see MvcConfiguration#jackson2ObjectMapperBuilder()
-     */
-    protected List<List<ScrabbleTile>> getBoard() {
-        return board;
-    }
-
     public Optional<ScrabbleTile> get(int row, int column) throws IndexOutOfBoundsException {
         if (!isValidCoordinate(row, column)) {
             throw new IndexOutOfBoundsException(String.format("Verify coordinates (%d, %d)", row, column));
@@ -97,6 +82,10 @@ public class ScrabbleGameBoard {
         }
         board.get(row).set(column, tile);
         ++tileCount;
+    }
+
+    public void set(ScrabbleSubmittedTile tile) {
+        set(tile.getRow(), tile.getColumn(), tile);
     }
 
     public boolean isValidCoordinate(int row, int column) {

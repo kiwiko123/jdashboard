@@ -18,14 +18,13 @@ Invoking `setState` will pass the entirety of `this.state` into all listeners.
 **MyBroadcaster.js**
 ```javascript
 import Broadcaster from './Broadcaster';
-import { createAction } from './actions';
 
 export default class MyBroadcaster extends Broadcaster {
     constructor() {
         super();
         this.state = {
             count: 0,
-            incrementCount: createAction(this.updateCount.bind(this)),
+            incrementCount: this.updateCount.bind(this),
         };
     }
 

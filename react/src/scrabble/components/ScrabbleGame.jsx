@@ -80,8 +80,7 @@ export default class ScrabbleGame extends Component {
                     <IconButton
                         variant='success'
                         fontAwesomeClassName="fas fa-paper-plane"
-                        onClick={this._onPlayerSubmitTiles}
-//                         disableOnClick={true}
+                        onClick={this.props.actions.submitTiles}
                         disabled={!this.props.canSubmit}
                     >
                         Submit

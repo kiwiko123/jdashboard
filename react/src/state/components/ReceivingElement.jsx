@@ -18,6 +18,11 @@ export default class ReceivingElement extends PureComponent {
     static propTypes = {
         broadcaster: PropTypes.instanceOf(Broadcaster).isRequired,
         children: PropTypes.element.isRequired,
+        waitForBroadcaster: PropTypes.bool,
+    };
+
+    static defaultProps = {
+        waitForBroadcaster: false,
     };
 
     componentWillUnmount() {
@@ -37,8 +42,12 @@ export default class ReceivingElement extends PureComponent {
             broadcaster.setUpdater(this.update, this.id);
         }
         const broadcasterState = broadcaster.getState();
-        const element = isEmpty(broadcasterState) ? children : cloneElement(children, broadcasterState);
+        const isBroadcasterStateEmpty = isEmpty(broadcasterState);
+        if (this.props.waitForBroadcaster && isBroadcasterStateEmpty) {
+            return null;
+        }
 
+        const element = isBroadcasterStateEmpty ? children : cloneElement(children, broadcasterState);
         return (
             <>
                 {element}

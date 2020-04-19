@@ -1,7 +1,9 @@
 CREATE TABLE users (
     user_id BIGSERIAL PRIMARY KEY,
-    email_address TEXT UNIQUE NOT NULL,
+    username TEXT UNIQUE NOT NULL,
+    email_address TEXT UNIQUE,
     encrypted_password TEXT NOT NULL,
+    first_name TEXT,
     created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     last_updated_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     is_removed BOOLEAN NOT NULL DEFAULT FALSE
@@ -18,6 +20,17 @@ CREATE TABLE request_contexts (
     user_id BIGINT REFERENCES users(user_id)
 );
 
+CREATE TABLE sessions (
+    session_id BIGSERIAL PRIMARY KEY,
+    start_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    end_time TIMESTAMP WITH TIME ZONE,
+    token TEXT UNIQUE NOT NULL,
+    user_id BIGINT REFERENCES users(user_id),
+    created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    last_updated_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    is_removed BOOLEAN NOT NULL DEFAULT FALSE
+);
+
 CREATE TABLE game_states (
     game_state_id BIGSERIAL PRIMARY KEY,
     game_id BIGSERIAL,
@@ -25,5 +38,11 @@ CREATE TABLE game_states (
     game_state_json TEXT,
     created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     last_updated_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-    is_removed BOOLEAN NOT NULL DEFAULT FALSE
+    is_removed BOOLEAN NOT NULL DEFAULT FALSE,
+    UNIQUE (game_id, game_type)
+);
+
+CREATE TABLE words (
+    word_id BIGSERIAL PRIMARY KEY,
+    word TEXT UNIQUE NOT NULL
 );

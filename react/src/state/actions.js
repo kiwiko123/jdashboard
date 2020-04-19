@@ -1,59 +1,49 @@
+import { logger } from '../common/js/logs';
 
-// Source: https://hackernoon.com/creating-callable-objects-in-javascript-d21l3te1
-class Callable extends Function {
-    constructor() {
-        super();
-        return new Proxy(this, {
-            apply: (target, self, args) => target._call(...args),
-        });
-    }
+const ACTIONS = new Map();
 
-    _call(...args) { }
+function makeActionId(broadcasterId, actionName) {
+    return `${broadcasterId}-${actionName}`;
 }
 
-class SubscriptionAction extends Callable {
-    constructor(properties = {}) {
-        const proxy = super();
-        this.properties = properties;
-        this.handler = () => {};
-        return proxy;
-    }
+function registerAction(broadcasterId, actionName, action) {
+    const actionId = makeActionId(broadcasterId, actionName);
+    const actions = ACTIONS.has(actionId)
+        ? ACTIONS.get(actionId)
+        : [];
 
-    withSubscription(handler) {
-        this.handler = handler;
-        return this;
-    }
-
-    _call(...args) {
-        return this.handler(...args);
-    }
+    actions.push(action);
+    ACTIONS.set(actionId, actions);
 }
 
+function invokeAction(broadcasterId, actionName, processor = action => action()) {
+    const actionId = makeActionId(broadcasterId, actionName);
+    if (!ACTIONS.has(actionId)) {
+        logger.warn(`No invokable action found with ID ${actionId}`);
+        return;
+    }
 
-let subscriptionId = 0;
-const subscriptionIds = new Set([]);
-
-function getUniqueSubscriptionId(name) {
-    let iterations = 0;
-    let id = `${name}Event-${subscriptionId}`;
-
-    do {
-        id = `${id}${subscriptionId}`;
-    } while (subscriptionIds.has(id) && iterations++ < 10);
-
-    ++subscriptionId;
-    subscriptionIds.add(id);
-
-    return id;
+    ACTIONS.get(actionId)
+        .forEach(processor);
 }
 
-const ACTION_TYPE_ID = 'SUBSCRIBABLE-ACTION-FUNCTION';
+function removeAction(broadcasterId, actionName, broadcasterInstanceId) {
+    const actionId = makeActionId(broadcasterId, actionName);
+    if (!ACTIONS.has(actionId)) {
+        logger.debug(`No action found with ID %{actionId}`);
+        return;
+    }
 
-export function createAction(subscriber) {
-    const properties = {
-       id: getUniqueSubscriptionId(''),
-       type: ACTION_TYPE_ID,
-   };
-    return new SubscriptionAction(properties)
-        .withSubscription(subscriber);
+    const currentActions = ACTIONS.get(actionId);
+    const updatedActions = ACTIONS.get(actionId)
+        .filter(action => action.broadcasterInstanceId !== broadcasterInstanceId);
+    ACTIONS.set(actionId, updatedActions);
+
+    logger.debug(`Removed ${currentActions.length - updatedActions.length} actions`);
 }
+
+export {
+    registerAction,
+    invokeAction,
+    removeAction,
+};

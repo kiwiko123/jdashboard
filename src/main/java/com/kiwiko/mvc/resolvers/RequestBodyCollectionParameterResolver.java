@@ -23,10 +23,13 @@ public class RequestBodyCollectionParameterResolver extends CacheableRequestBody
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        if (!Collection.class.isAssignableFrom(parameter.getParameterType())) {
+        if (parameter.hasParameterAnnotation(RequestBodyCollectionParameter.class)) {
+            if (Collection.class.isAssignableFrom(parameter.getParameterType())) {
+                return true;
+            }
             throw new RequestError(String.format("Parameter type must be a subclass of %s, not %s", Collection.class.getName(), parameter.getParameterType().getCanonicalName()));
         }
-        return parameter.hasParameterAnnotation(RequestBodyCollectionParameter.class);
+        return false;
     }
 
     @Override

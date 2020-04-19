@@ -45,15 +45,18 @@ public class ScrabbleCreateGameHelper {
         return game;
     }
 
-    public ScrabblePlayer createPlayer(String playerId, int numberOfTiles) {
-        Collection<ScrabbleTile> availableTiles = makeRandomCharacters(numberOfTiles).stream()
+    public Collection<ScrabbleTile> createRandomTiles(String playerId, int numberOfTiles) {
+        return makeRandomCharacters(numberOfTiles).stream()
                 .map(character -> new ScrabbleTile(character, playerId))
                 .collect(Collectors.collectingAndThen(Collectors.toList(), HashMultiset::create));
+    }
 
+    public ScrabblePlayer createPlayer(String playerId, int numberOfTiles) {
+        Collection<ScrabbleTile> availableTiles = createRandomTiles(playerId, numberOfTiles);
         return new ScrabblePlayer(playerId, availableTiles, HashMultiset.create(), HashMultiset.create());
     }
 
-    private List<String> makeRandomCharacters(int size) {
+    public List<String> makeRandomCharacters(int size) {
         List<String> randomCharacters = new ArrayList<>();
 
         for (int i = 0; i < size; ++i) {

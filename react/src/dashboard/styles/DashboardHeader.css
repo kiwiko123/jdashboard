@@ -1,0 +1,31 @@
+.DashboardHeader {
+    display: flex;
+    align-items: center;
+}
+
+.content {
+    display: flex;
+    margin-left: 1rem;
+    align-items: center;
+}
+
+.header-button {
+    display: flex;
+    align-items: center;
+    margin-left: 1.5rem;
+    color: white;
+}
+
+.header-button-link {
+    color: white;
+}
+
+:hover(.header-button), :hover(.header-button-link) {
+    color: black;
+}
+
+.greeting {
+    margin-left: auto;
+    margin-right: 1.5rem;
+    color: white;
+}

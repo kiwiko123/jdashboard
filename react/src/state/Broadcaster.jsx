@@ -1,4 +1,5 @@
 import { throttle } from 'lodash';
+import { registerAction, removeAction } from './actions';
 import { logger } from '../common/js/logs';
 
 function some(iterable, predicate) {
@@ -18,6 +19,8 @@ function isPresentInListeners(broadcaster, id) {
     return broadcaster.constructor.getId() === id || some(broadcaster.listeners, listener => isPresentInListeners(listener, id));
 }
 
+let instanceId = 0;
+
 /**
  * State management class that broadcasts data to either component, or other broadcasters.
  * A broadcaster is meant to abstract business logic away from components.
@@ -36,18 +39,20 @@ export default class Broadcaster {
         return this.name;
     }
 
-    // "Override" this to control the minimum duration, in milliseconds, between re-renders.
-    reRenderMillis = 50;
-
     /**
      * Constructs a new Broadcaster instance.
      * If a derived broadcaster defines a constructor, always invoke super().
      * The `broadcasters` argument is an array of broadcasters that will each be immediately registered and listening to this.
      */
     constructor(broadcasters = []) {
+        // "Override" this to control the minimum duration, in milliseconds, between re-renders.
+        this.reRenderMillis = 50;
         this.state = {};
         this.listeners = new Set();
+        this.instanceId = instanceId++;
+        this.actionNames = new Set();
 
+        this.update = throttle(this.update, this.reRenderMillis, { leading: false, trailing: true });
         this.register = this.register.bind(this);
         this.updaters = new Map();
 
@@ -62,9 +67,8 @@ export default class Broadcaster {
     setState(newState) {
         Object.assign(this.state, newState);
         if (this.canReRender()) {
-            this.updaters.forEach(updater => updater());
+            this.update();
         }
-        this.listeners.forEach(broadcaster => broadcaster.receive(this.getState(), this.constructor.getId()));
     }
 
     /**
@@ -77,26 +81,8 @@ export default class Broadcaster {
     }
 
     /**
-     * Determines if the ReceivingElement is eligible to re-render.
-     * The act of this method returning true makes no guarantees that the ReceivingElement _will_ re-render;
-     * rather, it's a signal that it _can_.
-     */
-    canReRender() {
-        return this.updaters.size > 0;
-    }
-
-    /**
-     * Return a view of this broadcaster's state.
-     * By default, this returns a one-dimensional copy of the state.
-     * Returning a reference to the state (i.e., the state itself), _may_ improve performance.
-     */
-    getState() {
-        return { ...this.state };
-    }
-
-    /**
      * Registers the given broadcaster with this broadcaster.
-     * Immediately funnels this.state to the newly-registered broadcaster.
+     * Immediately funnels this.state into the newly-registered broadcaster.
      * There cannot be any cycles within the listener graph;
      * if one is detected, the broadcaster will not be registered.
      * Do not override this.
@@ -120,8 +106,33 @@ export default class Broadcaster {
      * Do not override this.
      */
     setUpdater(updater, id) {
-        const updateFunction = throttle(updater, this.reRenderMillis, { leading: false, trailing: true });
-        this.updaters.set(id, updateFunction);
+        this.updaters.set(id, updater);
+    }
+
+    /**
+     * Return this broadcaster's state.
+     * Returning a copy of the state may be safer,
+     * but returning a reference may be more performant.
+     */
+    getState() {
+        return this.state;
+    }
+
+    /**
+     * Determines if the ReceivingElement is eligible to re-render.
+     * The act of this method returning true makes no guarantees that the ReceivingElement _will_ re-render;
+     * rather, it's a signal that it _can_.
+     */
+    canReRender() {
+        return true;
+    }
+
+    update() {
+        const state = this.getState();
+        const id = this.constructor.getId();
+
+        this.listeners.forEach(broadcaster => broadcaster.receive(state, id));
+        this.updaters.forEach(updater => updater());
     }
 
     /**
@@ -131,5 +142,19 @@ export default class Broadcaster {
     removeUpdater(id) {
         logger.debug(`Removing ReceivingElement ${id}`);
         this.updaters.delete(id);
+    }
+
+    destroy() {
+        this.actionNames.forEach(name => removeAction(this.constructor.getId(), name, this.id));
+    }
+
+    // ==============
+    // Global actions
+    // ==============
+
+    registerGlobalAction(name, callback) {
+        callback.broadcasterInstanceId = this.instanceId;
+        registerAction(this.constructor.getId(), name, callback);
+        this.actionNames.add(name);
     }
 }

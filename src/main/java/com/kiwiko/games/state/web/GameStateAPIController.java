@@ -5,7 +5,7 @@ import com.kiwiko.games.state.data.GameState;
 import com.kiwiko.games.state.data.GameType;
 import com.kiwiko.mvc.json.data.ResponseBuilder;
 import com.kiwiko.mvc.json.data.ResponsePayload;
-import com.kiwiko.mvc.security.environments.api.EnvironmentService;
+import com.kiwiko.mvc.security.environments.data.EnvironmentProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 
-@CrossOrigin(origins = EnvironmentService.CROSS_ORIGIN_DEV_URL)
+@CrossOrigin(origins = EnvironmentProperties.CROSS_ORIGIN_URL)
 @RestController
 public class GameStateAPIController {
 
@@ -26,7 +26,7 @@ public class GameStateAPIController {
     public ResponseEntity<ResponsePayload> getGameStateForGame(
             @PathVariable(name = "gameType") String gameTypeId,
             @PathVariable(name = "gameId") long gameId) {
-        GameType gameType = GameType.getById(gameTypeId)
+        GameType gameType = GameType.getByName(gameTypeId)
                 .orElse(null);
         if (gameType == null) {
             return getInvalidGameTypeResponse(gameTypeId);
@@ -47,7 +47,7 @@ public class GameStateAPIController {
 
     @GetMapping("/games/state/api/new-game-id/get/{gameType}")
     public ResponseEntity<ResponsePayload> getNewGameId(@PathVariable(name = "gameType") String gameTypeId) {
-        long newGameId = GameType.getById(gameTypeId)
+        long newGameId = GameType.getByName(gameTypeId)
                 .map(gameStateService::getNewGameId)
                 .orElse(1l);
 

@@ -2,91 +2,60 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import classnames from 'classnames';
+
 import '../styles/IconButton.css';
 
+const IconButton = ({
+    children, variant, fontAwesomeClassName, disabled, block, onClick, className, size,
+}) => {
+    const buttonClassName = classnames('IconButton', className);
+    const iconClassName = classnames('icon', fontAwesomeClassName);
+    const icon = fontAwesomeClassName && (<i className={iconClassName} />);
 
-export default class IconButton extends React.Component {
-    static propTypes = {
-        /* Typically, this will just be the button's text */
-        children: PropTypes.node,
+    return (
+        <Button
+            className={buttonClassName}
+            variant={variant}
+            onClick={onClick}
+            disabled={disabled}
+            block={block}
+            size={size}
+        >
+            {icon}
+            {children}
+        </Button>
+    );
+};
 
-        /* React's Button variant - see https://react-bootstrap.github.io/components/buttons/ */
-        variant: PropTypes.string,
+IconButton.propTypes = {
+    children: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+        PropTypes.node,
+    ]),
 
-        /* See https://fontawesome.com/icons */
-        fontAwesomeClassName: PropTypes.string,
+    // https://react-bootstrap.github.io/components/buttons
+    variant: PropTypes.string,
 
-        disabled: PropTypes.bool,
+    // https://fontawesome.com/icons
+    fontAwesomeClassName: PropTypes.string,
 
-        /* Automatically disable the button after click.
-         * Button can be re-enabled by updating props.disabled to false.
-         */
-        disableOnClick: PropTypes.bool,
+    disabled: PropTypes.bool,
+    block: PropTypes.bool,
+    onClick: PropTypes.func,
+    className: PropTypes.string,
+    size: PropTypes.oneOf(["sm", "lg", null]),
+};
 
-        /* Show a spinner instead of the Font Awesome icon after clicking the button.
-         * The spinner will go away once props.disabled is false again.
-         */
-        showSpinnerOnClick: PropTypes.bool,
+IconButton.defaultProps = {
+    children: null,
+    variant: null,
+    fontAwesomeClassName: null,
+    disabled: false,
+    block: false,
+    onClick: () => {},
+    className: null,
+    size: null,
+};
 
-        onClick: PropTypes.func.isRequired,
-
-        className: PropTypes.string,
-    };
-
-    static defaultProps = {
-        disabled: false,
-        disableOnClick: false,
-        showSpinnerOnClick: false,
-        variant: 'primary',
-    };
-
-    constructor(props) {
-        super(props);
-        this._onClick = this._onClick.bind(this);
-        this.state = {
-            isLoading: false,
-            disabled: this.props.disabled,
-        };
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        const wasDisabled = prevProps.disabled || prevState.disabled;
-        if (wasDisabled && !this.props.disabled) {
-            this.setState({
-                isLoading: false,
-                disabled: false,
-            });
-        }
-    }
-
-    render() {
-        const buttonClassName = classnames('IconButton', {
-            [this.props.className]: this.props.className,
-        });
-
-        const iconClassName = classnames('icon', {
-            'fas fa-circle-notch fa-spin': this.state.isLoading,
-            [this.props.fontAwesomeClassName]: !this.state.isLoading,
-        });
-
-        return (
-            <Button
-                className={buttonClassName}
-                variant={this.props.variant}
-                disabled={this.props.disabled || this.state.disabled}
-                onClick={this._onClick}
-            >
-                <i className={iconClassName} />
-                {this.props.children}
-            </Button>
-        );
-    }
-
-    _onClick() {
-        this.setState({
-            isLoading: this.props.showSpinnerOnClick,
-            disabled: this.props.disabled || this.props.disableOnClick,
-        });
-        this.props.onClick();
-    }
-}
+export default IconButton;

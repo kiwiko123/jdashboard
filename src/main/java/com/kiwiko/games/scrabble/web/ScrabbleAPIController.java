@@ -10,13 +10,13 @@ import com.kiwiko.mvc.json.data.ResponseBuilder;
 import com.kiwiko.mvc.json.data.ResponsePayload;
 import com.kiwiko.games.scrabble.api.ScrabbleGameService;
 import com.kiwiko.games.scrabble.game.data.ScrabbleGame;
-import com.kiwiko.games.scrabble.game.data.ScrabblePlayer;
 import com.kiwiko.games.scrabble.game.data.ScrabbleSubmittedTile;
-import com.kiwiko.mvc.security.environments.api.EnvironmentService;
+import com.kiwiko.mvc.security.environments.data.EnvironmentProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +25,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = EnvironmentService.CROSS_ORIGIN_DEV_URL)
+@CrossOrigin(origins = EnvironmentProperties.CROSS_ORIGIN_URL, allowCredentials = "true")
 @RestController
 public class ScrabbleAPIController {
 
@@ -49,17 +49,40 @@ public class ScrabbleAPIController {
                 .toResponseEntity();
     }
 
+    @GetMapping("/scrabble/api/load-game/{gameId}")
+    public ResponseEntity<ResponsePayload> loadGame(
+            @PathVariable(name = "gameId") long gameId) {
+        ScrabbleGame game = scrabbleGameService.getGameById(gameId)
+                .orElse(null);
+        if (game == null) {
+            return new ResponseBuilder()
+                    .withError("Game not found")
+                    .toResponseEntity();
+        }
+
+        return new ResponseBuilder()
+                .withBody(game)
+                .toResponseEntity();
+    }
+
     @PostMapping(path = "/scrabble/api/submit-tiles")
     public ResponseEntity<ResponsePayload> submitTiles(
             @RequestBodyParameter(name = "gameId") long gameId,
-            @RequestBodyParameter(name = "player") ScrabblePlayer player) {
+            @RequestBodyCollectionParameter(name = "tiles", valueType = ScrabbleSubmittedTile.class) List<ScrabbleSubmittedTile> tiles) {
         ScrabbleGame game = scrabbleGameService.getGameById(gameId)
                 .orElse(null);
         if (game == null) {
             return gameNotFoundResponse(gameId);
         }
 
-        // TODO implementation
+        boolean success = scrabbleGameHelper.placeTiles(game, tiles);
+        if (success) {
+            scrabbleGameService.saveGame(game);
+        } else {
+            return new ResponseBuilder()
+                    .withError("Invalid tiles")
+                    .toResponseEntity();
+        }
 
         return new ResponseBuilder()
                 .withBody(game)

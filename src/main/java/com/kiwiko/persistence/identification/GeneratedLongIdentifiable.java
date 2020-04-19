@@ -7,15 +7,17 @@ public abstract class GeneratedLongIdentifiable extends TypeIdentifiable<Long> {
 
     private static Map<String, Long> ids = new HashMap<>();
 
-    public GeneratedLongIdentifiable() {
-        super();
-    }
+    private Long id;
 
-    @Override
-    protected Long generateId() {
+    public GeneratedLongIdentifiable() {
         String key = getClass().getName();
         long id = ids.getOrDefault(key, 1l);
         ids.put(key, id + 1);
+        this.id = id;
+    }
+
+    @Override
+    public Long getId() {
         return id;
     }
 }

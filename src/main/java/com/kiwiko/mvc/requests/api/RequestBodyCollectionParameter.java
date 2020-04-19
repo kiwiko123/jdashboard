@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * Request parameter annotation that allows a Collection-like parameter of a request body to be
- * deserialized into a specific class.
+ * deserialized into a {@link java.util.Collection} or derivation of one.
  *
  * Annotate parameters of a {@link org.springframework.web.bind.annotation.RequestMapping} endpoint.
  *
@@ -30,7 +30,7 @@ public @interface RequestBodyCollectionParameter {
     /**
      * @return the type of objects that the {@link java.util.Collection} holds.
      */
-    Class<?> valueType() default Object.class;
+    Class<?> valueType();
 
     /**
      * @see RequestBodyParameter#required()
