@@ -20,5 +20,7 @@ public interface SessionService {
 
     Session saveSession(Session session);
 
+    Optional<Session> endSessionForUser(long userId);
+
     void invalidateSession(long sessionId);
 }

@@ -23,7 +23,7 @@ public class SessionEntityDAO extends AuditableEntityManagerDAO<SessionEntity> {
         Instant endTime = entity.getEndTime();
         boolean isExpired = endTime != null && now.isAfter(endTime);
 
-        if (!entity.getIsRemoved() && isExpired) {
+        if (isExpired && !entity.getIsRemoved()) {
             entity.setIsRemoved(true);
         }
 

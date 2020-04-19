@@ -44,14 +44,17 @@ export default class Request {
 
     withRequestParameters(requestParameters) {
         this.requestParameters = requestParameters;
+        return this;
     }
 
     withResponseExtractor(responseExtractor) {
         this.extractResponse = responseExtractor;
+        return this;
     }
 
     withErrorHandler(errorHandler) {
         this.handleErrors = errorHandler;
+        return this;
     }
 
     async get(fetchParameters = {}) {

@@ -1,17 +1,16 @@
 package com.kiwiko.mvc.security.authentication.web;
 
+import com.kiwiko.metrics.api.LogService;
 import com.kiwiko.mvc.json.data.ResponseBuilder;
 import com.kiwiko.mvc.json.data.ResponsePayload;
 import com.kiwiko.mvc.requests.api.RequestBodyParameter;
 import com.kiwiko.mvc.requests.data.RequestContext;
 import com.kiwiko.mvc.security.authentication.api.annotations.CrossOriginConfigured;
-import com.kiwiko.mvc.security.environments.data.EnvironmentProperties;
 import com.kiwiko.mvc.security.sessions.api.SessionService;
 import com.kiwiko.mvc.security.sessions.data.Session;
 import com.kiwiko.users.api.UserService;
 import com.kiwiko.users.data.User;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +28,9 @@ public class UserAuthenticationAPIController {
 
     @Inject
     private UserService userService;
+
+    @Inject
+    private LogService logService;
 
     @PostMapping("/user-auth/api/create")
     public ResponseEntity<ResponsePayload> createUser(
@@ -58,6 +60,20 @@ public class UserAuthenticationAPIController {
         return new ResponseBuilder()
                 .withBody(user)
                 .toResponseEntity();
+    }
+
+    @PostMapping("/user-auth/api/logout")
+    public ResponseEntity<ResponsePayload> logCurrentUserOut(RequestContext requestContext) {
+        User user = requestContext.getUser()
+                .orElse(null);
+        if (user == null) {
+            return new ResponseBuilder()
+                    .withError("Please try refreshing the page")
+                    .toResponseEntity();
+        }
+
+        sessionService.endSessionForUser(user.getId());
+        return ResponseBuilder.ok();
     }
 
     @GetMapping("/user-auth/api/get-current-user")

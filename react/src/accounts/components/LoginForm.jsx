@@ -13,7 +13,6 @@ function getTextFromEvent(event, callback) {
 const LoginForm = ({
     username, password, actions, className, disableLoginButton,
 }) => {
-    disableLoginButton = false; // TODO remove this
     const formClassName = classnames('LoginForm', className);
     return (
         <div className={formClassName}>

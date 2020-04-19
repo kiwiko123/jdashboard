@@ -16,6 +16,8 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -49,6 +51,7 @@ public class SessionEntityService implements SessionService {
         sessionEntity.setUserId(userId);
         sessionEntity.setToken(token);
         sessionEntity.setStartTime(now);
+        sessionEntity.setEndTime(now.plus(SessionProperties.AUTHENTICATION_COOKIE_TIME_TO_LIVE));
 
         SessionEntity managedEntity = sessionEntityDAO.save(sessionEntity);
         return mapper.toTargetType(managedEntity);
@@ -99,6 +102,19 @@ public class SessionEntityService implements SessionService {
         SessionEntity entity = mapper.toSourceType(session);
         SessionEntity managedEntity = sessionEntityDAO.save(entity);
         return mapper.toTargetType(managedEntity);
+    }
+
+    @Transactional
+    @Override
+    public Optional<Session> endSessionForUser(long userId) {
+        Collection<SessionEntity> activeSessions = sessionEntityDAO.getByUserId(userId);
+        activeSessions.stream()
+                .map(SessionEntity::getId)
+                .forEach(this::invalidateSession);
+
+        return activeSessions.stream()
+                .max(Comparator.comparing(SessionEntity::getStartTime))
+                .map(mapper::toTargetType);
     }
 
     @Transactional(readOnly = true)

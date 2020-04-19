@@ -1,37 +1,55 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import IconButton from '../../common/components/IconButton';
+import { logger } from '../../common/js/logs';
 
 import '../styles/DashboardHeader.css';
 
-const headerButtons = [
-    {
-        id: 'home',
-        label: 'Home',
-        url: '/home',
-        icon: 'fas fa-home',
-        shouldShow: true,
-    },
-    {
-        id: 'scrabble',
-        label: 'Scrabble',
-        url: '/scrabble/play',
-        icon: 'fas fa-font',
-        shouldShow: true,
-    },
-    {
+function onClickHeaderButton(data) {
+    if (data.url) {
+        window.location.replace(data.url);
+    } else if (data.onClick) {
+        data.onClick();
+    } else {
+        logger.warn(`No click handler functionality for header button ${data.id}`);
+    }
+}
+
+function createHeaderButtons(props) {
+    const headerButtons = [
+        {
+            id: 'home',
+            label: 'Home',
+            url: '/home',
+            icon: 'fas fa-home',
+            shouldShow: () => true,
+        },
+        {
+            id: 'scrabble',
+            label: 'Scrabble',
+            url: '/scrabble/play',
+            icon: 'fas fa-font',
+            shouldShow: () => true,
+        },
+        {
             id: 'login',
-            label: 'Login',
+            label: 'Log in',
             url: '/accounts/login',
             icon: 'fas fa-sign-in-alt',
-            shouldShow: true,
+            shouldShow: props => props.isLoggedIn === false,
         },
-];
+        {
+            id: 'logout',
+            label: 'Log out',
+            icon: 'fas fa-sign-out-alt',
+            onClick: props.logOut,
+            shouldShow: props => props.isLoggedIn,
+        },
+    ];
 
-function createHeaderButtons({ appId }) {
     return headerButtons
-        .filter(data => data.id !== appId)
-        .filter(data => data.shouldShow)
+        .filter(data => data.id !== props.appId)
+        .filter(data => data.shouldShow(props))
         .map(data => (
             <IconButton
                 key={data.id}
@@ -39,22 +57,17 @@ function createHeaderButtons({ appId }) {
                 variant="outline-light"
                 fontAwesomeClassName={data.icon}
                 size={"sm"}
+                onClick={() => onClickHeaderButton(data)}
             >
-                <a
-                    className={`header-button-link ${data.id}`}
-                    href={data.url}
-                >
-                    {data.label}
-                </a>
+                {data.label}
             </IconButton>
     ));
 }
 
-const DashboardHeader = ({
-    appId, title, isLoggedIn, username,
-}) => {
-    const headerButtons = createHeaderButtons({ appId });
-    const greeting = username && (
+const DashboardHeader = (props) => {
+    const { appId, title, isLoggedIn, username, logOut } = props;
+    const headerButtons = createHeaderButtons(props);
+    const greeting = isLoggedIn && (
         <div className="greeting">
             {`Hello, ${username}`}
         </div>
@@ -78,10 +91,11 @@ DashboardHeader.propTypes = {
     title: PropTypes.string.isRequired,
     isLoggedIn: PropTypes.bool,
     username: PropTypes.string,
+    logOut: PropTypes.func.isRequired,
 };
 
 DashboardHeader.defaultProps = {
-    isLoggedIn: false,
+    isLoggedIn: null,
     username: null,
 };
 

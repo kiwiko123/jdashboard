@@ -1,19 +1,23 @@
+import { get } from 'lodash';
 import Broadcaster from '../../state/Broadcaster';
-import { RequestService, extractResponse, handleErrors } from '../../common/js/requests';
 import Request from '../../common/js/Request';
 import { LOG_IN_URL } from '../js/urls';
 import DashboardAlertActions from '../../dashboard/state/actions/DashboardAlertActions';
 
-const SERVER_URL = 'http://localhost:8080';
+function handleLoginErrors(response) {
+    const errors = get(response, 'errors', []);
+    if (errors.length === 0) {
+        return;
+    }
+
+    errors.forEach(message => DashboardAlertActions.addAlert({ message, bannerType: 'warning' }));
+    throw new Error('Failed to log in');
+}
 
 export default class LoginFormBroadcaster extends Broadcaster {
 
     constructor() {
         super();
-
-        this.requestService = new RequestService(SERVER_URL)
-            .withResponseExtractor(extractResponse)
-            .withErrorHandler(response => handleErrors(response, errors => this.setState({ errors })));
 
         this.setUsername = this.setUsername.bind(this);
         this.setPassword = this.setPassword.bind(this);
@@ -41,7 +45,7 @@ export default class LoginFormBroadcaster extends Broadcaster {
     setPassword(text) {
         this.setState({
             password: text,
-            disableLoginButton: !(text && this.state.emailAddress),
+            disableLoginButton: !(text && this.state.username),
         });
     }
 
@@ -53,6 +57,7 @@ export default class LoginFormBroadcaster extends Broadcaster {
         };
 
         new Request(LOG_IN_URL)
+            .withErrorHandler(handleLoginErrors)
             .withBody(payload)
             .post({ credentials: 'include' })
             .then((response) => {
@@ -64,16 +69,5 @@ export default class LoginFormBroadcaster extends Broadcaster {
                     message: 'There was an error signing in. Please try again.',
                 });
             });
-//         this.requestService
-//             .post(LOG_IN_URL, payload)
-//             .then((response) => {
-//                 window.location.replace('/home');
-//             })
-//             .catch(error => {
-//                 DashboardAlertActions.addAlert({
-//                     bannerType: 'danger',
-//                     message: 'There was an error signing in. Please try again.',
-//                 });
-//             });
     }
 }

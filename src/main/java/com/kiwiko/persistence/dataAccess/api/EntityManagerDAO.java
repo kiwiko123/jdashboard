@@ -31,8 +31,9 @@ public abstract class EntityManagerDAO<T extends Identifiable<Long>> {
     protected abstract Class<T> getEntityType();
 
     /**
-     * Similar idea as {@link #getById(long)}, but returns a proxy -- an object whose fields may be lazily fetched.
-     * This does not _guarantee_ that all fields will be lazily fetched.
+     * Similar idea to {@link #getById(long)}, but returns a proxy -- an object whose fields may be lazily fetched.
+     * As such, this _may_ be more performant when an entity's fields are not needed.
+     * That being said, this does not guarantee that all fields will be lazily fetched.
      *
      * @param id the record's ID
      * @return a proxy for the fetched entity
@@ -53,7 +54,7 @@ public abstract class EntityManagerDAO<T extends Identifiable<Long>> {
     }
 
     /**
-     * Performs a bulk fetch for all the entities with the given IDs.
+     * Performs a single bulk database fetch for all the entities with the given IDs.
      * Prefer this over {@link #getById(long)} when multiple entities of the same type need to be fetched.
      *
      * @param ids the ids to fetch
