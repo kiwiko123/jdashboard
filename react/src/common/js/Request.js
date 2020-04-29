@@ -1,5 +1,6 @@
-import { endsWith, get, isEmpty, isNil, startsWith } from 'lodash';
+import { endsWith, get, isEmpty, isNil, isNumber, startsWith } from 'lodash';
 import { getServerUrl } from './config';
+import { logger } from './logs';
 
 function normalizeUrl(base, url) {
     if (!isEmpty(base)) {
@@ -22,19 +23,35 @@ function buildRequestParameterUrl(url, requestParameters) {
     return `${url}?${encodedParameters}`;
 }
 
+function makeUrl(url, requestParameters) {
+    if (isEmpty(requestParameters)) {
+        return url;
+    }
+    return buildRequestParameterUrl(url, this.requestParameters);
+}
+
 function extractResponse(response) {
     const payload = get(response, 'payload', {});
     return isNil(payload) ? {} : payload;
 }
 
+function handleErrors(response) {
+    const errorMessages = get(response, 'errors', []);
+    errorMessages.forEach(logger.error);
+}
+
 export default class Request {
+
+    static to(url) {
+        return new Request(url);
+    }
 
     constructor(url) {
         this.url = normalizeUrl(getServerUrl(), url);
         this.requestParameters = {};
         this.body = {};
         this.extractResponse = extractResponse;
-        this.handleErrors = () => {};
+        this.handleErrors = handleErrors;
     }
 
     withBody(body) {
@@ -58,26 +75,12 @@ export default class Request {
     }
 
     async get(fetchParameters = {}) {
-        let requestUrl = this.url;
-        if (!isEmpty(this.requestParameters)) {
-            requestUrl = buildRequestParameterUrl(requestUrl, this.requestParameters);
-        }
-
-        const parameters = { ...fetchParameters };
-        return fetch(requestUrl, parameters)
-            .then(response => response.json())
-            .then((response) => {
-                this.handleErrors(response);
-                return this.extractResponse(response);
-            });
+        const url = makeUrl(this.url, this.requestParameters);
+        return this.__makeRequest(url, fetchParameters);
     }
 
     async post(fetchParameters = {}) {
-        let requestUrl = this.url;
-        if (!isEmpty(this.requestParameters)) {
-            requestUrl = buildRequestParameterUrl(requestUrl, this.requestParameters);
-        }
-
+        const url = makeUrl(this.url, this.requestParameters);
         const parameters = {
             headers: {
                 'Accept': 'application/json',
@@ -90,10 +93,17 @@ export default class Request {
             parameters.body = JSON.stringify(this.body);
         }
 
-        return fetch(requestUrl, parameters)
+        return this.__makeRequest(url, parameters);
+    }
+
+    async __makeRequest(url, parameters) {
+        return fetch(url, parameters)
             .then(response => response.json())
             .then((response) => {
                 this.handleErrors(response);
+                if (isNumber(response.status) && response.status !== 200) {
+                    throw new Error(response.message);
+                }
                 return this.extractResponse(response);
             });
     }

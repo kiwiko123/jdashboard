@@ -30,6 +30,11 @@ public abstract class EntityManagerDAO<T extends Identifiable<Long>> {
 
     protected abstract Class<T> getEntityType();
 
+    public Optional<T> getById(long id) {
+        T entity = entityManager.find(entityType, id);
+        return Optional.ofNullable(entity);
+    }
+
     /**
      * Similar idea to {@link #getById(long)}, but returns a proxy -- an object whose fields may be lazily fetched.
      * As such, this _may_ be more performant when an entity's fields are not needed.
@@ -46,11 +51,6 @@ public abstract class EntityManagerDAO<T extends Identifiable<Long>> {
             // do nothing
         }
         return Optional.ofNullable(proxy);
-    }
-
-    public Optional<T> getById(long id) {
-        T entity = entityManager.find(entityType, id);
-        return Optional.ofNullable(entity);
     }
 
     /**

@@ -3,6 +3,7 @@ package com.kiwiko.games.state.internal;
 import com.kiwiko.games.state.api.GameStateService;
 import com.kiwiko.games.state.data.GameState;
 import com.kiwiko.games.state.data.GameType;
+import com.kiwiko.games.state.data.UserGameStateAssociation;
 import com.kiwiko.games.state.internal.dataAccess.GameStateEntity;
 import com.kiwiko.games.state.internal.dataAccess.GameStateEntityDAO;
 import com.kiwiko.metrics.api.LogService;
@@ -11,7 +12,9 @@ import com.kiwiko.mvc.json.api.errors.JsonException;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class GameStateEntityService implements GameStateService {
 
@@ -20,6 +23,9 @@ public class GameStateEntityService implements GameStateService {
 
     @Inject
     private GameStateEntityPropertyMapper mapper;
+
+    @Inject
+    private UserGameStateAssociationService userGameStateAssociationService;
 
     @Inject
     private JsonMapper jsonMapper;
@@ -67,5 +73,38 @@ public class GameStateEntityService implements GameStateService {
         long maxGameId = gameStateEntityDAO.getMaxGameId(gameType)
                 .orElse(0l);
         return maxGameId + 1;
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<GameState> getById(long gameStateId) {
+        return gameStateEntityDAO.getById(gameStateId)
+                .map(mapper::toTargetType);
+    }
+
+    @Transactional
+    @Override
+    public GameState saveForUser(GameState gameState, long userId) {
+        GameState savedGameState = saveGameState(gameState);
+        if (!findByGameStateAndUser(savedGameState.getId(), userId).isPresent()) {
+            userGameStateAssociationService.create(savedGameState.getId(), userId);
+        }
+
+        return savedGameState;
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<GameState> findByGameStateAndUser(long gameStateId, long userId) {
+        return userGameStateAssociationService.findByGameStateAndUser(gameStateId, userId)
+                .map(UserGameStateAssociation::getGameState);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Collection<GameState> findGamesForUser(long userId, GameType gameType) {
+        return gameStateEntityDAO.findByGameTypeAndUser(gameType, userId).stream()
+                .map(mapper::toTargetType)
+                .collect(Collectors.toSet());
     }
 }

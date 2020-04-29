@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -48,11 +47,9 @@ public class UnixLocalDictionaryWordService implements WordService {
     @Transactional
     @Override
     public Optional<Word> createWord(String word) {
-        WordEntity entity = new WordEntity();
-        entity.setWord(word);
-
-        WordEntity managedEntity = wordEntityDAO.save(entity);
-        return Optional.of(mapper.toTargetType(managedEntity));
+        return Optional.of(word)
+                .filter(w -> !findByWord(w).isPresent())
+                .map(this::createWordEager);
     }
 
     @Transactional
@@ -64,8 +61,19 @@ public class UnixLocalDictionaryWordService implements WordService {
 
         return words.stream()
                 .filter(word -> !existingWords.contains(word))
-                .map(this::createWord)
-                .flatMap(Optional::stream)
+                .map(this::createWordEager)
                 .collect(Collectors.toSet());
+    }
+
+    /**
+     * Creates a new word without first checking if one already exists.
+     */
+    @Transactional
+    private Word createWordEager(String word) {
+        WordEntity entity = new WordEntity();
+        entity.setWord(word);
+
+        WordEntity managedEntity = wordEntityDAO.save(entity);
+        return mapper.toTargetType(managedEntity);
     }
 }

@@ -1,4 +1,3 @@
-import { isNil } from 'lodash';
 import Broadcaster from '../../state/Broadcaster';
 import Request from '../../common/js/Request';
 import { LOG_OUT_URL } from '../../accounts/js/urls';
@@ -16,7 +15,7 @@ export default class DashboardHeaderBroadcaster extends Broadcaster {
         if (broadcasterId === 'UserDataBroadcaster') {
             this.setState({
                 username: state.username,
-                isLoggedIn: isNil(state.username) ? null : Boolean(state.username),
+                isLoggedIn: state.isLoaded ? Boolean(state.username) : null,
                 logOut: this.logOut,
             });
         }

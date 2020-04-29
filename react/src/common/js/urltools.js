@@ -14,6 +14,29 @@ export function getUrlParameters() {
 
     return parameters.split('&')
         .map(pair => pair.split('='))
-        .map(([key, value]) => [decodeURIComponent(key), decodeURIComponent(value)])
+        .map(pair => pair.map(decodeURIComponent))
         .reduce(objectReducer, {});
+}
+
+export function updateQueryParameters(parameters = {}) {
+    if (isEmpty(parameters)) {
+        return;
+    }
+
+    const updatedParameters = {
+        ...getUrlParameters(),
+        ...parameters,
+    };
+
+    const encodedParameters = Object.entries(updatedParameters)
+        .map(pair => pair.map(encodeURIComponent))
+        .map(([key, value]) => `${key}=${value}`)
+        .join('&');
+
+    let url = window.location.pathname;
+    if (!isEmpty(encodedParameters)) {
+        url = `${url}?${encodedParameters}`;
+    }
+
+    window.history.replaceState(null, '', url);
 }

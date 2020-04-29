@@ -1,5 +1,6 @@
 package com.kiwiko.games.scrabble.game.logic;
 
+import com.kiwiko.games.scrabble.api.ScrabbleGameService;
 import com.kiwiko.games.scrabble.errors.ScrabbleException;
 import com.kiwiko.games.scrabble.game.data.ScrabbleGame;
 import com.kiwiko.games.scrabble.game.data.ScrabblePlayer;

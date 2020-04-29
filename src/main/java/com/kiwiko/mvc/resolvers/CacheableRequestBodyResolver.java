@@ -5,7 +5,7 @@ import com.kiwiko.mvc.json.api.JsonMapper;
 import com.kiwiko.mvc.json.api.errors.JsonException;
 import com.kiwiko.mvc.requests.api.RequestContextService;
 import com.kiwiko.mvc.requests.api.RequestError;
-import com.kiwiko.mvc.requests.data.RequestContextDTO;
+import com.kiwiko.mvc.requests.data.RequestContext;
 import com.kiwiko.mvc.json.data.IntermediateJsonBody;
 import com.kiwiko.mvc.resolvers.data.RequestBodyCacheData;
 import com.kiwiko.mvc.security.sessions.data.SessionProperties;
@@ -45,14 +45,14 @@ abstract class CacheableRequestBodyResolver {
     /**
      * Given a web request, determine if its request body should be manually deserialized.
      * The request body must be deserialized if either:
-     *   1) no {@link RequestContextDTO} is present in its session, then the body must be deserialized, or
-     *   2) the {@link RequestContextDTO} indicates that its a different request.
+     *   1) no {@link RequestContext} is present in its session, then the body must be deserialized, or
+     *   2) the {@link RequestContext} indicates that its a different request.
      *
      * @param request
      * @return true if the request body should be manually deserialized, or false if not.
      */
     protected boolean shouldDeserializeFromRequest(HttpServletRequest request) {
-        RequestContextDTO currentRequestContext = requestContextService.getFromSession(request.getSession(), SessionProperties.REQUEST_CONTEXT_ID_SESSION_KEY)
+        RequestContext currentRequestContext = requestContextService.getFromSession(request.getSession(), SessionProperties.REQUEST_CONTEXT_ID_SESSION_KEY)
                 .orElse(null);
 
         if (currentRequestContext == null) {
@@ -101,12 +101,16 @@ abstract class CacheableRequestBodyResolver {
     }
 
     private String getJsonStringFromRequestBody(ServletRequest request) {
+        String bodyJson;
         try {
-            return request.getReader().lines()
+            bodyJson = request.getReader().lines()
                     .collect(Collectors.joining(System.lineSeparator()));
+            request.getReader().reset();
         } catch (IOException e) {
             throw new RequestError("Failed to read JSON from request body", e);
         }
+
+        return bodyJson;
     }
 
     private String getRequestParameterCacheKey(HttpServletRequest request) {

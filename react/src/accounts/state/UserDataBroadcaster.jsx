@@ -7,17 +7,19 @@ function getDefaultState() {
     return {
         username: null,
         userId: null,
+        isLoaded: false,
     };
 }
 
 function getCurrentUserData() {
-    return new Request(GET_CURRENT_USER_URL).get({ credentials: 'include' })
+    return Request.to(GET_CURRENT_USER_URL)
+        .get({ credentials: 'include' })
         .catch((error) => {
             logger.error('Error fetching current user data', error);
-            const defaultState = getDefaultState();
             return {
-                ...defaultState,
-                errorMessage: 'An error occurred. Please refresh or log in again.',
+                ...getDefaultState(),
+                isLoaded: true,
+                errorMessage: 'An error occurred. Please refresh or log in again',
             };
         });
 }
@@ -32,6 +34,7 @@ export default class UserDataBroadcaster extends Broadcaster {
             .then(user => this.setState({
                 username: user.username,
                 userId: user.id,
+                isLoaded: true,
             }));
     }
 }

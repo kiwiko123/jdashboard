@@ -8,11 +8,14 @@ import com.kiwiko.games.scrabble.game.data.ScrabblePlayer;
 import com.kiwiko.games.scrabble.game.data.ScrabbleTile;
 import com.kiwiko.games.state.api.GameStateService;
 import com.kiwiko.games.state.data.GameType;
+import com.kiwiko.users.data.User;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -28,6 +31,25 @@ public class ScrabbleCreateGameHelper {
 
     @Inject
     private GameStateService gameStateService;
+
+    public ScrabbleGame getOrCreateGame(@Nullable User user, @Nullable Long gameId) {
+        if (user == null) {
+            return createGame();
+        }
+
+        // TODO cross-check game ID with user
+
+        ScrabbleGame mostRecentGame = scrabbleGameService.findMostRecentGameForUser(user.getId())
+                .orElse(null);
+
+        if (mostRecentGame != null) {
+            return mostRecentGame;
+        }
+
+        ScrabbleGame game = createGame();
+        scrabbleGameService.saveGameForUser(game.getId(), user.getId());
+        return game;
+    }
 
     public ScrabbleGame createGame() {
         long gameId = gameStateService.getNewGameId(GameType.SCRABBLE);

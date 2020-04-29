@@ -126,6 +126,10 @@ public class SessionEntityService implements SessionService {
         while (!isUniqueToken && attempts++ < MAX_TOKEN_GENERATION_ATTEMPTS) {
             token = tokenHelper.generateToken();
             isUniqueToken = !getByToken(token).isPresent();
+
+            if (attempts > 1) {
+                logService.info(String.format("Attempt #%d to generate a unique session token", attempts));
+            }
         }
 
         if (token == null) {

@@ -10,7 +10,7 @@ import java.util.Collection;
 public class ResponseBuilder {
 
     private @Nullable Object body;
-    private Collection<String> errors;
+    private final Collection<String> errors;
     private HttpStatus status;
 
     public ResponseBuilder() {
@@ -35,7 +35,7 @@ public class ResponseBuilder {
     }
 
     public ResponseEntity<ResponsePayload> toResponseEntity() {
-        ResponsePayload payload = new ResponsePayload(body, errors);
+        ResponsePayload payload = new ResponsePayload(body, errors, status.value());
         return new ResponseEntity<>(payload, status);
     }
 

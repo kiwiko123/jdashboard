@@ -9,4 +9,6 @@ CREATE INDEX ON sessions (token, is_removed);
 
 CREATE INDEX ON game_states (game_type, game_id);
 
+CREATE INDEX ON user_game_state_associations (user_id);
+
 CREATE INDEX ON words (lower(word));

@@ -4,7 +4,7 @@ import com.kiwiko.metrics.api.LogService;
 import com.kiwiko.mvc.interceptors.internal.SessionRequestHelper;
 import com.kiwiko.mvc.requests.api.RequestContextService;
 import com.kiwiko.mvc.requests.api.RequestError;
-import com.kiwiko.mvc.requests.data.RequestContextDTO;
+import com.kiwiko.mvc.requests.data.RequestContext;
 import com.kiwiko.mvc.security.sessions.data.Session;
 import com.kiwiko.mvc.security.sessions.data.SessionProperties;
 import org.springframework.lang.Nullable;
@@ -34,7 +34,7 @@ public class RequestContextInterceptor extends HandlerInterceptorAdapter {
         Instant now = Instant.now();
         String requestUri = requestContextService.getRequestUri(request);
 
-        RequestContextDTO requestContext = new RequestContextDTO();
+        RequestContext requestContext = new RequestContext();
         requestContext.setUri(requestUri);
         requestContext.setStartTime(now);
         sessionRequestHelper.getSessionFromRequest(request)
@@ -56,7 +56,7 @@ public class RequestContextInterceptor extends HandlerInterceptorAdapter {
         Instant now = Instant.now();
         String requestUri = requestContextService.getRequestUri(request);
         HttpSession session = request.getSession();
-        RequestContextDTO requestContext = requestContextService.getFromSession(session, SessionProperties.REQUEST_CONTEXT_ID_SESSION_KEY)
+        RequestContext requestContext = requestContextService.getFromSession(session, SessionProperties.REQUEST_CONTEXT_ID_SESSION_KEY)
                 .orElseThrow(() -> new RequestError(String.format("No RequestContext found after handling \"%s\"", requestUri)));
         requestContext.setEndTime(now);
         requestContextService.saveRequestContext(requestContext);

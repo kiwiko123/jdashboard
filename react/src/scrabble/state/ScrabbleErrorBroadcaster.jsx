@@ -9,7 +9,7 @@ export default class ScrabbleErrorReceiver extends Broadcaster {
     receive(state, broadcasterId) {
         if (broadcasterId === ScrabbleGameBroadcaster.getId()) {
             // General error messages
-            const errorMessages = [...get(state, 'errors', [])];
+            const errorMessages = get(state, 'errors', []);
 
             // Invalid tiles
             const invalidSubmittedTiles = get(state, 'player.invalidSubmittedTiles', []);

@@ -1,7 +1,6 @@
 package com.kiwiko.memory.caching.internal.data;
 
-import org.springframework.lang.Nullable;
-
+import javax.annotation.Nullable;
 import java.time.Instant;
 import java.time.temporal.TemporalAmount;
 import java.util.Optional;

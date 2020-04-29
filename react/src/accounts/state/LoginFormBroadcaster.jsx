@@ -56,7 +56,7 @@ export default class LoginFormBroadcaster extends Broadcaster {
             password: this.state.password,
         };
 
-        new Request(LOG_IN_URL)
+        Request.to(LOG_IN_URL)
             .withErrorHandler(handleLoginErrors)
             .withBody(payload)
             .post({ credentials: 'include' })

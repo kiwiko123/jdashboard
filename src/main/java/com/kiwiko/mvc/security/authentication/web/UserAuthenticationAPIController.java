@@ -52,11 +52,10 @@ public class UserAuthenticationAPIController {
         User user = userService.getWithValidation(username, password)
                 .orElse(null);
         if (user == null) {
-            return getInvalidUserResponse(username);
+            return getInvalidUserResponse();
         }
 
         sessionService.createSessionCookieForUser(user.getId(), httpServletResponse);
-
         return new ResponseBuilder()
                 .withBody(user)
                 .toResponseEntity();
@@ -92,9 +91,9 @@ public class UserAuthenticationAPIController {
                 .toResponseEntity();
     }
 
-    private ResponseEntity<ResponsePayload> getInvalidUserResponse(String username) {
+    private ResponseEntity<ResponsePayload> getInvalidUserResponse() {
         return new ResponseBuilder()
-                .withError(String.format("No user found with username \"%s\"", username))
+                .withError("No user found with those credentials")
                 .toResponseEntity();
     }
 }

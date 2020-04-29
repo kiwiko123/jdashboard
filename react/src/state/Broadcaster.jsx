@@ -22,7 +22,7 @@ function isPresentInListeners(broadcaster, id) {
 let instanceId = 0;
 
 /**
- * State management class that broadcasts data to either component, or other broadcasters.
+ * State management class that broadcasts data to either a component, or other broadcasters.
  * A broadcaster is meant to abstract business logic away from components.
  * A broadcaster can have other "listener" broadcasters that are registered to it.
  * A broadcaster can also be tied to a ReceivingElement, which accepts a React component as its child;
@@ -44,29 +44,29 @@ export default class Broadcaster {
      * If a derived broadcaster defines a constructor, always invoke super().
      * The `broadcasters` argument is an array of broadcasters that will each be immediately registered and listening to this.
      */
-    constructor(broadcasters = []) {
+    constructor() {
         // "Override" this to control the minimum duration, in milliseconds, between re-renders.
         this.reRenderMillis = 50;
         this.state = {};
         this.listeners = new Set();
         this.instanceId = instanceId++;
         this.actionNames = new Set();
+        this.enabled = true;
 
-        this.update = throttle(this.update, this.reRenderMillis, { leading: false, trailing: true });
         this.register = this.register.bind(this);
+        this.update = throttle(this.update, this.reRenderMillis, { leading: false, trailing: true });
         this.updaters = new Map();
-
-        broadcasters.forEach(broadcaster => broadcaster.register(this));
     }
 
     /**
      * One-dimensionally merges the input state with this broadcaster's state.
      * Passes state into listening ReceivingElements and broadcasters.
+     * However, Calling setState does not guarantee an instantaneous update to listeners.
      * Do not override this.
      */
     setState(newState) {
         Object.assign(this.state, newState);
-        if (this.canReRender()) {
+        if (this.canUpdate()) {
             this.update();
         }
     }
@@ -111,8 +111,7 @@ export default class Broadcaster {
 
     /**
      * Return this broadcaster's state.
-     * Returning a copy of the state may be safer,
-     * but returning a reference may be more performant.
+     * Returning a copy of the state may be safer, but returning a reference may be more performant.
      */
     getState() {
         return this.state;
@@ -123,8 +122,8 @@ export default class Broadcaster {
      * The act of this method returning true makes no guarantees that the ReceivingElement _will_ re-render;
      * rather, it's a signal that it _can_.
      */
-    canReRender() {
-        return true;
+    canUpdate() {
+        return this.enabled;
     }
 
     update() {
@@ -133,6 +132,7 @@ export default class Broadcaster {
 
         this.listeners.forEach(broadcaster => broadcaster.receive(state, id));
         this.updaters.forEach(updater => updater());
+        logger.debug(`${this.constructor.getId()}-${this.instanceId} just updated`);
     }
 
     /**
@@ -145,7 +145,18 @@ export default class Broadcaster {
     }
 
     destroy() {
+        this.disable();
         this.actionNames.forEach(name => removeAction(this.constructor.getId(), name, this.id));
+        logger.debug(`Destroyed broadcaster ${this.constructor.getId()}-${this.instanceId}`);
+    }
+
+    enable() {
+        this.enabled = true;
+        this.update();
+    }
+
+    disable() {
+        this.enabled = false;
     }
 
     // ==============

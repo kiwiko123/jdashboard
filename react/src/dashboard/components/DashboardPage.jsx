@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { get } from 'lodash';
 import ReceivingElement from '../../state/components/ReceivingElement';
+import Broadcaster from '../../state/Broadcaster';
 import UserDataBroadcaster from '../../accounts/state/UserDataBroadcaster';
 import DashboardAlertBroadcaster from '../../dashboard/state/DashboardAlertBroadcaster';
 import DashboardHeaderBroadcaster from '../../dashboard/state/DashboardHeaderBroadcaster';
@@ -13,9 +15,10 @@ import '../../common/styles/common.css';
 import '../styles/DashboardPage.css';
 
 const DashboardPage = ({
-    children, className, title, appId, history,
+    children, className, title, appId, history, broadcasterSubscribers,
 }) => {
     // Create page-level broadcasters.
+    // Store them in state to persist them between renders (although the page-level components should have few re-renders).
     // Clean these up in useEffect.
     const [headerBroadcaster] = useState(new DashboardHeaderBroadcaster());
     const [alertBroadcaster] = useState(new DashboardAlertBroadcaster());
@@ -33,6 +36,8 @@ const DashboardPage = ({
 
     // Register any page-level broadcasters.
     userDataBroadcaster.register(headerBroadcaster);
+    get(broadcasterSubscribers, 'userDataBroadcaster', [])
+        .forEach(userDataBroadcaster.register);
 
     const pageClassName = classnames('DashboardPage', className);
     return (
@@ -65,11 +70,15 @@ DashboardPage.propTypes = {
     history: PropTypes.shape({
         push: PropTypes.func.isRequired,
     }).isRequired,
+    broadcasterSubscribers: PropTypes.shape({
+        userDataBroadcaster: PropTypes.arrayOf(PropTypes.instanceOf(Broadcaster)),
+    }),
 };
 
 DashboardPage.defaultProps = {
     className: null,
     title: 'Dashboard',
+    broadcasterSubscribers: {},
 };
 
 export default DashboardPage;

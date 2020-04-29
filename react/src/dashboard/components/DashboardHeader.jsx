@@ -36,7 +36,7 @@ function createHeaderButtons(props) {
             label: 'Log in',
             url: '/accounts/login',
             icon: 'fas fa-sign-in-alt',
-            shouldShow: props => props.isLoggedIn === false,
+            shouldShow: props => !props.isLoggedIn,
         },
         {
             id: 'logout',
@@ -65,13 +65,8 @@ function createHeaderButtons(props) {
 }
 
 const DashboardHeader = (props) => {
-    const { appId, title, isLoggedIn, username, logOut } = props;
+    const { title } = props;
     const headerButtons = createHeaderButtons(props);
-    const greeting = isLoggedIn && (
-        <div className="greeting">
-            {`Hello, ${username}`}
-        </div>
-    );
 
     return (
         <div className="DashboardHeader">
@@ -81,7 +76,6 @@ const DashboardHeader = (props) => {
                 </h1>
                 {headerButtons}
             </div>
-            {greeting}
         </div>
     );
 };
