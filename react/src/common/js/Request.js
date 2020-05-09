@@ -1,6 +1,5 @@
 import { endsWith, get, isEmpty, isNil, isNumber, startsWith } from 'lodash';
 import { getServerUrl } from './config';
-import { logger } from './logs';
 
 function normalizeUrl(base, url) {
     if (!isEmpty(base)) {
@@ -35,11 +34,6 @@ function extractResponse(response) {
     return isNil(payload) ? {} : payload;
 }
 
-function handleErrors(response) {
-    const errorMessages = get(response, 'errors', []);
-    errorMessages.forEach(logger.error);
-}
-
 export default class Request {
 
     static to(url) {
@@ -51,7 +45,7 @@ export default class Request {
         this.requestParameters = {};
         this.body = {};
         this.extractResponse = extractResponse;
-        this.handleErrors = handleErrors;
+        this.handleErrors = () => {};
     }
 
     withBody(body) {
@@ -88,6 +82,23 @@ export default class Request {
             },
             ...fetchParameters,
             method: 'POST',
+        };
+        if (!isEmpty(this.body)) {
+            parameters.body = JSON.stringify(this.body);
+        }
+
+        return this.__makeRequest(url, parameters);
+    }
+
+    async put(fetchParameters = {}) {
+        const url = makeUrl(this.url, this.requestParameters);
+        const parameters = {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            ...fetchParameters,
+            method: 'PUT',
         };
         if (!isEmpty(this.body)) {
             parameters.body = JSON.stringify(this.body);

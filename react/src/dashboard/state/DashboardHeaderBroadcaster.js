@@ -1,7 +1,7 @@
 import Broadcaster from '../../state/Broadcaster';
 import Request from '../../common/js/Request';
 import { LOG_OUT_URL } from '../../accounts/js/urls';
-import { logger } from '../../common/js/logs';
+import logger from '../../common/js/logging';
 
 export default class DashboardHeaderBroadcaster extends Broadcaster {
 
@@ -28,7 +28,7 @@ export default class DashboardHeaderBroadcaster extends Broadcaster {
             return;
         }
 
-        new Request(LOG_OUT_URL).post({ credentials: 'include' })
+        Request.to(LOG_OUT_URL).post({ credentials: 'include' })
             .then(() => window.location.replace('/home'));
     }
 }

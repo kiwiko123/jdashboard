@@ -1,6 +1,6 @@
 import { throttle } from 'lodash';
 import { registerAction, removeAction } from './actions';
-import { logger } from '../common/js/logs';
+import logger from '../common/js/logging';
 
 function some(iterable, predicate) {
     for (const item of iterable) {
@@ -16,7 +16,7 @@ function some(iterable, predicate) {
  * Returns true if any sub-listener links to the broadcaster defined by `id`.
  */
 function isPresentInListeners(broadcaster, id) {
-    return broadcaster.constructor.getId() === id || some(broadcaster.listeners, listener => isPresentInListeners(listener, id));
+    return broadcaster.constructor.getId() === id || some(broadcaster.__listeners, listener => isPresentInListeners(listener, id));
 }
 
 let instanceId = 0;
@@ -48,14 +48,14 @@ export default class Broadcaster {
         // "Override" this to control the minimum duration, in milliseconds, between re-renders.
         this.reRenderMillis = 50;
         this.state = {};
-        this.listeners = new Set();
-        this.instanceId = instanceId++;
-        this.actionNames = new Set();
-        this.enabled = true;
+        this.__listeners = new Set();
+        this.__instanceId = instanceId++;
+        this.__actionNames = new Set();
+        this.__enabled = true;
 
         this.register = this.register.bind(this);
         this.update = throttle(this.update, this.reRenderMillis, { leading: false, trailing: true });
-        this.updaters = new Map();
+        this.__updaters = new Map();
     }
 
     /**
@@ -88,7 +88,7 @@ export default class Broadcaster {
      * Do not override this.
      */
     register(broadcaster) {
-        if (this.listeners.has(broadcaster)) {
+        if (this.__listeners.has(broadcaster)) {
             logger.info(`Attempting to register duplicate broadcaster ${broadcaster.constructor.getId()}`);
             return;
         }
@@ -96,8 +96,16 @@ export default class Broadcaster {
             logger.error(`Failed to register ${broadcaster.constructor.getId()}; cycle detected in listeners`);
             return;
         }
-        this.listeners.add(broadcaster);
+        this.__listeners.add(broadcaster);
         broadcaster.receive(this.getState(), this.constructor.getId());
+    }
+
+    /**
+     * The converse of register.
+     * Updates to the argument broadcaster will be received by this.
+     */
+    listenTo(broadcaster) {
+        broadcaster.register(this);
     }
 
     /**
@@ -106,7 +114,7 @@ export default class Broadcaster {
      * Do not override this.
      */
     setUpdater(updater, id) {
-        this.updaters.set(id, updater);
+        this.__updaters.set(id, updater);
     }
 
     /**
@@ -123,16 +131,16 @@ export default class Broadcaster {
      * rather, it's a signal that it _can_.
      */
     canUpdate() {
-        return this.enabled;
+        return this.__enabled;
     }
 
     update() {
         const state = this.getState();
         const id = this.constructor.getId();
 
-        this.listeners.forEach(broadcaster => broadcaster.receive(state, id));
-        this.updaters.forEach(updater => updater());
-        logger.debug(`${this.constructor.getId()}-${this.instanceId} just updated`);
+        this.__listeners.forEach(broadcaster => broadcaster.receive(state, id));
+        this.__updaters.forEach(updater => updater());
+        logger.debug(`${this.constructor.getId()}-${this.__instanceId} just updated`);
     }
 
     /**
@@ -141,22 +149,22 @@ export default class Broadcaster {
      */
     removeUpdater(id) {
         logger.debug(`Removing ReceivingElement ${id}`);
-        this.updaters.delete(id);
+        this.__updaters.delete(id);
     }
 
     destroy() {
         this.disable();
-        this.actionNames.forEach(name => removeAction(this.constructor.getId(), name, this.id));
-        logger.debug(`Destroyed broadcaster ${this.constructor.getId()}-${this.instanceId}`);
+        this.__actionNames.forEach(name => removeAction(this.constructor.getId(), name, this.id));
+        logger.debug(`Destroyed broadcaster ${this.constructor.getId()}-${this.__instanceId}`);
     }
 
     enable() {
-        this.enabled = true;
+        this.__enabled = true;
         this.update();
     }
 
     disable() {
-        this.enabled = false;
+        this.__enabled = false;
     }
 
     // ==============
@@ -164,8 +172,8 @@ export default class Broadcaster {
     // ==============
 
     registerGlobalAction(name, callback) {
-        callback.broadcasterInstanceId = this.instanceId;
+        callback.broadcasterInstanceId = this.__instanceId;
         registerAction(this.constructor.getId(), name, callback);
-        this.actionNames.add(name);
+        this.__actionNames.add(name);
     }
 }

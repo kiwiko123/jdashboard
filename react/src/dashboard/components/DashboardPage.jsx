@@ -14,31 +14,45 @@ import '../../common/styles/colors.css';
 import '../../common/styles/common.css';
 import '../styles/DashboardPage.css';
 
+function createPageBroadcasters(broadcasterSubscribers = {}) {
+    const broadcasters = {
+        headerBroadcaster: new DashboardHeaderBroadcaster(),
+        alertBroadcaster: new DashboardAlertBroadcaster(),
+        userDataBroadcaster: new UserDataBroadcaster(),
+    };
+
+    const { headerBroadcaster, userDataBroadcaster } = broadcasters;
+    // Register default subscribers.
+    headerBroadcaster.listenTo(userDataBroadcaster);
+
+    // Register input subscribers.
+    Object.entries(broadcasterSubscribers)
+        .filter(([name]) => broadcasters[name])
+        .forEach(([name, subscribers]) => {
+            const broadcaster = broadcasters[name];
+            subscribers.forEach(subscriber => subscriber.listenTo(broadcaster));
+        });
+
+    return broadcasters;
+}
+
 const DashboardPage = ({
     children, className, title, appId, history, broadcasterSubscribers,
 }) => {
-    // Create page-level broadcasters.
-    // Store them in state to persist them between renders (although the page-level components should have few re-renders).
-    // Clean these up in useEffect.
-    const [headerBroadcaster] = useState(new DashboardHeaderBroadcaster());
-    const [alertBroadcaster] = useState(new DashboardAlertBroadcaster());
-    const [userDataBroadcaster] = useState(new UserDataBroadcaster());
-
+    // Store page-level broadcasters in state to persist them through re-renders
+    // (although page-level re-renders should be few and far between).
+    const [broadcasters] = useState(createPageBroadcasters(broadcasterSubscribers));
     useEffect(() => {
         document.title = title;
 
         // Clean-up all page-level broadcasters when the page unmounts.
         return () => {
-            const broadcasters = [headerBroadcaster, alertBroadcaster, userDataBroadcaster];
-            broadcasters.forEach(broadcaster => broadcaster.destroy());
+            Object.values(broadcasters)
+                .forEach(broadcaster => broadcaster.destroy());
         };
     });
 
-    // Register any page-level broadcasters.
-    userDataBroadcaster.register(headerBroadcaster);
-    get(broadcasterSubscribers, 'userDataBroadcaster', [])
-        .forEach(userDataBroadcaster.register);
-
+    const { headerBroadcaster, alertBroadcaster, userDataBroadcaster } = broadcasters;
     const pageClassName = classnames('DashboardPage', className);
     return (
         <div className={pageClassName}>
@@ -71,6 +85,8 @@ DashboardPage.propTypes = {
         push: PropTypes.func.isRequired,
     }).isRequired,
     broadcasterSubscribers: PropTypes.shape({
+        headerBroadcaster: PropTypes.arrayOf(PropTypes.instanceOf(Broadcaster)),
+        alertBroadcaster: PropTypes.arrayOf(PropTypes.instanceOf(Broadcaster)),
         userDataBroadcaster: PropTypes.arrayOf(PropTypes.instanceOf(Broadcaster)),
     }),
 };

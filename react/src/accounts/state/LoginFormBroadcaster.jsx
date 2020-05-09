@@ -61,7 +61,7 @@ export default class LoginFormBroadcaster extends Broadcaster {
             .withBody(payload)
             .post({ credentials: 'include' })
             .then((response) => {
-                window.location.replace('/home');
+                window.location.href = '/home';
             })
             .catch(error => {
                 DashboardAlertActions.addAlert({

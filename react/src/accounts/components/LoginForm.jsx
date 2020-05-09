@@ -15,7 +15,10 @@ const LoginForm = ({
 }) => {
     const formClassName = classnames('LoginForm', className);
     return (
-        <div className={formClassName}>
+        <form
+            className={formClassName}
+            onSubmit={actions.logIn}
+        >
             <div className="fields">
                 <div className="field-username">
                     <label
@@ -29,6 +32,7 @@ const LoginForm = ({
                         name="username"
                         type="text"
                         onChange={event => getTextFromEvent(event, actions.setUsername)}
+                        autoComplete="on"
                     />
                 </div>
                 <div className="field-password">
@@ -43,21 +47,25 @@ const LoginForm = ({
                         name="password"
                         type="password"
                         onChange={event => getTextFromEvent(event, actions.setPassword)}
+                        autoComplete="on"
                     />
                 </div>
             </div>
-            <div className="action-buttons">
+            <div
+                className="button-submit"
+            >
                 <IconButton
                     className="button-login"
                     variant="primary"
                     fontAwesomeClassName="fas fa-sign-in-alt"
                     disabled={disableLoginButton}
                     onClick={actions.logIn}
+                    type="submit"
                 >
                     Log in
                 </IconButton>
             </div>
-        </div>
+        </form>
     );
 };
 

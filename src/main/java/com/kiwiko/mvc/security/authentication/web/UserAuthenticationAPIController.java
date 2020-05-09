@@ -3,7 +3,7 @@ package com.kiwiko.mvc.security.authentication.web;
 import com.kiwiko.metrics.api.LogService;
 import com.kiwiko.mvc.json.data.ResponseBuilder;
 import com.kiwiko.mvc.json.data.ResponsePayload;
-import com.kiwiko.mvc.requests.api.RequestBodyParameter;
+import com.kiwiko.mvc.requests.api.annotations.RequestBodyParameter;
 import com.kiwiko.mvc.requests.data.RequestContext;
 import com.kiwiko.mvc.security.authentication.api.annotations.CrossOriginConfigured;
 import com.kiwiko.mvc.security.sessions.api.SessionService;

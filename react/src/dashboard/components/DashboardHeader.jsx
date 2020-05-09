@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import IconButton from '../../common/components/IconButton';
-import { logger } from '../../common/js/logs';
+import logger from '../../common/js/logging';
 
 import '../styles/DashboardHeader.css';
 
 function onClickHeaderButton(data) {
     if (data.url) {
-        window.location.replace(data.url);
+        window.location.href = data.url;
     } else if (data.onClick) {
         data.onClick();
     } else {

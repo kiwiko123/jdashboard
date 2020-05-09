@@ -1,4 +1,4 @@
-import { logger } from '../common/js/logs';
+import logger from '../common/js/logging';
 
 const ACTIONS = new Map();
 

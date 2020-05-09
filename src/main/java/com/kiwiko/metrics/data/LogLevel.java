@@ -1,5 +1,11 @@
 package com.kiwiko.metrics.data;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 public enum LogLevel {
     DEBUG("debug"),
     INFO("info"),
@@ -14,5 +20,12 @@ public enum LogLevel {
 
     public String getName() {
         return name;
+    }
+
+    private static final Map<String, LogLevel> levelsByName = Arrays.stream(values())
+            .collect(Collectors.toMap(LogLevel::getName, Function.identity()));
+
+    public static Optional<LogLevel> getByName(String name) {
+        return Optional.ofNullable(levelsByName.get(name.toLowerCase()));
     }
 }
