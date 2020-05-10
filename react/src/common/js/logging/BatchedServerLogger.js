@@ -4,15 +4,16 @@ import Logger from './Logger';
 import ConsoleLogger from './ConsoleLogger';
 
 const LOG_BY_LEVEl_BATCHED_URL = '/logging/api/log/batched/by-level';
-const BATCH_SIZE = 10;
+const BATCH_SIZE = 5;
 const MINIMUM_STALE_SECONDS = 10;
+
+let LOGS = [];
+let PENDING_LOGS = [];
 
 export default class BatchedServerLogger extends Logger {
     constructor() {
         super();
         this._consoleLogger = new ConsoleLogger();
-        this._logs = [];
-        this._pendingLogs = [];
         this._batchSize = BATCH_SIZE;
     }
 
@@ -23,7 +24,7 @@ export default class BatchedServerLogger extends Logger {
             error: get(error, 'message'),
             timestamp: new Date(),
         };
-        this._logs.push(nextLog);
+        LOGS.push(nextLog);
         this._consoleLogger.log(level, message, error);
 
         if (this._shouldLogToServer()) {
@@ -33,15 +34,15 @@ export default class BatchedServerLogger extends Logger {
 
     _shouldLogToServer() {
         // If there are more logs than the maximum batch size, log everything to the server.
-        if (this._logs.length >= this._batchSize) {
+        if (LOGS.length >= this._batchSize) {
             return true;
         }
 
         // If the last log is more than 10 seconds old, log everything to the server.
-        if (this._logs.length > 0) {
+        if (LOGS.length > 0) {
             const now = new Date();
-            const mostRecentLogDate = this._logs[this._logs.length - 1].timestamp;
-            const elapsedMs = now - mostRecentLogDate;
+            const oldestLogDate = LOGS[0].timestamp;
+            const elapsedMs = now - oldestLogDate;
             const elapsedSeconds = elapsedMs / 1000;
             if (elapsedSeconds >= MINIMUM_STALE_SECONDS) {
                 return true;
@@ -53,14 +54,14 @@ export default class BatchedServerLogger extends Logger {
     }
 
     _logToServer() {
-        this._pendingLogs = Array.from(this._logs);
-        this._logs = [];
-        const payload = { logs: this._pendingLogs };
+        PENDING_LOGS = Array.from(LOGS);
+        LOGS = [];
+        const payload = { logs: PENDING_LOGS };
         Request.to(LOG_BY_LEVEl_BATCHED_URL)
             .withBody(payload)
             .post()
             .then(() => {
-                this._pendingLogs = [];
+                PENDING_LOGS = [];
             });
     }
 }

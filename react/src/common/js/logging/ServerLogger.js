@@ -16,6 +16,7 @@ export default class ServerLogger extends Logger {
             level,
             message,
             error: get(error, 'message'),
+            timestamp: new Date(),
         };
         Request.to(LOG_BY_LEVEl_URL)
             .withBody(payload)

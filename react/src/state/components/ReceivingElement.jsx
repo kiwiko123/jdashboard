@@ -2,7 +2,6 @@ import React, { PureComponent, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import Broadcaster from '../Broadcaster';
-import logger from '../../common/js/logging';
 
 let id = 0;
 
@@ -63,6 +62,5 @@ export default class ReceivingElement extends PureComponent {
 
     update() {
         this.forceUpdate();
-        logger.debug(`${this.props.broadcaster.constructor.getId()} re-render`);
     }
 }

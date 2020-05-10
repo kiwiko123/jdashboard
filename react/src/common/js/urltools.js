@@ -40,3 +40,7 @@ export function updateQueryParameters(parameters = {}) {
 
     window.history.replaceState(null, '', url);
 }
+
+export function goTo(url) {
+    window.location.href = url;
+}

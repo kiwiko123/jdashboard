@@ -2,7 +2,9 @@ import { get } from 'lodash';
 import Broadcaster from '../../state/Broadcaster';
 import Request from '../../common/js/Request';
 import { LOG_IN_URL } from '../js/urls';
+import { goTo } from '../../common/js/urltools';
 import DashboardAlertActions from '../../dashboard/state/actions/DashboardAlertActions';
+import logger from '../../common/js/logging';
 
 function handleLoginErrors(response) {
     const errors = get(response, 'errors', []);
@@ -61,7 +63,7 @@ export default class LoginFormBroadcaster extends Broadcaster {
             .withBody(payload)
             .post({ credentials: 'include' })
             .then((response) => {
-                window.location.href = '/home';
+                goTo('/home');
             })
             .catch(error => {
                 DashboardAlertActions.addAlert({

@@ -5,19 +5,14 @@ import IconButton from '../../common/components/IconButton';
 
 import '../styles/LoginForm.css';
 
-function getTextFromEvent(event, callback) {
-    const text = event.target.value;
-    callback(text);
-}
-
 const LoginForm = ({
     username, password, actions, className, disableLoginButton,
 }) => {
     const formClassName = classnames('LoginForm', className);
     return (
-        <form
+        <div
             className={formClassName}
-            onSubmit={actions.logIn}
+//             onSubmit={actions.logIn}
         >
             <div className="fields">
                 <div className="field-username">
@@ -31,7 +26,7 @@ const LoginForm = ({
                         className="input username"
                         name="username"
                         type="text"
-                        onChange={event => getTextFromEvent(event, actions.setUsername)}
+                        onChange={event => actions.setUsername(event.target.value)}
                         autoComplete="on"
                     />
                 </div>
@@ -46,7 +41,7 @@ const LoginForm = ({
                         className="input password"
                         name="password"
                         type="password"
-                        onChange={event => getTextFromEvent(event, actions.setPassword)}
+                        onChange={event => actions.setPassword(event.target.value)}
                         autoComplete="on"
                     />
                 </div>
@@ -65,7 +60,7 @@ const LoginForm = ({
                     Log in
                 </IconButton>
             </div>
-        </form>
+        </div>
     );
 };
 
