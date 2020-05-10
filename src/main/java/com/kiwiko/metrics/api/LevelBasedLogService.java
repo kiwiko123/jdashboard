@@ -1,5 +1,7 @@
 package com.kiwiko.metrics.api;
 
+import com.kiwiko.metrics.data.LevelBasedLog;
+import com.kiwiko.metrics.data.Log;
 import com.kiwiko.metrics.data.LogLevel;
 
 import java.util.Arrays;
@@ -9,7 +11,7 @@ import java.util.stream.Collectors;
 
 public abstract class LevelBasedLogService implements LogService {
 
-    protected static final int MAX_STACK_TRACE_LIMIT = 10;
+    protected int MAX_STACK_TRACE_LIMIT = 10;
 
     private final Set<LogLevel> enabledLogLevels;
 
@@ -21,23 +23,29 @@ public abstract class LevelBasedLogService implements LogService {
      * Implementation for what it means to "log" a message.
      * Default implementations are provided for all other required methods.
      *
-     * @param message the message to log
-     * @param level the severity level of the log
+     * @param log
      */
-    protected abstract void log(String message, LogLevel level);
+    protected abstract void log(LevelBasedLog log);
 
     /**
      * By default, this will concatenate the provided message and the exception stacktrace.
      *
-     * @see #log(String, LogLevel)
+     * @see #log(LevelBasedLog)
      */
-    protected void log(String message, Throwable cause, LogLevel level) {
-        String stackTrace = Arrays.stream(cause.getStackTrace())
-                .limit(MAX_STACK_TRACE_LIMIT)
-                .map(StackTraceElement::toString)
-                .collect(Collectors.joining("\n"));
-        String formattedMessage = String.format("%s\n%s", message, stackTrace);
-        log(formattedMessage, level);
+    protected void logEvent(LevelBasedLog log) {
+        LevelBasedLog copy = new LevelBasedLog(log);
+        String message = log.getMessage();
+
+        if (copy.getException().isPresent()) {
+            String stackTrace = Arrays.stream(copy.getException().get().getStackTrace())
+                    .limit(MAX_STACK_TRACE_LIMIT)
+                    .map(StackTraceElement::toString)
+                    .collect(Collectors.joining("\n"));
+            message = String.format("%s\n%s", message, stackTrace);
+        }
+
+        copy.setMessage(message);
+        log(copy);
     }
 
     /**
@@ -51,59 +59,109 @@ public abstract class LevelBasedLogService implements LogService {
         return enabledLogLevels.contains(logLevel);
     }
 
-    protected int getMaxStackTraceLimit() {
-        return MAX_STACK_TRACE_LIMIT;
+    @Override
+    public void debug(Log log) {
+        LevelBasedLog copy = new LevelBasedLog(log, LogLevel.DEBUG);
+        logEventWithFilter(copy);
     }
 
     @Override
     public void debug(String message) {
-        logEvent(message, LogLevel.DEBUG);
+        LevelBasedLog log = new LevelBasedLog();
+        log.setLevel(LogLevel.DEBUG);
+        log.setMessage(message);
+
+        logEventWithFilter(log);
     }
 
     @Override
     public void debug(String message, Throwable cause) {
-        logEventWithThrowable(message, cause, LogLevel.DEBUG);
+        LevelBasedLog log = new LevelBasedLog();
+        log.setLevel(LogLevel.DEBUG);
+        log.setMessage(message);
+        log.setException(cause);
+
+        logEventWithFilter(log);
+    }
+
+    @Override
+    public void info(Log log) {
+        LevelBasedLog copy = new LevelBasedLog(log, LogLevel.INFO);
+        logEventWithFilter(copy);
     }
 
     @Override
     public void info(String message) {
-        logEvent(message, LogLevel.INFO);
+        LevelBasedLog log = new LevelBasedLog();
+        log.setLevel(LogLevel.INFO);
+        log.setMessage(message);
+
+        logEventWithFilter(log);
     }
 
     @Override
     public void info(String message, Throwable cause) {
-        logEventWithThrowable(message, cause, LogLevel.INFO);
+        LevelBasedLog log = new LevelBasedLog();
+        log.setLevel(LogLevel.INFO);
+        log.setMessage(message);
+        log.setException(cause);
+
+        logEventWithFilter(log);
+    }
+
+    @Override
+    public void warn(Log log) {
+        LevelBasedLog copy = new LevelBasedLog(log, LogLevel.WARN);
+        logEventWithFilter(copy);
     }
 
     @Override
     public void warn(String message) {
-        logEvent(message, LogLevel.WARN);
+        LevelBasedLog log = new LevelBasedLog();
+        log.setLevel(LogLevel.WARN);
+        log.setMessage(message);
+
+        logEventWithFilter(log);
     }
 
     @Override
     public void warn(String message, Throwable cause) {
-        logEventWithThrowable(message, cause, LogLevel.WARN);
+        LevelBasedLog log = new LevelBasedLog();
+        log.setLevel(LogLevel.WARN);
+        log.setMessage(message);
+        log.setException(cause);
+
+        logEventWithFilter(log);
+    }
+
+    @Override
+    public void error(Log log) {
+        LevelBasedLog copy = new LevelBasedLog(log, LogLevel.ERROR);
+        logEventWithFilter(copy);
     }
 
     @Override
     public void error(String message) {
-        logEvent(message, LogLevel.ERROR);
+        LevelBasedLog log = new LevelBasedLog();
+        log.setLevel(LogLevel.ERROR);
+        log.setMessage(message);
+
+        logEventWithFilter(log);
     }
 
     @Override
     public void error(String message, Throwable cause) {
-        logEventWithThrowable(message, cause, LogLevel.ERROR);
+        LevelBasedLog log = new LevelBasedLog();
+        log.setLevel(LogLevel.ERROR);
+        log.setMessage(message);
+        log.setException(cause);
+
+        logEventWithFilter(log);
     }
 
-    private void logEvent(String message, LogLevel logLevel) {
-        if (shouldLog(logLevel)) {
-            log(message, logLevel);
-        }
-    }
-
-    private void logEventWithThrowable(String message, Throwable cause, LogLevel logLevel) {
-        if (shouldLog(logLevel)) {
-            log(message, cause, logLevel);
+    private void logEventWithFilter(LevelBasedLog log) {
+        if (shouldLog(log.getLevel())) {
+            logEvent(log);
         }
     }
 }

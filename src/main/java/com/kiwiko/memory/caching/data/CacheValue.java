@@ -1,4 +1,4 @@
-package com.kiwiko.memory.caching.internal.data;
+package com.kiwiko.memory.caching.data;
 
 import javax.annotation.Nullable;
 import java.time.Instant;
@@ -9,14 +9,16 @@ public class CacheValue<T> {
 
     private final T value;
     private final Instant createdTime;
-    private final Optional<Instant> expirationTime;
+    private final @Nullable Instant expirationTime;
 
     public CacheValue(T value, @Nullable TemporalAmount duration) {
         final Instant now = Instant.now();
 
         this.value = value;
         createdTime = now;
-        expirationTime = Optional.ofNullable(duration).map(now::plus);
+        expirationTime = Optional.ofNullable(duration)
+                .map(now::plus)
+                .orElse(null);
     }
 
     public T getValue() {
@@ -28,11 +30,14 @@ public class CacheValue<T> {
     }
 
     public Optional<Instant> getExpirationTime() {
-        return expirationTime;
+        return Optional.ofNullable(expirationTime);
     }
 
     @Override
     public String toString() {
-        return String.format("CacheValue(%s, %s, %s)", value.toString(), createdTime.toString(), expirationTime.toString());
+        String expirationDisplay = getExpirationTime()
+                .map(Object::toString)
+                .orElse("(indefinite)");
+        return String.format("CacheValue(%s, %s, %s)", value.toString(), createdTime.toString(), expirationDisplay);
     }
 }

@@ -9,7 +9,6 @@ const HomePage = ({ history }) => {
             className="HomePage"
             title="Home"
             appId="home"
-            waitForBroadcasters={true}
         >
             <HomeContent />
         </DashboardPage>

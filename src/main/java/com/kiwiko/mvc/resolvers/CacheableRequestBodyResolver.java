@@ -24,7 +24,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-abstract class CacheableRequestBodyResolver {
+public abstract class CacheableRequestBodyResolver {
 
     @Inject
     private JsonMapper jsonMapper;
