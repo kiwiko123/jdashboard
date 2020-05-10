@@ -35,14 +35,6 @@ public class RequestContextEntityService implements RequestContextService {
                 .map(mapper::toTargetType);
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    public Collection<RequestContext> getRequestContexts(String requestUri) {
-        return requestContextEntityDAO.getByUri(requestUri, MAX_RESULTS).stream()
-                .map(mapper::toTargetType)
-                .collect(Collectors.toList());
-    }
-
     @Override
     public Optional<RequestContext> getFromSession(HttpSession session, String sessionKey) {
         return Optional.ofNullable(session)

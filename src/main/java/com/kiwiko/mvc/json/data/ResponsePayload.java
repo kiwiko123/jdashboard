@@ -8,7 +8,7 @@ public class ResponsePayload {
     private final Collection<String> errors;
     private final int status;
 
-    ResponsePayload(Object payload, Collection<String> errors, int status) {
+    public ResponsePayload(Object payload, Collection<String> errors, int status) {
         this.payload = payload;
         this.errors = errors;
         this.status = status;

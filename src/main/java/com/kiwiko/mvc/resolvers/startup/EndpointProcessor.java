@@ -5,6 +5,7 @@ import com.kiwiko.mvc.lifecycle.startup.api.ClassProcessor;
 import com.kiwiko.mvc.lifecycle.startup.api.errors.LifecycleException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.lang.annotation.Annotation;
@@ -14,7 +15,7 @@ import java.util.Collection;
 
 public abstract class EndpointProcessor extends ClassProcessor {
 
-    private static Collection<Class<?>> REQUEST_MAPPING_TYPES = Sets.newHashSet(RequestMapping.class, GetMapping.class, PostMapping.class);
+    private static Collection<Class<?>> REQUEST_MAPPING_TYPES = Sets.newHashSet(RequestMapping.class, GetMapping.class, PostMapping.class, PutMapping.class);
 
     protected abstract void processMethod(Method method) throws RuntimeException;
 

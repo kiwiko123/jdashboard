@@ -3,7 +3,7 @@ package com.kiwiko.metrics.web;
 import com.kiwiko.metrics.api.LogService;
 import com.kiwiko.metrics.data.LogLevel;
 import com.kiwiko.metrics.web.data.LogData;
-import com.kiwiko.mvc.json.data.ResponseBuilder;
+import com.kiwiko.mvc.json.api.ResponseBuilder;
 import com.kiwiko.mvc.json.data.ResponsePayload;
 import com.kiwiko.mvc.requests.api.annotations.RequestBodyCollectionParameter;
 import com.kiwiko.mvc.requests.api.RequestError;

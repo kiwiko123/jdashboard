@@ -6,7 +6,7 @@ import com.kiwiko.games.scrabble.game.logic.ScrabbleGameHelper;
 import com.kiwiko.games.scrabble.game.logic.ScrabbleMoveHelper;
 import com.kiwiko.mvc.requests.api.annotations.RequestBodyCollectionParameter;
 import com.kiwiko.mvc.requests.api.annotations.RequestBodyParameter;
-import com.kiwiko.mvc.json.data.ResponseBuilder;
+import com.kiwiko.mvc.json.api.ResponseBuilder;
 import com.kiwiko.mvc.json.data.ResponsePayload;
 import com.kiwiko.games.scrabble.api.ScrabbleGameService;
 import com.kiwiko.games.scrabble.game.data.ScrabbleGame;

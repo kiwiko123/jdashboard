@@ -1,5 +1,6 @@
-package com.kiwiko.mvc.json.data;
+package com.kiwiko.mvc.json.api;
 
+import com.kiwiko.mvc.json.data.ResponsePayload;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;

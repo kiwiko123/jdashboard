@@ -1,6 +1,6 @@
 package com.kiwiko.users.web;
 
-import com.kiwiko.mvc.json.data.ResponseBuilder;
+import com.kiwiko.mvc.json.api.ResponseBuilder;
 import com.kiwiko.mvc.json.data.ResponsePayload;
 import com.kiwiko.mvc.security.environments.data.EnvironmentProperties;
 import com.kiwiko.users.api.UserService;
