@@ -1,6 +1,6 @@
 package com.kiwiko.mvc.resolvers.startup;
 
-import com.kiwiko.mvc.requests.api.RequestBodyParameter;
+import com.kiwiko.mvc.requests.api.annotations.RequestBodyParameter;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;

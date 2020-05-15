@@ -54,7 +54,7 @@ public class SessionEntityService implements SessionService {
         sessionEntity.setEndTime(now.plus(SessionProperties.AUTHENTICATION_COOKIE_TIME_TO_LIVE));
 
         SessionEntity managedEntity = sessionEntityDAO.save(sessionEntity);
-        return mapper.toTargetType(managedEntity);
+        return mapper.toDTO(managedEntity);
     }
 
     @Transactional
@@ -84,7 +84,7 @@ public class SessionEntityService implements SessionService {
     @Override
     public Collection<Session> getByTokens(Collection<String> tokens) {
         return sessionEntityDAO.getByTokens(tokens).stream()
-                .map(mapper::toTargetType)
+                .map(mapper::toDTO)
                 .collect(Collectors.toSet());
     }
 
@@ -93,15 +93,15 @@ public class SessionEntityService implements SessionService {
     public Optional<Session> getByUser(long userId) {
         return sessionEntityDAO.getByUserId(userId).stream()
                 .findFirst()
-                .map(mapper::toTargetType);
+                .map(mapper::toDTO);
     }
 
     @Transactional
     @Override
     public Session saveSession(Session session) {
-        SessionEntity entity = mapper.toSourceType(session);
+        SessionEntity entity = mapper.toEntity(session);
         SessionEntity managedEntity = sessionEntityDAO.save(entity);
-        return mapper.toTargetType(managedEntity);
+        return mapper.toDTO(managedEntity);
     }
 
     @Transactional
@@ -114,7 +114,7 @@ public class SessionEntityService implements SessionService {
 
         return activeSessions.stream()
                 .max(Comparator.comparing(SessionEntity::getStartTime))
-                .map(mapper::toTargetType);
+                .map(mapper::toDTO);
     }
 
     @Transactional(readOnly = true)
@@ -126,6 +126,10 @@ public class SessionEntityService implements SessionService {
         while (!isUniqueToken && attempts++ < MAX_TOKEN_GENERATION_ATTEMPTS) {
             token = tokenHelper.generateToken();
             isUniqueToken = !getByToken(token).isPresent();
+
+            if (attempts > 1) {
+                logService.info(String.format("Attempt #%d to generate a unique session token", attempts));
+            }
         }
 
         if (token == null) {

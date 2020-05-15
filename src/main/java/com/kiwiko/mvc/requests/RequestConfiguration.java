@@ -1,7 +1,7 @@
 package com.kiwiko.mvc.requests;
 
 import com.kiwiko.mvc.requests.api.RequestContextService;
-import com.kiwiko.mvc.requests.internal.RequestContextEntityPropertyMapper;
+import com.kiwiko.mvc.requests.internal.RequestContextEntityMapper;
 import com.kiwiko.mvc.requests.internal.RequestContextEntityService;
 import com.kiwiko.mvc.requests.internal.dataAccess.RequestContextEntityDAO;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +21,7 @@ public class RequestConfiguration {
     }
 
     @Bean
-    public RequestContextEntityPropertyMapper requestContextEntityPropertyMapper() {
-        return new RequestContextEntityPropertyMapper();
+    public RequestContextEntityMapper requestContextEntityPropertyMapper() {
+        return new RequestContextEntityMapper();
     }
 }

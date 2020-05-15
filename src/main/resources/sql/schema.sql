@@ -42,6 +42,13 @@ CREATE TABLE game_states (
     UNIQUE (game_id, game_type)
 );
 
+CREATE TABLE user_game_state_associations (
+    association_id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL REFERENCES users(user_id),
+    game_state_id BIGINT NOT NULL REFERENCES game_states(game_state_id),
+    UNIQUE (user_id, game_state_id)
+);
+
 CREATE TABLE words (
     word_id BIGSERIAL PRIMARY KEY,
     word TEXT UNIQUE NOT NULL

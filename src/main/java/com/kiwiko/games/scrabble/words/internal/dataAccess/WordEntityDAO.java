@@ -8,6 +8,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
@@ -22,15 +23,9 @@ public class WordEntityDAO extends EntityManagerDAO<WordEntity> {
     }
 
     public Optional<WordEntity> getByWord(String word) {
-        CriteriaBuilder builder = criteriaBuilder();
-        CriteriaQuery<WordEntity> query = builder.createQuery(entityType);
-        Root<WordEntity> root = query.from(entityType);
-        Expression<String> wordField = root.get("word");
-        Expression<String> lowerCaseWordField = builder.lower(wordField);
-        Predicate equalsWord = builder.equal(lowerCaseWordField, word.toLowerCase());
-
-        query.where(equalsWord);
-        return getSingleResult(query);
+        Collection<String> words = Arrays.asList(word);
+        return getByWords(words).stream()
+                .findFirst();
     }
 
     public Collection<WordEntity> getByWords(Collection<String> words) {

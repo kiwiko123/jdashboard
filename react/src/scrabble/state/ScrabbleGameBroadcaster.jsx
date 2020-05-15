@@ -1,13 +1,16 @@
 import { get, merge, set } from 'lodash';
 import Broadcaster from '../../state/Broadcaster';
-import { RequestService, extractResponse } from '../../common/js/requests';
-import { getUrlParameters } from '../../common/js/urltools';
+import Request from '../../common/js/Request';
+import { getUrlParameters, updateQueryParameters } from '../../common/js/urltools';
 import {
     NEW_GAME_URL,
     LOAD_GAME_URL,
+    START_GAME_URL,
     VALIDATE_MOVE_URL,
     PLAY_MOVE_URL,
+    SAVE_GAME_URL,
 } from '../js/urls';
+import DashboardAlertActions from '../../dashboard/state/actions/DashboardAlertActions';
 
 const SERVER_URL = 'http://localhost:8080';
 
@@ -33,13 +36,26 @@ function getDefaultState() {
         },
         canSubmit: false,
         errors: [],
+        isLoaded: false,
     };
+}
+
+function alertErrorHandler(response) {
+    const errorMessages = get(response, 'errors', []);
+    errorMessages.forEach(message => DashboardAlertActions.addAlert({
+        message,
+        bannerType: 'danger',
+        autoDismissMillis: 5000,
+    }));
 }
 
 export default class ScrabbleGameBroadcaster extends Broadcaster {
 
     constructor() {
         super();
+
+        this.reRenderMillis = 500;
+        this.disable(); // Disable broadcaster updates until we can verify the current user.
 
         this.updateGameState = this.updateGameState.bind(this);
 
@@ -53,15 +69,18 @@ export default class ScrabbleGameBroadcaster extends Broadcaster {
                 submitTiles: this.submitTiles.bind(this),
             },
         });
+    }
 
-        this.requestService = new RequestService(SERVER_URL)
-            .withResponseExtractor(extractResponse);
-
-        this.state.actions.newGame();
+    receive(state, broadcasterId) {
+        if (broadcasterId === 'UserDataBroadcaster') {
+            this.setState({ userId: state.userId });
+            if (state.isLoaded && !this.state.gameId) {
+                this.startGame();
+            }
+        }
     }
 
     updateGameState(payload) {
-        this.requestService.setPersistentPayload({ gameId: payload.id });
         const { board, player, opponent } = this.state;
         merge(board, get(payload, 'board', []));
         merge(player, get(payload, 'player', {}));
@@ -70,17 +89,13 @@ export default class ScrabbleGameBroadcaster extends Broadcaster {
             board,
             player,
             opponent,
+            gameId: payload.id,
+            gameSaved: false,
+            isLoaded: true,
         });
-
-        // TODO testing out merge
-//         this.setState({
-//             board: get(payload, 'board', []),
-//             player: get(payload, 'player', {}),
-//             opponent: get(payload, 'opponent', {}),
-//         });
     }
 
-    newGame() {
+    startGame() {
         let url = NEW_GAME_URL;
         const urlParameters = getUrlParameters();
         const gameId = get(urlParameters, 'gameId');
@@ -88,8 +103,26 @@ export default class ScrabbleGameBroadcaster extends Broadcaster {
             url = `${LOAD_GAME_URL}/${gameId}`;
         }
 
-        this.requestService.get(url)
-            .then(this.updateGameState)
+        Request.to(url)
+            .get({ credentials: 'include' })
+            .then((payload) => {
+                this.updateGameState(payload);
+                updateQueryParameters({ gameId: payload.id });
+            })
+            .catch(error => this.setState({ errors: ['There was an error communicating with the server'] }))
+            .finally(() => this.enable());
+        this.setState({
+            canSubmit: false,
+        });
+    }
+
+    newGame() {
+        Request.to(NEW_GAME_URL)
+            .get({ credentials: 'include' })
+            .then((payload) => {
+                this.updateGameState(payload);
+                updateQueryParameters({ gameId: payload.id });
+            })
             .catch(error => this.setState({ errors: ['There was an error communicating with the server.'] }));
         this.setState({
             canSubmit: false,
@@ -98,10 +131,16 @@ export default class ScrabbleGameBroadcaster extends Broadcaster {
 
     submitTiles() {
         const payload = {
+            gameId: this.state.gameId,
             tiles: get(this.state, 'player.submittedTiles', []),
         };
-        this.requestService.post(PLAY_MOVE_URL, payload)
-            .then(this.updateGameState)
+        new Request(PLAY_MOVE_URL)
+            .withBody(payload)
+            .post()
+            .then((payload) => {
+                this.updateGameState(payload);
+                this.saveGame();
+            })
             .catch(error => this.setState({ errors: ['There was an error submitting the tiles']}));
     }
 
@@ -139,8 +178,15 @@ export default class ScrabbleGameBroadcaster extends Broadcaster {
     }
 
     validatePlayerTiles(tiles) {
-        const payload = { tiles };
-        this.requestService.post(VALIDATE_MOVE_URL, payload)
+        const payload = {
+            tiles,
+            gameId: this.state.gameId,
+        };
+        Request.to(VALIDATE_MOVE_URL)
+            .withResponseExtractor(response => get(response, 'payload', []))
+            .withErrorHandler(alertErrorHandler)
+            .withBody(payload)
+            .post()
             .then((payload) => {
                 const { player } = this.state;
                 const invalidSubmittedTiles = payload || [];
@@ -200,5 +246,22 @@ export default class ScrabbleGameBroadcaster extends Broadcaster {
                 board: matrix,
             },
         });
+    }
+
+    saveGame() {
+        if (!this.state.userId) {
+            return;
+        }
+
+        const payload = {
+            gameId: this.state.gameId,
+            userId: this.state.userId,
+        };
+        Request.to(SAVE_GAME_URL)
+            .withBody(payload)
+            .post({ credentials: 'include' })
+            .then((payload) => {
+                this.setState({ gameSaved: true });
+            });
     }
 }

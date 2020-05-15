@@ -1,12 +1,12 @@
 package com.kiwiko.mvc.resolvers.data;
 
 import com.kiwiko.mvc.json.data.IntermediateJsonBody;
-import com.kiwiko.mvc.requests.data.RequestContextDTO;
+import com.kiwiko.mvc.requests.data.RequestContext;
 
 public class RequestBodyCacheData {
 
     private IntermediateJsonBody body;
-    private RequestContextDTO requestContext;
+    private RequestContext requestContext;
 
     public RequestBodyCacheData() { }
 
@@ -18,11 +18,11 @@ public class RequestBodyCacheData {
         this.body = body;
     }
 
-    public RequestContextDTO getRequestContext() {
+    public RequestContext getRequestContext() {
         return requestContext;
     }
 
-    public void setRequestContext(RequestContextDTO requestContext) {
+    public void setRequestContext(RequestContext requestContext) {
         this.requestContext = requestContext;
     }
 }

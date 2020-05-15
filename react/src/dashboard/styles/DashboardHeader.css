@@ -5,8 +5,9 @@
 
 .content {
     display: flex;
-    margin-left: 1rem;
+    margin: 1rem;
     align-items: center;
+    width: 100%;
 }
 
 .header-button {
@@ -24,6 +25,10 @@
 
 :hover(.header-button), :hover(.header-button-link) {
     color: black;
+}
+
+.header-button.login, .header-button.logout {
+    margin-left: auto;
 }
 
 .greeting {

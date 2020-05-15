@@ -1,5 +1,6 @@
-package com.kiwiko.mvc.json.data;
+package com.kiwiko.mvc.json.api;
 
+import com.kiwiko.mvc.json.data.ResponsePayload;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -10,7 +11,7 @@ import java.util.Collection;
 public class ResponseBuilder {
 
     private @Nullable Object body;
-    private Collection<String> errors;
+    private final Collection<String> errors;
     private HttpStatus status;
 
     public ResponseBuilder() {
@@ -35,7 +36,7 @@ public class ResponseBuilder {
     }
 
     public ResponseEntity<ResponsePayload> toResponseEntity() {
-        ResponsePayload payload = new ResponsePayload(body, errors);
+        ResponsePayload payload = new ResponsePayload(body, errors, status.value());
         return new ResponseEntity<>(payload, status);
     }
 

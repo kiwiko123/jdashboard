@@ -1,23 +1,24 @@
 import Broadcaster from '../../state/Broadcaster';
 import { GET_CURRENT_USER_URL } from '../js/urls';
 import Request from '../../common/js/Request';
-import { logger } from '../../common/js/logs';
+import logger from '../../common/js/logging';
 
 function getDefaultState() {
     return {
         username: null,
         userId: null,
+        isLoaded: false,
     };
 }
 
 function getCurrentUserData() {
-    return new Request(GET_CURRENT_USER_URL).get({ credentials: 'include' })
+    return Request.to(GET_CURRENT_USER_URL)
+        .get({ credentials: 'include' })
         .catch((error) => {
             logger.error('Error fetching current user data', error);
-            const defaultState = getDefaultState();
             return {
-                ...defaultState,
-                errorMessage: 'An error occurred. Please refresh or log in again.',
+                ...getDefaultState(),
+                errorMessage: 'An error occurred. Please refresh or log in again',
             };
         });
 }
@@ -32,6 +33,7 @@ export default class UserDataBroadcaster extends Broadcaster {
             .then(user => this.setState({
                 username: user.username,
                 userId: user.id,
+                isLoaded: true,
             }));
     }
 }

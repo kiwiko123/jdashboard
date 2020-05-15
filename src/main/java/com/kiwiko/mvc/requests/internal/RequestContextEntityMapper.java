@@ -1,8 +1,8 @@
 package com.kiwiko.mvc.requests.internal;
 
-import com.kiwiko.lang.reflection.properties.api.BidirectionalFieldMapper;
-import com.kiwiko.mvc.requests.data.RequestContextDTO;
+import com.kiwiko.mvc.requests.data.RequestContext;
 import com.kiwiko.mvc.requests.internal.dataAccess.RequestContextEntity;
+import com.kiwiko.persistence.properties.api.EntityMapper;
 import com.kiwiko.users.api.UserService;
 import com.kiwiko.users.data.User;
 
@@ -11,32 +11,32 @@ import javax.inject.Singleton;
 import java.util.Optional;
 
 @Singleton
-public class RequestContextEntityPropertyMapper extends BidirectionalFieldMapper<RequestContextEntity, RequestContextDTO> {
+public class RequestContextEntityMapper extends EntityMapper<RequestContextEntity, RequestContext> {
 
     @Inject
     private UserService userService;
 
     @Override
-    protected Class<RequestContextEntity> getSourceType() {
+    protected Class<RequestContextEntity> getEntityType() {
         return RequestContextEntity.class;
     }
 
     @Override
-    protected Class<RequestContextDTO> getTargetType() {
-        return RequestContextDTO.class;
+    protected Class<RequestContext> getDTOType() {
+        return RequestContext.class;
     }
 
     @Override
-    public void toSource(RequestContextDTO dto, RequestContextEntity entity) {
-        super.toSource(dto, entity);
+    public void copyToEntity(RequestContext dto, RequestContextEntity entity) {
+        super.copyToEntity(dto, entity);
         dto.getUser()
                 .map(User::getId)
                 .ifPresent(entity::setUserId);
     }
 
     @Override
-    public void toTarget(RequestContextEntity entity, RequestContextDTO dto) {
-        super.toTarget(entity, dto);
+    public void copyToDTO(RequestContextEntity entity, RequestContext dto) {
+        super.copyToDTO(entity, dto);
         Optional.ofNullable(entity.getUserId())
                 .flatMap(userService::getById)
                 .ifPresent(dto::setUser);

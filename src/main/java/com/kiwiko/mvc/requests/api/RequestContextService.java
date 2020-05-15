@@ -1,6 +1,6 @@
 package com.kiwiko.mvc.requests.api;
 
-import com.kiwiko.mvc.requests.data.RequestContextDTO;
+import com.kiwiko.mvc.requests.data.RequestContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -11,11 +11,9 @@ public interface RequestContextService {
 
     String getRequestUri(HttpServletRequest request);
 
-    Optional<RequestContextDTO> getById(long requestContextId);
+    Optional<RequestContext> getById(long requestContextId);
 
-    Collection<RequestContextDTO> getRequestContexts(String requestUri);
+    Optional<RequestContext> getFromSession(HttpSession session, String sessionKey);
 
-    Optional<RequestContextDTO> getFromSession(HttpSession session, String sessionKey);
-
-    RequestContextDTO saveRequestContext(RequestContextDTO context);
+    RequestContext saveRequestContext(RequestContext context);
 }

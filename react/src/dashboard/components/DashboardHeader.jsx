@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import IconButton from '../../common/components/IconButton';
-import { logger } from '../../common/js/logs';
+import logger from '../../common/js/logging';
 
 import '../styles/DashboardHeader.css';
 
 function onClickHeaderButton(data) {
     if (data.url) {
-        window.location.replace(data.url);
+        window.location.href = data.url;
     } else if (data.onClick) {
         data.onClick();
     } else {
@@ -36,7 +36,7 @@ function createHeaderButtons(props) {
             label: 'Log in',
             url: '/accounts/login',
             icon: 'fas fa-sign-in-alt',
-            shouldShow: props => props.isLoggedIn === false,
+            shouldShow: props => !props.isLoggedIn,
         },
         {
             id: 'logout',
@@ -65,13 +65,8 @@ function createHeaderButtons(props) {
 }
 
 const DashboardHeader = (props) => {
-    const { appId, title, isLoggedIn, username, logOut } = props;
+    const { title } = props;
     const headerButtons = createHeaderButtons(props);
-    const greeting = isLoggedIn && (
-        <div className="greeting">
-            {`Hello, ${username}`}
-        </div>
-    );
 
     return (
         <div className="DashboardHeader">
@@ -81,7 +76,6 @@ const DashboardHeader = (props) => {
                 </h1>
                 {headerButtons}
             </div>
-            {greeting}
         </div>
     );
 };

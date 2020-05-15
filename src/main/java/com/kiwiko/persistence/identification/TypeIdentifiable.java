@@ -18,7 +18,13 @@ public abstract class TypeIdentifiable<T> implements Identifiable<T> {
             return true;
         }
 
-        if (other == null || !getClass().isAssignableFrom(other.getClass())) {
+        // If the other object is null, this can't be equal to it.
+        if (other == null) {
+            return false;
+        }
+
+        // Strict type check -- if they're not exactly the same type, they're not equal.
+        if (getClass() != other.getClass()) {
             return false;
         }
 

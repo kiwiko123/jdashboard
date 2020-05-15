@@ -1,6 +1,5 @@
 package com.kiwiko.lang.types;
 
-import com.google.common.collect.ImmutableMap;
 import com.kiwiko.metrics.api.LogService;
 
 import javax.inject.Inject;
@@ -12,11 +11,15 @@ public class TypesHelper {
     @Inject
     private LogService logService;
 
-    private static final Map<Class<?>, Class<?>> objectTypesByPrimitiveType = ImmutableMap.of(
+    private static final Map<Class<?>, Class<?>> objectTypesByPrimitiveType = Map.of(
             boolean.class, Boolean.class,
             int.class, Integer.class,
             long.class, Long.class,
-            double.class, Double.class);
+            double.class, Double.class,
+            float.class, Float.class,
+            byte.class, Byte.class,
+            short.class, Short.class,
+            char.class, Character.class);
 
     private static final Map<Class<?>, Class<?>> primitiveTypesByObjectType = objectTypesByPrimitiveType.entrySet().stream()
             .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));

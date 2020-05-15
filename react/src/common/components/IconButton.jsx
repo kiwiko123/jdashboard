@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import '../styles/IconButton.css';
 
 const IconButton = ({
-    children, variant, fontAwesomeClassName, disabled, block, onClick, className, size,
+    children, variant, fontAwesomeClassName, disabled, block, onClick, className, size, type,
 }) => {
     const buttonClassName = classnames('IconButton', className);
     const iconClassName = classnames('icon', fontAwesomeClassName);
@@ -20,6 +20,7 @@ const IconButton = ({
             disabled={disabled}
             block={block}
             size={size}
+            type={type}
         >
             {icon}
             {children}
@@ -45,6 +46,7 @@ IconButton.propTypes = {
     onClick: PropTypes.func,
     className: PropTypes.string,
     size: PropTypes.oneOf(["sm", "lg", null]),
+    type: PropTypes.oneOf(['button', 'reset', 'submit', null]),
 };
 
 IconButton.defaultProps = {
@@ -56,6 +58,7 @@ IconButton.defaultProps = {
     onClick: () => {},
     className: null,
     size: null,
+    type: 'button',
 };
 
 export default IconButton;

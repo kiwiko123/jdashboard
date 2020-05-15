@@ -1,9 +1,9 @@
 package com.kiwiko.mvc.security.authentication.web;
 
 import com.kiwiko.metrics.api.LogService;
-import com.kiwiko.mvc.json.data.ResponseBuilder;
+import com.kiwiko.mvc.json.api.ResponseBuilder;
 import com.kiwiko.mvc.json.data.ResponsePayload;
-import com.kiwiko.mvc.requests.api.RequestBodyParameter;
+import com.kiwiko.mvc.requests.api.annotations.RequestBodyParameter;
 import com.kiwiko.mvc.requests.data.RequestContext;
 import com.kiwiko.mvc.security.authentication.api.annotations.CrossOriginConfigured;
 import com.kiwiko.mvc.security.sessions.api.SessionService;
@@ -52,11 +52,10 @@ public class UserAuthenticationAPIController {
         User user = userService.getWithValidation(username, password)
                 .orElse(null);
         if (user == null) {
-            return getInvalidUserResponse(username);
+            return getInvalidUserResponse();
         }
 
         sessionService.createSessionCookieForUser(user.getId(), httpServletResponse);
-
         return new ResponseBuilder()
                 .withBody(user)
                 .toResponseEntity();
@@ -92,9 +91,9 @@ public class UserAuthenticationAPIController {
                 .toResponseEntity();
     }
 
-    private ResponseEntity<ResponsePayload> getInvalidUserResponse(String username) {
+    private ResponseEntity<ResponsePayload> getInvalidUserResponse() {
         return new ResponseBuilder()
-                .withError(String.format("No user found with username \"%s\"", username))
+                .withError("No user found with those credentials")
                 .toResponseEntity();
     }
 }

@@ -1,10 +1,9 @@
 package com.kiwiko.games.scrabble.words.web;
 
 import com.kiwiko.games.scrabble.words.api.WordService;
-import com.kiwiko.games.scrabble.words.data.Word;
 import com.kiwiko.games.scrabble.words.internal.unixlocal.WordMigrator;
 import com.kiwiko.games.scrabble.words.internal.unixlocal.data.WordMigratorParameters;
-import com.kiwiko.mvc.json.data.ResponseBuilder;
+import com.kiwiko.mvc.json.api.ResponseBuilder;
 import com.kiwiko.mvc.json.data.ResponsePayload;
 import com.kiwiko.mvc.security.environments.data.EnvironmentProperties;
 import org.springframework.http.ResponseEntity;

@@ -14,12 +14,17 @@ export default function ScrabblePlayPage({ history }) {
 
   scrabbleGameBroadcaster.register(scrabbleErrorBroadcaster);
 
+  const pageBroadcasterSubscribers = {
+    userDataBroadcaster: [scrabbleGameBroadcaster],
+  };
+
   return (
       <DashboardPage
         className="ScrabblePlayPage"
         title="Scrabble"
         appId="scrabble"
         history={history}
+        broadcasterSubscribers={pageBroadcasterSubscribers}
       >
         <ReceivingElement
             broadcaster={scrabbleGameBroadcaster}

@@ -2,9 +2,7 @@ package com.kiwiko.mvc.resolvers;
 
 import com.kiwiko.mvc.requests.api.RequestContextService;
 import com.kiwiko.mvc.requests.api.RequestError;
-import com.kiwiko.mvc.requests.internal.data.ReadOnlyRequestContextDTO;
 import com.kiwiko.mvc.requests.data.RequestContext;
-import com.kiwiko.mvc.requests.data.RequestContextDTO;
 import com.kiwiko.mvc.security.sessions.data.SessionProperties;
 import org.springframework.core.MethodParameter;
 import org.springframework.lang.Nullable;
@@ -18,9 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 /**
- * Resolver that allows the retrieval of a {@link RequestContextDTO} object by way of method argument.
+ * Resolver that allows the retrieval of a {@link RequestContext} object by way of method argument.
  * For any method represented by a {@link org.springframework.web.bind.annotation.RequestMapping},
- * add an argument of type {@link RequestContextDTO} to gain information about the current request.
+ * add an argument of type {@link RequestContext} to gain information about the current request.
  */
 public class RequestContextResolver implements HandlerMethodArgumentResolver {
 
@@ -44,7 +42,6 @@ public class RequestContextResolver implements HandlerMethodArgumentResolver {
                 .map(session -> session.getAttribute(SessionProperties.REQUEST_CONTEXT_ID_SESSION_KEY))
                 .map(requestContextId -> (Long) requestContextId)
                 .flatMap(requestContextService::getById)
-                .map(ReadOnlyRequestContextDTO::new)
                 .orElseThrow(() -> new RequestError(
                         String.format("Failed to find RequestContext for \"%s\"", httpServletRequest.getRequestURI())));
     }

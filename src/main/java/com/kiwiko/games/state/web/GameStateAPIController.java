@@ -3,7 +3,7 @@ package com.kiwiko.games.state.web;
 import com.kiwiko.games.state.api.GameStateService;
 import com.kiwiko.games.state.data.GameState;
 import com.kiwiko.games.state.data.GameType;
-import com.kiwiko.mvc.json.data.ResponseBuilder;
+import com.kiwiko.mvc.json.api.ResponseBuilder;
 import com.kiwiko.mvc.json.data.ResponsePayload;
 import com.kiwiko.mvc.security.environments.data.EnvironmentProperties;
 import org.springframework.http.HttpStatus;

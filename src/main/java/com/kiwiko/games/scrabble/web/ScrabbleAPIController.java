@@ -4,20 +4,25 @@ import com.kiwiko.games.scrabble.game.data.ScrabbleTile;
 import com.kiwiko.games.scrabble.game.logic.ScrabbleCreateGameHelper;
 import com.kiwiko.games.scrabble.game.logic.ScrabbleGameHelper;
 import com.kiwiko.games.scrabble.game.logic.ScrabbleMoveHelper;
-import com.kiwiko.mvc.requests.api.RequestBodyCollectionParameter;
-import com.kiwiko.mvc.requests.api.RequestBodyParameter;
-import com.kiwiko.mvc.json.data.ResponseBuilder;
+import com.kiwiko.mvc.requests.api.annotations.RequestBodyCollectionParameter;
+import com.kiwiko.mvc.requests.api.annotations.RequestBodyParameter;
+import com.kiwiko.mvc.json.api.ResponseBuilder;
 import com.kiwiko.mvc.json.data.ResponsePayload;
 import com.kiwiko.games.scrabble.api.ScrabbleGameService;
 import com.kiwiko.games.scrabble.game.data.ScrabbleGame;
 import com.kiwiko.games.scrabble.game.data.ScrabbleSubmittedTile;
+import com.kiwiko.mvc.requests.data.RequestContext;
 import com.kiwiko.mvc.security.environments.data.EnvironmentProperties;
+import com.kiwiko.users.api.UserService;
+import com.kiwiko.users.data.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
@@ -40,6 +45,20 @@ public class ScrabbleAPIController {
 
     @Inject
     private ScrabbleMoveHelper scrabbleMoveHelper;
+
+    @Inject
+    private UserService userService;
+
+    @GetMapping("/scrabble/api/start-game")
+    public ResponseEntity<ResponsePayload> startGame(
+            @RequestParam(value = "gameId", required = false) @Nullable Long gameId,
+            RequestContext requestContext) {
+        User user = requestContext.getUser().orElse(null);
+        ScrabbleGame game = scrabbleCreateGameHelper.getOrCreateGame(user, gameId);
+        return new ResponseBuilder()
+                .withBody(game)
+                .toResponseEntity();
+    }
 
     @GetMapping(path = "/scrabble/api/new-game")
     public ResponseEntity<ResponsePayload> newGame() {
@@ -117,6 +136,37 @@ public class ScrabbleAPIController {
                     .toResponseEntity();
         }
 
+        return ResponseBuilder.ok();
+    }
+
+    @GetMapping("/scrabble/api/find-game/most-recent/by-user/{userId}")
+    public ResponseEntity<ResponsePayload> findMostRecentGameByUser(@PathVariable("userId") Long userId) {
+        ScrabbleGame game = scrabbleGameService.findMostRecentGameForUser(userId)
+                .orElse(null);
+        return new ResponseBuilder()
+                .withBody(game)
+                .toResponseEntity();
+    }
+
+    @PostMapping("/scrabble/api/save-game")
+    public ResponseEntity<ResponsePayload> saveGameForUser(
+            @RequestBodyParameter(name = "gameId") long gameId,
+            @RequestBodyParameter(name = "userId") long userId) {
+        User user = userService.getById(userId)
+                .orElse(null);
+        if (user == null) {
+            return new ResponseBuilder()
+                    .withError("No matching user found")
+                    .toResponseEntity();
+        }
+
+        ScrabbleGame game = scrabbleGameService.getGameById(gameId)
+                .orElse(null);
+        if (game == null) {
+            return gameNotFoundResponse(gameId);
+        }
+
+        scrabbleGameService.saveGameForUser(gameId, userId);
         return ResponseBuilder.ok();
     }
 

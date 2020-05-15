@@ -2,7 +2,6 @@ import React, { PureComponent, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import Broadcaster from '../Broadcaster';
-import { logger } from '../../common/js/logs';
 
 let id = 0;
 
@@ -24,6 +23,12 @@ export default class ReceivingElement extends PureComponent {
     static defaultProps = {
         waitForBroadcaster: false,
     };
+
+    componentDidUpdate(prevProps) {
+        if (this.props.broadcaster.constructor.getId() !== prevProps.broadcaster.constructor.getId()) {
+            prevProps.broadcaster.removeUpdater(this.id);
+        }
+    }
 
     componentWillUnmount() {
         this.props.broadcaster.removeUpdater(this.id);
@@ -56,9 +61,6 @@ export default class ReceivingElement extends PureComponent {
     }
 
     update() {
-        const { updateCount } = this.state;
-        const { broadcaster } = this.props;
-        this.setState({ updateCount: updateCount + 1 });
-        logger.debug(`ReceivingElement ${broadcaster.constructor.getId()} re-render #${updateCount}`);
+        this.forceUpdate();
     }
 }
