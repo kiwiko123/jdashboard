@@ -23,8 +23,8 @@ public class UserGameStateAssociationEntityFieldMapper extends FieldMapper<UserG
     }
 
     @Override
-    public void toTarget(UserGameStateAssociationEntity source, UserGameStateAssociation destination) throws PropertyMappingException {
-        super.toTarget(source, destination);
+    public void copyToTarget(UserGameStateAssociationEntity source, UserGameStateAssociation destination) throws PropertyMappingException {
+        super.copyToTarget(source, destination);
 
         userService.getById(source.getUserId())
                 .ifPresent(destination::setUser);

@@ -55,7 +55,7 @@ public class FieldMapperHelper {
 
     public <S, T> void copyField(Field field, S source, T target) throws PropertyMappingException {
         Field targetField = reflectionHelper.findField(target.getClass(), field.getName())
-                .orElseThrow(() -> new IllegalArgumentException(String.format("No such field \"%s\"", field.getName())));
+                .orElseThrow(() -> new PropertyMappingException(String.format("No such field \"%s\"", field.getName())));
 
         // Make the fields accessible.
         field.trySetAccessible();

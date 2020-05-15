@@ -37,7 +37,7 @@ public class GameStateEntityService implements GameStateService {
     @Override
     public Optional<GameState> findForGame(GameType gameType, long gameId) {
         return gameStateEntityDAO.findForGame(gameType, gameId)
-                .map(mapper::toTargetType);
+                .map(mapper::toDTO);
     }
 
     @Override
@@ -62,9 +62,9 @@ public class GameStateEntityService implements GameStateService {
     @Transactional
     @Override
     public GameState saveGameState(GameState gameState) {
-        GameStateEntity entity = mapper.toSourceType(gameState);
+        GameStateEntity entity = mapper.toEntity(gameState);
         GameStateEntity managedEntity = gameStateEntityDAO.save(entity);
-        return mapper.toTargetType(managedEntity);
+        return mapper.toDTO(managedEntity);
     }
 
     @Transactional(readOnly = true)
@@ -79,7 +79,7 @@ public class GameStateEntityService implements GameStateService {
     @Override
     public Optional<GameState> getById(long gameStateId) {
         return gameStateEntityDAO.getById(gameStateId)
-                .map(mapper::toTargetType);
+                .map(mapper::toDTO);
     }
 
     @Transactional
@@ -104,7 +104,7 @@ public class GameStateEntityService implements GameStateService {
     @Override
     public Collection<GameState> findGamesForUser(long userId, GameType gameType) {
         return gameStateEntityDAO.findByGameTypeAndUser(gameType, userId).stream()
-                .map(mapper::toTargetType)
+                .map(mapper::toDTO)
                 .collect(Collectors.toSet());
     }
 }

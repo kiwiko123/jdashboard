@@ -26,21 +26,21 @@ public class UserEntityService implements UserService {
     @Override
     public Optional<User> getById(long id) {
         return userEntityDAO.getById(id)
-                .map(mapper::toTargetType);
+                .map(mapper::toDTO);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Optional<User> getByUsername(String username) {
         return userEntityDAO.getByUsername(username)
-                .map(mapper::toTargetType);
+                .map(mapper::toDTO);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Optional<User> getByEmailAddress(String emailAddress) {
         return userEntityDAO.getByEmailAddress(emailAddress)
-                .map(mapper::toTargetType);
+                .map(mapper::toDTO);
     }
 
     @Transactional
@@ -50,12 +50,12 @@ public class UserEntityService implements UserService {
             throw new PersistenceException(String.format("User with email address \"%s\" already exists", user.getEmailAddress()));
         }
 
-        UserEntity entity = mapper.toSourceType(user);
+        UserEntity entity = mapper.toEntity(user);
         String encryptedPassword = passwordService.encryptPassword(user.getEncryptedPassword());
         entity.setEncryptedPassword(encryptedPassword);
 
         UserEntity managedEntity = userEntityDAO.save(entity);
-        return mapper.toTargetType(managedEntity);
+        return mapper.toDTO(managedEntity);
     }
 
     @Transactional(readOnly = true)

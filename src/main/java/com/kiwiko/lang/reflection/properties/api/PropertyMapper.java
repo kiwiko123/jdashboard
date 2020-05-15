@@ -9,10 +9,10 @@ public interface PropertyMapper<SourceType, TargetType> {
      * @param source the object from which fields will be copied
      * @param destination the object to which fields will be copied
      */
-    void toTarget(SourceType source, TargetType destination);
+    void copyToTarget(SourceType source, TargetType destination);
 
     /**
-     * Like {@link #toTarget(Object, Object)}, but copies the source's fields into a new instance of the target class.
+     * Like {@link #copyToTarget(Object, Object)}, but copies the source's fields into a new instance of the target class.
      *
      * @param source the object from which fields will be copied
      * @return a new instance of the target class whose fields have been mapped from the source

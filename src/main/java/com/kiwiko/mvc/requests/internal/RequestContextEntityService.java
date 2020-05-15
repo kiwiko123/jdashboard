@@ -9,9 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Collection;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class RequestContextEntityService implements RequestContextService {
 
@@ -21,7 +19,7 @@ public class RequestContextEntityService implements RequestContextService {
     private RequestContextEntityDAO requestContextEntityDAO;
 
     @Inject
-    private RequestContextEntityPropertyMapper mapper;
+    private RequestContextEntityMapper mapper;
 
     @Override
     public String getRequestUri(HttpServletRequest request) {
@@ -32,7 +30,7 @@ public class RequestContextEntityService implements RequestContextService {
     @Override
     public Optional<RequestContext> getById(long requestContextId) {
         return requestContextEntityDAO.getById(requestContextId)
-                .map(mapper::toTargetType);
+                .map(mapper::toDTO);
     }
 
     @Override
@@ -46,8 +44,8 @@ public class RequestContextEntityService implements RequestContextService {
     @Transactional
     @Override
     public RequestContext saveRequestContext(RequestContext context) {
-        RequestContextEntity entity = mapper.toSourceType(context);
+        RequestContextEntity entity = mapper.toEntity(context);
         RequestContextEntity result = requestContextEntityDAO.save(entity);
-        return mapper.toTargetType(result);
+        return mapper.toDTO(result);
     }
 }

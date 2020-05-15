@@ -13,14 +13,14 @@ public abstract class BidirectionalFieldMapper<SourceType, TargetType>
     protected abstract Class<SourceType> getSourceType();
 
     @Override
-    public void toSource(TargetType source, SourceType destination) {
+    public void copyToSource(TargetType source, SourceType destination) {
         copyFieldsToObject(source, destination);
     }
 
     @Override
     public SourceType toSourceType(TargetType source) {
         SourceType result = createDefaultInstance(getSourceType());
-        toSource(source, result);
+        copyToSource(source, result);
         return result;
     }
 }
