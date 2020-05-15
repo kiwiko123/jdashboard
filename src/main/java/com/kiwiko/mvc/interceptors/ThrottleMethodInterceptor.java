@@ -6,8 +6,8 @@ import com.kiwiko.memory.performance.api.errors.ThrottleException;
 import com.kiwiko.metrics.api.LogService;
 import com.kiwiko.mvc.interceptors.api.ContextMethodInterceptor;
 import com.kiwiko.mvc.interceptors.data.MethodContext;
-import com.kiwiko.mvc.lifecycle.dependencies.manual.api.annotations.InjectManually;
 
+import javax.inject.Inject;
 import java.lang.reflect.Method;
 import java.time.Duration;
 
@@ -15,10 +15,10 @@ public class ThrottleMethodInterceptor extends ContextMethodInterceptor {
 
     private boolean canInvokeMethod;
 
-    @InjectManually
+    @Inject
     private CacheService cacheService;
 
-    @InjectManually
+    @Inject
     private LogService logService;
 
     @Override

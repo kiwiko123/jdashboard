@@ -16,9 +16,9 @@ public enum GameType {
         return name;
     }
 
-    public static Optional<GameType> getById(String id) {
+    public static Optional<GameType> getByName(String name) {
         return Arrays.stream(values())
-                .filter(gameType -> gameType.toString().equalsIgnoreCase(id))
+                .filter(gameType -> gameType.toString().equalsIgnoreCase(name) || gameType.getName().equalsIgnoreCase(name))
                 .findFirst();
     }
 }

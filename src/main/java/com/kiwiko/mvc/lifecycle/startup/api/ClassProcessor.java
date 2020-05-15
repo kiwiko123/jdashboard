@@ -2,6 +2,7 @@ package com.kiwiko.mvc.lifecycle.startup.api;
 
 import com.kiwiko.metrics.api.LogService;
 import com.kiwiko.metrics.impl.ConsoleLogService;
+import com.kiwiko.mvc.lifecycle.dependencies.manual.api.annotations.InjectManually;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -12,11 +13,8 @@ import java.util.stream.Collectors;
 
 public class ClassProcessor {
 
-    protected final LogService logService;
-
-    public ClassProcessor() {
-        logService = new ConsoleLogService();
-    }
+    @InjectManually
+    protected LogService logService;
 
     protected void processMethods(Collection<Method> methods) { }
 
@@ -25,7 +23,14 @@ public class ClassProcessor {
     protected void processClass(Class<?> clazz) { }
 
     public void process(Class<?> clazz) {
-        processClass(clazz);
+        logService.debug(String.format("[%s] Processing class %s", getClass().getSimpleName(), clazz.getName()));
+
+        try {
+            processClass(clazz);
+        } catch (Exception e) {
+            logService.error(String.format("Error processing class %s", clazz.getName()), e);
+            handleException(e);
+        }
 
         Collection<Field> fields = Arrays.stream(clazz.getDeclaredFields())
                 .collect(Collectors.toSet());
@@ -33,6 +38,7 @@ public class ClassProcessor {
             processFields(fields);
         } catch (Exception e) {
             logService.error(String.format("Error processing fields for class %s", clazz.getName()), e);
+            handleException(e);
         }
 
         Collection<Method> methods = Arrays.stream(clazz.getDeclaredMethods())
@@ -41,8 +47,11 @@ public class ClassProcessor {
             processMethods(methods);
         } catch (Exception e) {
             logService.error(String.format("Error processing methods for class %s", clazz.getName()), e);
+            handleException(e);
         }
     }
+
+    protected void handleException(Exception exception) throws RuntimeException { }
 
     @Override
     public boolean equals(Object other) {

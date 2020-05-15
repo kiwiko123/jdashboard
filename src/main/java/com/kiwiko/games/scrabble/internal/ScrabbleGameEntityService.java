@@ -1,72 +1,68 @@
 package com.kiwiko.games.scrabble.internal;
 
 import com.kiwiko.games.scrabble.api.ScrabbleGameService;
+import com.kiwiko.games.scrabble.errors.ScrabbleException;
 import com.kiwiko.games.scrabble.game.data.ScrabbleGame;
-import com.kiwiko.games.scrabble.game.logic.ScrabbleCreateGameHelper;
 import com.kiwiko.games.state.api.GameStateService;
 import com.kiwiko.games.state.data.GameState;
 import com.kiwiko.games.state.data.GameType;
-import com.kiwiko.memory.caching.api.CacheService;
-import com.kiwiko.metrics.api.LogService;
-import com.kiwiko.mvc.json.api.PropertyObjectMapper;
-import com.kiwiko.mvc.json.api.errors.JsonException;
+import com.kiwiko.mvc.json.api.JsonMapper;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.Comparator;
 import java.util.Optional;
 
 public class ScrabbleGameEntityService implements ScrabbleGameService {
-
-    private static final int gameBoardDimensions = 10;
-    private static final int numberOfAvailableTiles = 8;
-
-    @Inject
-    private CacheService cacheService;
-
-    @Inject
-    private ScrabbleCreateGameHelper gameHelper;
 
     @Inject
     private GameStateService gameStateService;
 
     @Inject
-    private PropertyObjectMapper propertyObjectMapper;
-
-    @Inject
-    private LogService logService;
+    private JsonMapper jsonMapper;
 
     public Optional<ScrabbleGame> getGameById(long gameId) {
-        GameState gameState = gameStateService.findForGame(GameType.SCRABBLE, gameId)
-                .orElse(null);
-        if (gameState == null) {
-            logService.warn(String.format("No Scrabble game found with ID %d", gameId));
-            return Optional.empty();
-        }
-
-        String gameStateJson = gameState.getGameStateJson()
-                .orElse(null);
-        if (gameStateJson == null) {
-            logService.warn(String.format("No Scrabble game state found for game ID %d", gameId));
-            return Optional.empty();
-        }
-
-        ScrabbleGame game = null;
-        try {
-            game = propertyObjectMapper.readValue(gameStateJson, ScrabbleGame.class);
-        } catch (JsonException e) {
-            logService.error(String.format("Error converting game state into ScrabbleGame for game ID %d", gameId), e);
-        }
-
-        return Optional.ofNullable(game);
+        return gameStateService.reconstructGame(GameType.SCRABBLE, gameId, ScrabbleGame.class);
     }
 
     public void saveGame(ScrabbleGame game) {
-        String gameJson = propertyObjectMapper.writeValueAsString(game);
+        GameState gameState = getGameStateFromGame(game);
+        gameStateService.saveGameState(gameState);
+    }
 
+    @Transactional
+    @Override
+    public void saveGameForUser(long gameId, long userId) {
+        ScrabbleGame game = getGameById(gameId)
+                .orElseThrow(() -> new ScrabbleException(String.format("No game found with ID %d", gameId)));
+        GameState gameState = getGameStateFromGame(game);
+        gameStateService.saveForUser(gameState, userId);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<ScrabbleGame> findMostRecentGameForUser(long userId) {
+        return gameStateService.findGamesForUser(userId, GameType.SCRABBLE).stream()
+                .max(Comparator.comparing(GameState::getCreatedDate))
+                .map(GameState::getGameId)
+                .flatMap(this::getGameById);
+    }
+
+    private GameState createNewScrabbleGameState(ScrabbleGame game) {
         GameState gameState = new GameState();
         gameState.setGameType(GameType.SCRABBLE);
         gameState.setGameId(game.getId());
+
+        return gameState;
+    }
+
+    private GameState getGameStateFromGame(ScrabbleGame game) {
+        String gameJson = jsonMapper.writeValueAsString(game);
+
+        GameState gameState = gameStateService.findForGame(GameType.SCRABBLE, game.getId())
+                .orElseGet(() -> createNewScrabbleGameState(game));
         gameState.setGameStateJson(gameJson);
 
-        gameStateService.saveGameState(gameState);
+        return gameState;
     }
 }

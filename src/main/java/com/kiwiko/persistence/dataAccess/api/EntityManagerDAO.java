@@ -30,6 +30,19 @@ public abstract class EntityManagerDAO<T extends Identifiable<Long>> {
 
     protected abstract Class<T> getEntityType();
 
+    public Optional<T> getById(long id) {
+        T entity = entityManager.find(entityType, id);
+        return Optional.ofNullable(entity);
+    }
+
+    /**
+     * Similar idea to {@link #getById(long)}, but returns a proxy -- an object whose fields may be lazily fetched.
+     * As such, this _may_ be more performant when an entity's fields are not needed.
+     * That being said, this does not guarantee that all fields will be lazily fetched.
+     *
+     * @param id the record's ID
+     * @return a proxy for the fetched entity
+     */
     public Optional<T> getProxyById(long id) {
         T proxy = null;
         try {
@@ -40,16 +53,25 @@ public abstract class EntityManagerDAO<T extends Identifiable<Long>> {
         return Optional.ofNullable(proxy);
     }
 
-    public Optional<T> getById(long id) {
-        T entity = entityManager.find(entityType, id);
-        return Optional.ofNullable(entity);
-    }
-
+    /**
+     * Performs a single bulk database fetch for all the entities with the given IDs.
+     * Prefer this over {@link #getById(long)} when multiple entities of the same type need to be fetched.
+     *
+     * @param ids the ids to fetch
+     * @return all entities matching the given IDs
+     */
     public Collection<T> getByIds(Collection<Long> ids) {
         CriteriaQuery<T> query = selectWhereIn("id", ids);
         return createQuery(query).getResultList();
     }
 
+    /**
+     * Persists the given entity in the database.
+     * The entity can be managed or unmanaged.
+     *
+     * @param entity the entity to persist
+     * @return the entity that was saved, which can possibly be managed
+     */
     public T save(T entity) {
         return entityManager.merge(entity);
     }
@@ -59,6 +81,10 @@ public abstract class EntityManagerDAO<T extends Identifiable<Long>> {
                 .orElseThrow(() -> new PersistenceException(
                         String.format("Failed to find entity of type %s with ID %d", entity.getClass().getName(), entity.getId())));
         entityManager.remove(managedEntity);
+    }
+
+    public void flush() {
+        entityManager.flush();
     }
 
     protected CriteriaBuilder criteriaBuilder() {

@@ -8,7 +8,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * A class that uses reflection to copy values from one object to another.
+ * A class that uses reflection to copy field values from one object to another.
+ * Fields with matching names and equivalent types are copied.
+ *
  * @param <SourceType>
  * @param <TargetType>
  */
@@ -28,14 +30,14 @@ public abstract class FieldMapper<SourceType, TargetType> implements PropertyMap
      * {@inheritDoc}
      */
     @Override
-    public void toTarget(SourceType source, TargetType destination) throws PropertyMappingException {
+    public void copyToTarget(SourceType source, TargetType destination) throws PropertyMappingException {
         copyFieldsToObject(source, destination);
     }
 
     @Override
     public TargetType toTargetType(SourceType source) throws PropertyMappingException {
         TargetType result = createDefaultInstance(getTargetType());
-        toTarget(source, result);
+        copyToTarget(source, result);
         return result;
     }
 

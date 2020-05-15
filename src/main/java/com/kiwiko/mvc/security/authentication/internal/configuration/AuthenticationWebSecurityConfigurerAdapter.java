@@ -26,6 +26,8 @@ public class AuthenticationWebSecurityConfigurerAdapter extends WebSecurityConfi
 
     private void configureForTestEnvironment(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
+                .cors()
+                .and()
                 .csrf().disable()
                 .authorizeRequests()
                 .anyRequest().permitAll();

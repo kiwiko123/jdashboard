@@ -1,11 +1,11 @@
 package com.kiwiko.persistence.dataAccess.data;
 
 import com.kiwiko.persistence.dataAccess.api.AuditableEntity;
+import com.kiwiko.persistence.identification.TypeIdentifiable;
 
 import java.time.Instant;
-import java.util.Objects;
 
-public abstract class AuditableDataEntityDTO implements AuditableEntity {
+public abstract class AuditableDataEntityDTO extends TypeIdentifiable<Long> implements AuditableEntity {
 
     private Long id;
     private Instant createdDate;
@@ -50,23 +50,5 @@ public abstract class AuditableDataEntityDTO implements AuditableEntity {
     @Override
     public void setIsRemoved(boolean isRemoved) {
         this.isRemoved = isRemoved;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        }
-        if (other == null || !AuditableDataEntityDTO.class.isAssignableFrom(other.getClass())) {
-            return false;
-        }
-
-        AuditableDataEntityDTO otherDTO = (AuditableDataEntityDTO) other;
-        return Objects.equals(getId(), otherDTO.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
     }
 }

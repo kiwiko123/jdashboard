@@ -7,11 +7,13 @@ import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.Collection;
 import java.util.Optional;
 
 @Singleton
@@ -73,5 +75,26 @@ public class GameStateEntityDAO extends AuditableEntityManagerDAO<GameStateEntit
         }
 
         return Optional.ofNullable(maxGameIdValue);
+    }
+
+    public Collection<GameStateEntity> findForUser(long userId) {
+        String queryString = "SELECT gs.* FROM game_states gs " +
+                "JOIN user_game_state_associations ugsa ON gs.game_state_id = ugsa.game_state_id " +
+                String.format("WHERE ugsa.user_id = %d ", userId) +
+                "AND gs.is_removed = false;";
+
+        return entityManager.createNativeQuery(queryString, GameStateEntity.class)
+                .getResultList();
+    }
+
+    public Collection<GameStateEntity> findByGameTypeAndUser(GameType gameType, long userId) {
+        String queryString = "SELECT gs.* FROM game_states gs " +
+                "JOIN user_game_state_associations ugsa ON gs.game_state_id = ugsa.game_state_id " +
+                String.format("WHERE ugsa.user_id = %d ", userId) +
+                String.format("AND gs.game_type = '%s' ", gameType.toString()) +
+                "AND gs.is_removed = false;";
+
+        return entityManager.createNativeQuery(queryString, GameStateEntity.class)
+                .getResultList();
     }
 }

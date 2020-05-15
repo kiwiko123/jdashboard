@@ -2,16 +2,28 @@ package com.kiwiko.users.data;
 
 import com.kiwiko.persistence.dataAccess.data.AuditableDataEntityDTO;
 
+import javax.annotation.Nullable;
+import java.util.Optional;
+
 public class User extends AuditableDataEntityDTO {
 
-    private String emailAddress;
+    private String username;
+    private @Nullable String emailAddress;
     private String encryptedPassword;
 
-    public String getEmailAddress() {
-        return emailAddress;
+    public String getUsername() {
+        return username;
     }
 
-    public void setEmailAddress(String emailAddress) {
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Optional<String> getEmailAddress() {
+        return Optional.ofNullable(emailAddress);
+    }
+
+    public void setEmailAddress(@Nullable String emailAddress) {
         this.emailAddress = emailAddress;
     }
 

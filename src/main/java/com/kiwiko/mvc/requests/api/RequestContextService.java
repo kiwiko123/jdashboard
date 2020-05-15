@@ -13,8 +13,6 @@ public interface RequestContextService {
 
     Optional<RequestContext> getById(long requestContextId);
 
-    Collection<RequestContext> getRequestContexts(String requestUri);
-
     Optional<RequestContext> getFromSession(HttpSession session, String sessionKey);
 
     RequestContext saveRequestContext(RequestContext context);

@@ -5,24 +5,28 @@ import com.kiwiko.memory.caching.internal.InMemoryCacheService;
 import com.kiwiko.memory.performance.api.annotations.Throttle;
 import com.kiwiko.metrics.api.CaptureMetrics;
 import com.kiwiko.mvc.configuration.ConfigurationHelper;
+import com.kiwiko.mvc.interceptors.AuthenticationRequiredInterceptor;
 import com.kiwiko.mvc.interceptors.CaptureMetricsMethodInterceptor;
 import com.kiwiko.mvc.interceptors.RequestContextInterceptor;
 import com.kiwiko.mvc.interceptors.RequestErrorInterceptor;
 import com.kiwiko.metrics.api.LogService;
 import com.kiwiko.metrics.impl.ConsoleLogService;
 import com.kiwiko.mvc.interceptors.ThrottleMethodInterceptor;
+import com.kiwiko.mvc.interceptors.internal.SessionRequestHelper;
 import com.kiwiko.mvc.lifecycle.dependencies.manual.data.InjectManuallyConfigurer;
 import com.kiwiko.mvc.requests.internal.InMemoryRequestContextService;
-import com.kiwiko.mvc.json.api.PropertyObjectMapper;
+import com.kiwiko.mvc.json.api.JsonMapper;
 import com.kiwiko.mvc.resolvers.RequestBodyCollectionParameterResolver;
 import com.kiwiko.mvc.resolvers.RequestBodyParameterResolver;
 import com.kiwiko.mvc.resolvers.RequestContextResolver;
 import com.kiwiko.mvc.security.environments.api.EnvironmentService;
+import com.kiwiko.mvc.security.environments.data.EnvironmentProperties;
 import com.kiwiko.mvc.security.environments.internal.WebApplicationEnvironmentService;
 import org.springframework.aop.Advisor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -48,6 +52,14 @@ public class MvcConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(requestContextInterceptor());
         registry.addInterceptor(requestErrorInterceptor());
+        registry.addInterceptor(authenticationRequiredInterceptor());
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry
+                .addMapping("/**")
+                .allowedOrigins(EnvironmentProperties.CROSS_ORIGIN_URL);
     }
 
     @Bean
@@ -56,8 +68,8 @@ public class MvcConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    public PropertyObjectMapper propertyObjectMapper() {
-        return new PropertyObjectMapper();
+    public JsonMapper propertyObjectMapper() {
+        return new JsonMapper();
     }
 
     @Bean
@@ -73,6 +85,11 @@ public class MvcConfiguration implements WebMvcConfigurer {
     @Bean
     public LogService logService() {
         return new ConsoleLogService();
+    }
+
+    @Bean
+    public SessionRequestHelper sessionRequestHelper() {
+        return new SessionRequestHelper();
     }
 
     @Bean
@@ -98,6 +115,11 @@ public class MvcConfiguration implements WebMvcConfigurer {
     @Bean
     public RequestErrorInterceptor requestErrorInterceptor() {
         return new RequestErrorInterceptor();
+    }
+
+    @Bean
+    public AuthenticationRequiredInterceptor authenticationRequiredInterceptor() {
+        return new AuthenticationRequiredInterceptor();
     }
 
     @Bean

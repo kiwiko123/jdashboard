@@ -2,8 +2,11 @@ package com.kiwiko.mvc.lifecycle.startup.internal;
 
 import com.kiwiko.Application;
 import com.kiwiko.metrics.api.LogService;
+import com.kiwiko.metrics.impl.ConsoleLogService;
 import com.kiwiko.mvc.lifecycle.dependencies.manual.api.annotations.InjectManually;
+import com.kiwiko.mvc.lifecycle.dependencies.manual.data.InjectManuallyConfigurer;
 import com.kiwiko.mvc.lifecycle.startup.api.ClassProcessor;
+import com.kiwiko.mvc.lifecycle.startup.api.errors.LifecycleException;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.RegexPatternTypeFilter;
@@ -18,15 +21,20 @@ import java.util.stream.Collectors;
 public class ClassScanner {
 
     private final Set<ClassProcessor> classProcessors;
-    @InjectManually private LogService logService;
+
+    @InjectManually
+    private LogService logService;
 
     public ClassScanner() {
         classProcessors = new HashSet<>();
     }
 
     public <T extends ClassProcessor> ClassScanner register(Class<T> classProcessorType) {
-        createClassProcessor(classProcessorType)
-                .ifPresent(classProcessors::add);
+        T processor = new InjectManuallyConfigurer<T>()
+                .withBinding(LogService.class, ConsoleLogService.class)
+                .withInstance(createClassProcessor(classProcessorType))
+                .create();
+        classProcessors.add(processor);
         return this;
     }
 
@@ -34,6 +42,7 @@ public class ClassScanner {
         ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
         provider.addIncludeFilter(new RegexPatternTypeFilter(Pattern.compile(".*")));
         Set<Class<?>> whitelistedClasses = getWhitelistedClasses(provider);
+
         return provider.findCandidateComponents("com.kiwiko").stream()
                 .map(BeanDefinition::getBeanClassName)
                 .map(this::toClass)
@@ -50,15 +59,12 @@ public class ClassScanner {
         }
     }
 
-    private <T extends ClassProcessor> Optional<T> createClassProcessor(Class<T> clazz) {
-        T result = null;
+    private <T extends ClassProcessor> T createClassProcessor(Class<T> clazz) {
         try {
-            result = clazz.getDeclaredConstructor().newInstance();
+            return clazz.getDeclaredConstructor().newInstance();
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            logService.error(String.format("Failed to create ClassProcessor instance for %s", clazz.getName()), e);
+            throw new LifecycleException(String.format("Failed to create ClassProcessor instance for %s", clazz.getName()), e);
         }
-
-        return Optional.ofNullable(result);
     }
 
     private Optional<Class<?>> toClass(String className) {

@@ -1,12 +1,16 @@
-import { get, merge } from 'lodash';
+import { get, merge, set } from 'lodash';
 import Broadcaster from '../../state/Broadcaster';
-import { createAction } from '../../state/actions';
-import { RequestService, extractResponse, handleErrors } from '../../common/js/requests';
+import Request from '../../common/js/Request';
+import { getUrlParameters, updateQueryParameters } from '../../common/js/urltools';
 import {
     NEW_GAME_URL,
+    LOAD_GAME_URL,
+    START_GAME_URL,
     VALIDATE_MOVE_URL,
     PLAY_MOVE_URL,
+    SAVE_GAME_URL,
 } from '../js/urls';
+import DashboardAlertActions from '../../dashboard/state/actions/DashboardAlertActions';
 
 const SERVER_URL = 'http://localhost:8080';
 
@@ -23,6 +27,7 @@ function getDefaultState() {
             availableTiles: [],
             playedTiles: [],
             submittedTiles: [],
+            invalidSubmittedTiles: [],
         },
         opponent: {
             id: null,
@@ -30,7 +35,18 @@ function getDefaultState() {
             playedTiles: [],
         },
         canSubmit: false,
+        errors: [],
+        isLoaded: false,
     };
+}
+
+function alertErrorHandler(response) {
+    const errorMessages = get(response, 'errors', []);
+    errorMessages.forEach(message => DashboardAlertActions.addAlert({
+        message,
+        bannerType: 'danger',
+        autoDismissMillis: 5000,
+    }));
 }
 
 export default class ScrabbleGameBroadcaster extends Broadcaster {
@@ -38,38 +54,76 @@ export default class ScrabbleGameBroadcaster extends Broadcaster {
     constructor() {
         super();
 
+        this.reRenderMillis = 500;
+        this.disable(); // Disable broadcaster updates until we can verify the current user.
+
         this.updateGameState = this.updateGameState.bind(this);
 
         this.setState({
             ...getDefaultState(),
             actions: {
-                newGame: createAction(this.newGame.bind(this)),
-                dropTileOnBoard: createAction(this.dropTileOnBoard.bind(this)),
-                onPlayerDropTileOutOfBoard: createAction(this.onPlayerDropTileOutOfBoard.bind(this)),
-                recallTiles: createAction(this.recallTiles.bind(this)),
-                submitTiles: createAction(this.submitTiles.bind(this)),
+                newGame: this.newGame.bind(this),
+                dropTileOnBoard: this.dropTileOnBoard.bind(this),
+                onPlayerDropTileOutOfBoard: this.onPlayerDropTileOutOfBoard.bind(this),
+                recallTiles: this.recallTiles.bind(this),
+                submitTiles: this.submitTiles.bind(this),
             },
         });
+    }
 
-        this.requestService = new RequestService(SERVER_URL)
-            .withResponseExtractor(extractResponse)
-            .withErrorHandler(response => handleErrors(response, errors => this.setState({ errors })));
-
-        this.state.actions.newGame();
+    receive(state, broadcasterId) {
+        if (broadcasterId === 'UserDataBroadcaster') {
+            this.setState({ userId: state.userId });
+            if (state.isLoaded && !this.state.gameId) {
+                this.startGame();
+            }
+        }
     }
 
     updateGameState(payload) {
-        this.requestService.setPersistentPayload({ gameId: payload.id });
+        const { board, player, opponent } = this.state;
+        merge(board, get(payload, 'board', []));
+        merge(player, get(payload, 'player', {}));
+        merge(opponent, get(payload, 'opponent', {}));
         this.setState({
-            board: get(payload, 'board', []),
-            player: get(payload, 'player', {}),
-            opponent: get(payload, 'opponent', {}),
+            board,
+            player,
+            opponent,
+            gameId: payload.id,
+            gameSaved: false,
+            isLoaded: true,
+        });
+    }
+
+    startGame() {
+        let url = NEW_GAME_URL;
+        const urlParameters = getUrlParameters();
+        const gameId = get(urlParameters, 'gameId');
+        if (gameId) {
+            url = `${LOAD_GAME_URL}/${gameId}`;
+        }
+
+        Request.to(url)
+            .get({ credentials: 'include' })
+            .then((payload) => {
+                this.updateGameState(payload);
+                updateQueryParameters({ gameId: payload.id });
+            })
+            .catch(error => this.setState({ errors: ['There was an error communicating with the server'] }))
+            .finally(() => this.enable());
+        this.setState({
+            canSubmit: false,
         });
     }
 
     newGame() {
-        this.requestService.get(NEW_GAME_URL)
-            .then(this.updateGameState);
+        Request.to(NEW_GAME_URL)
+            .get({ credentials: 'include' })
+            .then((payload) => {
+                this.updateGameState(payload);
+                updateQueryParameters({ gameId: payload.id });
+            })
+            .catch(error => this.setState({ errors: ['There was an error communicating with the server.'] }));
         this.setState({
             canSubmit: false,
         });
@@ -77,10 +131,17 @@ export default class ScrabbleGameBroadcaster extends Broadcaster {
 
     submitTiles() {
         const payload = {
-            player: this.state.player,
+            gameId: this.state.gameId,
+            tiles: get(this.state, 'player.submittedTiles', []),
         };
-        this.requestService.post(PLAY_MOVE_URL, payload);
-        // TODO update game state?
+        new Request(PLAY_MOVE_URL)
+            .withBody(payload)
+            .post()
+            .then((payload) => {
+                this.updateGameState(payload);
+                this.saveGame();
+            })
+            .catch(error => this.setState({ errors: ['There was an error submitting the tiles']}));
     }
 
     dropTileOnBoard(event, rowIndex, columnIndex) {
@@ -117,15 +178,35 @@ export default class ScrabbleGameBroadcaster extends Broadcaster {
     }
 
     validatePlayerTiles(tiles) {
-        const payload = { tiles };
-        this.requestService.post(VALIDATE_MOVE_URL, payload)
-            .then(payload => this.setState({ invalidSubmittedTiles: payload }));
+        const payload = {
+            tiles,
+            gameId: this.state.gameId,
+        };
+        Request.to(VALIDATE_MOVE_URL)
+            .withResponseExtractor(response => get(response, 'payload', []))
+            .withErrorHandler(alertErrorHandler)
+            .withBody(payload)
+            .post()
+            .then((payload) => {
+                const { player } = this.state;
+                const invalidSubmittedTiles = payload || [];
+                set(player, 'invalidSubmittedTiles', invalidSubmittedTiles);
+                this.setState({
+                    player,
+                    canSubmit: invalidSubmittedTiles.length === 0,
+                });
+            });
         // TODO highlight invalid tiles in red
     }
 
     onPlayerDropTileOutOfBoard(event) {
         const payload = event.dataTransfer.getData('text/plain');
         const tile = JSON.parse(payload);
+        if (!(tile.row && tile.column)) {
+            // The tile wasn't actually ever dropped on the board.
+            return;
+        }
+
         const player = { ...this.state.player };
         merge(player, {
             availableTiles: [
@@ -165,5 +246,22 @@ export default class ScrabbleGameBroadcaster extends Broadcaster {
                 board: matrix,
             },
         });
+    }
+
+    saveGame() {
+        if (!this.state.userId) {
+            return;
+        }
+
+        const payload = {
+            gameId: this.state.gameId,
+            userId: this.state.userId,
+        };
+        Request.to(SAVE_GAME_URL)
+            .withBody(payload)
+            .post({ credentials: 'include' })
+            .then((payload) => {
+                this.setState({ gameSaved: true });
+            });
     }
 }

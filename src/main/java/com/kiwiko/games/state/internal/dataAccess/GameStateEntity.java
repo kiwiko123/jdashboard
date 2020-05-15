@@ -38,9 +38,6 @@ public class GameStateEntity extends AuditableDataEntity {
         this.id = id;
     }
 
-    /**
-     * Source: <a href="https://thoughts-on-java.org/hibernate-enum-mappings/" />
-     */
     @Enumerated(EnumType.STRING)
     @Column(name = "game_type", nullable = false)
     public GameType getGameType() {

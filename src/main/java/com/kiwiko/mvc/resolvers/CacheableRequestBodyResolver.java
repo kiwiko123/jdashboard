@@ -1,15 +1,16 @@
 package com.kiwiko.mvc.resolvers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.kiwiko.memory.caching.api.CacheService;
-import com.kiwiko.mvc.interceptors.RequestContextInterceptor;
-import com.kiwiko.mvc.json.api.PropertyObjectMapper;
+import com.kiwiko.metrics.api.LogService;
+import com.kiwiko.mvc.json.api.JsonMapper;
 import com.kiwiko.mvc.json.api.errors.JsonException;
 import com.kiwiko.mvc.requests.api.RequestContextService;
 import com.kiwiko.mvc.requests.api.RequestError;
 import com.kiwiko.mvc.requests.data.RequestContext;
 import com.kiwiko.mvc.json.data.IntermediateJsonBody;
 import com.kiwiko.mvc.resolvers.data.RequestBodyCacheData;
+import com.kiwiko.mvc.security.sessions.data.SessionProperties;
+import org.springframework.lang.Nullable;
 
 import javax.inject.Inject;
 import javax.servlet.ServletRequest;
@@ -17,21 +18,25 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.temporal.TemporalAmount;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-abstract class CacheableRequestBodyResolver {
+public abstract class CacheableRequestBodyResolver {
 
     @Inject
-    private PropertyObjectMapper propertyObjectMapper;
+    private JsonMapper jsonMapper;
 
     @Inject
     private CacheService cacheService;
 
     @Inject
     private RequestContextService requestContextService;
+
+    @Inject
+    private LogService logService;
 
     /**
      * Determines the duration of time to cache a given request's body.
@@ -40,7 +45,7 @@ abstract class CacheableRequestBodyResolver {
      * @return the duration of time to cache a given request's body.
      */
     protected TemporalAmount getRequestBodyCacheDuration() {
-        return Duration.ofSeconds(60);
+        return Duration.ofSeconds(10);
     }
 
     /**
@@ -50,73 +55,92 @@ abstract class CacheableRequestBodyResolver {
      *   2) the {@link RequestContext} indicates that its a different request.
      *
      * @param request
+     * @param cacheData
      * @return true if the request body should be manually deserialized, or false if not.
      */
-    protected boolean shouldDeserializeFromRequest(HttpServletRequest request) {
-        RequestContext currentRequestContext = requestContextService.getFromSession(request.getSession(), RequestContextInterceptor.REQUEST_CONTEXT_ID_SESSION_KEY)
-                .orElse(null);
+    protected boolean shouldDeserializeFromRequest(HttpServletRequest request, @Nullable RequestBodyCacheData cacheData) {
+        Optional<IntermediateJsonBody> cachedBody = Optional.ofNullable(cacheData)
+                .map(RequestBodyCacheData::getBody);
 
-        if (currentRequestContext == null) {
+        // If there's no cached data, then we have to deserialize it.
+        if (!cachedBody.isPresent()) {
             return true;
         }
 
-        String key = getRequestParameterCacheKey(request);
-        return cacheService.get(key, RequestBodyCacheData.class)
+        RequestContext currentRequestContext = requestContextService.getFromSession(request.getSession(), SessionProperties.REQUEST_CONTEXT_ID_SESSION_KEY)
+                .orElseThrow(() -> new RequestError(String.format("No request context found for %s", request.getRequestURI())));
+
+        return Optional.ofNullable(cacheData)
                 .map(RequestBodyCacheData::getRequestContext)
+
+                // If the cached request data refers to a different request than the current one,
+                // then we need to deserialize the body.
                 .map(context -> !Objects.equals(context, currentRequestContext))
                 .orElse(true);
     }
 
     protected IntermediateJsonBody getDeserializedBodyFromRequest(HttpServletRequest request) {
         String cacheKey = getRequestParameterCacheKey(request);
-        Optional<IntermediateJsonBody> cachedParameters = cacheService.get(cacheKey, RequestBodyCacheData.class)
-                .map(RequestBodyCacheData::getBody);
+        RequestBodyCacheData cachedRequestData = cacheService.get(cacheKey, RequestBodyCacheData.class)
+                .orElse(null);
 
         IntermediateJsonBody jsonObject;
-
-        // If we know that we've just processed this exact web request,
-        // then use the cached values.
-        if (cachedParameters.isPresent() && !shouldDeserializeFromRequest(request)) {
-            jsonObject = cachedParameters.get();
-        } else {
-            // Otherwise, deserialize the request body and cache it for another use.
+        if (shouldDeserializeFromRequest(request, cachedRequestData)) {
+            // If we know that this is a new request, then deserialize the request body and cache it for another use.
             jsonObject = deserializeRequestBody(request);
             RequestBodyCacheData cacheData = createCacheDataFromRequest(request, jsonObject);
             cacheService.cache(cacheKey, cacheData, getRequestBodyCacheDuration());
+        } else {
+            // Otherwise, we know that we've just processed this exact web request, so use the cached values.
+            jsonObject = cachedRequestData.getBody();
         }
 
         return jsonObject;
     }
 
     private IntermediateJsonBody deserializeRequestBody(ServletRequest request) {
+        Map<String, Object> body = new HashMap<>();
         String bodyJson = getJsonStringFromRequestBody(request);
-        Map<String, Object> body;
 
-        try {
-            body = propertyObjectMapper.readValue(bodyJson, Map.class);
-        } catch (JsonException e) {
-            throw new RequestError("Failed to deserialize request body content", e);
+        if (bodyJson.isEmpty()) {
+            HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+            String requestContextId = requestContextService.getFromSession(httpServletRequest.getSession(), SessionProperties.REQUEST_CONTEXT_ID_SESSION_KEY)
+                    .map(RequestContext::getId)
+                    .map(Object::toString)
+                    .orElse("(unknown)");
+            logService.warn(String.format("Empty request body when deserializing %s for Request Context %s", httpServletRequest.getRequestURI(), requestContextId));
+        } else {
+            try {
+                body = jsonMapper.deserialize(bodyJson, Map.class);
+            } catch (JsonException e) {
+                throw new RequestError("Failed to deserialize request body content", e);
+            }
         }
 
         return new IntermediateJsonBody(body);
     }
 
     private String getJsonStringFromRequestBody(ServletRequest request) {
+        String bodyJson;
         try {
-            return request.getReader().lines()
+            bodyJson = request.getReader().lines()
                     .collect(Collectors.joining(System.lineSeparator()));
         } catch (IOException e) {
             throw new RequestError("Failed to read JSON from request body", e);
         }
+
+        return bodyJson;
     }
 
     private String getRequestParameterCacheKey(HttpServletRequest request) {
-        return String.format("%s-%s", "cachableRequestBodyParameterResolverKey", request.getRequestURI());
+        RequestContext requestContext = requestContextService.getFromSession(request.getSession(), SessionProperties.REQUEST_CONTEXT_ID_SESSION_KEY)
+                .orElseThrow(() -> new RequestError(String.format("No request context found for %s", request.getRequestURI())));
+        return String.format("%s-%s-%d", "cachableRequestBodyParameterResolverKey", requestContext.getUri(), requestContext.getId());
     }
 
     private RequestBodyCacheData createCacheDataFromRequest(HttpServletRequest request, IntermediateJsonBody body) {
         RequestBodyCacheData cacheData = new RequestBodyCacheData();
-        requestContextService.getFromSession(request.getSession(), RequestContextInterceptor.REQUEST_CONTEXT_ID_SESSION_KEY)
+        requestContextService.getFromSession(request.getSession(), SessionProperties.REQUEST_CONTEXT_ID_SESSION_KEY)
                 .ifPresent(cacheData::setRequestContext);
         cacheData.setBody(body);
         return cacheData;

@@ -17,15 +17,15 @@ public abstract class PartialCacheService implements CacheService {
     }
 
     @Override
-    public <T> T cache(String key, Supplier<T> valueSupplier) {
-        return cache(key, valueSupplier, null);
-    }
-
-    @Override
     public <T> T cache(String key, Supplier<T> valueSupplier, TemporalAmount duration) {
         T value = valueSupplier.get();
         cache(key, value, duration);
         return value;
+    }
+
+    @Override
+    public <T> T cache(String key, Supplier<T> valueSupplier) {
+        return cache(key, valueSupplier, null);
     }
 
     @Override

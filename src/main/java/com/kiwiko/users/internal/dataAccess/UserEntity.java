@@ -2,6 +2,7 @@ package com.kiwiko.users.internal.dataAccess;
 
 import com.kiwiko.persistence.dataAccess.api.AuditableDataEntity;
 
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,7 +16,8 @@ import java.time.Instant;
 public class UserEntity extends AuditableDataEntity {
 
     private Long id;
-    private String emailAddress;
+    private String username;
+    private @Nullable String emailAddress;
     private String encryptedPassword;
     private Instant createdDate;
     private Instant lastUpdatedDate;
@@ -34,7 +36,17 @@ public class UserEntity extends AuditableDataEntity {
         this.id = id;
     }
 
-    @Column(name = "email_address", unique = true, nullable = false)
+    @Column(name = "username", unique = true, nullable = false)
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Nullable
+    @Column(name = "email_address", unique = true)
     public String getEmailAddress() {
         return emailAddress;
     }
