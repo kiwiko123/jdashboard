@@ -1,6 +1,7 @@
 package com.kiwiko.games.scrabble;
 
 import com.kiwiko.games.scrabble.game.logic.ScrabbleGameHelper;
+import com.kiwiko.games.scrabble.game.logic.ScrabbleMoveHelper;
 import com.kiwiko.games.scrabble.internal.ScrabbleGameEntityService;
 import com.kiwiko.games.scrabble.api.ScrabbleGameService;
 import com.kiwiko.games.scrabble.game.logic.ScrabbleCreateGameHelper;
@@ -23,6 +24,11 @@ public class ScrabbleConfiguration {
     @Bean
     public ScrabbleGameHelper scrabbleGameHelper() {
         return new ScrabbleGameHelper();
+    }
+
+    @Bean
+    public ScrabbleMoveHelper scrabbleMoveHelper() {
+        return new ScrabbleMoveHelper();
     }
 
     @Bean

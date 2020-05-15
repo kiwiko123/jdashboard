@@ -8,9 +8,11 @@ public interface UserService {
 
     Optional<User> getById(long id);
 
+    Optional<User> getByUsername(String username);
+
     Optional<User> getByEmailAddress(String emailAddress);
 
     User create(User user);
 
-    boolean isValidUser(String emailAddress, String password);
+    Optional<User> getWithValidation(String username, String password);
 }

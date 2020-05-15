@@ -9,10 +9,10 @@ public interface BidirectionalPropertyMapper<SourceType, TargetType> extends Pro
      * @param source the object from which fields will be copied
      * @param destination the object to which fields will be copied
      */
-    void toSource(TargetType source, SourceType destination);
+    void copyToSource(TargetType source, SourceType destination);
 
     /**
-     * Like {@link #toSource(Object, Object)}, but copies the source's fields into a new instance of the target class.
+     * Like {@link #copyToSource(Object, Object)}, but copies the source's fields into a new instance of the target class.
      *
      * @param source the object from which fields will be copied
      * @return a new instance of the SourceType (destination) class whose fields have been mapped from the TargetType object (source)

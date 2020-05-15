@@ -1,9 +1,8 @@
 package com.kiwiko.users.web;
 
-import com.kiwiko.mvc.json.data.ResponseBuilder;
+import com.kiwiko.mvc.json.api.ResponseBuilder;
 import com.kiwiko.mvc.json.data.ResponsePayload;
-import com.kiwiko.mvc.requests.api.RequestBodyParameter;
-import com.kiwiko.mvc.security.environments.api.EnvironmentService;
+import com.kiwiko.mvc.security.environments.data.EnvironmentProperties;
 import com.kiwiko.users.api.UserService;
 import com.kiwiko.users.data.User;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 
-@CrossOrigin(origins = EnvironmentService.CROSS_ORIGIN_DEV_URL)
+@CrossOrigin(origins = EnvironmentProperties.CROSS_ORIGIN_URL)
 @RestController
 public class UserAPIController {
 
@@ -38,16 +37,6 @@ public class UserAPIController {
         User result = userService.create(user);
         return new ResponseBuilder()
                 .withBody(result)
-                .toResponseEntity();
-    }
-
-    @PostMapping(path = "/users/api/credentials/authenticate")
-    public ResponseEntity<ResponsePayload> authenticateUserCredentials(
-            @RequestBodyParameter(name = "emailAddress") String emailAddress,
-            @RequestBodyParameter(name = "password") String password) {
-        boolean isValid = userService.isValidUser(emailAddress, password);
-        return new ResponseBuilder()
-                .withBody(isValid)
                 .toResponseEntity();
     }
 }

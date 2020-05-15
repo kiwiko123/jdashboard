@@ -1,32 +1,31 @@
 package com.kiwiko.games.scrabble.game.logic;
 
-import com.google.common.collect.ImmutableSet;
-import com.kiwiko.dataStructures.Pair;
 import com.kiwiko.games.scrabble.api.ScrabbleGameService;
+import com.kiwiko.games.scrabble.errors.ScrabbleException;
 import com.kiwiko.games.scrabble.game.data.ScrabbleGame;
-import com.kiwiko.games.scrabble.game.data.ScrabbleGameBoard;
 import com.kiwiko.games.scrabble.game.data.ScrabblePlayer;
 import com.kiwiko.games.scrabble.game.data.ScrabbleSubmittedTile;
+import com.kiwiko.games.scrabble.game.data.ScrabbleTile;
+import com.kiwiko.metrics.api.LogService;
 
 import javax.inject.Inject;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ScrabbleGameHelper {
 
-    private static final Set<Pair<Integer, Integer>> COORDINATE_DIRECTIONS = ImmutableSet.of(
-            new Pair<>(0, -1),  // up
-            new Pair<>(1, 0),   // right
-            new Pair<>(1, 1),   // down
-            new Pair<>(-1, 0)); // left
+    @Inject
+    private ScrabbleMoveHelper scrabbleMoveHelper;
 
     @Inject
-    private ScrabbleGameService scrabbleGameService;
+    private ScrabbleCreateGameHelper createGameHelper;
+
+    @Inject
+    private LogService logService;
 
     public Optional<ScrabblePlayer> getPlayerById(ScrabbleGame game, String playerId) {
         return Stream.of(game.getPlayer(), game.getOpponent())
@@ -34,38 +33,42 @@ public class ScrabbleGameHelper {
                 .findFirst();
     }
 
-    public Collection<ScrabbleSubmittedTile> getInvalidTiles(ScrabbleGame game, Collection<ScrabbleSubmittedTile> submittedTiles) {
-        ScrabbleGameBoard board = game.getBoard();
-
-        // Make sure that none of the submitted tiles are already placed.
-        Collection<ScrabbleSubmittedTile> overlappingTiles = submittedTiles.stream()
-                .filter(tile -> board.get(tile.getRow(), tile.getColumn()).isPresent())
-                .collect(Collectors.toSet());
-        if (!overlappingTiles.isEmpty()) {
-            return overlappingTiles;
+    public boolean validateMove(ScrabbleGame game, Collection<ScrabbleSubmittedTile> tiles) {
+        Collection<ScrabbleSubmittedTile> invalidTiles = scrabbleMoveHelper.getInvalidTiles(game, tiles);
+        if (!invalidTiles.isEmpty()) {
+            return false;
         }
 
-        // If the entire board is empty (i.e., the very first move),
-        // then we don't need to validate the _very first_ tile that's placed.
-        if (board.isEmpty() && submittedTiles.size() == 1) {
-            return new HashSet<>();
+        String word = tiles.stream()
+                .map(ScrabbleTile::getCharacter)
+                .collect(Collectors.joining());
+        return scrabbleMoveHelper.isValidWord(word);
+    }
+
+    public boolean placeTiles(ScrabbleGame game, Collection<ScrabbleSubmittedTile> tiles) {
+        boolean isValidMove = validateMove(game, tiles);
+        if (!isValidMove) {
+            logService.warn(String.format("Invalid move %d: %s", game.getId(), tiles.toString()));
+            return false;
         }
 
-        ScrabbleGameBoard view = board.applyView(submittedTiles);
-        return submittedTiles.stream()
-                .filter(tile -> !hasAdjacentTile(view, tile.getRow(), tile.getColumn()))
-                .collect(Collectors.toSet());
-    }
+        for (ScrabbleSubmittedTile tile : tiles) {
+            ScrabblePlayer player = getPlayerById(game, tile.getPlayerId())
+                    .orElseThrow(() -> new ScrabbleException(String.format("Unknown player ID \"%s\" when submitting tile %s", tile.getPlayerId(), tile.getCharacter())));
 
-    public boolean hasAdjacentTile(ScrabbleGameBoard board, int row, int column) {
-        return COORDINATE_DIRECTIONS.stream()
-                .anyMatch(coordinate -> hasDirectionallyAdjacentTile(board, row, column, coordinate.getFirst(), coordinate.getSecond()));
-    }
+            game.getBoard().set(tile);
+            player.getAvailableTiles().remove(tile);
+        }
 
-    private boolean hasDirectionallyAdjacentTile(ScrabbleGameBoard board, int row, int column, int directionX, int directionY) {
-        int newRow = row + directionY;
-        int newColumn = column + directionX;
+        String submittingPlayerId = tiles.stream()
+                .map(ScrabbleTile::getPlayerId)
+                .findFirst()
+                .orElseThrow(() -> new ScrabbleException("No player ID found"));
+        ScrabblePlayer submittingPlayer = getPlayerById(game, submittingPlayerId)
+                .orElseThrow(() -> new ScrabbleException("No player found"));
+        Collection<ScrabbleTile> createdTiles = createGameHelper.createRandomTiles(submittingPlayerId, tiles.size());
+        submittingPlayer.getAvailableTiles().addAll(createdTiles);
 
-        return board.isValidCoordinate(newRow, newColumn) && board.get(newRow, newColumn).isPresent();
+        return true;
     }
 }

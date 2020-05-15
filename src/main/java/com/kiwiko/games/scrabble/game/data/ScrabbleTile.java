@@ -2,12 +2,17 @@ package com.kiwiko.games.scrabble.game.data;
 
 import com.kiwiko.persistence.identification.GeneratedLongIdentifiable;
 
+import javax.annotation.Nullable;
 import java.util.Objects;
 
 public class ScrabbleTile extends GeneratedLongIdentifiable {
 
     private final String character;
     private final String playerId;
+
+    // For ScrabbleSubmittedTile use only
+    protected @Nullable Integer row;
+    protected @Nullable Integer column;
 
     public ScrabbleTile(String character, String playerId) {
         super();
@@ -30,7 +35,11 @@ public class ScrabbleTile extends GeneratedLongIdentifiable {
 
     @Override
     public boolean equals(Object other) {
-        if (!super.equals(other)) {
+        if (this == other) {
+            return true;
+        }
+
+        if (other == null || !ScrabbleTile.class.isAssignableFrom(other.getClass())) {
             return false;
         }
 

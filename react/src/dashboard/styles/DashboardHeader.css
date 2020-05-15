@@ -1,0 +1,43 @@
+.DashboardHeader {
+    display: flex;
+    align-items: center;
+}
+
+.content {
+    display: flex;
+    margin: 1rem;
+    align-items: center;
+    width: 100%;
+}
+
+.header-button {
+    display: flex;
+    align-items: center;
+    margin-left: 1.5rem;
+    color: white;
+    width: 7rem;
+    justify-content: center;
+}
+
+.header-button-link {
+    color: white;
+}
+
+:hover(.header-button), :hover(.header-button-link) {
+    color: black;
+}
+
+.header-button.login, .header-button.logout {
+    margin-left: auto;
+}
+
+.greeting {
+    margin-left: auto;
+    margin-right: 1.5rem;
+    color: white;
+}
+
+.account-menu {
+    background-color: black;
+    color: white;
+}

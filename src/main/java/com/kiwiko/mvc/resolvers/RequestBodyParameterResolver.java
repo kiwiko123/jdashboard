@@ -1,8 +1,8 @@
 package com.kiwiko.mvc.resolvers;
 
-import com.kiwiko.mvc.requests.api.RequestBodyParameter;
+import com.kiwiko.mvc.requests.api.annotations.RequestBodyParameter;
 import com.kiwiko.mvc.requests.api.RequestError;
-import com.kiwiko.mvc.json.api.PropertyObjectMapper;
+import com.kiwiko.mvc.json.api.JsonMapper;
 import com.kiwiko.mvc.json.data.IntermediateJsonBody;
 import org.springframework.core.MethodParameter;
 import org.springframework.lang.Nullable;
@@ -13,20 +13,29 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
 import java.util.Optional;
 
 public class RequestBodyParameterResolver extends CacheableRequestBodyResolver implements HandlerMethodArgumentResolver {
 
     @Inject
-    private PropertyObjectMapper propertyObjectMapper;
+    private JsonMapper jsonMapper;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(RequestBodyParameter.class);
+        if (!parameter.hasParameterAnnotation(RequestBodyParameter.class)) {
+            return false;
+        }
+
+        if (Collection.class.isAssignableFrom(parameter.getParameterType())) {
+            throw new IllegalArgumentException(String.format("@RequestBodyParameter doesn't support collections; use @RequestBodyCollectionParameter instead"));
+        }
+
+        return true;
     }
 
-    @Override
     @Nullable
+    @Override
     public Object resolveArgument(MethodParameter parameter,
                                   @Nullable ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest,
@@ -49,6 +58,6 @@ public class RequestBodyParameterResolver extends CacheableRequestBodyResolver i
             return null;
         }
 
-        return propertyObjectMapper.convertValue(value, parameter.getParameterType());
+        return jsonMapper.convertValue(value, parameter.getParameterType());
     }
 }
