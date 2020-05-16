@@ -1,15 +1,14 @@
 package com.kiwiko.lang.types;
 
 import com.kiwiko.metrics.api.LogService;
+import com.kiwiko.metrics.impl.ConsoleLogService;
 
-import javax.inject.Inject;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class TypesHelper {
 
-    @Inject
-    private LogService logService;
+    private final LogService logService;
 
     private static final Map<Class<?>, Class<?>> objectTypesByPrimitiveType = Map.of(
             boolean.class, Boolean.class,
@@ -23,6 +22,10 @@ public class TypesHelper {
 
     private static final Map<Class<?>, Class<?>> primitiveTypesByObjectType = objectTypesByPrimitiveType.entrySet().stream()
             .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
+
+    public TypesHelper() {
+        logService = new ConsoleLogService();
+    }
 
     /**
      * Given an arbitrary class, return the corresponding builtin type if one exists.

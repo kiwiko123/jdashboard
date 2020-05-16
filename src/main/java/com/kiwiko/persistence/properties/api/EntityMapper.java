@@ -36,12 +36,12 @@ public abstract class EntityMapper<Entity, DTO> extends BidirectionalFieldMapper
     }
     
     @Override
-    protected Class<Entity> getSourceType() {
+    protected final Class<Entity> getSourceType() {
         return getEntityType();
     }
 
     @Override
-    protected Class<DTO> getTargetType() {
+    protected final Class<DTO> getTargetType() {
         return getDTOType();
     }
 
@@ -51,7 +51,7 @@ public abstract class EntityMapper<Entity, DTO> extends BidirectionalFieldMapper
      */
     @Deprecated
     @Override
-    public void copyToSource(DTO source, Entity destination) {
+    public final void copyToSource(DTO source, Entity destination) {
         copyToEntity(source, destination);
     }
 
@@ -61,7 +61,7 @@ public abstract class EntityMapper<Entity, DTO> extends BidirectionalFieldMapper
      */
     @Deprecated
     @Override
-    public Entity toSourceType(DTO source) {
+    public final Entity toSourceType(DTO source) {
         return toEntity(source);
     }
 
@@ -71,7 +71,7 @@ public abstract class EntityMapper<Entity, DTO> extends BidirectionalFieldMapper
      */
     @Deprecated
     @Override
-    public void copyToTarget(Entity source, DTO destination) throws PropertyMappingException {
+    public final void copyToTarget(Entity source, DTO destination) throws PropertyMappingException {
         copyToDTO(source, destination);
     }
 
@@ -81,7 +81,7 @@ public abstract class EntityMapper<Entity, DTO> extends BidirectionalFieldMapper
      */
     @Deprecated
     @Override
-    public DTO toTargetType(Entity source) throws PropertyMappingException {
+    public final DTO toTargetType(Entity source) throws PropertyMappingException {
         return toDTO(source);
     }
 }

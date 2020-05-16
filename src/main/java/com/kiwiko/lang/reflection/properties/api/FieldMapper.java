@@ -11,6 +11,8 @@ import java.lang.reflect.InvocationTargetException;
  * A class that uses reflection to copy field values from one object to another.
  * Fields with matching names and equivalent types are copied.
  *
+ * Neither this class nor its dependencies require any Spring-powered dependency injection.
+ *
  * @param <SourceType>
  * @param <TargetType>
  */
@@ -63,7 +65,7 @@ public abstract class FieldMapper<SourceType, TargetType> implements PropertyMap
         try {
             result = constructor.newInstance();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            String message = String.format("Failed to create a new instance for target type %s", getTargetType().getName());
+            String message = String.format("Failed to create a new default instance of target type %s", getTargetType().getName());
             throw new PropertyMappingException(message, e);
         }
 

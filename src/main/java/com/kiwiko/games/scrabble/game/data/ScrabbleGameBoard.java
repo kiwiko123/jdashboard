@@ -19,7 +19,7 @@ public class ScrabbleGameBoard {
     public ScrabbleGameBoard(int rows, int columns) {
         this.rowCount = rows;
         this.columnCount = columns;
-        List<ScrabbleTile> row = new ArrayList<ScrabbleTile>(Collections.nCopies(columns, null));
+        List<ScrabbleTile> row = new ArrayList<>(Collections.nCopies(columns, null));
         board = new ArrayList<>(Collections.nCopies(rows, row));
         tileCount = 0;
     }

@@ -1,10 +1,10 @@
 package com.kiwiko.games.scrabble.game.data;
 
-import com.kiwiko.persistence.identification.Identifiable;
+import com.kiwiko.persistence.identification.TypeIdentifiable;
 
 import java.util.Collection;
 
-public class ScrabblePlayer implements Identifiable<String> {
+public class ScrabblePlayer extends TypeIdentifiable<String> {
 
     private String id;
     private Collection<ScrabbleTile> availableTiles;
