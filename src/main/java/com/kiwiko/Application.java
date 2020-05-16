@@ -1,6 +1,6 @@
 package com.kiwiko;
 
-import com.kiwiko.mvc.lifecycle.startup.internal.ClassScannerRegistry;
+import com.kiwiko.webapp.mvc.lifecycle.startup.internal.ClassScannerRegistry;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
