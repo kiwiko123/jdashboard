@@ -1,6 +1,10 @@
 package com.kiwiko.library.lang.reflection;
 
+import com.kiwiko.library.lang.reflection.properties.api.errors.PropertyMappingException;
+
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -69,6 +73,29 @@ public class ReflectionHelper {
         } catch (NoSuchFieldException e) {
             return Optional.empty();
         }
+    }
+
+    public <T> T createDefaultInstance(Class<T> type) throws PropertyMappingException {
+        Constructor<T> constructor;
+
+        try {
+            constructor = type.getDeclaredConstructor();
+        } catch (NoSuchMethodException e) {
+            String message = String.format("No declared constructor found for type %s", type.getName());
+            throw new PropertyMappingException(message, e);
+        }
+
+        constructor.trySetAccessible();
+        T result;
+
+        try {
+            result = constructor.newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            String message = String.format("Failed to create a new default instance of type %s", type.getName());
+            throw new PropertyMappingException(message, e);
+        }
+
+        return result;
     }
 
     private boolean canSearchUpwards(Class<?> type) {

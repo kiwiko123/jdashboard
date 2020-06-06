@@ -14,12 +14,12 @@ public abstract class BidirectionalFieldMapper<SourceType, TargetType>
 
     @Override
     public void copyToSource(TargetType source, SourceType destination) {
-        copyFieldsToObject(source, destination);
+        copyTo(source, destination);
     }
 
     @Override
     public SourceType toSourceType(TargetType source) {
-        SourceType result = createDefaultInstance(getSourceType());
+        SourceType result = reflectionHelper.createDefaultInstance(getSourceType());
         copyToSource(source, result);
         return result;
     }

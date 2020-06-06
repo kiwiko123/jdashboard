@@ -18,6 +18,10 @@ import javax.servlet.http.HttpSession;
 import java.time.Duration;
 import java.time.Instant;
 
+/**
+ * Interceptor that creates a {@link com.kiwiko.webapp.mvc.requests.internal.dataAccess.RequestContextEntity} for every
+ * web request that goes through Jdashboard.
+ */
 public class RequestContextInterceptor extends HandlerInterceptorAdapter {
 
     @Inject
@@ -59,6 +63,7 @@ public class RequestContextInterceptor extends HandlerInterceptorAdapter {
         RequestContext requestContext = requestContextService.getFromSession(session, SessionProperties.REQUEST_CONTEXT_ID_SESSION_KEY)
                 .orElseThrow(() -> new RequestError(String.format("No RequestContext found after handling \"%s\"", requestUri)));
         requestContext.setEndTime(now);
+        requestContext.setIsRemoved(true);
         requestContextService.saveRequestContext(requestContext);
 
         Duration requestDuration = Duration.between(requestContext.getStartTime(), requestContext.getEndTime().orElse(now));

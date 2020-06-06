@@ -1,11 +1,7 @@
 package com.kiwiko.library.lang.reflection.properties.api;
 
-import com.kiwiko.library.lang.reflection.ReflectionHelper;
 import com.kiwiko.library.lang.reflection.properties.api.errors.PropertyMappingException;
 import com.kiwiko.library.lang.reflection.properties.internal.FieldMapperHelper;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * A class that uses reflection to copy field values from one object to another.
@@ -16,59 +12,17 @@ import java.lang.reflect.InvocationTargetException;
  * @param <SourceType>
  * @param <TargetType>
  */
-public abstract class FieldMapper<SourceType, TargetType> implements PropertyMapper<SourceType, TargetType> {
+public abstract class FieldMapper<SourceType, TargetType> extends PartialPropertyMapper<SourceType, TargetType> {
 
-    private final FieldMapperHelper fieldMapperHelper;
-    private final ReflectionHelper reflectionHelper;
+    protected final FieldMapperHelper fieldMapperHelper;
 
     public FieldMapper() {
+        super();
         fieldMapperHelper = new FieldMapperHelper();
-        reflectionHelper = new ReflectionHelper();
-    }
-
-    protected abstract Class<TargetType> getTargetType();
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void copyToTarget(SourceType source, TargetType destination) throws PropertyMappingException {
-        copyFieldsToObject(source, destination);
     }
 
     @Override
-    public TargetType toTargetType(SourceType source) throws PropertyMappingException {
-        TargetType result = createDefaultInstance(getTargetType());
-        copyToTarget(source, result);
-        return result;
-    }
-
-    protected <T, V> void copyFieldsToObject(T source, V target) throws PropertyMappingException {
-        reflectionHelper.getFields(source.getClass()).stream()
-                .filter(field -> fieldMapperHelper.canCopyField(field, target.getClass()))
-                .forEach(field -> fieldMapperHelper.copyField(field, source, target));
-    }
-
-    protected <T> T createDefaultInstance(Class<T> type) throws PropertyMappingException {
-        Constructor<T> constructor;
-
-        try {
-            constructor = type.getDeclaredConstructor();
-        } catch (NoSuchMethodException e) {
-            String message = String.format("No declared constructor found for target type %s", getTargetType().getName());
-            throw new PropertyMappingException(message, e);
-        }
-
-        constructor.trySetAccessible();
-        T result;
-
-        try {
-            result = constructor.newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            String message = String.format("Failed to create a new default instance of target type %s", getTargetType().getName());
-            throw new PropertyMappingException(message, e);
-        }
-
-        return result;
+    protected <T, V> void copyTo(T source, V destination) throws PropertyMappingException {
+        fieldMapperHelper.copyFieldsToObject(source, destination);
     }
 }
