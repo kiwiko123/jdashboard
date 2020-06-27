@@ -1,16 +1,17 @@
 package com.kiwiko.library.lang.types;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.kiwiko.library.metrics.api.LogService;
 import com.kiwiko.library.metrics.impl.ConsoleLogService;
 
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class TypesHelper {
 
     private final LogService logService;
 
-    private static final Map<Class<?>, Class<?>> objectTypesByPrimitiveType = Map.of(
+    private static final BiMap<Class<?>, Class<?>> objectTypesByPrimitiveType = HashBiMap.create(Map.of(
             boolean.class, Boolean.class,
             int.class, Integer.class,
             long.class, Long.class,
@@ -18,10 +19,7 @@ public class TypesHelper {
             float.class, Float.class,
             byte.class, Byte.class,
             short.class, Short.class,
-            char.class, Character.class);
-
-    private static final Map<Class<?>, Class<?>> primitiveTypesByObjectType = objectTypesByPrimitiveType.entrySet().stream()
-            .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
+            char.class, Character.class));
 
     public TypesHelper() {
         logService = new ConsoleLogService();
@@ -40,8 +38,6 @@ public class TypesHelper {
             return objectTypesByPrimitiveType.get(type);
         }
 
-        return primitiveTypesByObjectType.containsKey(type)
-                ? primitiveTypesByObjectType.get(type)
-                : type;
+        return objectTypesByPrimitiveType.inverse().getOrDefault(type, type);
     }
 }

@@ -7,16 +7,14 @@ import com.kiwiko.library.lang.reflection.properties.internal.FieldMapperHelper;
  * A class that uses reflection to copy field values from one object to another.
  * Fields with matching names and equivalent types are copied.
  *
- * Neither this class nor its dependencies require any Spring-powered dependency injection.
- *
  * @param <SourceType>
  * @param <TargetType>
  */
 public abstract class FieldMapper<SourceType, TargetType> extends PartialPropertyMapper<SourceType, TargetType> {
 
-    protected final FieldMapperHelper fieldMapperHelper;
+    private final FieldMapperHelper fieldMapperHelper;
 
-    public FieldMapper() {
+    protected FieldMapper() {
         super();
         fieldMapperHelper = new FieldMapperHelper();
     }

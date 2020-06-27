@@ -75,9 +75,19 @@ public class ReflectionHelper {
         }
     }
 
+    /**
+     * Create a new, default instance of the given type T.
+     * T must have a valid default constructor; otherwise this operation will fail.
+     *
+     * @param type the type from which a new instance will be created
+     * @param <T> the type
+     * @return a new, default instance of type T
+     * @throws PropertyMappingException if creation fails
+     */
     public <T> T createDefaultInstance(Class<T> type) throws PropertyMappingException {
         Constructor<T> constructor;
 
+        // Attempt to get the default constructor.
         try {
             constructor = type.getDeclaredConstructor();
         } catch (NoSuchMethodException e) {
@@ -85,9 +95,11 @@ public class ReflectionHelper {
             throw new PropertyMappingException(message, e);
         }
 
+        // Attempt to make the default constructor accessible, in case it's non-public.
         constructor.trySetAccessible();
         T result;
 
+        // Attempt to instantiate a new object.
         try {
             result = constructor.newInstance();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
@@ -98,6 +110,13 @@ public class ReflectionHelper {
         return result;
     }
 
+    /**
+     * Determine if the inheritance hierarchy of the given class can continue to search "upwards".
+     * It will no longer search upwards if the type is {@link Object}, or null.
+     *
+     * @param type the type to check if it can search upwards
+     * @return true if it can search upwards, or false if not
+     */
     private boolean canSearchUpwards(Class<?> type) {
         return !(type == Object.class || type == null);
     }

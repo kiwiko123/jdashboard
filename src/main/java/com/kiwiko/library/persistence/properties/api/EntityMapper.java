@@ -1,5 +1,6 @@
 package com.kiwiko.library.persistence.properties.api;
 
+import com.kiwiko.library.lang.reflection.ReflectionHelper;
 import com.kiwiko.library.lang.reflection.properties.api.BidirectionalFieldMapper;
 import com.kiwiko.library.lang.reflection.properties.api.errors.PropertyMappingException;
 
@@ -10,6 +11,12 @@ import com.kiwiko.library.lang.reflection.properties.api.errors.PropertyMappingE
  * @param <DTO> the DTO class to which fields can be copied
  */
 public abstract class EntityMapper<Entity, DTO> extends BidirectionalFieldMapper<Entity, DTO> {
+
+    private final ReflectionHelper reflectionHelper;
+
+    protected EntityMapper() {
+        reflectionHelper = new ReflectionHelper();
+    }
 
     protected abstract Class<Entity> getEntityType();
     protected abstract Class<DTO> getDTOType();
