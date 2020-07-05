@@ -1,16 +1,22 @@
 package com.kiwiko.library.persistence.properties.api;
 
+import com.kiwiko.library.lang.reflection.ReflectionHelper;
 import com.kiwiko.library.lang.reflection.properties.api.BidirectionalFieldMapper;
 import com.kiwiko.library.lang.reflection.properties.api.errors.PropertyMappingException;
 
 /**
  * Wrapper around {@link BidirectionalFieldMapper} that clarifies object mapping for JPA entities and corresponding Data Transfer Object classes.
- * 
  *
  * @param <Entity> the JPA entity class from which fields can be copied
  * @param <DTO> the DTO class to which fields can be copied
  */
 public abstract class EntityMapper<Entity, DTO> extends BidirectionalFieldMapper<Entity, DTO> {
+
+    private final ReflectionHelper reflectionHelper;
+
+    protected EntityMapper() {
+        reflectionHelper = new ReflectionHelper();
+    }
 
     protected abstract Class<Entity> getEntityType();
     protected abstract Class<DTO> getDTOType();
@@ -20,7 +26,7 @@ public abstract class EntityMapper<Entity, DTO> extends BidirectionalFieldMapper
     }
 
     public DTO toDTO(Entity entity) {
-        DTO dto = createDefaultInstance(getDTOType());
+        DTO dto = reflectionHelper.createDefaultInstance(getDTOType());
         copyToDTO(entity, dto);
         return dto;
     }
@@ -30,7 +36,7 @@ public abstract class EntityMapper<Entity, DTO> extends BidirectionalFieldMapper
     }
 
     public Entity toEntity(DTO dto) {
-        Entity entity = createDefaultInstance(getEntityType());
+        Entity entity = reflectionHelper.createDefaultInstance(getEntityType());
         copyToEntity(dto, entity);
         return entity;
     }

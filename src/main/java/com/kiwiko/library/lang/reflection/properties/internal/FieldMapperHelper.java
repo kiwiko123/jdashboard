@@ -73,4 +73,10 @@ public class FieldMapperHelper {
             throw new PropertyMappingException(message, e);
         }
     }
+
+    public <S, T> void copyFieldsToObject(S source, T target) throws PropertyMappingException {
+        reflectionHelper.getFields(source.getClass()).stream()
+                .filter(field -> canCopyField(field, target.getClass()))
+                .forEach(field -> copyField(field, source, target));
+    }
 }

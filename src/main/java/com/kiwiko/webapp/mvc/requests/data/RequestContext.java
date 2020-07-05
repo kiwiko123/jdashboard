@@ -45,9 +45,4 @@ public class RequestContext extends AuditableDataEntityDTO {
     public void setUser(@Nullable User user) {
         this.user = user;
     }
-
-    @Override
-    public String toString() {
-        return String.format("%s(%s, %s)", getClass().getSimpleName(), getId().toString(), getStartTime().toString());
-    }
 }
