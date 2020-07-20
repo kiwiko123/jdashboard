@@ -5,7 +5,7 @@ import ConsoleLogger from './ConsoleLogger';
 
 const LOG_BY_LEVEl_BATCHED_URL = '/logging/api/log/batched/by-level';
 const BATCH_SIZE = 5;
-const MINIMUM_STALE_SECONDS = 10;
+const MINIMUM_STALE_SECONDS = 60;
 
 let LOGS = [];
 let PENDING_LOGS = [];
@@ -62,6 +62,9 @@ export default class BatchedServerLogger extends Logger {
             .post()
             .then(() => {
                 PENDING_LOGS = [];
+            })
+            .catch((error) => {
+                this._consoleLogger.error('Failed batch-log to server', error);
             });
     }
 }

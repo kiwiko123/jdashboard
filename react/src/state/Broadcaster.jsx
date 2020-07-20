@@ -113,7 +113,7 @@ export default class Broadcaster {
      * The updater will effectively call setState on the ReceivingElement to induce a re-render.
      * Do not override this.
      */
-    setUpdater(updater, id) {
+    _setUpdater(updater, id) {
         this.__updaters.set(id, updater);
     }
 

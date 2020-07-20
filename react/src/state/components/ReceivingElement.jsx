@@ -44,7 +44,7 @@ export default class ReceivingElement extends PureComponent {
     render() {
         const { children, broadcaster } = this.props;
         if (!broadcaster.updater) {
-            broadcaster.setUpdater(this.update, this.id);
+            broadcaster._setUpdater(this.update, this.id);
         }
         const broadcasterState = broadcaster.getState();
         const isBroadcasterStateEmpty = isEmpty(broadcasterState);
@@ -61,6 +61,6 @@ export default class ReceivingElement extends PureComponent {
     }
 
     update() {
-        this.forceUpdate();
+        this.setState({ updateCount: this.state.updateCount + 1});
     }
 }

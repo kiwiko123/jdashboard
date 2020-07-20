@@ -38,7 +38,7 @@ IconButton.propTypes = {
     // https://react-bootstrap.github.io/components/buttons
     variant: PropTypes.string,
 
-    // https://fontawesome.com/icons
+    // https://fontawesome.com/icons?d=gallery&m=free
     fontAwesomeClassName: PropTypes.string,
 
     disabled: PropTypes.bool,

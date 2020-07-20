@@ -23,6 +23,9 @@ export default class ServerLogger extends Logger {
             .post()
             .then(() => {
                 this._consoleLogger.log(level, message, error);
+            })
+            .catch((error) => {
+                this._consoleLogger.error('Error logging to server', error);
             });
     }
 }
