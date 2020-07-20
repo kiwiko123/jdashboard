@@ -1,3 +1,5 @@
 /target
 /.idea
+/devtools/.idea
+/logs
 .DS_Store
