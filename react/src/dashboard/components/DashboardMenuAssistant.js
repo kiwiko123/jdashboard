@@ -5,7 +5,7 @@ import IconButton from '../../common/components/IconButton';
 import ClickTarget from '../../common/components/ClickTarget';
 import { getWindowDimensions } from '../../common/js/window';
 
-import './styles/DashboardSlideOverPane.css';
+import './styles/DashboardMenuAssistant.css';
 
 const DRAG_RESET_THRESHOLD_PX = 150;
 
@@ -19,7 +19,7 @@ function getOpenFromDirective(openFrom, currentX, currentY, screenX, screenY) {
     return `${planeX} ${planeY}`;
 }
 
-const DashboardSlideOverPane = ({
+const DashboardMenuAssistant = ({
     children, className, openFrom, expanded,
 }) => {
     // Handle expanding/collapsing the pane.
@@ -42,7 +42,7 @@ const DashboardSlideOverPane = ({
     const openFromDirective = isExpanded
         ? getOpenFromDirective(openFrom, x, y, dimensions.width, dimensions.height)
         : null;
-    const divClassName = classnames('DashboardSlideOverPane', className, openFromDirective, {
+    const divClassName = classnames('DashboardMenuAssistant', className, openFromDirective, {
         open: isExpanded,
         closed: !isExpanded,
     });
@@ -82,18 +82,18 @@ const DashboardSlideOverPane = ({
     );
 };
 
-DashboardSlideOverPane.propTypes = {
+DashboardMenuAssistant.propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
     openFrom: PropTypes.oneOf(['top left', 'top right', 'bottom left', 'bottom right', 'auto']),
     expanded: PropTypes.bool,
 };
 
-DashboardSlideOverPane.defaultProps = {
+DashboardMenuAssistant.defaultProps = {
     children: null,
     className: null,
     openFrom: 'top left',
     expanded: false,
 };
 
-export default DashboardSlideOverPane;
+export default DashboardMenuAssistant;

@@ -9,7 +9,7 @@ import DashboardAlertBroadcaster from '../../dashboard/state/DashboardAlertBroad
 import DashboardHeaderBroadcaster from '../../dashboard/state/DashboardHeaderBroadcaster';
 import DashboardAlerts from './DashboardAlerts';
 import DashboardHeader from './DashboardHeader';
-import DashboardSlideOverPane from './DashboardSlideOverPane';
+import DashboardMenuAssistant from './DashboardMenuAssistant';
 import IconButton from '../../common/components/IconButton';
 
 import '../../common/styles/colors.css';
@@ -39,7 +39,7 @@ function createPageBroadcasters(broadcasterSubscribers = {}) {
 }
 
 const DashboardPage = ({
-    children, className, title, appId, history, broadcasterSubscribers, canAccessSlideOverPane,
+    children, className, title, appId, history, broadcasterSubscribers, showMenuAssistant,
 }) => {
     // Store page-level broadcasters in state to persist them through re-renders
     // (although page-level re-renders should be few and far between).
@@ -58,16 +58,16 @@ const DashboardPage = ({
     const pageClassName = classnames('DashboardPage', className);
 
     const [expanded, setExpanded] = useState(false);
-    const slideOverPane = canAccessSlideOverPane && (
-        <DashboardSlideOverPane
+    const menuAssistant = showMenuAssistant && (
+        <DashboardMenuAssistant
             openFrom="auto"
             expanded={expanded}
         >
-        </DashboardSlideOverPane>
+        </DashboardMenuAssistant>
     );
     return (
         <div className={pageClassName}>
-            {slideOverPane}
+            {menuAssistant}
             <ReceivingElement broadcaster={headerBroadcaster}>
                 <DashboardHeader
                     title={title}
@@ -106,14 +106,14 @@ DashboardPage.propTypes = {
         alertBroadcaster: PropTypes.arrayOf(PropTypes.instanceOf(Broadcaster)),
         userDataBroadcaster: PropTypes.arrayOf(PropTypes.instanceOf(Broadcaster)),
     }),
-    canAccessSlideOverPane: PropTypes.bool,
+    showMenuAssistant: PropTypes.bool,
 };
 
 DashboardPage.defaultProps = {
     className: null,
     title: 'Dashboard',
     broadcasterSubscribers: {},
-    canAccessSlideOverPane: true,
+    showMenuAssistant: true,
 };
 
 export default DashboardPage;

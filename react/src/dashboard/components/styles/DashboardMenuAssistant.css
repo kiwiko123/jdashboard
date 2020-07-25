@@ -1,4 +1,4 @@
-.DashboardSlideOverPane {
+.DashboardMenuAssistant {
     position: fixed;
     z-index: 1;
     overflow-x: hidden;
@@ -6,40 +6,40 @@
     transition: width 0.45s, height 0.3s;
 }
 
-.DashboardSlideOverPane.top {
+.DashboardMenuAssistant.top {
     top: 0;
 }
 
-.DashboardSlideOverPane.bottom {
+.DashboardMenuAssistant.bottom {
     bottom: 0;
 }
 
-.DashboardSlideOverPane.left {
+.DashboardMenuAssistant.left {
     left: 0;
 }
 
-.DashboardSlideOverPane.right {
+.DashboardMenuAssistant.right {
     right: 0;
 }
 
-.DashboardSlideOverPane.open {
+.DashboardMenuAssistant.open {
     width: 33%;
     height: 100%;
     background-color: white;
     opacity: 95%;
 }
 
-.DashboardSlideOverPane.closed {
+.DashboardMenuAssistant.closed {
     width: 2.6rem;
     height: 2.6rem;
     border-radius: 2.5px;
     background-color: rgb(255, 255, 255, 0.1);
 }
 
-.DashboardSlideOverPane.left > .header > .button-close {
+.DashboardMenuAssistant.left > .header > .button-close {
     float: right;
 }
 
-.DashboardSlideOverPane.right > .header > .button-close {
+.DashboardMenuAssistant.right > .header > .button-close {
     float: left;
 }
