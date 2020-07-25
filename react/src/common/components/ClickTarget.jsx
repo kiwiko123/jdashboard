@@ -10,8 +10,10 @@ export default class ClickTarget extends Component {
         className: PropTypes.string,
         onClick: PropTypes.func,
         draggable: PropTypes.bool,
+        onDrag: PropTypes.func,
         onDragStart: PropTypes.func,
         onDragOver: PropTypes.func,
+        onDragEnd: PropTypes.func,
         onDrop: PropTypes.func,
         onClickOutside: PropTypes.func,
     };
@@ -21,9 +23,11 @@ export default class ClickTarget extends Component {
         className: null,
         onClick: null,
         draggable: false,
-        onDragStart: () => {},
-        onDragOver: (event) => { event.preventDefault(); },
-        onDrop: () => {},
+        onDrag: null,
+        onDragStart: null,
+        onDragOver: null,
+        onDragEnd: null,
+        onDrop: null,
         onClickOutside: () => {},
     };
 
@@ -55,9 +59,12 @@ export default class ClickTarget extends Component {
                 ref={this._setWrapperRef}
                 onClick={this._onClick}
                 draggable={this.props.draggable}
+                onDrag={this.props.onDrag}
                 onDragStart={this.props.onDragStart}
                 onDragOver={this.props.onDragOver}
+                onDragEnd={this.props.onDragEnd}
                 onDrop={this.props.onDrop}
+                style={this.props.style}
             >
                 {this.props.children}
             </div>

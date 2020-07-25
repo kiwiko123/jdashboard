@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.mvc.lifecycle.startup.internal;
 
-import com.kiwiko.Application;
+import com.kiwiko.webapp.Application;
 import com.kiwiko.library.metrics.api.LogService;
 import com.kiwiko.library.metrics.impl.ConsoleLogService;
 import com.kiwiko.webapp.mvc.lifecycle.dependencies.manual.api.annotations.InjectManually;

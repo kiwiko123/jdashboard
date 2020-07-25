@@ -9,6 +9,8 @@ import DashboardAlertBroadcaster from '../../dashboard/state/DashboardAlertBroad
 import DashboardHeaderBroadcaster from '../../dashboard/state/DashboardHeaderBroadcaster';
 import DashboardAlerts from './DashboardAlerts';
 import DashboardHeader from './DashboardHeader';
+import DashboardSlideOverPane from './DashboardSlideOverPane';
+import IconButton from '../../common/components/IconButton';
 
 import '../../common/styles/colors.css';
 import '../../common/styles/common.css';
@@ -37,7 +39,7 @@ function createPageBroadcasters(broadcasterSubscribers = {}) {
 }
 
 const DashboardPage = ({
-    children, className, title, appId, history, broadcasterSubscribers,
+    children, className, title, appId, history, broadcasterSubscribers, canAccessSlideOverPane,
 }) => {
     // Store page-level broadcasters in state to persist them through re-renders
     // (although page-level re-renders should be few and far between).
@@ -50,18 +52,33 @@ const DashboardPage = ({
             Object.values(broadcasters)
                 .forEach(broadcaster => broadcaster.destroy());
         };
-    });
+    }, [title]);
 
     const { headerBroadcaster, alertBroadcaster, userDataBroadcaster } = broadcasters;
     const pageClassName = classnames('DashboardPage', className);
+
+    const [expanded, setExpanded] = useState(false);
+    const slideOverPane = canAccessSlideOverPane && (
+        <DashboardSlideOverPane
+            openFrom="auto"
+            expanded={expanded}
+        >
+        </DashboardSlideOverPane>
+    );
     return (
         <div className={pageClassName}>
+            {slideOverPane}
             <ReceivingElement broadcaster={headerBroadcaster}>
                 <DashboardHeader
                     title={title}
                     appId={appId}
                 />
             </ReceivingElement>
+            <IconButton
+                onClick={() => setExpanded(!expanded)}
+            >
+                Expand
+            </IconButton>
             <hr className="header-divider" />
             <div className="body">
                 <ReceivingElement
@@ -89,12 +106,14 @@ DashboardPage.propTypes = {
         alertBroadcaster: PropTypes.arrayOf(PropTypes.instanceOf(Broadcaster)),
         userDataBroadcaster: PropTypes.arrayOf(PropTypes.instanceOf(Broadcaster)),
     }),
+    canAccessSlideOverPane: PropTypes.bool,
 };
 
 DashboardPage.defaultProps = {
     className: null,
     title: 'Dashboard',
     broadcasterSubscribers: {},
+    canAccessSlideOverPane: true,
 };
 
 export default DashboardPage;

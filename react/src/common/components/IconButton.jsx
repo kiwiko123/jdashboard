@@ -9,7 +9,9 @@ const IconButton = ({
     children, variant, fontAwesomeClassName, disabled, block, onClick, className, size, type,
 }) => {
     const buttonClassName = classnames('IconButton', className);
-    const iconClassName = classnames('icon', fontAwesomeClassName);
+    const iconClassName = classnames('icon', fontAwesomeClassName, {
+        'padded-right': Boolean(children),
+    });
     const icon = fontAwesomeClassName && (<i className={iconClassName} />);
 
     return (
