@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { get } from 'lodash';
 import ReceivingElement from '../../state/components/ReceivingElement';
 import Broadcaster from '../../state/Broadcaster';
 import UserDataBroadcaster from '../../accounts/state/UserDataBroadcaster';
@@ -10,11 +9,10 @@ import DashboardHeaderBroadcaster from '../../dashboard/state/DashboardHeaderBro
 import DashboardAlerts from './DashboardAlerts';
 import DashboardHeader from './DashboardHeader';
 import DashboardMenuAssistant from './DashboardMenuAssistant';
-import IconButton from '../../common/components/IconButton';
 
 import '../../common/styles/colors.css';
 import '../../common/styles/common.css';
-import '../styles/DashboardPage.css';
+import './styles/DashboardPage.css';
 
 function createPageBroadcasters(broadcasterSubscribers = {}) {
     const broadcasters = {
@@ -44,24 +42,26 @@ const DashboardPage = ({
     // Store page-level broadcasters in state to persist them through re-renders
     // (although page-level re-renders should be few and far between).
     const [broadcasters] = useState(createPageBroadcasters(broadcasterSubscribers));
-    useEffect(() => {
-        document.title = title;
 
-        // Clean-up all page-level broadcasters when the page unmounts.
+    // Clean-up all page-level broadcasters when the page unmounts.
+    useEffect(() => {
         return () => {
             Object.values(broadcasters)
                 .forEach(broadcaster => broadcaster.destroy());
         };
+    }, [broadcasters]);
+
+    // Update the browser tab's title.
+    useEffect(() => {
+        document.title = title;
     }, [title]);
 
-    const { headerBroadcaster, alertBroadcaster, userDataBroadcaster } = broadcasters;
+    const { headerBroadcaster, alertBroadcaster } = broadcasters;
     const pageClassName = classnames('DashboardPage', className);
-
-    const [expanded, setExpanded] = useState(false);
     const menuAssistant = showMenuAssistant && (
         <DashboardMenuAssistant
             openFrom="auto"
-            expanded={expanded}
+            expanded={false}
         >
         </DashboardMenuAssistant>
     );
@@ -74,11 +74,6 @@ const DashboardPage = ({
                     appId={appId}
                 />
             </ReceivingElement>
-            <IconButton
-                onClick={() => setExpanded(!expanded)}
-            >
-                Expand
-            </IconButton>
             <hr className="header-divider" />
             <div className="body">
                 <ReceivingElement

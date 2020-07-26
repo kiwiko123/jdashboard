@@ -1,11 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+
+import './styles/HomeContent.css';
 
 const HomeContent = () => {
     return (
         <div className="HomeContent">
             <span>
-                This is the home page!
+                Hi! Welcome to Jdashboard.
             </span>
         </div>
     );

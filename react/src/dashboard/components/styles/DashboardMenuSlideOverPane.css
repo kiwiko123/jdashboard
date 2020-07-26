@@ -1,0 +1,41 @@
+.DashboardMenuSlideOverPane {
+    background-color: white;
+    opacity: 98%;
+}
+
+.DashboardMenuSlideOverPane > * {
+    margin: 0.75rem;
+}
+
+.DashboardMenuSlideOverPane > div > .section {
+    margin-left: 0.5rem;
+}
+
+.DashboardMenuSlideOverPane > .account-information > .account-header {
+    display: flex;
+    align-items: center;
+}
+
+.DashboardMenuSlideOverPane > .account-information > .account-header > .greeting {
+    color: black;
+}
+
+.DashboardMenuSlideOverPane > .account-information > .account-header > .greeting > .username {
+    margin-left: 0.25rem;
+}
+
+.DashboardMenuSlideOverPane > .account-information > .section > .account-button.logout {
+    margin: 0;
+}
+
+.DashboardMenuSlideOverPane > .header {
+    display: flex;
+}
+
+.DashboardMenuSlideOverPane > .header > .button-close {
+    margin: 0 0 0 auto;
+}
+
+.DashboardMenuSlideOverPane > .account-information > .account-button {
+    width: 7rem;
+}

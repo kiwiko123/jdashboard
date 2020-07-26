@@ -5,14 +5,11 @@ import { getUrlParameters, updateQueryParameters } from '../../common/js/urltool
 import {
     NEW_GAME_URL,
     LOAD_GAME_URL,
-    START_GAME_URL,
     VALIDATE_MOVE_URL,
     PLAY_MOVE_URL,
     SAVE_GAME_URL,
 } from '../js/urls';
 import DashboardAlertActions from '../../dashboard/state/actions/DashboardAlertActions';
-
-const SERVER_URL = 'http://localhost:8080';
 
 function getDefaultState() {
     return {

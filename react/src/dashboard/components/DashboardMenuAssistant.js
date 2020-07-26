@@ -37,7 +37,7 @@ const DashboardMenuAssistant = ({
     }, [dimensions]);
 
     const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
-        const { x, y } = coordinates;
+    const { x, y } = coordinates;
 
     const openFromDirective = isExpanded
         ? getOpenFromDirective(openFrom, x, y, dimensions.width, dimensions.height)

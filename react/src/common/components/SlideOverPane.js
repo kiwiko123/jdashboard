@@ -22,7 +22,7 @@ const SlideOverPane = ({
     });
     return (
         <div className={divClassName}>
-            {children}
+            {isExpanded && children}
         </div>
     );
 };

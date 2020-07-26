@@ -31,3 +31,7 @@
 .SlideOverPane.from-top.closed, .SlideOverPane.closed.from-bottom.closed {
     height: 0;
 }
+
+.SlideOverPane > .body {
+    z-index: 2;
+}
