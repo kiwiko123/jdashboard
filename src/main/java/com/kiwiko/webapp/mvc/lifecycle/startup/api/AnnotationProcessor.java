@@ -53,7 +53,7 @@ public abstract class AnnotationProcessor<A extends Annotation> extends ClassPro
     private boolean canProcessElement(ElementType elementType) {
         Target[] targets = getAnnotationType().getDeclaredAnnotationsByType(Target.class);
         Set<ElementType> supportedElementTypes = Arrays.stream(targets)
-                .map(target -> target.value())
+                .map(Target::value)
                 .flatMap(Arrays::stream)
                 .collect(Collectors.toSet());
 

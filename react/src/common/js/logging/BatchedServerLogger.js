@@ -4,7 +4,7 @@ import Logger from './Logger';
 import ConsoleLogger from './ConsoleLogger';
 
 const LOG_BY_LEVEl_BATCHED_URL = '/logging/api/log/batched/by-level';
-const BATCH_SIZE = 5;
+const BATCH_SIZE = 10;
 const MINIMUM_STALE_SECONDS = 60;
 
 let LOGS = [];

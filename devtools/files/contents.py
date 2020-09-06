@@ -10,7 +10,8 @@ class FileSnapshot:
     def __init__(self, path: pathlib.Path, should_load=False) -> None:
         self._path = path
         self._bytes_size = path.stat().st_size
-        self._content = _get_file_content(path) if should_load else None
+        self._content = None
+        self._should_load = should_load
 
     @property
     def path(self) -> pathlib.Path:
@@ -22,6 +23,8 @@ class FileSnapshot:
 
     @property
     def content(self) -> str:
+        if self._content is None and self._should_load:
+            self._content = _get_file_content(self._path)
         return self._content
 
     def reload(self) -> None:
@@ -32,10 +35,10 @@ class FileSnapshot:
             return True
         if not isinstance(other, FileSnapshot):
             return False
-        return self._path == other._path and self._bytes_size == other._bytes_size and self._content == other._content
+        return self._path == other._path and self._bytes_size == other._bytes_size and self.content == other.content
 
     def __hash__(self) -> int:
-        return hash((self._path, self._bytes_size, self._content))
+        return hash((self._path, self._bytes_size, self.content))
 
 
 if __name__ == '__main__':

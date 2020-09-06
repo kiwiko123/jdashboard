@@ -66,15 +66,7 @@ function createHeaderButtons(props) {
 }
 
 const DashboardHeader = (props) => {
-    const { title } = props;
     const headerButtons = createHeaderButtons(props);
-    const menuPaneButton = !props.isMenuSlideOverExpanded && (
-        <IconButton
-            fontAwesomeClassName="fas fa-bars"
-            variant="outline-light"
-            onClick={props.toggleMenuSlideOver}
-        />
-    );
 
     return (
         <div className="DashboardHeader">
@@ -85,9 +77,13 @@ const DashboardHeader = (props) => {
                     toggleExpand={props.toggleMenuSlideOver}
                     accountProps={props.userData}
                 />
-                {menuPaneButton}
+                <IconButton
+                    fontAwesomeClassName="fas fa-bars"
+                    variant="outline-light"
+                    onClick={props.toggleMenuSlideOver}
+                />
                 <h1 className="color-white">
-                    {title}
+                    {props.title}
                 </h1>
             </div>
         </div>

@@ -35,7 +35,7 @@ const DashboardAlerts = ({ alerts, className, removeAlert }) => {
     const componentClassName = classnames('DashboardAlerts', className);
     const banners = alerts.map(alert => makeAlertBanner({ alert, removeAlert }));
 
-    return (
+    return banners.length > 0 && (
         <div className={componentClassName}>
             {banners}
         </div>

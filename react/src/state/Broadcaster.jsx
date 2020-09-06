@@ -3,6 +3,10 @@ import { registerAction, removeAction } from './actions';
 import logger from '../common/js/logging';
 
 function some(iterable, predicate) {
+    if (Array.isArray(iterable)) {
+        return iterable.some(predicate);
+    }
+
     for (const item of iterable) {
         if (predicate(item)) {
             return true;

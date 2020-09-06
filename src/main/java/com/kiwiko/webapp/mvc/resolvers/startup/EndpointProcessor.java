@@ -2,6 +2,7 @@ package com.kiwiko.webapp.mvc.resolvers.startup;
 
 import com.google.common.collect.Sets;
 import com.kiwiko.webapp.mvc.lifecycle.startup.api.ClassProcessor;
+import com.kiwiko.webapp.mvc.lifecycle.startup.api.errors.ClassProcessorStage;
 import com.kiwiko.webapp.mvc.lifecycle.startup.api.errors.LifecycleException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,15 +13,16 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Set;
 
 public abstract class EndpointProcessor extends ClassProcessor {
 
-    private static Collection<Class<?>> REQUEST_MAPPING_TYPES = Sets.newHashSet(RequestMapping.class, GetMapping.class, PostMapping.class, PutMapping.class);
+    private static Set<Class<?>> REQUEST_MAPPING_TYPES = Sets.newHashSet(RequestMapping.class, GetMapping.class, PostMapping.class, PutMapping.class);
 
     protected abstract void processMethod(Method method) throws RuntimeException;
 
     @Override
-    protected void handleException(Exception exception) throws RuntimeException {
+    protected void handleException(Exception exception, ClassProcessorStage stage) throws LifecycleException {
         throw new LifecycleException(exception);
     }
 
