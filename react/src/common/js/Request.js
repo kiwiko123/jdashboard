@@ -1,4 +1,4 @@
-import { endsWith, get, isEmpty, isNil, isNumber, startsWith } from 'lodash';
+import { endsWith, get, isEmpty, isNil, isNumber, omit, startsWith } from 'lodash';
 import { getServerUrl } from './config';
 
 function normalizeUrl(base, url) {
@@ -46,6 +46,7 @@ export default class Request {
         this.body = {};
         this.extractResponse = extractResponse;
         this.handleErrors = () => {};
+        this._internalFetchParameters = {};
     }
 
     withBody(body) {
@@ -65,6 +66,15 @@ export default class Request {
 
     withErrorHandler(errorHandler) {
         this.handleErrors = errorHandler;
+        return this;
+    }
+
+    withAuthentication(value = true) {
+        if (value) {
+            this._internalFetchParameters.credentials = 'include';
+        } else {
+            this._internalFetchParameters = omit('credentials');
+        }
         return this;
     }
 
@@ -108,7 +118,11 @@ export default class Request {
     }
 
     async __makeRequest(url, parameters) {
-        return fetch(url, parameters)
+        const allParameters = {
+            ...this._internalFetchParameters,
+            ...parameters,
+        };
+        return fetch(url, allParameters)
             .then(response => response.json())
             .then((response) => {
                 this.handleErrors(response);

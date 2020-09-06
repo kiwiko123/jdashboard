@@ -101,7 +101,8 @@ export default class ScrabbleGameBroadcaster extends Broadcaster {
         }
 
         Request.to(url)
-            .get({ credentials: 'include' })
+            .withAuthentication()
+            .get()
             .then((payload) => {
                 this.updateGameState(payload);
                 updateQueryParameters({ gameId: payload.id });
@@ -115,7 +116,8 @@ export default class ScrabbleGameBroadcaster extends Broadcaster {
 
     newGame() {
         Request.to(NEW_GAME_URL)
-            .get({ credentials: 'include' })
+            .withAuthentication()
+            .get()
             .then((payload) => {
                 this.updateGameState(payload);
                 updateQueryParameters({ gameId: payload.id });
@@ -256,7 +258,8 @@ export default class ScrabbleGameBroadcaster extends Broadcaster {
         };
         Request.to(SAVE_GAME_URL)
             .withBody(payload)
-            .post({ credentials: 'include' })
+            .withAuthentication()
+            .post()
             .then((payload) => {
                 this.setState({ gameSaved: true });
             });
