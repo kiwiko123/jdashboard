@@ -1,9 +1,36 @@
-import React, { PureComponent, cloneElement } from 'react';
+import React, { PureComponent, cloneElement, useEffect, useReducer, useState } from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import Broadcaster from '../Broadcaster';
 
-let id = 0;
+let _global_id = 0;
+
+const ReceivingElement = ({
+    children, broadcaster,
+}) => {
+    const [id] = useState(_global_id++);
+    const [, forceUpdate] = useReducer(i => i + 1, 0);
+    useEffect(() => {
+        broadcaster._setUpdater(forceUpdate, id);
+        return () => broadcaster.removeUpdater(id);
+    }, []);
+
+    const broadcasterState = broadcaster.getState();
+    const element = isEmpty(broadcasterState) ? children : cloneElement(children, broadcasterState);
+
+    return (
+        <>
+            {element}
+        </>
+    );
+};
+
+ReceivingElement.propTypes = {
+    children: PropTypes.element.isRequired,
+    broadcaster: PropTypes.instanceOf(Broadcaster).isRequired,
+};
+
+export default ReceivingElement;
 
 /**
  * A component that accepts a Broadcaster and a child that's a React component.
@@ -12,7 +39,7 @@ let id = 0;
  * A ReceivingElement is a PureComponent because it need not know when its own props are updated;
  * the broadcaster internally _tells_ it when to update.
  */
-export default class ReceivingElement extends PureComponent {
+export class LegacyReceivingElement extends PureComponent {
 
     static propTypes = {
         broadcaster: PropTypes.instanceOf(Broadcaster).isRequired,
@@ -38,7 +65,7 @@ export default class ReceivingElement extends PureComponent {
         super(props);
         this.update = this.update.bind(this);
         this.state = { updateCount: 0 };
-        this.id = id++;
+        this.id = _global_id++;
     }
 
     render() {
