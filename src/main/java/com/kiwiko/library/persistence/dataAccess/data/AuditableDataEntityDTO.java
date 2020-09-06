@@ -44,7 +44,7 @@ public abstract class AuditableDataEntityDTO extends TypeIdentifiable<Long> impl
 
     @Override
     public boolean getIsRemoved() {
-        return false;
+        return isRemoved;
     }
 
     @Override

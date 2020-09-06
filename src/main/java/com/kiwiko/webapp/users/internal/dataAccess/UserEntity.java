@@ -89,7 +89,7 @@ public class UserEntity extends AuditableDataEntity {
     @Column(name = "is_removed", nullable = false)
     @Override
     public boolean getIsRemoved() {
-        return false;
+        return isRemoved;
     }
 
     @Override
