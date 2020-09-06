@@ -25,7 +25,7 @@ export default class ClickTarget extends Component {
         draggable: false,
         onDrag: null,
         onDragStart: null,
-        onDragOver: null,
+        onDragOver: event => event.preventDefault(),
         onDragEnd: null,
         onDrop: null,
         onClickOutside: () => {},
