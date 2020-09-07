@@ -54,7 +54,7 @@ const DashboardPage = ({
     // Update the browser tab's title.
     useEffect(() => {
         document.title = title;
-    }, [title]);
+    });
 
     const { headerBroadcaster, alertBroadcaster } = broadcasters;
     const pageClassName = classnames('DashboardPage', className);

@@ -1,16 +1,16 @@
-// eslint-disable-next-line no-unused-vars
 import React from 'react';
 import DashboardPage from '../../dashboard/components/DashboardPage';
 import ScrabbleGame from '../components/ScrabbleGame';
 import ReceivingElement from '../../state/components/ReceivingElement';
 import ScrabbleGameBroadcaster from '../state/ScrabbleGameBroadcaster';
 import ScrabbleErrorBroadcaster from '../state/ScrabbleErrorBroadcaster';
+import useBroadcaster from '../../state/hooks/useBroadcaster';
 
 import '../styles/ScrabblePlayPage.css';
 
 export default function ScrabblePlayPage({ history }) {
-  const scrabbleGameBroadcaster = new ScrabbleGameBroadcaster();
-  const scrabbleErrorBroadcaster = new ScrabbleErrorBroadcaster();
+  const scrabbleGameBroadcaster = useBroadcaster(ScrabbleGameBroadcaster);
+  const scrabbleErrorBroadcaster = useBroadcaster(ScrabbleErrorBroadcaster);
 
   scrabbleGameBroadcaster.register(scrabbleErrorBroadcaster);
 
