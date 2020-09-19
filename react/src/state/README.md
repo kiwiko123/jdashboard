@@ -37,7 +37,7 @@ export default class MyBroadcaster extends Broadcaster {
 **MyPage.jsx**
 ```javascript
 import MyBroadcaster from './MyBroadcaster';
-import ReceivingElement from './components/ReceivingElement';
+import ComponentStateManager from './components/ComponentStateManager';
 import MyComponent from './components/MyComponent';
 
 const MyPage = () => {
@@ -45,9 +45,9 @@ const MyPage = () => {
 
     return (
         <div className="MyPage">
-            <ReceivingElement broadcaster={myBroadcaster}>
+            <ComponentStateManager broadcaster={myBroadcaster}>
                 <MyComponent />
-            </ReceivingElement>
+            </ComponentStateManager>
         </div>
     );
 };

@@ -1,10 +1,10 @@
 import React from 'react';
 import DashboardPage from '../../dashboard/components/DashboardPage';
 import ScrabbleGame from '../components/ScrabbleGame';
-import ReceivingElement from '../../state/components/ReceivingElement';
+import ComponentStateManager from '../../state/components/ComponentStateManager';
 import ScrabbleGameBroadcaster from '../state/ScrabbleGameBroadcaster';
 import ScrabbleErrorBroadcaster from '../state/ScrabbleErrorBroadcaster';
-import useBroadcaster from '../../state/hooks/useBroadcaster';
+import { useBroadcaster } from '../../state/hooks';
 
 import '../styles/ScrabblePlayPage.css';
 
@@ -26,12 +26,9 @@ export default function ScrabblePlayPage({ history }) {
         history={history}
         broadcasterSubscribers={pageBroadcasterSubscribers}
       >
-        <ReceivingElement
-            broadcaster={scrabbleGameBroadcaster}
-            waitForBroadcaster={true}
-        >
+        <ComponentStateManager broadcaster={scrabbleGameBroadcaster}>
             <ScrabbleGame />
-        </ReceivingElement>
+        </ComponentStateManager>
       </DashboardPage>
   );
 }

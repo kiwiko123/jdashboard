@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DashboardPage from '../../dashboard/components/DashboardPage';
-import ReceivingElement from '../../state/components/ReceivingElement';
+import ComponentStateManager from '../../state/components/ComponentStateManager';
 import LoginFormBroadcaster from '../state/LoginFormBroadcaster';
 import LoginForm from '../components/LoginForm';
 
@@ -16,12 +16,9 @@ const LoginPage = ({ history }) => {
             title="Login"
             appId="login"
         >
-            <ReceivingElement
-                broadcaster={loginFormBroadcaster}
-                waitForBroadcaster={true}
-            >
+            <ComponentStateManager broadcaster={loginFormBroadcaster}>
                 <LoginForm />
-            </ReceivingElement>
+            </ComponentStateManager>
         </DashboardPage>
 
     );
