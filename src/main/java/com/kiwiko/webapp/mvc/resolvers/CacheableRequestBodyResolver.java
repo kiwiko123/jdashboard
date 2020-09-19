@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.mvc.resolvers;
 
-import com.kiwiko.library.memory.caching.api.CacheService;
+import com.kiwiko.library.caching.api.CacheService;
 import com.kiwiko.library.metrics.api.LogService;
 import com.kiwiko.webapp.mvc.json.api.JsonMapper;
 import com.kiwiko.webapp.mvc.json.api.errors.JsonException;

@@ -6,10 +6,11 @@ public abstract class TypeIdentifiable<T> implements Identifiable<T> {
 
     @Override
     public String toString() {
-        if (getId() == null) {
+        T id = getId();
+        if (id == null) {
             return super.toString();
         }
-        return String.format("%s(id=%s)", getClass().getSimpleName(), getId().toString());
+        return String.format("%s(id=%s)", getClass().getSimpleName(), id.toString());
     }
 
     @Override

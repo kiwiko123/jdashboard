@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.mvc.requests.internal;
 
-import com.kiwiko.library.memory.caching.api.CacheService;
+import com.kiwiko.library.caching.api.CacheService;
 import com.kiwiko.webapp.mvc.requests.data.RequestContext;
 
 import javax.inject.Inject;
