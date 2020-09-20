@@ -6,12 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 public class ResponseBuilder {
 
     private @Nullable Object body;
-    private final Collection<String> errors;
+    private final List<String> errors;
     private HttpStatus status;
 
     public ResponseBuilder() {

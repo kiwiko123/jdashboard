@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { get } from 'lodash';
-import ReceivingElement from '../../state/components/ReceivingElement';
+import ComponentStateManager from '../../state/components/ComponentStateManager';
 import Broadcaster from '../../state/Broadcaster';
 import UserDataBroadcaster from '../../accounts/state/UserDataBroadcaster';
 import DashboardAlertBroadcaster from '../../dashboard/state/DashboardAlertBroadcaster';
 import DashboardHeaderBroadcaster from '../../dashboard/state/DashboardHeaderBroadcaster';
 import DashboardAlerts from './DashboardAlerts';
 import DashboardHeader from './DashboardHeader';
+import DashboardMenuAssistant from './DashboardMenuAssistant';
 
 import '../../common/styles/colors.css';
 import '../../common/styles/common.css';
-import '../styles/DashboardPage.css';
+import './styles/DashboardPage.css';
 
 function createPageBroadcasters(broadcasterSubscribers = {}) {
     const broadcasters = {
@@ -37,39 +37,48 @@ function createPageBroadcasters(broadcasterSubscribers = {}) {
 }
 
 const DashboardPage = ({
-    children, className, title, appId, history, broadcasterSubscribers,
+    children, className, title, appId, history, broadcasterSubscribers, showMenuAssistant,
 }) => {
     // Store page-level broadcasters in state to persist them through re-renders
     // (although page-level re-renders should be few and far between).
     const [broadcasters] = useState(createPageBroadcasters(broadcasterSubscribers));
-    useEffect(() => {
-        document.title = title;
 
-        // Clean-up all page-level broadcasters when the page unmounts.
+    // Clean-up all page-level broadcasters when the page unmounts.
+    useEffect(() => {
         return () => {
             Object.values(broadcasters)
                 .forEach(broadcaster => broadcaster.destroy());
         };
+    }, [broadcasters]);
+
+    // Update the browser tab's title.
+    useEffect(() => {
+        document.title = title;
     });
 
-    const { headerBroadcaster, alertBroadcaster, userDataBroadcaster } = broadcasters;
+    const { headerBroadcaster, alertBroadcaster } = broadcasters;
     const pageClassName = classnames('DashboardPage', className);
+    const menuAssistant = showMenuAssistant && (
+        <DashboardMenuAssistant
+            openFrom="auto"
+            expanded={false}
+        >
+        </DashboardMenuAssistant>
+    );
     return (
         <div className={pageClassName}>
-            <ReceivingElement broadcaster={headerBroadcaster}>
+            {menuAssistant}
+            <ComponentStateManager broadcaster={headerBroadcaster}>
                 <DashboardHeader
                     title={title}
                     appId={appId}
                 />
-            </ReceivingElement>
+            </ComponentStateManager>
             <hr className="header-divider" />
             <div className="body">
-                <ReceivingElement
-                    broadcaster={alertBroadcaster}
-                    waitForBroadcaster={true}
-                >
+                <ComponentStateManager broadcaster={alertBroadcaster}>
                     <DashboardAlerts />
-                </ReceivingElement>
+                </ComponentStateManager>
                 {children}
             </div>
         </div>
@@ -89,12 +98,14 @@ DashboardPage.propTypes = {
         alertBroadcaster: PropTypes.arrayOf(PropTypes.instanceOf(Broadcaster)),
         userDataBroadcaster: PropTypes.arrayOf(PropTypes.instanceOf(Broadcaster)),
     }),
+    showMenuAssistant: PropTypes.bool,
 };
 
 DashboardPage.defaultProps = {
     className: null,
     title: 'Dashboard',
     broadcasterSubscribers: {},
+    showMenuAssistant: true,
 };
 
 export default DashboardPage;

@@ -1,0 +1,41 @@
+.SlideOverPane {
+    position: fixed;
+    z-index: 1;
+    overflow-x: hidden;
+    transition-timing-function: ease;
+}
+
+.SlideOverPane.open {
+    width: 33%;
+    height: 100%;
+}
+
+.SlideOverPane.from-side {
+    transition: 0.45s;
+}
+
+.SlideOverPane.from-side.closed {
+    width: 0;
+    height: 100%;
+}
+
+.SlideOverPane.from-top, .SlideOverPane.from-bottom {
+    transition: 0.45s;
+    width: 33%;
+}
+
+.SlideOverPane.from-top {
+    top: 0;
+}
+
+.SlideOverPane.from-bottom {
+    bottom: 0;
+}
+
+.SlideOverPane.from-top.closed, .SlideOverPane.from-bottom.closed {
+    height: 0;
+}
+
+.SlideOverPane > .body {
+    z-index: 2;
+}

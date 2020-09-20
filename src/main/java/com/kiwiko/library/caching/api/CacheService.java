@@ -1,4 +1,4 @@
-package com.kiwiko.library.memory.caching.api;
+package com.kiwiko.library.caching.api;
 
 import java.time.temporal.TemporalAmount;
 import java.util.Optional;

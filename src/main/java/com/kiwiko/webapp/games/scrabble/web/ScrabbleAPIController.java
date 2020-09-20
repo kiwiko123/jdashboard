@@ -12,13 +12,12 @@ import com.kiwiko.webapp.games.scrabble.api.ScrabbleGameService;
 import com.kiwiko.webapp.games.scrabble.game.data.ScrabbleGame;
 import com.kiwiko.webapp.games.scrabble.game.data.ScrabbleSubmittedTile;
 import com.kiwiko.webapp.mvc.requests.data.RequestContext;
-import com.kiwiko.webapp.mvc.security.environments.data.EnvironmentProperties;
+import com.kiwiko.webapp.mvc.security.authentication.api.annotations.CrossOriginConfigured;
 import com.kiwiko.webapp.users.api.UserService;
 import com.kiwiko.webapp.users.data.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +29,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = EnvironmentProperties.CROSS_ORIGIN_URL, allowCredentials = "true")
+@CrossOriginConfigured
 @RestController
 public class ScrabbleAPIController {
 

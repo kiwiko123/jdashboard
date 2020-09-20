@@ -1,7 +1,7 @@
-package com.kiwiko.library.memory.caching.internal;
+package com.kiwiko.library.caching.internal;
 
-import com.kiwiko.library.memory.caching.api.PartialCacheService;
-import com.kiwiko.library.memory.caching.data.CacheValue;
+import com.kiwiko.library.caching.api.PartialCacheService;
+import com.kiwiko.library.caching.data.CacheValue;
 
 import javax.inject.Singleton;
 import java.time.Instant;

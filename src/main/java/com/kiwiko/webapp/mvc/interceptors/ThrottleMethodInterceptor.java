@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.mvc.interceptors;
 
-import com.kiwiko.library.memory.caching.api.CacheService;
+import com.kiwiko.library.caching.api.CacheService;
 import com.kiwiko.webapp.mvc.performance.api.annotations.Throttle;
 import com.kiwiko.webapp.mvc.performance.api.errors.ThrottleException;
 import com.kiwiko.library.metrics.api.LogService;

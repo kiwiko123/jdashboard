@@ -1,4 +1,4 @@
-package com.kiwiko;
+package com.kiwiko.webapp;
 
 import com.kiwiko.webapp.mvc.lifecycle.startup.internal.ClassScannerRegistry;
 import org.springframework.boot.SpringApplication;

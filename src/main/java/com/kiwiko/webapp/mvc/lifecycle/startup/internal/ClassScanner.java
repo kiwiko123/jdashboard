@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.mvc.lifecycle.startup.internal;
 
-import com.kiwiko.Application;
+import com.kiwiko.webapp.Application;
 import com.kiwiko.library.metrics.api.LogService;
 import com.kiwiko.library.metrics.impl.ConsoleLogService;
 import com.kiwiko.webapp.mvc.lifecycle.dependencies.manual.api.annotations.InjectManually;
@@ -54,12 +54,11 @@ public class ClassScanner {
     public void process() {
         Set<Class<?>> allClasses = scan();
         for (Class<?> clazz : allClasses) {
-            classProcessors.stream()
-                    .forEach(classProcessor -> classProcessor.process(clazz));
+            classProcessors.forEach(classProcessor -> classProcessor.process(clazz));
         }
     }
 
-    private <T extends ClassProcessor> T createClassProcessor(Class<T> clazz) {
+    private <T extends ClassProcessor> T createClassProcessor(Class<T> clazz) throws LifecycleException {
         try {
             return clazz.getDeclaredConstructor().newInstance();
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
@@ -78,15 +77,14 @@ public class ClassScanner {
     }
 
     private Set<Class<?>> getWhitelistedClasses(ClassPathScanningCandidateComponentProvider provider) {
-        Set<Class<?>> result = new HashSet<>();
-        result.add(Application.class);
-
-        String packageName = getClass().getPackageName();
-        provider.findCandidateComponents(packageName).stream()
+        String packageName = getClass().getPackageName(); // Whitelist all classes in ClassScanner's package
+        Set<Class<?>> result = provider.findCandidateComponents(packageName).stream()
                 .map(BeanDefinition::getBeanClassName)
                 .map(this::toClass)
                 .flatMap(Optional::stream)
-                .forEach(result::add);
+                .collect(Collectors.toSet());
+
+        result.add(Application.class);
 
         return result;
     }

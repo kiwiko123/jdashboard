@@ -13,22 +13,17 @@
 .header-button {
     display: flex;
     align-items: center;
-    margin-left: 1.5rem;
-    color: white;
+    color: black;
     width: 7rem;
     justify-content: center;
 }
 
 .header-button-link {
-    color: white;
+    color: black;
 }
 
 :hover(.header-button), :hover(.header-button-link) {
     color: black;
-}
-
-.header-button.login, .header-button.logout {
-    margin-left: auto;
 }
 
 .greeting {
@@ -37,7 +32,11 @@
     color: white;
 }
 
-.account-menu {
-    background-color: black;
-    color: white;
+.DashboardMenuSlideOverPane {
+    bottom: 0;
+    height: 100%;
+}
+
+.DashboardMenuSlideOverPane > .content > .quick-links > .buttons {
+    display: flex;
 }

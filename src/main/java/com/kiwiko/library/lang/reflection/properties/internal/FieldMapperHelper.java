@@ -76,6 +76,7 @@ public class FieldMapperHelper {
 
     public <S, T> void copyFieldsToObject(S source, T target) throws PropertyMappingException {
         reflectionHelper.getFields(source.getClass()).stream()
+                // TODO call findField once instead of twice
                 .filter(field -> canCopyField(field, target.getClass()))
                 .forEach(field -> copyField(field, source, target));
     }

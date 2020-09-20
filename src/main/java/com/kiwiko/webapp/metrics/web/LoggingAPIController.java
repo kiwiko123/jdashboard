@@ -24,8 +24,8 @@ public class LoggingAPIController {
     private LogService logService;
 
     @PostMapping("/logging/api/log/by-level")
-    public ResponseEntity<ResponsePayload> logByLevel(@RequestBody LogData log) {
-        log(log);
+    public ResponseEntity<ResponsePayload> logByLevel(@RequestBody LogData logData) {
+        log(logData);
         return ResponseBuilder.ok();
     }
 

@@ -9,6 +9,7 @@ const HomePage = ({ history }) => {
             className="HomePage"
             title="Home"
             appId="home"
+            history={history}
         >
             <HomeContent />
         </DashboardPage>

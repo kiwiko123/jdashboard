@@ -1,23 +1,6 @@
-import { throttle } from 'lodash';
 import { registerAction, removeAction } from './actions';
 import logger from '../common/js/logging';
-
-function some(iterable, predicate) {
-    for (const item of iterable) {
-        if (predicate(item)) {
-            return true;
-        }
-    }
-    return false;
-}
-
-/**
- * Recursively checks if the current broadcaster is present in any of its listeners.
- * Returns true if any sub-listener links to the broadcaster defined by `id`.
- */
-function isPresentInListeners(broadcaster, id) {
-    return broadcaster.constructor.getId() === id || some(broadcaster.__listeners, listener => isPresentInListeners(listener, id));
-}
+import { isPresentInListeners } from './helpers/util';
 
 let instanceId = 0;
 
@@ -54,8 +37,9 @@ export default class Broadcaster {
         this.__enabled = true;
 
         this.register = this.register.bind(this);
-        this.update = throttle(this.update, this.reRenderMillis, { leading: false, trailing: true });
+        this.__lastUpdatedTime = new Date();
         this.__updaters = new Map();
+        this.__stateQueue = [];
     }
 
     /**
@@ -65,7 +49,7 @@ export default class Broadcaster {
      * Do not override this.
      */
     setState(newState) {
-        Object.assign(this.state, newState);
+        this.__stateQueue.push(newState);
         if (this.canUpdate()) {
             this.update();
         }
@@ -113,7 +97,7 @@ export default class Broadcaster {
      * The updater will effectively call setState on the ReceivingElement to induce a re-render.
      * Do not override this.
      */
-    setUpdater(updater, id) {
+    _setUpdater(updater, id) {
         this.__updaters.set(id, updater);
     }
 
@@ -122,6 +106,8 @@ export default class Broadcaster {
      * Returning a copy of the state may be safer, but returning a reference may be more performant.
      */
     getState() {
+        logger.debug(`[${this.constructor.getId()}] State queue length: ${this.__stateQueue.length}`);
+        this._updateState();
         return this.state;
     }
 
@@ -131,7 +117,17 @@ export default class Broadcaster {
      * rather, it's a signal that it _can_.
      */
     canUpdate() {
-        return this.__enabled;
+        if (!this.__enabled) {
+            return false;
+        }
+
+        const now = new Date();
+        if (now - this.__lastUpdatedTime >= this.reRenderMillis) {
+            this.__lastUpdatedTime = now;
+            return true;
+        }
+
+        return false;
     }
 
     update() {
@@ -165,6 +161,20 @@ export default class Broadcaster {
 
     disable() {
         this.__enabled = false;
+    }
+
+    _updateState() {
+        if (this.__stateQueue.length === 0) {
+            return;
+        }
+
+        // Pending updates will likely be smaller than `this.state`;
+        // by first building up an object with all pending state changes,
+        // the overall number of fields being `Object.assign`ed should be reduced.
+        const newState = {};
+        this.__stateQueue.forEach(pendingState => Object.assign(newState, pendingState));
+        this.__stateQueue = [];
+        Object.assign(this.state, newState);
     }
 
     // ==============

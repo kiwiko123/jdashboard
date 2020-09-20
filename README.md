@@ -20,7 +20,7 @@ In general, the Java packages in this project adhere to the following structure:
 * `web`
 
 #### `api`
-The public-facing package containing code that's meant to be externally used.
+A public-facing package containing code intended for external consumption.
 Often, this will consist of interfaces, annotations, and exception classes.
 
 #### `data`
@@ -29,14 +29,14 @@ This mostly consists of [Data Transfer Objects](https://en.wikipedia.org/wiki/Da
 
 #### `internal`
 A package that's meant to be internal to its directory.
-That is, packages _outside_ of it should not be directly accessing any of its classes.
+That is, packages _outside_ of it should not directly access any of its classes.
 An exception to this would be for dependency injection configurations.
 
 This often consists of implementation classes for interfaces.
 
 ##### `internal.dataAccess`
 For a web application, this also includes database-related objects like [JPA entities](https://en.wikipedia.org/wiki/Java_Persistence_API#Entities) and Data Access Objects (DAOs).
-External consumers should access logic using public services and DTOs.
+External consumers should access logic through public services and DTOs.
 
 #### `web`
 A package that contains code related to web functionality, like [REST](https://en.wikipedia.org/wiki/Representational_state_transfer) controllers.

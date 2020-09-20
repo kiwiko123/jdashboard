@@ -2,6 +2,6 @@
     margin: 0 1%;
 }
 
-.icon {
+.icon.padded-right {
     margin-right: 0.5rem;
 }

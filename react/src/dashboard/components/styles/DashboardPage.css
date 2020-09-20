@@ -7,3 +7,12 @@
 .body {
     margin-top: 1.5rem;
 }
+
+.DashboardMenuAssistant {
+    right: 0;
+    bottom: 5%;
+}
+
+.DashboardMenuSlideOverPane {
+    left: 0;
+}
