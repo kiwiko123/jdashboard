@@ -8,7 +8,7 @@ import DashboardAlertBroadcaster from '../../dashboard/state/DashboardAlertBroad
 import DashboardHeaderBroadcaster from '../../dashboard/state/DashboardHeaderBroadcaster';
 import DashboardAlerts from './DashboardAlerts';
 import DashboardHeader from './DashboardHeader';
-import DashboardMenuAssistant from './DashboardMenuAssistant';
+import DashboardMenuAssistantPane from './DashboardMenuAssistantPane';
 
 import '../../common/styles/colors.css';
 import '../../common/styles/common.css';
@@ -37,7 +37,7 @@ function createPageBroadcasters(broadcasterSubscribers = {}) {
 }
 
 const DashboardPage = ({
-    children, className, title, appId, history, broadcasterSubscribers, showMenuAssistant,
+    children, className, title, appId, broadcasterSubscribers, showMenuAssistant,
 }) => {
     // Store page-level broadcasters in state to persist them through re-renders
     // (although page-level re-renders should be few and far between).
@@ -59,11 +59,11 @@ const DashboardPage = ({
     const { headerBroadcaster, alertBroadcaster } = broadcasters;
     const pageClassName = classnames('DashboardPage', className);
     const menuAssistant = showMenuAssistant && (
-        <DashboardMenuAssistant
+        <DashboardMenuAssistantPane
             openFrom="auto"
             expanded={false}
         >
-        </DashboardMenuAssistant>
+        </DashboardMenuAssistantPane>
     );
     return (
         <div className={pageClassName}>
@@ -90,9 +90,6 @@ DashboardPage.propTypes = {
     className: PropTypes.string,
     title: PropTypes.string,
     appId: PropTypes.string.isRequired,
-    history: PropTypes.shape({
-        push: PropTypes.func.isRequired,
-    }).isRequired,
     broadcasterSubscribers: PropTypes.shape({
         headerBroadcaster: PropTypes.arrayOf(PropTypes.instanceOf(Broadcaster)),
         alertBroadcaster: PropTypes.arrayOf(PropTypes.instanceOf(Broadcaster)),

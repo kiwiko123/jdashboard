@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 function useBroadcaster(broadcasterType) {
     const [broadcaster] = useState(new broadcasterType());
