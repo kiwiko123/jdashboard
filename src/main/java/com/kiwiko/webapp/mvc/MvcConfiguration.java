@@ -2,6 +2,7 @@ package com.kiwiko.webapp.mvc;
 
 import com.kiwiko.library.caching.api.CacheService;
 import com.kiwiko.library.caching.internal.InMemoryCacheService;
+import com.kiwiko.webapp.mvc.json.impl.resolvers.CustomRequestBodyResolver;
 import com.kiwiko.webapp.mvc.performance.api.annotations.Throttle;
 import com.kiwiko.webapp.metrics.api.annotations.CaptureMetrics;
 import com.kiwiko.webapp.mvc.configuration.ConfigurationHelper;
@@ -45,6 +46,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(requestBodyParameterResolver());
         resolvers.add(requestBodyCollectionParameterResolver());
+        resolvers.add(customRequestBodyResolver());
         resolvers.add(requestContextResolver());
     }
 
@@ -100,6 +102,11 @@ public class MvcConfiguration implements WebMvcConfigurer {
     @Bean
     public RequestBodyCollectionParameterResolver requestBodyCollectionParameterResolver() {
         return new RequestBodyCollectionParameterResolver();
+    }
+
+    @Bean
+    public CustomRequestBodyResolver customRequestBodyResolver() {
+        return new CustomRequestBodyResolver();
     }
 
     @Bean

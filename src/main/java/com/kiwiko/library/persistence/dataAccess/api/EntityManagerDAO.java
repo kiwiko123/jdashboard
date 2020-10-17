@@ -14,6 +14,7 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -91,8 +92,20 @@ public abstract class EntityManagerDAO<T extends Identifiable<Long>> {
         return entityManager.getCriteriaBuilder();
     }
 
+    protected Root<T> root() {
+        CriteriaBuilder builder = criteriaBuilder();
+        CriteriaQuery<T> query = builder.createQuery(entityType);
+        return query.from(entityType);
+    }
+
     protected Query createQuery(CriteriaQuery<T> query) {
         return entityManager.createQuery(query);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected List<T> getResultList(CriteriaQuery<T> query) {
+        Query primedQuery = createQuery(query);
+        return (List<T>) primedQuery.getResultList();
     }
 
     protected Optional<T> getSingleResult(CriteriaQuery<T> query) {
@@ -124,5 +137,12 @@ public abstract class EntityManagerDAO<T extends Identifiable<Long>> {
         Predicate fieldInValues = field.in(values);
 
         return query.where(fieldInValues);
+    }
+
+    protected <V> CriteriaQuery<T> selectByPredicate(Predicate predicate) {
+        CriteriaBuilder builder = criteriaBuilder();
+        CriteriaQuery<T> query = builder.createQuery(entityType);
+
+        return query.where(predicate);
     }
 }

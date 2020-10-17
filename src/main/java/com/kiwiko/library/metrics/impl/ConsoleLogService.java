@@ -9,4 +9,10 @@ public class ConsoleLogService extends LevelBasedLogService {
     protected void log(LevelBasedLog log) {
         System.out.println(String.format("[%s] %s", log.getLevel().getName().toUpperCase(), log.getMessage()));
     }
+
+    @Override
+    protected void logEvent(LevelBasedLog log) {
+        log(log);
+        log.getException().ifPresent(Throwable::printStackTrace);
+    }
 }

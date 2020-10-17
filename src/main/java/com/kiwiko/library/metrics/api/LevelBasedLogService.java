@@ -37,6 +37,7 @@ public abstract class LevelBasedLogService implements LogService {
         String message = log.getMessage();
 
         if (copy.getException().isPresent()) {
+            Throwable throwable = copy.getException().get();
             String stackTrace = Arrays.stream(copy.getException().get().getStackTrace())
                     .limit(MAX_STACK_TRACE_LIMIT)
                     .map(StackTraceElement::toString)
