@@ -7,7 +7,7 @@ import com.kiwiko.webapp.mvc.json.api.errors.JsonException;
 import com.kiwiko.webapp.mvc.requests.api.RequestContextService;
 import com.kiwiko.webapp.mvc.requests.api.RequestError;
 import com.kiwiko.webapp.mvc.requests.data.RequestContext;
-import com.kiwiko.webapp.mvc.json.data.IntermediateJsonBody;
+import com.kiwiko.library.json.data.IntermediateJsonBody;
 import com.kiwiko.webapp.mvc.resolvers.data.RequestBodyCacheData;
 import com.kiwiko.webapp.mvc.security.sessions.data.SessionProperties;
 import org.springframework.lang.Nullable;

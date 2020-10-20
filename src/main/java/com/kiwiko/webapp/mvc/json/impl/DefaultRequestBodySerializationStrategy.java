@@ -1,7 +1,7 @@
 package com.kiwiko.webapp.mvc.json.impl;
 
 import com.kiwiko.webapp.mvc.json.api.errors.JsonException;
-import com.kiwiko.webapp.mvc.json.data.IntermediateJsonBody;
+import com.kiwiko.library.json.data.IntermediateJsonBody;
 
 import java.lang.reflect.Field;
 import java.util.List;

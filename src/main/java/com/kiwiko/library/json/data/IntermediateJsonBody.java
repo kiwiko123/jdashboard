@@ -1,4 +1,4 @@
-package com.kiwiko.webapp.mvc.json.data;
+package com.kiwiko.library.json.data;
 
 import java.util.Collections;
 import java.util.Map;

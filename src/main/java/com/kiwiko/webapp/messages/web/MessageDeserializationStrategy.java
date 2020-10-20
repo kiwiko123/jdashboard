@@ -3,7 +3,7 @@ package com.kiwiko.webapp.messages.web;
 import com.kiwiko.webapp.messages.data.Message;
 import com.kiwiko.webapp.messages.data.MessageStatus;
 import com.kiwiko.webapp.messages.data.MessageType;
-import com.kiwiko.webapp.mvc.json.data.IntermediateJsonBody;
+import com.kiwiko.library.json.data.IntermediateJsonBody;
 import com.kiwiko.webapp.mvc.json.impl.EasyRequestBodySerializationStrategy;
 
 public class MessageDeserializationStrategy extends EasyRequestBodySerializationStrategy<Message> {

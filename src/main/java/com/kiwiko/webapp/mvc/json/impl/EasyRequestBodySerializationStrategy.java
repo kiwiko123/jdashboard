@@ -5,7 +5,7 @@ import com.kiwiko.library.metrics.api.LogService;
 import com.kiwiko.library.metrics.impl.ConsoleLogService;
 import com.kiwiko.webapp.mvc.json.api.CustomRequestBodySerializationStrategy;
 import com.kiwiko.webapp.mvc.json.api.errors.JsonException;
-import com.kiwiko.webapp.mvc.json.data.IntermediateJsonBody;
+import com.kiwiko.library.json.data.IntermediateJsonBody;
 
 import java.lang.reflect.Field;
 import java.util.Collections;

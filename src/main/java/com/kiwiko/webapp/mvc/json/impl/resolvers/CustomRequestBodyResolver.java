@@ -4,7 +4,7 @@ import com.kiwiko.library.lang.reflection.ReflectionHelper;
 import com.kiwiko.webapp.mvc.json.api.CustomRequestBodySerializationStrategy;
 import com.kiwiko.webapp.mvc.json.api.annotations.CustomRequestBody;
 import com.kiwiko.webapp.mvc.json.api.errors.JsonException;
-import com.kiwiko.webapp.mvc.json.data.IntermediateJsonBody;
+import com.kiwiko.library.json.data.IntermediateJsonBody;
 import com.kiwiko.webapp.mvc.requests.api.RequestError;
 import com.kiwiko.webapp.mvc.resolvers.CacheableRequestBodyResolver;
 import org.springframework.core.MethodParameter;
