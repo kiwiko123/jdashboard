@@ -30,6 +30,11 @@ public class IntermediateJsonBody {
         return Optional.ofNullable(body.get(key));
     }
 
+    public <T> Optional<T> getValueAs(String key, Class<T> type) {
+        return Optional.ofNullable(body.get(key))
+                .map(type::cast);
+    }
+
     @Override
     public String toString() {
         return String.format("%s(%s)", getClass().getSimpleName(), body.toString());

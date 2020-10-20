@@ -1,6 +1,7 @@
 package com.kiwiko.webapp.messages.internal.dataAccess;
 
 import com.kiwiko.library.persistence.dataAccess.api.AuditableEntityManagerDAO;
+import com.kiwiko.webapp.messages.data.MessageType;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -17,7 +18,10 @@ public class MessageEntityDAO extends AuditableEntityManagerDAO<MessageEntity> {
         return MessageEntity.class;
     }
 
-    public List<MessageEntity> getBetween(long senderUserId, Collection<Long> recipientUserIds) {
+    public List<MessageEntity> getBetween(
+            long senderUserId,
+            Collection<Long> recipientUserIds,
+            MessageType messageType) {
         CriteriaBuilder builder = criteriaBuilder();
         CriteriaQuery<MessageEntity> query = builder.createQuery(entityType);
         Root<MessageEntity> root = query.from(entityType);
@@ -28,7 +32,10 @@ public class MessageEntityDAO extends AuditableEntityManagerDAO<MessageEntity> {
         Expression<Long> recipientUserIdField = root.get("recipientUserId");
         Predicate toRecipientUserIds = recipientUserIdField.in(recipientUserIds);
 
-        Predicate allCriteria = builder.and(fromSenderUserId, toRecipientUserIds);
+        Expression<Integer> messageTypeField = root.get("messageType");
+        Predicate isMessageType = builder.equal(messageTypeField, messageType);
+
+        Predicate allCriteria = builder.and(fromSenderUserId, toRecipientUserIds, isMessageType);
         query.where(allCriteria);
         return getResultList(query);
     }

@@ -12,18 +12,15 @@ public class MessageDeserializationStrategy extends EasyRequestBodySerialization
     public Message deserialize(IntermediateJsonBody body, Message target) {
         Message message = super.deserialize(body, target);
 
-        body.getValue("recipientUserId")
-                .map(id -> (Integer) id)
+        body.getValueAs("recipientUserId", Integer.class)
                 .map(Integer::longValue)
                 .ifPresent(message::setRecipientUserId);
 
-        body.getValue("messageType")
-                .map(type -> (Integer) type)
+        body.getValueAs("messageType", Integer.class)
                 .map(MessageType::getById)
                 .ifPresent(message::setMessageType);
 
-        body.getValue("messageStatus")
-                .map(status -> (String) status)
+        body.getValueAs("messageStatus", String.class)
                 .map(MessageStatus::getById)
                 .ifPresent(message::setMessageStatus);
 

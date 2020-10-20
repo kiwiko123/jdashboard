@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import HomePage from './home/pages/HomePage';
 import LoginPage from './accounts/pages/LoginPage';
 import ScrabblePlayPage from './scrabble/pages/ScrabblePlayPage';
+import ChatroomPage from './chatroom/pages/ChatroomPage';
 import NotFoundPage from './dashboard/pages/NotFoundPage';
 
 export default function() {
@@ -13,6 +14,7 @@ export default function() {
                 <Route path="/scrabble/play" component={ScrabblePlayPage} />
                 <Route path="/accounts/login" component={LoginPage} />
                 <Route path="/home" component={HomePage} />
+                <Route path="/chatroom" component={ChatroomPage} />
                 <Route path="/not-found" component={NotFoundPage} />
                 <Redirect to="/not-found" />
             </Switch>

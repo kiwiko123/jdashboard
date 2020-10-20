@@ -1,7 +1,7 @@
 package com.kiwiko.webapp.mvc.json.api.annotations;
 
 import com.kiwiko.webapp.mvc.json.api.CustomRequestBodySerializationStrategy;
-import com.kiwiko.webapp.mvc.json.impl.EasyRequestBodySerializationStrategy;
+import com.kiwiko.webapp.mvc.json.impl.DefaultRequestBodySerializationStrategy;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -12,5 +12,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CustomRequestBody {
 
-    Class<? extends CustomRequestBodySerializationStrategy> strategy() default EasyRequestBodySerializationStrategy.class;
+    Class<? extends CustomRequestBodySerializationStrategy> strategy() default DefaultRequestBodySerializationStrategy.class;
 }

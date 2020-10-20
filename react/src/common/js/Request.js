@@ -14,19 +14,23 @@ function normalizeUrl(base, url) {
 }
 
 function buildRequestParameterUrl(url, requestParameters) {
+    if (isEmpty(requestParameters)) {
+        return url;
+    }
+
     const data = {};
-    Object.entries(requestParameters)
+    const query = Object.entries(requestParameters)
         .map(([key, value]) => [key, encodeURIComponent(value)])
-        .forEach(([key, value]) => { data[key] = value; });
-    const encodedParameters = encodeURIComponent(data);
-    return `${url}?${encodedParameters}`;
+        .map(pair => pair.join('='))
+        .join('&');
+    return `${url}?${query}`;
 }
 
 function makeUrl(url, requestParameters) {
     if (isEmpty(requestParameters)) {
         return url;
     }
-    return buildRequestParameterUrl(url, this.requestParameters);
+    return buildRequestParameterUrl(url, requestParameters);
 }
 
 function extractResponse(response) {

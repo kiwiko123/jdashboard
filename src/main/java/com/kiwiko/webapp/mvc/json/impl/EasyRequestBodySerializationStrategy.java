@@ -17,7 +17,7 @@ public class EasyRequestBodySerializationStrategy<T> implements CustomRequestBod
 
     private final LogService logService;
     protected final ReflectionHelper reflectionHelper;
-    protected Set<Field> failedFields;
+    private Set<Field> failedFields;
 
     public EasyRequestBodySerializationStrategy() {
         reflectionHelper = new ReflectionHelper();
