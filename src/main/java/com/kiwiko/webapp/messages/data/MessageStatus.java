@@ -6,6 +6,7 @@ import com.kiwiko.library.persistence.identification.Identifiable;
 public enum MessageStatus implements Identifiable<String> {
     SENDING("sending"),
     SENT("sent"),
+    DELIVERED("delivered"),
     FAILURE("failure");
 
     private final String id;

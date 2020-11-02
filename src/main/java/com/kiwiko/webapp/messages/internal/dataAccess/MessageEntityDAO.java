@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.messages.internal.dataAccess;
 
-import com.kiwiko.library.persistence.dataAccess.api.AuditableEntityManagerDAO;
+import com.kiwiko.webapp.mvc.persistence.impl.VersionedEntityManagerDAO;
 import com.kiwiko.webapp.messages.data.MessageType;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -11,7 +11,7 @@ import javax.persistence.criteria.Root;
 import java.util.Collection;
 import java.util.List;
 
-public class MessageEntityDAO extends AuditableEntityManagerDAO<MessageEntity> {
+public class MessageEntityDAO extends VersionedEntityManagerDAO<MessageEntity> {
 
     @Override
     protected Class<MessageEntity> getEntityType() {

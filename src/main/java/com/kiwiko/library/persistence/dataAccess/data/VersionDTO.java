@@ -1,7 +1,6 @@
 package com.kiwiko.library.persistence.dataAccess.data;
 
-import com.kiwiko.library.json.data.IntermediateJsonBody;
-import com.kiwiko.library.persistence.dataAccess.api.Version;
+import com.kiwiko.library.persistence.dataAccess.api.versions.Version;
 
 import javax.annotation.Nullable;
 import java.time.Instant;
@@ -13,7 +12,12 @@ public class VersionDTO implements Version {
     private int version;
     private Instant createdDate;
     private @Nullable Long userId;
-    private IntermediateJsonBody changes;
+    private VersionChanges changes;
+
+    public VersionDTO() {
+        version = 0;
+        createdDate = Instant.now();
+    }
 
     public String dump() {
         return String.format(
@@ -48,11 +52,11 @@ public class VersionDTO implements Version {
         this.userId = userId;
     }
 
-    public IntermediateJsonBody getChanges() {
+    public VersionChanges getChanges() {
         return changes;
     }
 
-    public void setChanges(IntermediateJsonBody changes) {
+    public void setChanges(VersionChanges changes) {
         this.changes = changes;
     }
 

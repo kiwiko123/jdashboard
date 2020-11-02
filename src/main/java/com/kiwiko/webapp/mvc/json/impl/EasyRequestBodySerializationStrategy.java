@@ -9,7 +9,7 @@ import com.kiwiko.library.json.data.IntermediateJsonBody;
 
 import java.lang.reflect.Field;
 import java.util.Collections;
-import java.util.LinkedHashSet;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,7 +22,7 @@ public class EasyRequestBodySerializationStrategy<T> implements CustomRequestBod
     public EasyRequestBodySerializationStrategy() {
         reflectionHelper = new ReflectionHelper();
         logService = new ConsoleLogService();
-        failedFields = new LinkedHashSet<>();
+        failedFields = new HashSet<>();
     }
 
     @Override

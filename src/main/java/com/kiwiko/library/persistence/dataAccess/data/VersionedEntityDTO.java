@@ -1,6 +1,6 @@
 package com.kiwiko.library.persistence.dataAccess.data;
 
-import com.kiwiko.library.persistence.dataAccess.api.Version;
+import com.kiwiko.library.persistence.dataAccess.api.versions.Version;
 
 import java.time.Instant;
 import java.util.LinkedList;

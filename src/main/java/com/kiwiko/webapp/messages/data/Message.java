@@ -1,10 +1,8 @@
 package com.kiwiko.webapp.messages.data;
 
-import com.kiwiko.library.persistence.dataAccess.data.AuditableDataEntityDTO;
+import com.kiwiko.library.persistence.dataAccess.data.VersionedEntityDTO;
 
-import java.time.Instant;
-
-public class Message extends AuditableDataEntityDTO {
+public class Message extends VersionedEntityDTO {
 
     private Long id;
     private String message;
@@ -12,9 +10,6 @@ public class Message extends AuditableDataEntityDTO {
     private MessageStatus messageStatus;
     private Long senderUserId;
     private Long recipientUserId;
-    private Instant createdDate;
-    private Instant lastUpdatedDate;
-    private boolean isRemoved;
 
     @Override
     public Long getId() {
@@ -64,33 +59,5 @@ public class Message extends AuditableDataEntityDTO {
 
     public void setRecipientUserId(Long recipientUserId) {
         this.recipientUserId = recipientUserId;
-    }
-
-    @Override
-    public Instant getCreatedDate() {
-        return createdDate;
-    }
-
-    @Override
-    public void setCreatedDate(Instant createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    @Override
-    public Instant getLastUpdatedDate() {
-        return lastUpdatedDate;
-    }
-
-    @Override
-    public void setLastUpdatedDate(Instant lastUpdatedDate) {
-        this.lastUpdatedDate = lastUpdatedDate;
-    }
-
-    public boolean isRemoved() {
-        return isRemoved;
-    }
-
-    public void setRemoved(boolean removed) {
-        isRemoved = removed;
     }
 }

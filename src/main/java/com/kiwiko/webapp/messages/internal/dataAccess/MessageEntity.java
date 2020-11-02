@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.messages.internal.dataAccess;
 
-import com.kiwiko.library.persistence.dataAccess.api.AuditableDataEntity;
+import com.kiwiko.library.persistence.dataAccess.api.versions.VersionedEntity;
 import com.kiwiko.webapp.messages.data.MessageStatus;
 import com.kiwiko.webapp.messages.data.MessageType;
 
@@ -12,11 +12,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.time.Instant;
 
 @Entity
 @Table(name = "messages")
-public class MessageEntity extends AuditableDataEntity {
+public class MessageEntity extends VersionedEntity {
 
     private Long id;
     private String message;
@@ -24,9 +23,8 @@ public class MessageEntity extends AuditableDataEntity {
     private MessageStatus messageStatus;
     private Long senderUserId;
     private Long recipientUserId;
-    private Instant createdDate;
-    private Instant lastUpdatedDate;
     private boolean isRemoved;
+    private String versions;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +34,6 @@ public class MessageEntity extends AuditableDataEntity {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -88,36 +85,22 @@ public class MessageEntity extends AuditableDataEntity {
         this.recipientUserId = recipientUserId;
     }
 
-    @Column(name = "created_date", nullable = false)
-    @Override
-    public Instant getCreatedDate() {
-        return createdDate;
-    }
-
-    @Override
-    public void setCreatedDate(Instant createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    @Column(name = "last_updated_date", nullable = false)
-    @Override
-    public Instant getLastUpdatedDate() {
-        return lastUpdatedDate;
-    }
-
-    @Override
-    public void setLastUpdatedDate(Instant lastUpdatedDate) {
-        this.lastUpdatedDate = lastUpdatedDate;
-    }
-
     @Column(name = "is_removed", nullable = false)
     @Override
     public boolean getIsRemoved() {
         return isRemoved;
     }
 
-    @Override
     public void setIsRemoved(boolean removed) {
         isRemoved = removed;
+    }
+
+    @Column(name = "versions")
+    public String getVersions() {
+        return versions;
+    }
+
+    public void setVersions(String versions) {
+        this.versions = versions;
     }
 }

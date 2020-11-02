@@ -1,6 +1,6 @@
-package com.kiwiko.library.persistence.dataAccess.api;
+package com.kiwiko.library.persistence.dataAccess.api.versions;
 
-import com.kiwiko.library.json.data.IntermediateJsonBody;
+import com.kiwiko.library.persistence.dataAccess.data.VersionChanges;
 
 import java.time.Instant;
 import java.util.Optional;
@@ -13,5 +13,5 @@ public interface Version {
 
     Optional<Long> getUserId();
 
-    IntermediateJsonBody getChanges();
+    VersionChanges getChanges();
 }

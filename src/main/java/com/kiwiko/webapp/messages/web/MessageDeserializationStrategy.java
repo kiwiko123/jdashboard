@@ -24,6 +24,10 @@ public class MessageDeserializationStrategy extends EasyRequestBodySerialization
                 .map(MessageStatus::getById)
                 .ifPresent(message::setMessageStatus);
 
+        body.getValueAs("id", Integer.class)
+                .map(Integer::longValue)
+                .ifPresent(message::setId);
+
         return message;
     }
 }

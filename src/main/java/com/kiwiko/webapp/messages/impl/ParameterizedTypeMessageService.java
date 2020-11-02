@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class ParameterizedTypeMessageService implements MessageService {
 
@@ -49,5 +50,36 @@ public abstract class ParameterizedTypeMessageService implements MessageService 
         }
 
         return results;
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<Message> get(long messageId) {
+        return messageEntityDAO.getById(messageId)
+                .map(messageMapper::toDTO);
+    }
+
+    @Transactional
+    @Override
+    public Message create(Message message) {
+        MessageEntity entity = messageMapper.toEntity(message);
+        entity = messageEntityDAO.save(entity);
+        return messageMapper.toDTO(entity);
+    }
+
+    @Transactional
+    @Override
+    public Message update(Message message) {
+        MessageEntity entity = messageMapper.toEntity(message);
+        entity = messageEntityDAO.save(entity);
+        return messageMapper.toDTO(entity);
+    }
+
+    @Transactional
+    @Override
+    public void delete(long messageId) throws MessageException {
+        MessageEntity entity = messageEntityDAO.getProxyById(messageId)
+                .orElseThrow(() -> new MessageException(String.format("Failed to find message with ID %d", messageId)));
+        messageEntityDAO.delete(entity);
     }
 }

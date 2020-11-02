@@ -31,8 +31,7 @@ public class IntermediateJsonBody {
     }
 
     public <T> Optional<T> getValueAs(String key, Class<T> type) {
-        return Optional.ofNullable(body.get(key))
-                .map(type::cast);
+        return getValue(key).map(type::cast);
     }
 
     @Override
