@@ -1,3 +1,4 @@
+import { get, sortBy } from 'lodash';
 import Broadcaster from '../../state/Broadcaster';
 import Request from '../../common/js/Request';
 
@@ -7,10 +8,13 @@ export default class ChatroomBroadcaster extends Broadcaster {
     constructor() {
         super();
         this.setState({
-            messageDraft: null,
-            onInputTextChange: this.onInputTextChange,
             messages: [],
+            selectedInboxItem: null,
         });
+        this.registerMethod(this.selectInboxItem);
+        this.registerMethod(this.fetchMessages);
+
+        this._continueFetching = false;
     }
 
     receive(state, broadcasterId) {
@@ -18,27 +22,48 @@ export default class ChatroomBroadcaster extends Broadcaster {
             this.setState({
                 currentUserId: state.userId,
             });
-            if (state.userId) {
-                this.fetchMessages();
-            }
         }
     }
 
     fetchMessages() {
         const requestParameters = {
             senderUserId: this.state.currentUserId,
-            recipientUserId: 3, // TODO don't hardcode
+            recipientUserId: this.state.recipientUserId,
         };
         Request.to(GET_MESSAGES_URL)
             .withRequestParameters(requestParameters)
             .withAuthentication()
             .get()
             .then((data) => {
-                this.setState({ messages: data });
+                this.setState({ messages: this._formatMessages(data) });
+                if (this._continueFetching) {
+                    this.delayMessageFetch();
+                }
             });
     }
 
-    onInputTextChange(text) {
-        this.setState({ messageDraft: text });
+    selectInboxItem(item) {
+        this._continueFetching = false;
+        this.setState({ selectedInboxItem: item });
+        const recipientUserId = get(item, ['users', '0', 'userId']);
+        this.setState({ recipientUserId });
+        this.delayMessageFetch();
+    }
+
+    delayMessageFetch() {
+        this._continueFetching = true;
+        setTimeout(() => this.fetchMessages(), 2500);
+    }
+
+    _formatMessages(messages) {
+        const formattedMessages = messages.map(message => ({
+            id: message.id,
+            message: message.message,
+            messageStatus: message.messageStatus,
+            direction: message.senderUserId === this.state.currentUserId ? 'outbound' : 'inbound',
+            senderName: message.senderUserId === this.state.currentUserId ? 'Sender' : 'Recipient', // TODO
+            sentDate: message.sentDate,
+        }));
+        return sortBy(formattedMessages, ['sentDate']);
     }
 }

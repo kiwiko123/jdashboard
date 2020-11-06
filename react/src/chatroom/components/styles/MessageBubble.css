@@ -1,0 +1,15 @@
+.MessageBubble {
+    border-radius: 1rem;
+    width: fit-content;
+    max-width: 50%;
+    padding: 0.25rem 0.75rem 0.25rem 0.75rem;
+}
+
+.MessageBubble.inbound {
+    border: 1px solid white;
+    color: white;
+}
+
+.MessageBubble.outbound {
+    background: white;
+}

@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.Instant;
 
 @Entity
 @Table(name = "messages")
@@ -23,6 +24,7 @@ public class MessageEntity extends VersionedEntity {
     private MessageStatus messageStatus;
     private Long senderUserId;
     private Long recipientUserId;
+    private Instant sentDate;
     private boolean isRemoved;
     private String versions;
 
@@ -83,6 +85,15 @@ public class MessageEntity extends VersionedEntity {
 
     public void setRecipientUserId(Long recipientUserId) {
         this.recipientUserId = recipientUserId;
+    }
+
+    @Column(name = "sent_date", nullable = false)
+    public Instant getSentDate() {
+        return sentDate;
+    }
+
+    public void setSentDate(Instant sentDate) {
+        this.sentDate = sentDate;
     }
 
     @Column(name = "is_removed", nullable = false)

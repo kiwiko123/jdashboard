@@ -26,6 +26,7 @@ public class CustomRequestBodyResolver extends CacheableRequestBodyResolver impl
         return methodParameter.hasParameterAnnotation(CustomRequestBody.class);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Object resolveArgument(
             MethodParameter methodParameter,

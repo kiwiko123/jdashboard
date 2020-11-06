@@ -7,4 +7,5 @@ export default PropTypes.shape({
     messageStatus: PropTypes.string,
     senderUserId: PropTypes.number,
     recipientUserId: PropTypes.number,
+    sentDate: PropTypes.string,
 });

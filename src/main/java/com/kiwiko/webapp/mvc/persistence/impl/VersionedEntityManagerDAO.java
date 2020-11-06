@@ -36,7 +36,7 @@ public abstract class VersionedEntityManagerDAO<T extends VersionedEntity> exten
     @Override
     public T save(T entity) {
         try {
-            saveVersion(entity);
+            recordVersion(entity);
         } catch (Exception e) {
             logService.error(String.format("Error saving new version for entity %s", entity.toString()), e);
             throw e; // TODO remove after this works
@@ -51,7 +51,7 @@ public abstract class VersionedEntityManagerDAO<T extends VersionedEntity> exten
         save(entity);
     }
 
-    private void saveVersion(T entity) {
+    private void recordVersion(T entity) {
         List<Version> versions = new ArrayList<>();
         VersionDTO version = new VersionDTO();
 

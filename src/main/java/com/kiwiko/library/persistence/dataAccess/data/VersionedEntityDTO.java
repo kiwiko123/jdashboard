@@ -21,14 +21,16 @@ public abstract class VersionedEntityDTO extends AuditableDataEntityDTO {
 
     @Override
     public Instant getCreatedDate() {
-        return Optional.ofNullable(versions.peekFirst())
+        return Optional.ofNullable(versions)
+                .map(LinkedList::peekFirst)
                 .map(Version::getCreatedDate)
                 .orElseGet(Instant::now);
     }
 
     @Override
     public Instant getLastUpdatedDate() {
-        return Optional.ofNullable(versions.peekLast())
+        return Optional.ofNullable(versions)
+                .map(LinkedList::peekLast)
                 .map(Version::getCreatedDate)
                 .orElse(null);
     }

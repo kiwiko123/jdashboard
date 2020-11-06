@@ -88,37 +88,11 @@ export default class Request {
     }
 
     async post(fetchParameters = {}) {
-        const url = makeUrl(this.url, this.requestParameters);
-        const parameters = {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            ...fetchParameters,
-            method: 'POST',
-        };
-        if (!isEmpty(this.body)) {
-            parameters.body = JSON.stringify(this.body);
-        }
-
-        return this.__makeRequest(url, parameters);
+        return this.__makeCreateRequest('POST', fetchParameters);
     }
 
     async put(fetchParameters = {}) {
-        const url = makeUrl(this.url, this.requestParameters);
-        const parameters = {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            ...fetchParameters,
-            method: 'PUT',
-        };
-        if (!isEmpty(this.body)) {
-            parameters.body = JSON.stringify(this.body);
-        }
-
-        return this.__makeRequest(url, parameters);
+        return this.__makeCreateRequest('PUT', fetchParameters);
     }
 
     async __makeRequest(url, parameters) {
@@ -135,5 +109,22 @@ export default class Request {
                 }
                 return this.extractResponse(response);
             });
+    }
+
+    async __makeCreateRequest(method, fetchParameters = {}) {
+        const url = makeUrl(this.url, this.requestParameters);
+        const parameters = {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            ...fetchParameters,
+            method,
+        };
+        if (!isEmpty(this.body)) {
+            parameters.body = JSON.stringify(this.body);
+        }
+
+        return this.__makeRequest(url, parameters);
     }
 }

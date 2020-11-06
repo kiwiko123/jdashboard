@@ -1,0 +1,7 @@
+.MessageContainer > .MessageBubble {
+    margin-bottom: 0.5rem;
+}
+
+.MessageContainer > .MessageBubble.outbound {
+    margin-left: auto;
+}

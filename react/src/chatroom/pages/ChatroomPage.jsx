@@ -3,25 +3,46 @@ import DashboardPage from '../../dashboard/components/DashboardPage';
 import ComponentStateManager from '../../state/components/ComponentStateManager';
 import { useBroadcaster } from '../../state/hooks/broadcasterHooks';
 import ChatroomBroadcaster from '../state/ChatroomBroadcaster';
+import ChatroomInputBroadcaster from '../state/ChatroomInputBroadcaster';
+import ChatroomInboxBroadcaster from '../state/ChatroomInboxBroadcaster';
 import ChatroomContents from '../components/ChatroomContents';
+import MessageInput from '../components/MessageInput';
+import MessageInbox from '../components/MessageInbox';
+
+import '../components/styles/ChatroomPage.css';
 
 const ChatroomPage = () => {
     const chatroomBroadcaster = useBroadcaster(ChatroomBroadcaster);
+    const inputBroadcaster = useBroadcaster(ChatroomInputBroadcaster);
+    const inboxBroadcaster = useBroadcaster(ChatroomInboxBroadcaster);
+
+    inboxBroadcaster.listenTo(chatroomBroadcaster);
+    inputBroadcaster.listenTo(chatroomBroadcaster);
+
     const broadcasterSubscribers = {
-        userDataBroadcaster: [chatroomBroadcaster],
+        userDataBroadcaster: [chatroomBroadcaster, inboxBroadcaster],
     };
 
     return (
         <DashboardPage
+            className="ChatroomPage"
             title="Chatroom"
             appId="chatroom"
             broadcasterSubscribers={broadcasterSubscribers}
         >
-            <ComponentStateManager
-                broadcaster={chatroomBroadcaster}
-            >
-                <ChatroomContents />
-            </ComponentStateManager>
+            <div className="left-pane">
+                <ComponentStateManager broadcaster={inboxBroadcaster}>
+                    <MessageInbox />
+                </ComponentStateManager>
+            </div>
+            <div className="right-pane">
+                <ComponentStateManager broadcaster={chatroomBroadcaster}>
+                    <ChatroomContents />
+                </ComponentStateManager>
+                <ComponentStateManager broadcaster={inputBroadcaster}>
+                    <MessageInput />
+                </ComponentStateManager>
+            </div>
         </DashboardPage>
     );
 };

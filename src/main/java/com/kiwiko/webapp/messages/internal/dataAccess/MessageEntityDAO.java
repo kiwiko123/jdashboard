@@ -27,16 +27,39 @@ public class MessageEntityDAO extends VersionedEntityManagerDAO<MessageEntity> {
         Root<MessageEntity> root = query.from(entityType);
 
         Expression<Long> senderUserIdField = root.get("senderUserId");
-        Predicate fromSenderUserId = builder.equal(senderUserIdField, senderUserIdField);
+        Predicate fromSenderUserId = builder.equal(senderUserIdField, senderUserId);
 
         Expression<Long> recipientUserIdField = root.get("recipientUserId");
         Predicate toRecipientUserIds = recipientUserIdField.in(recipientUserIds);
 
+        Predicate toSenderUserId = builder.equal(recipientUserIdField, senderUserId);
+        Predicate fromRecipientsUserIds = senderUserIdField.in(recipientUserIds);
+
         Expression<Integer> messageTypeField = root.get("messageType");
         Predicate isMessageType = builder.equal(messageTypeField, messageType);
 
-        Predicate allCriteria = builder.and(fromSenderUserId, toRecipientUserIds, isMessageType);
+        Predicate isOutbound = builder.and(fromSenderUserId, toRecipientUserIds);
+        Predicate isInbound = builder.and(toSenderUserId, fromRecipientsUserIds);
+        Predicate isRelatedToUser = builder.or(isOutbound, isInbound);
+
+        Predicate allCriteria = builder.and(isRelatedToUser, isMessageType);
         query.where(allCriteria);
+        return getResultList(query);
+    }
+
+    public List<MessageEntity> getRelatedToUser(long userId) {
+        CriteriaBuilder builder = criteriaBuilder();
+        CriteriaQuery<MessageEntity> query = builder.createQuery(entityType);
+        Root<MessageEntity> root = query.from(entityType);
+
+        Expression<Long> senderUserIdField = root.get("senderUserId");
+        Predicate fromUser = builder.equal(senderUserIdField, userId);
+
+        Expression<Long> recipientUserIdField = root.get("recipientUserId");
+        Predicate toUser = builder.equal(recipientUserIdField, userId);
+
+        Predicate isRelatedToUser = builder.or(fromUser, toUser);
+        query.where(isRelatedToUser);
         return getResultList(query);
     }
 }

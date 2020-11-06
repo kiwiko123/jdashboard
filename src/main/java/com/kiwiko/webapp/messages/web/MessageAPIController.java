@@ -1,7 +1,8 @@
-package com.kiwiko.webapp.messages.chatroom.web;
+package com.kiwiko.webapp.messages.web;
 
 import com.kiwiko.webapp.messages.chatroom.impl.ChatroomMessageService;
 import com.kiwiko.webapp.messages.data.Message;
+import com.kiwiko.webapp.messages.data.MessagePreview;
 import com.kiwiko.webapp.messages.data.MessageStatus;
 import com.kiwiko.webapp.messages.web.MessageDeserializationStrategy;
 import com.kiwiko.webapp.mvc.json.api.ResponseBuilder;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,8 +28,9 @@ import java.util.Set;
 
 @CrossOriginConfigured
 @RestController
-public class ChatroomMessageAPIController {
+public class MessageAPIController {
 
+    // TODO make registry by MessageType
     @Inject
     private ChatroomMessageService messageService;
 
@@ -40,6 +43,16 @@ public class ChatroomMessageAPIController {
 
         return new ResponseBuilder()
                 .withBody(messages)
+                .toResponseEntity();
+    }
+
+    @GetMapping("/messages/api/get/users/{userId}/previews")
+    public ResponseEntity<ResponsePayload> getPreviewsByUserId(
+            @PathVariable("userId") Long userId) {
+        List<MessagePreview> previews = messageService.getMessagePreviewsForUser(userId);
+
+        return new ResponseBuilder()
+                .withBody(previews)
                 .toResponseEntity();
     }
 
@@ -64,7 +77,7 @@ public class ChatroomMessageAPIController {
                 .toResponseEntity();
     }
 
-    @PostMapping("/messages/api/{messageId}/confirm")
+    @PutMapping("/messages/api/{messageId}/confirm")
     public ResponseEntity<ResponsePayload> confirmMessageDelivery(
             @PathVariable("messageId") Long messageId,
             RequestContext requestContext) {

@@ -2,6 +2,8 @@ package com.kiwiko.webapp.messages.data;
 
 import com.kiwiko.library.persistence.dataAccess.data.VersionedEntityDTO;
 
+import java.time.Instant;
+
 public class Message extends VersionedEntityDTO {
 
     private Long id;
@@ -10,6 +12,7 @@ public class Message extends VersionedEntityDTO {
     private MessageStatus messageStatus;
     private Long senderUserId;
     private Long recipientUserId;
+    private Instant sentDate;
 
     @Override
     public Long getId() {
@@ -59,5 +62,13 @@ public class Message extends VersionedEntityDTO {
 
     public void setRecipientUserId(Long recipientUserId) {
         this.recipientUserId = recipientUserId;
+    }
+
+    public Instant getSentDate() {
+        return sentDate;
+    }
+
+    public void setSentDate(Instant sentDate) {
+        this.sentDate = sentDate;
     }
 }

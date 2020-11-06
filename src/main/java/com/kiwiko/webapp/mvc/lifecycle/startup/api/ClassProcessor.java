@@ -24,7 +24,7 @@ public class ClassProcessor {
     protected void processClass(Class<?> clazz) { }
 
     public void process(Class<?> clazz) {
-        logService.debug(String.format("[%s] Processing class %s", getClass().getSimpleName(), clazz.getName()));
+//        logService.debug(String.format("[%s] Processing class %s", getClass().getSimpleName(), clazz.getName()));
 
         try {
             processClass(clazz);

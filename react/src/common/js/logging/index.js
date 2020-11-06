@@ -1,5 +1,5 @@
-//import ConsoleLogger from './ConsoleLogger';
+import ConsoleLogger from './ConsoleLogger';
 //import ServerLogger from './ServerLogger';
-import BatchedServerLogger from './BatchedServerLogger';
+//import BatchedServerLogger from './BatchedServerLogger';
 
-export default new BatchedServerLogger();
+export default new ConsoleLogger();
