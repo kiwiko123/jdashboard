@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { get } from 'lodash';
@@ -9,19 +9,21 @@ import './styles/MessageInput.css';
 const MessageInput = ({
     className, sendMessage, onInputTextChange, recipientUserId, messageDraft,
 }) => {
-    if (!recipientUserId) {
-        return null;
-    }
-
     const divClassName = classnames('MessageInput', className);
-    const onChange = event => onInputTextChange(get(event, 'target.value'));
+    const onKeyDown = useCallback((event) => {
+        if (event.keyCode === 13) { // Enter/Return
+            sendMessage();
+        }
+    }, [sendMessage]);
+    const onChange = useCallback(event => onInputTextChange(get(event, 'target.value')), [onInputTextChange]);
 
-    return (
+    return recipientUserId && (
         <div className={divClassName}>
             <input
                 className="input"
                 type="text"
                 onChange={onChange}
+                onKeyDown={onKeyDown}
             />
             <IconButton
                 className="send-button"

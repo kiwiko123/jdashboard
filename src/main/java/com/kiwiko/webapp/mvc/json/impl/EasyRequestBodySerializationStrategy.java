@@ -1,8 +1,6 @@
 package com.kiwiko.webapp.mvc.json.impl;
 
 import com.kiwiko.library.lang.reflection.ReflectionHelper;
-import com.kiwiko.library.metrics.api.LogService;
-import com.kiwiko.library.metrics.impl.ConsoleLogService;
 import com.kiwiko.webapp.mvc.json.api.CustomRequestBodySerializationStrategy;
 import com.kiwiko.webapp.mvc.json.api.errors.JsonException;
 import com.kiwiko.library.json.data.IntermediateJsonBody;
@@ -15,13 +13,11 @@ import java.util.Set;
 
 public class EasyRequestBodySerializationStrategy<T> implements CustomRequestBodySerializationStrategy<T> {
 
-    private final LogService logService;
     protected final ReflectionHelper reflectionHelper;
     private Set<Field> failedFields;
 
     public EasyRequestBodySerializationStrategy() {
         reflectionHelper = new ReflectionHelper();
-        logService = new ConsoleLogService();
         failedFields = new HashSet<>();
     }
 
@@ -48,9 +44,6 @@ public class EasyRequestBodySerializationStrategy<T> implements CustomRequestBod
         } catch (IllegalAccessException e) {
             throw new JsonException(String.format("Failed to set field %s", targetField.getName()), e);
         } catch (Exception e) {
-            logService.warn(
-                    String.format("Failed to set field \"%s\" on target type \"%s\"", targetField.getName(), targetInstance.getClass().toString()),
-                    e);
             failedFields.add(targetField);
         }
     }

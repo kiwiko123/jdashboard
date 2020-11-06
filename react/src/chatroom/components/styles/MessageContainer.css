@@ -1,7 +1,17 @@
-.MessageContainer > .MessageBubble {
+.MessageContainer {
+    height: 40rem;
+    overflow-y: scroll;
+}
+
+.MessageContainer > .message > .MessageBubble {
     margin-bottom: 0.5rem;
 }
 
-.MessageContainer > .MessageBubble.outbound {
+.MessageContainer > .message > .MessageBubble.outbound {
     margin-left: auto;
+}
+
+.MessageContainer > .message > .status {
+    color: white;
+    float: right;
 }

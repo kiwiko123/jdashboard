@@ -29,7 +29,7 @@ export default class DefaultBroadcaster {
      */
     constructor() {
         // "Override" this to control the minimum duration, in milliseconds, between re-renders.
-        this.reRenderMillis = 50;
+        this.reRenderMillis = 250;
         this.state = {};
         this.__listeners = new Set();
         this.__instanceId = instanceId++;

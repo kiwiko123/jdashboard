@@ -1,6 +1,7 @@
-import { get, sortBy } from 'lodash';
+import { findLast, get, sortBy } from 'lodash';
 import Broadcaster from '../../state/Broadcaster';
 import Request from '../../common/js/Request';
+import MessageHelper from './MessageHelper';
 
 const GET_MESSAGES_URL = '/messages/api/get/thread';
 
@@ -30,40 +31,62 @@ export default class ChatroomBroadcaster extends Broadcaster {
             senderUserId: this.state.currentUserId,
             recipientUserId: this.state.recipientUserId,
         };
-        Request.to(GET_MESSAGES_URL)
+        return Request.to(GET_MESSAGES_URL)
             .withRequestParameters(requestParameters)
             .withAuthentication()
             .get()
             .then((data) => {
                 this.setState({ messages: this._formatMessages(data) });
-                if (this._continueFetching) {
-                    this.delayMessageFetch();
-                }
             });
     }
 
     selectInboxItem(item) {
         this._continueFetching = false;
-        this.setState({ selectedInboxItem: item });
         const recipientUserId = get(item, ['users', '0', 'userId']);
-        this.setState({ recipientUserId });
+        this.setState({
+            selectedInboxItem: item,
+            recipientUserId,
+        });
+        this._continueFetching = true;
         this.delayMessageFetch();
     }
 
     delayMessageFetch() {
-        this._continueFetching = true;
-        setTimeout(() => this.fetchMessages(), 2500);
+        if (!this._continueFetching) {
+            return;
+        }
+        this.fetchMessages()
+            .then(() => setTimeout(() => this.delayMessageFetch(), 5000));
     }
 
     _formatMessages(messages) {
-        const formattedMessages = messages.map(message => ({
+        const orderedMessages = sortBy(messages, ['sentDate']);
+        const mostRecentInboundMessage = findLast(
+            orderedMessages,
+            message => MessageHelper.isInboundMessage(this.state.currentUserId, message),
+        );
+        if (mostRecentInboundMessage && mostRecentInboundMessage.messageStatus !== 'delivered') {
+            this._confirmMessage(mostRecentInboundMessage);
+        }
+        const mostRecentOutboundMessage = findLast(
+            orderedMessages,
+            message => MessageHelper.isOutboundMessage(this.state.currentUserId, message),
+        );
+
+        return orderedMessages.map(message => ({
             id: message.id,
             message: message.message,
-            messageStatus: message.messageStatus,
-            direction: message.senderUserId === this.state.currentUserId ? 'outbound' : 'inbound',
-            senderName: message.senderUserId === this.state.currentUserId ? 'Sender' : 'Recipient', // TODO
+            direction: MessageHelper.isOutboundMessage(this.state.currentUserId, message) ? 'outbound' : 'inbound',
+            senderName: MessageHelper.isOutboundMessage(this.state.currentUserId, message) ? 'Sender' : 'Recipient', // TODO
             sentDate: message.sentDate,
+            messageStatus: message.id === get(mostRecentOutboundMessage, 'id') ? message.messageStatus : null,
         }));
-        return sortBy(formattedMessages, ['sentDate']);
+    }
+
+    _confirmMessage(message) {
+        const url = `/messages/api/${message.id}/confirm`;
+        Request.to(url)
+            .withAuthentication()
+            .put();
     }
 }

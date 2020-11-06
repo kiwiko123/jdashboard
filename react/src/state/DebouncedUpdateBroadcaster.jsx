@@ -5,6 +5,10 @@ export default class DebouncedUpdateBroadcaster extends Broadcaster {
 
     constructor() {
         super();
-        this.update = debounce(this.update, this.reRenderMillis, { leading: true, trailing: true });
+        this.update = debounce(this.update, this.getReRenderMillis(), { leading: true, trailing: true });
+    }
+
+    getReRenderMillis() {
+        return this.reRenderMillis;
     }
 }
