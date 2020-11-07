@@ -20,7 +20,7 @@ const ChatroomPage = () => {
     inputBroadcaster.listenTo(chatroomBroadcaster);
 
     const broadcasterSubscribers = {
-        userDataBroadcaster: [chatroomBroadcaster, inboxBroadcaster],
+        userDataBroadcaster: [chatroomBroadcaster],
     };
 
     return (

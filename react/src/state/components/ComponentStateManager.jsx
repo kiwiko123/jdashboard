@@ -12,17 +12,13 @@ const ComponentStateManager = ({
     const [, forceUpdate] = useReducer(i => i + 1, 0);
     useEffect(() => {
         broadcaster._setUpdater(forceUpdate, id);
-        return () => broadcaster.removeUpdater(id);
+        return () => {
+            broadcaster.removeUpdater(id);
+        };
     }, [broadcaster, id]);
 
     const broadcasterState = broadcaster.getState();
-    const element = isEmpty(broadcasterState) ? children : cloneElement(children, broadcasterState);
-
-    return (
-        <>
-            {element}
-        </>
-    );
+    return isEmpty(broadcasterState) ? children : cloneElement(children, broadcasterState);
 };
 
 ComponentStateManager.propTypes = {

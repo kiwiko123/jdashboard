@@ -1,10 +1,10 @@
 package com.kiwiko.webapp.messages.web;
 
+import com.kiwiko.webapp.messages.api.queries.data.GetBetweenParameters;
 import com.kiwiko.webapp.messages.chatroom.impl.ChatroomMessageService;
 import com.kiwiko.webapp.messages.data.Message;
 import com.kiwiko.webapp.messages.data.MessagePreview;
 import com.kiwiko.webapp.messages.data.MessageStatus;
-import com.kiwiko.webapp.messages.web.MessageDeserializationStrategy;
 import com.kiwiko.webapp.mvc.json.api.ResponseBuilder;
 import com.kiwiko.webapp.mvc.json.api.annotations.CustomRequestBody;
 import com.kiwiko.webapp.mvc.json.data.ResponsePayload;
@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -37,9 +39,14 @@ public class MessageAPIController {
     @GetMapping("/messages/api/get/thread")
     public ResponseEntity<ResponsePayload> getByUserId(
             @RequestParam("senderUserId") Long senderUserId,
-            @RequestParam("recipientUserId") Long recipientUserId) {
+            @RequestParam("recipientUserId") Long recipientUserId,
+            @RequestParam("minimumSentDate") @Nullable Instant minimumSentDate) {
         Set<Long> recipientUserIds = Collections.singleton(recipientUserId);
-        List<Message> messages = messageService.getBetween(senderUserId, recipientUserIds);
+        GetBetweenParameters parameters = new GetBetweenParameters()
+                .withSenderUserId(senderUserId)
+                .withRecipientUserIds(recipientUserIds)
+                .withMinimumSentDate(minimumSentDate);
+        List<Message> messages = messageService.getBetween(parameters);
 
         return new ResponseBuilder()
                 .withBody(messages)

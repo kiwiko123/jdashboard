@@ -105,8 +105,6 @@ export default class DefaultBroadcaster {
      * Returning a copy of the state may be safer, but returning a reference may be more performant.
      */
     getState() {
-        logger.debug(`[${this.constructor.getId()}] State queue length: ${this.__stateQueue.length}`);
-        this._updateState();
         return this.state;
     }
 
@@ -120,12 +118,13 @@ export default class DefaultBroadcaster {
     }
 
     update() {
+        this._updateState();
         const state = this.getState();
         const id = this.constructor.getId();
 
         this.__listeners.forEach(broadcaster => broadcaster.receive(state, id));
         this.__updaters.forEach(updater => updater());
-        logger.debug(`${this.constructor.getId()}-${this.__instanceId} just updated`);
+        logger.debug(`${id}-${this.__instanceId} just updated`);
     }
 
     /**
@@ -162,6 +161,8 @@ export default class DefaultBroadcaster {
         if (this.__stateQueue.length === 0) {
             return;
         }
+
+        logger.debug(`[${this.constructor.getId()}] State queue length: ${this.__stateQueue.length}`);
 
         // Pending updates will likely be smaller than `this.state`;
         // by first building up an object with all pending state changes,

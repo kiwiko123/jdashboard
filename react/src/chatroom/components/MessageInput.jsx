@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { get } from 'lodash';
 import IconButton from '../../common/components/IconButton';
+import FormInput from '../../common/components/FormInput';
 
 import './styles/MessageInput.css';
 
@@ -10,20 +11,15 @@ const MessageInput = ({
     className, sendMessage, onInputTextChange, recipientUserId, messageDraft,
 }) => {
     const divClassName = classnames('MessageInput', className);
-    const onKeyDown = useCallback((event) => {
-        if (event.keyCode === 13) { // Enter/Return
-            sendMessage();
-        }
-    }, [sendMessage]);
     const onChange = useCallback(event => onInputTextChange(get(event, 'target.value')), [onInputTextChange]);
 
     return recipientUserId && (
         <div className={divClassName}>
-            <input
+            <FormInput
                 className="input"
-                type="text"
+                text={messageDraft}
                 onChange={onChange}
-                onKeyDown={onKeyDown}
+                onSubmit={sendMessage}
             />
             <IconButton
                 className="send-button"

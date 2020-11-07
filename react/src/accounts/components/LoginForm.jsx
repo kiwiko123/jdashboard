@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import IconButton from '../../common/components/IconButton';
+import FormInput from '../../common/components/FormInput';
 
 import '../styles/LoginForm.css';
 
@@ -37,11 +38,13 @@ const LoginForm = ({
                     >
                         Password
                     </label>
-                    <input
+                    <FormInput
                         className="input password"
                         name="password"
                         type="password"
+                        text={password}
                         onChange={event => actions.setPassword(event.target.value)}
+                        onSubmit={actions.logIn}
                         autoComplete="on"
                     />
                 </div>

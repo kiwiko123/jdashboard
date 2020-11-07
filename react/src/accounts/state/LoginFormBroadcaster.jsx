@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import Broadcaster from '../../state/Broadcaster';
+import DebouncedUpdateBroadcaster from '../../state/DebouncedUpdateBroadcaster';
 import Request from '../../common/js/Request';
 import { LOG_IN_URL } from '../js/urls';
 import { goTo } from '../../common/js/urltools';
@@ -15,7 +15,7 @@ function handleLoginErrors(response) {
     throw new Error('Failed to log in');
 }
 
-export default class LoginFormBroadcaster extends Broadcaster {
+export default class LoginFormBroadcaster extends DebouncedUpdateBroadcaster {
 
     constructor() {
         super();
@@ -34,6 +34,10 @@ export default class LoginFormBroadcaster extends Broadcaster {
             },
             disableLoginButton: true,
         });
+    }
+
+    getReRenderMillis() {
+        return 25;
     }
 
     setUsername(text) {

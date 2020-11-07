@@ -2,13 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DashboardPage from '../../dashboard/components/DashboardPage';
 import ComponentStateManager from '../../state/components/ComponentStateManager';
+import { useBroadcaster } from '../../state/hooks/broadcasterHooks';
 import LoginFormBroadcaster from '../state/LoginFormBroadcaster';
 import LoginForm from '../components/LoginForm';
 
 import '../styles/LoginPage.css';
 
-const LoginPage = ({ history }) => {
-    const loginFormBroadcaster = new LoginFormBroadcaster();
+const LoginPage = () => {
+    const loginFormBroadcaster = useBroadcaster(LoginFormBroadcaster);
 
     return (
         <DashboardPage
@@ -22,12 +23,6 @@ const LoginPage = ({ history }) => {
         </DashboardPage>
 
     );
-};
-
-LoginPage.propTypes = {
-    history: PropTypes.shape({
-        push: PropTypes.func.isRequired,
-    }).isRequired,
 };
 
 export default LoginPage;

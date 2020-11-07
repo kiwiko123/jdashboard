@@ -9,9 +9,13 @@ const MessageContainer = ({
     messages,
 }) => {
     const endRef = useRef(null);
-    const scrollToBottom = () => {
-    };
-    const messageElements = messages.map((message) => {
+    useEffect(() => {
+        if (messages.length > 0) {
+            endRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    }, [messages]);
+
+    const messageElements = messages.map((message, index) => {
         const subtext = message.messageStatus && (
             <span className="status">
                 {message.messageStatus}
@@ -20,7 +24,8 @@ const MessageContainer = ({
         return (
             <div
                 key={message.id}
-                className="message"
+                className={`message message-${index}`}
+                ref={index >= messages.length - 1 ? endRef : null}
             >
                 <MessageBubble {...message} />
                 {subtext}

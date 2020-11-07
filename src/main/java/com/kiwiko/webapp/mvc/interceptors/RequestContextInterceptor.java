@@ -67,8 +67,23 @@ public class RequestContextInterceptor extends HandlerInterceptorAdapter {
         requestContextService.saveRequestContext(requestContext);
 
         Duration requestDuration = Duration.between(requestContext.getStartTime(), requestContext.getEndTime().orElse(now));
-        logService.debug(String.format("(%d ms) %s", requestDuration.toMillis(), requestUri));
+        logService.debug(String.format("(%d ms) %s", requestDuration.toMillis(), makeDebugRequestUri(request)));
 
         super.postHandle(request, response, handler, modelAndView);
+    }
+
+    private String makeDebugRequestUri(HttpServletRequest request) {
+        String uri = request.getRequestURI();
+        String query = request.getQueryString();
+        if (query == null) {
+            return uri;
+        }
+
+        String result = uri;
+        if (uri.endsWith("/")) {
+            result = result.substring(0, result.length() - 1);
+        }
+
+        return String.format("%s?%s", result, query);
     }
 }

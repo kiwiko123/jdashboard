@@ -1,4 +1,4 @@
-import { findLast, get, sortBy } from 'lodash';
+import { findLast, get, last, sortBy, uniqBy } from 'lodash';
 import Broadcaster from '../../state/Broadcaster';
 import Request from '../../common/js/Request';
 import MessageHelper from './MessageHelper';
@@ -16,6 +16,7 @@ export default class ChatroomBroadcaster extends Broadcaster {
         this.registerMethod(this.fetchMessages);
 
         this._continueFetching = false;
+        this._messageIds = new Set([]);
     }
 
     receive(state, broadcasterId) {
@@ -31,12 +32,33 @@ export default class ChatroomBroadcaster extends Broadcaster {
             senderUserId: this.state.currentUserId,
             recipientUserId: this.state.recipientUserId,
         };
+
+        const mostRecentMessage = last(this.state.messages);
+        if (mostRecentMessage) {
+            requestParameters.minimumSentDate = mostRecentMessage.sentDate;
+        }
+
         return Request.to(GET_MESSAGES_URL)
             .withRequestParameters(requestParameters)
             .withAuthentication()
             .get()
             .then((data) => {
-                this.setState({ messages: this._formatMessages(data) });
+                const newMessages = this._processMessages(data);
+                const mergedMessages = uniqBy([...this.state.messages, ...newMessages], message => message.id);
+                if (this.state.messages.length !== mergedMessages.length) {
+                    const mostRecentInboundMessage = findLast(
+                        mergedMessages,
+                        message => MessageHelper.isInboundMessage(this.state.currentUserId, message),
+                    );
+                    if (mostRecentInboundMessage && mostRecentInboundMessage.messageStatus !== 'DELIVERED') {
+                        this._confirmMessage(mostRecentInboundMessage);
+                    }
+                    const mostRecentOutboundMessage = findLast(
+                        mergedMessages,
+                        message => MessageHelper.isOutboundMessage(this.state.currentUserId, message),
+                    );
+                    this.setState({ messages: mergedMessages });
+                }
             });
     }
 
@@ -46,6 +68,7 @@ export default class ChatroomBroadcaster extends Broadcaster {
         this.setState({
             selectedInboxItem: item,
             recipientUserId,
+            messages: [],
         });
         this._continueFetching = true;
         this.delayMessageFetch();
@@ -56,30 +79,18 @@ export default class ChatroomBroadcaster extends Broadcaster {
             return;
         }
         this.fetchMessages()
-            .then(() => setTimeout(() => this.delayMessageFetch(), 5000));
+            .then(() => setTimeout(() => this.delayMessageFetch(), 10000));
     }
 
-    _formatMessages(messages) {
+    _processMessages(messages) {
         const orderedMessages = sortBy(messages, ['sentDate']);
-        const mostRecentInboundMessage = findLast(
-            orderedMessages,
-            message => MessageHelper.isInboundMessage(this.state.currentUserId, message),
-        );
-        if (mostRecentInboundMessage && mostRecentInboundMessage.messageStatus !== 'delivered') {
-            this._confirmMessage(mostRecentInboundMessage);
-        }
-        const mostRecentOutboundMessage = findLast(
-            orderedMessages,
-            message => MessageHelper.isOutboundMessage(this.state.currentUserId, message),
-        );
-
         return orderedMessages.map(message => ({
             id: message.id,
             message: message.message,
             direction: MessageHelper.isOutboundMessage(this.state.currentUserId, message) ? 'outbound' : 'inbound',
             senderName: MessageHelper.isOutboundMessage(this.state.currentUserId, message) ? 'Sender' : 'Recipient', // TODO
             sentDate: message.sentDate,
-            messageStatus: message.id === get(mostRecentOutboundMessage, 'id') ? message.messageStatus : null,
+//             messageStatus: message.messageStatus,
         }));
     }
 

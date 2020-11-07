@@ -2,6 +2,7 @@ package com.kiwiko.webapp.messages.impl;
 
 import com.kiwiko.library.metrics.api.LogService;
 import com.kiwiko.webapp.messages.api.MessageService;
+import com.kiwiko.webapp.messages.api.queries.data.GetBetweenParameters;
 import com.kiwiko.webapp.messages.api.exceptions.MessageException;
 import com.kiwiko.webapp.messages.data.Message;
 import com.kiwiko.webapp.messages.data.MessagePreview;
@@ -17,9 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.inject.Inject;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,9 +35,9 @@ public abstract class ParameterizedTypeMessageService implements MessageService 
 
     @Transactional(readOnly = true)
     @Override
-    public List<Message> getBetween(long senderUserId, Collection<Long> recipientUserIds) {
+    public List<Message> getBetween(GetBetweenParameters parameters) {
         MessageType messageType = getMessageType();
-        return messageEntityDAO.getBetween(senderUserId, new HashSet<>(recipientUserIds), messageType).stream()
+        return messageEntityDAO.getBetween(parameters, messageType).stream()
                 .map(messageMapper::toDTO)
                 .collect(Collectors.toList());
     }
@@ -70,7 +69,7 @@ public abstract class ParameterizedTypeMessageService implements MessageService 
 
             try {
                 message.setSentDate(Instant.now());
-                message.setMessageStatus(MessageStatus.SENDING);
+                message.setMessageStatus(MessageStatus.SENT);
                 result = create(message);
             } catch (Exception e) {
                 logService.error(String.format("Failed to send message %s", message.toString()), e);

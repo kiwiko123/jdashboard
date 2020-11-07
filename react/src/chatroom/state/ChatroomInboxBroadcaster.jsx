@@ -12,18 +12,15 @@ export default class ChatroomInboxBroadcaster extends Broadcaster {
     }
 
     receive(state, broadcasterId) {
-        if (broadcasterId === 'UserDataBroadcaster') {
+        if (broadcasterId === 'ChatroomBroadcaster') {
             this.setState({
-                currentUserId: state.userId,
-            });
-            if (state.userId) {
-                this.fetchPreviews(state.userId);
-            }
-        } else if (broadcasterId === 'ChatroomBroadcaster') {
-            this.setState({
+                currentUserId: state.currentUserId,
                 selectInboxItem: state.selectInboxItem,
             });
             this.fetchMessages = state.fetchMessages;
+            if (state.currentUserId) {
+                this.fetchPreviews(state.currentUserId);
+            }
         }
     }
 

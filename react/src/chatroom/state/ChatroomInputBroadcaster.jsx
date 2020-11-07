@@ -1,15 +1,15 @@
 import { get } from 'lodash';
-import Broadcaster from '../../state/Broadcaster';
+import DebouncedUpdateBroadcaster from '../../state/DebouncedUpdateBroadcaster';
 import Request from '../../common/js/Request';
 
 const SEND_MESSAGE_URL = '/messages/api/send';
 
-export default class ChatroomInputBroadcaster extends Broadcaster {
+export default class ChatroomInputBroadcaster extends DebouncedUpdateBroadcaster {
     constructor() {
         super();
         this.fetchMessages = () => {};
         this.setState({
-            messageDraft: null,
+            messageDraft: '',
             onInputTextChange: this.onInputTextChange.bind(this),
             sendMessage: this.sendMessage.bind(this),
             recipientUserId: null,
@@ -23,6 +23,10 @@ export default class ChatroomInputBroadcaster extends Broadcaster {
             });
             this.fetchMessages = state.fetchMessages;
         }
+    }
+
+    getReRenderMillis() {
+        return 25;
     }
 
     onInputTextChange(text) {
@@ -42,7 +46,7 @@ export default class ChatroomInputBroadcaster extends Broadcaster {
             .post()
             .then(() => {
                 this.fetchMessages();
-                this.setState({ messageDraft: null });
+                this.setState({ messageDraft: '' });
             });
     }
 }
