@@ -1,4 +1,4 @@
-package com.kiwiko.webapp.messages.chatroom.impl;
+package com.kiwiko.webapp.chatroom.impl;
 
 import com.kiwiko.webapp.messages.data.MessageType;
 import com.kiwiko.webapp.messages.impl.ParameterizedTypeMessageService;

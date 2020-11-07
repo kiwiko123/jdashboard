@@ -1,7 +1,7 @@
 package com.kiwiko.webapp.messages.web;
 
 import com.kiwiko.webapp.messages.api.queries.data.GetBetweenParameters;
-import com.kiwiko.webapp.messages.chatroom.impl.ChatroomMessageService;
+import com.kiwiko.webapp.chatroom.impl.ChatroomMessageService;
 import com.kiwiko.webapp.messages.data.Message;
 import com.kiwiko.webapp.messages.data.MessagePreview;
 import com.kiwiko.webapp.messages.data.MessageStatus;
@@ -40,7 +40,7 @@ public class MessageAPIController {
     public ResponseEntity<ResponsePayload> getByUserId(
             @RequestParam("senderUserId") Long senderUserId,
             @RequestParam("recipientUserId") Long recipientUserId,
-            @RequestParam("minimumSentDate") @Nullable Instant minimumSentDate) {
+            @RequestParam(value = "minimumSentDate", required = false) @Nullable Instant minimumSentDate) {
         Set<Long> recipientUserIds = Collections.singleton(recipientUserId);
         GetBetweenParameters parameters = new GetBetweenParameters()
                 .withSenderUserId(senderUserId)

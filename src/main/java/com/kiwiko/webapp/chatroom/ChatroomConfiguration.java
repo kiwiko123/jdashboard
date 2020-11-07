@@ -1,6 +1,6 @@
-package com.kiwiko.webapp.messages.chatroom;
+package com.kiwiko.webapp.chatroom;
 
-import com.kiwiko.webapp.messages.chatroom.impl.ChatroomMessageService;
+import com.kiwiko.webapp.chatroom.impl.ChatroomMessageService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
