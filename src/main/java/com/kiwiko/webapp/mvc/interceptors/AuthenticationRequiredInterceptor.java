@@ -3,6 +3,7 @@ package com.kiwiko.webapp.mvc.interceptors;
 import com.kiwiko.library.metrics.api.LogService;
 import com.kiwiko.webapp.mvc.interceptors.internal.SessionRequestHelper;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.AuthenticationRequired;
+import com.kiwiko.webapp.mvc.security.authentication.api.errors.AuthenticationException;
 import com.kiwiko.webapp.mvc.security.sessions.api.SessionHelper;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -34,9 +35,13 @@ public class AuthenticationRequiredInterceptor extends HandlerInterceptorAdapter
             return true;
         }
 
+
         return sessionRequestHelper.getSessionFromRequest(request)
                 .map(session -> !sessionHelper.isExpired(session))
-                .orElse(false);
+                .orElseThrow(() -> {
+                    logService.error(String.format("Attempt to hit \"%s\" failed; authentication is required", request.getRequestURL()));
+                    return new AuthenticationException("User authentication is required.");
+                });
     }
 
     private boolean requiresAuthentication(HandlerMethod method) {

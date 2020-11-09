@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -28,11 +28,11 @@ public class SessionRequestHelper {
     private LogService logService;
 
     public Optional<Session> getSessionFromRequest(HttpServletRequest request) {
-        Collection<Cookie> cookies = Optional.ofNullable(request.getCookies())
+        List<Cookie> cookies = Optional.ofNullable(request.getCookies())
                 .map(Arrays::asList)
                 .orElseGet(ArrayList::new);
 
-        Collection<String> tokens = cookies.stream()
+        List<String> tokens = cookies.stream()
                 .filter(cookie -> Objects.equals(cookie.getName(), SessionProperties.AUTHENTICATION_COOKIE_NAME))
                 .map(Cookie::getValue)
                 .collect(Collectors.toList());
@@ -41,7 +41,7 @@ public class SessionRequestHelper {
             return Optional.empty();
         }
 
-        Collection<Session> sessions = sessionService.getByTokens(tokens);
+        Set<Session> sessions = sessionService.getByTokens(tokens);
         Set<Session> activeSessions = new HashSet<>();
         Instant now = Instant.now();
 

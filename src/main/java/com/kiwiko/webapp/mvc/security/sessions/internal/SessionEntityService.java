@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class SessionEntityService implements SessionService {
@@ -81,7 +82,7 @@ public class SessionEntityService implements SessionService {
 
     @Transactional(readOnly = true)
     @Override
-    public Collection<Session> getByTokens(Collection<String> tokens) {
+    public Set<Session> getByTokens(Collection<String> tokens) {
         return sessionEntityDAO.getByTokens(tokens).stream()
                 .map(mapper::toDTO)
                 .collect(Collectors.toSet());
