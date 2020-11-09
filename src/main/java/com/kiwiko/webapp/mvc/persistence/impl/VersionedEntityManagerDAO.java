@@ -9,6 +9,9 @@ import com.kiwiko.library.persistence.dataAccess.api.versions.VersionedEntity;
 import com.kiwiko.library.persistence.dataAccess.data.VersionChanges;
 import com.kiwiko.library.persistence.dataAccess.data.VersionDTO;
 import com.kiwiko.webapp.mvc.json.api.JsonMapper;
+import com.kiwiko.webapp.mvc.requests.api.CurrentRequestService;
+import com.kiwiko.webapp.mvc.requests.data.RequestContext;
+import com.kiwiko.webapp.users.data.User;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;
@@ -25,6 +28,7 @@ public abstract class VersionedEntityManagerDAO<T extends VersionedEntity> exten
 
     @Inject private JsonMapper jsonMapper;
     @Inject private VersionConverterHelper versionConverterHelper;
+    @Inject private CurrentRequestService currentRequestService;
     @Inject private LogService logService;
     private final ReflectionHelper reflectionHelper;
 
@@ -63,6 +67,11 @@ public abstract class VersionedEntityManagerDAO<T extends VersionedEntity> exten
 
             version.setChanges(diff);
             version.setVersion(versions.size());
+
+            currentRequestService.getCurrentRequestContext()
+                    .flatMap(RequestContext::getUser)
+                    .map(User::getId)
+                    .ifPresent(version::setUserId);
         }
 
         versions.add(version);

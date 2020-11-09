@@ -30,7 +30,7 @@ import java.util.Set;
 
 @CrossOriginConfigured
 @RestController
-public class MessageAPIController {
+public class MessagesAPIController {
 
     // TODO make registry by MessageType
     @Inject
