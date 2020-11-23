@@ -61,7 +61,7 @@ CREATE TABLE messages (
     message_status_id TEXT NOT NULL,
     sender_user_id BIGINT NOT NULL REFERENCES users(user_id),
     recipient_user_id BIGINT NOT NULL REFERENCES users(user_id),
-    created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-    last_updated_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-    is_removed BOOLEAN NOT NULL DEFAULT FALSE
+    sent_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    is_removed BOOLEAN NOT NULL DEFAULT FALSE,
+    versions TEXT
 );

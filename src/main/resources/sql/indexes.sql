@@ -13,6 +13,6 @@ CREATE INDEX ON user_game_state_associations (user_id);
 
 CREATE INDEX ON words (lower(word));
 
-CREATE INDEX ON messages (message_type);
+CREATE INDEX ON messages (message_type_id);
 CREATE INDEX ON messages (sender_user_id);
 CREATE INDEX ON messages (recipient_user_id);
