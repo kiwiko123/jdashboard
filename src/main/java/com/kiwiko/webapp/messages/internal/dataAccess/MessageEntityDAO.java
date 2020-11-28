@@ -47,7 +47,7 @@ public class MessageEntityDAO extends VersionedEntityManagerDAO<MessageEntity> {
         if (parameters.getMinimumSentDate().isPresent()) {
             Expression<Instant> sentDateField = root.get("sentDate");
             Predicate isSentSince = builder.greaterThanOrEqualTo(sentDateField, parameters.getMinimumSentDate().get());
-            allCriteria = builder.and(isSentSince);
+            allCriteria = builder.and(allCriteria, isSentSince);
         }
 
         query.where(allCriteria);
