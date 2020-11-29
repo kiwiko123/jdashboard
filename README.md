@@ -78,5 +78,5 @@ $ createdb jdashboard_test
 ```
 Enter your database's shell with [`psql`](https://www.postgresql.org/docs/12/app-psql.html):
 ```shell script
-$  
+$ psql -U jdashboard_tester jdashboard_test -h localhost -p 5432  
 ```
