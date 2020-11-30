@@ -82,6 +82,18 @@
             <artifactId>postgresql</artifactId>
             <version>42.2.11</version>
         </dependency>
+
+        <!-- Websockets -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+            <version>5.2.11.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+            <version>5.2.11.RELEASE</version>
+        </dependency>
     </dependencies>
 
     <properties>
