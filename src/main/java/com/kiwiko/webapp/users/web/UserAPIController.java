@@ -4,6 +4,7 @@ import com.kiwiko.webapp.mvc.json.api.ResponseBuilder;
 import com.kiwiko.webapp.mvc.json.data.ResponsePayload;
 import com.kiwiko.webapp.mvc.security.environments.data.EnvironmentProperties;
 import com.kiwiko.webapp.users.api.UserService;
+import com.kiwiko.webapp.users.api.parameters.CreateUserParameters;
 import com.kiwiko.webapp.users.data.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,8 +34,8 @@ public class UserAPIController {
     }
 
     @PostMapping(path = "/users/api/create")
-    public ResponseEntity<ResponsePayload> createUser(@RequestBody User user) {
-        User result = userService.create(user);
+    public ResponseEntity<ResponsePayload> createUser(@RequestBody CreateUserParameters parameters) {
+        User result = userService.create(parameters);
         return new ResponseBuilder()
                 .withBody(result)
                 .toResponseEntity();

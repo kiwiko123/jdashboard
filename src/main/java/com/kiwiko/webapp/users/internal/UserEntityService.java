@@ -3,6 +3,7 @@ package com.kiwiko.webapp.users.internal;
 import com.kiwiko.webapp.mvc.security.authentication.api.PasswordService;
 import com.kiwiko.library.persistence.dataAccess.api.PersistenceException;
 import com.kiwiko.webapp.users.api.UserService;
+import com.kiwiko.webapp.users.api.parameters.CreateUserParameters;
 import com.kiwiko.webapp.users.data.User;
 import com.kiwiko.webapp.users.internal.dataAccess.UserEntityDAO;
 import com.kiwiko.webapp.users.internal.dataAccess.UserEntity;
@@ -56,17 +57,24 @@ public class UserEntityService implements UserService {
 
     @Transactional
     @Override
-    public User create(User user) {
-        if (getByUsername(user.getUsername()).isPresent()) {
-            throw new PersistenceException(String.format("User with email address \"%s\" already exists", user.getEmailAddress()));
+    public User create(CreateUserParameters parameters) {
+        if (getByUsername(parameters.getUsername()).isPresent()) {
+            throw new PersistenceException(
+                    String.format(
+                            "User with email address \"%s\" already exists",
+                            parameters.getEmailAddress()));
         }
 
-        UserEntity entity = mapper.toEntity(user);
-        String encryptedPassword = passwordService.encryptPassword(user.getEncryptedPassword());
-        entity.setEncryptedPassword(encryptedPassword);
+        String encryptedPassword = passwordService.encryptPassword(parameters.getPassword());
 
-        UserEntity managedEntity = userEntityDAO.save(entity);
-        return mapper.toDTO(managedEntity);
+        User user = new User();
+        user.setUsername(parameters.getUsername());
+        user.setEncryptedPassword(encryptedPassword);
+        user.setEmailAddress(parameters.getEmailAddress());
+
+        UserEntity entity = mapper.toEntity(user);
+        entity = userEntityDAO.save(entity);
+        return mapper.toDTO(entity);
     }
 
     @Transactional(readOnly = true)

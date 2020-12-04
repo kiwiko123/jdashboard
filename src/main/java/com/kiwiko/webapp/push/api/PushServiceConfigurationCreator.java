@@ -20,7 +20,7 @@ public class PushServiceConfigurationCreator {
      */
     public <P extends PushService> P create(Supplier<P> createPushService) {
         P service = createPushService.get();
-        pushServiceRegistry.register(service.getServiceId(), service);
+        pushServiceRegistry.register(service);
         return service;
     }
 }

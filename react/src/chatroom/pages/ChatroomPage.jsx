@@ -2,6 +2,7 @@ import React from 'react';
 import DashboardPage from '../../dashboard/components/DashboardPage';
 import ComponentStateManager from '../../state/components/ComponentStateManager';
 import { useBroadcaster } from '../../state/hooks/broadcasterHooks';
+import { usePushService } from '../../state/hooks';
 import ChatroomBroadcaster from '../state/ChatroomBroadcaster';
 import ChatroomInputBroadcaster from '../state/ChatroomInputBroadcaster';
 import ChatroomInboxBroadcaster from '../state/ChatroomInboxBroadcaster';
@@ -22,6 +23,10 @@ const ChatroomPage = () => {
     const broadcasterSubscribers = {
         userDataBroadcaster: [chatroomBroadcaster],
     };
+
+    const { pushToServer } = usePushService('chatroom', 1, {
+        receivePush: () => console.log('Client received push'),
+    });
 
     return (
         <DashboardPage

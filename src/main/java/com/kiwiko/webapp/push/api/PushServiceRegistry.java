@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 @Singleton
@@ -16,14 +17,15 @@ public class PushServiceRegistry {
         pushServicesByIdentifier = new HashMap<>();
     }
 
-    public void register(String identifier, PushService pushService) {
-        pushServicesByIdentifier.computeIfAbsent(identifier, id -> new HashSet<>())
+    public void register(PushService pushService) {
+        pushServicesByIdentifier.computeIfAbsent(pushService.getServiceId(), id -> new HashSet<>())
                 .add(pushService);
     }
 
-    public void deregister(String identifier, PushService pushService) {
+    public void deregister(String identifier) {
         if (pushServicesByIdentifier.containsKey(identifier)) {
-            pushServicesByIdentifier.get(identifier).remove(pushService);
+            pushServicesByIdentifier.get(identifier)
+                    .removeIf(service -> Objects.equals(identifier, service.getServiceId()));
         }
     }
 

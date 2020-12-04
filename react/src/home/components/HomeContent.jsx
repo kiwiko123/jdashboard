@@ -5,7 +5,7 @@ import { useWebSocket, usePushService } from '../../state/hooks';
 import './styles/HomeContent.css';
 
 const HomeContent = () => {
-    const { pushToServer } = usePushService('/push', 'chatroom', 1, {
+    const { pushToServer } = usePushService('chatroom', 1, {
         receivePush: ({ data }) => console.log(`Client received push from server: "${data}"`),
     });
     const pressButton = () => pushToServer({

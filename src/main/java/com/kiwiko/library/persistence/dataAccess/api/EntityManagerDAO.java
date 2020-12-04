@@ -13,6 +13,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -62,6 +63,9 @@ public abstract class EntityManagerDAO<T extends Identifiable<Long>> {
      * @return all entities matching the given IDs
      */
     public Collection<T> getByIds(Collection<Long> ids) {
+        if (ids.isEmpty()) {
+            return new ArrayList<>();
+        }
         CriteriaQuery<T> query = selectWhereIn("id", ids);
         return createQuery(query).getResultList();
     }

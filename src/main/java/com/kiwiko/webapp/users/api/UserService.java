@@ -1,5 +1,6 @@
 package com.kiwiko.webapp.users.api;
 
+import com.kiwiko.webapp.users.api.parameters.CreateUserParameters;
 import com.kiwiko.webapp.users.data.User;
 
 import java.util.Collection;
@@ -16,7 +17,7 @@ public interface UserService {
 
     Optional<User> getByEmailAddress(String emailAddress);
 
-    User create(User user);
+    User create(CreateUserParameters parameters);
 
     Optional<User> getWithValidation(String username, String password);
 }

@@ -9,6 +9,7 @@ import com.kiwiko.webapp.mvc.security.authentication.api.annotations.CrossOrigin
 import com.kiwiko.webapp.mvc.security.sessions.api.SessionService;
 import com.kiwiko.webapp.mvc.security.sessions.data.Session;
 import com.kiwiko.webapp.users.api.UserService;
+import com.kiwiko.webapp.users.api.parameters.CreateUserParameters;
 import com.kiwiko.webapp.users.data.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,9 +35,9 @@ public class UserAuthenticationAPIController {
 
     @PostMapping("/user-auth/api/create")
     public ResponseEntity<ResponsePayload> createUser(
-            @RequestBody User user,
+            @RequestBody CreateUserParameters createUserParameters,
             HttpServletResponse httpServletResponse) {
-        User result = userService.create(user);
+        User result = userService.create(createUserParameters);
         Session session = sessionService.createSessionCookieForUser(result.getId(), httpServletResponse);
 
         return new ResponseBuilder()

@@ -1,5 +1,6 @@
 package com.kiwiko.webapp.messages.web;
 
+import com.kiwiko.webapp.chatroom.internal.ChatroomPushService;
 import com.kiwiko.webapp.messages.api.queries.data.GetBetweenParameters;
 import com.kiwiko.webapp.chatroom.impl.ChatroomMessageService;
 import com.kiwiko.webapp.messages.data.Message;
@@ -11,6 +12,8 @@ import com.kiwiko.webapp.mvc.json.data.ResponsePayload;
 import com.kiwiko.webapp.mvc.requests.data.RequestContext;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.AuthenticationRequired;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.CrossOriginConfigured;
+import com.kiwiko.webapp.push.api.errors.ClientUnreachablePushException;
+import com.kiwiko.webapp.push.api.parameters.PushToClientParameters;
 import com.kiwiko.webapp.users.data.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +40,8 @@ public class MessagesAPIController {
     // TODO make registry by MessageType
     @Inject
     private ChatroomMessageService messageService;
+
+    @Inject private ChatroomPushService chatroomPushService;
 
     @GetMapping("/messages/api/get/thread")
     public ResponseEntity<ResponsePayload> getByUserId(
@@ -68,7 +73,7 @@ public class MessagesAPIController {
     @PostMapping("/messages/api/send")
     public ResponseEntity<ResponsePayload> send(
             @CustomRequestBody(strategy = MessageDeserializationStrategy.class) Message message,
-            RequestContext requestContext) {
+            RequestContext requestContext) throws ClientUnreachablePushException {
         User currentUser = requestContext.getUser().orElse(null);
         if (currentUser == null) {
             return new ResponseBuilder()
@@ -80,6 +85,12 @@ public class MessagesAPIController {
         message.setSenderUserId(currentUser.getId());
         message.setMessageStatus(MessageStatus.SENDING);
         Message result = messageService.send(message);
+
+        PushToClientParameters parameters = new PushToClientParameters();
+        parameters.setUserId(currentUser.getId());
+        parameters.setRecipientUserId(message.getRecipientUserId());
+        parameters.setMessage("Test");
+        chatroomPushService.pushToClient(parameters);
 
         return new ResponseBuilder()
                 .withBody(result)

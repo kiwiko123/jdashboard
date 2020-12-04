@@ -14,9 +14,6 @@ export default class ChatroomBroadcaster extends Broadcaster {
         });
         this.registerMethod(this.selectInboxItem);
         this.registerMethod(this.fetchMessages);
-
-        this._continueFetching = false;
-        this._messageIds = new Set([]);
     }
 
     receive(state, broadcasterId) {
@@ -63,23 +60,12 @@ export default class ChatroomBroadcaster extends Broadcaster {
     }
 
     selectInboxItem(item) {
-        this._continueFetching = false;
         const recipientUserId = get(item, ['users', '0', 'userId']);
         this.setState({
             selectedInboxItem: item,
             recipientUserId,
             messages: [],
         });
-        this._continueFetching = true;
-        this.delayMessageFetch();
-    }
-
-    delayMessageFetch() {
-        if (!this._continueFetching) {
-            return;
-        }
-        this.fetchMessages()
-            .then(() => setTimeout(() => this.delayMessageFetch(), 10000));
     }
 
     _processMessages(messages) {

@@ -24,8 +24,8 @@ function validateData(data) {
     // TODO
 }
 
-export default function(urlMapping, serviceId, userId, { receivePush } = {}) {
-    const url = normalizeMappingUrl(urlMapping);
+export default function(serviceId, userId, { receivePush } = {}) {
+    const url = normalizeMappingUrl('/push');
     const webSocketParams = makeWebSocketParams({ receivePush });
     const webSocket = useWebSocket(url, webSocketParams);
 
