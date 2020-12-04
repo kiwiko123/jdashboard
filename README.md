@@ -1,82 +1,66 @@
 # jdashboard
-## Development Information
-This project was developed on a machine running macOS Catalina.
+This is a web application made for my own personal learning, experimentation, and fun.
+
+## Development information
+This project was developed on a machine running macOS Big Sur.
 Unless otherwise stated, any setup instructions may be specific to this environment.
 
 The following development software was used:
-* IntelliJ IDEA Community Edition 2019.2.4
-* Java 9
+* IntelliJ IDEA Community Edition 2020.3
+* Java 15.0.1
 * React 16.8.6
-* PostgreSQL 12.2
+* PostgreSQL 13.1
 
-## Java
-The backend Java code is found under `src/com/kiwiko`.
+## Installation setup
+Install Homebrew: https://brew.sh/.
 
-### Package Structure
-In general, the Java packages in this project adhere to the following structure:
-* `api`
-* `data`
-* `internal`
-* `web`
+### Java
+Download the Java SDK from Oracle: https://www.oracle.com/java/technologies/javase-downloads.html.
 
-#### `api`
-A public-facing package containing code intended for external consumption.
-Often, this will consist of interfaces, annotations, and exception classes.
-
-#### `data`
-A public-facing package that contains simplistic data classes.
-This mostly consists of [Data Transfer Objects](https://en.wikipedia.org/wiki/Data_transfer_object) (DTOs) and enums.
-
-#### `internal`
-A package that's meant to be internal to its directory.
-That is, packages _outside_ of it should not directly access any of its classes.
-An exception to this would be for dependency injection configurations.
-
-This often consists of implementation classes for interfaces.
-
-##### `internal.dataAccess`
-For a web application, this also includes database-related objects like [JPA entities](https://en.wikipedia.org/wiki/Java_Persistence_API#Entities) and Data Access Objects (DAOs).
-External consumers should access logic through public services and DTOs.
-
-#### `web`
-A package that contains code related to web functionality, like [REST](https://en.wikipedia.org/wiki/Representational_state_transfer) controllers.
-A `web` package may also wish to have its own `data` package alongisde it, particularly if it ingests web request payloads using Spring's `@RequestBody`.
-
-#### Example Package Structure
-```
-cars/
-+--- api/
-|    +-- CarService.java (interface)
-|--- data/
-|    +--- Car.java (DTO)
-|--- internal/
-|    +------- dataAccess/
-|    |        +--------- CarDAO.java
-|    |        +--------- CarEntity.java
-|    +------- CarEntityMapper.java (converts JPA entities to DTOs)
-|    +------- CarEntityService.java (implementation)
-|--- web/
-|    +-- CarAPIController.java
-```
-
-## PostgreSQL
-### Installation
+### PostgreSQL
 Install PostgreSQL through Homebrew.
-```shell script
+```shell
 $ brew install postgresql
 ```
 Control the PostgreSQL server manually with the following commands:
-```shell script
+```shell
 $ pg_ctl -D /usr/local/var/postgres start
 $ pg_ctl -D /usr/local/var/postgres stop
 ```
-### Initial Setup
-Create a new user and database:
-```shell script
+#### One-time setup
+Start the local PostgreSQL server, then create a new user and database:
+```shell
+$ pg_ctl -D /usr/local/var/postgres start
 $ createuser jdashboard_tester
 $ createdb jdashboard_test
 ```
+
+#### Start-up
 Enter your database's shell with [`psql`](https://www.postgresql.org/docs/12/app-psql.html):
-```shell script
-$ psql -U jdashboard_tester jdashboard_test -h localhost -p 5432  
+```shell
+$ psql -U jdashboard_tester jdashboard_test -h localhost -p 5432
 ```
+Re-create the database artifacts by copying the contents of [`schema.sql`](./src/main/resources/sql/schema.sql) and 
+[`indexes.sql`](./src/main/resources/sql/indexes.sql) into the Postgres shell and running them, in that order. 
+Exit the shell with `\q`.
+
+### React
+Install nodejs, which includes React, through Homebrew.
+```shell
+$ brew install node
+```
+
+#### NPM dependencies
+Run the script [`setup.sh`](./react/docs/setup.sh) to install all required NPM dependencies:
+```shell
+$ sh ./react/docs/setup.sh
+```
+
+## Start the application
+1. Run [`Application.java`](./src/main/java/com/kiwiko/webapp/Application.java).
+2. Run the app in development mode:
+```shell
+$ cd ./react
+$ npm start
+```
+3. Navigate to http://localhost:3000/home.
