@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 const FormInput = ({
-    text, type, name, className, onSubmit, onChange, autoComplete,
+    text, type, name, className, onSubmit, onChange, onBlur, autoComplete,
 }) => {
     const divClassName = classnames('FormInput', className);
     const onKeyDown = useCallback((event) => {
@@ -20,6 +20,7 @@ const FormInput = ({
             name={name}
             onChange={onChange}
             onKeyDown={onKeyDown}
+            onBlur={onBlur}
             autoComplete={autoComplete}
         />
     );
@@ -28,19 +29,20 @@ const FormInput = ({
 FormInput.propTypes = {
     text: PropTypes.string,
     type: PropTypes.string,
-    name: PropTypes.string,
+    name: PropTypes.string.isRequired,
     className: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     onSubmit: PropTypes.func,
+    onBlur: PropTypes.func,
     autoComplete: PropTypes.oneOf(['none', 'on']),
 };
 
 FormInput.defaultProps = {
     text: null,
     type: 'text',
-    name: null,
     className: null,
     onSubmit: null,
+    onBlur: null,
     autoComplete: 'none',
 };
 

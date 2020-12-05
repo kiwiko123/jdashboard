@@ -14,7 +14,9 @@ export default class DashboardHeaderBroadcaster extends Broadcaster {
         this.setState({
             isMenuSlideOverExpanded: false,
             toggleMenuSlideOver: this.toggleMenuSlideOver,
-            userData: {},
+            userData: {
+                isLoggedIn: false,
+            },
         });
     }
 

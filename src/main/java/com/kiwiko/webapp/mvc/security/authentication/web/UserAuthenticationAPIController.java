@@ -62,7 +62,7 @@ public class UserAuthenticationAPIController {
                 .toResponseEntity();
     }
 
-    @PostMapping("/user-auth/api/logout")
+    @PostMapping("/user-auth/api/users/current/logout")
     public ResponseEntity<ResponsePayload> logCurrentUserOut(RequestContext requestContext) {
         User user = requestContext.getUser()
                 .orElse(null);
@@ -76,11 +76,9 @@ public class UserAuthenticationAPIController {
         return ResponseBuilder.ok();
     }
 
-    @GetMapping("/user-auth/api/get-current-user")
+    @GetMapping("/user-auth/api/users/current")
     public ResponseEntity<ResponsePayload> getCurrentUser(RequestContext requestContext) {
-        User currentUser = requestContext.getUser()
-                .orElse(null);
-
+        User currentUser = requestContext.getUser().orElse(null);
         if (currentUser == null) {
             return new ResponseBuilder()
                     .withError("No logged-in user found")
@@ -90,6 +88,12 @@ public class UserAuthenticationAPIController {
         return new ResponseBuilder()
                 .withBody(currentUser)
                 .toResponseEntity();
+    }
+
+    @Deprecated
+    @GetMapping("/user-auth/api/legacy/get-current-user")
+    public ResponseEntity<ResponsePayload> getCurrentUserLegacy(RequestContext requestContext) {
+        return getCurrentUser(requestContext);
     }
 
     private ResponseEntity<ResponsePayload> getInvalidUserResponse() {

@@ -1,13 +1,16 @@
-import { get } from 'lodash';
+import { useCallback, useEffect, useState } from 'react';
+import { get, isEmpty, throttle } from 'lodash';
 import Request from '../../common/js/Request';
 import { GET_CURRENT_USER_URL } from '../../accounts/js/urls';
 
-function getCurrentUserData() {
+const MAX_REQUEST_MS = 10000;
+
+const getCurrentUserData = throttle(() => {
     return Request.to(GET_CURRENT_USER_URL)
         .withAuthentication()
         .get()
         .then((data) => {
-            if (!data) {
+            if (isEmpty(data)) {
                 return null;
             }
             return {
@@ -15,8 +18,14 @@ function getCurrentUserData() {
                 username: data.username,
             };
         });
-}
+}, MAX_REQUEST_MS);
 
 export default function() {
-    return getCurrentUserData();
+    const [currentUserData, setCurrentUserData] = useState(null);
+
+    useEffect(() => {
+        getCurrentUserData().then(setCurrentUserData);
+    }, []);
+
+    return currentUserData;
 }

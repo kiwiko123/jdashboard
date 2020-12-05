@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import IconButton from '../../common/components/IconButton';
-import FormInput from '../../common/components/FormInput';
+import FormInput from '../../common/forms/components/FormInput';
 
 import '../styles/LoginForm.css';
 

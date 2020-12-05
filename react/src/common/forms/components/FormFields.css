@@ -1,0 +1,7 @@
+.FormFields > .field-error-banner {
+    color: white;
+}
+
+.FormFields > .field-error-banner > .field-error-container > .field-errors {
+    list-style-type: disc;
+}

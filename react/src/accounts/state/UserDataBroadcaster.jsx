@@ -1,5 +1,4 @@
 import Broadcaster from '../../state/Broadcaster';
-import { GET_CURRENT_USER_URL } from '../js/urls';
 import Request from '../../common/js/Request';
 import logger from '../../common/js/logging';
 
@@ -12,7 +11,7 @@ function getDefaultState() {
 }
 
 function getCurrentUserData() {
-    return Request.to(GET_CURRENT_USER_URL)
+    return Request.to('/user-auth/api/legacy/get-current-user')
         .get({ credentials: 'include' })
         .catch((error) => {
             logger.error('Error fetching current user data', error);
