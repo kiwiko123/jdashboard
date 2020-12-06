@@ -6,40 +6,40 @@
     transition: width 0.45s, height 0.3s;
 }
 
-.DashboardMenuAssistant.top {
+.DashboardMenuAssistantPane.top {
     top: 0;
 }
 
-.DashboardMenuAssistant.bottom {
+.DashboardMenuAssistantPane.bottom {
     bottom: 0;
 }
 
-.DashboardMenuAssistant.left {
+.DashboardMenuAssistantPane.left {
     left: 0;
 }
 
-.DashboardMenuAssistant.right {
+.DashboardMenuAssistantPane.right {
     right: 0;
 }
 
-.DashboardMenuAssistant.open {
+.DashboardMenuAssistantPane.open {
     width: 33%;
     height: 100%;
     background-color: white;
     opacity: 95%;
 }
 
-.DashboardMenuAssistant.closed {
+.DashboardMenuAssistantPane.closed {
     width: 2.6rem;
     height: 2.6rem;
     border-radius: 2.5px;
     background-color: rgb(255, 255, 255, 0.1);
 }
 
-.DashboardMenuAssistant.left > .header > .button-close {
+.DashboardMenuAssistantPane.left > .header > .button-close {
     float: right;
 }
 
-.DashboardMenuAssistant.right > .header > .button-close {
+.DashboardMenuAssistantPane.right > .header > .button-close {
     float: left;
 }
