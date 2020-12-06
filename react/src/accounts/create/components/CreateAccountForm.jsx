@@ -1,23 +1,14 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { isNil } from 'lodash';
 import FormFields from '../../../common/forms/components/FormFields';
 
-function useInputOnChange(setText) {
-    return useCallback((event) => {
-        setText(event.target.value);
-    }, [setText]);
-}
-
 function isBlank(text) {
-    return !isNil(text) && text.trim().length === 0;
+    return !text;
 }
 
 const CreateAccountForm = ({
     username, password, setUsername, setPassword, createUser,
 }) => {
-    const setUsernameText = useInputOnChange(setUsername);
-    const setPasswordText = useInputOnChange(setPassword);
     const formFields = [
         {
             className: 'field-username',
@@ -25,8 +16,9 @@ const CreateAccountForm = ({
             label: 'Username',
             text: username,
             isRequired: true,
-            onChange: setUsernameText,
+            onChange: setUsername,
             isValid: !isBlank(username),
+            autoComplete: 'on',
         },
         {
             className: 'field-password',
@@ -35,8 +27,9 @@ const CreateAccountForm = ({
             text: password,
             type: 'password',
             isRequired: true,
-            onChange: setPasswordText,
+            onChange: setPassword,
             isValid: !isBlank(password),
+            autoComplete: 'on',
         },
     ];
     const submitButtonProps = {

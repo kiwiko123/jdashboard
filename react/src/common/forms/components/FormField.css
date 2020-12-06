@@ -1,7 +1,7 @@
-.FormField.invalid {
-    border: 1.5px solid red;
-}
-
 .FormField > .FormInput {
     margin-left: 0.5rem;
+}
+
+.FormField > .FormInput.invalid {
+    border: 2px solid red;
 }

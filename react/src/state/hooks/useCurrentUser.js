@@ -1,30 +1,19 @@
 import { useCallback, useEffect, useState } from 'react';
-import { get, isEmpty, throttle } from 'lodash';
-import Request from '../../common/js/Request';
-import { GET_CURRENT_USER_URL } from '../../accounts/js/urls';
+import useCurrentUserPromise from './useCurrentUserPromise';
 
-const MAX_REQUEST_MS = 10000;
-
-const getCurrentUserData = throttle(() => {
-    return Request.to(GET_CURRENT_USER_URL)
-        .withAuthentication()
-        .get()
-        .then((data) => {
-            if (isEmpty(data)) {
-                return null;
-            }
-            return {
-                id: data.id,
-                username: data.username,
-            };
-        });
-}, MAX_REQUEST_MS);
-
+/**
+ * Like useCurrentUserPromise, but returns an actual value rather than a Promise.
+ * Note that this will always return null on the first invocation while it asynchronously fetches
+ * the current user's data.
+ * After the request finishes, a re-render will trigger and useCurrentUser will return the updated data.
+ *
+ * @return the current user's data
+ * @see useCurrentUserPromise
+ */
 export default function() {
     const [currentUserData, setCurrentUserData] = useState(null);
-
     useEffect(() => {
-        getCurrentUserData().then(setCurrentUserData);
+        useCurrentUserPromise().then(setCurrentUserData);
     }, []);
 
     return currentUserData;

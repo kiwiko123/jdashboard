@@ -5,6 +5,10 @@ import { goTo } from '../../../common/js/urltools';
 import CreateAccountForm from './CreateAccountForm';
 import { CREATE_USER_URL } from '../../js/urls';
 
+function setTextFromEvent(event, setText) {
+    setText(event.target.value);
+}
+
 const CreateAccountFormWrapper = () => {
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
@@ -20,8 +24,8 @@ const CreateAccountFormWrapper = () => {
     const data = {
         username,
         password,
-        setUsername,
-        setPassword,
+        setUsername: event => setTextFromEvent(event, setUsername),
+        setPassword: event => setTextFromEvent(event, setPassword),
         createUser,
     };
 

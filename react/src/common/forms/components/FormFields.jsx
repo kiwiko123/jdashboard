@@ -1,85 +1,98 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { isNil } from 'lodash';
 import FormField from './FormField';
 import Banner, { BANNER_TYPES } from '../../components/Banner';
 import IconButton from '../../components/IconButton';
+import { useEventSubmit } from '../../../state/hooks';
 
 import './FormFields.css';
 
+function makeFieldErrorBanner(invalidFields) {
+    const fieldErrors = invalidFields.map(field => (
+        <li
+            key={field.name}
+            className={`field-error-${field.name}`}
+        >
+            {field.label}
+        </li>
+    ));
+    let message = invalidFields.length === 1
+        ? 'There\'s an error with the following field.'
+        : 'There are errors with the following fields.';
+    return (
+        <Banner
+            className="field-error-banner"
+            type={BANNER_TYPES.danger}
+            iconSizeFactor={2}
+        >
+            <div className="field-error-container">
+                <div className="field-error-message">
+                    {message}
+                </div>
+                <ol className="field-errors">
+                    {fieldErrors}
+                </ol>
+            </div>
+        </Banner>
+    );
+}
+
 const FormFields = ({
-    fields, submitButtonProps, buttons, className,
+    fields, submitButtonProps, extraButtons, className,
 }) => {
-    let fieldErrorBanner;
+    const [hasBlurred, setHasBlurred] = useState(false);
     const invalidFields = fields.filter(field => field.isValid === false) // default/undefined case is considered valid
         .map(field => ({
             name: field.name,
             label: field.label,
         }));
-    if (invalidFields.length > 0) {
-        const fieldErrors = invalidFields.map(field => (
-            <li
-                key={field.name}
-                className={`field-error-${field.name}`}
-            >
-                {field.label}
-            </li>
-        ));
-        let message = invalidFields.length === 1
-            ? 'There\'s an error with the following field.'
-            : 'There are errors with the following fields.';
-        fieldErrorBanner = (
-            <Banner
-                className="field-error-banner"
-                type={BANNER_TYPES.danger}
-            >
-                <div className="field-error-container">
-                    <div className="field-error-message">
-                        {message}
-                    </div>
-                    <ol className="field-errors">
-                        {fieldErrors}
-                    </ol>
-                </div>
-            </Banner>
-        );
-    }
-    const [isSubmitEnabled, setIsSubmitEnabled] = useState(invalidFields.length === 0);
-    const onSubmit = () => {
+    const fieldErrorBanner = invalidFields.length > 0 && hasBlurred && makeFieldErrorBanner(invalidFields);
+    const [canSubmit, setCanSubmit] = useState(invalidFields.length === 0);
+    useEffect(() => {
+        setCanSubmit(invalidFields.length === 0);
+    }, [hasBlurred, invalidFields.length]);
+    const onSubmit = useEventSubmit(() => {
+        if (!canSubmit) {
+            return;
+        }
         submitButtonProps.onClick();
-        setIsSubmitEnabled(false);
-    };
+        setCanSubmit(false);
+    }, [canSubmit]);
     const fieldElements = fields.map(field => (
-            <FormField
-                {...field}
-                onSubmit={onSubmit}
-                key={field.name}
-            />
-        ));
-    let buttonElements;
-    if (buttons.length > 0) {
-        buttonElements = buttons.map(button => (
-            <IconButton
-                {...button}
-                key={button.id}
-            />
-        ));
-    }
+        <FormField
+            {...field}
+            key={field.name}
+            onBlur={() => setHasBlurred(true)}
+            isValid={!hasBlurred || field.isValid}
+        />
+    ));
+    const extraButtonElements = extraButtons.length > 0 && extraButtons.map(button => (
+        <IconButton
+            {...button}
+            key={button.id}
+        />
+    ));;
     const divClassName = classnames('FormFields', className);
 
     return (
         <div className={divClassName}>
             {fieldErrorBanner}
-            {fieldElements}
-            <div className="buttons">
-                <IconButton
-                    className="button-submit"
-                    {...submitButtonProps}
-                    disabled={!isSubmitEnabled}
-                    onClick={onSubmit}
-                />
-                {buttonElements}
+            <div
+                className="form"
+                onKeyDown={onSubmit}
+            >
+                {fieldElements}
+                <div className="buttons">
+                    <IconButton
+                        className="button-submit"
+                        {...submitButtonProps}
+                        disabled={!canSubmit}
+                        onClick={onSubmit}
+                    />
+                    {extraButtonElements}
+                </div>
             </div>
         </div>
     );
@@ -88,7 +101,7 @@ const FormFields = ({
 FormFields.propTypes = {
     fields: PropTypes.arrayOf(FormField.propTypes).isRequired,
     submitButtonProps: PropTypes.shape(IconButton.propTypes).isRequired,
-    buttons: PropTypes.arrayOf(PropTypes.shape({
+    extraButtons: PropTypes.arrayOf(PropTypes.shape({
         ...IconButton.propTypes,
         id: PropTypes.string.isRequired,
     })),
@@ -96,7 +109,7 @@ FormFields.propTypes = {
 };
 
 FormFields.defaultProps = {
-    buttons: [],
+    extraButtons: [],
     className: null,
 };
 

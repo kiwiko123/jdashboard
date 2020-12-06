@@ -6,6 +6,7 @@ const FormInput = ({
     text, type, name, className, onSubmit, onChange, onBlur, autoComplete,
 }) => {
     const divClassName = classnames('FormInput', className);
+    // TODO useEventSubmit
     const onKeyDown = useCallback((event) => {
         if (onSubmit && event.keyCode === 13) { // Enter/Return
             onSubmit();

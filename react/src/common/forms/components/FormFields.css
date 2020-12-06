@@ -1,7 +1,30 @@
 .FormFields > .field-error-banner {
     color: white;
+    margin: 1.5rem 2rem 3rem 2rem;
 }
 
 .FormFields > .field-error-banner > .field-error-container > .field-errors {
     list-style-type: disc;
+    margin-left: -0.5rem;
+}
+
+.FormFields > .field-error-banner > .field-error-container > .field-error-message {
+    margin-top: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.FormFields > .form {
+    display: flex;
+    flex-direction: column;
+    width: 30rem;
+    margin: 0 auto;
+}
+
+.FormFields > .form > .FormField > .FormInput {
+    width: 20rem;
+    float: right;
+}
+
+.FormFields > .form > .buttons {
+    margin-top: 3rem;
 }

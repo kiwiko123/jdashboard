@@ -9,20 +9,24 @@ const FormField = ({
     label, isRequired, isValid, className,
 
     // FormInput props
-    text, type, name, onSubmit, onChange, autoComplete,
+    text, type, name, onSubmit, onChange, onBlur, autoComplete,
 }) => {
     const labelText = isRequired ? `${label}*` : label;
-    const divClassName = classnames('FormField', className, {
-        invalid: !isValid,
-    });
-    const inputProps = { text, type, name, onSubmit, onChange, autoComplete };
+    const divClassName = classnames('FormField', className);
+    const formInputClassName = classnames({
+        invalid: isValid === false, // undefined/null are considered valid
+    })
+    const inputProps = { text, type, name, onSubmit, onChange, onBlur, autoComplete };
 
     return (
         <div className={divClassName}>
             <label className="label">
                 {labelText}
             </label>
-            <FormInput {...inputProps} />
+            <FormInput
+                {...inputProps}
+                className={formInputClassName}
+            />
         </div>
     );
 };
