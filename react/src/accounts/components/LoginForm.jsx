@@ -1,69 +1,49 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import IconButton from '../../common/components/IconButton';
-import FormInput from '../../common/forms/components/FormInput';
+import FormFields from '../../common/forms/components/FormFields';
 
-import '../styles/LoginForm.css';
+import './LoginForm.css';
 
 const LoginForm = ({
     username, password, actions, className, disableLoginButton,
 }) => {
-    const formClassName = classnames('LoginForm', className);
+    const formFields = [
+        {
+            className: 'field-username',
+            name: 'username',
+            label: 'Username',
+            text: username,
+            isRequired: true,
+            onChange: actions.setUsername,
+            isValid: Boolean(username),
+            autoComplete: 'on',
+        },
+        {
+            className: 'field-password',
+            name: 'password',
+            label: 'Password',
+            text: password,
+            type: 'password',
+            isRequired: true,
+            onChange: actions.setPassword,
+            isValid: Boolean(password),
+            autoComplete: 'on',
+        },
+    ];
+    const submitButtonProps = {
+        className: 'button-login',
+        variant: 'primary',
+        fontAwesomeClassName: 'fas fa-sign-in-alt',
+//         disabled={disableLoginButton}
+        onClick: actions.logIn,
+        children: 'Log in',
+    };
+
     return (
-        <div
-            className={formClassName}
-//             onSubmit={actions.logIn}
-        >
-            <div className="fields">
-                <div className="field-username">
-                    <label
-                        className="label username"
-                        htmlFor="username"
-                    >
-                        Username
-                    </label>
-                    <input
-                        className="input username"
-                        name="username"
-                        type="text"
-                        onChange={event => actions.setUsername(event.target.value)}
-                        autoComplete="on"
-                    />
-                </div>
-                <div className="field-password">
-                    <label
-                        className="label password"
-                        htmlFor="password"
-                    >
-                        Password
-                    </label>
-                    <FormInput
-                        className="input password"
-                        name="password"
-                        type="password"
-                        text={password}
-                        onChange={event => actions.setPassword(event.target.value)}
-                        onSubmit={actions.logIn}
-                        autoComplete="on"
-                    />
-                </div>
-            </div>
-            <div
-                className="button-submit"
-            >
-                <IconButton
-                    className="button-login"
-                    variant="primary"
-                    fontAwesomeClassName="fas fa-sign-in-alt"
-                    disabled={disableLoginButton}
-                    onClick={actions.logIn}
-                    type="submit"
-                >
-                    Log in
-                </IconButton>
-            </div>
-        </div>
+        <FormFields
+            fields={formFields}
+            submitButtonProps={submitButtonProps}
+        />
     );
 };
 
