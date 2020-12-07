@@ -6,8 +6,12 @@ import java.util.Optional;
 
 public interface CreateReadUpdateDeleteAPI<T extends Identifiable<Long>> {
 
-    Optional<T> get(Long id);
-    T create(T obj);
-    T update(T obj);
-    void delete(Long id);
+    Optional<T> get(long id);
+    Optional<T> read(long id);
+
+    <R extends T> T create(R obj);
+
+    <R extends T> T update(R obj);
+
+    void delete(long id);
 }

@@ -17,7 +17,7 @@ public interface UserService {
 
     Optional<User> getByEmailAddress(String emailAddress);
 
-    User create(CreateUserParameters parameters);
-
     Optional<User> getWithValidation(String username, String password);
+
+    User create(CreateUserParameters parameters);
 }

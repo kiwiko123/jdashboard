@@ -1,6 +1,7 @@
 package com.kiwiko.webapp.mvc.json.api;
 
 import com.kiwiko.webapp.mvc.json.data.ResponsePayload;
+import com.kiwiko.webapp.mvc.json.data.WebResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -35,6 +36,12 @@ public class ResponseBuilder {
         return this;
     }
 
+    public WebResponse build() {
+        ResponsePayload payload = new ResponsePayload(body, errors, status.value());
+        return new WebResponse(payload, status);
+    }
+
+    @Deprecated
     public ResponseEntity<ResponsePayload> toResponseEntity() {
         ResponsePayload payload = new ResponsePayload(body, errors, status.value());
         return new ResponseEntity<>(payload, status);
