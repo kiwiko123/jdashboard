@@ -1,7 +1,7 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { get } from 'lodash';
 import ComponentStateWrapper from '../../state/components/ComponentStateWrapper';
-import { useCurrentUser, useStateObject } from '../../state/hooks';
+import { useCurrentUserPromise, useStateObject } from '../../state/hooks';
 import Request from '../../common/js/Request';
 import MessageInbox from '../components/MessageInbox';
 
@@ -18,24 +18,30 @@ const ChatroomInboxWrapper = () => {
         selectInboxItem: () => {}, // TODO
         currentUserId: null,
     });
-    useCurrentUser().then((currentUser) => {
-        const currentUserId = get(currentUser, 'id');
-        fetchPreviews(currentUserId).then((data) => {
+    useEffect(() => {
+        useCurrentUserPromise().then((data) => {
             setState({
-                currentUserId,
+                currentUserId: get(data, 'id'),
+            });
+        });
+
+        if (!state.currentUserId) {
+            return;
+        }
+        fetchPreviews(state.currentUserId).then((data) => {
+            setState({
                 inboxItems: data,
             });
         });
-    });
+    }, [state.currentUserId]);
     const canResolve = useCallback(() => Boolean(state.currentUserId), [state.currentUserId]);
 
     return (
         <ComponentStateWrapper
+            component={MessageInbox}
             data={state}
             canResolve={canResolve}
-        >
-            <MessageInbox />
-        </ComponentStateWrapper>
+        />
     );
 };
 

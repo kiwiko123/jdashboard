@@ -30,9 +30,10 @@ const CreateAccountFormWrapper = () => {
     };
 
     return (
-        <ComponentStateWrapper data={data}>
-            <CreateAccountForm />
-        </ComponentStateWrapper>
+        <ComponentStateWrapper
+            component={CreateAccountForm}
+            data={data}
+        />
     );
 };
 

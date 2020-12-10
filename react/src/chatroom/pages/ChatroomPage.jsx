@@ -9,6 +9,7 @@ import ChatroomInboxBroadcaster from '../state/ChatroomInboxBroadcaster';
 import ChatroomContents from '../components/ChatroomContents';
 import MessageInput from '../components/MessageInput';
 import MessageInbox from '../components/MessageInbox';
+import InboxToolbar from '../components/InboxToolbar';
 
 import '../components/styles/ChatroomPage.css';
 
@@ -36,9 +37,14 @@ const ChatroomPage = () => {
             broadcasterSubscribers={broadcasterSubscribers}
         >
             <div className="left-pane">
-                <ComponentStateManager broadcaster={inboxBroadcaster}>
-                    <MessageInbox />
-                </ComponentStateManager>
+                <ComponentStateManager
+                    broadcaster={inboxBroadcaster}
+                    component={InboxToolbar}
+                />
+                <ComponentStateManager
+                    broadcaster={inboxBroadcaster}
+                    component={MessageInbox}
+                />
             </div>
             <div className="right-pane">
                 <ComponentStateManager broadcaster={chatroomBroadcaster}>

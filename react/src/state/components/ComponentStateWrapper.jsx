@@ -1,27 +1,29 @@
-import React, { cloneElement } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty } from 'lodash';
+import logger from '../../common/js/logging';
+
+function resolveSuccessfully() {
+    return true;
+}
 
 const ComponentStateWrapper = ({
-    children, data, canResolve,
+    component, data, canResolve,
 }) => {
-    if (!canResolve()) {
-        return null;
-    }
-
-    return isEmpty(data) ? children : cloneElement(children, data);
+//     logger.debug(`Re-rendering ${component.name}`);
+    return canResolve() && (
+        <component {...data} />
+    );
 };
 
 ComponentStateWrapper.propTypes = {
-    children: PropTypes.node,
+    component: PropTypes.elementType.isRequired,
     data: PropTypes.object,
     canResolve: PropTypes.func,
 };
 
 ComponentStateWrapper.defaultProps = {
-    children: null,
-    data: null,
-    canResolve: () => true,
+    data: {},
+    canResolve: resolveSuccessfully,
 };
 
 export default ComponentStateWrapper;
