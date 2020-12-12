@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import messagePropType from './propTypes/messagePropType';
 import MessageBubble from './MessageBubble';
 
-import './styles/MessageContainer.css';
+import './MessageContainer.css';
 
 const MessageContainer = ({
     messages,

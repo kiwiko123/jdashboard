@@ -1,3 +1,3 @@
-import DebouncedUpdateBroadcaster from './DebouncedUpdateBroadcaster';
+import DefaultBroadcaster from './DefaultBroadcaster';
 
-export default DebouncedUpdateBroadcaster;
+export default DefaultBroadcaster;

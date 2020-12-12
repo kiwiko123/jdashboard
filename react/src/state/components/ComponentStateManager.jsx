@@ -28,6 +28,7 @@ const ComponentStateManager = ({
 
     const broadcasterState = broadcaster.getState();
     if (!canResolve(broadcasterState)) {
+        setTimeout(forceUpdate, 250);
         return null;
     }
 

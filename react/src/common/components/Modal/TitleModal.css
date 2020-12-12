@@ -1,0 +1,9 @@
+.TitleModal > .title {
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    background-color: #8da2ad;
+    font-weight: bold;
+}
+
+.TitleModal > .content {
+    padding: 1rem;
+}

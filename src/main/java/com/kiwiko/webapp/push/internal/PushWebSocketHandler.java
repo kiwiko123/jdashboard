@@ -2,6 +2,7 @@ package com.kiwiko.webapp.push.internal;
 
 import com.kiwiko.library.metrics.api.LogService;
 import com.kiwiko.webapp.push.api.PushServiceRegistry;
+import com.kiwiko.webapp.push.api.errors.PushException;
 import com.kiwiko.webapp.push.data.ClientPushRequest;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -22,31 +23,38 @@ public class PushWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        String json = message.getPayload();
-        ClientPushRequest requestPayload = pushRequestHelper.deserializeClientPushRequest(json);
-
-        if (pushServiceSessionManager.hasSession(session)) {
-            pushRequestHelper.validateClientPushRequest(requestPayload);
-            pushServiceSessionManager.sync(session, requestPayload.getRecipientUserId());
-            pushServiceRegistry.getPushServicesForId(requestPayload.getServiceId())
-                    .forEach(pushService -> pushRequestHelper.routeIncomingPush(pushService, requestPayload, message));
-        } else {
-            // The connection has just been established.
-            pushRequestHelper.validateInitialUserPushRequest(requestPayload);
-            pushServiceSessionManager.startSession(session);
-            afterUserConnectionEstablished(session, requestPayload.getUserId());
+        try {
+            handlePush(session, message);
+        } catch (PushException e) {
+            pushServiceSessionManager.endSession(session);
+            throw e;
         }
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
-//        if (!VALID_CLOSE_STATUSES.contains(status)) {
-//            String message = String.format("Unexpected close status %s for session ID %s", status.toString(), session.getId());
-//            logService.warn(message);
-//        }
-
         pushServiceSessionManager.endSession(session);
     }
 
     protected void afterUserConnectionEstablished(WebSocketSession session, long userId) { }
+
+    private void handlePush(WebSocketSession session, TextMessage message) {
+        String json = message.getPayload();
+        ClientPushRequest requestPayload = pushRequestHelper.deserializeClientPushRequest(json);
+        pushRequestHelper.validateInitialUserPushRequest(requestPayload);
+        boolean isNewSession = !pushServiceSessionManager.hasSession(requestPayload.getUserId());
+
+        if (isNewSession) {
+            pushServiceSessionManager.startSession(session, requestPayload.getUserId());
+            afterUserConnectionEstablished(session, requestPayload.getUserId());
+            return;
+        }
+
+        Long recipientUserId = requestPayload.getRecipientUserId();
+        if (recipientUserId != null && pushServiceSessionManager.hasSession(recipientUserId)) {
+            pushRequestHelper.validateClientPushRequest(requestPayload);
+            pushServiceRegistry.getPushServicesForId(requestPayload.getServiceId())
+                    .forEach(pushService -> pushRequestHelper.routeIncomingPush(pushService, requestPayload, message));
+        }
+    }
 }

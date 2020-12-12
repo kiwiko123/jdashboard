@@ -1,68 +1,69 @@
 package com.kiwiko.webapp.push.internal;
 
-import com.kiwiko.webapp.users.data.User;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.kiwiko.library.metrics.api.LogService;
+import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketSession;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
 
-/**
- * A helper that maps web socket session objects to users.
- * Two separate maps are maintained, but kept in sync.
- * To push from the server to the client, we need to look up the {@link WebSocketSession} by user ID.
- * To receive pushes from the client, the server must look up an existing user ID by {@link WebSocketSession}.
- */
 @Singleton
 public class PushServiceSessionManager {
 
-    /**
-     * A mapping of {@link WebSocketSession} to recipient {@link User#getId()}.
-     */
-    private Map<WebSocketSession, Long> sessionUserMapping;
-    private Map<Long, WebSocketSession> userSessionMapping;
+    @Inject private LogService logService;
+
+    private BiMap<Long, WebSocketSession> userSessionMapping;
 
     public PushServiceSessionManager() {
-        sessionUserMapping = new HashMap<>();
-        userSessionMapping = new HashMap<>();
+        userSessionMapping = HashBiMap.create();
     }
 
-    /**
-     * Initially, a null value is associated with this session when the client first opens the connection.
-     * When the client makes an actual push, this entry is updated via {@link #sync(WebSocketSession, long)}
-     * to map the session to the recipient's user ID.
-     *
-     * @param session
-     */
-    public void startSession(WebSocketSession session) {
-        sessionUserMapping.put(session, null);
+    public void startSession(WebSocketSession session, long userId) {
+        logService.debug(String.format("Starting new push service session %s for user %d", session.getId(), userId));
+        userSessionMapping.put(userId, session);
     }
 
-    public void sync(WebSocketSession session, long recipientUserId) {
-        sessionUserMapping.put(session, recipientUserId);
-        userSessionMapping.put(recipientUserId, session);
-    }
-
-    public boolean hasSession(WebSocketSession session) {
-        return sessionUserMapping.containsKey(session);
-    }
-
-    public Optional<Long> getUserIdBySession(WebSocketSession session) {
-        return Optional.ofNullable(sessionUserMapping.get(session));
+    public boolean hasSession(Long userId) {
+        return userSessionMapping.containsKey(userId);
     }
 
     public Optional<WebSocketSession> getSessionByUserId(long userId) {
         return Optional.ofNullable(userSessionMapping.get(userId));
     }
 
-    public void endSession(WebSocketSession session) {
-        if (!sessionUserMapping.containsKey(session)) {
+    public void sync(long userId, WebSocketSession session) {
+        boolean sessionMatches = getSessionByUserId(userId)
+                .map(WebSocketSession::getId)
+                .map(id -> Objects.equals(id, session.getId()))
+                .orElse(false);
+        if (sessionMatches) {
             return;
         }
 
-        Long userId = sessionUserMapping.get(session);
+        endSession(session);
+        userSessionMapping.put(userId, session);
+    }
+
+    public void endSession(WebSocketSession session) {
+        Long userId = userSessionMapping.inverse().get(session);
+        if (userId == null) {
+            return;
+        }
+
         userSessionMapping.remove(userId);
-        sessionUserMapping.remove(session);
+        if (session.isOpen()) {
+            try {
+                session.close(CloseStatus.SERVER_ERROR);
+            } catch (IOException e) {
+                logService.error("Failed to close push session", e);
+            }
+        }
+
+        logService.debug(String.format("Ended session %s for user %d", session.getId(), userId));
     }
 }

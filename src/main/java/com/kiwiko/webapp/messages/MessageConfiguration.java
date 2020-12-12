@@ -3,6 +3,7 @@ package com.kiwiko.webapp.messages;
 import com.kiwiko.webapp.messages.internal.MessageEntityFieldMapper;
 import com.kiwiko.webapp.messages.internal.dataAccess.MessageEntityDAO;
 import com.kiwiko.webapp.messages.internal.helpers.MessageServiceHelper;
+import com.kiwiko.webapp.messages.web.helpers.MessagesResponseHelper;
 import com.kiwiko.webapp.users.api.UserService;
 import com.kiwiko.webapp.users.internal.UserEntityService;
 import org.springframework.context.annotation.Bean;
@@ -29,5 +30,10 @@ public class MessageConfiguration {
     @Bean
     public MessageServiceHelper messageServiceHelper() {
         return new MessageServiceHelper();
+    }
+
+    @Bean
+    public MessagesResponseHelper messagesResponseHelper() {
+        return new MessagesResponseHelper();
     }
 }

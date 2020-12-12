@@ -5,7 +5,7 @@ import { getServerUrl } from '../../common/js/config';
 
 function normalizeMappingUrl(mapping) {
     const normalizedMapping = mapping.startsWith('/') ? mapping.substr(1) : mapping;
-    return `ws://localhost:8080/${normalizedMapping}`;
+    return `{ws://localhost:8080/${normalizedMapping}}`;
 }
 
 function makeWebSocketParams({ receivePush }) {
@@ -27,7 +27,7 @@ function validateData(data) {
 export default function(serviceId, userId, { receivePush } = {}) {
     const url = normalizeMappingUrl('/push');
     const webSocketParams = makeWebSocketParams({ receivePush });
-    const webSocket = useWebSocket(url, webSocketParams);
+    const webSocket = useWebSocket(url, { ...webSocketParams, dependencies: [userId] });
 
     const pushToServer = useCallback((payload) => {
         const data = JSON.stringify({

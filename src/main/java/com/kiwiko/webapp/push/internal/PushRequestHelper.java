@@ -48,20 +48,6 @@ public class PushRequestHelper {
         }
     }
 
-    public void pushToClient(PushService pushService, ClientPushRequest clientPushRequest, TextMessage message) {
-        PushToClientParameters parameters = new PushToClientParameters();
-        parameters.setUserId(clientPushRequest.getUserId());
-        parameters.setRecipientUserId(clientPushRequest.getRecipientUserId());
-        parameters.setServiceId(clientPushRequest.getServiceId());
-        parameters.setMessage(message.getPayload());
-
-        try {
-            pushService.pushToClient(parameters);
-        } catch (ClientUnreachablePushException e) {
-            logService.error("Failed to push", e);
-        }
-    }
-
     public void routeIncomingPush(PushService pushService, ClientPushRequest clientPushRequest, TextMessage message) {
         OnPushReceivedParameters parameters = new OnPushReceivedParameters();
         parameters.setServiceId(clientPushRequest.getServiceId());

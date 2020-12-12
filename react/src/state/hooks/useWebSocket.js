@@ -24,19 +24,20 @@ function useEventListenerEffect(webSocket, eventName, action) {
  * @return a WebSocket object
  * @see WebSocket
  */
-export default function(url, { onOpen, onClose, onMessage, onError } = {}) {
+export default function(url, { onOpen, onClose, onMessage, onError, dependencies } = {}) {
+    const dependencyArray = dependencies || [];
     const webSocketRef = useRef(new WebSocket(url));
     const webSocket = webSocketRef.current;
 
     // Close the socket on unmount.
-    useEffect(() => () => { webSocket.close(); }, []);
+    useEffect(() => () => { webSocket.close(); }, dependencyArray);
 
     useEffect(() => {
         // Avoid creating a new WebSocket here on the initial render.
         if (url !== webSocket.url) {
             webSocketRef.current = new WebSocket(url);
         }
-    }, [url]);
+    }, [url, ...dependencyArray]);
 
     useEventListenerEffect(webSocket, 'open', onOpen);
     useEventListenerEffect(webSocket, 'close', onClose);

@@ -1,10 +1,12 @@
 .MessageContainer {
     height: 40rem;
     overflow-y: scroll;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
-.MessageContainer > .message > .MessageBubble {
-    margin-bottom: 0.5rem;
+.MessageContainer > .message {
+    min-height: 4rem;
 }
 
 .MessageContainer > .message > .MessageBubble.outbound {
@@ -14,4 +16,6 @@
 .MessageContainer > .message > .status {
     color: white;
     float: right;
+    font-size: small;
+    text-transform: capitalize;
 }

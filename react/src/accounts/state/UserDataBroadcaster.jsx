@@ -5,7 +5,8 @@ import logger from '../../common/js/logging';
 function getDefaultState() {
     return {
         username: null,
-        userId: null,
+        id: null,
+        userId: null, // alias for id; deprecated
         isLoaded: false,
     };
 }
@@ -27,12 +28,12 @@ export default class UserDataBroadcaster extends Broadcaster {
     constructor() {
         super();
 
-        this.setState(getDefaultState());
         getCurrentUserData()
             .then(user => this.setState({
                 username: user.username,
-                userId: user.id,
+                id: user.id,
+                userId: user.id, // deprecated
                 isLoaded: true,
-            }));
+            }))
     }
 }

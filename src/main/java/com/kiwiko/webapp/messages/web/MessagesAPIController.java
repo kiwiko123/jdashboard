@@ -1,50 +1,48 @@
 package com.kiwiko.webapp.messages.web;
 
-import com.kiwiko.webapp.chatroom.internal.ChatroomPushService;
 import com.kiwiko.webapp.messages.api.queries.data.GetBetweenParameters;
 import com.kiwiko.webapp.chatroom.impl.ChatroomMessageService;
 import com.kiwiko.webapp.messages.data.Message;
 import com.kiwiko.webapp.messages.data.MessagePreview;
 import com.kiwiko.webapp.messages.data.MessageStatus;
+import com.kiwiko.webapp.messages.web.helpers.MessagesResponseHelper;
+import com.kiwiko.webapp.messages.web.helpers.data.MessageDTO;
 import com.kiwiko.webapp.mvc.json.api.ResponseBuilder;
 import com.kiwiko.webapp.mvc.json.api.annotations.CustomRequestBody;
 import com.kiwiko.webapp.mvc.json.data.ResponsePayload;
+import com.kiwiko.webapp.mvc.json.data.WebResponse;
 import com.kiwiko.webapp.mvc.requests.data.RequestContext;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.AuthenticationRequired;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.CrossOriginConfigured;
 import com.kiwiko.webapp.push.api.errors.ClientUnreachablePushException;
-import com.kiwiko.webapp.push.api.parameters.PushToClientParameters;
 import com.kiwiko.webapp.users.data.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.time.Instant;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @AuthenticationRequired
 @CrossOriginConfigured
-@RestController
+@Controller
 public class MessagesAPIController {
 
     // TODO make registry by MessageType
     @Inject
     private ChatroomMessageService messageService;
 
-    @Inject private ChatroomPushService chatroomPushService;
+    @Inject private MessagesResponseHelper messagesResponseHelper;
 
     @GetMapping("/messages/api/get/thread")
-    public ResponseEntity<ResponsePayload> getByUserId(
+    public WebResponse getByUserId(
             @RequestParam("senderUserId") Long senderUserId,
             @RequestParam("recipientUserId") Long recipientUserId,
             @RequestParam(value = "minimumSentDate", required = false) @Nullable Instant minimumSentDate) {
@@ -53,21 +51,21 @@ public class MessagesAPIController {
                 .withSenderUserId(senderUserId)
                 .withRecipientUserIds(recipientUserIds)
                 .withMinimumSentDate(minimumSentDate);
-        List<Message> messages = messageService.getBetween(parameters);
+        List<MessageDTO> messages = messagesResponseHelper.getMessagesInThread(parameters);
 
         return new ResponseBuilder()
                 .withBody(messages)
-                .toResponseEntity();
+                .build();
     }
 
     @GetMapping("/messages/api/get/users/{userId}/previews")
-    public ResponseEntity<ResponsePayload> getPreviewsByUserId(
+    public WebResponse getPreviewsByUserId(
             @PathVariable("userId") Long userId) {
         List<MessagePreview> previews = messageService.getMessagePreviewsForUser(userId);
 
         return new ResponseBuilder()
                 .withBody(previews)
-                .toResponseEntity();
+                .build();
     }
 
     @PostMapping("/messages/api/send")
@@ -85,12 +83,6 @@ public class MessagesAPIController {
         message.setSenderUserId(currentUser.getId());
         message.setMessageStatus(MessageStatus.SENDING);
         Message result = messageService.send(message);
-
-        PushToClientParameters parameters = new PushToClientParameters();
-        parameters.setUserId(currentUser.getId());
-        parameters.setRecipientUserId(message.getRecipientUserId());
-        parameters.setMessage("Test");
-        chatroomPushService.pushToClient(parameters);
 
         return new ResponseBuilder()
                 .withBody(result)

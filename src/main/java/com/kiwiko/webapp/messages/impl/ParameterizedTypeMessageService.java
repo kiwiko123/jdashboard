@@ -3,7 +3,6 @@ package com.kiwiko.webapp.messages.impl;
 import com.kiwiko.library.metrics.api.LogService;
 import com.kiwiko.webapp.messages.api.MessageService;
 import com.kiwiko.webapp.messages.api.queries.data.GetBetweenParameters;
-import com.kiwiko.webapp.messages.api.exceptions.MessageException;
 import com.kiwiko.webapp.messages.data.Message;
 import com.kiwiko.webapp.messages.data.MessagePreview;
 import com.kiwiko.webapp.messages.data.MessageStatus;
@@ -17,8 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,30 +62,23 @@ public abstract class ParameterizedTypeMessageService
     @Transactional
     @Override
     public Message send(Message message) {
-        List<Message> messages = Collections.singletonList(message);
-        return send(messages).stream()
-                .findFirst()
-                .orElseThrow(() -> new MessageException("Failed to send message"));
+        Message result = new Message();
+        try {
+            message.setSentDate(Instant.now());
+            message.setMessageStatus(MessageStatus.SENT);
+            result = create(message);
+        } catch (Exception e) {
+            logService.error(String.format("Failed to send message %s", message.toString()), e);
+            result.setMessageStatus(MessageStatus.FAILURE);
+        }
+
+        return result;
     }
 
     @Transactional
     public List<Message> send(List<Message> messages) {
-        List<Message> results = new ArrayList<>();
-        for (Message message : messages) {
-            Message result = new Message();
-
-            try {
-                message.setSentDate(Instant.now());
-                message.setMessageStatus(MessageStatus.SENT);
-                result = create(message);
-            } catch (Exception e) {
-                logService.error(String.format("Failed to send message %s", message.toString()), e);
-                result.setMessageStatus(MessageStatus.FAILURE);
-            }
-
-            results.add(result);
-        }
-
-        return results;
+        return messages.stream()
+                .map(this::send)
+                .collect(Collectors.toList());
     }
 }

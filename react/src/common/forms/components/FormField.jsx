@@ -6,17 +6,16 @@ import FormInput from './FormInput';
 import './FormField.css';
 
 const FormField = ({
-    label, isRequired, isValid, className,
+    label, isRequired, isValid,
 
     // FormInput props
-    text, type, name, onSubmit, onChange, onBlur, autoComplete,
+    ...props,
 }) => {
     const labelText = isRequired ? `${label}*` : label;
-    const divClassName = classnames('FormField', className);
+    const divClassName = classnames('FormField', props.className);
     const formInputClassName = classnames({
         invalid: isValid === false, // undefined/null are considered valid
     })
-    const inputProps = { text, type, name, onSubmit, onChange, onBlur, autoComplete };
 
     return (
         <div className={divClassName}>
@@ -24,7 +23,7 @@ const FormField = ({
                 {labelText}
             </label>
             <FormInput
-                {...inputProps}
+                {...props}
                 className={formInputClassName}
             />
         </div>
