@@ -7,9 +7,10 @@ import java.util.Optional;
 
 public class GetBetweenParameters {
 
-    public Long senderUserId;
-    public Collection<Long> recipientUserIds;
-    public @Nullable Instant minimumSentDate;
+    private Long senderUserId;
+    private Collection<Long> recipientUserIds;
+    private @Nullable Instant minimumSentDate;
+    private @Nullable Integer maxResults;
 
     public Long getSenderUserId() {
         return senderUserId;
@@ -35,6 +36,15 @@ public class GetBetweenParameters {
 
     public GetBetweenParameters withMinimumSentDate(@Nullable Instant minimumSentDate) {
         this.minimumSentDate = minimumSentDate;
+        return this;
+    }
+
+    public Optional<Integer> getMaxResults() {
+        return Optional.ofNullable(maxResults);
+    }
+
+    public GetBetweenParameters withMaxResults(@Nullable Integer maxResults) {
+        this.maxResults = maxResults;
         return this;
     }
 }

@@ -4,11 +4,8 @@ import com.kiwiko.webapp.messages.api.queries.data.GetBetweenParameters;
 import com.kiwiko.webapp.mvc.persistence.impl.VersionedEntityManagerDAO;
 import com.kiwiko.webapp.messages.data.MessageType;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.Query;
+import javax.persistence.criteria.*;
 import java.time.Instant;
 import java.util.List;
 
@@ -19,6 +16,7 @@ public class MessageEntityDAO extends VersionedEntityManagerDAO<MessageEntity> {
         return MessageEntity.class;
     }
 
+    @SuppressWarnings("unchecked")
     public List<MessageEntity> getBetween(
             GetBetweenParameters parameters,
             MessageType messageType) {
@@ -44,14 +42,20 @@ public class MessageEntityDAO extends VersionedEntityManagerDAO<MessageEntity> {
 
         Predicate allCriteria = builder.and(isRelatedToUser, isMessageType);
 
+        Expression<Instant> sentDateField = root.get("sentDate");
         if (parameters.getMinimumSentDate().isPresent()) {
-            Expression<Instant> sentDateField = root.get("sentDate");
             Predicate isSentSince = builder.greaterThanOrEqualTo(sentDateField, parameters.getMinimumSentDate().get());
             allCriteria = builder.and(allCriteria, isSentSince);
         }
 
+        Order descendingSentDate = builder.desc(sentDateField);
+
         query.where(allCriteria);
-        return getResultList(query);
+        query.orderBy(descendingSentDate);
+
+        Query primedQuery = createQuery(query);
+        parameters.getMaxResults().ifPresent(primedQuery::setMaxResults);
+        return (List<MessageEntity>) primedQuery.getResultList();
     }
 
     public List<MessageEntity> getRelatedToUser(long userId) {

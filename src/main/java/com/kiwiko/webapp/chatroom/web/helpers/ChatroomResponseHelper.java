@@ -1,31 +1,36 @@
-package com.kiwiko.webapp.messages.web.helpers;
+package com.kiwiko.webapp.chatroom.web.helpers;
 
 import com.kiwiko.webapp.chatroom.impl.ChatroomMessageService;
 import com.kiwiko.webapp.messages.api.queries.data.GetBetweenParameters;
 import com.kiwiko.webapp.messages.data.Message;
-import com.kiwiko.webapp.messages.web.helpers.data.MessageDTO;
+import com.kiwiko.webapp.chatroom.web.helpers.data.MessageDTO;
 
 import javax.inject.Inject;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class MessagesResponseHelper {
+public class ChatroomResponseHelper {
 
     @Inject private ChatroomMessageService messageService;
 
     public List<MessageDTO> getMessagesInThread(GetBetweenParameters parameters) {
         return messageService.getBetween(parameters).stream()
-                .sorted(Comparator.comparing(Message::getSentDate))
-                .map(message -> makeMessageDTO(message, parameters))
+                .map(message -> makeMessageDTO(message, parameters.getSenderUserId()))
                 .collect(Collectors.toList());
     }
 
-    private MessageDTO makeMessageDTO(Message message, GetBetweenParameters parameters) {
+    public Optional<MessageDTO> get(long messageId) {
+        return messageService.get(messageId)
+                .map(message -> makeMessageDTO(message, null));
+    }
+
+    private MessageDTO makeMessageDTO(Message message, Long currentUserId) {
         MessageDTO result = new MessageDTO();
 
-        String direction = Objects.equals(message.getSenderUserId(), parameters.getSenderUserId())
+        String direction = Objects.equals(message.getSenderUserId(), currentUserId)
                 ? "outbound"
                 : "inbound";
 

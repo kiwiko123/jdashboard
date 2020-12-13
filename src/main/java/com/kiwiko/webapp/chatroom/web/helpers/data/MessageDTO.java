@@ -1,4 +1,4 @@
-package com.kiwiko.webapp.messages.web.helpers.data;
+package com.kiwiko.webapp.chatroom.web.helpers.data;
 
 import com.kiwiko.webapp.messages.data.MessageStatus;
 import com.kiwiko.webapp.messages.data.MessageType;

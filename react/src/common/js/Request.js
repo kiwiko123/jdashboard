@@ -1,4 +1,4 @@
-import { endsWith, get, isEmpty, isNil, isNumber, omit, startsWith } from 'lodash';
+import { endsWith, get, isEmpty, isNil, isNumber, omit, pickBy, startsWith } from 'lodash';
 import { getServerUrl } from './config';
 
 function normalizeUrl(base, url) {
@@ -54,12 +54,12 @@ export default class Request {
     }
 
     withBody(body) {
-        this.body = body;
+        this.body = pickBy(body, value => value !== undefined);
         return this;
     }
 
     withRequestParameters(requestParameters) {
-        this.requestParameters = requestParameters;
+        this.requestParameters = pickBy(requestParameters, value => value !== undefined);
         return this;
     }
 

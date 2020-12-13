@@ -22,6 +22,7 @@ const ChatroomPage = () => {
 
     chatroomBroadcaster.listenTo(pushBroadcaster);
     chatroomBroadcaster.listenTo(inboxBroadcaster);
+    chatroomBroadcaster.listenTo(inputBroadcaster);
     inputBroadcaster.listenTo(inboxBroadcaster);
 
     const broadcasterSubscribers = {

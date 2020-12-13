@@ -22,24 +22,46 @@ export default class ChatroomBroadcaster extends Broadcaster {
         } else if (broadcasterId === 'ChatroomInboxBroadcaster') {
             const recipientUserId = get(state, ['selectedItem', 'users', '0', 'userId']);
             if (recipientUserId) {
-                this.fetchMessages({ recipientUserId });
+                this.fetchMessages({
+                    recipientUserId,
+                    merge: false,
+                });
+            }
+        } else if (broadcasterId === 'ChatroomInputBroadcaster') {
+            if (state.sentMessage) {
+                this.fetchMessages({
+                    recipientUserId: state.sentMessage.recipientUserId,
+                    minimumSentDate: state.sentMessage.sentDate,
+                    merge: true,
+                }).then(state.clearSentMessage);
+            }
+        } else if (broadcasterId === 'ChatroomPushBroadcaster') {
+            if (state.newMessage) {
+                // TODO consider new messages from outside the currently selected thread
+                this.fetchMessages({
+                    recipientUserId: state.newMessage.senderUserId,
+                    minimumSentDate: state.newMessage.sentDate,
+                    merge: true,
+                }).then(state.clearNewMessage);
             }
         }
     }
 
-    fetchMessages({ recipientUserId }) {
+    fetchMessages({ recipientUserId, minimumSentDate, merge = false }) {
         const payload = {
             senderUserId: this.state.currentUserId,
             recipientUserId,
+            minimumSentDate,
         };
-        Request.to(GET_MESSAGES_URL)
+        return Request.to(GET_MESSAGES_URL)
             .withAuthentication()
             .withRequestParameters(payload)
             .get()
             .then((data) => {
-                this.setState({
-                    messages: data,
-                });
+                let messages = merge
+                    ? this.state.messages.concat(data)
+                    : data;
+                this.setState({ messages });
             });
     }
 

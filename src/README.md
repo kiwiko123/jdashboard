@@ -6,6 +6,24 @@ In general, the Java packages in this project adhere to the following structure:
 * `internal`
 * `web`
 
+Consider the following structure for some business logic about cars:
+```
+cars/
++--- api/
+|    +-- CarService.java (interface)
+|--- data/
+|    +--- Car.java (DTO)
+|--- internal/
+|    +------- dataAccess/
+|    |        +--------- CarDAO.java
+|    |        +--------- CarEntity.java
+|    +------- CarEntityMapper.java (converts JPA entities to DTOs)
+|    +------- CarEntityService.java (implementation)
+|--- web/
+|    +-- CarAPIController.java
++--- CarConfiguration.java
+```
+
 ### `api`
 A public-facing package containing code intended for external consumption.
 Often, this will consist of interfaces, annotations, and exception classes.
@@ -30,22 +48,5 @@ A package that contains code related to web functionality, like [REST](https://e
 A `web` package may also wish to have its own `data` package alongside it, particularly if it ingests web request payloads using Spring's `@RequestBody`.
 
 ### `impl`
-An package that contains publicly-consumable implementation classes.
+A package that contains publicly-consumable implementation classes.
 This is most commonly used for abstract classes that house some business logic but can be extended for custom use cases.
-
-### Example package structure
-```
-cars/
-+--- api/
-|    +-- CarService.java (interface)
-|--- data/
-|    +--- Car.java (DTO)
-|--- internal/
-|    +------- dataAccess/
-|    |        +--------- CarDAO.java
-|    |        +--------- CarEntity.java
-|    +------- CarEntityMapper.java (converts JPA entities to DTOs)
-|    +------- CarEntityService.java (implementation)
-|--- web/
-|    +-- CarAPIController.java
-```

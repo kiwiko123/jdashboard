@@ -13,6 +13,7 @@ export default class ChatroomInputBroadcaster extends Broadcaster {
         });
         this.registerMethod(this.onInputTextChange);
         this.registerMethod(this.sendMessage);
+        this.registerMethod(this.clearSentMessage);
     }
 
     receive(state, broadcasterId) {
@@ -42,6 +43,16 @@ export default class ChatroomInputBroadcaster extends Broadcaster {
         Request.to(SEND_MESSAGE_URL)
             .withBody(payload)
             .withAuthentication()
-            .post();
+            .post()
+            .then((data) => {
+                this.setState({
+                    sentMessage: data,
+                    messageDraft: null,
+                });
+            });
+    }
+
+    clearSentMessage() {
+        this.setState({ sentMessage: null });
     }
 }

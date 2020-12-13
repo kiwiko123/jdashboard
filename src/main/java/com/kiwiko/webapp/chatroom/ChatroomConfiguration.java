@@ -2,6 +2,7 @@ package com.kiwiko.webapp.chatroom;
 
 import com.kiwiko.webapp.chatroom.impl.ChatroomMessageService;
 import com.kiwiko.webapp.chatroom.internal.ChatroomPushService;
+import com.kiwiko.webapp.chatroom.web.helpers.ChatroomResponseHelper;
 import com.kiwiko.webapp.push.api.PushService;
 import com.kiwiko.webapp.push.api.PushServiceConfigurationCreator;
 import com.kiwiko.webapp.push.api.PushServiceRegistry;
@@ -23,5 +24,10 @@ public class ChatroomConfiguration {
     @Bean
     public ChatroomPushService chatroomPushService() {
         return pushServiceConfigurationCreator.create(ChatroomPushService::new);
+    }
+
+    @Bean
+    public ChatroomResponseHelper chatroomResponseHelper() {
+        return new ChatroomResponseHelper();
     }
 }

@@ -5,8 +5,8 @@ import com.kiwiko.webapp.chatroom.impl.ChatroomMessageService;
 import com.kiwiko.webapp.messages.data.Message;
 import com.kiwiko.webapp.messages.data.MessagePreview;
 import com.kiwiko.webapp.messages.data.MessageStatus;
-import com.kiwiko.webapp.messages.web.helpers.MessagesResponseHelper;
-import com.kiwiko.webapp.messages.web.helpers.data.MessageDTO;
+import com.kiwiko.webapp.chatroom.web.helpers.ChatroomResponseHelper;
+import com.kiwiko.webapp.chatroom.web.helpers.data.MessageDTO;
 import com.kiwiko.webapp.mvc.json.api.ResponseBuilder;
 import com.kiwiko.webapp.mvc.json.api.annotations.CustomRequestBody;
 import com.kiwiko.webapp.mvc.json.data.ResponsePayload;
@@ -35,11 +35,21 @@ import java.util.*;
 @Controller
 public class MessagesAPIController {
 
+    private static final int THREAD_MAX_MESSAGES = 200;
+
     // TODO make registry by MessageType
     @Inject
     private ChatroomMessageService messageService;
 
-    @Inject private MessagesResponseHelper messagesResponseHelper;
+    @Inject private ChatroomResponseHelper chatroomResponseHelper;
+
+    @GetMapping("/messages/api/{messageId}")
+    public WebResponse get(@PathVariable("messageId") Long messageId) {
+        Message message = messageService.get(messageId).orElse(null);
+        return new ResponseBuilder()
+                .withBody(message)
+                .build();
+    }
 
     @GetMapping("/messages/api/get/thread")
     public WebResponse getByUserId(
@@ -50,8 +60,9 @@ public class MessagesAPIController {
         GetBetweenParameters parameters = new GetBetweenParameters()
                 .withSenderUserId(senderUserId)
                 .withRecipientUserIds(recipientUserIds)
-                .withMinimumSentDate(minimumSentDate);
-        List<MessageDTO> messages = messagesResponseHelper.getMessagesInThread(parameters);
+                .withMinimumSentDate(minimumSentDate)
+                .withMaxResults(THREAD_MAX_MESSAGES);
+        List<MessageDTO> messages = chatroomResponseHelper.getMessagesInThread(parameters);
 
         return new ResponseBuilder()
                 .withBody(messages)

@@ -16,7 +16,7 @@ const MessageContainer = ({
     }, [messages]);
 
     const messageElements = messages.map((message, index) => {
-        const subtext = message.messageStatus && (
+        const subtext = message.messageStatus && message.direction === 'outbound' && (
             <span className="status">
                 {message.messageStatus}
             </span>
