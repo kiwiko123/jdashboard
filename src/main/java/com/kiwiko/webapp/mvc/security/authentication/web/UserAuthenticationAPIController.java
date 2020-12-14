@@ -11,7 +11,6 @@ import com.kiwiko.webapp.mvc.security.sessions.data.Session;
 import com.kiwiko.webapp.users.api.UserService;
 import com.kiwiko.webapp.users.api.parameters.CreateUserParameters;
 import com.kiwiko.webapp.users.data.User;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,7 +33,7 @@ public class UserAuthenticationAPIController {
     private LogService logService;
 
     @PostMapping("/user-auth/api/create")
-    public ResponseEntity<ResponsePayload> createUser(
+    public ResponsePayload createUser(
             @RequestBody CreateUserParameters createUserParameters,
             HttpServletResponse httpServletResponse) {
         User result = userService.create(createUserParameters);
@@ -42,11 +41,11 @@ public class UserAuthenticationAPIController {
 
         return new ResponseBuilder()
                 .withBody(session)
-                .toResponseEntity();
+                .build();
     }
 
     @PostMapping("/user-auth/api/login")
-    public ResponseEntity<ResponsePayload> login(
+    public ResponsePayload login(
             @RequestBodyParameter(name = "username") String username,
             @RequestBodyParameter(name = "password") String password,
             HttpServletResponse httpServletResponse) {
@@ -59,17 +58,17 @@ public class UserAuthenticationAPIController {
         sessionService.createSessionCookieForUser(user.getId(), httpServletResponse);
         return new ResponseBuilder()
                 .withBody(user)
-                .toResponseEntity();
+                .build();
     }
 
     @PostMapping("/user-auth/api/users/current/logout")
-    public ResponseEntity<ResponsePayload> logCurrentUserOut(RequestContext requestContext) {
+    public ResponsePayload logCurrentUserOut(RequestContext requestContext) {
         User user = requestContext.getUser()
                 .orElse(null);
         if (user == null) {
             return new ResponseBuilder()
                     .withError("Please try refreshing the page")
-                    .toResponseEntity();
+                    .build();
         }
 
         sessionService.endSessionForUser(user.getId());
@@ -77,28 +76,28 @@ public class UserAuthenticationAPIController {
     }
 
     @GetMapping("/user-auth/api/users/current")
-    public ResponseEntity<ResponsePayload> getCurrentUser(RequestContext requestContext) {
+    public ResponsePayload getCurrentUser(RequestContext requestContext) {
         User currentUser = requestContext.getUser().orElse(null);
         if (currentUser == null) {
             return new ResponseBuilder()
                     .withError("No logged-in user found")
-                    .toResponseEntity();
+                    .build();
         }
 
         return new ResponseBuilder()
                 .withBody(currentUser)
-                .toResponseEntity();
+                .build();
     }
 
     @Deprecated
     @GetMapping("/user-auth/api/legacy/get-current-user")
-    public ResponseEntity<ResponsePayload> getCurrentUserLegacy(RequestContext requestContext) {
+    public ResponsePayload getCurrentUserLegacy(RequestContext requestContext) {
         return getCurrentUser(requestContext);
     }
 
-    private ResponseEntity<ResponsePayload> getInvalidUserResponse() {
+    private ResponsePayload getInvalidUserResponse() {
         return new ResponseBuilder()
                 .withError("No user found with those credentials")
-                .toResponseEntity();
+                .build();
     }
 }

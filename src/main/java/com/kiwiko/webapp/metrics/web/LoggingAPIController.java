@@ -4,7 +4,7 @@ import com.kiwiko.library.metrics.api.LogService;
 import com.kiwiko.library.metrics.data.LogLevel;
 import com.kiwiko.webapp.metrics.web.data.LogData;
 import com.kiwiko.webapp.mvc.json.api.ResponseBuilder;
-import com.kiwiko.webapp.mvc.json.data.ResponsePayload;
+import com.kiwiko.webapp.mvc.json.internal.data.ResponsePayload;
 import com.kiwiko.webapp.mvc.requests.api.annotations.RequestBodyCollectionParameter;
 import com.kiwiko.webapp.mvc.requests.api.RequestError;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.CrossOriginConfigured;

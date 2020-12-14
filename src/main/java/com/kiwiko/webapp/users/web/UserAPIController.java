@@ -1,7 +1,7 @@
 package com.kiwiko.webapp.users.web;
 
 import com.kiwiko.webapp.mvc.json.api.ResponseBuilder;
-import com.kiwiko.webapp.mvc.json.data.WebResponse;
+import com.kiwiko.webapp.mvc.json.data.ResponsePayload;
 import com.kiwiko.webapp.mvc.security.environments.data.EnvironmentProperties;
 import com.kiwiko.webapp.users.api.UserService;
 import com.kiwiko.webapp.users.api.parameters.CreateUserParameters;
@@ -18,7 +18,7 @@ public class UserAPIController {
     private UserService userService;
 
     @GetMapping("/users/api/{userId}")
-    public WebResponse getUser(@PathVariable(name = "userId") long userId) {
+    public ResponsePayload getUser(@PathVariable(name = "userId") long userId) {
         User user = userService.getById(userId).orElse(null);
 
         return new ResponseBuilder()
@@ -27,7 +27,7 @@ public class UserAPIController {
     }
 
     @PostMapping("/users/api")
-    public WebResponse createUser(@RequestBody CreateUserParameters parameters) {
+    public ResponsePayload createUser(@RequestBody CreateUserParameters parameters) {
         User result = userService.create(parameters);
         return new ResponseBuilder()
                 .withBody(result)
