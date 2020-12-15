@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import PushServiceBroadcaster from '../../tools/state/PushServiceBroadcaster';
+import PushServiceBroadcaster from '../../tools/pushService/state/PushServiceBroadcaster';
 import logger from '../../common/js/logging';
 import Request from '../../common/js/Request';
 

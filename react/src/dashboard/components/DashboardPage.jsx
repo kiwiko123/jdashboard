@@ -7,7 +7,6 @@ import { usePushService } from '../../state/hooks';
 import UserDataBroadcaster from '../../accounts/state/UserDataBroadcaster';
 import DashboardAlertBroadcaster from '../../dashboard/state/DashboardAlertBroadcaster';
 import DashboardHeaderBroadcaster from '../../dashboard/state/DashboardHeaderBroadcaster';
-import PushServiceBroadcaster from '../../tools/state/PushServiceBroadcaster';
 import DashboardAlerts from './DashboardAlerts';
 import DashboardHeader from './DashboardHeader';
 import DashboardMenuAssistantPane from './DashboardMenuAssistantPane';

@@ -1,19 +1,10 @@
 import { get } from 'lodash';
-import Broadcaster from '../../state/Broadcaster';
+import Broadcaster from '../../../state/Broadcaster';
+import PushServiceSessionManager from '../private/PushServiceSessionManager';
 
-const PUSH_SERVICE_URL = 'ws://localhost:8080/push';
 const WEB_SOCKET_TEMPLATE = {
     close: () => {},
 };
-
-function makeWebSocket({ onOpen, onClose, onMessage, onError }) {
-    const webSocket = new WebSocket(PUSH_SERVICE_URL);
-    webSocket.addEventListener('open', onOpen);
-    webSocket.addEventListener('close', onClose);
-    webSocket.addEventListener('message', onMessage);
-    webSocket.addEventListener('error', onError);
-    return webSocket;
-}
 
 export default class PushServiceBroadcaster extends Broadcaster {
     constructor({ serviceId }) {
@@ -29,9 +20,9 @@ export default class PushServiceBroadcaster extends Broadcaster {
 
     receive(state, id) {
         if (id === 'UserDataBroadcaster') {
-            if (state.userId) {
+            if (state.id) {
                 this.currentUser = { ...state };
-                this._webSocket = makeWebSocket({
+                this._webSocket = PushServiceSessionManager.getSession(state.id, {
                     onOpen: this._onOpen.bind(this),
                     onClose: this._onClose.bind(this),
                     onMessage: this._onMessage.bind(this),
@@ -42,7 +33,7 @@ export default class PushServiceBroadcaster extends Broadcaster {
         }
     }
 
-    push(payload) {
+    push(payload = {}) {
         const data = JSON.stringify({
             serviceId: this.serviceId,
             userId: this.currentUser.id,
@@ -66,26 +57,20 @@ export default class PushServiceBroadcaster extends Broadcaster {
 
     }
 
-    close() {
-        this._webSocket.close();
-        this._webSocket.removeEventListener('open', this._onOpen);
-        this._webSocket.removeEventListener('close', this._onClose);
-        this._webSocket.removeEventListener('message', this._onMessage);
-        this._webSocket.removeEventListener('error', this._onError);
-    }
-
     destroy() {
         super.destroy();
-        this.close();
+        this._onClose();
     }
 
     _onOpen(event) {
-        this.push({});
+        this.push();
         this.onConnectionOpened();
     }
 
     _onClose(event) {
-        this.close();
+        if (this.currentUser) {
+            PushServiceSessionManager.endSession(this.currentUser.id);
+        }
     }
 
     _onMessage(event) {

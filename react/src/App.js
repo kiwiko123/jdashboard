@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
+import PushServiceSessionManager from './tools/pushService/private/PushServiceSessionManager';
 import HomePage from './home/pages/HomePage';
 import CreateAccountPage from './accounts/create/CreateAccountPage';
 import LoginPage from './accounts/pages/LoginPage';
@@ -9,6 +10,10 @@ import ChatroomPage from './chatroom/pages/ChatroomPage';
 import NotFoundPage from './dashboard/pages/NotFoundPage';
 
 export default function() {
+    useEffect(() => () => {
+        PushServiceSessionManager.purge();
+    });
+
     return (
         <BrowserRouter>
             <Switch>
