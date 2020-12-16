@@ -40,14 +40,16 @@ export default class LoginFormBroadcaster extends DebouncedUpdateBroadcaster {
         return 25;
     }
 
-    setUsername(text) {
+    setUsername(event) {
+        const text = event.target.value;
         this.setState({
             username: text,
             disableLoginButton: !(text && this.state.password),
         });
     }
 
-    setPassword(text) {
+    setPassword(event) {
+        const text = event.target.value;
         this.setState({
             password: text,
             disableLoginButton: !(text && this.state.username),

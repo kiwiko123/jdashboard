@@ -4,14 +4,9 @@ import com.kiwiko.webapp.mvc.json.api.ResponseBuilder;
 import com.kiwiko.webapp.mvc.json.data.ResponsePayload;
 import com.kiwiko.webapp.mvc.security.environments.data.EnvironmentProperties;
 import com.kiwiko.webapp.users.api.UserService;
+import com.kiwiko.webapp.users.api.parameters.CreateUserParameters;
 import com.kiwiko.webapp.users.data.User;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 
@@ -22,21 +17,20 @@ public class UserAPIController {
     @Inject
     private UserService userService;
 
-    @GetMapping(path = "/users/api/get/byEmail/{emailAddress}")
-    public ResponseEntity<ResponsePayload> getUserDataByEmailAddress(@PathVariable(name = "emailAddress") String emailAddress) {
-        User user = userService.getByEmailAddress(emailAddress)
-                .orElse(null);
+    @GetMapping("/users/api/{userId}")
+    public ResponsePayload getUser(@PathVariable(name = "userId") long userId) {
+        User user = userService.getById(userId).orElse(null);
 
         return new ResponseBuilder()
                 .withBody(user)
-                .toResponseEntity();
+                .build();
     }
 
-    @PostMapping(path = "/users/api/create")
-    public ResponseEntity<ResponsePayload> createUser(@RequestBody User user) {
-        User result = userService.create(user);
+    @PostMapping("/users/api")
+    public ResponsePayload createUser(@RequestBody CreateUserParameters parameters) {
+        User result = userService.create(parameters);
         return new ResponseBuilder()
                 .withBody(result)
-                .toResponseEntity();
+                .build();
     }
 }

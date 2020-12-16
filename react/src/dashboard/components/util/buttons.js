@@ -26,6 +26,13 @@ export function makeAccountButtonSettings(props) {
            onClick: props.logOut,
            shouldShow: () => props.isLoggedIn,
        },
+       {
+           id: 'create-account',
+           label: 'Create account',
+           icon: 'fas fa-user-plus',
+           url: '/accounts/create',
+           shouldShow: () => !props.isLoggedIn,
+      },
     ];
 }
 

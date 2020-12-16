@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import messagePropType from './propTypes/messagePropType';
 
-import './styles/MessageBubble.css';
+import './MessageBubble.css';
 
 const MessageBubble = ({
     id, message, messageStatus, direction, senderName, className,

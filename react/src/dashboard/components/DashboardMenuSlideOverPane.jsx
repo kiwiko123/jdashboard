@@ -80,7 +80,7 @@ DashboardMenuSlideOverPane.propTypes = {
     toggleExpand: PropTypes.func.isRequired,
     accountProps: PropTypes.shape({
         isLoggedIn: PropTypes.bool.isRequired,
-        logOut: PropTypes.func.isRequired,
+        logOut: PropTypes.func,
         username: PropTypes.string,
     }).isRequired,
 };

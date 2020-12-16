@@ -36,7 +36,7 @@ const DashboardMenuAssistantPane = ({
         return () => window.removeEventListener('resize', onResize);
     }, [dimensions]);
 
-    const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
+    const [coordinates, setCoordinates] = useState({ x: 0, y: 0 }); // TODO detect where assistant icon is on first render
     const { x, y } = coordinates;
 
     const openFromDirective = isExpanded

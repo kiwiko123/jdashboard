@@ -1,27 +1,26 @@
 import { get } from 'lodash';
-import DebouncedUpdateBroadcaster from '../../state/DebouncedUpdateBroadcaster';
+import Broadcaster from '../../state/DefaultBroadcaster';
 import Request from '../../common/js/Request';
 
 const SEND_MESSAGE_URL = '/messages/api/send';
 
-export default class ChatroomInputBroadcaster extends DebouncedUpdateBroadcaster {
+export default class ChatroomInputBroadcaster extends Broadcaster {
     constructor() {
         super();
-        this.fetchMessages = () => {};
         this.setState({
             messageDraft: '',
-            onInputTextChange: this.onInputTextChange.bind(this),
-            sendMessage: this.sendMessage.bind(this),
-            recipientUserId: null,
+            selectedInboxItem: null,
         });
+        this.registerMethod(this.onInputTextChange);
+        this.registerMethod(this.sendMessage);
+        this.registerMethod(this.clearSentMessage);
     }
 
     receive(state, broadcasterId) {
-        if (broadcasterId === 'ChatroomBroadcaster') {
+        if (broadcasterId === 'ChatroomInboxBroadcaster') {
             this.setState({
-                recipientUserId: get(state, ['selectedInboxItem', 'users', '0', 'userId']),
+                selectedInboxItem: state.selectedItem,
             });
-            this.fetchMessages = state.fetchMessages;
         }
     }
 
@@ -33,20 +32,27 @@ export default class ChatroomInputBroadcaster extends DebouncedUpdateBroadcaster
         this.setState({ messageDraft: text });
     }
 
-    sendMessage() {
+    sendMessage({ recipientUserId } = {}) {
+        const recipient = recipientUserId || get(this.state.selectedInboxItem, ['users', '0', 'userId']);
         const payload = {
             message: this.state.messageDraft,
             messageType: 1, // CHATROOM
-            recipientUserId: this.state.recipientUserId,
+            recipientUserId: recipient,
         };
 
         Request.to(SEND_MESSAGE_URL)
             .withBody(payload)
             .withAuthentication()
             .post()
-            .then(() => {
-                this.fetchMessages();
-                this.setState({ messageDraft: '' });
+            .then((data) => {
+                this.setState({
+                    sentMessage: data,
+                    messageDraft: null,
+                });
             });
+    }
+
+    clearSentMessage() {
+        this.setState({ sentMessage: null });
     }
 }

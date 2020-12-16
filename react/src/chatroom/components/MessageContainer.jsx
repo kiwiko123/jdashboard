@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import messagePropType from './propTypes/messagePropType';
 import MessageBubble from './MessageBubble';
 
-import './styles/MessageContainer.css';
+import './MessageContainer.css';
 
 const MessageContainer = ({
     messages,
@@ -16,7 +16,7 @@ const MessageContainer = ({
     }, [messages]);
 
     const messageElements = messages.map((message, index) => {
-        const subtext = message.messageStatus && (
+        const subtext = message.messageStatus && message.direction === 'outbound' && (
             <span className="status">
                 {message.messageStatus}
             </span>

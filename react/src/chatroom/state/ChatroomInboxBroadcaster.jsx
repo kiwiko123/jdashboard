@@ -4,22 +4,17 @@ import Request from '../../common/js/Request';
 export default class ChatroomInboxBroadcaster extends Broadcaster {
     constructor() {
         super();
-        this.fetchMessages = () => {};
         this.setState({
             inboxItems: [],
-            selectInboxItem: () => {},
+            selectedItem: null,
         });
+        this.registerMethod(this.selectInboxItem);
     }
 
     receive(state, broadcasterId) {
-        if (broadcasterId === 'ChatroomBroadcaster') {
-            this.setState({
-                currentUserId: state.currentUserId,
-                selectInboxItem: state.selectInboxItem,
-            });
-            this.fetchMessages = state.fetchMessages;
-            if (state.currentUserId) {
-                this.fetchPreviews(state.currentUserId);
+        if (broadcasterId === 'UserDataBroadcaster') {
+            if (state.id) {
+                this.fetchPreviews(state.id);
             }
         }
     }
@@ -30,5 +25,11 @@ export default class ChatroomInboxBroadcaster extends Broadcaster {
             .withAuthentication()
             .get()
             .then(data => this.setState({ inboxItems: data }));
+    }
+
+    selectInboxItem(item) {
+        this.setState({
+            selectedItem: item,
+        });
     }
 }

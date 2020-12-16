@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { get } from 'lodash';
 import IconButton from '../../common/components/IconButton';
-import FormInput from '../../common/components/FormInput';
+import FormInput from '../../common/forms/components/FormInput';
 
 import './styles/MessageInput.css';
 
 const MessageInput = ({
-    className, sendMessage, onInputTextChange, recipientUserId, messageDraft,
+    className, sendMessage, onInputTextChange, messageDraft,
 }) => {
     const divClassName = classnames('MessageInput', className);
     const onChange = useCallback(event => onInputTextChange(get(event, 'target.value')), [onInputTextChange]);
 
-    return recipientUserId && (
+    return (
         <div className={divClassName}>
             <FormInput
                 className="input"
@@ -35,13 +35,11 @@ MessageInput.propTypes = {
     sendMessage: PropTypes.func.isRequired,
     onInputTextChange: PropTypes.func.isRequired,
     className: PropTypes.string,
-    recipientUserId: PropTypes.number,
     messageDraft: PropTypes.string,
 };
 
 MessageInput.defaultProps = {
     className: null,
-    recipientUserId: null,
     messageDraft: null,
 };
 

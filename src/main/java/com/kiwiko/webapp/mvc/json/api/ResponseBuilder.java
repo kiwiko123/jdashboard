@@ -2,7 +2,6 @@ package com.kiwiko.webapp.mvc.json.api;
 
 import com.kiwiko.webapp.mvc.json.data.ResponsePayload;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 
 import java.util.ArrayList;
@@ -35,13 +34,13 @@ public class ResponseBuilder {
         return this;
     }
 
-    public ResponseEntity<ResponsePayload> toResponseEntity() {
-        ResponsePayload payload = new ResponsePayload(body, errors, status.value());
-        return new ResponseEntity<>(payload, status);
+    public ResponsePayload build() {
+        com.kiwiko.webapp.mvc.json.internal.data.ResponsePayload payload = new com.kiwiko.webapp.mvc.json.internal.data.ResponsePayload(body, errors, status.value());
+        return new ResponsePayload(payload, status);
     }
 
-    public static ResponseEntity<ResponsePayload> ok() {
+    public static ResponsePayload ok() {
         return new ResponseBuilder()
-                .toResponseEntity();
+                .build();
     }
 }

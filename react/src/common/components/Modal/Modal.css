@@ -1,0 +1,40 @@
+.modal-container {
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-container.closed {
+    display: none;
+    height: 0;
+    width: 0;
+}
+
+.modal-container > .Modal {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    animation-name: appear-from-bottom;
+    animation-duration: 0.4s
+}
+
+.modal-container > .Modal.small {
+    height: 25%;
+    width: 50%;
+}
+
+.modal-container > .Modal.large {
+    height: 75%;
+}
+
+@keyframes appear-from-bottom {
+  from {bottom: -300px; opacity: 0}
+  to {bottom: 0; opacity: 1}
+}

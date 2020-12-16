@@ -1,4 +1,4 @@
-import { findLast, get, last, sortBy, uniqBy } from 'lodash';
+import { get } from 'lodash';
 import Broadcaster from '../../state/Broadcaster';
 import Request from '../../common/js/Request';
 import MessageHelper from './MessageHelper';
@@ -10,88 +10,59 @@ export default class ChatroomBroadcaster extends Broadcaster {
         super();
         this.setState({
             messages: [],
-            selectedInboxItem: null,
+            currentUserId: null,
         });
-        this.registerMethod(this.selectInboxItem);
-        this.registerMethod(this.fetchMessages);
-
-        this._continueFetching = false;
-        this._messageIds = new Set([]);
     }
 
     receive(state, broadcasterId) {
         if (broadcasterId === 'UserDataBroadcaster') {
             this.setState({
-                currentUserId: state.userId,
+                currentUserId: state.id,
             });
+        } else if (broadcasterId === 'ChatroomInboxBroadcaster') {
+            const recipientUserId = get(state, ['selectedItem', 'users', '0', 'userId']);
+            if (recipientUserId) {
+                this.fetchMessages({
+                    recipientUserId,
+                    merge: false,
+                });
+            }
+        } else if (broadcasterId === 'ChatroomInputBroadcaster') {
+            if (state.sentMessage) {
+                this.fetchMessages({
+                    recipientUserId: state.sentMessage.recipientUserId,
+                    minimumSentDate: state.sentMessage.sentDate,
+                    merge: true,
+                }).then(state.clearSentMessage);
+            }
+        } else if (broadcasterId === 'ChatroomPushBroadcaster') {
+            if (state.newMessage) {
+                // TODO consider new messages from outside the currently selected thread
+                this.fetchMessages({
+                    recipientUserId: state.newMessage.senderUserId,
+                    minimumSentDate: state.newMessage.sentDate,
+                    merge: true,
+                }).then(state.clearNewMessage);
+            }
         }
     }
 
-    fetchMessages() {
-        const requestParameters = {
+    fetchMessages({ recipientUserId, minimumSentDate, merge = false }) {
+        const payload = {
             senderUserId: this.state.currentUserId,
-            recipientUserId: this.state.recipientUserId,
+            recipientUserId,
+            minimumSentDate,
         };
-
-        const mostRecentMessage = last(this.state.messages);
-        if (mostRecentMessage) {
-            requestParameters.minimumSentDate = mostRecentMessage.sentDate;
-        }
-
         return Request.to(GET_MESSAGES_URL)
-            .withRequestParameters(requestParameters)
             .withAuthentication()
+            .withRequestParameters(payload)
             .get()
             .then((data) => {
-                const newMessages = this._processMessages(data);
-                const mergedMessages = uniqBy([...this.state.messages, ...newMessages], message => message.id);
-                if (this.state.messages.length !== mergedMessages.length) {
-                    const mostRecentInboundMessage = findLast(
-                        mergedMessages,
-                        message => MessageHelper.isInboundMessage(this.state.currentUserId, message),
-                    );
-                    if (mostRecentInboundMessage && mostRecentInboundMessage.messageStatus !== 'DELIVERED') {
-                        this._confirmMessage(mostRecentInboundMessage);
-                    }
-                    const mostRecentOutboundMessage = findLast(
-                        mergedMessages,
-                        message => MessageHelper.isOutboundMessage(this.state.currentUserId, message),
-                    );
-                    this.setState({ messages: mergedMessages });
-                }
+                let messages = merge
+                    ? this.state.messages.concat(data)
+                    : data;
+                this.setState({ messages });
             });
-    }
-
-    selectInboxItem(item) {
-        this._continueFetching = false;
-        const recipientUserId = get(item, ['users', '0', 'userId']);
-        this.setState({
-            selectedInboxItem: item,
-            recipientUserId,
-            messages: [],
-        });
-        this._continueFetching = true;
-        this.delayMessageFetch();
-    }
-
-    delayMessageFetch() {
-        if (!this._continueFetching) {
-            return;
-        }
-        this.fetchMessages()
-            .then(() => setTimeout(() => this.delayMessageFetch(), 10000));
-    }
-
-    _processMessages(messages) {
-        const orderedMessages = sortBy(messages, ['sentDate']);
-        return orderedMessages.map(message => ({
-            id: message.id,
-            message: message.message,
-            direction: MessageHelper.isOutboundMessage(this.state.currentUserId, message) ? 'outbound' : 'inbound',
-            senderName: MessageHelper.isOutboundMessage(this.state.currentUserId, message) ? 'Sender' : 'Recipient', // TODO
-            sentDate: message.sentDate,
-//             messageStatus: message.messageStatus,
-        }));
     }
 
     _confirmMessage(message) {
