@@ -30,7 +30,7 @@ public class PushWebSocketHandler extends TextWebSocketHandler {
         try {
             handlePush(session, requestPayload, message);
         } catch (PushException e) {
-            pushServiceSessionManager.endSession(requestPayload.getUserId(), requestPayload.getServiceId());
+            pushServiceSessionManager.endSession(session);
             throw e;
         }
     }
@@ -44,10 +44,10 @@ public class PushWebSocketHandler extends TextWebSocketHandler {
     protected void afterUserConnectionEstablished(WebSocketSession session, ClientPushRequest pushRequest) { }
 
     private void handlePush(WebSocketSession session, ClientPushRequest pushRequest, TextMessage message) {
-        boolean isNewSession = !pushServiceSessionManager.hasSession(pushRequest.getUserId(), pushRequest.getServiceId());
+        boolean isNewSession = !pushServiceSessionManager.getSessionForUser(pushRequest.getUserId()).isPresent();
 
         if (isNewSession) {
-            pushServiceSessionManager.startSession(pushRequest.getUserId(), pushRequest.getServiceId(), session);
+            pushServiceSessionManager.startSession(pushRequest.getUserId(), session);
             afterUserConnectionEstablished(session, pushRequest);
             return;
         }

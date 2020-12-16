@@ -27,8 +27,7 @@ public abstract class TextWebSocketPushService implements PushService {
         }
 
         Long recipientUserId = parameters.getRecipientUserId();
-        String serviceId = getServiceId();
-        WebSocketSession session = pushServiceSessionManager.getSessionForUser(recipientUserId, serviceId)
+        WebSocketSession session = pushServiceSessionManager.getSessionForUser(recipientUserId)
                 .orElseThrow(() -> new ClientUnreachablePushException(
                         String.format("Unable to reach user ID %d", recipientUserId)));
 
