@@ -3,27 +3,11 @@
     align-items: center;
 }
 
-.content {
+.DashboardHeader > .content {
     display: flex;
     margin: 1rem;
     align-items: center;
     width: 100%;
-}
-
-.header-button {
-    display: flex;
-    align-items: center;
-    color: black;
-    width: 7rem;
-    justify-content: center;
-}
-
-.header-button-link {
-    color: black;
-}
-
-:hover(.header-button), :hover(.header-button-link) {
-    color: black;
 }
 
 .greeting {
@@ -32,11 +16,11 @@
     color: white;
 }
 
-.DashboardMenuSlideOverPane {
+.DashboardHeader > .content > .DashboardMenuSlideOverPane {
     bottom: 0;
     height: 100%;
 }
 
-.DashboardMenuSlideOverPane > .content > .quick-links > .buttons {
+.DashboardHeader > .content > .DashboardMenuSlideOverPane > .content > .quick-links > .buttons {
     display: flex;
 }

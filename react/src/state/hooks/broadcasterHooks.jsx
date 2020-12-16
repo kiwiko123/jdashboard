@@ -1,8 +1,17 @@
 import { useEffect, useState } from 'react';
 
-function useBroadcaster(broadcasterType) {
-    const [broadcaster] = useState(new broadcasterType());
-    useEffect(() => () => broadcaster.destroy(), [broadcaster]);
+function useBroadcaster(broadcasterType, args) {
+    const [broadcaster, setBroadcaster] = useState(new broadcasterType(args));
+    useEffect(() => {
+        if (!broadcaster) {
+            setBroadcaster(new broadcasterType());
+        }
+
+        return () => {
+            broadcaster.destroy();
+            setBroadcaster(null);
+        };
+    }, [broadcasterType]);
 
     return broadcaster;
 }

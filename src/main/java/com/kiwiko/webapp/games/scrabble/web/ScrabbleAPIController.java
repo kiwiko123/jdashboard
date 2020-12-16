@@ -4,10 +4,10 @@ import com.kiwiko.webapp.games.scrabble.game.data.ScrabbleTile;
 import com.kiwiko.webapp.games.scrabble.game.logic.ScrabbleCreateGameHelper;
 import com.kiwiko.webapp.games.scrabble.game.logic.ScrabbleGameHelper;
 import com.kiwiko.webapp.games.scrabble.game.logic.ScrabbleMoveHelper;
+import com.kiwiko.webapp.mvc.json.data.ResponsePayload;
 import com.kiwiko.webapp.mvc.requests.api.annotations.RequestBodyCollectionParameter;
 import com.kiwiko.webapp.mvc.requests.api.annotations.RequestBodyParameter;
 import com.kiwiko.webapp.mvc.json.api.ResponseBuilder;
-import com.kiwiko.webapp.mvc.json.data.ResponsePayload;
 import com.kiwiko.webapp.games.scrabble.api.ScrabbleGameService;
 import com.kiwiko.webapp.games.scrabble.game.data.ScrabbleGame;
 import com.kiwiko.webapp.games.scrabble.game.data.ScrabbleSubmittedTile;
@@ -16,7 +16,6 @@ import com.kiwiko.webapp.mvc.security.authentication.api.annotations.CrossOrigin
 import com.kiwiko.webapp.users.api.UserService;
 import com.kiwiko.webapp.users.data.User;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,42 +48,42 @@ public class ScrabbleAPIController {
     private UserService userService;
 
     @GetMapping("/scrabble/api/start-game")
-    public ResponseEntity<ResponsePayload> startGame(
+    public ResponsePayload startGame(
             @RequestParam(value = "gameId", required = false) @Nullable Long gameId,
             RequestContext requestContext) {
         User user = requestContext.getUser().orElse(null);
         ScrabbleGame game = scrabbleCreateGameHelper.getOrCreateGame(user, gameId);
         return new ResponseBuilder()
                 .withBody(game)
-                .toResponseEntity();
+                .build();
     }
 
     @GetMapping(path = "/scrabble/api/new-game")
-    public ResponseEntity<ResponsePayload> newGame() {
+    public ResponsePayload newGame() {
         ScrabbleGame game = scrabbleCreateGameHelper.createGame();
         return new ResponseBuilder()
                 .withBody(game)
-                .toResponseEntity();
+                .build();
     }
 
     @GetMapping("/scrabble/api/load-game/{gameId}")
-    public ResponseEntity<ResponsePayload> loadGame(
+    public ResponsePayload loadGame(
             @PathVariable(name = "gameId") long gameId) {
         ScrabbleGame game = scrabbleGameService.getGameById(gameId)
                 .orElse(null);
         if (game == null) {
             return new ResponseBuilder()
                     .withError("Game not found")
-                    .toResponseEntity();
+                    .build();
         }
 
         return new ResponseBuilder()
                 .withBody(game)
-                .toResponseEntity();
+                .build();
     }
 
     @PostMapping(path = "/scrabble/api/submit-tiles")
-    public ResponseEntity<ResponsePayload> submitTiles(
+    public ResponsePayload submitTiles(
             @RequestBodyParameter(name = "gameId") long gameId,
             @RequestBodyCollectionParameter(name = "tiles", valueType = ScrabbleSubmittedTile.class) List<ScrabbleSubmittedTile> tiles) {
         ScrabbleGame game = scrabbleGameService.getGameById(gameId)
@@ -99,16 +98,16 @@ public class ScrabbleAPIController {
         } else {
             return new ResponseBuilder()
                     .withError("Invalid tiles")
-                    .toResponseEntity();
+                    .build();
         }
 
         return new ResponseBuilder()
                 .withBody(game)
-                .toResponseEntity();
+                .build();
     }
 
     @PostMapping(path = "/scrabble/api/validate-move")
-    public ResponseEntity<ResponsePayload> validateMove(
+    public ResponsePayload validateMove(
             @RequestBodyParameter(name = "gameId") long gameId,
             @RequestBodyCollectionParameter(name = "tiles", valueType = ScrabbleSubmittedTile.class) List<ScrabbleSubmittedTile> submittedTiles) {
         ScrabbleGame game = scrabbleGameService.getGameById(gameId)
@@ -122,7 +121,7 @@ public class ScrabbleAPIController {
             return new ResponseBuilder()
                     .withBody(invalidTiles)
                     .withError("Invalid tiles")
-                    .toResponseEntity();
+                    .build();
         }
 
         String word = submittedTiles.stream()
@@ -132,23 +131,23 @@ public class ScrabbleAPIController {
         if (!isValidWord) {
             return new ResponseBuilder()
                     .withError(String.format("\"%s\" is not a word", word))
-                    .toResponseEntity();
+                    .build();
         }
 
         return ResponseBuilder.ok();
     }
 
     @GetMapping("/scrabble/api/find-game/most-recent/by-user/{userId}")
-    public ResponseEntity<ResponsePayload> findMostRecentGameByUser(@PathVariable("userId") Long userId) {
+    public ResponsePayload findMostRecentGameByUser(@PathVariable("userId") Long userId) {
         ScrabbleGame game = scrabbleGameService.findMostRecentGameForUser(userId)
                 .orElse(null);
         return new ResponseBuilder()
                 .withBody(game)
-                .toResponseEntity();
+                .build();
     }
 
     @PostMapping("/scrabble/api/save-game")
-    public ResponseEntity<ResponsePayload> saveGameForUser(
+    public ResponsePayload saveGameForUser(
             @RequestBodyParameter(name = "gameId") long gameId,
             @RequestBodyParameter(name = "userId") long userId) {
         User user = userService.getById(userId)
@@ -156,7 +155,7 @@ public class ScrabbleAPIController {
         if (user == null) {
             return new ResponseBuilder()
                     .withError("No matching user found")
-                    .toResponseEntity();
+                    .build();
         }
 
         ScrabbleGame game = scrabbleGameService.getGameById(gameId)
@@ -169,10 +168,10 @@ public class ScrabbleAPIController {
         return ResponseBuilder.ok();
     }
 
-    private ResponseEntity<ResponsePayload> gameNotFoundResponse(long gameId) {
+    private ResponsePayload gameNotFoundResponse(long gameId) {
         return new ResponseBuilder()
                 .withError(String.format("No game found with ID %d", gameId))
                 .withStatus(HttpStatus.BAD_REQUEST)
-                .toResponseEntity();
+                .build();
     }
 }

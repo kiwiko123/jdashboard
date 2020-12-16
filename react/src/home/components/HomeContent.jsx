@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './styles/HomeContent.css';
+import './HomeContent.css';
 
 const HomeContent = () => {
     return (

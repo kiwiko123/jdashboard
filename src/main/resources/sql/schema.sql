@@ -53,3 +53,15 @@ CREATE TABLE words (
     word_id BIGSERIAL PRIMARY KEY,
     word TEXT UNIQUE NOT NULL
 );
+
+CREATE TABLE messages (
+    message_id BIGSERIAL PRIMARY KEY,
+    message TEXT NOT NULL,
+    message_type_id INT NOT NULL,
+    message_status_id TEXT NOT NULL,
+    sender_user_id BIGINT NOT NULL REFERENCES users(user_id),
+    recipient_user_id BIGINT NOT NULL REFERENCES users(user_id),
+    sent_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    is_removed BOOLEAN NOT NULL DEFAULT FALSE,
+    versions TEXT
+);

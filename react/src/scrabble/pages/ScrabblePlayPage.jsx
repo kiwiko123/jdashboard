@@ -1,4 +1,5 @@
 import React from 'react';
+import { isEmpty } from 'lodash';
 import DashboardPage from '../../dashboard/components/DashboardPage';
 import ScrabbleGame from '../components/ScrabbleGame';
 import ComponentStateManager from '../../state/components/ComponentStateManager';
@@ -26,9 +27,11 @@ export default function ScrabblePlayPage({ history }) {
         history={history}
         broadcasterSubscribers={pageBroadcasterSubscribers}
       >
-        <ComponentStateManager broadcaster={scrabbleGameBroadcaster}>
-            <ScrabbleGame />
-        </ComponentStateManager>
+        <ComponentStateManager
+            broadcaster={scrabbleGameBroadcaster}
+            component={ScrabbleGame}
+            canResolve={({ isLoaded }) => isLoaded}
+        />
       </DashboardPage>
   );
 }

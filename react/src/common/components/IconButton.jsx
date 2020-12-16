@@ -31,11 +31,7 @@ const IconButton = ({
 };
 
 IconButton.propTypes = {
-    children: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.string,
-        PropTypes.node,
-    ]),
+    children: PropTypes.node,
 
     // https://react-bootstrap.github.io/components/buttons
     variant: PropTypes.string,

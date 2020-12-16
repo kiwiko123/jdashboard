@@ -1,4 +1,4 @@
-package com.kiwiko.webapp.mvc.json.data;
+package com.kiwiko.library.json.data;
 
 import java.util.Collections;
 import java.util.Map;
@@ -28,6 +28,10 @@ public class IntermediateJsonBody {
      */
     public Optional<Object> getValue(String key) {
         return Optional.ofNullable(body.get(key));
+    }
+
+    public <T> Optional<T> getValueAs(String key, Class<T> type) {
+        return getValue(key).map(type::cast);
     }
 
     @Override

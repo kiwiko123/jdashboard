@@ -1,18 +1,18 @@
 import Broadcaster from '../../state/Broadcaster';
-import { GET_CURRENT_USER_URL } from '../js/urls';
 import Request from '../../common/js/Request';
 import logger from '../../common/js/logging';
 
 function getDefaultState() {
     return {
         username: null,
-        userId: null,
+        id: null,
+        userId: null, // alias for id; deprecated
         isLoaded: false,
     };
 }
 
 function getCurrentUserData() {
-    return Request.to(GET_CURRENT_USER_URL)
+    return Request.to('/user-auth/api/users/current')
         .get({ credentials: 'include' })
         .catch((error) => {
             logger.error('Error fetching current user data', error);
@@ -28,12 +28,12 @@ export default class UserDataBroadcaster extends Broadcaster {
     constructor() {
         super();
 
-        this.setState(getDefaultState());
         getCurrentUserData()
             .then(user => this.setState({
                 username: user.username,
-                userId: user.id,
+                id: user.id,
+                userId: user.id, // deprecated
                 isLoaded: true,
-            }));
+            }))
     }
 }

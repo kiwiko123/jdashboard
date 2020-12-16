@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 import com.kiwiko.webapp.mvc.lifecycle.startup.api.ClassProcessor;
 import com.kiwiko.webapp.mvc.lifecycle.startup.api.errors.ClassProcessorStage;
 import com.kiwiko.webapp.mvc.lifecycle.startup.api.errors.LifecycleException;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -17,7 +18,8 @@ import java.util.Set;
 
 public abstract class EndpointProcessor extends ClassProcessor {
 
-    private static Set<Class<?>> REQUEST_MAPPING_TYPES = Sets.newHashSet(RequestMapping.class, GetMapping.class, PostMapping.class, PutMapping.class);
+    private static Set<Class<?>> REQUEST_MAPPING_TYPES = Sets.newHashSet(
+            RequestMapping.class, GetMapping.class, PostMapping.class, PutMapping.class, DeleteMapping.class);
 
     protected abstract void processMethod(Method method) throws RuntimeException;
 
