@@ -23,38 +23,40 @@ public class PushWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        String json = message.getPayload();
+        ClientPushRequest requestPayload = pushRequestHelper.deserializeClientPushRequest(json);
+        pushRequestHelper.validateInitialUserPushRequest(requestPayload);
+
         try {
-            handlePush(session, message);
+            handlePush(session, requestPayload, message);
         } catch (PushException e) {
-            pushServiceSessionManager.endSession(session);
+            pushServiceSessionManager.endSession(requestPayload.getUserId(), requestPayload.getServiceId());
             throw e;
         }
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
+        // TODO
         pushServiceSessionManager.endSession(session);
     }
 
-    protected void afterUserConnectionEstablished(WebSocketSession session, long userId) { }
+    protected void afterUserConnectionEstablished(WebSocketSession session, ClientPushRequest pushRequest) { }
 
-    private void handlePush(WebSocketSession session, TextMessage message) {
-        String json = message.getPayload();
-        ClientPushRequest requestPayload = pushRequestHelper.deserializeClientPushRequest(json);
-        pushRequestHelper.validateInitialUserPushRequest(requestPayload);
-        boolean isNewSession = !pushServiceSessionManager.hasSession(requestPayload.getUserId());
+    private void handlePush(WebSocketSession session, ClientPushRequest pushRequest, TextMessage message) {
+        boolean isNewSession = !pushServiceSessionManager.hasSession(pushRequest.getUserId(), pushRequest.getServiceId());
 
         if (isNewSession) {
-            pushServiceSessionManager.startSession(session, requestPayload.getUserId());
-            afterUserConnectionEstablished(session, requestPayload.getUserId());
+            pushServiceSessionManager.startSession(pushRequest.getUserId(), pushRequest.getServiceId(), session);
+            afterUserConnectionEstablished(session, pushRequest);
             return;
         }
 
-        Long recipientUserId = requestPayload.getRecipientUserId();
-        if (recipientUserId != null && pushServiceSessionManager.hasSession(recipientUserId)) {
-            pushRequestHelper.validateClientPushRequest(requestPayload);
-            pushServiceRegistry.getPushServicesForId(requestPayload.getServiceId())
-                    .forEach(pushService -> pushRequestHelper.routeIncomingPush(pushService, requestPayload, message));
+        Long recipientUserId = pushRequest.getRecipientUserId();
+        if (recipientUserId != null) {
+            pushRequestHelper.validateClientPushRequest(pushRequest);
+            pushServiceRegistry.getPushServicesForId(pushRequest.getServiceId())
+                    .forEach(pushService -> pushRequestHelper.routeIncomingPush(pushService, pushRequest, message));
         }
     }
 }

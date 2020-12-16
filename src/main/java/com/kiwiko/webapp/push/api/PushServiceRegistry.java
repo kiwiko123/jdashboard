@@ -11,11 +11,7 @@ import java.util.Set;
 @Singleton
 public class PushServiceRegistry {
 
-    private static Map<String, Set<PushService>> pushServicesByIdentifier;
-
-    public PushServiceRegistry() {
-        pushServicesByIdentifier = new HashMap<>();
-    }
+    private static final Map<String, Set<PushService>> pushServicesByIdentifier = new HashMap<>();
 
     public void register(PushService pushService) {
         pushServicesByIdentifier.computeIfAbsent(pushService.getServiceId(), id -> new HashSet<>())

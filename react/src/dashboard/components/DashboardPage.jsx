@@ -7,6 +7,7 @@ import { usePushService } from '../../state/hooks';
 import UserDataBroadcaster from '../../accounts/state/UserDataBroadcaster';
 import DashboardAlertBroadcaster from '../../dashboard/state/DashboardAlertBroadcaster';
 import DashboardHeaderBroadcaster from '../../dashboard/state/DashboardHeaderBroadcaster';
+import DashboardNotificationsBroadcaster from '../state/DashboardNotificationsBroadcaster';
 import DashboardAlerts from './DashboardAlerts';
 import DashboardHeader from './DashboardHeader';
 import DashboardMenuAssistantPane from './DashboardMenuAssistantPane';
@@ -20,11 +21,13 @@ function createPageBroadcasters(broadcasterSubscribers = {}) {
         headerBroadcaster: new DashboardHeaderBroadcaster(),
         alertBroadcaster: new DashboardAlertBroadcaster(),
         userDataBroadcaster: new UserDataBroadcaster(),
+        notificationsBroadcaster: new DashboardNotificationsBroadcaster(),
     };
 
-    const { headerBroadcaster, userDataBroadcaster } = broadcasters;
+    const { headerBroadcaster, notificationsBroadcaster, userDataBroadcaster } = broadcasters;
     // Register default subscribers.
     headerBroadcaster.listenTo(userDataBroadcaster);
+    notificationsBroadcaster.listenTo(userDataBroadcaster);
 
     // Register input subscribers.
     Object.entries(broadcasterSubscribers)
@@ -95,6 +98,7 @@ DashboardPage.propTypes = {
         headerBroadcaster: PropTypes.arrayOf(PropTypes.instanceOf(Broadcaster)),
         alertBroadcaster: PropTypes.arrayOf(PropTypes.instanceOf(Broadcaster)),
         userDataBroadcaster: PropTypes.arrayOf(PropTypes.instanceOf(Broadcaster)),
+        notificationsBroadcaster: PropTypes.arrayOf(PropTypes.instanceOf(Broadcaster)),
     }),
     showMenuAssistant: PropTypes.bool,
 };

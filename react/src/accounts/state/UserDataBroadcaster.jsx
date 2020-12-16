@@ -12,7 +12,7 @@ function getDefaultState() {
 }
 
 function getCurrentUserData() {
-    return Request.to('/user-auth/api/legacy/get-current-user')
+    return Request.to('/user-auth/api/users/current')
         .get({ credentials: 'include' })
         .catch((error) => {
             logger.error('Error fetching current user data', error);

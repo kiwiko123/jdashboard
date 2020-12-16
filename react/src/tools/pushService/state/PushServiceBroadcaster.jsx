@@ -7,11 +7,11 @@ const WEB_SOCKET_TEMPLATE = {
 };
 
 export default class PushServiceBroadcaster extends Broadcaster {
-    constructor({ serviceId }) {
+    constructor({ serviceId, userId }) {
         super();
         this._webSocket = WEB_SOCKET_TEMPLATE;
         this.serviceId = serviceId;
-        this.currentUser = null;
+        this.userId = userId;
         this.disable();
 
         this.registerMethod(this.push);
@@ -21,7 +21,7 @@ export default class PushServiceBroadcaster extends Broadcaster {
     receive(state, id) {
         if (id === 'UserDataBroadcaster') {
             if (state.id) {
-                this.currentUser = { ...state };
+                this.userId = state.id;
                 this._webSocket = PushServiceSessionManager.getSession(state.id, {
                     onOpen: this._onOpen.bind(this),
                     onClose: this._onClose.bind(this),
@@ -36,7 +36,7 @@ export default class PushServiceBroadcaster extends Broadcaster {
     push(payload = {}) {
         const data = JSON.stringify({
             serviceId: this.serviceId,
-            userId: this.currentUser.id,
+            userId: this.userId,
             ...payload,
         });
         this._webSocket.send(data);
@@ -68,8 +68,8 @@ export default class PushServiceBroadcaster extends Broadcaster {
     }
 
     _onClose(event) {
-        if (this.currentUser) {
-            PushServiceSessionManager.endSession(this.currentUser.id);
+        if (this.userId) {
+            PushServiceSessionManager.endSession(this.userId);
         }
     }
 

@@ -1,10 +1,12 @@
 package com.kiwiko.webapp.push;
 
+import com.kiwiko.webapp.mvc.lifecycle.shutdown.api.ApplicationShutdownHookConfigurationCreator;
 import com.kiwiko.webapp.mvc.security.environments.data.EnvironmentProperties;
 import com.kiwiko.webapp.push.api.PushServiceConfigurationCreator;
 import com.kiwiko.webapp.push.api.PushServiceRegistry;
 import com.kiwiko.webapp.push.internal.PushRequestHelper;
 import com.kiwiko.webapp.push.internal.PushServiceSessionManager;
+import com.kiwiko.webapp.push.internal.PushServiceShutdownHook;
 import com.kiwiko.webapp.push.internal.PushWebSocketHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,9 +16,13 @@ import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
+import javax.inject.Inject;
+
 @Configuration
 @EnableWebSocket
-public class PushWebSocketConfiguration implements WebSocketConfigurer {
+public class PushServiceConfiguration implements WebSocketConfigurer {
+
+    @Inject private ApplicationShutdownHookConfigurationCreator applicationShutdownHookConfigurationCreator;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry webSocketHandlerRegistry) {
@@ -48,5 +54,10 @@ public class PushWebSocketConfiguration implements WebSocketConfigurer {
     @Bean
     public PushRequestHelper pushRequestHelper() {
         return new PushRequestHelper();
+    }
+
+    @Bean
+    public PushServiceShutdownHook pushServiceShutdownHook() {
+        return applicationShutdownHookConfigurationCreator.create(PushServiceShutdownHook::new);
     }
 }
