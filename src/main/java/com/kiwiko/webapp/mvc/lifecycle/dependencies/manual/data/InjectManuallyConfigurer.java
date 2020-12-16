@@ -17,7 +17,6 @@ public class InjectManuallyConfigurer<T> {
     private final Set<DependencyBinding> dependencyBindings;
     private T instance;
 
-
     public InjectManuallyConfigurer() {
         reflectionHelper = new ReflectionHelper();
         dependencyBindings = new HashSet<>();
@@ -59,6 +58,7 @@ public class InjectManuallyConfigurer<T> {
     }
 
     private void injectInstance(Field field) throws ManualInjectionException {
+        // TODO support bindingInstance
         Class<?> bindingType = dependencyBindings.stream()
                 .filter(dependencyBinding -> dependencyBinding.getDependencyType() == field.getType())
                 .findFirst()

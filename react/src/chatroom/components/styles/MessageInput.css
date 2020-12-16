@@ -1,0 +1,11 @@
+.MessageInput {
+    display: flex;
+}
+
+.MessageInput > .send-button {
+    color: white;
+}
+
+.MessageInput > .input {
+    width: 100%;
+}

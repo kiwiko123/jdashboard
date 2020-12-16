@@ -26,6 +26,13 @@ export function makeAccountButtonSettings(props) {
            onClick: props.logOut,
            shouldShow: () => props.isLoggedIn,
        },
+       {
+           id: 'create-account',
+           label: 'Create account',
+           icon: 'fas fa-user-plus',
+           url: '/accounts/create',
+           shouldShow: () => !props.isLoggedIn,
+      },
     ];
 }
 
@@ -36,6 +43,13 @@ export function makeQuickLinkButtonSettings() {
             label: 'Home',
             url: '/home',
             icon: 'fas fa-home',
+            shouldShow: () => true,
+        },
+        {
+            id: 'chatroom',
+            label: 'Chatroom',
+            url: '/chatroom',
+            icon: 'fas fa-comments',
             shouldShow: () => true,
         },
         {

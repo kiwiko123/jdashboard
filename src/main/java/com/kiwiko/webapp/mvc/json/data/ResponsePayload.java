@@ -1,16 +1,11 @@
 package com.kiwiko.webapp.mvc.json.data;
 
-import java.util.Collection;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-public class ResponsePayload {
+public class ResponsePayload extends ResponseEntity<com.kiwiko.webapp.mvc.json.internal.data.ResponsePayload> {
 
-    private final Object payload;
-    private final Collection<String> errors;
-    private final int status;
-
-    public ResponsePayload(Object payload, Collection<String> errors, int status) {
-        this.payload = payload;
-        this.errors = errors;
-        this.status = status;
+    public ResponsePayload(com.kiwiko.webapp.mvc.json.internal.data.ResponsePayload body, HttpStatus status) {
+        super(body, status);
     }
 }

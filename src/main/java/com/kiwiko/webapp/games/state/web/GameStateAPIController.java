@@ -7,7 +7,6 @@ import com.kiwiko.webapp.mvc.json.api.ResponseBuilder;
 import com.kiwiko.webapp.mvc.json.data.ResponsePayload;
 import com.kiwiko.webapp.mvc.security.environments.data.EnvironmentProperties;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +22,7 @@ public class GameStateAPIController {
     private GameStateService gameStateService;
 
     @GetMapping("/games/state/api/get/{gameType}/{gameId}")
-    public ResponseEntity<ResponsePayload> getGameStateForGame(
+    public ResponsePayload getGameStateForGame(
             @PathVariable(name = "gameType") String gameTypeId,
             @PathVariable(name = "gameId") long gameId) {
         GameType gameType = GameType.getByName(gameTypeId)
@@ -37,29 +36,29 @@ public class GameStateAPIController {
         if (gameState == null) {
             return new ResponseBuilder()
                     .withError(String.format("No game found for %s with ID %d", gameType.getName(), gameId))
-                    .toResponseEntity();
+                    .build();
         }
 
         return new ResponseBuilder()
                 .withBody(gameState)
-                .toResponseEntity();
+                .build();
     }
 
     @GetMapping("/games/state/api/new-game-id/get/{gameType}")
-    public ResponseEntity<ResponsePayload> getNewGameId(@PathVariable(name = "gameType") String gameTypeId) {
+    public ResponsePayload getNewGameId(@PathVariable(name = "gameType") String gameTypeId) {
         long newGameId = GameType.getByName(gameTypeId)
                 .map(gameStateService::getNewGameId)
                 .orElse(1l);
 
         return new ResponseBuilder()
                 .withBody(newGameId)
-                .toResponseEntity();
+                .build();
     }
 
-    private ResponseEntity<ResponsePayload> getInvalidGameTypeResponse(String gameTypeId) {
+    private ResponsePayload getInvalidGameTypeResponse(String gameTypeId) {
         return new ResponseBuilder()
                 .withError(String.format("No GameType found for \"%s\"", gameTypeId))
                 .withStatus(HttpStatus.BAD_REQUEST)
-                .toResponseEntity();
+                .build();
     }
 }

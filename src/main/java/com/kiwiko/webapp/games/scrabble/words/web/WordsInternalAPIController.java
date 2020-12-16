@@ -6,7 +6,6 @@ import com.kiwiko.webapp.games.scrabble.words.internal.unixlocal.data.WordMigrat
 import com.kiwiko.webapp.mvc.json.api.ResponseBuilder;
 import com.kiwiko.webapp.mvc.json.data.ResponsePayload;
 import com.kiwiko.webapp.mvc.security.environments.data.EnvironmentProperties;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +26,7 @@ public class WordsInternalAPIController {
     private WordService wordService;
 
     @PostMapping("/words/api/internal/migrate")
-    public ResponseEntity<ResponsePayload> migrateWords(
+    public ResponsePayload migrateWords(
             @RequestParam(name = "batchSize") int batchSize,
             @RequestParam(name = "maxWordsToProcess", required = false) @Nullable Integer maxWordsToProcess) {
         WordMigratorParameters parameters = new WordMigratorParameters()
@@ -37,6 +36,6 @@ public class WordsInternalAPIController {
 
         return new ResponseBuilder()
                 .withBody(migratedWordIds)
-                .toResponseEntity();
+                .build();
     }
 }

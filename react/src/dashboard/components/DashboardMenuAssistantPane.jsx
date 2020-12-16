@@ -5,7 +5,7 @@ import IconButton from '../../common/components/IconButton';
 import ClickTarget from '../../common/components/ClickTarget';
 import { getWindowDimensions } from '../../common/js/window';
 
-import './styles/DashboardMenuAssistant.css';
+import './styles/DashboardMenuAssistantPane.css';
 
 const DRAG_RESET_THRESHOLD_PX = 150;
 
@@ -19,7 +19,7 @@ function getOpenFromDirective(openFrom, currentX, currentY, screenX, screenY) {
     return `${planeX} ${planeY}`;
 }
 
-const DashboardMenuAssistant = ({
+const DashboardMenuAssistantPane = ({
     children, className, openFrom, expanded,
 }) => {
     // Handle expanding/collapsing the pane.
@@ -36,13 +36,13 @@ const DashboardMenuAssistant = ({
         return () => window.removeEventListener('resize', onResize);
     }, [dimensions]);
 
-    const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
+    const [coordinates, setCoordinates] = useState({ x: 0, y: 0 }); // TODO detect where assistant icon is on first render
     const { x, y } = coordinates;
 
     const openFromDirective = isExpanded
         ? getOpenFromDirective(openFrom, x, y, dimensions.width, dimensions.height)
         : null;
-    const divClassName = classnames('DashboardMenuAssistant', className, openFromDirective, {
+    const divClassName = classnames('DashboardMenuAssistantPane', className, openFromDirective, {
         open: isExpanded,
         closed: !isExpanded,
     });
@@ -82,18 +82,18 @@ const DashboardMenuAssistant = ({
     );
 };
 
-DashboardMenuAssistant.propTypes = {
+DashboardMenuAssistantPane.propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
     openFrom: PropTypes.oneOf(['top left', 'top right', 'bottom left', 'bottom right', 'auto']),
     expanded: PropTypes.bool,
 };
 
-DashboardMenuAssistant.defaultProps = {
+DashboardMenuAssistantPane.defaultProps = {
     children: null,
     className: null,
     openFrom: 'top left',
     expanded: false,
 };
 
-export default DashboardMenuAssistant;
+export default DashboardMenuAssistantPane;

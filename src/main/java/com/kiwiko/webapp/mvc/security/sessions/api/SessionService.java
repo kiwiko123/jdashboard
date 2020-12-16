@@ -5,6 +5,7 @@ import com.kiwiko.webapp.mvc.security.sessions.data.Session;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
 
 public interface SessionService {
 
@@ -16,7 +17,7 @@ public interface SessionService {
 
     Optional<Session> getByToken(String token);
 
-    Collection<Session> getByTokens(Collection<String> tokens);
+    Set<Session> getByTokens(Collection<String> tokens);
 
     Session saveSession(Session session);
 

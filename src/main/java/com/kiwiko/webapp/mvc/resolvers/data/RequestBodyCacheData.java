@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.mvc.resolvers.data;
 
-import com.kiwiko.webapp.mvc.json.data.IntermediateJsonBody;
+import com.kiwiko.library.json.data.IntermediateJsonBody;
 import com.kiwiko.webapp.mvc.requests.data.RequestContext;
 
 public class RequestBodyCacheData {

@@ -47,7 +47,7 @@ const Banner = ({
 
 Banner.propTypes = {
     type: PropTypes.oneOf(Object.values(BANNER_TYPES)),
-    iconSizeFactor: PropTypes.number,
+    iconSizeFactor: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7]),
     children: PropTypes.node,
     className: PropTypes.string,
 };

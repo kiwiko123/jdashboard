@@ -1,22 +1,31 @@
 package com.kiwiko.webapp.mvc.lifecycle.dependencies.data;
 
 import java.util.Objects;
+import java.util.Optional;
 
-public class DependencyBinding {
+public class DependencyBinding<InterfaceType, ImplementationType extends InterfaceType> {
 
-    private final Class<?> dependencyType;
-    private final Class<?> bindingType;
+    private final Class<InterfaceType> dependencyType;
+    private final Class<ImplementationType> bindingType;
+    private final Optional<ImplementationType> bindingInstance;
 
-    public DependencyBinding(Class<?> dependencyType, Class<?> bindingType) {
+    public DependencyBinding(Class<InterfaceType> dependencyType, Class<ImplementationType> bindingType) {
         this.dependencyType = dependencyType;
         this.bindingType = bindingType;
+        bindingInstance = Optional.empty();
     }
 
-    public Class<?> getDependencyType() {
+    public DependencyBinding(Class<InterfaceType> dependencyType, ImplementationType bindingInstance) {
+        this.dependencyType = dependencyType;
+        bindingType = null;
+        this.bindingInstance = Optional.of(bindingInstance);
+    }
+
+    public Class<InterfaceType> getDependencyType() {
         return dependencyType;
     }
 
-    public Class<?> getBindingType() {
+    public Class<ImplementationType> getBindingType() {
         return bindingType;
     }
 
