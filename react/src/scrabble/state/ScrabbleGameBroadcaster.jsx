@@ -52,8 +52,6 @@ export default class ScrabbleGameBroadcaster extends Broadcaster {
         super();
 
         this.reRenderMillis = 500;
-        this.disable(); // Disable broadcaster updates until we can verify the current user.
-
         this.updateGameState = this.updateGameState.bind(this);
 
         this.setState({
@@ -107,8 +105,7 @@ export default class ScrabbleGameBroadcaster extends Broadcaster {
                 this.updateGameState(payload);
                 updateQueryParameters({ gameId: payload.id });
             })
-            .catch(error => this.setState({ errors: ['There was an error communicating with the server'] }))
-            .finally(() => this.enable());
+            .catch(error => this.setState({ errors: ['There was an error communicating with the server'] }));
         this.setState({
             canSubmit: false,
         });

@@ -30,7 +30,7 @@ export default function ScrabblePlayPage({ history }) {
         <ComponentStateManager
             broadcaster={scrabbleGameBroadcaster}
             component={ScrabbleGame}
-            canResolve={state => !isEmpty(state)}
+            canResolve={({ isLoaded }) => isLoaded}
         />
       </DashboardPage>
   );
