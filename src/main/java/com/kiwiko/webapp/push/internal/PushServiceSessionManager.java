@@ -55,7 +55,7 @@ public class PushServiceSessionManager {
         closeSession(session);
         Long userId = userSessionMapping.inverse().get(session);
         userSessionMapping.inverse().remove(session);
-        logService.debug(String.format("Ended session %s for user %d", session.getId(), userId));
+        logService.debug(String.format("Ended push service session %s for user %d", session.getId(), userId));
     }
 
     public void purge() {

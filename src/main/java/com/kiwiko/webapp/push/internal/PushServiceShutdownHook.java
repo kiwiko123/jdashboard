@@ -1,10 +1,10 @@
 package com.kiwiko.webapp.push.internal;
 
-import com.kiwiko.webapp.mvc.lifecycle.shutdown.api.ApplicationShutdownHook;
+import com.kiwiko.webapp.mvc.lifecycle.api.ShutdownHook;
 
 import javax.inject.Inject;
 
-public class PushServiceShutdownHook implements ApplicationShutdownHook {
+public class PushServiceShutdownHook implements ShutdownHook {
 
     @Inject private PushServiceSessionManager pushServiceSessionManager;
 

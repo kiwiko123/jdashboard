@@ -1,7 +1,7 @@
 package com.kiwiko.webapp;
 
 import com.kiwiko.library.metrics.api.LogService;
-import com.kiwiko.webapp.mvc.lifecycle.shutdown.api.ShutdownService;
+import com.kiwiko.webapp.mvc.lifecycle.api.LifeCycleService;
 import com.kiwiko.webapp.mvc.lifecycle.startup.internal.ClassScannerRegistry;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,8 +13,8 @@ import javax.inject.Inject;
 @SpringBootApplication
 public class Application {
 
+    @Inject private LifeCycleService lifeCycleService;
     @Inject private LogService logService;
-    @Inject private ShutdownService shutdownService;
 
     public static void main(String[] args) {
         processClasses();
@@ -29,11 +29,13 @@ public class Application {
 
     @PostConstruct
     public void setUp() {
-        logService.debug("Setting up application");
+        logService.info("Setting up application");
+        lifeCycleService.startUp();
     }
 
     @PreDestroy
     public void tearDown() {
-        shutdownService.shutdown();
+        logService.info("Shutting down application");
+        lifeCycleService.shutDown();
     }
 }

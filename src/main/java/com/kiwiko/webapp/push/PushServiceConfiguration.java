@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.push;
 
-import com.kiwiko.webapp.mvc.lifecycle.shutdown.api.ApplicationShutdownHookConfigurationCreator;
+import com.kiwiko.webapp.mvc.lifecycle.api.LifeCycleHookConfigurationCreator;
 import com.kiwiko.webapp.mvc.security.environments.data.EnvironmentProperties;
 import com.kiwiko.webapp.push.api.PushServiceConfigurationCreator;
 import com.kiwiko.webapp.push.api.PushServiceRegistry;
@@ -22,7 +22,7 @@ import javax.inject.Inject;
 @EnableWebSocket
 public class PushServiceConfiguration implements WebSocketConfigurer {
 
-    @Inject private ApplicationShutdownHookConfigurationCreator applicationShutdownHookConfigurationCreator;
+    @Inject private LifeCycleHookConfigurationCreator lifeCycleHookConfigurationCreator;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry webSocketHandlerRegistry) {
@@ -58,6 +58,6 @@ public class PushServiceConfiguration implements WebSocketConfigurer {
 
     @Bean
     public PushServiceShutdownHook pushServiceShutdownHook() {
-        return applicationShutdownHookConfigurationCreator.create(PushServiceShutdownHook::new);
+        return lifeCycleHookConfigurationCreator.createShutdownHook(PushServiceShutdownHook::new);
     }
 }
