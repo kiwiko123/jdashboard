@@ -7,6 +7,7 @@ import com.kiwiko.webapp.push.api.errors.ClientUnreachablePushException;
 import com.kiwiko.webapp.push.api.errors.PushException;
 import com.kiwiko.webapp.push.api.parameters.PushToClientParameters;
 import com.kiwiko.webapp.push.internal.PushServiceSessionManager;
+import com.kiwiko.webapp.push.internal.impl.PushNotificationDeliveryService;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -18,6 +19,7 @@ public abstract class TextWebSocketPushService implements PushService {
     @Inject private JsonMapper jsonMapper;
     @Inject private LogService logService;
     @Inject private PushServiceSessionManager pushServiceSessionManager;
+    @Inject private PushNotificationDeliveryService pushNotificationDeliveryService;
 
     @Override
     public void pushToClient(PushToClientParameters parameters) throws PushException {
@@ -36,6 +38,7 @@ public abstract class TextWebSocketPushService implements PushService {
         try {
             session.sendMessage(new TextMessage(jsonData));
         } catch (IOException e) {
+            pushNotificationDeliveryService.enqueueMissedNotification(parameters);
             throw new PushException(
                     String.format(
                             "Failed to send message \"%s\" from user ID %d to user ID %d",

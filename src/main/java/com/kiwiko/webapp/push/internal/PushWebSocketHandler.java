@@ -4,6 +4,7 @@ import com.kiwiko.library.metrics.api.LogService;
 import com.kiwiko.webapp.push.api.PushServiceRegistry;
 import com.kiwiko.webapp.push.api.errors.PushException;
 import com.kiwiko.webapp.push.data.ClientPushRequest;
+import com.kiwiko.webapp.push.internal.impl.PushNotificationDeliveryService;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -20,6 +21,7 @@ public class PushWebSocketHandler extends TextWebSocketHandler {
     @Inject private PushRequestHelper pushRequestHelper;
     @Inject private PushServiceRegistry pushServiceRegistry;
     @Inject private PushServiceSessionManager pushServiceSessionManager;
+    @Inject private PushNotificationDeliveryService pushNotificationDeliveryService;
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -48,6 +50,7 @@ public class PushWebSocketHandler extends TextWebSocketHandler {
 
         if (isNewSession) {
             pushServiceSessionManager.startSession(pushRequest.getUserId(), session);
+            pushNotificationDeliveryService.sendPendingNotifications(pushRequest.getUserId());
             afterUserConnectionEstablished(session, pushRequest);
             return;
         }

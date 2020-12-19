@@ -65,3 +65,13 @@ CREATE TABLE messages (
     is_removed BOOLEAN NOT NULL DEFAULT FALSE,
     versions TEXT
 );
+
+CREATE TABLE notifications (
+    notification_id BIGSERIAL PRIMARY KEY,
+    notification_status_id TEXT NOT NULL,
+    notification_source_id TEXT NOT NULL,
+    user_id BIGINT NOT NULL REFERENCES users(user_id),
+    content TEXT NOT NULL,
+    created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    received_date TIMESTAMP WITH TIME ZONE
+);

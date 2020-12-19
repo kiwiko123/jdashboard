@@ -30,16 +30,14 @@ public class PushRequestHelper {
         if (request.getUserId() == null) {
             throw new PushException("Current user ID is required");
         }
-    }
 
-    public void validateClientPushRequest(ClientPushRequest request) throws PushException {
         if (request.getServiceId() == null) {
             throw new PushException("Service ID is required");
         }
+    }
 
-        if (request.getUserId() == null) {
-            throw new PushException("(Sender) user ID is required");
-        }
+    public void validateClientPushRequest(ClientPushRequest request) throws PushException {
+        validateInitialUserPushRequest(request);
 
         if (request.getRecipientUserId() == null) {
             throw new PushException("Recipient user ID is required");

@@ -4,6 +4,7 @@ import com.kiwiko.webapp.mvc.lifecycle.api.LifeCycleHookConfigurationCreator;
 import com.kiwiko.webapp.mvc.security.environments.data.EnvironmentProperties;
 import com.kiwiko.webapp.push.api.PushServiceConfigurationCreator;
 import com.kiwiko.webapp.push.api.PushServiceRegistry;
+import com.kiwiko.webapp.push.internal.impl.PushNotificationDeliveryService;
 import com.kiwiko.webapp.push.internal.PushRequestHelper;
 import com.kiwiko.webapp.push.internal.PushServiceSessionManager;
 import com.kiwiko.webapp.push.internal.PushServiceShutdownHook;
