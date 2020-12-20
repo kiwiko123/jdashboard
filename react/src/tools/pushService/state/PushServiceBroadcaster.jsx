@@ -1,6 +1,7 @@
 import { get } from 'lodash';
 import Broadcaster from '../../../state/Broadcaster';
 import PushServiceSessionManager from '../private/PushServiceSessionManager';
+import logger from '../../../common/js/logging';
 
 const WEB_SOCKET_TEMPLATE = {
     close: () => {},
@@ -15,7 +16,6 @@ export default class PushServiceBroadcaster extends Broadcaster {
         this.disable();
 
         this.registerMethod(this.push);
-        this.registerMethod(this.onPushReceived);
     }
 
     receive(state, id) {
@@ -50,7 +50,7 @@ export default class PushServiceBroadcaster extends Broadcaster {
      * @param data the raw string data received from the server
      */
     onPushReceived(data) {
-
+        logger.debug(`${this.constructor.getId()}-${this.serviceId} received push from server: ${data}`);
     }
 
     onConnectionOpened() {

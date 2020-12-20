@@ -1,6 +1,6 @@
 import PushServiceBroadcaster from '../../tools/pushService/state/PushServiceBroadcaster';
 
-const SERVICE_ID = 'dashboardNotifications';
+const SERVICE_ID = 'jdashboard-notifications';
 
 export default class DashboardNotificationsBroadcaster extends PushServiceBroadcaster {
     constructor() {
@@ -9,5 +9,6 @@ export default class DashboardNotificationsBroadcaster extends PushServiceBroadc
 
     onPushReceived(data) {
         const payload = JSON.parse(data);
+        super.onPushReceived(payload);
     }
 }

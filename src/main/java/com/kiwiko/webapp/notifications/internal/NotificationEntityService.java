@@ -9,6 +9,7 @@ import com.kiwiko.webapp.notifications.internal.dataaccess.NotificationEntityDAO
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.time.Instant;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.stream.Collectors;
@@ -28,6 +29,13 @@ public class NotificationEntityService
     @Override
     protected NotificationEntityMapper mapper() {
         return notificationEntityMapper;
+    }
+
+    @Transactional
+    @Override
+    public <R extends Notification> Notification create(R obj) {
+        obj.setCreatedDate(Instant.now());
+        return super.create(obj);
     }
 
     @Transactional(readOnly = true)

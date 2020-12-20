@@ -23,6 +23,16 @@ public abstract class TextWebSocketPushService implements PushService {
 
     @Override
     public void pushToClient(PushToClientParameters parameters) throws PushException {
+        try {
+            attemptPushToClient(parameters);
+        } catch (Exception e) {
+            pushNotificationDeliveryService.enqueueMissedNotification(parameters);
+            // TODO throwing the exception causes the transaction to be rolled back
+            throw e;
+        }
+    }
+
+    private void attemptPushToClient(PushToClientParameters parameters) {
         if (!shouldPushToClient(parameters)) {
             logService.debug("Skipping push to client");
             return;
@@ -38,7 +48,6 @@ public abstract class TextWebSocketPushService implements PushService {
         try {
             session.sendMessage(new TextMessage(jsonData));
         } catch (IOException e) {
-            pushNotificationDeliveryService.enqueueMissedNotification(parameters);
             throw new PushException(
                     String.format(
                             "Failed to send message \"%s\" from user ID %d to user ID %d",
