@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.users.internal.dataAccess;
 
-import com.kiwiko.library.persistence.dataAccess.api.AuditableEntityManagerDAO;
+import com.kiwiko.webapp.mvc.persistence.dataaccess.api.AuditableEntityManagerDAO;
 
 import javax.inject.Singleton;
 import javax.persistence.criteria.CriteriaBuilder;

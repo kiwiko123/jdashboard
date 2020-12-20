@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.mvc.security.sessions.internal.dataAccess;
 
-import com.kiwiko.library.persistence.dataAccess.api.AuditableEntityManagerDAO;
+import com.kiwiko.webapp.mvc.persistence.dataaccess.api.AuditableEntityManagerDAO;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;

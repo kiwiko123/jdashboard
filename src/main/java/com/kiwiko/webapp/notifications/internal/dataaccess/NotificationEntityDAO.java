@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.notifications.internal.dataaccess;
 
-import com.kiwiko.library.persistence.dataAccess.api.EntityManagerDAO;
+import com.kiwiko.webapp.mvc.persistence.dataaccess.api.EntityManagerDAO;
 import com.kiwiko.webapp.notifications.api.queries.GetNotificationsQuery;
 import com.kiwiko.webapp.notifications.data.NotificationStatus;
 

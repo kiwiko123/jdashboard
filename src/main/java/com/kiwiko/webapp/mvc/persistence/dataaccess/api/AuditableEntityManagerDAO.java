@@ -1,5 +1,6 @@
-package com.kiwiko.library.persistence.dataAccess.api;
+package com.kiwiko.webapp.mvc.persistence.dataaccess.api;
 
+import com.kiwiko.library.persistence.dataAccess.api.AuditableEntity;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;

@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.games.state.internal.dataAccess;
 
-import com.kiwiko.library.persistence.dataAccess.api.EntityManagerDAO;
+import com.kiwiko.webapp.mvc.persistence.dataaccess.api.EntityManagerDAO;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;

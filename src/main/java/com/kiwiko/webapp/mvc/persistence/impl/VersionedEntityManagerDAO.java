@@ -2,7 +2,7 @@ package com.kiwiko.webapp.mvc.persistence.impl;
 
 import com.kiwiko.library.lang.reflection.ReflectionHelper;
 import com.kiwiko.library.metrics.api.LogService;
-import com.kiwiko.library.persistence.dataAccess.api.EntityManagerDAO;
+import com.kiwiko.webapp.mvc.persistence.dataaccess.api.EntityManagerDAO;
 import com.kiwiko.library.persistence.dataAccess.api.PersistenceException;
 import com.kiwiko.library.persistence.dataAccess.api.versions.Version;
 import com.kiwiko.library.persistence.dataAccess.api.versions.VersionedEntity;

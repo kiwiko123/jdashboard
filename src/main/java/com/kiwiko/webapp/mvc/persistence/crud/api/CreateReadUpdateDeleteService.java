@@ -1,7 +1,7 @@
 package com.kiwiko.webapp.mvc.persistence.crud.api;
 
 import com.kiwiko.library.persistence.dataAccess.api.DataEntity;
-import com.kiwiko.library.persistence.dataAccess.api.EntityManagerDAO;
+import com.kiwiko.webapp.mvc.persistence.dataaccess.api.EntityManagerDAO;
 import com.kiwiko.library.persistence.dataAccess.api.PersistenceException;
 import com.kiwiko.library.persistence.identification.Identifiable;
 import com.kiwiko.library.persistence.interfaces.api.CreateReadUpdateDeleteAPI;
@@ -52,13 +52,12 @@ public abstract class CreateReadUpdateDeleteService<
     @Override
     public <R extends DTO> DTO update(R obj) {
         DAO dao = dataAccessObject();
-        Mapper mapper = mapper();
-
         if (!dao.getProxyById(obj.getId()).isPresent()) {
             String message = String.format("%s with ID %d doesn't exist", obj.getClass().getName(), obj.getId());
             throw new PersistenceException(message);
         }
 
+        Mapper mapper = mapper();
         Entity updatedEntity = mapper.toEntity(obj);
         updatedEntity = dao.save(updatedEntity);
         return mapper.toDTO(updatedEntity);

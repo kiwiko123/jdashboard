@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.games.scrabble.words.internal.dataAccess;
 
-import com.kiwiko.library.persistence.dataAccess.api.EntityManagerDAO;
+import com.kiwiko.webapp.mvc.persistence.dataaccess.api.EntityManagerDAO;
 
 import javax.inject.Singleton;
 import javax.persistence.criteria.CriteriaBuilder;
