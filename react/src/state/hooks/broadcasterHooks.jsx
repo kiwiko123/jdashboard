@@ -11,7 +11,7 @@ function useBroadcaster(broadcasterType, args) {
             broadcaster.destroy();
             setBroadcaster(null);
         };
-    }, [broadcasterType]);
+    }, [broadcasterType, broadcaster]);
 
     return broadcaster;
 }

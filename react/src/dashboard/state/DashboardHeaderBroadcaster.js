@@ -9,11 +9,10 @@ export default class DashboardHeaderBroadcaster extends Broadcaster {
         super();
 
         this.logOut = this.logOut.bind(this);
-        this.toggleMenuSlideOver = this.toggleMenuSlideOver.bind(this);
 
         this.setState({
             isMenuSlideOverExpanded: false,
-            toggleMenuSlideOver: this.toggleMenuSlideOver,
+            toggleMenuSlideOver: this.toggleMenuSlideOver.bind(this),
             userData: {
                 isLoggedIn: false,
             },

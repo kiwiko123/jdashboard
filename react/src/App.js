@@ -10,9 +10,11 @@ import ChatroomPage from './chatroom/pages/ChatroomPage';
 import NotFoundPage from './dashboard/pages/NotFoundPage';
 
 export default function() {
-    useEffect(() => () => {
-        PushServiceSessionManager.purge();
-    });
+    useEffect(() => {
+        return () => {
+            PushServiceSessionManager.purge();
+        };
+    }, []);
 
     return (
         <BrowserRouter>

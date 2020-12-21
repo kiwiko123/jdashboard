@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 /**
  * Like useState, but provides behavior similar to a class-based component's setState method.

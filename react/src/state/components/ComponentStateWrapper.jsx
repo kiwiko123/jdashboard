@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import logger from '../../common/js/logging';
 
 function resolveSuccessfully() {
     return true;
@@ -9,7 +8,6 @@ function resolveSuccessfully() {
 const ComponentStateWrapper = ({
     component, data, canResolve,
 }) => {
-//     logger.debug(`Re-rendering ${component.name}`);
     return canResolve() && (
         <component {...data} />
     );

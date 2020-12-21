@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import ComponentStateManager from '../../state/components/ComponentStateManager';
 import Broadcaster from '../../state/Broadcaster';
-import { usePushService } from '../../state/hooks';
 import UserDataBroadcaster from '../../accounts/state/UserDataBroadcaster';
 import DashboardAlertBroadcaster from '../../dashboard/state/DashboardAlertBroadcaster';
 import DashboardHeaderBroadcaster from '../../dashboard/state/DashboardHeaderBroadcaster';
@@ -69,15 +68,21 @@ const DashboardPage = ({
         >
         </DashboardMenuAssistantPane>
     );
+    const DashboardHeaderComponent = (componentProps) => (
+        <DashboardHeader
+            {...componentProps}
+            title={title}
+            appId={appId}
+        />
+    );
+
     return (
         <div className={pageClassName}>
             {menuAssistant}
-            <ComponentStateManager broadcaster={headerBroadcaster}>
-                <DashboardHeader
-                    title={title}
-                    appId={appId}
-                />
-            </ComponentStateManager>
+            <ComponentStateManager
+                broadcaster={headerBroadcaster}
+                component={DashboardHeaderComponent}
+            />
             <hr className="header-divider" />
             <div className="body">
                 <ComponentStateManager broadcaster={alertBroadcaster}>

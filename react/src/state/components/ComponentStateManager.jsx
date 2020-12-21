@@ -11,20 +11,20 @@ function resolveSuccessfully() {
 }
 
 const ComponentStateManager = ({
-    children, component, broadcaster, canResolve,
+    children, component, broadcaster, canResolve, id,
 }) => {
     if (!(children || component)) {
         logger.error('One of children or component must be provided.');
     }
 
-    const [id] = useState(_global_id++);
+    const [numericalId] = useState(_global_id++);
     const [, forceUpdate] = useReducer(i => i + 1, 0);
     useEffect(() => {
-        broadcaster._setUpdater(forceUpdate, id);
+        broadcaster._setUpdater(forceUpdate, numericalId);
         return () => {
-            broadcaster.removeUpdater(id);
+            broadcaster.removeUpdater(numericalId);
         };
-    }, [broadcaster, id]);
+    }, [broadcaster, numericalId]);
 
     const broadcasterState = broadcaster.getState();
     if (!canResolve(broadcasterState)) {
@@ -53,12 +53,16 @@ ComponentStateManager.propTypes = {
     // A function that takes in the broadcaster's state, and returns a boolean.
     // If this returns false, the component should not be rendered.
     canResolve: PropTypes.func,
+
+    // An identifier used solely for debugging purposes, like setting a breakpoint conditional on the ID.
+    id: PropTypes.string,
 };
 
 ComponentStateManager.defaultProps = {
     children: null,
     component: null,
     canResolve: resolveSuccessfully,
+    id: null,
 };
 
 export default ComponentStateManager;

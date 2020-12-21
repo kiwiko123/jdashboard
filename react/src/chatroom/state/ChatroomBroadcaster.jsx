@@ -1,7 +1,6 @@
 import { get } from 'lodash';
 import Broadcaster from '../../state/Broadcaster';
 import Request from '../../common/js/Request';
-import MessageHelper from './MessageHelper';
 
 const GET_MESSAGES_URL = '/messages/api/get/thread';
 
