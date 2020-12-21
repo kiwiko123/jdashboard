@@ -5,7 +5,7 @@ import java.util.Random;
 public class SessionTokenHelper {
 
     private static final int TOKEN_LENGTH = 32;
-    private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-=_+[]{}|.<>/?~";
     private static final Random RANDOM = new Random();
 
     public String generateToken(int length) {
