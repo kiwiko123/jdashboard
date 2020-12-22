@@ -6,13 +6,10 @@ let instanceId = 0;
 
 /**
  * State management class that broadcasts data to either a component, or other broadcasters.
- * A broadcaster is meant to abstract business logic away from components.
- * A broadcaster can have other "listener" broadcasters that are registered to it.
- * A broadcaster can also be tied to a ReceivingElement, which accepts a React component as its child;
- * effectively passing its state to a component via props.
- *
- * Calls to setState will pass the broadcaster's entire state into all of its listeners,
- * including registered broadcasters and the ReceivingElement to which it's linked.
+ * A broadcaster is a singleton that's meant to abstract business logic away from components.
+ * A broadcaster can be tied to a ComponentStateManager, which accepts a React component as a prop;
+ * invoking the broadcaster's setState method will "broadcast" its state to the component and trigger a re-render.
+ * A broadcaster can also "listen" to other broadcasters, and receive their state when they call setState.
  *
  * Extend this class and invoke setState to propagate data through to listeners.
  */
@@ -24,12 +21,9 @@ export default class DefaultBroadcaster {
 
     /**
      * Constructs a new Broadcaster instance.
-     * If a derived broadcaster defines a constructor, always invoke super().
-     * The `broadcasters` argument is an array of broadcasters that will each be immediately registered and listening to this.
+     * If a derived broadcaster defines a constructor, be sure to invoke super() first.
      */
     constructor() {
-        // "Override" this to control the minimum duration, in milliseconds, between re-renders.
-        this.reRenderMillis = 250;
         this.state = {};
         this.__listeners = new Set();
         this.__instanceId = instanceId++;
@@ -43,8 +37,11 @@ export default class DefaultBroadcaster {
 
     /**
      * One-dimensionally merges the input state with this broadcaster's state.
-     * Passes state into listening ReceivingElements and broadcasters.
-     * However, Calling setState does not guarantee an instantaneous update to listeners.
+     * Passes state into all registered ComponentStateManagers and listening broadcasters.
+     *
+     * Note: setState invocations are usually, but not necessarily, one-to-one with instantaneous state updates / re-renders.
+     * Optimizations may be in place to reduce the amount of re-renders.
+     *
      * Do not override this.
      */
     setState(newState) {
@@ -55,7 +52,7 @@ export default class DefaultBroadcaster {
     }
 
     /**
-     * When a broadcaster calls setState, registered listeners will receive that state through this method.
+     * When a broadcaster calls setState, listeners will receive its state through this method.
      * The invoking broadcaster can be identified through the broadcasterId argument.
      * Override this to control state ingestion.
      */
@@ -64,10 +61,19 @@ export default class DefaultBroadcaster {
     }
 
     /**
-     * Registers the given broadcaster with this broadcaster.
-     * Immediately funnels this.state into the newly-registered broadcaster.
-     * There cannot be any cycles within the listener graph;
-     * if one is detected, the broadcaster will not be registered.
+     * Subscribes this to the argument broadcaster;
+     * that is, when the argument broadcaster makes state updates, this will receive it.
+     *
+     * If a cycle is detected within the listeners, this operation will silently fail.
+     *
+     * When listenTo is called, this will immediately receive the broadcaster's state.
+     */
+    listenTo(broadcaster) {
+        broadcaster.register(this);
+    }
+
+    /**
+     * This method is the converse of listenTo.
      * Do not override this.
      */
     register(broadcaster) {
@@ -84,16 +90,9 @@ export default class DefaultBroadcaster {
     }
 
     /**
-     * The converse of register.
-     * Updates to the argument broadcaster will be received by this.
-     */
-    listenTo(broadcaster) {
-        broadcaster.register(this);
-    }
-
-    /**
-     * A ReceivingElement invokes this on its first render.
-     * The updater will effectively call setState on the ReceivingElement to induce a re-render.
+     * A ComponentStateManager invokes this on its first render.
+     * The updater will effectively call setState on the ComponentStateManager to induce a re-render.
+     *
      * Do not override this.
      */
     _setUpdater(updater, id) {

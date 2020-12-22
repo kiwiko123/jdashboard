@@ -85,9 +85,10 @@ const DashboardPage = ({
             />
             <hr className="header-divider" />
             <div className="body">
-                <ComponentStateManager broadcaster={alertBroadcaster}>
-                    <DashboardAlerts />
-                </ComponentStateManager>
+                <ComponentStateManager
+                    broadcaster={alertBroadcaster}
+                    component={DashboardAlerts}
+                />
                 {children}
             </div>
         </div>

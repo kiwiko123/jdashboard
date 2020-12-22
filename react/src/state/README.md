@@ -1,15 +1,15 @@
 # Component State Management
 _These implementations are inspired by [refluxjs](https://github.com/reflux/refluxjs) stores. They are not intended for production-level usage._
 
-The files defined here provide a class-based way to abstract heavy logic out of a React component.
-Broadcasters "broadcast" state to React components, or other broadcasters.
+A Broadcaster is a class-based singleton that abstracts heavy logic out of a React component,
+by "broadcasting" its state to React components or other broadcasters.
 Broadcasters have parallel state management concepts to React components; `setState` calls trigger component re-renders.
 ## How does all this work?
 ### Broadcaster
-A broadcaster has two core methods -- `register` and `setState`.
+A broadcaster has two core methods -- `listenTo` and `setState`.
 Its purpose is to handle all core state management logic including web requests, business logic, and in-memory state. 
-#### `register`
-A broadcaster can register as many other broadcasters as it wants. Registered broadcasters are also known as "listeners."
+#### `listenTo`
+A broadcaster can listen to as many other broadcasters as it wants. "Listeners" will receive the broadcaster's state updates.
 #### `setState`
 Similar to a React class-based component, this method takes in an object and one-dimensionally merges it with `this.state`.
 Invoking `setState` will pass the entirety of `this.state` into all listeners.
@@ -22,13 +22,11 @@ import Broadcaster from './Broadcaster';
 export default class MyBroadcaster extends Broadcaster {
     constructor() {
         super();
-        this.state = {
-            count: 0,
-            incrementCount: this.updateCount.bind(this),
-        };
+        this.setState({ count: 0 });
+        this.registerMethod(this.incrementCount); // the same as `this.setState({ incrementCount: this.incrementCount.bind(this) })`
     }
 
-    updateCount() {
+    incrementCount() {
         const { count } = this.state;
         this.setState({ count: count + 1 });
     }
@@ -45,9 +43,10 @@ const MyPage = () => {
 
     return (
         <div className="MyPage">
-            <ComponentStateManager broadcaster={myBroadcaster}>
-                <MyComponent />
-            </ComponentStateManager>
+            <ComponentStateManager
+                broadcaster={myBroadcaster}
+                component={MyComponent}
+            />
         </div>
     );
 };
@@ -62,4 +61,54 @@ const MyComponent = ({ count, incrementCount }) => (
         {`The count is ${count}`}
     </div>
 );
+```
+## Conditional rendering
+Consider another example, where we want to render a greeting message with the logged-in user's name.
+In the broadcaster's constructor, an asynchronous web request is fired off to determine the logged-in user.
+When the response comes back, the value is set on state.
+
+But, we _only_ want to show this greeting message if someone's currently logged in.
+Fortunately, `ComponentStateManager`'s `canResolve` prop makes this easy --
+it's a function that takes in the broadcaster's state and returns true if the component should render, or false if not.
+By default, this always returns true, but we can customize it to our needs.
+
+**UserGreetingBroadcaster.jsx**
+```javascript
+class UserGreetingBroadcaster extends Broadcaster {
+    constructor() {
+        super();
+        asynchronouslyFetchCurrentUser()
+            .then((user) => {
+                this.setState({ userName: user.userName });
+            });
+    }
+```
+**MyPage.jsx**
+```javascript
+const MyPage = () => {
+    const userGreetingBroadcaster = new UserGreetingBroadcaster();
+    return (
+        <div className="MyPage">
+            <ComponentStateManager
+                broadcaster={userGreetingBroadcaster}
+                component={UserGreetingText}
+                canResolve={state => state.userName}
+            />
+        </div>
+    );
+};
+```
+**UserGreetingText.jsx**
+```javascript
+const UserGreetingText = ({ userName }) => {
+    return (
+        <div className="UserGreetingText">
+            <span>{`Hello, ${userName}`}</span>
+        </div>
+    );
+};
+
+UserGreetingText.propTypes = {
+    userName: PropTypes.string.isRequired,
+};
 ```

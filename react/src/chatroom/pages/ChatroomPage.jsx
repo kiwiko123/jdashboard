@@ -51,9 +51,10 @@ const ChatroomPage = () => {
                     broadcaster={chatroomBroadcaster}
                     component={ChatroomContents}
                 />
-                <ComponentStateManager broadcaster={inputBroadcaster}>
-                    <MessageInput />
-                </ComponentStateManager>
+                <ComponentStateManager
+                    broadcaster={inputBroadcaster}
+                    component={MessageInput}
+                />
             </div>
         </DashboardPage>
     );
