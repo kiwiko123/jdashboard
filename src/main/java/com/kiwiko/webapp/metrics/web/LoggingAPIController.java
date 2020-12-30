@@ -9,7 +9,7 @@ import com.kiwiko.webapp.mvc.requests.api.annotations.RequestBodyCollectionParam
 import com.kiwiko.webapp.mvc.requests.api.RequestError;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.CrossOriginConfigured;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,13 +23,13 @@ public class LoggingAPIController {
     @Inject
     private LogService logService;
 
-    @PostMapping("/logging/api/log/by-level")
+    @PutMapping("/logging/api/log")
     public ResponseEntity<ResponsePayload> logByLevel(@RequestBody LogData logData) {
         log(logData);
         return ResponseBuilder.ok();
     }
 
-    @PostMapping("/logging/api/log/batched/by-level")
+    @PutMapping("/logging/api/log/batched")
     public ResponseEntity<ResponsePayload> logBatchedByLevel(
             @RequestBodyCollectionParameter(name = "logs", valueType = LogData.class) List<LogData> logs) {
         logs.forEach(this::log);

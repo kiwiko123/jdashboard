@@ -7,19 +7,26 @@ export default class Logger {
     }
 
     error(message, error) {
-        this.log('error', message, error);
+        this._writeLog('error', message, error);
     }
 
     warn(message, error) {
-        this.log('warn', message, error);
+        this._writeLog('warn', message, error);
     }
 
     info(message, error) {
-        this.log('info', message, error);
+        this._writeLog('info', message, error);
     }
 
     debug(message, error) {
-        this.log('debug', message, error);
+        this._writeLog('debug', message, error);
     }
 
+    _writeLog(level, message, error) {
+        let messageText = message;
+        if (typeof message === 'function') {
+            messageText = message();
+        }
+        this.log(level, messageText, error);
+    }
 }

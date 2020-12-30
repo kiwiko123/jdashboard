@@ -1,6 +1,6 @@
-import { registerAction, removeAction } from './actions';
-import logger from '../common/js/logging';
-import { isPresentInListeners } from './helpers/util';
+import { registerAction, removeAction } from '../actions';
+import logger from '../../common/js/logging';
+import { isPresentInListeners } from '../helpers/util';
 
 let instanceId = 0;
 
@@ -161,15 +161,13 @@ export default class DefaultBroadcaster {
             return;
         }
 
-        logger.debug(`[${this.constructor.getId()}] State queue length: ${this.__stateQueue.length}`);
-
         // Pending updates will likely be smaller than `this.state`;
         // by first building up an object with all pending state changes,
         // the overall number of fields being `Object.assign`ed should be reduced.
         const newState = {};
         this.__stateQueue.forEach(pendingState => Object.assign(newState, pendingState));
-        this.__stateQueue = [];
         Object.assign(this.state, newState);
+        this.__stateQueue = [];
     }
 
     // ==============

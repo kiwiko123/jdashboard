@@ -1,12 +1,8 @@
-import React, { cloneElement, useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import PropTypes from 'prop-types';
 import Broadcaster from '../Broadcaster';
 
 let _global_id = 0;
-
-function resolveSuccessfully() {
-    return true;
-}
 
 const ComponentStateManager = ({
     component, broadcaster, canResolve, retryMilliseconds, id,
@@ -51,7 +47,7 @@ ComponentStateManager.propTypes = {
 ComponentStateManager.defaultProps = {
     children: null,
     component: null,
-    canResolve: resolveSuccessfully,
+    canResolve: () => true,
     retryMilliseconds: 250,
     id: null,
 };

@@ -1,3 +1,3 @@
-import DefaultBroadcaster from './DefaultBroadcaster';
+import DefaultBroadcaster from './impl/DefaultBroadcaster';
 
 export default DefaultBroadcaster;

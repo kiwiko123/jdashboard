@@ -8,8 +8,12 @@ function resolveSuccessfully() {
 const ComponentStateWrapper = ({
     component, data, canResolve,
 }) => {
-    return canResolve() && (
-        <component {...data} />
+    if (!canResolve()) {
+        return null;
+    }
+    const ComponentType = component;
+    return (
+        <ComponentType {...data} />
     );
 };
 

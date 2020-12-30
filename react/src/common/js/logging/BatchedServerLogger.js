@@ -3,7 +3,7 @@ import Request from '../Request';
 import Logger from './Logger';
 import ConsoleLogger from './ConsoleLogger';
 
-const LOG_BY_LEVEl_BATCHED_URL = '/logging/api/log/batched/by-level';
+const LOG_BY_LEVEl_BATCHED_URL = '/logging/api/log/batched';
 const BATCH_SIZE = 10;
 const MINIMUM_STALE_SECONDS = 60;
 
@@ -59,7 +59,7 @@ export default class BatchedServerLogger extends Logger {
         const payload = { logs: PENDING_LOGS };
         Request.to(LOG_BY_LEVEl_BATCHED_URL)
             .withBody(payload)
-            .post()
+            .put()
             .then(() => {
                 PENDING_LOGS = [];
             })

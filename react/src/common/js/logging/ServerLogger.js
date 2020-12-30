@@ -3,7 +3,7 @@ import Request from '../Request';
 import Logger from './Logger';
 import ConsoleLogger from './ConsoleLogger';
 
-const LOG_BY_LEVEl_URL = '/logging/api/log/by-level';
+const LOG_BY_LEVEl_URL = '/logging/api/log';
 
 export default class ServerLogger extends Logger {
     constructor() {
@@ -20,7 +20,7 @@ export default class ServerLogger extends Logger {
         };
         Request.to(LOG_BY_LEVEl_URL)
             .withBody(payload)
-            .post()
+            .put()
             .then(() => {
                 this._consoleLogger.log(level, message, error);
             })

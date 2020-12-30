@@ -112,3 +112,38 @@ UserGreetingText.propTypes = {
     userName: PropTypes.string.isRequired,
 };
 ```
+## Broadcaster Interface
+```javascript
+class Broadcaster {
+    /**
+     * One-dimensionally merges the input state with this broadcaster's state.
+     * Passes state into all registered ComponentStateManagers and listening broadcasters.
+     *
+     * Do not override this.
+     */
+    setState(newState) { }
+
+    /**
+     * When a broadcaster calls setState, listeners will receive its state through this method.
+     * The invoking broadcaster can be identified through the broadcasterId argument.
+     * Override this to control state ingestion.
+     */
+    receive(state, broadcasterId) { }
+
+    /**
+     * Subscribes this to the argument broadcaster;
+     * that is, when the argument broadcaster makes state updates, this will receive it.
+     *
+     * If a cycle is detected within the listeners, this operation will silently fail.
+     *
+     * When listenTo is called, this will immediately receive the broadcaster's state.
+     */
+    listenTo(broadcaster) { }
+
+    /**
+     * Return this broadcaster's state.
+     * Returning a copy of the state may be safer, but returning a reference may be more performant.
+     */
+    getState() { }
+}
+```
