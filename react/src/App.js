@@ -12,7 +12,7 @@ import NotFoundPage from './dashboard/pages/NotFoundPage';
 export default function() {
     useEffect(() => () => {
         PushServiceSessionManager.purge();
-    });
+    }, []);
 
     return (
         <BrowserRouter>

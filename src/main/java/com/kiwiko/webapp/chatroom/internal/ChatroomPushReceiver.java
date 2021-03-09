@@ -2,15 +2,13 @@ package com.kiwiko.webapp.chatroom.internal;
 
 import com.kiwiko.library.metrics.api.LogService;
 import com.kiwiko.webapp.push.api.PushReceiver;
+import com.kiwiko.webapp.push.api.parameters.OnPushReceivedParameters;
 import com.kiwiko.webapp.push.data.PushServiceIdentifier;
-import com.kiwiko.webapp.push.impl.PushServiceImpl;
 
 import javax.inject.Inject;
-import java.util.Optional;
 
-public class ChatroomPushService extends PushServiceImpl {
+public class ChatroomPushReceiver implements PushReceiver {
 
-    @Inject private ChatroomPushReceiver chatroomPushReceiver;
     @Inject private LogService logService;
 
     @Override
@@ -19,7 +17,7 @@ public class ChatroomPushService extends PushServiceImpl {
     }
 
     @Override
-    protected Optional<PushReceiver> getPushReceiver() {
-        return Optional.of(chatroomPushReceiver);
+    public void onPushReceived(OnPushReceivedParameters parameters) {
+        logService.debug(String.format("Chatroom received push \"%s\"", parameters.getMessage()));
     }
 }
