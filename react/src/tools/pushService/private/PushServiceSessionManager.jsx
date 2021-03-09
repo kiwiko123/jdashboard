@@ -50,7 +50,7 @@ function endSession(userId) {
 
 function purge() {
     for (const userId of SESSIONS.keys()) {
-        this.endSession(userId);
+        endSession(userId);
     }
 }
 

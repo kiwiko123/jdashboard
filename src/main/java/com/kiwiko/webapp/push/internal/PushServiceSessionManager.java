@@ -18,7 +18,7 @@ public class PushServiceSessionManager {
 
     @Inject private LogService logService;
 
-    private BiMap<Long, WebSocketSession> userSessionMapping;
+    private final BiMap<Long, WebSocketSession> userSessionMapping;
 
     public PushServiceSessionManager() {
         userSessionMapping = HashBiMap.create();
@@ -68,7 +68,7 @@ public class PushServiceSessionManager {
         }
 
         try {
-            session.close(CloseStatus.SERVER_ERROR);
+            session.close(CloseStatus.NORMAL);
         } catch (IOException e) {
             logService.error("Failed to close push session", e);
         }

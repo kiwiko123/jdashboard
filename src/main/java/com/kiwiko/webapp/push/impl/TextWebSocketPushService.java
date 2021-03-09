@@ -13,7 +13,7 @@ import org.springframework.web.socket.WebSocketSession;
 import javax.inject.Inject;
 import java.io.IOException;
 
-public abstract class TextWebSocketPushService implements PushService {
+abstract class TextWebSocketPushService implements PushService {
 
     @Inject private JsonMapper jsonMapper;
     @Inject private LogService logService;
@@ -21,11 +21,6 @@ public abstract class TextWebSocketPushService implements PushService {
 
     @Override
     public void pushToClient(PushToClientParameters parameters) throws PushException {
-        if (!shouldPushToClient(parameters)) {
-            logService.debug("Skipping push to client");
-            return;
-        }
-
         Long recipientUserId = parameters.getRecipientUserId();
         WebSocketSession session = pushServiceSessionManager.getSessionForUser(recipientUserId)
                 .orElseThrow(() -> new ClientUnreachablePushException(
