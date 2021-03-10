@@ -29,6 +29,7 @@ export default class PushServiceBroadcaster extends Broadcaster {
                     onError: this._onError.bind(this),
                 });
                 this.enable();
+                this._attemptToEstablishConnection();
             }
         }
     }
@@ -63,7 +64,8 @@ export default class PushServiceBroadcaster extends Broadcaster {
     }
 
     _onOpen(event) {
-        this.push();
+        // NOTE: this does not work when there is more than one active push service, because the second one never fires the initial event, due to a cached WebSocket.
+        this.push(); // Send an initial, empty push to establish this service's connection with the server.
         this.onConnectionOpened();
     }
 

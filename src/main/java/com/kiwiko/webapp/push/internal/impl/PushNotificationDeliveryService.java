@@ -6,13 +6,12 @@ import com.kiwiko.webapp.notifications.api.queries.GetNotificationsQuery;
 import com.kiwiko.webapp.notifications.data.Notification;
 import com.kiwiko.webapp.notifications.data.NotificationSource;
 import com.kiwiko.webapp.notifications.data.NotificationStatus;
-import com.kiwiko.webapp.push.api.parameters.OnPushReceivedParameters;
 import com.kiwiko.webapp.push.api.parameters.PushToClientParameters;
-import com.kiwiko.webapp.push.impl.TextWebSocketPushService;
+import com.kiwiko.webapp.push.impl.PushServiceImpl;
 
 import javax.inject.Inject;
 
-public class PushNotificationDeliveryService extends TextWebSocketPushService {
+public class PushNotificationDeliveryService extends PushServiceImpl {
 
     @Inject private NotificationService notificationService;
     @Inject private LogService logService;
@@ -20,16 +19,6 @@ public class PushNotificationDeliveryService extends TextWebSocketPushService {
     @Override
     public String getServiceId() {
         return "jdashboard-notifications";
-    }
-
-    @Override
-    public boolean shouldPushToClient(PushToClientParameters parameters) {
-        return true;
-    }
-
-    @Override
-    public void onPushReceived(OnPushReceivedParameters parameters) {
-        logService.debug(String.format("Push Notification Delivery Service received a push: %s", parameters.toString()));
     }
 
     public void sendPendingNotifications(long userId) {

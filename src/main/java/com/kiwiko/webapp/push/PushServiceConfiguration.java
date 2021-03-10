@@ -2,8 +2,8 @@ package com.kiwiko.webapp.push;
 
 import com.kiwiko.webapp.mvc.lifecycle.api.LifeCycleHookConfigurationCreator;
 import com.kiwiko.webapp.mvc.security.environments.data.EnvironmentProperties;
+import com.kiwiko.webapp.push.api.PushReceiverRegistry;
 import com.kiwiko.webapp.push.api.PushServiceConfigurationCreator;
-import com.kiwiko.webapp.push.api.PushServiceRegistry;
 import com.kiwiko.webapp.push.internal.impl.PushNotificationDeliveryService;
 import com.kiwiko.webapp.push.internal.PushRequestHelper;
 import com.kiwiko.webapp.push.internal.PushServiceSessionManager;
@@ -22,12 +22,13 @@ import javax.inject.Inject;
 @Configuration
 @EnableWebSocket
 public class PushServiceConfiguration implements WebSocketConfigurer {
+    private static final String PUSH_SERVICE_REQUEST_URL = "/push";
 
     @Inject private LifeCycleHookConfigurationCreator lifeCycleHookConfigurationCreator;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry webSocketHandlerRegistry) {
-        webSocketHandlerRegistry.addHandler(pushWebSocketHandler(), "/push")
+        webSocketHandlerRegistry.addHandler(pushWebSocketHandler(), PUSH_SERVICE_REQUEST_URL)
                 .addInterceptors(new HttpSessionHandshakeInterceptor())
                 .setAllowedOrigins(EnvironmentProperties.CROSS_ORIGIN_URL);
     }
@@ -38,8 +39,8 @@ public class PushServiceConfiguration implements WebSocketConfigurer {
     }
 
     @Bean
-    public PushServiceRegistry pushServiceRegistry() {
-        return new PushServiceRegistry();
+    public PushReceiverRegistry pushReceiverRegistry() {
+        return new PushReceiverRegistry();
     }
 
     @Bean

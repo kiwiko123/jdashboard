@@ -1,11 +1,10 @@
 package com.kiwiko.webapp.chatroom;
 
 import com.kiwiko.webapp.chatroom.impl.ChatroomMessageService;
+import com.kiwiko.webapp.chatroom.internal.ChatroomPushReceiver;
 import com.kiwiko.webapp.chatroom.internal.ChatroomPushService;
 import com.kiwiko.webapp.chatroom.web.helpers.ChatroomResponseHelper;
-import com.kiwiko.webapp.push.api.PushService;
 import com.kiwiko.webapp.push.api.PushServiceConfigurationCreator;
-import com.kiwiko.webapp.push.api.PushServiceRegistry;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,7 +22,12 @@ public class ChatroomConfiguration {
 
     @Bean
     public ChatroomPushService chatroomPushService() {
-        return pushServiceConfigurationCreator.create(ChatroomPushService::new);
+        return new ChatroomPushService();
+    }
+
+    @Bean
+    public ChatroomPushReceiver chatroomPushReceiver() {
+        return pushServiceConfigurationCreator.create(ChatroomPushReceiver::new);
     }
 
     @Bean

@@ -1,7 +1,7 @@
 package com.kiwiko.webapp.push.internal;
 
 import com.kiwiko.library.metrics.api.LogService;
-import com.kiwiko.webapp.push.api.PushServiceRegistry;
+import com.kiwiko.webapp.push.api.PushReceiverRegistry;
 import com.kiwiko.webapp.push.api.errors.PushException;
 import com.kiwiko.webapp.push.data.ClientPushRequest;
 import com.kiwiko.webapp.push.internal.impl.PushNotificationDeliveryService;
@@ -13,13 +13,13 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import javax.inject.Inject;
 import java.util.Set;
 
+// TODO only one web socket connection per user/session can be active at once.
 public class PushWebSocketHandler extends TextWebSocketHandler {
-
     private static final Set<CloseStatus> VALID_CLOSE_STATUSES = Set.of(CloseStatus.NORMAL, CloseStatus.NO_CLOSE_FRAME);
 
     @Inject private LogService logService;
     @Inject private PushRequestHelper pushRequestHelper;
-    @Inject private PushServiceRegistry pushServiceRegistry;
+    @Inject private PushReceiverRegistry pushReceiverRegistry;
     @Inject private PushServiceSessionManager pushServiceSessionManager;
     @Inject private PushNotificationDeliveryService pushNotificationDeliveryService;
 
@@ -58,7 +58,7 @@ public class PushWebSocketHandler extends TextWebSocketHandler {
         Long recipientUserId = pushRequest.getRecipientUserId();
         if (recipientUserId != null) {
             pushRequestHelper.validateClientPushRequest(pushRequest);
-            pushServiceRegistry.getPushServicesForId(pushRequest.getServiceId())
+            pushReceiverRegistry.getPushReceiversForService(pushRequest.getServiceId())
                     .forEach(pushService -> pushRequestHelper.routeIncomingPush(pushService, pushRequest, message));
         }
     }
