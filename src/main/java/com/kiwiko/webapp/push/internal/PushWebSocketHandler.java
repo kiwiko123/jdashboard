@@ -46,7 +46,7 @@ public class PushWebSocketHandler extends TextWebSocketHandler {
     protected void afterUserConnectionEstablished(WebSocketSession session, ClientPushRequest pushRequest) { }
 
     private void handlePush(WebSocketSession session, ClientPushRequest pushRequest, TextMessage message) {
-        boolean isNewSession = !pushServiceSessionManager.getSessionForUser(pushRequest.getUserId()).isPresent();
+        boolean isNewSession = pushServiceSessionManager.getSessionForUser(pushRequest.getUserId()).isEmpty();
 
         if (isNewSession) {
             pushServiceSessionManager.startSession(pushRequest.getUserId(), session);

@@ -9,6 +9,7 @@ import com.kiwiko.webapp.push.api.parameters.PushToClientParameters;
 import com.kiwiko.webapp.push.internal.PushServiceSessionManager;
 import com.kiwiko.webapp.push.internal.impl.PushNotificationDeliveryService;
 import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import javax.inject.Inject;
@@ -23,15 +24,18 @@ abstract class TextWebSocketPushService implements PushService {
 
     @Override
     public void pushToClient(PushToClientParameters parameters) throws PushException {
+        normalizePushParameters(parameters);
+
         Long recipientUserId = parameters.getRecipientUserId();
         WebSocketSession session = pushServiceSessionManager.getSessionForUser(recipientUserId)
                 .orElseThrow(() -> new ClientUnreachablePushException(
                         String.format("Unable to reach user ID %d", recipientUserId)));
-
         Object data = parameters.getData();
         String jsonData = jsonMapper.writeValueAsString(data);
+        WebSocketMessage<String> message = new TextMessage(jsonData);
+
         try {
-            session.sendMessage(new TextMessage(jsonData));
+            session.sendMessage(message);
         } catch (IOException e) {
             pushNotificationDeliveryService.enqueueMissedNotification(parameters);
             // TODO throwing the exception causes the transaction to be rolled back
@@ -43,5 +47,9 @@ abstract class TextWebSocketPushService implements PushService {
                             recipientUserId),
                     e);
         }
+    }
+
+    private void normalizePushParameters(PushToClientParameters parameters) {
+        parameters.setServiceId(getServiceId());
     }
 }

@@ -22,14 +22,13 @@ export default class PushServiceBroadcaster extends Broadcaster {
         if (id === 'UserDataBroadcaster') {
             if (state.id) {
                 this.userId = state.id;
-                this._webSocket = PushServiceSessionManager.getSession(state.id, {
+                this._webSocket = PushServiceSessionManager.getSession(state.id, this.serviceId, {
                     onOpen: this._onOpen.bind(this),
                     onClose: this._onClose.bind(this),
                     onMessage: this._onMessage.bind(this),
                     onError: this._onError.bind(this),
                 });
                 this.enable();
-                this._attemptToEstablishConnection();
             }
         }
     }
@@ -55,7 +54,7 @@ export default class PushServiceBroadcaster extends Broadcaster {
     }
 
     onConnectionOpened() {
-
+        // TODO consider removing this, because it's not necessarily "on opened" with a single web socket for all push services
     }
 
     destroy() {
@@ -64,8 +63,8 @@ export default class PushServiceBroadcaster extends Broadcaster {
     }
 
     _onOpen(event) {
-        // NOTE: this does not work when there is more than one active push service, because the second one never fires the initial event, due to a cached WebSocket.
-        this.push(); // Send an initial, empty push to establish this service's connection with the server.
+        // Send an initial, empty push to establish this service's connection with the server.
+        PushServiceSessionManager.processUserServices(this.userId, serviceId => this.push({ serviceId }));
         this.onConnectionOpened();
     }
 

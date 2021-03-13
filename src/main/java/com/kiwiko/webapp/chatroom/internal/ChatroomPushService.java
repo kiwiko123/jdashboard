@@ -1,6 +1,5 @@
 package com.kiwiko.webapp.chatroom.internal;
 
-import com.kiwiko.library.metrics.api.LogService;
 import com.kiwiko.webapp.push.api.PushReceiver;
 import com.kiwiko.webapp.push.data.PushServiceIdentifier;
 import com.kiwiko.webapp.push.impl.PushServiceImpl;
@@ -11,7 +10,6 @@ import java.util.Optional;
 public class ChatroomPushService extends PushServiceImpl {
 
     @Inject private ChatroomPushReceiver chatroomPushReceiver;
-    @Inject private LogService logService;
 
     @Override
     public String getServiceId() {
