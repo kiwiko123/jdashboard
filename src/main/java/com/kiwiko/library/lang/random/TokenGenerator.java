@@ -1,8 +1,8 @@
-package com.kiwiko.webapp.mvc.security.sessions.internal;
+package com.kiwiko.library.lang.random;
 
 import java.util.Random;
 
-public class SessionTokenHelper {
+public class TokenGenerator {
 
     private static final int TOKEN_LENGTH = 32;
     private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-=_+[]{}|.<>/?~";

@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.mvc.interceptors;
 
-import com.kiwiko.library.caching.api.CacheService;
+import com.kiwiko.library.caching.api.ObjectCache;
 import com.kiwiko.webapp.mvc.performance.api.annotations.Throttle;
 import com.kiwiko.webapp.mvc.performance.api.errors.ThrottleException;
 import com.kiwiko.library.metrics.api.LogService;
@@ -16,7 +16,7 @@ public class ThrottleMethodInterceptor extends ContextMethodInterceptor {
     private boolean canInvokeMethod;
 
     @Inject
-    private CacheService cacheService;
+    private ObjectCache objectCache;
 
     @Inject
     private LogService logService;
@@ -25,7 +25,7 @@ public class ThrottleMethodInterceptor extends ContextMethodInterceptor {
     protected void preHandle(MethodContext context) {
         Method method = context.getMethod();
         String cacheId = getId(method);
-        boolean shouldThrottle = cacheService.get(cacheId).isPresent();
+        boolean shouldThrottle = objectCache.get(cacheId).isPresent();
         Throttle throttle = method.getAnnotation(Throttle.class);
 
         if (shouldThrottle) {
@@ -42,7 +42,7 @@ public class ThrottleMethodInterceptor extends ContextMethodInterceptor {
         }
 
         Duration cacheDuration = Duration.of(throttle.maxWait(), throttle.timeUnit());
-        cacheService.cache(cacheId, true, cacheDuration);
+        objectCache.cache(cacheId, true, cacheDuration);
     }
 
     @Override

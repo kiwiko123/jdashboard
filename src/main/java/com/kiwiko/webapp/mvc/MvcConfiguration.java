@@ -1,7 +1,7 @@
 package com.kiwiko.webapp.mvc;
 
-import com.kiwiko.library.caching.api.CacheService;
-import com.kiwiko.library.caching.internal.InMemoryCacheService;
+import com.kiwiko.library.caching.api.ObjectCache;
+import com.kiwiko.library.caching.impl.InMemoryObjectCache;
 import com.kiwiko.webapp.mvc.json.impl.resolvers.CustomRequestBodyResolver;
 import com.kiwiko.webapp.mvc.performance.api.annotations.Throttle;
 import com.kiwiko.webapp.metrics.api.annotations.CaptureMetrics;
@@ -65,8 +65,8 @@ public class MvcConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    public CacheService cacheService() {
-        return new InMemoryCacheService();
+    public ObjectCache objectCache() {
+        return new InMemoryObjectCache();
     }
 
     @Bean
@@ -141,7 +141,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
     @Bean
     public Advisor throttleAdvisor() {
         ThrottleMethodInterceptor instance = new InjectManuallyConfigurer<ThrottleMethodInterceptor>()
-                .withBinding(CacheService.class, InMemoryCacheService.class)
+                .withBinding(ObjectCache.class, InMemoryObjectCache.class)
                 .withBinding(LogService.class, ConsoleLogService.class)
                 .withInstance(new ThrottleMethodInterceptor())
                 .create();

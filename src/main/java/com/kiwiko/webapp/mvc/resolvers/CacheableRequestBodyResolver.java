@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.mvc.resolvers;
 
-import com.kiwiko.library.caching.api.CacheService;
+import com.kiwiko.library.caching.api.ObjectCache;
 import com.kiwiko.library.metrics.api.LogService;
 import com.kiwiko.webapp.mvc.json.api.JsonMapper;
 import com.kiwiko.webapp.mvc.json.api.errors.JsonException;
@@ -30,7 +30,7 @@ public abstract class CacheableRequestBodyResolver {
     private JsonMapper jsonMapper;
 
     @Inject
-    private CacheService cacheService;
+    private ObjectCache objectCache;
 
     @Inject
     private RequestContextService requestContextService;
@@ -81,7 +81,7 @@ public abstract class CacheableRequestBodyResolver {
 
     protected IntermediateJsonBody getDeserializedBodyFromRequest(HttpServletRequest request) {
         String cacheKey = getRequestParameterCacheKey(request);
-        RequestBodyCacheData cachedRequestData = cacheService.get(cacheKey, RequestBodyCacheData.class)
+        RequestBodyCacheData cachedRequestData = (RequestBodyCacheData) objectCache.get(cacheKey)
                 .orElse(null);
 
         IntermediateJsonBody jsonObject;
@@ -89,7 +89,7 @@ public abstract class CacheableRequestBodyResolver {
             // If we know that this is a new request, then deserialize the request body and cache it for another use.
             jsonObject = deserializeRequestBody(request);
             RequestBodyCacheData cacheData = createCacheDataFromRequest(request, jsonObject);
-            cacheService.cache(cacheKey, cacheData, getRequestBodyCacheDuration());
+            objectCache.cache(cacheKey, cacheData, getRequestBodyCacheDuration());
         } else {
             // Otherwise, we know that we've just processed this exact web request, so use the cached values.
             jsonObject = cachedRequestData.getBody();
