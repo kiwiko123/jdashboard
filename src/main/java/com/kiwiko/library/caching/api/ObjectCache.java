@@ -40,6 +40,4 @@ public interface ObjectCache {
      * @param key the key whose value will be discarded.
      */
     void invalidate(String key);
-
-    String generateKey();
 }

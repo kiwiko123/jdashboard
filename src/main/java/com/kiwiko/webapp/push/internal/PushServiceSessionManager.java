@@ -15,14 +15,9 @@ import java.util.Optional;
 
 @Singleton
 public class PushServiceSessionManager {
+    private static final BiMap<Long, WebSocketSession> userSessionMapping = HashBiMap.create();
 
     @Inject private LogService logService;
-
-    private final BiMap<Long, WebSocketSession> userSessionMapping;
-
-    public PushServiceSessionManager() {
-        userSessionMapping = HashBiMap.create();
-    }
 
     public void startSession(long userId, WebSocketSession session) {
         logService.debug(

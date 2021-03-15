@@ -1,5 +1,6 @@
 package com.kiwiko.library.caching.impl;
 
+import com.kiwiko.library.caching.api.ObjectCache;
 import com.kiwiko.library.caching.data.CacheValue;
 
 import javax.inject.Singleton;
@@ -10,7 +11,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Singleton
-public class InMemoryObjectCache extends PartialObjectCache {
+public class InMemoryObjectCache implements ObjectCache {
     private static final Map<String, CacheValue<?>> IN_MEMORY_CACHE = new ConcurrentHashMap<>();
 
     @Override
