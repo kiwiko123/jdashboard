@@ -18,3 +18,6 @@ CREATE INDEX ON messages (sender_user_id);
 CREATE INDEX ON messages (recipient_user_id);
 
 CREATE INDEX ON notifications (user_id);
+
+CREATE UNIQUE INDEX ON feature_flags (lower(name)) WHERE is_removed = false;
+CREATE INDEX ON feature_flags (lower(name), user_scope, user_id);

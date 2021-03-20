@@ -52,7 +52,7 @@ public abstract class CreateReadUpdateDeleteService<
     @Override
     public <R extends DTO> DTO update(R obj) {
         DAO dao = dataAccessObject();
-        if (!dao.getProxyById(obj.getId()).isPresent()) {
+        if (dao.getProxyById(obj.getId()).isEmpty()) {
             String message = String.format("%s with ID %d doesn't exist", obj.getClass().getName(), obj.getId());
             throw new PersistenceException(message);
         }

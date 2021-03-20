@@ -8,6 +8,7 @@ import com.kiwiko.webapp.mvc.json.api.JsonMapper;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class VersionedEntityMapper<Entity extends VersionedEntity, DTO extends VersionedEntityDTO>
         extends EntityMapper<Entity, DTO> {
@@ -23,6 +24,14 @@ public abstract class VersionedEntityMapper<Entity extends VersionedEntity, DTO 
         if (versionsJson != null) {
             List<Version> versions = versionConverterHelper.deserializeVersionsJson(versionsJson);
             dto.setVersions(versions);
+
+            if (!versions.isEmpty()) {
+                Version first = versions.get(0);
+                dto.setCreatedDate(first.getCreatedDate());
+
+                Version last = versions.get(versions.size() - 1);
+                dto.setLastUpdatedDate(last.getCreatedDate());
+            }
         }
     }
 

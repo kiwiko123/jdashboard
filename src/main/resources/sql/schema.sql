@@ -75,3 +75,14 @@ CREATE TABLE notifications (
     created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     received_date TIMESTAMP WITH TIME ZONE
 );
+
+CREATE TABLE feature_flags (
+    feature_flag_id BIGSERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    status TEXT NOT NULL,
+    flag_value TEXT,
+    user_scope TEXT NOT NULL,
+    user_id BIGINT REFERENCES users(user_id),
+    is_removed BOOLEAN NOT NULL DEFAULT FALSE,
+    versions TEXT
+);

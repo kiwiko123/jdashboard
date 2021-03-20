@@ -2,10 +2,8 @@ package com.kiwiko.library.persistence.dataAccess.data;
 
 import com.kiwiko.library.persistence.dataAccess.api.versions.Version;
 
-import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 public abstract class VersionedEntityDTO extends AuditableDataEntityDTO {
 
@@ -17,21 +15,5 @@ public abstract class VersionedEntityDTO extends AuditableDataEntityDTO {
 
     public void setVersions(List<Version> versions) {
         this.versions = new LinkedList<>(versions);
-    }
-
-    @Override
-    public Instant getCreatedDate() {
-        return Optional.ofNullable(versions)
-                .map(LinkedList::peekFirst)
-                .map(Version::getCreatedDate)
-                .orElseGet(Instant::now);
-    }
-
-    @Override
-    public Instant getLastUpdatedDate() {
-        return Optional.ofNullable(versions)
-                .map(LinkedList::peekLast)
-                .map(Version::getCreatedDate)
-                .orElse(null);
     }
 }

@@ -54,7 +54,7 @@ public class NotificationsAPIController {
     }
 
     @DeleteMapping("/notifications/api/{notificationId}")
-    public ResponsePayload update(@PathVariable("notificationId") Long notificationId) {
+    public ResponsePayload delete(@PathVariable("notificationId") Long notificationId) {
         notificationService.delete(notificationId);
         return ResponseBuilder.ok();
     }
