@@ -13,15 +13,20 @@ import java.util.Optional;
 public abstract class CreateReadUpdateDeleteService<
         Entity extends DataEntity,
         DTO extends Identifiable<Long>,
-        DAO extends EntityManagerDAO<Entity>,
+        DataFetcher extends EntityManagerDAO<Entity>,
         Mapper extends EntityMapper<Entity, DTO>>
         implements CreateReadUpdateDeleteAPI<DTO> {
+    protected final DataFetcher dataFetcher;
+    protected final Mapper mapper;
 
-    protected abstract DAO dataAccessObject();
+    protected CreateReadUpdateDeleteService() {
+        dataFetcher = getDataFetcher();
+        mapper = getMapper();
+    }
 
-    protected abstract Mapper mapper();
+    protected abstract DataFetcher getDataFetcher();
+    protected abstract Mapper getMapper();
 
-    @Transactional(readOnly = true)
     @Override
     public Optional<DTO> get(long id) {
         return read(id);
@@ -30,45 +35,36 @@ public abstract class CreateReadUpdateDeleteService<
     @Transactional(readOnly = true)
     @Override
     public Optional<DTO> read(long id) {
-        DAO dao = dataAccessObject();
-        Mapper mapper = mapper();
-
-        return dao.getById(id)
+        return dataFetcher.getById(id)
                 .map(mapper::toDTO);
     }
 
     @Transactional
     @Override
     public <R extends DTO> DTO create(R obj) {
-        DAO dao = dataAccessObject();
-        Mapper mapper = mapper();
-
         Entity entity = mapper.toEntity(obj);
-        entity = dao.save(entity);
+        entity = dataFetcher.save(entity);
         return mapper.toDTO(entity);
     }
 
     @Transactional
     @Override
     public <R extends DTO> DTO update(R obj) {
-        DAO dao = dataAccessObject();
-        if (dao.getProxyById(obj.getId()).isEmpty()) {
+        if (dataFetcher.getProxyById(obj.getId()).isEmpty()) {
             String message = String.format("%s with ID %d doesn't exist", obj.getClass().getName(), obj.getId());
             throw new PersistenceException(message);
         }
 
-        Mapper mapper = mapper();
         Entity updatedEntity = mapper.toEntity(obj);
-        updatedEntity = dao.save(updatedEntity);
+        updatedEntity = dataFetcher.save(updatedEntity);
         return mapper.toDTO(updatedEntity);
     }
 
     @Transactional
     @Override
     public void delete(long id) {
-        DAO dao = dataAccessObject();
-        Entity entity = dao.getById(id)
+        Entity entity = dataFetcher.getById(id)
                 .orElseThrow(() -> new PersistenceException(String.format("Entity with ID %d doesn't exist", id)));
-        dao.delete(entity);
+        dataFetcher.delete(entity);
     }
 }

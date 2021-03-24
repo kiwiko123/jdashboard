@@ -1,4 +1,4 @@
-package com.kiwiko.library.caching.data;
+package com.kiwiko.library.caching.impl.data;
 
 import javax.annotation.Nullable;
 import java.time.Instant;

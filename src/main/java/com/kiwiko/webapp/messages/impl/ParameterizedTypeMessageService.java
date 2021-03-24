@@ -31,12 +31,12 @@ public abstract class ParameterizedTypeMessageService
     protected abstract MessageType getMessageType();
 
     @Override
-    protected MessageEntityDAO dataAccessObject() {
+    protected MessageEntityDAO getDataFetcher() {
         return messageEntityDAO;
     }
 
     @Override
-    protected MessageEntityFieldMapper mapper() {
+    protected MessageEntityFieldMapper getMapper() {
         return messageMapper;
     }
 

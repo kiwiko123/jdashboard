@@ -1,7 +1,7 @@
 package com.kiwiko.library.caching.impl;
 
 import com.kiwiko.library.caching.api.ObjectCache;
-import com.kiwiko.library.caching.data.CacheValue;
+import com.kiwiko.library.caching.impl.data.CacheValue;
 
 import javax.inject.Singleton;
 import java.time.Instant;
@@ -16,8 +16,7 @@ public class InMemoryObjectCache implements ObjectCache {
 
     @Override
     public <T> Optional<T> get(String key) {
-        @SuppressWarnings("unchecked")
-        CacheValue<T> value = (CacheValue<T>) IN_MEMORY_CACHE.get(key);
+        CacheValue<?> value = IN_MEMORY_CACHE.get(key);
         if (value == null) {
             return Optional.empty();
         }
@@ -31,7 +30,9 @@ public class InMemoryObjectCache implements ObjectCache {
             return Optional.empty();
         }
 
-        return Optional.ofNullable(value.getValue());
+        @SuppressWarnings("unchecked")
+        T result = (T) value.getValue();
+        return Optional.ofNullable(result);
     }
 
     @Override

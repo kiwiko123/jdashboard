@@ -17,11 +17,16 @@ public abstract class CacheableCreateReadUpdateDeleteService<
         DAO extends EntityManagerDAO<Entity>,
         Mapper extends EntityMapper<Entity, DTO>>
         extends CreateReadUpdateDeleteService<Entity, DTO, DAO, Mapper> {
+    protected final ObjectCache cache;
 
-    protected abstract ObjectCache cache();
-    protected abstract TemporalAmount cacheDuration();
+    protected CacheableCreateReadUpdateDeleteService() {
+        super();
+        cache = getCache();
+    }
 
-    @Transactional(readOnly = true)
+    protected abstract ObjectCache getCache();
+    protected abstract TemporalAmount getCacheDuration();
+
     @Override
     public Optional<DTO> read(long id) {
         String key = makeCacheKey(id);
@@ -49,13 +54,12 @@ public abstract class CacheableCreateReadUpdateDeleteService<
     public void delete(long id) {
         super.delete(id);
         String key = makeCacheKey(id);
-        cache().invalidate(key);
+        cache.invalidate(key);
     }
 
     protected <T> T obtain(String key, Supplier<T> fetch) {
-        Optional<T> cachedResult = cache().get(key);
-        return cachedResult.orElseGet(() -> cache().cache(key, fetch.get(), cacheDuration()));
-
+        Optional<T> cachedResult = cache.get(key);
+        return cachedResult.orElseGet(() -> cache.cache(key, fetch.get(), getCacheDuration()));
     }
 
     private String makeCacheKey(Long id) {
@@ -68,6 +72,6 @@ public abstract class CacheableCreateReadUpdateDeleteService<
             return;
         }
         String key = makeCacheKey(id);
-        cache().cache(key, obj, cacheDuration());
+        cache.cache(key, obj, getCacheDuration());
     }
 }

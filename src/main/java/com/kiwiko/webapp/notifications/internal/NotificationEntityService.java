@@ -22,12 +22,12 @@ public class NotificationEntityService
     @Inject private NotificationEntityMapper notificationEntityMapper;
 
     @Override
-    protected NotificationEntityDAO dataAccessObject() {
+    protected NotificationEntityDAO getDataFetcher() {
         return notificationEntityDAO;
     }
 
     @Override
-    protected NotificationEntityMapper mapper() {
+    protected NotificationEntityMapper getMapper() {
         return notificationEntityMapper;
     }
 

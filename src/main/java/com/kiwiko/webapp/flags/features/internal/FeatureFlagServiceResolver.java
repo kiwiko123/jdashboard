@@ -32,11 +32,15 @@ public class FeatureFlagServiceResolver implements FeatureFlagResolver {
             // Either a user was not provided, or no individual flag was found for them.
             // Search for a public flag.
             flag = featureFlagService.getByName(name)
-                    .filter(f -> FeatureFlagUserScope.PUBLIC.getId().equalsIgnoreCase(f.getUserScope()));
+                    .filter(this::isPublic);
         }
 
         return flag.map(FeatureFlag::getStatus)
                 .map(FeatureFlagStatus.ENABLED.getId()::equalsIgnoreCase)
                 .orElse(false);
+    }
+
+    private boolean isPublic(FeatureFlag flag) {
+        return FeatureFlagUserScope.PUBLIC.getId().equalsIgnoreCase(flag.getUserScope());
     }
 }
