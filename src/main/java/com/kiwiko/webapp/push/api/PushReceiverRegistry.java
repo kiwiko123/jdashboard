@@ -1,6 +1,7 @@
 package com.kiwiko.webapp.push.api;
 
 import com.kiwiko.library.caching.api.ObjectCache;
+import com.kiwiko.library.metrics.api.Logger;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -11,9 +12,16 @@ import java.util.List;
 public class PushReceiverRegistry {
 
     @Inject private ObjectCache objectCache;
+    @Inject private Logger logger;
 
     public void register(PushReceiver pushReceiver) {
-        objectCache.cache(pushReceiver.getServiceId(), pushReceiver);
+        String serviceId = pushReceiver.getServiceId();
+        if (objectCache.get(serviceId).isPresent()) {
+            logger.warn(String.format("Attempting to register duplicate push receiver %s", serviceId));
+            return;
+        }
+
+        objectCache.cache(serviceId, pushReceiver);
     }
 
     public void deregister(String serviceId) {
