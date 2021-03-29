@@ -8,6 +8,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.List;
 import java.util.Optional;
 
 public class FeatureFlagEntityDAO extends VersionedEntityManagerDAO<FeatureFlagEntity> {
@@ -49,5 +50,17 @@ public class FeatureFlagEntityDAO extends VersionedEntityManagerDAO<FeatureFlagE
 
         query.where(matchesName, hasIndividualScope, forUserId, isActive);
         return getSingleResult(query);
+    }
+
+    public List<FeatureFlagEntity> getAll() {
+        CriteriaBuilder builder = criteriaBuilder();
+        CriteriaQuery<FeatureFlagEntity> query = builder.createQuery(entityType);
+        Root<FeatureFlagEntity> root = query.from(entityType);
+
+        Expression<Boolean> isRemovedField = root.get("isRemoved");
+        Predicate isActive = builder.isFalse(isRemovedField);
+
+        query.where(isActive);
+        return getResultList(query);
     }
 }

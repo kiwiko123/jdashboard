@@ -3,6 +3,7 @@ package com.kiwiko.webapp.flags.features.web;
 import com.kiwiko.webapp.flags.features.api.FeatureFlagResolver;
 import com.kiwiko.webapp.flags.features.api.FeatureFlagService;
 import com.kiwiko.webapp.flags.features.dto.FeatureFlag;
+import com.kiwiko.webapp.flags.features.web.responses.FeatureFlagListItem;
 import com.kiwiko.webapp.mvc.json.api.ResponseBuilder;
 import com.kiwiko.webapp.mvc.json.data.ResponsePayload;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.AuthenticationRequired;
@@ -18,11 +19,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import java.util.List;
 
 @Controller
 @CrossOriginConfigured
 public class FeatureFlagAPIController {
 
+    @Inject private FeatureFlagAPIHelper featureFlagAPIHelper;
     @Inject private FeatureFlagService featureFlagService;
     @Inject private FeatureFlagResolver featureFlagResolver;
 
@@ -32,6 +35,13 @@ public class FeatureFlagAPIController {
             @RequestParam(value = "userId", required = false) @Nullable Long userId) {
         boolean isResolved = featureFlagResolver.resolve(name, userId);
         return ResponseBuilder.payload(isResolved);
+    }
+
+    @AuthenticationRequired
+    @GetMapping("/feature-flags/api/list")
+    public ResponsePayload getFeatureFlagList() {
+        List<FeatureFlagListItem> listItems = featureFlagAPIHelper.getListItems();
+        return ResponseBuilder.payload(listItems);
     }
 
     @AuthenticationRequired

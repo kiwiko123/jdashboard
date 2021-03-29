@@ -1,4 +1,5 @@
 import logger from '../../common/js/logging';
+import CoreStateManager from '../managers/CoreStateManager';
 import { isPresentInListeners } from '../helpers/util';
 
 let instanceId = 0;
@@ -12,7 +13,7 @@ let instanceId = 0;
  *
  * Extend this class and invoke setState to propagate data through to listeners.
  */
-export default class SimpleBroadcaster {
+export default class SimpleBroadcaster extends CoreStateManager {
 
     static getId() {
         return this.name;
@@ -23,9 +24,8 @@ export default class SimpleBroadcaster {
      * If a derived broadcaster defines a constructor, be sure to invoke super() first.
      */
     constructor() {
-        this.state = {};
+        super();
         this.__listeners = new Set();
-        this.__updaters = new Map();
         this.__instanceId = instanceId++;
 
         this.register = this.register.bind(this);
@@ -61,10 +61,6 @@ export default class SimpleBroadcaster {
         broadcaster.receive(this.getState(), this.constructor.getId());
     }
 
-    getState() {
-        return this.state;
-    }
-
     broadcast() {
         const state = this.getState();
         const id = this.constructor.getId();
@@ -72,31 +68,6 @@ export default class SimpleBroadcaster {
         this.__listeners.forEach(broadcaster => broadcaster.receive(state, id));
         this.__updaters.forEach(updater => updater());
         logger.debug(`${id}-${this.__instanceId} just updated`);
-    }
-
-    registerMethod(method) {
-        this.setState({
-            [method.name]: method.bind(this),
-        });
-    }
-
-    /**
-     * A ComponentStateManager invokes this on its first render.
-     * The updater will effectively call setState on the ComponentStateManager to induce a re-render.
-     *
-     * Do not override this.
-     */
-    _setUpdater(updater, id) {
-        this.__updaters.set(id, updater);
-    }
-
-    /**
-     * Removes the linked ReceivingElement when it unmounts.
-     * Do not override this.
-     */
-    removeUpdater(id) {
-        logger.debug(`Removing ReceivingElement ${id}`);
-        this.__updaters.delete(id);
     }
 
     destroy() {

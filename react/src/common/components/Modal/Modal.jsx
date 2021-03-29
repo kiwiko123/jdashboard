@@ -37,7 +37,7 @@ const Modal = ({
                 className={modalClassName}
                 ref={modalRef}
             >
-                {children}
+                {isOpen && children}
             </div>
         </div>
     );

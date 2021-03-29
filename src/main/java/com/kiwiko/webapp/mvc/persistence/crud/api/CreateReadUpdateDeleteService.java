@@ -16,14 +16,6 @@ public abstract class CreateReadUpdateDeleteService<
         DataFetcher extends EntityManagerDAO<Entity>,
         Mapper extends EntityMapper<Entity, DTO>>
         implements CreateReadUpdateDeleteAPI<DTO> {
-    protected final DataFetcher dataFetcher;
-    protected final Mapper mapper;
-
-    protected CreateReadUpdateDeleteService() {
-        dataFetcher = getDataFetcher();
-        mapper = getMapper();
-    }
-
     protected abstract DataFetcher getDataFetcher();
     protected abstract Mapper getMapper();
 
@@ -35,6 +27,9 @@ public abstract class CreateReadUpdateDeleteService<
     @Transactional(readOnly = true)
     @Override
     public Optional<DTO> read(long id) {
+        DataFetcher dataFetcher = getDataFetcher();
+        Mapper mapper = getMapper();
+
         return dataFetcher.getById(id)
                 .map(mapper::toDTO);
     }
@@ -42,6 +37,9 @@ public abstract class CreateReadUpdateDeleteService<
     @Transactional
     @Override
     public <R extends DTO> DTO create(R obj) {
+        DataFetcher dataFetcher = getDataFetcher();
+        Mapper mapper = getMapper();
+
         Entity entity = mapper.toEntity(obj);
         entity = dataFetcher.save(entity);
         return mapper.toDTO(entity);
@@ -50,11 +48,13 @@ public abstract class CreateReadUpdateDeleteService<
     @Transactional
     @Override
     public <R extends DTO> DTO update(R obj) {
+        DataFetcher dataFetcher = getDataFetcher();
         if (dataFetcher.getProxyById(obj.getId()).isEmpty()) {
             String message = String.format("%s with ID %d doesn't exist", obj.getClass().getName(), obj.getId());
             throw new PersistenceException(message);
         }
 
+        Mapper mapper = getMapper();
         Entity updatedEntity = mapper.toEntity(obj);
         updatedEntity = dataFetcher.save(updatedEntity);
         return mapper.toDTO(updatedEntity);
@@ -63,6 +63,7 @@ public abstract class CreateReadUpdateDeleteService<
     @Transactional
     @Override
     public void delete(long id) {
+        DataFetcher dataFetcher = getDataFetcher();
         Entity entity = dataFetcher.getById(id)
                 .orElseThrow(() -> new PersistenceException(String.format("Entity with ID %d doesn't exist", id)));
         dataFetcher.delete(entity);

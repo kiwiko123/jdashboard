@@ -11,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.inject.Inject;
 import java.time.temporal.TemporalAmount;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class HybridFeatureFlagService
         extends CacheableCreateReadUpdateDeleteService<FeatureFlagEntity, FeatureFlag, FeatureFlagEntityDAO, FeatureFlagEntityMapper>
@@ -56,5 +58,13 @@ public class HybridFeatureFlagService
         String key = cacheHelper.makeFlagCacheKey(name, userId);
         Supplier<Optional<FeatureFlag>> fetchFlag = () -> featureFlagEntityDAO.getForUser(name, userId).map(featureFlagEntityMapper::toDTO);
         return obtain(key, fetchFlag);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<FeatureFlag> getAll() {
+        return featureFlagEntityDAO.getAll().stream()
+                .map(featureFlagEntityMapper::toDTO)
+                .collect(Collectors.toSet());
     }
 }
