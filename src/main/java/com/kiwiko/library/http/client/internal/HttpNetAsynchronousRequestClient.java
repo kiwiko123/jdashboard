@@ -8,7 +8,7 @@ import com.kiwiko.library.http.client.dto.HttpClientRequest;
 import com.kiwiko.library.http.client.dto.HttpClientResponse;
 import com.kiwiko.library.http.client.dto.PostRequest;
 import com.kiwiko.library.http.client.dto.PutRequest;
-import com.kiwiko.library.http.client.internal.serialization.RequestSerializer;
+import com.kiwiko.webapp.mvc.json.api.JsonSerializer;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -28,14 +28,14 @@ public class HttpNetAsynchronousRequestClient extends AbstractHttpNetRequestClie
 
     @Override
     public <T> CompletableFuture<HttpClientResponse<T>> post(PostRequest request, Class<T> responseType) throws ClientException {
-        RequestSerializer serializer = getSerializer();
+        JsonSerializer serializer = getSerializer();
         RequestConverter makeHttpRequest = () -> httpRequestConverter.convertPostRequest(request, serializer);
         return obtainResponse(request, makeHttpRequest, responseType);
     }
 
     @Override
     public <T> CompletableFuture<HttpClientResponse<T>> put(PutRequest request, Class<T> responseType) throws ClientException {
-        RequestSerializer serializer = getSerializer();
+        JsonSerializer serializer = getSerializer();
         RequestConverter makeHttpRequest = () -> httpRequestConverter.convertPutRequest(request, serializer);
         return obtainResponse(request, makeHttpRequest, responseType);
     }

@@ -9,7 +9,7 @@ import com.kiwiko.library.http.client.dto.HttpClientRequest;
 import com.kiwiko.library.http.client.dto.HttpClientResponse;
 import com.kiwiko.library.http.client.dto.PostRequest;
 import com.kiwiko.library.http.client.dto.PutRequest;
-import com.kiwiko.library.http.client.internal.serialization.RequestSerializer;
+import com.kiwiko.webapp.mvc.json.api.JsonSerializer;
 
 import java.io.IOException;
 import java.net.http.HttpRequest;
@@ -27,14 +27,14 @@ public class HttpNetSynchronousRequestClient extends AbstractHttpNetRequestClien
 
     @Override
     public <T> HttpClientResponse<T> post(PostRequest request, Class<T> responseType) throws ClientException, InterruptedException, ServerException {
-        RequestSerializer serializer = getSerializer();
+        JsonSerializer serializer = getSerializer();
         RequestConverter requestConverter = () -> httpRequestConverter.convertPostRequest(request, serializer);
         return obtainResponse(request, requestConverter, responseType);
     }
 
     @Override
     public <T> HttpClientResponse<T> put(PutRequest request, Class<T> responseType) throws ClientException, InterruptedException, ServerException {
-        RequestSerializer serializer = getSerializer();
+        JsonSerializer serializer = getSerializer();
         RequestConverter requestConverter = () -> httpRequestConverter.convertPutRequest(request, serializer);
         return obtainResponse(request, requestConverter, responseType);
     }

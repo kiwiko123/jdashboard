@@ -6,7 +6,7 @@ import com.kiwiko.library.http.client.dto.GetRequest;
 import com.kiwiko.library.http.client.dto.HttpClientRequest;
 import com.kiwiko.library.http.client.dto.PostRequest;
 import com.kiwiko.library.http.client.dto.PutRequest;
-import com.kiwiko.library.http.client.internal.serialization.RequestSerializer;
+import com.kiwiko.webapp.mvc.json.api.JsonSerializer;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -20,13 +20,13 @@ class HttpRequestConverter {
                 .build();
     }
 
-    public HttpRequest convertPostRequest(PostRequest request, RequestSerializer serializer) throws ClientException {
+    public HttpRequest convertPostRequest(PostRequest request, JsonSerializer serializer) throws ClientException {
         return convertBaseRequest(request)
                 .POST(makeBodyPublisher(request.getBody(), serializer))
                 .build();
     }
 
-    public HttpRequest convertPutRequest(PutRequest request, RequestSerializer serializer) throws ClientException {
+    public HttpRequest convertPutRequest(PutRequest request, JsonSerializer serializer) throws ClientException {
         return convertBaseRequest(request)
                 .PUT(makeBodyPublisher(request, serializer))
                 .build();
@@ -56,7 +56,7 @@ class HttpRequestConverter {
         }
     }
 
-    private HttpRequest.BodyPublisher makeBodyPublisher(Object body, RequestSerializer serializer) {
+    private HttpRequest.BodyPublisher makeBodyPublisher(Object body, JsonSerializer serializer) {
         String bodyString = serializer.toJson(body);
         return HttpRequest.BodyPublishers.ofString(bodyString);
     }

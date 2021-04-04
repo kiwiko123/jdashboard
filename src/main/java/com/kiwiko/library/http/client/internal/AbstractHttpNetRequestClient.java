@@ -3,8 +3,8 @@ package com.kiwiko.library.http.client.internal;
 import com.kiwiko.library.http.client.dto.HttpClientResponse;
 import com.kiwiko.library.http.client.internal.caching.RequestCacheHelper;
 import com.kiwiko.library.http.client.internal.security.DefaultAuthenticator;
-import com.kiwiko.library.http.client.internal.serialization.GsonRequestSerializer;
-import com.kiwiko.library.http.client.internal.serialization.RequestSerializer;
+import com.kiwiko.webapp.mvc.json.api.JsonSerializer;
+import com.kiwiko.webapp.mvc.json.impl.GsonJsonSerializer;
 
 import java.net.Authenticator;
 import java.net.http.HttpClient;
@@ -32,8 +32,8 @@ abstract class AbstractHttpNetRequestClient {
         requestCacheHelper = new RequestCacheHelper();
     }
 
-    protected RequestSerializer getSerializer() {
-        return new GsonRequestSerializer();
+    protected JsonSerializer getSerializer() {
+        return new GsonJsonSerializer();
     }
 
     @SuppressWarnings("unchecked")
