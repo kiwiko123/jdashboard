@@ -1,12 +1,12 @@
 package com.kiwiko.library.http.client.internal;
 
-import com.google.gson.Gson;
 import com.kiwiko.library.http.client.api.errors.ClientException;
 import com.kiwiko.library.http.client.dto.DeleteRequest;
 import com.kiwiko.library.http.client.dto.GetRequest;
 import com.kiwiko.library.http.client.dto.HttpClientRequest;
 import com.kiwiko.library.http.client.dto.PostRequest;
 import com.kiwiko.library.http.client.dto.PutRequest;
+import com.kiwiko.library.http.client.internal.serialization.RequestSerializer;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -20,13 +20,13 @@ class HttpRequestConverter {
                 .build();
     }
 
-    public HttpRequest convertPostRequest(PostRequest request, Gson serializer) throws ClientException {
+    public HttpRequest convertPostRequest(PostRequest request, RequestSerializer serializer) throws ClientException {
         return convertBaseRequest(request)
                 .POST(makeBodyPublisher(request.getBody(), serializer))
                 .build();
     }
 
-    public HttpRequest convertPutRequest(PutRequest request, Gson serializer) throws ClientException {
+    public HttpRequest convertPutRequest(PutRequest request, RequestSerializer serializer) throws ClientException {
         return convertBaseRequest(request)
                 .PUT(makeBodyPublisher(request, serializer))
                 .build();
@@ -56,7 +56,7 @@ class HttpRequestConverter {
         }
     }
 
-    private HttpRequest.BodyPublisher makeBodyPublisher(Object body, Gson serializer) {
+    private HttpRequest.BodyPublisher makeBodyPublisher(Object body, RequestSerializer serializer) {
         String bodyString = serializer.toJson(body);
         return HttpRequest.BodyPublishers.ofString(bodyString);
     }

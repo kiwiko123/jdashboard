@@ -1,37 +1,46 @@
 package com.kiwiko.library.http.client.dto;
 
+import com.kiwiko.library.http.client.dto.caching.RequestCachePolicy;
+
 import javax.annotation.Nullable;
 import java.net.http.HttpClient;
 import java.time.Duration;
 
-public class RequestBuilder {
-    private final HttpClientRequest request;
+public abstract class RequestBuilder<T extends HttpClientRequest> {
+    private final T request;
+
+    protected abstract T constructRequest();
 
     public RequestBuilder() {
-        request = new HttpClientRequest();
+        request = constructRequest();
     }
 
-    public RequestBuilder setUrl(String url) {
+    public RequestBuilder<T> setUrl(String url) {
         request.setUrl(url);
         return this;
     }
 
-    public RequestBuilder withHeader(RequestHeader requestHeader) {
+    public RequestBuilder<T> withHeader(RequestHeader requestHeader) {
         request.getRequestHeaders().add(requestHeader);
         return this;
     }
 
-    public RequestBuilder setTimeout(@Nullable Duration timeout) {
+    public RequestBuilder<T> setTimeout(@Nullable Duration timeout) {
         request.setTimeout(timeout);
         return this;
     }
 
-    public RequestBuilder setRedirectPolicy(HttpClient.Redirect redirectPolicy) {
+    public RequestBuilder<T> setRedirectPolicy(HttpClient.Redirect redirectPolicy) {
         request.setRedirectPolicy(redirectPolicy);
         return this;
     }
 
-    public HttpClientRequest build() {
+    public RequestBuilder<T> setCachePolicy(RequestCachePolicy cachePolicy) {
+        request.setCachePolicy(cachePolicy);
+        return this;
+    }
+
+    public T build() {
         return request;
     }
 }

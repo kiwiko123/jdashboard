@@ -1,8 +1,10 @@
 package com.kiwiko.library.http.client.internal;
 
-import com.google.gson.Gson;
 import com.kiwiko.library.http.client.dto.HttpClientResponse;
+import com.kiwiko.library.http.client.internal.caching.RequestCacheHelper;
 import com.kiwiko.library.http.client.internal.security.DefaultAuthenticator;
+import com.kiwiko.library.http.client.internal.serialization.GsonRequestSerializer;
+import com.kiwiko.library.http.client.internal.serialization.RequestSerializer;
 
 import java.net.Authenticator;
 import java.net.http.HttpClient;
@@ -11,10 +13,10 @@ import java.time.Duration;
 
 abstract class AbstractHttpNetRequestClient {
     private static final Duration DEFAULT_CLIENT_TIMEOUT = Duration.ofSeconds(30);
-    private static final Gson DEFAULT_GSON = new Gson();
 
     protected final HttpClient httpClient;
     protected final HttpRequestConverter httpRequestConverter;
+    protected final RequestCacheHelper requestCacheHelper;
 
     public AbstractHttpNetRequestClient() {
         if (Authenticator.getDefault() == null) {
@@ -27,10 +29,11 @@ abstract class AbstractHttpNetRequestClient {
                 .authenticator(Authenticator.getDefault())
                 .build();
         httpRequestConverter = new HttpRequestConverter();
+        requestCacheHelper = new RequestCacheHelper();
     }
 
-    protected Gson getSerializer() {
-        return DEFAULT_GSON;
+    protected RequestSerializer getSerializer() {
+        return new GsonRequestSerializer();
     }
 
     @SuppressWarnings("unchecked")

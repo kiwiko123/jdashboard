@@ -1,26 +1,26 @@
 package com.kiwiko.library.http.client.dto;
 
+import com.kiwiko.library.http.client.dto.caching.RequestCachePolicy;
+
 import java.net.http.HttpClient;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class HttpClientRequest {
-
-    public static RequestBuilder builder() {
-        return new RequestBuilder();
-    }
-
     private String url;
     private Set<RequestHeader> requestHeaders;
     private Duration timeout;
     private HttpClient.Redirect redirectPolicy;
+    private RequestCachePolicy cachePolicy;
 
     public HttpClientRequest() {
         requestHeaders = new HashSet<>();
         timeout = Duration.ofSeconds(10);
         redirectPolicy = HttpClient.Redirect.NORMAL;
+        cachePolicy = RequestCachePolicy.none();
     }
 
     public String getUrl() {
@@ -53,5 +53,44 @@ public class HttpClientRequest {
 
     public void setRedirectPolicy(HttpClient.Redirect redirectPolicy) {
         this.redirectPolicy = redirectPolicy;
+    }
+
+    public RequestCachePolicy getCachePolicy() {
+        return cachePolicy;
+    }
+
+    public void setCachePolicy(RequestCachePolicy cachePolicy) {
+        this.cachePolicy = cachePolicy;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof HttpClientRequest))
+            return false;
+        HttpClientRequest that = (HttpClientRequest) o;
+        return url.equals(that.url)
+                && requestHeaders.equals(that.requestHeaders)
+                && timeout.equals(that.timeout)
+                && redirectPolicy == that.redirectPolicy
+                && cachePolicy.equals(that.cachePolicy);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(url, requestHeaders, timeout, redirectPolicy, cachePolicy);
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "%s(url=\"%s\",requestHeaders=\"%s\",timeout=\"%s\",redirectPolicy=\"%s\",cachePolicy=\"%s\")",
+                getClass().getName(),
+                url,
+                requestHeaders,
+                timeout,
+                redirectPolicy,
+                cachePolicy);
     }
 }
