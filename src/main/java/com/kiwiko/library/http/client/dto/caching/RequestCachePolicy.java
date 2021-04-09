@@ -11,6 +11,8 @@ public class RequestCachePolicy {
 
     private @Nullable Duration duration;
 
+    private RequestCachePolicy() { }
+
     @Nullable
     public Duration getDuration() {
         return duration;
@@ -42,10 +44,14 @@ public class RequestCachePolicy {
                 '}';
     }
 
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
     public static class Builder {
         private final RequestCachePolicy policy;
 
-        public Builder() {
+        private Builder() {
             policy = new RequestCachePolicy();
         }
 

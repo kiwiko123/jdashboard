@@ -1,6 +1,6 @@
 package com.kiwiko.library.http.client.dto;
 
-public class DeleteRequestBuilder extends RequestBuilder<DeleteRequest> {
+public final class DeleteRequestBuilder extends RequestBuilder<DeleteRequest> {
 
     @Override
     protected DeleteRequest constructRequest() {

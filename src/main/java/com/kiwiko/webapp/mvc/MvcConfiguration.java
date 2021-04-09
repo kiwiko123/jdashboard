@@ -3,6 +3,8 @@ package com.kiwiko.webapp.mvc;
 import com.kiwiko.library.caching.api.ObjectCache;
 import com.kiwiko.library.caching.impl.InMemoryObjectCache;
 import com.kiwiko.library.metrics.api.Logger;
+import com.kiwiko.webapp.mvc.json.api.JsonSerializer;
+import com.kiwiko.webapp.mvc.json.impl.GsonJsonSerializer;
 import com.kiwiko.webapp.mvc.json.impl.resolvers.CustomRequestBodyResolver;
 import com.kiwiko.webapp.mvc.performance.api.annotations.Throttle;
 import com.kiwiko.webapp.metrics.api.annotations.CaptureMetrics;
@@ -73,6 +75,16 @@ public class MvcConfiguration implements WebMvcConfigurer {
     @Bean
     public JsonMapper propertyObjectMapper() {
         return new JsonMapper();
+    }
+
+    @Bean
+    public JsonSerializer jsonSerializer() {
+        return new GsonJsonSerializer();
+    }
+
+    @Bean
+    public GsonJsonSerializer gsonJsonSerializer() {
+        return new GsonJsonSerializer();
     }
 
     @Bean

@@ -1,6 +1,7 @@
 package com.kiwiko.webapp.mvc.security.environments.data;
 
 public enum EnvironmentType {
+    LOCAL("local"),
     TEST("test"),
     PRODUCTION("production");
 
