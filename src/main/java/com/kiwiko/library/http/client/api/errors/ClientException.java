@@ -1,6 +1,6 @@
 package com.kiwiko.library.http.client.api.errors;
 
-public class ClientException extends Exception {
+public class ClientException extends HttpClientException {
 
     public ClientException() {
         super();

@@ -1,6 +1,7 @@
 package com.kiwiko.library.http.client.internal;
 
 import com.kiwiko.library.http.client.dto.HttpClientResponse;
+import com.kiwiko.library.http.client.dto.ResponseMetadata;
 import com.kiwiko.library.http.client.internal.caching.RequestCacheHelper;
 import com.kiwiko.library.http.client.internal.security.DefaultAuthenticator;
 import com.kiwiko.webapp.mvc.json.api.JsonSerializer;
@@ -39,6 +40,9 @@ abstract class AbstractHttpNetRequestClient {
     @SuppressWarnings("unchecked")
     protected <ResponseType> HttpClientResponse<ResponseType> convertResponse(HttpResponse<String> httpResponse, Class<ResponseType> responseType) {
         int status = httpResponse.statusCode();
+        ResponseMetadata metadata = ResponseMetadata.newBuilder()
+                .setUrl(httpResponse.uri().toString())
+                .build();
         ResponseType payload;
 
         if (responseType.isAssignableFrom(String.class)) {
@@ -47,6 +51,6 @@ abstract class AbstractHttpNetRequestClient {
             payload = getSerializer().fromJson(httpResponse.body(), responseType);
         }
 
-        return new HttpClientResponse<>(status, payload);
+        return new HttpClientResponse<>(status, payload, metadata);
     }
 }

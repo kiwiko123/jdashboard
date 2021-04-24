@@ -1,4 +1,4 @@
-package com.kiwiko.webapp.http.client.internal;
+package com.kiwiko.webapp.http.client.impl;
 
 import com.kiwiko.library.http.client.api.AsynchronousHttpRequestClient;
 import com.kiwiko.library.http.client.api.SynchronousHttpRequestClient;

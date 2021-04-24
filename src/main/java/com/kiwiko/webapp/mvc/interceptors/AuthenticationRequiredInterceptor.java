@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.mvc.interceptors;
 
-import com.kiwiko.library.metrics.api.LogService;
+import com.kiwiko.library.metrics.api.Logger;
 import com.kiwiko.webapp.mvc.interceptors.internal.SessionRequestHelper;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.AuthenticationRequired;
 import com.kiwiko.webapp.mvc.security.authentication.api.errors.AuthenticationException;
@@ -11,44 +11,52 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 public class AuthenticationRequiredInterceptor extends HandlerInterceptorAdapter {
 
-    @Inject
-    private SessionRequestHelper sessionRequestHelper;
-
-    @Inject
-    private SessionHelper sessionHelper;
-
-    @Inject
-    private LogService logService;
+    @Inject private SessionRequestHelper sessionRequestHelper;
+    @Inject private SessionHelper sessionHelper;
+    @Inject private Logger logger;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (!(handler instanceof HandlerMethod)) {
-            logService.warn(String.format("Unknown handler type %s", handler.getClass().getName()));
+            logger.warn(String.format("Unknown handler type %s", handler.getClass().getName()));
             return false;
         }
 
         HandlerMethod method = (HandlerMethod) handler;
-        if (!requiresAuthentication(method)) {
+        AuthenticationRequired authenticationRequired = getAuthenticationRequired(method).orElse(null);
+        if (authenticationRequired == null) {
             return true;
         }
 
+        boolean allowRequest = false;
+        switch (authenticationRequired.level()) {
+            case AUTHENTICATED:
+                allowRequest = isActivelyAuthenticated(request);
+                break;
+            case NONE:
+                allowRequest = true;
+                break;
+        }
 
-        return sessionRequestHelper.getSessionFromRequest(request)
-                .map(session -> !sessionHelper.isExpired(session))
-                .orElseThrow(() -> {
-                    logService.error(String.format("Attempt to hit \"%s\" failed; authentication is required", request.getRequestURL()));
-                    return new AuthenticationException("User authentication is required.");
-                });
+        if (!allowRequest) {
+            throw new AuthenticationException("User authentication is required.");
+        }
+
+        return true;
     }
 
-    private boolean requiresAuthentication(HandlerMethod method) {
-        if (method.getMethodAnnotation(AuthenticationRequired.class) != null) {
-            return true;
-        }
+    private Optional<AuthenticationRequired> getAuthenticationRequired(HandlerMethod method) {
+        return Optional.ofNullable(method.getMethodAnnotation(AuthenticationRequired.class))
+                .or(() -> Optional.ofNullable(method.getMethod().getDeclaringClass().getAnnotation(AuthenticationRequired.class)));
+    }
 
-        return method.getMethod().getDeclaringClass().getAnnotation(AuthenticationRequired.class) != null;
+    private boolean isActivelyAuthenticated(HttpServletRequest request) {
+        return sessionRequestHelper.getSessionFromRequest(request)
+                .map(session -> !sessionHelper.isExpired(session))
+                .orElse(false);
     }
 }

@@ -1,8 +1,6 @@
 package com.kiwiko.library.http.client.api.errors;
 
-import net.bytebuddy.implementation.bytecode.Throw;
-
-public class ServerException extends Exception {
+public class ServerException extends HttpClientException {
 
     public ServerException() {
         super();

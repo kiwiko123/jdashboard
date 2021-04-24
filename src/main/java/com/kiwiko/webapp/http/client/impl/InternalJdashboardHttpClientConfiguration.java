@@ -1,4 +1,4 @@
-package com.kiwiko.webapp.http.client.internal;
+package com.kiwiko.webapp.http.client.impl;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
