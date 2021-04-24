@@ -2,7 +2,7 @@ package com.kiwiko.webapp.users.api;
 
 import com.kiwiko.webapp.users.api.parameters.CreateUserParameters;
 import com.kiwiko.webapp.users.data.User;
-import com.kiwiko.clients.users.api.parameters.GetUsersQuery;
+import com.kiwiko.webapp.clients.users.api.parameters.GetUsersQuery;
 
 import java.util.Collection;
 import java.util.List;

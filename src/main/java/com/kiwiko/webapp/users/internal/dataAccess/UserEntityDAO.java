@@ -1,8 +1,8 @@
 package com.kiwiko.webapp.users.internal.dataAccess;
 
 import com.kiwiko.webapp.mvc.persistence.dataaccess.api.AuditableEntityManagerDAO;
-import com.kiwiko.clients.users.api.parameters.GetUserQuery;
-import com.kiwiko.clients.users.api.parameters.GetUsersQuery;
+import com.kiwiko.webapp.clients.users.api.parameters.GetUserQuery;
+import com.kiwiko.webapp.clients.users.api.parameters.GetUsersQuery;
 
 import javax.inject.Singleton;
 import javax.persistence.criteria.CriteriaBuilder;

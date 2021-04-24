@@ -7,7 +7,7 @@ import com.kiwiko.webapp.users.api.parameters.CreateUserParameters;
 import com.kiwiko.webapp.users.data.User;
 import com.kiwiko.webapp.users.internal.dataAccess.UserEntityDAO;
 import com.kiwiko.webapp.users.internal.dataAccess.UserEntity;
-import com.kiwiko.clients.users.api.parameters.GetUsersQuery;
+import com.kiwiko.webapp.clients.users.api.parameters.GetUsersQuery;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;

@@ -8,7 +8,7 @@ import com.kiwiko.webapp.mvc.security.environments.data.EnvironmentProperties;
 import com.kiwiko.webapp.users.api.UserService;
 import com.kiwiko.webapp.users.api.parameters.CreateUserParameters;
 import com.kiwiko.webapp.users.data.User;
-import com.kiwiko.clients.users.api.parameters.GetUsersQuery;
+import com.kiwiko.webapp.clients.users.api.parameters.GetUsersQuery;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
