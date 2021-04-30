@@ -7,6 +7,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-@CrossOrigin(origins = EnvironmentProperties.CROSS_ORIGIN_URL, allowCredentials = "true")
+@CrossOrigin(
+        allowCredentials = "true",
+        origins = {EnvironmentProperties.CROSS_ORIGIN_URL})
 public @interface CrossOriginConfigured {
 }

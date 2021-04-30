@@ -19,6 +19,7 @@ public class AuthenticationWebSecurityConfigurerAdapter extends WebSecurityConfi
         EnvironmentType environmentType = environmentService.getEnvironmentType();
         switch (environmentType) {
             case TEST:
+            case LOCAL:
                 configureForTestEnvironment(httpSecurity);
                 break;
         }

@@ -16,5 +16,6 @@ public class GetUsersQueryRequest extends GetRequest {
         setUrl(String.format("%s?query=%s", BASE_API_URL, queryJson));
         setCachePolicy(CACHE_POLICY);
         setTimeout(TIMEOUT);
+        setInternalServiceRequest(true);
     }
 }

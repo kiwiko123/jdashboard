@@ -1,6 +1,7 @@
 package com.kiwiko.library.http.client.internal;
 
 import com.kiwiko.library.http.client.dto.HttpClientResponse;
+import com.kiwiko.library.http.client.dto.RequestHeader;
 import com.kiwiko.library.http.client.dto.ResponseMetadata;
 import com.kiwiko.library.http.client.internal.caching.RequestCacheHelper;
 import com.kiwiko.library.http.client.internal.security.DefaultAuthenticator;
@@ -11,6 +12,8 @@ import java.net.Authenticator;
 import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.HashSet;
+import java.util.Set;
 
 abstract class AbstractHttpNetRequestClient {
     private static final Duration DEFAULT_CLIENT_TIMEOUT = Duration.ofSeconds(30);
@@ -42,6 +45,7 @@ abstract class AbstractHttpNetRequestClient {
         int status = httpResponse.statusCode();
         ResponseMetadata metadata = ResponseMetadata.newBuilder()
                 .setUrl(httpResponse.uri().toString())
+                .setHeaders(makeHeaders(httpResponse))
                 .build();
         ResponseType payload;
 
@@ -52,5 +56,16 @@ abstract class AbstractHttpNetRequestClient {
         }
 
         return new HttpClientResponse<>(status, payload, metadata);
+    }
+
+    private Set<RequestHeader> makeHeaders(HttpResponse<?> httpResponse) {
+        Set<RequestHeader> headers = new HashSet<>();
+        httpResponse.headers().map().forEach((header, values) -> {
+            values.stream()
+                    .map(value -> new RequestHeader(header, value))
+                    .forEach(headers::add);
+        });
+
+        return headers;
     }
 }

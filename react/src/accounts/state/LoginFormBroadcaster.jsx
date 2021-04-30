@@ -66,7 +66,8 @@ export default class LoginFormBroadcaster extends Broadcaster {
         Request.to(LOG_IN_URL)
             .withErrorHandler(handleLoginErrors)
             .withBody(payload)
-            .post({ credentials: 'include' })
+            .withAuthentication()
+            .post()
             .then((response) => {
                 goTo('/home');
             })

@@ -1,46 +1,41 @@
 package com.kiwiko.webapp.mvc.interceptors;
 
 import com.kiwiko.library.metrics.api.Logger;
+import com.kiwiko.webapp.mvc.interceptors.api.EndpointInterceptor;
 import com.kiwiko.webapp.mvc.interceptors.internal.SessionRequestHelper;
+import com.kiwiko.webapp.mvc.security.authentication.api.annotations.AuthenticationLevel;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.AuthenticationRequired;
 import com.kiwiko.webapp.mvc.security.authentication.api.errors.AuthenticationException;
+import com.kiwiko.webapp.mvc.security.authentication.http.api.InternalHttpRequestValidator;
+import com.kiwiko.webapp.mvc.security.authentication.http.api.errors.UnauthorizedInternalRequestException;
 import com.kiwiko.webapp.mvc.security.sessions.api.SessionHelper;
 import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
-public class AuthenticationRequiredInterceptor extends HandlerInterceptorAdapter {
+public class AuthenticationRequiredInterceptor extends EndpointInterceptor {
 
     @Inject private SessionRequestHelper sessionRequestHelper;
     @Inject private SessionHelper sessionHelper;
+    @Inject private InternalHttpRequestValidator internalHttpRequestValidator;
     @Inject private Logger logger;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (!(handler instanceof HandlerMethod)) {
-            logger.warn(String.format("Unknown handler type %s", handler.getClass().getName()));
-            return false;
-        }
-
-        HandlerMethod method = (HandlerMethod) handler;
+    protected boolean allowRequest(HttpServletRequest request, HttpServletResponse response, HandlerMethod method) throws Exception {
         AuthenticationRequired authenticationRequired = getAuthenticationRequired(method).orElse(null);
         if (authenticationRequired == null) {
             return true;
         }
 
-        boolean allowRequest = false;
-        switch (authenticationRequired.level()) {
-            case AUTHENTICATED:
-                allowRequest = isActivelyAuthenticated(request);
-                break;
-            case NONE:
-                allowRequest = true;
-                break;
-        }
+        Set<AuthenticationLevel> designatedLevels = new HashSet<>(Arrays.asList(authenticationRequired.levels()));
+        boolean allowRequest = designatedLevels.stream()
+                .anyMatch(level -> meetsAuthenticationLevel(request, level));
 
         if (!allowRequest) {
             throw new AuthenticationException("User authentication is required.");
@@ -54,9 +49,32 @@ public class AuthenticationRequiredInterceptor extends HandlerInterceptorAdapter
                 .or(() -> Optional.ofNullable(method.getMethod().getDeclaringClass().getAnnotation(AuthenticationRequired.class)));
     }
 
+    private boolean meetsAuthenticationLevel(HttpServletRequest request, AuthenticationLevel level) {
+        logger.debug(String.format("Determining authentication at level %s for %s", level.name(), request.getRequestURI()));
+        switch (level) {
+            case AUTHENTICATED:
+                return isActivelyAuthenticated(request);
+            case INTERNAL_SERVICE:
+                return isInternalServiceAuthorized(request);
+            case NONE:
+                return true;
+            default:
+                return false;
+        }
+    }
+
     private boolean isActivelyAuthenticated(HttpServletRequest request) {
         return sessionRequestHelper.getSessionFromRequest(request)
                 .map(session -> !sessionHelper.isExpired(session))
                 .orElse(false);
+    }
+
+    private boolean isInternalServiceAuthorized(HttpServletRequest request) {
+        try {
+            internalHttpRequestValidator.validateIncomingRequest(request);
+        } catch (UnauthorizedInternalRequestException e) {
+            return false;
+        }
+        return true;
     }
 }

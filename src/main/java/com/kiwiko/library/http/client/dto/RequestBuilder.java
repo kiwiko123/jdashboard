@@ -40,6 +40,11 @@ public abstract class RequestBuilder<T extends HttpClientRequest> {
         return this;
     }
 
+    public RequestBuilder<T> setIsInternalServiceRequest(boolean isInternalServiceRequest) {
+        request.setInternalServiceRequest(isInternalServiceRequest);
+        return this;
+    }
+
     public T build() {
         return request;
     }

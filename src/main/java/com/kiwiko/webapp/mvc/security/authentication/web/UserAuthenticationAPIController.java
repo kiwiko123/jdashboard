@@ -23,14 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 public class UserAuthenticationAPIController {
 
-    @Inject
-    private SessionService sessionService;
-
-    @Inject
-    private UserService userService;
-
-    @Inject
-    private LogService logService;
+    @Inject private SessionService sessionService;
+    @Inject private UserService userService;
+    @Inject private LogService logService;
 
     @PostMapping("/user-auth/api/create")
     public ResponsePayload createUser(
@@ -87,12 +82,6 @@ public class UserAuthenticationAPIController {
         return new ResponseBuilder()
                 .withBody(currentUser)
                 .build();
-    }
-
-    @Deprecated
-    @GetMapping("/user-auth/api/legacy/get-current-user")
-    public ResponsePayload getCurrentUserLegacy(RequestContext requestContext) {
-        return getCurrentUser(requestContext);
     }
 
     private ResponsePayload getInvalidUserResponse() {

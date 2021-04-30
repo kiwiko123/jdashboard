@@ -9,5 +9,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AuthenticationRequired {
 
-    AuthenticationLevel level() default AuthenticationLevel.AUTHENTICATED;
+    AuthenticationLevel[] levels() default { AuthenticationLevel.AUTHENTICATED };
 }

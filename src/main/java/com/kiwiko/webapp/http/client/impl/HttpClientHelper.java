@@ -1,6 +1,7 @@
 package com.kiwiko.webapp.http.client.impl;
 
 import com.kiwiko.library.http.client.dto.HttpClientRequest;
+import com.kiwiko.webapp.mvc.security.authentication.http.api.InternalHttpRequestValidator;
 import com.kiwiko.webapp.mvc.security.environments.api.EnvironmentService;
 
 import javax.inject.Inject;
@@ -8,9 +9,11 @@ import javax.inject.Inject;
 class HttpClientHelper {
 
     @Inject private EnvironmentService environmentService;
+    @Inject private InternalHttpRequestValidator internalHttpRequestValidator;
 
     <T extends HttpClientRequest> void setRequestData(T request) {
         setUrl(request);
+        setInternalServiceData(request);
     }
 
     private <T extends HttpClientRequest> void setUrl(T request) {
@@ -27,5 +30,12 @@ class HttpClientHelper {
         }
 
         return String.format("%s%s", serverUrl, normalizedPath);
+    }
+
+    private <T extends HttpClientRequest> void setInternalServiceData(T request) {
+        if (!request.isInternalServiceRequest()) {
+            return;
+        }
+        internalHttpRequestValidator.authorizeOutgoingRequest(request);
     }
 }

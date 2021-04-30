@@ -4,6 +4,8 @@ import com.google.gson.JsonSyntaxException;
 import com.kiwiko.webapp.mvc.json.api.JsonSerializer;
 import com.kiwiko.webapp.mvc.json.api.ResponseBuilder;
 import com.kiwiko.webapp.mvc.json.data.ResponsePayload;
+import com.kiwiko.webapp.mvc.security.authentication.api.annotations.AuthenticationLevel;
+import com.kiwiko.webapp.mvc.security.authentication.api.annotations.AuthenticationRequired;
 import com.kiwiko.webapp.mvc.security.environments.data.EnvironmentProperties;
 import com.kiwiko.webapp.users.api.UserService;
 import com.kiwiko.webapp.users.api.parameters.CreateUserParameters;
@@ -31,6 +33,7 @@ public class UserAPIController {
                 .build();
     }
 
+    @AuthenticationRequired(levels = AuthenticationLevel.INTERNAL_SERVICE)
     @GetMapping("/users/api")
     public ResponsePayload getUsers(@RequestParam("query") String jsonQuery) {
         GetUsersQuery query;

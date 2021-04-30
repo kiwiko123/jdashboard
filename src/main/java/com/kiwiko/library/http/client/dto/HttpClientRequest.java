@@ -15,12 +15,14 @@ public class HttpClientRequest {
     private Duration timeout;
     private HttpClient.Redirect redirectPolicy;
     private RequestCachePolicy cachePolicy;
+    private boolean isInternalServiceRequest;
 
     public HttpClientRequest() {
         requestHeaders = new HashSet<>();
         timeout = Duration.ofSeconds(10);
         redirectPolicy = HttpClient.Redirect.NORMAL;
         cachePolicy = RequestCachePolicy.none();
+        isInternalServiceRequest = false;
     }
 
     public String getUrl() {
@@ -37,6 +39,10 @@ public class HttpClientRequest {
 
     public void setRequestHeaders(Collection<RequestHeader> requestHeaders) {
         this.requestHeaders = new HashSet<>(requestHeaders);
+    }
+
+    public void addRequestHeader(RequestHeader requestHeader) {
+        requestHeaders.add(requestHeader);
     }
 
     public Duration getTimeout() {
@@ -61,6 +67,14 @@ public class HttpClientRequest {
 
     public void setCachePolicy(RequestCachePolicy cachePolicy) {
         this.cachePolicy = cachePolicy;
+    }
+
+    public boolean isInternalServiceRequest() {
+        return isInternalServiceRequest;
+    }
+
+    public void setInternalServiceRequest(boolean internalServiceRequest) {
+        isInternalServiceRequest = internalServiceRequest;
     }
 
     @Override
