@@ -86,3 +86,11 @@ CREATE TABLE feature_flags (
     is_removed BOOLEAN NOT NULL DEFAULT FALSE,
     versions TEXT
 );
+
+CREATE TABLE application_events (
+    id BIGSERIAL PRIMARY KEY,
+    event_type TEXT NOT NULL,
+    event_key TEXT,
+    metadata TEXT,
+    created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+);

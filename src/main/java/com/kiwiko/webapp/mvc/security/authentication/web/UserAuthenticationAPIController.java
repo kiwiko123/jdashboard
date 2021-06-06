@@ -6,6 +6,7 @@ import com.kiwiko.webapp.mvc.json.data.ResponsePayload;
 import com.kiwiko.webapp.mvc.requests.api.annotations.RequestBodyParameter;
 import com.kiwiko.webapp.mvc.requests.data.RequestContext;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.CrossOriginConfigured;
+import com.kiwiko.webapp.mvc.security.authentication.internal.events.UserAuthenticationEventClient;
 import com.kiwiko.webapp.mvc.security.sessions.api.SessionService;
 import com.kiwiko.webapp.mvc.security.sessions.data.Session;
 import com.kiwiko.webapp.users.api.UserService;
@@ -25,6 +26,7 @@ public class UserAuthenticationAPIController {
 
     @Inject private SessionService sessionService;
     @Inject private UserService userService;
+    @Inject private UserAuthenticationEventClient userAuthenticationEventClient;
     @Inject private LogService logService;
 
     @PostMapping("/user-auth/api/create")
@@ -51,6 +53,8 @@ public class UserAuthenticationAPIController {
         }
 
         sessionService.createSessionCookieForUser(user.getId(), httpServletResponse);
+        userAuthenticationEventClient.recordLogInEvent(user.getId());
+
         return new ResponseBuilder()
                 .withBody(user)
                 .build();
@@ -67,6 +71,8 @@ public class UserAuthenticationAPIController {
         }
 
         sessionService.endSessionForUser(user.getId());
+        userAuthenticationEventClient.recordLogOutEvent(user.getId());
+
         return ResponseBuilder.ok();
     }
 
