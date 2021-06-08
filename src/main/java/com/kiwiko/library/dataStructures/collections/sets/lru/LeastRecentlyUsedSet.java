@@ -4,7 +4,6 @@ import com.kiwiko.library.dataStructures.collections.lists.linked.DoublyLinkedLi
 import com.kiwiko.library.dataStructures.collections.lists.linked.Node;
 
 import java.util.AbstractSet;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -37,6 +36,14 @@ public class LeastRecentlyUsedSet<E> extends AbstractSet<E> {
         this.capacity = capacity;
     }
 
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
     @Override
     public int size() {
         return list.size();
@@ -63,6 +70,13 @@ public class LeastRecentlyUsedSet<E> extends AbstractSet<E> {
         list.addFirst(e);
         LRUCacheValue<E> cacheValue = new LRUCacheValue<>(list.getHead());
         table.put(e, cacheValue);
+
+        if (size() > capacity) {
+            Node<E> leastRecentlyUsedNode = list.getTail();
+            table.remove(leastRecentlyUsedNode.getValue());
+            list.removeNode(leastRecentlyUsedNode);
+        }
+
         return true;
     }
 
@@ -80,11 +94,6 @@ public class LeastRecentlyUsedSet<E> extends AbstractSet<E> {
     }
 
     @Override
-    public boolean retainAll(Collection<?> c) {
-        return super.retainAll(c);
-    }
-
-    @Override
     public void clear() {
         list.clear();
         table.clear();
@@ -92,7 +101,7 @@ public class LeastRecentlyUsedSet<E> extends AbstractSet<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return null;
+        return new LeastRecentlyUsedSetIterator<>(this, list.getHead());
     }
 
     @Override
