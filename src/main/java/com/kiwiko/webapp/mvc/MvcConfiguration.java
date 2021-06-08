@@ -17,7 +17,6 @@ import com.kiwiko.library.metrics.api.LogService;
 import com.kiwiko.library.metrics.impl.ConsoleLogService;
 import com.kiwiko.webapp.mvc.interceptors.ThrottleMethodInterceptor;
 import com.kiwiko.webapp.mvc.interceptors.internal.SessionRequestHelper;
-import com.kiwiko.webapp.mvc.lifecycle.dependencies.manual.data.InjectManuallyConfigurer;
 import com.kiwiko.webapp.mvc.requests.internal.InMemoryRequestContextService;
 import com.kiwiko.webapp.mvc.json.api.JsonMapper;
 import com.kiwiko.webapp.mvc.resolvers.RequestBodyCollectionParameterResolver;
@@ -148,21 +147,22 @@ public class MvcConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
+    public CaptureMetricsMethodInterceptor captureMetricsMethodInterceptor() {
+        return new CaptureMetricsMethodInterceptor();
+    }
+
+    @Bean
+    public ThrottleMethodInterceptor throttleMethodInterceptor() {
+        return new ThrottleMethodInterceptor();
+    }
+
+    @Bean
     public Advisor captureMetricsAdvisor() {
-        CaptureMetricsMethodInterceptor instance = new InjectManuallyConfigurer<CaptureMetricsMethodInterceptor>()
-                .withBinding(LogService.class, ConsoleLogService.class)
-                .withInstance(new CaptureMetricsMethodInterceptor())
-                .create();
-        return configurationHelper.createAnnotationBean(CaptureMetrics.class, instance);
+        return configurationHelper.createAnnotationBean(CaptureMetrics.class, captureMetricsMethodInterceptor());
     }
 
     @Bean
     public Advisor throttleAdvisor() {
-        ThrottleMethodInterceptor instance = new InjectManuallyConfigurer<ThrottleMethodInterceptor>()
-                .withBinding(ObjectCache.class, InMemoryObjectCache.class)
-                .withBinding(LogService.class, ConsoleLogService.class)
-                .withInstance(new ThrottleMethodInterceptor())
-                .create();
-        return configurationHelper.createAnnotationBean(Throttle.class, instance);
+        return configurationHelper.createAnnotationBean(Throttle.class, throttleMethodInterceptor());
     }
 }
