@@ -1,5 +1,6 @@
 package com.kiwiko.webapp.system.events.api;
 
+import com.kiwiko.webapp.system.events.api.parameters.ApplicationEventQuery;
 import com.kiwiko.webapp.system.events.dto.ApplicationEvent;
 
 import java.util.Optional;
@@ -9,7 +10,7 @@ public interface ApplicationEventService {
 
     Optional<ApplicationEvent> get(long id);
 
-//    Set<ApplicationEvent> query();
+    Set<ApplicationEvent> query(ApplicationEventQuery query);
 
     ApplicationEvent create(ApplicationEvent event);
 }
