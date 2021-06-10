@@ -72,9 +72,7 @@ public class LeastRecentlyUsedSet<E> extends AbstractSet<E> {
         table.put(e, cacheValue);
 
         if (size() > capacity) {
-            Node<E> leastRecentlyUsedNode = list.getTail();
-            table.remove(leastRecentlyUsedNode.getValue());
-            list.removeNode(leastRecentlyUsedNode);
+            evictLeastRecentlyUsedValue();
         }
 
         return true;
@@ -107,6 +105,14 @@ public class LeastRecentlyUsedSet<E> extends AbstractSet<E> {
     @Override
     public int hashCode() {
         return Objects.hash(list, table, capacity);
+    }
+
+    protected E evictLeastRecentlyUsedValue() {
+        Node<E> leastRecentlyUsedNode = list.getTail();
+        table.remove(leastRecentlyUsedNode.getValue());
+        list.removeNode(leastRecentlyUsedNode);
+
+        return leastRecentlyUsedNode.getValue();
     }
 
     /**

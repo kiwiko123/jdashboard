@@ -38,6 +38,10 @@ public class CacheValue<T> {
         String expirationDisplay = getExpirationTime()
                 .map(Object::toString)
                 .orElse("(indefinite)");
-        return String.format("CacheValue(%s, %s, %s)", value.toString(), createdTime.toString(), expirationDisplay);
+        return String.format(
+                "CacheValue(value=%s,createdTime=%s,expirationTime=%s)",
+                value,
+                createdTime.toString(),
+                expirationDisplay);
     }
 }

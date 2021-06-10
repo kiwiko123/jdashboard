@@ -17,13 +17,14 @@ import java.util.stream.Collectors;
 
 @Singleton
 public class InMemoryObjectCache implements ObjectCache {
-    private static final Map<String, CacheValue<?>> IN_MEMORY_CACHE = new ConcurrentHashMap<>();
+    private final Map<String, CacheValue<?>> IN_MEMORY_CACHE;
     private static final int MAX_ENTRIES_TO_EXAMINE_FOR_CLEANING = 50;
     private static final int CHANCE_TO_CLEAN = 10;
 
     private final RandomUtil randomUtil;
 
     public InMemoryObjectCache() {
+        IN_MEMORY_CACHE = new ConcurrentHashMap<>();
         randomUtil = new RandomUtil();
     }
 

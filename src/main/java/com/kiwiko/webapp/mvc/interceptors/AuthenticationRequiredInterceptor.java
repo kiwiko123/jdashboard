@@ -38,6 +38,8 @@ public class AuthenticationRequiredInterceptor extends EndpointInterceptor {
                 .anyMatch(level -> meetsAuthenticationLevel(request, level));
 
         if (!allowRequest) {
+            logger.error(String.format("User authentication is required for %s", request.getRequestURL().toString()));
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
             throw new AuthenticationException("User authentication is required.");
         }
 

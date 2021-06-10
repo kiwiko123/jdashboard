@@ -40,6 +40,8 @@ public class JdashboardInternalHttpRequestValidator implements InternalHttpReque
         if (!Objects.equals(token, actualTokenValue)) {
             throw new UnauthorizedInternalRequestException(String.format("Unauthorized internal request: %s", request.getRequestURI()));
         }
+
+        objectCache.invalidate(cacheKey);
     }
 
     private <T extends HttpClientRequest> RequestHeader makeAuthorizedOutgoingRequestHeader(T request) {
