@@ -79,12 +79,6 @@ public class UserAuthenticationAPIController {
     @GetMapping("/user-auth/api/users/current")
     public ResponsePayload getCurrentUser(RequestContext requestContext) {
         User currentUser = requestContext.getUser().orElse(null);
-        if (currentUser == null) {
-            return new ResponseBuilder()
-                    .withError("No logged-in user found")
-                    .build();
-        }
-
         return new ResponseBuilder()
                 .withBody(currentUser)
                 .build();
