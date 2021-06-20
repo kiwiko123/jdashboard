@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import StateTransmitter from '../../../state/StateTransmitter';
+import StateTransmitter from 'state/StateTransmitter';
 
 export default class CreateFeatureFlagModalStateTransmitter extends StateTransmitter {
     constructor() {
@@ -10,11 +10,9 @@ export default class CreateFeatureFlagModalStateTransmitter extends StateTransmi
         this.registerMethod(this.close);
     }
 
-    receiveState(state, { tag, event }) {
-        if (tag === 'FeatureFlagToolbarStateTransmitter') {
-            if (event === 'pressCreateButton') {
-                this.setState({ isOpen: state.isOpen });
-            }
+    receiveFeatureFlagToolbarStateTransmitter(state, metadata) {
+        if (metadata === 'pressCreateButton') {
+            this.setState({ isOpen: state.isOpen });
         }
     }
 

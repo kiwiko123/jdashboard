@@ -1,4 +1,4 @@
-import StateTransmitter from '../../../state/StateTransmitter';
+import StateTransmitter from 'state/StateTransmitter';
 
 export default class FeatureFlagToolbarStateTransmitter extends StateTransmitter {
     constructor() {
@@ -9,10 +9,7 @@ export default class FeatureFlagToolbarStateTransmitter extends StateTransmitter
     pressCreateButton() {
         this.sendState(
             'CreateFeatureFlagModalStateTransmitter',
-            {
-                state: { isOpen: true },
-                event: 'pressCreateButton',
-            },
-        );
+            { isOpen: true },
+            'pressCreateButton');
     }
 }

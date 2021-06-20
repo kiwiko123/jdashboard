@@ -1,3 +1,5 @@
+import logger from 'common/js/logging';
+
 const STATE_TRANSMITTERS_BY_TAG = new Map();
 
 function register(stateTransmitter) {
@@ -23,9 +25,20 @@ function get(tag) {
         : new Set([]);
 }
 
-function sendState(sourceTag, sourceState, recipientTag, { event }) {
-    get(recipientTag)
-        .forEach(transmitter => transmitter.receiveState(sourceState, { tag: sourceTag, event }));
+function sendState(sourceTag, sourceState, recipientTag, metadata) {
+    get(recipientTag).forEach(transmitter => routeState(transmitter, sourceTag, sourceState, metadata));
+}
+
+function routeState(transmitter, sourceTag, sourceState, metadata) {
+    const receiveSpecificTransmitterFunctionName = `receive${sourceTag}`;
+    let receiveSpecificTransmitter = transmitter[receiveSpecificTransmitterFunctionName];
+    if (receiveSpecificTransmitter) {
+        logger.debug(`Routing state to ${transmitter.tag}.${receiveSpecificTransmitterFunctionName}`);
+        receiveSpecificTransmitter.bind(transmitter)(sourceState, metadata);
+    } else {
+        logger.debug(`No specific receive method found matching "${receiveSpecificTransmitterFunctionName}"; routing to receive`);
+        transmitter.receiveState(sourceTag, sourceState, metadata);
+    }
 }
 
 export default {

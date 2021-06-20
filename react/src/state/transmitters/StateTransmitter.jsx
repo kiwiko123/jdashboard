@@ -1,5 +1,5 @@
 import { isEmpty, isUndefined, pickBy } from 'lodash';
-import logger from '../../common/js/logging';
+import logger from 'common/js/logging';
 import CoreStateManager from '../managers/CoreStateManager';
 import StateTransmitterRegistry from './private/StateTransmitterRegistry';
 
@@ -15,16 +15,16 @@ export default class StateTransmitter extends CoreStateManager {
     }
 
     setState(newState) {
-        Object.assign(this.state, newState);
+        super.setState(newState);
         this.update();
     }
 
-    sendState(tag, { state, event } = {}) {
+    sendState(tag, state, metadata) {
         const data = isUndefined(state) ? this.state : state;
-        StateTransmitterRegistry.sendState(this.tag, data, tag, { event });
+        StateTransmitterRegistry.sendState(this.tag, data, tag, metadata);
     }
 
-    receiveState(state, { tag, event } = {}) {
+    receiveState(tag, state, metadata) {
         logger.warn(`No implementation for receive in ${this.id}`);
     }
 
