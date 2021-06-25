@@ -1,7 +1,7 @@
 package com.kiwiko.webapp.mvc.security.authentication.internal.events;
 
-import com.kiwiko.webapp.system.events.api.ApplicationEventService;
-import com.kiwiko.webapp.system.events.dto.ApplicationEvent;
+import com.kiwiko.webapp.system.events.api.interfaces.ApplicationEventService;
+import com.kiwiko.webapp.system.events.api.dto.ApplicationEvent;
 
 import javax.inject.Inject;
 
@@ -11,7 +11,7 @@ public class DirectServiceUserAuthenticationEventClient implements UserAuthentic
 
     @Override
     public void recordLogInEvent(long userId) {
-        ApplicationEvent event = new ApplicationEvent.Builder("user_log_in")
+        ApplicationEvent event = new ApplicationEvent.Builder(UserAuthenticationEventConstants.USER_LOG_IN_EVENT_KEY)
                 .setEventKey(Long.toString(userId))
                 .build();
 
@@ -20,7 +20,7 @@ public class DirectServiceUserAuthenticationEventClient implements UserAuthentic
 
     @Override
     public void recordLogOutEvent(long userId) {
-        ApplicationEvent event = new ApplicationEvent.Builder("user_log_out")
+        ApplicationEvent event = new ApplicationEvent.Builder(UserAuthenticationEventConstants.USER_LOG_OUT_EVENT_KEY)
                 .setEventKey(Long.toString(userId))
                 .build();
 

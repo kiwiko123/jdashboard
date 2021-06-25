@@ -1,7 +1,7 @@
 package com.kiwiko.webapp.system.events.internal.data;
 
 import com.kiwiko.webapp.mvc.persistence.dataaccess.api.EntityManagerDAO;
-import com.kiwiko.webapp.system.events.api.parameters.ApplicationEventQuery;
+import com.kiwiko.webapp.system.events.api.interfaces.parameters.ApplicationEventQuery;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;

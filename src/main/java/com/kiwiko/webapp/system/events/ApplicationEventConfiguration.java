@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.system.events;
 
-import com.kiwiko.webapp.system.events.api.ApplicationEventService;
+import com.kiwiko.webapp.system.events.api.interfaces.ApplicationEventService;
 import com.kiwiko.webapp.system.events.internal.ApplicationEventEntityService;
 import com.kiwiko.webapp.system.events.internal.data.ApplicationEventEntityDataFetcher;
 import com.kiwiko.webapp.system.events.internal.mappers.ApplicationEventEntityMapper;

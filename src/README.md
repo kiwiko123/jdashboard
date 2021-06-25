@@ -1,36 +1,46 @@
 # Java
 ## Package structure
-In general, the Java packages in this project adhere to the following structure:
+The current recommended pattern in the Jdashboard codebase structures Java code in the following packages:
 * `api`
-* `data`
+  * `interfaces`
+  * `dto`
 * `internal`
+  * `data`
 * `web`
+
+This is not a hard and fast rule, but just a guideline. The recommended pattern may change in the future; 
+in fact, many packages currently adhere to a deprecated structure that was recommended prior to this one.
 
 Consider the following structure for some business logic about cars:
 ```
 cars/
 +--- api/
-|    +-- CarService.java (interface)
-|--- data/
-|    +--- Car.java (DTO)
+|------- interfaces/
+|        +--------- CarService.java (interface)
+|------- dto/
+         +-- Car.java
 |--- internal/
-|    +------- dataAccess/
-|    |        +--------- CarDAO.java
+|    +------- data/
 |    |        +--------- CarEntity.java
+|    |        +--------- CarDataFetcher.java
 |    +------- CarEntityMapper.java (converts JPA entities to DTOs)
-|    +------- CarEntityService.java (implementation)
+|    +------- CarEntityService.java (implementation of CarService)
 |--- web/
 |    +-- CarAPIController.java
 +--- CarConfiguration.java
 ```
 
 ### `api`
-A public-facing package containing code intended for external consumption.
-Often, this will consist of interfaces, annotations, and exception classes.
+A public-facing package containing code intended for external consumption. 
+The `api`-`internal` separation allows underlying implementations to be abstracted away. 
+Often, this will consist of interfaces, DTOs, annotations, and exception classes. 
+Any item within here is intended for use in other locations.
 
-### `data`
+#### `api.interfaces`
+A public-facing package that contains Java interfaces, annotations, and exception classes.
+
+#### `api.dto`
 A public-facing package that contains simplistic data classes.
-This mostly consists of [Data Transfer Objects](https://en.wikipedia.org/wiki/Data_transfer_object) (DTOs) and enums.
 
 ### `internal`
 A package that's meant to be internal to its directory.
@@ -39,14 +49,9 @@ An exception to this would be for dependency injection configuration beans.
 
 This often consists of implementation classes for interfaces.
 
-#### `internal.dataAccess`
+#### `internal.data`
 For a web application, this also includes database-related objects like [JPA entities](https://en.wikipedia.org/wiki/Java_Persistence_API#Entities) and Data Access Objects (DAOs).
-External consumers should access logic through public services from `api`.
+External consumers should access logic through public interfaces from `api`.
 
 ### `web`
 A package that contains code related to web functionality, like [REST](https://en.wikipedia.org/wiki/Representational_state_transfer) controllers.
-A `web` package may also wish to have its own `data` package alongside it, particularly if it ingests web request payloads using Spring's `@RequestBody`.
-
-### `impl`
-A package that contains publicly-consumable implementation classes.
-This is most commonly used for abstract classes that house some business logic but can be extended for custom use cases.
