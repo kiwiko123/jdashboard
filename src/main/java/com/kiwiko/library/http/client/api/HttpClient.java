@@ -1,4 +1,4 @@
-package com.kiwiko.webapp.http.client.api;
+package com.kiwiko.library.http.client.api;
 
 import com.kiwiko.library.http.client.api.errors.ClientException;
 import com.kiwiko.library.http.client.api.errors.ServerException;

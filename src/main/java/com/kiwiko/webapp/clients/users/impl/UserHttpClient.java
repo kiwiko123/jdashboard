@@ -10,7 +10,6 @@ import com.kiwiko.library.http.client.api.errors.ServerException;
 import com.kiwiko.library.http.client.dto.GetRequest;
 import com.kiwiko.library.http.client.dto.HttpClientResponse;
 import com.kiwiko.library.metrics.api.Logger;
-import com.kiwiko.webapp.http.client.api.HttpClient;
 import com.kiwiko.webapp.http.client.impl.JdashboardHttpClient;
 import com.kiwiko.webapp.mvc.json.impl.GsonJsonSerializer;
 import com.kiwiko.webapp.users.data.User;

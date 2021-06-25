@@ -9,7 +9,7 @@ import com.kiwiko.library.http.client.dto.GetRequest;
 import com.kiwiko.library.http.client.dto.HttpClientResponse;
 import com.kiwiko.library.http.client.dto.PostRequest;
 import com.kiwiko.library.http.client.dto.PutRequest;
-import com.kiwiko.webapp.http.client.api.HttpClient;
+import com.kiwiko.library.http.client.api.HttpClient;
 
 import javax.inject.Inject;
 import java.util.concurrent.CompletableFuture;
