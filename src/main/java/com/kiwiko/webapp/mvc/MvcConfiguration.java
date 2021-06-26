@@ -11,7 +11,6 @@ import com.kiwiko.webapp.metrics.api.annotations.CaptureMetrics;
 import com.kiwiko.webapp.mvc.configuration.ConfigurationHelper;
 import com.kiwiko.webapp.mvc.interceptors.AuthenticationRequiredInterceptor;
 import com.kiwiko.webapp.mvc.interceptors.CaptureMetricsMethodInterceptor;
-import com.kiwiko.webapp.mvc.interceptors.RequestErrorInterceptor;
 import com.kiwiko.library.metrics.api.LogService;
 import com.kiwiko.library.metrics.impl.ConsoleLogService;
 import com.kiwiko.webapp.mvc.interceptors.ThrottleMethodInterceptor;
@@ -29,7 +28,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
@@ -49,11 +47,6 @@ public class MvcConfiguration implements WebMvcConfigurer {
         resolvers.add(requestBodyCollectionParameterResolver());
         resolvers.add(customRequestBodyResolver());
         resolvers.add(requestContextResolver());
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(requestErrorInterceptor());
     }
 
     @Override
@@ -126,11 +119,6 @@ public class MvcConfiguration implements WebMvcConfigurer {
     @Bean
     public RequestContextResolver requestContextResolver() {
         return new RequestContextResolver();
-    }
-
-    @Bean
-    public RequestErrorInterceptor requestErrorInterceptor() {
-        return new RequestErrorInterceptor();
     }
 
     @Bean
