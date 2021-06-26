@@ -6,14 +6,12 @@ import com.kiwiko.library.metrics.api.Logger;
 import com.kiwiko.webapp.mvc.json.api.JsonSerializer;
 import com.kiwiko.webapp.mvc.json.impl.GsonJsonSerializer;
 import com.kiwiko.webapp.mvc.json.impl.resolvers.CustomRequestBodyResolver;
-import com.kiwiko.webapp.mvc.performance.api.annotations.Throttle;
 import com.kiwiko.webapp.metrics.api.annotations.CaptureMetrics;
 import com.kiwiko.webapp.mvc.configuration.ConfigurationHelper;
 import com.kiwiko.webapp.mvc.interceptors.AuthenticationRequiredInterceptor;
 import com.kiwiko.webapp.mvc.interceptors.CaptureMetricsMethodInterceptor;
 import com.kiwiko.library.metrics.api.LogService;
 import com.kiwiko.library.metrics.impl.ConsoleLogService;
-import com.kiwiko.webapp.mvc.interceptors.ThrottleMethodInterceptor;
 import com.kiwiko.webapp.mvc.interceptors.internal.SessionRequestHelper;
 import com.kiwiko.webapp.mvc.requests.internal.InMemoryRequestContextService;
 import com.kiwiko.webapp.mvc.json.api.JsonMapper;
@@ -132,17 +130,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    public ThrottleMethodInterceptor throttleMethodInterceptor() {
-        return new ThrottleMethodInterceptor();
-    }
-
-    @Bean
     public Advisor captureMetricsAdvisor() {
         return configurationHelper.createAnnotationBean(CaptureMetrics.class, captureMetricsMethodInterceptor());
-    }
-
-    @Bean
-    public Advisor throttleAdvisor() {
-        return configurationHelper.createAnnotationBean(Throttle.class, throttleMethodInterceptor());
     }
 }
