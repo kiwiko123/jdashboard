@@ -56,7 +56,6 @@ public class MvcConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(requestContextInterceptor());
         registry.addInterceptor(requestErrorInterceptor());
-        registry.addInterceptor(authenticationRequiredInterceptor());
     }
 
     @Override

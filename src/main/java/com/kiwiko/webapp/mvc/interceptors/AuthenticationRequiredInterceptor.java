@@ -1,7 +1,7 @@
 package com.kiwiko.webapp.mvc.interceptors;
 
 import com.kiwiko.library.metrics.api.Logger;
-import com.kiwiko.webapp.mvc.interceptors.api.EndpointInterceptor;
+import com.kiwiko.webapp.middleware.interceptors.api.interfaces.EndpointInterceptor;
 import com.kiwiko.webapp.mvc.interceptors.internal.SessionRequestHelper;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.AuthenticationLevel;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.AuthenticationRequired;
@@ -19,7 +19,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-public class AuthenticationRequiredInterceptor extends EndpointInterceptor {
+public class AuthenticationRequiredInterceptor implements EndpointInterceptor {
 
     @Inject private SessionRequestHelper sessionRequestHelper;
     @Inject private SessionHelper sessionHelper;
@@ -27,7 +27,7 @@ public class AuthenticationRequiredInterceptor extends EndpointInterceptor {
     @Inject private Logger logger;
 
     @Override
-    protected boolean allowRequest(HttpServletRequest request, HttpServletResponse response, HandlerMethod method) throws Exception {
+    public boolean allowRequest(HttpServletRequest request, HttpServletResponse response, HandlerMethod method) throws Exception {
         AuthenticationRequired authenticationRequired = getAuthenticationRequired(method).orElse(null);
         if (authenticationRequired == null) {
             return true;
