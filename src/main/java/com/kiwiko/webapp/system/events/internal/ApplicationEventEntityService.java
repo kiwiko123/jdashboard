@@ -1,5 +1,6 @@
 package com.kiwiko.webapp.system.events.internal;
 
+import com.kiwiko.webapp.mvc.persistence.transactions.api.interfaces.TransactionProvider;
 import com.kiwiko.webapp.system.events.api.interfaces.ApplicationEventService;
 import com.kiwiko.webapp.system.events.api.interfaces.parameters.ApplicationEventQuery;
 import com.kiwiko.webapp.system.events.api.dto.ApplicationEvent;
@@ -19,29 +20,30 @@ public class ApplicationEventEntityService implements ApplicationEventService {
 
     @Inject private ApplicationEventEntityDataFetcher applicationEventEntityDataFetcher;
     @Inject private ApplicationEventEntityMapper applicationEventEntityMapper;
+    @Inject private TransactionProvider transactionProvider;
 
-    @Transactional(readOnly = true)
     @Override
     public Optional<ApplicationEvent> get(long id) {
-        return applicationEventEntityDataFetcher.getById(id)
-                .map(applicationEventEntityMapper::toDTO);
+        return transactionProvider.readOnly(() -> applicationEventEntityDataFetcher.getById(id)
+                .map(applicationEventEntityMapper::toDTO));
     }
 
     @Override
     public Set<ApplicationEvent> query(ApplicationEventQuery query) {
         Objects.requireNonNull(query.getEventType(), "Event type is required");
-        return applicationEventEntityDataFetcher.getByQuery(query).stream()
+        return transactionProvider.readOnly(() -> applicationEventEntityDataFetcher.getByQuery(query).stream()
                 .map(applicationEventEntityMapper::toDTO)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toSet()));
     }
 
-    @Transactional
     @Override
     public ApplicationEvent create(ApplicationEvent event) {
         ApplicationEventEntity entityToCreate = applicationEventEntityMapper.toEntity(event);
         entityToCreate.setCreatedDate(Instant.now());
 
-        ApplicationEventEntity createdEntity = applicationEventEntityDataFetcher.save(entityToCreate);
-        return applicationEventEntityMapper.toDTO(createdEntity);
+        return transactionProvider.readWrite(() -> {
+            ApplicationEventEntity createdEntity = applicationEventEntityDataFetcher.save(entityToCreate);
+            return applicationEventEntityMapper.toDTO(createdEntity);
+        });
     }
 }

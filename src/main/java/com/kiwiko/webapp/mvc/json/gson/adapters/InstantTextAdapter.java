@@ -11,7 +11,11 @@ public class InstantTextAdapter extends TypeAdapter<Instant> {
 
     @Override
     public void write(JsonWriter jsonWriter, Instant instant) throws IOException {
-        jsonWriter.value(instant.toString());
+        if (instant == null) {
+            jsonWriter.nullValue();
+        } else {
+            jsonWriter.value(instant.toString());
+        }
     }
 
     @Override
