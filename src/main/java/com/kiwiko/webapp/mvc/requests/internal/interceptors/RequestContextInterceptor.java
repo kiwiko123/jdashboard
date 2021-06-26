@@ -1,15 +1,15 @@
-package com.kiwiko.webapp.mvc.interceptors;
+package com.kiwiko.webapp.mvc.requests.internal.interceptors;
 
-import com.kiwiko.library.metrics.api.LogService;
+import com.kiwiko.library.metrics.api.Logger;
+import com.kiwiko.webapp.middleware.interceptors.api.interfaces.EndpointInterceptor;
 import com.kiwiko.webapp.mvc.interceptors.internal.SessionRequestHelper;
 import com.kiwiko.webapp.mvc.requests.api.RequestContextService;
 import com.kiwiko.webapp.mvc.requests.api.RequestError;
 import com.kiwiko.webapp.mvc.requests.data.RequestContext;
 import com.kiwiko.webapp.mvc.security.sessions.data.Session;
 import com.kiwiko.webapp.mvc.security.sessions.data.SessionProperties;
-import org.springframework.lang.Nullable;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -22,19 +22,14 @@ import java.time.Instant;
  * Interceptor that creates a {@link com.kiwiko.webapp.mvc.requests.internal.dataAccess.RequestContextEntity} for every
  * web request that goes through Jdashboard.
  */
-public class RequestContextInterceptor extends HandlerInterceptorAdapter {
+public class RequestContextInterceptor implements EndpointInterceptor {
 
-    @Inject
-    private RequestContextService requestContextService;
-
-    @Inject
-    private SessionRequestHelper sessionRequestHelper;
-
-    @Inject
-    private LogService logService;
+    @Inject private RequestContextService requestContextService;
+    @Inject private SessionRequestHelper sessionRequestHelper;
+    @Inject private Logger logger;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean allowRequest(HttpServletRequest request, HttpServletResponse response, HandlerMethod method) throws Exception {
         Instant now = Instant.now();
         String requestUri = requestContextService.getRequestUri(request);
 
@@ -53,10 +48,7 @@ public class RequestContextInterceptor extends HandlerInterceptorAdapter {
     }
 
     @Override
-    public void postHandle(HttpServletRequest request,
-                           HttpServletResponse response,
-                           Object handler,
-                           @Nullable ModelAndView modelAndView) throws Exception {
+    public void preRender(HttpServletRequest request, HttpServletResponse response, HandlerMethod method, ModelAndView modelAndView) throws Exception {
         Instant now = Instant.now();
         String requestUri = requestContextService.getRequestUri(request);
         HttpSession session = request.getSession();
@@ -67,9 +59,7 @@ public class RequestContextInterceptor extends HandlerInterceptorAdapter {
         requestContextService.saveRequestContext(requestContext);
 
         Duration requestDuration = Duration.between(requestContext.getStartTime(), requestContext.getEndTime().orElse(now));
-        logService.debug(String.format("(%d ms) %s", requestDuration.toMillis(), makeDebugRequestUri(request)));
-
-        super.postHandle(request, response, handler, modelAndView);
+        logger.debug(String.format("(%d ms) %s", requestDuration.toMillis(), makeDebugRequestUri(request)));
     }
 
     private String makeDebugRequestUri(HttpServletRequest request) {

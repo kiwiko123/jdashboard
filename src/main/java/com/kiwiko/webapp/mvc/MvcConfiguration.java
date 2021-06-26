@@ -11,7 +11,6 @@ import com.kiwiko.webapp.metrics.api.annotations.CaptureMetrics;
 import com.kiwiko.webapp.mvc.configuration.ConfigurationHelper;
 import com.kiwiko.webapp.mvc.interceptors.AuthenticationRequiredInterceptor;
 import com.kiwiko.webapp.mvc.interceptors.CaptureMetricsMethodInterceptor;
-import com.kiwiko.webapp.mvc.interceptors.RequestContextInterceptor;
 import com.kiwiko.webapp.mvc.interceptors.RequestErrorInterceptor;
 import com.kiwiko.library.metrics.api.LogService;
 import com.kiwiko.library.metrics.impl.ConsoleLogService;
@@ -54,7 +53,6 @@ public class MvcConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(requestContextInterceptor());
         registry.addInterceptor(requestErrorInterceptor());
     }
 
@@ -128,11 +126,6 @@ public class MvcConfiguration implements WebMvcConfigurer {
     @Bean
     public RequestContextResolver requestContextResolver() {
         return new RequestContextResolver();
-    }
-
-    @Bean
-    public RequestContextInterceptor requestContextInterceptor() {
-        return new RequestContextInterceptor();
     }
 
     @Bean
