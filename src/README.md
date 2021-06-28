@@ -18,11 +18,11 @@ cars/
 |------- interfaces/
 |        +--------- CarService.java (interface)
 |------- dto/
-         +-- Car.java
+|        +-- Car.java
 |--- internal/
 |    +------- data/
-|    |        +--------- CarEntity.java
-|    |        +--------- CarDataFetcher.java
+|    |        +--------- CarEntity.java (JPA entity)
+|    |        +--------- CarEntityDataFetcher.java (DAO)
 |    +------- CarEntityMapper.java (converts JPA entities to DTOs)
 |    +------- CarEntityService.java (implementation of CarService)
 |--- web/
@@ -37,7 +37,8 @@ Often, this will consist of interfaces, DTOs, annotations, and exception classes
 Any item within here is intended for use in other locations.
 
 #### `api.interfaces`
-A public-facing package that contains Java interfaces, annotations, and exception classes.
+A public-facing package that contains Java interfaces, annotations, and exception classes. 
+The word "interfaces" in the package name refers to the general definition of the word; not strictly to Java interfaces.
 
 #### `api.dto`
 A public-facing package that contains simplistic data classes.
@@ -45,7 +46,7 @@ A public-facing package that contains simplistic data classes.
 ### `internal`
 A package that's meant to be internal to its directory.
 That is, packages _outside_ of it should not directly access any of its classes.
-An exception to this would be for dependency injection configuration beans.
+An exception to this would be for dependency injection configuration.
 
 This often consists of implementation classes for interfaces.
 
