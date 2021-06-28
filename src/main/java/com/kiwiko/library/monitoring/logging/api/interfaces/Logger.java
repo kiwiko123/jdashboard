@@ -1,6 +1,6 @@
-package com.kiwiko.library.metrics.api;
+package com.kiwiko.library.monitoring.logging.api.interfaces;
 
-import com.kiwiko.library.metrics.data.Log;
+import com.kiwiko.library.monitoring.logging.api.dto.Log;
 
 public interface Logger {
 

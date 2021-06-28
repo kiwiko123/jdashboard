@@ -4,7 +4,7 @@ import com.kiwiko.library.caching.api.ObjectCache;
 import com.kiwiko.library.caching.impl.data.CacheValue;
 import com.kiwiko.library.dataStructures.collections.sets.lru.CustomizableActionLeastRecentlyUsedSet;
 import com.kiwiko.library.dataStructures.collections.sets.lru.LeastRecentlyUsedSetActions;
-import com.kiwiko.library.metrics.api.Logger;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

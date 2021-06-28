@@ -1,7 +1,7 @@
 package com.kiwiko.library.metrics.api;
 
 import com.kiwiko.library.metrics.data.LevelBasedLog;
-import com.kiwiko.library.metrics.data.Log;
+import com.kiwiko.library.monitoring.logging.api.dto.Log;
 import com.kiwiko.library.metrics.data.LogLevel;
 
 import java.util.Arrays;

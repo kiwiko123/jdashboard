@@ -1,7 +1,7 @@
 package com.kiwiko.webapp.push.api;
 
 import com.kiwiko.library.caching.api.ObjectCache;
-import com.kiwiko.library.metrics.api.Logger;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 
 import javax.inject.Inject;
 import java.util.ArrayList;

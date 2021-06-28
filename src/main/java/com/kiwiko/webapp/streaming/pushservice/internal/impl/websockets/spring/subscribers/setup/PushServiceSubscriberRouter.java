@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.streaming.pushservice.internal.impl.websockets.spring.subscribers.setup;
 
-import com.kiwiko.library.metrics.api.Logger;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.mvc.di.api.interfaces.DependencyInstantiator;
 import com.kiwiko.webapp.mvc.di.api.interfaces.exceptions.DependencyInstantiationException;
 import com.kiwiko.webapp.streaming.pushservice.api.dto.ClientPushRequest;

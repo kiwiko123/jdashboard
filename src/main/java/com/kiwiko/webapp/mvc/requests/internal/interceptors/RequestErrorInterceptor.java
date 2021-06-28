@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.mvc.requests.internal.interceptors;
 
-import com.kiwiko.library.metrics.api.Logger;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.middleware.interceptors.api.interfaces.EndpointInterceptor;
 import org.springframework.web.method.HandlerMethod;
 

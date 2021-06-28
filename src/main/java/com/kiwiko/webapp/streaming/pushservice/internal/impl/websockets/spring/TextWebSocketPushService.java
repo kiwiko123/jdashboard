@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.streaming.pushservice.internal.impl.websockets.spring;
 
-import com.kiwiko.library.metrics.api.Logger;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.streaming.pushservice.api.interfaces.PushService;
 import com.kiwiko.webapp.streaming.pushservice.api.interfaces.exceptions.ClientUnreachablePushException;
 import com.kiwiko.webapp.streaming.pushservice.api.interfaces.exceptions.PushException;

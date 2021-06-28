@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.streaming.pushservice.internal.impl.websockets.spring.subscribers.setup;
 
-import com.kiwiko.library.metrics.api.Logger;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.mvc.lifecycle.api.StartupHook;
 import com.kiwiko.webapp.notifications.internal.push.NotificationPushServiceSubscriber;
 import com.kiwiko.webapp.streaming.pushservice.internal.impl.websockets.spring.subscribers.PushServiceSubscriberRegistry;

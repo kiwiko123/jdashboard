@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.mvc.requests.internal;
 
-import com.kiwiko.library.metrics.api.Logger;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.mvc.requests.api.CurrentRequestService;
 import com.kiwiko.webapp.mvc.requests.api.RequestContextService;
 import com.kiwiko.webapp.mvc.requests.data.RequestContext;

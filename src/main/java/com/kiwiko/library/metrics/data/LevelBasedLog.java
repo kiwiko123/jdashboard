@@ -1,5 +1,7 @@
 package com.kiwiko.library.metrics.data;
 
+import com.kiwiko.library.monitoring.logging.api.dto.Log;
+
 public class LevelBasedLog extends Log {
 
     private LogLevel level;

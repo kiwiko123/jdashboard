@@ -2,7 +2,7 @@ package com.kiwiko.webapp.streaming.pushservice.internal.impl.websockets.spring.
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import com.kiwiko.library.metrics.api.Logger;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.streaming.pushservice.api.dto.ClientPushRequest;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketSession;

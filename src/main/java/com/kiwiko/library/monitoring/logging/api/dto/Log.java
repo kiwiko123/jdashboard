@@ -1,4 +1,4 @@
-package com.kiwiko.library.metrics.data;
+package com.kiwiko.library.monitoring.logging.api.dto;
 
 import javax.annotation.Nullable;
 import java.time.Instant;
