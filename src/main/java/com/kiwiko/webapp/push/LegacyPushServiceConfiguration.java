@@ -20,8 +20,8 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
 import javax.inject.Inject;
 
 @Configuration
-@EnableWebSocket
-public class PushServiceConfiguration implements WebSocketConfigurer {
+//@EnableWebSocket
+public class LegacyPushServiceConfiguration implements WebSocketConfigurer {
     private static final String PUSH_SERVICE_REQUEST_URL = "/push";
 
     @Inject private LifeCycleHookConfigurationCreator lifeCycleHookConfigurationCreator;

@@ -2,7 +2,6 @@ package com.kiwiko.webapp.mvc;
 
 import com.kiwiko.library.caching.api.ObjectCache;
 import com.kiwiko.library.caching.impl.InMemoryObjectCache;
-import com.kiwiko.library.metrics.api.Logger;
 import com.kiwiko.webapp.mvc.json.api.JsonSerializer;
 import com.kiwiko.webapp.mvc.json.impl.GsonJsonSerializer;
 import com.kiwiko.webapp.mvc.json.impl.resolvers.CustomRequestBodyResolver;
@@ -10,8 +9,6 @@ import com.kiwiko.webapp.metrics.api.annotations.CaptureMetrics;
 import com.kiwiko.webapp.mvc.configuration.ConfigurationHelper;
 import com.kiwiko.webapp.mvc.interceptors.AuthenticationRequiredInterceptor;
 import com.kiwiko.webapp.mvc.interceptors.CaptureMetricsMethodInterceptor;
-import com.kiwiko.library.metrics.api.LogService;
-import com.kiwiko.library.metrics.impl.ConsoleLogService;
 import com.kiwiko.webapp.mvc.interceptors.internal.SessionRequestHelper;
 import com.kiwiko.webapp.mvc.requests.internal.InMemoryRequestContextService;
 import com.kiwiko.webapp.mvc.json.api.JsonMapper;
@@ -82,16 +79,6 @@ public class MvcConfiguration implements WebMvcConfigurer {
     @Bean
     public EnvironmentService environmentService() {
         return new WebApplicationEnvironmentService();
-    }
-
-    @Bean
-    public LogService logService() {
-        return new ConsoleLogService();
-    }
-
-    @Bean
-    public Logger logger() {
-        return new ConsoleLogService();
     }
 
     @Bean

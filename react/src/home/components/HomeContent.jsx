@@ -10,7 +10,7 @@ const HomeContent = ({ push }) => {
                 Hi! Welcome to Jdashboard.
             </span>
             <IconButton
-                onClick={() => push({ recipientUserId: 2, message: 'Hello!' })}
+                onClick={() => push({ recipientUserId: 1, message: 'Hello!' })}
             >
                 Press me!
             </IconButton>
