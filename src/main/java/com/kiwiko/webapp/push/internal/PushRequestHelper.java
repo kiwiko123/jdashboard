@@ -3,6 +3,7 @@ package com.kiwiko.webapp.push.internal;
 import com.kiwiko.library.metrics.api.LogService;
 import com.kiwiko.webapp.mvc.json.api.JsonMapper;
 import com.kiwiko.webapp.mvc.json.api.errors.JsonException;
+import com.kiwiko.webapp.push.api.PushReceiver;
 import com.kiwiko.webapp.push.api.PushService;
 import com.kiwiko.webapp.push.api.errors.PushException;
 import com.kiwiko.webapp.push.api.parameters.OnPushReceivedParameters;
@@ -30,29 +31,27 @@ public class PushRequestHelper {
         if (request.getUserId() == null) {
             throw new PushException("Current user ID is required");
         }
-    }
 
-    public void validateClientPushRequest(ClientPushRequest request) throws PushException {
         if (request.getServiceId() == null) {
             throw new PushException("Service ID is required");
         }
+    }
 
-        if (request.getUserId() == null) {
-            throw new PushException("(Sender) user ID is required");
-        }
+    public void validateClientPushRequest(ClientPushRequest request) throws PushException {
+        validateInitialUserPushRequest(request);
 
         if (request.getRecipientUserId() == null) {
             throw new PushException("Recipient user ID is required");
         }
     }
 
-    public void routeIncomingPush(PushService pushService, ClientPushRequest clientPushRequest, TextMessage message) {
+    public void routeIncomingPush(PushReceiver pushReceiver, ClientPushRequest clientPushRequest, TextMessage message) {
         OnPushReceivedParameters parameters = new OnPushReceivedParameters();
         parameters.setServiceId(clientPushRequest.getServiceId());
         parameters.setUserId(clientPushRequest.getUserId());
         parameters.setRecipientUserId(clientPushRequest.getRecipientUserId());
         parameters.setMessage(message.getPayload());
 
-        pushService.onPushReceived(parameters);
+        pushReceiver.onPushReceived(parameters);
     }
 }

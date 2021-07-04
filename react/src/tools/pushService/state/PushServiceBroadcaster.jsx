@@ -1,6 +1,7 @@
 import { get } from 'lodash';
 import Broadcaster from '../../../state/Broadcaster';
 import PushServiceSessionManager from '../private/PushServiceSessionManager';
+import logger from '../../../common/js/logging';
 
 const WEB_SOCKET_TEMPLATE = {
     close: () => {},
@@ -15,14 +16,14 @@ export default class PushServiceBroadcaster extends Broadcaster {
         this.disable();
 
         this.registerMethod(this.push);
-        this.registerMethod(this.onPushReceived);
     }
 
     receive(state, id) {
         if (id === 'UserDataBroadcaster') {
             if (state.id) {
                 this.userId = state.id;
-                this._webSocket = PushServiceSessionManager.getSession(state.id, {
+                return; // TESTING PushServiceStateTransmitter
+                this._webSocket = PushServiceSessionManager.getSession(state.id, this.serviceId, {
                     onOpen: this._onOpen.bind(this),
                     onClose: this._onClose.bind(this),
                     onMessage: this._onMessage.bind(this),
@@ -50,11 +51,11 @@ export default class PushServiceBroadcaster extends Broadcaster {
      * @param data the raw string data received from the server
      */
     onPushReceived(data) {
-
+        logger.debug(`${this.constructor.getId()}-${this.serviceId} received push from server: ${data}`);
     }
 
     onConnectionOpened() {
-
+        // TODO consider removing this, because it's not necessarily "on opened" with a single web socket for all push services
     }
 
     destroy() {
@@ -63,7 +64,8 @@ export default class PushServiceBroadcaster extends Broadcaster {
     }
 
     _onOpen(event) {
-        this.push();
+        // Send an initial, empty push to establish this service's connection with the server.
+        PushServiceSessionManager.processUserServices(this.userId, serviceId => this.push({ serviceId }));
         this.onConnectionOpened();
     }
 

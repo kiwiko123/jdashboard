@@ -31,7 +31,7 @@ const FormField = ({
 };
 
 FormField.propTypes = {
-    ...FormInput.props,
+    ...FormInput.propTypes,
     label: PropTypes.string.isRequired,
     isRequired: PropTypes.bool,
     isValid: PropTypes.bool,

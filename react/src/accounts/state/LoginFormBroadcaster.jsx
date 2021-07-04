@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import DebouncedUpdateBroadcaster from '../../state/DebouncedUpdateBroadcaster';
+import Broadcaster from '../../state/impl/SimpleBroadcaster';
 import Request from '../../common/js/Request';
 import { LOG_IN_URL } from '../js/urls';
 import { goTo } from '../../common/js/urltools';
@@ -15,10 +15,10 @@ function handleLoginErrors(response) {
     throw new Error('Failed to log in');
 }
 
-export default class LoginFormBroadcaster extends DebouncedUpdateBroadcaster {
+export default class LoginFormBroadcaster extends Broadcaster {
 
     constructor() {
-        super();
+        super({ updateMillis: 250 });
 
         this.setUsername = this.setUsername.bind(this);
         this.setPassword = this.setPassword.bind(this);
@@ -66,7 +66,8 @@ export default class LoginFormBroadcaster extends DebouncedUpdateBroadcaster {
         Request.to(LOG_IN_URL)
             .withErrorHandler(handleLoginErrors)
             .withBody(payload)
-            .post({ credentials: 'include' })
+            .withAuthentication()
+            .post()
             .then((response) => {
                 goTo('/home');
             })

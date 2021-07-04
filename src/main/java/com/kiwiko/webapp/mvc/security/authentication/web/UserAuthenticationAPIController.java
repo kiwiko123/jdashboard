@@ -6,6 +6,7 @@ import com.kiwiko.webapp.mvc.json.data.ResponsePayload;
 import com.kiwiko.webapp.mvc.requests.api.annotations.RequestBodyParameter;
 import com.kiwiko.webapp.mvc.requests.data.RequestContext;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.CrossOriginConfigured;
+import com.kiwiko.webapp.mvc.security.authentication.internal.events.UserAuthenticationEventClient;
 import com.kiwiko.webapp.mvc.security.sessions.api.SessionService;
 import com.kiwiko.webapp.mvc.security.sessions.data.Session;
 import com.kiwiko.webapp.users.api.UserService;
@@ -23,14 +24,10 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 public class UserAuthenticationAPIController {
 
-    @Inject
-    private SessionService sessionService;
-
-    @Inject
-    private UserService userService;
-
-    @Inject
-    private LogService logService;
+    @Inject private SessionService sessionService;
+    @Inject private UserService userService;
+    @Inject private UserAuthenticationEventClient userAuthenticationEventClient;
+    @Inject private LogService logService;
 
     @PostMapping("/user-auth/api/create")
     public ResponsePayload createUser(
@@ -56,6 +53,8 @@ public class UserAuthenticationAPIController {
         }
 
         sessionService.createSessionCookieForUser(user.getId(), httpServletResponse);
+        userAuthenticationEventClient.recordLogInEvent(user.getId());
+
         return new ResponseBuilder()
                 .withBody(user)
                 .build();
@@ -72,27 +71,17 @@ public class UserAuthenticationAPIController {
         }
 
         sessionService.endSessionForUser(user.getId());
+        userAuthenticationEventClient.recordLogOutEvent(user.getId());
+
         return ResponseBuilder.ok();
     }
 
     @GetMapping("/user-auth/api/users/current")
     public ResponsePayload getCurrentUser(RequestContext requestContext) {
         User currentUser = requestContext.getUser().orElse(null);
-        if (currentUser == null) {
-            return new ResponseBuilder()
-                    .withError("No logged-in user found")
-                    .build();
-        }
-
         return new ResponseBuilder()
                 .withBody(currentUser)
                 .build();
-    }
-
-    @Deprecated
-    @GetMapping("/user-auth/api/legacy/get-current-user")
-    public ResponsePayload getCurrentUserLegacy(RequestContext requestContext) {
-        return getCurrentUser(requestContext);
     }
 
     private ResponsePayload getInvalidUserResponse() {

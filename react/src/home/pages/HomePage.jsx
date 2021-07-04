@@ -1,25 +1,31 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import DashboardPage from '../../dashboard/components/DashboardPage';
 import HomeContent from '../components/HomeContent';
+import HomeBroadcaster from '../state/HomeBroadcaster';
+import DashboardNotificationsStateTransmitter from 'dashboard/notifications/state/DashboardNotificationsStateTransmitter';
+import { useBroadcaster } from '../../state/hooks';
+import ComponentStateManager from '../../state/components/ComponentStateManager';
 
-const HomePage = ({ history }) => {
+const HomePage = () => {
+    const homeBroadcaster = useBroadcaster(HomeBroadcaster);
+    const broadcasterSubscribers = {
+        notificationsBroadcaster: [homeBroadcaster],
+    };
+    const notificationsStateTransmitter = new DashboardNotificationsStateTransmitter('jdashboard-notifications');
+
     return (
         <DashboardPage
             className="HomePage"
             title="Home"
             appId="home"
-            history={history}
+            broadcasterSubscribers={broadcasterSubscribers}
         >
-            <HomeContent />
+            <ComponentStateManager
+                broadcaster={notificationsStateTransmitter}
+                component={HomeContent}
+            />
         </DashboardPage>
     );
-};
-
-HomePage.propTypes = {
-    history: PropTypes.shape({
-        push: PropTypes.func.isRequired,
-    }).isRequired,
 };
 
 export default HomePage;

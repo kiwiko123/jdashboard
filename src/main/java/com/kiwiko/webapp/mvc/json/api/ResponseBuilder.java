@@ -43,4 +43,10 @@ public class ResponseBuilder {
         return new ResponseBuilder()
                 .build();
     }
+
+    public static ResponsePayload payload(Object body) {
+        return new ResponseBuilder()
+                .withBody(body)
+                .build();
+    }
 }

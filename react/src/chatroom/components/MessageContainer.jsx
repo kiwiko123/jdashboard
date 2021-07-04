@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import messagePropType from './propTypes/messagePropType';
 import MessageBubble from './MessageBubble';
 
 import './MessageContainer.css';

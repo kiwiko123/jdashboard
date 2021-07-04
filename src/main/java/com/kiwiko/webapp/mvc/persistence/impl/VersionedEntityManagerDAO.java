@@ -2,7 +2,7 @@ package com.kiwiko.webapp.mvc.persistence.impl;
 
 import com.kiwiko.library.lang.reflection.ReflectionHelper;
 import com.kiwiko.library.metrics.api.LogService;
-import com.kiwiko.library.persistence.dataAccess.api.EntityManagerDAO;
+import com.kiwiko.webapp.mvc.persistence.dataaccess.api.EntityManagerDAO;
 import com.kiwiko.library.persistence.dataAccess.api.PersistenceException;
 import com.kiwiko.library.persistence.dataAccess.api.versions.Version;
 import com.kiwiko.library.persistence.dataAccess.api.versions.VersionedEntity;
@@ -56,23 +56,24 @@ public abstract class VersionedEntityManagerDAO<T extends VersionedEntity> exten
     }
 
     private void recordVersion(T entity) {
-        List<Version> versions = new ArrayList<>();
+        List<Version> versions;
         VersionDTO version = new VersionDTO();
 
-        if (entity.getId() != null) {
+        if (entity.getId() == null) {
+            versions = new ArrayList<>();
+        } else {
             T currentRecord = getById(entity.getId())
                     .orElseThrow(() -> new PersistenceException(String.format("Failed to fetch current record of type %s", entity.getClass().getSimpleName())));
             versions = versionConverterHelper.deserializeVersionsJson(currentRecord.getVersions());
             VersionChanges diff = makeDiff(currentRecord, entity);
-
             version.setChanges(diff);
-            version.setVersion(versions.size());
-
-            currentRequestService.getCurrentRequestContext()
-                    .flatMap(RequestContext::getUser)
-                    .map(User::getId)
-                    .ifPresent(version::setUserId);
         }
+
+        version.setVersion(versions.size());
+        currentRequestService.getCurrentRequestContext()
+                .flatMap(RequestContext::getUser)
+                .map(User::getId)
+                .ifPresent(version::setUserId);
 
         versions.add(version);
         String dumpedVersions = jsonMapper.writeValueAsString(versions);

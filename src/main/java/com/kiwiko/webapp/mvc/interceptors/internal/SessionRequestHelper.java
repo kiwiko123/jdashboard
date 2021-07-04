@@ -1,6 +1,7 @@
 package com.kiwiko.webapp.mvc.interceptors.internal;
 
 import com.kiwiko.library.metrics.api.LogService;
+import com.kiwiko.webapp.mvc.security.sessions.api.SessionHelper;
 import com.kiwiko.webapp.mvc.security.sessions.api.SessionService;
 import com.kiwiko.webapp.mvc.security.sessions.data.Session;
 import com.kiwiko.webapp.mvc.security.sessions.data.SessionProperties;
@@ -9,7 +10,6 @@ import com.kiwiko.webapp.users.data.User;
 import javax.inject.Inject;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -21,11 +21,9 @@ import java.util.stream.Collectors;
 
 public class SessionRequestHelper {
 
-    @Inject
-    private SessionService sessionService;
-
-    @Inject
-    private LogService logService;
+    @Inject private SessionService sessionService;
+    @Inject private SessionHelper sessionHelper;
+    @Inject private LogService logService;
 
     public Optional<Session> getSessionFromRequest(HttpServletRequest request) {
         List<Cookie> cookies = Optional.ofNullable(request.getCookies())
@@ -43,13 +41,9 @@ public class SessionRequestHelper {
 
         Set<Session> sessions = sessionService.getByTokens(tokens);
         Set<Session> activeSessions = new HashSet<>();
-        Instant now = Instant.now();
 
         for (Session session : sessions) {
-            boolean isExpired = session.getEndTime()
-                    .map(now::isAfter)
-                    .orElse(false);
-            if (isExpired) {
+            if (sessionHelper.isExpired(session)) {
                 sessionService.invalidateSession(session.getId());
             } else {
                 activeSessions.add(session);

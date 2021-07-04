@@ -2,14 +2,15 @@ package com.kiwiko.webapp.mvc.interceptors.api;
 
 import com.kiwiko.library.metrics.api.LogService;
 import com.kiwiko.webapp.mvc.interceptors.data.PostMethodContext;
-import com.kiwiko.webapp.mvc.lifecycle.dependencies.manual.api.annotations.InjectManually;
 import com.kiwiko.webapp.mvc.interceptors.data.MethodContext;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
+import javax.inject.Inject;
+
 public abstract class ContextMethodInterceptor implements MethodInterceptor {
 
-    @InjectManually
+    @Inject
     protected LogService logService;
 
     /**

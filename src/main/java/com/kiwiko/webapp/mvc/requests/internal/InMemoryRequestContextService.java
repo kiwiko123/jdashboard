@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.mvc.requests.internal;
 
-import com.kiwiko.library.caching.api.CacheService;
+import com.kiwiko.library.caching.api.ObjectCache;
 import com.kiwiko.webapp.mvc.requests.data.RequestContext;
 
 import javax.inject.Inject;
@@ -14,7 +14,7 @@ public class InMemoryRequestContextService {
     private static final String keyIdentifierPrefix = "request-context-";
 
     @Inject
-    private CacheService cacheService;
+    private ObjectCache objectCache;
 
     public String getRequestUri(HttpServletRequest request) {
         return request.getRequestURI();
@@ -22,8 +22,8 @@ public class InMemoryRequestContextService {
 
     public Optional<RequestContext> getRequestContext(String requestUrl) {
         String requestKey = getRequestKey(requestUrl);
-        return cacheService.get(requestKey, RequestContext.class)
-                .filter(requestContext -> !requestContext.getEndTime().isPresent());
+        return objectCache.<RequestContext>get(requestKey)
+                .filter(requestContext -> requestContext.getEndTime().isEmpty());
     }
 
     public Optional<RequestContext> getRequestContext(HttpServletRequest request) {
@@ -33,7 +33,7 @@ public class InMemoryRequestContextService {
 
     public void saveRequestContext(RequestContext context) {
         String requestKey = getRequestKey(context.getUri());
-        cacheService.cache(requestKey, context, Duration.ofDays(1));
+        objectCache.cache(requestKey, context, Duration.ofDays(1));
     }
 
     private String getRequestKey(String requestUrl) {

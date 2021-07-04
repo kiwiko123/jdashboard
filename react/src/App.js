@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import PushServiceSessionManager from './tools/pushService/private/PushServiceSessionManager';
 import HomePage from './home/pages/HomePage';
+import FeatureFlagPage from './admin/featureFlags/FeatureFlagPage';
 import CreateAccountPage from './accounts/create/CreateAccountPage';
 import LoginPage from './accounts/pages/LoginPage';
 import ScrabblePlayPage from './scrabble/pages/ScrabblePlayPage';
@@ -10,13 +11,16 @@ import ChatroomPage from './chatroom/pages/ChatroomPage';
 import NotFoundPage from './dashboard/pages/NotFoundPage';
 
 export default function() {
-    useEffect(() => () => {
-        PushServiceSessionManager.purge();
-    });
+    useEffect(() => {
+        return () => {
+            PushServiceSessionManager.purge();
+        };
+    }, []);
 
     return (
         <BrowserRouter>
             <Switch>
+                <Route path="/admin/feature-flags" component={FeatureFlagPage} />
                 <Route path="/accounts/create" component={CreateAccountPage} />
                 <Route path="/accounts/login" component={LoginPage} />
                 <Route path="/home" component={HomePage} />

@@ -15,14 +15,9 @@ import java.util.Optional;
 
 @Singleton
 public class PushServiceSessionManager {
+    private static final BiMap<Long, WebSocketSession> userSessionMapping = HashBiMap.create();
 
     @Inject private LogService logService;
-
-    private BiMap<Long, WebSocketSession> userSessionMapping;
-
-    public PushServiceSessionManager() {
-        userSessionMapping = HashBiMap.create();
-    }
 
     public void startSession(long userId, WebSocketSession session) {
         logService.debug(
@@ -55,7 +50,7 @@ public class PushServiceSessionManager {
         closeSession(session);
         Long userId = userSessionMapping.inverse().get(session);
         userSessionMapping.inverse().remove(session);
-        logService.debug(String.format("Ended session %s for user %d", session.getId(), userId));
+        logService.debug(String.format("Ended push service session %s for user %d", session.getId(), userId));
     }
 
     public void purge() {
@@ -68,7 +63,7 @@ public class PushServiceSessionManager {
         }
 
         try {
-            session.close(CloseStatus.SERVER_ERROR);
+            session.close(CloseStatus.NORMAL);
         } catch (IOException e) {
             logService.error("Failed to close push session", e);
         }

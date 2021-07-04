@@ -29,7 +29,7 @@ public abstract class TypeIdentifiable<T> implements Identifiable<T> {
             return false;
         }
 
-        Identifiable otherIdentifiable = (Identifiable) other;
+        Identifiable<?> otherIdentifiable = (Identifiable<?>) other;
         return Objects.equals(getId(), otherIdentifiable.getId());
     }
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import DashboardPage from '../../dashboard/components/DashboardPage';
 import ComponentStateManager from '../../state/components/ComponentStateManager';
 import { useBroadcaster } from '../../state/hooks/broadcasterHooks';
@@ -17,9 +16,11 @@ const LoginPage = () => {
             title="Login"
             appId="login"
         >
-            <ComponentStateManager broadcaster={loginFormBroadcaster}>
-                <LoginForm />
-            </ComponentStateManager>
+            <ComponentStateManager
+                broadcaster={loginFormBroadcaster}
+                component={LoginForm}
+                id="LoginForm"
+            />
         </DashboardPage>
 
     );

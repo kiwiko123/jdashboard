@@ -2,6 +2,7 @@
 // TODO use configuration file for host
 const PUSH_SERVICE_URL = 'ws://localhost:8080/push';
 const SESSIONS = new Map();
+const PENDING_SERVICE_IDS = new Set();
 
 function addEventListener(webSocket, name, handler) {
     if (handler) {
@@ -24,15 +25,31 @@ function makeWebSocket({ onOpen, onClose, onMessage, onError }) {
     return webSocket;
 }
 
-function getSession(userId, { onOpen, onClose, onMessage, onError } = {}) {
+function processUserServices(userId, fn) {
     if (!SESSIONS.has(userId)) {
-        const data = {
+        return;
+    }
+    const data = SESSIONS.get(userId);
+    data.serviceIds.forEach(fn);
+    data.serviceIds.clear();
+}
+
+function getSession(userId, serviceId, { onOpen, onClose, onMessage, onError } = {}) {
+    let data;
+    if (SESSIONS.has(userId)) {
+        data = SESSIONS.get(userId);
+        data.serviceIds.add(serviceId);
+    } else {
+        data = {
             webSocket: makeWebSocket({ onOpen, onClose, onMessage, onError }),
             handlers: { onOpen, onClose, onMessage, onError },
+            serviceIds: new Set([serviceId]),
         };
-        SESSIONS.set(userId, data);
+
     }
-    return SESSIONS.get(userId).webSocket;
+
+    SESSIONS.set(userId, data);
+    return data.webSocket;
  }
 
 function endSession(userId) {
@@ -50,11 +67,12 @@ function endSession(userId) {
 
 function purge() {
     for (const userId of SESSIONS.keys()) {
-        this.endSession(userId);
+        endSession(userId);
     }
 }
 
 export default {
+    processUserServices,
     getSession,
     endSession,
     purge,

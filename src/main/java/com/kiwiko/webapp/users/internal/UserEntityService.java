@@ -7,10 +7,12 @@ import com.kiwiko.webapp.users.api.parameters.CreateUserParameters;
 import com.kiwiko.webapp.users.data.User;
 import com.kiwiko.webapp.users.internal.dataAccess.UserEntityDAO;
 import com.kiwiko.webapp.users.internal.dataAccess.UserEntity;
+import com.kiwiko.webapp.clients.users.api.parameters.GetUsersQuery;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -82,5 +84,13 @@ public class UserEntityService implements UserService {
     public Optional<User> getWithValidation(String username, String password) {
         return getByUsername(username)
                 .filter(user -> passwordService.matches(password, user.getEncryptedPassword()));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<User> getByQuery(GetUsersQuery query) {
+        return userEntityDAO.getByQuery(query).stream()
+                .map(mapper::toDTO)
+                .collect(Collectors.toList());
     }
 }

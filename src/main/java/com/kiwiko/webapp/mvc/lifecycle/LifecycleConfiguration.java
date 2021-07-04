@@ -1,35 +1,30 @@
 package com.kiwiko.webapp.mvc.lifecycle;
 
-import com.kiwiko.library.metrics.api.LogService;
-import com.kiwiko.library.metrics.impl.ConsoleLogService;
-import com.kiwiko.webapp.mvc.lifecycle.shutdown.api.ApplicationShutdownHookConfigurationCreator;
-import com.kiwiko.webapp.mvc.lifecycle.shutdown.api.ApplicationShutdownHookRegistry;
-import com.kiwiko.webapp.mvc.lifecycle.shutdown.api.ShutdownService;
-import com.kiwiko.webapp.mvc.lifecycle.shutdown.internal.ApplicationShutdownHookRegistryHandler;
-import com.kiwiko.webapp.mvc.lifecycle.shutdown.internal.ApplicationShutdownService;
+import com.kiwiko.webapp.mvc.lifecycle.api.LifeCycleHookConfigurationCreator;
+import com.kiwiko.webapp.mvc.lifecycle.api.LifeCycleHookRegistry;
+import com.kiwiko.webapp.mvc.lifecycle.api.LifeCycleService;
+import com.kiwiko.webapp.mvc.lifecycle.api.registry.DependencyLifecycleHookRegistry;
+import com.kiwiko.webapp.mvc.lifecycle.internal.ApplicationLifeCycleService;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@ComponentScan(basePackageClasses = LifecycleConfiguration.class)
 public class LifecycleConfiguration {
 
     @Bean
-    public ApplicationShutdownHookRegistry applicationShutdownHookRegistry() {
-        return new ApplicationShutdownHookRegistryHandler();
+    public LifeCycleHookRegistry lifeCycleHookRegistry() {
+        return new DependencyLifecycleHookRegistry();
     }
 
     @Bean
-    public ApplicationShutdownHookConfigurationCreator applicationShutdownHookConfigurationCreator() {
-        return new ApplicationShutdownHookConfigurationCreator();
+    public LifeCycleHookConfigurationCreator lifeCycleHookConfigurationCreator() {
+        return new LifeCycleHookConfigurationCreator();
     }
 
     @Bean
-    public ShutdownService shutdownService() {
-        return new ApplicationShutdownService();
-    }
-
-    @Bean
-    public LogService logService() {
-        return new ConsoleLogService();
+    public LifeCycleService lifeCycleService() {
+        return new ApplicationLifeCycleService();
     }
 }

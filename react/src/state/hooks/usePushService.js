@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect } from 'react';
-import { get, startsWith } from 'lodash';
+import { useCallback } from 'react';
+import { get } from 'lodash';
 import useWebSocket from './useWebSocket';
-import { getServerUrl } from '../../common/js/config';
 
 function normalizeMappingUrl(mapping) {
     const normalizedMapping = mapping.startsWith('/') ? mapping.substr(1) : mapping;

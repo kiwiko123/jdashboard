@@ -1,5 +1,6 @@
 package com.kiwiko.webapp.mvc.security.sessions.internal;
 
+import com.kiwiko.library.lang.random.TokenGenerator;
 import com.kiwiko.library.metrics.api.LogService;
 import com.kiwiko.webapp.mvc.security.sessions.api.SessionService;
 import com.kiwiko.webapp.mvc.security.sessions.api.errors.SessionException;
@@ -32,7 +33,7 @@ public class SessionEntityService implements SessionService {
     private SessionEntityMapper mapper;
 
     @Inject
-    private SessionTokenHelper tokenHelper;
+    private TokenGenerator tokenHelper;
 
     @Inject
     private LogService logService;

@@ -1,8 +1,7 @@
 import React from 'react';
-import { get } from 'lodash';
 import DashboardPage from '../../dashboard/components/DashboardPage';
 import ComponentStateManager from '../../state/components/ComponentStateManager';
-import { useBroadcaster, useCurrentUser, usePushService } from '../../state/hooks';
+import { useBroadcaster } from '../../state/hooks';
 import ChatroomBroadcaster from '../state/ChatroomBroadcaster';
 import ChatroomInputBroadcaster from '../state/ChatroomInputBroadcaster';
 import ChatroomInboxBroadcaster from '../state/ChatroomInboxBroadcaster';
@@ -52,9 +51,10 @@ const ChatroomPage = () => {
                     broadcaster={chatroomBroadcaster}
                     component={ChatroomContents}
                 />
-                <ComponentStateManager broadcaster={inputBroadcaster}>
-                    <MessageInput />
-                </ComponentStateManager>
+                <ComponentStateManager
+                    broadcaster={inputBroadcaster}
+                    component={MessageInput}
+                />
             </div>
         </DashboardPage>
     );

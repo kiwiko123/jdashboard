@@ -1,6 +1,8 @@
 package com.kiwiko.webapp.users.internal.dataAccess;
 
-import com.kiwiko.library.persistence.dataAccess.api.AuditableEntityManagerDAO;
+import com.kiwiko.webapp.mvc.persistence.dataaccess.api.AuditableEntityManagerDAO;
+import com.kiwiko.webapp.clients.users.api.parameters.GetUserQuery;
+import com.kiwiko.webapp.clients.users.api.parameters.GetUsersQuery;
 
 import javax.inject.Singleton;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -8,7 +10,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Singleton
 public class UserEntityDAO extends AuditableEntityManagerDAO<UserEntity> {
@@ -40,5 +45,20 @@ public class UserEntityDAO extends AuditableEntityManagerDAO<UserEntity> {
 
         query.where(equalsEmailAddress);
         return getSingleResult(query);
+    }
+
+    public List<UserEntity> getByQuery(GetUsersQuery queryParameters) {
+        Set<Long> ids = queryParameters.getQueries().stream()
+                .map(GetUserQuery::getId)
+                .collect(Collectors.toSet());
+
+        CriteriaBuilder builder = criteriaBuilder();
+        CriteriaQuery<UserEntity> query = builder.createQuery(entityType);
+        Root<UserEntity> root = query.from(entityType);
+        Expression<Long> idField = root.get("id");
+        Predicate inIds = idField.in(ids);
+
+        query.where(inIds);
+        return getResultList(query);
     }
 }

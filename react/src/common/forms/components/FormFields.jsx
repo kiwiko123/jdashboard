@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { isNil } from 'lodash';
 import FormField from './FormField';
 import Banner, { BANNER_TYPES } from '../../components/Banner';
 import IconButton from '../../components/IconButton';
@@ -99,7 +98,7 @@ const FormFields = ({
 };
 
 FormFields.propTypes = {
-    fields: PropTypes.arrayOf(FormField.propTypes).isRequired,
+    fields: PropTypes.arrayOf(PropTypes.shape(FormField.propTypes)).isRequired,
     submitButtonProps: PropTypes.shape(IconButton.propTypes).isRequired,
     extraButtons: PropTypes.arrayOf(PropTypes.shape({
         ...IconButton.propTypes,

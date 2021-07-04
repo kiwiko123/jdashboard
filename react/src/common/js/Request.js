@@ -18,7 +18,6 @@ function buildRequestParameterUrl(url, requestParameters) {
         return url;
     }
 
-    const data = {};
     const query = Object.entries(requestParameters)
         .map(([key, value]) => [key, encodeURIComponent(value)])
         .map(pair => pair.join('='))

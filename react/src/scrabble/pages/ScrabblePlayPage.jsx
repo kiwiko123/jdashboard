@@ -1,5 +1,4 @@
 import React from 'react';
-import { isEmpty } from 'lodash';
 import DashboardPage from '../../dashboard/components/DashboardPage';
 import ScrabbleGame from '../components/ScrabbleGame';
 import ComponentStateManager from '../../state/components/ComponentStateManager';

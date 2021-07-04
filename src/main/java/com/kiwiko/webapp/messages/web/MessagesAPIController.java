@@ -1,12 +1,12 @@
 package com.kiwiko.webapp.messages.web;
 
 import com.kiwiko.webapp.messages.api.queries.data.GetBetweenParameters;
-import com.kiwiko.webapp.chatroom.impl.ChatroomMessageService;
+import com.kiwiko.webapp.apps.chatroom.impl.ChatroomMessageService;
 import com.kiwiko.webapp.messages.data.Message;
 import com.kiwiko.webapp.messages.data.MessagePreview;
 import com.kiwiko.webapp.messages.data.MessageStatus;
-import com.kiwiko.webapp.chatroom.web.helpers.ChatroomResponseHelper;
-import com.kiwiko.webapp.chatroom.web.helpers.data.MessageDTO;
+import com.kiwiko.webapp.apps.chatroom.web.helpers.ChatroomResponseHelper;
+import com.kiwiko.webapp.apps.chatroom.web.helpers.data.MessageDTO;
 import com.kiwiko.webapp.mvc.json.api.ResponseBuilder;
 import com.kiwiko.webapp.mvc.json.api.annotations.CustomRequestBody;
 import com.kiwiko.webapp.mvc.json.data.ResponsePayload;

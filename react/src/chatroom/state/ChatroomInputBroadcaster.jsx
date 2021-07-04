@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import Broadcaster from '../../state/DefaultBroadcaster';
+import Broadcaster from '../../state/impl/DefaultBroadcaster';
 import Request from '../../common/js/Request';
 
 const SEND_MESSAGE_URL = '/messages/api/send';
