@@ -57,13 +57,13 @@ public class EndpointInterceptorExecutor extends HandlerInterceptorAdapter {
             EndpointInterceptor interceptor,
             HttpServletRequest request,
             HttpServletResponse response,
-            HandlerMethod handler) throws Exception {
+            HandlerMethod handler) {
         try {
             return interceptor.allowRequest(request, response, handler);
         } catch (Exception e) {
             logger.error(String.format("Error evaluating interceptor %s on url %s", interceptor.getClass().getName(), request.getRequestURL().toString()), e);
-            throw e;
         }
+        return false;
     }
 
     private void postHandleInterceptor(
@@ -71,12 +71,11 @@ public class EndpointInterceptorExecutor extends HandlerInterceptorAdapter {
             HttpServletRequest request,
             HttpServletResponse response,
             HandlerMethod handler,
-            ModelAndView modelAndView) throws Exception {
+            ModelAndView modelAndView) {
         try {
             interceptor.preRender(request, response, handler, modelAndView);
         } catch (Exception e) {
             logger.error(String.format("Error evaluating post-request interceptor %s on url %s", interceptor.getClass().getName(), request.getRequestURL().toString()), e);
-            throw e;
         }
     }
 
@@ -85,12 +84,11 @@ public class EndpointInterceptorExecutor extends HandlerInterceptorAdapter {
             HttpServletRequest request,
             HttpServletResponse response,
             HandlerMethod handler,
-            @Nullable Exception exception) throws Exception {
+            @Nullable Exception exception) {
         try {
             interceptor.afterRequestCompletion(request, response, handler, exception);
         } catch (Exception e) {
             logger.error(String.format("Error evaluating post-completion interceptor %s on url %s", interceptor.getClass().getName(), request.getRequestURL().toString()), e);
-            throw e;
         }
     }
 }

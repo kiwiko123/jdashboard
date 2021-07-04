@@ -4,7 +4,7 @@ import com.kiwiko.library.files.properties.readers.api.interfaces.parsers.Proper
 
 import java.util.Optional;
 
-public class JdashboardPropertyFileParser extends PropertyFileParser {
+public class JdashboardPropertyFileNormalizer extends PropertyFileParser {
 
     public Optional<String> processLine(String line) {
         return Optional.of(line)

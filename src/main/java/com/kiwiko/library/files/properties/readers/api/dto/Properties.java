@@ -1,8 +1,10 @@
 package com.kiwiko.library.files.properties.readers.api.dto;
 
 import javax.annotation.Nullable;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class Properties<T> {
     private final Map<String, Property<T>> properties;
@@ -22,5 +24,13 @@ public class Properties<T> {
 
     public void addProperty(Property<T> property) {
         properties.put(property.getName(), property);
+    }
+
+    public void removeProperty(String propertyName) {
+        properties.remove(propertyName);
+    }
+
+    public Set<String> names() {
+        return Collections.unmodifiableSet(properties.keySet());
     }
 }
