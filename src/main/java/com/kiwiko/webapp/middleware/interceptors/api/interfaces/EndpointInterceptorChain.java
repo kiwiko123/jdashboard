@@ -1,8 +1,10 @@
 package com.kiwiko.webapp.middleware.interceptors.api.interfaces;
 
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.mvc.interceptors.AuthenticationRequiredInterceptor;
 import com.kiwiko.webapp.mvc.requests.internal.interceptors.RequestContextInterceptor;
 import com.kiwiko.webapp.mvc.requests.internal.interceptors.RequestErrorInterceptor;
+import com.kiwiko.webapp.mvc.security.csrf.interceptors.CrossSiteRequestForgeryPreventionInterceptor;
 
 import javax.inject.Inject;
 import java.util.Collections;
@@ -12,6 +14,8 @@ import java.util.List;
 public class EndpointInterceptorChain {
 
     private List<EndpointInterceptor> interceptors;
+    @Inject private Logger logger;
+    @Inject private CrossSiteRequestForgeryPreventionInterceptor crossSiteRequestForgeryPreventionInterceptor;
     @Inject private AuthenticationRequiredInterceptor authenticationRequiredInterceptor;
     @Inject private RequestContextInterceptor requestContextInterceptor;
     @Inject private RequestErrorInterceptor requestErrorInterceptor;
@@ -20,6 +24,7 @@ public class EndpointInterceptorChain {
         List<EndpointInterceptor> interceptors = new LinkedList<>();
 
         // Add interceptors here.
+        interceptors.add(crossSiteRequestForgeryPreventionInterceptor);
         interceptors.add(authenticationRequiredInterceptor);
         interceptors.add(requestContextInterceptor);
         interceptors.add(requestErrorInterceptor);
@@ -29,6 +34,7 @@ public class EndpointInterceptorChain {
 
     public List<EndpointInterceptor> getInterceptors() {
         if (interceptors == null) {
+            logger.info("Creating endpoint interceptor chain");
             interceptors = makeInterceptors();
         }
 

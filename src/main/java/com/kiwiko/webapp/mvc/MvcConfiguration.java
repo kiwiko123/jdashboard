@@ -15,9 +15,7 @@ import com.kiwiko.webapp.mvc.json.api.JsonMapper;
 import com.kiwiko.webapp.mvc.resolvers.RequestBodyCollectionParameterResolver;
 import com.kiwiko.webapp.mvc.resolvers.RequestBodyParameterResolver;
 import com.kiwiko.webapp.mvc.resolvers.RequestContextResolver;
-import com.kiwiko.webapp.mvc.security.environments.api.EnvironmentService;
 import com.kiwiko.webapp.mvc.security.environments.data.EnvironmentProperties;
-import com.kiwiko.webapp.mvc.security.environments.internal.WebApplicationEnvironmentService;
 import org.springframework.aop.Advisor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -74,11 +72,6 @@ public class MvcConfiguration implements WebMvcConfigurer {
     @Bean
     public InMemoryRequestContextService ineMemoryRequestContextService() {
         return new InMemoryRequestContextService();
-    }
-
-    @Bean
-    public EnvironmentService environmentService() {
-        return new WebApplicationEnvironmentService();
     }
 
     @Bean
