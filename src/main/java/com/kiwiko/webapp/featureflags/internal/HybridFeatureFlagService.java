@@ -1,28 +1,23 @@
 package com.kiwiko.webapp.featureflags.internal;
 
-import com.kiwiko.library.caching.api.ObjectCache;
 import com.kiwiko.webapp.featureflags.api.interfaces.FeatureFlagService;
 import com.kiwiko.webapp.featureflags.api.dto.FeatureFlag;
 import com.kiwiko.webapp.featureflags.internal.data.FeatureFlagEntity;
 import com.kiwiko.webapp.featureflags.internal.data.FeatureFlagEntityDAO;
-import com.kiwiko.webapp.mvc.persistence.crud.api.CacheableCreateReadUpdateDeleteService;
+import com.kiwiko.webapp.mvc.persistence.crud.api.CreateReadUpdateDeleteService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.time.temporal.TemporalAmount;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class HybridFeatureFlagService
-        extends CacheableCreateReadUpdateDeleteService<FeatureFlagEntity, FeatureFlag, FeatureFlagEntityDAO, FeatureFlagEntityMapper>
+        extends CreateReadUpdateDeleteService<FeatureFlagEntity, FeatureFlag, FeatureFlagEntityDAO, FeatureFlagEntityMapper>
         implements FeatureFlagService {
 
     @Inject private FeatureFlagEntityDAO featureFlagEntityDAO;
     @Inject private FeatureFlagEntityMapper featureFlagEntityMapper;
-    @Inject private FeatureFlagCacheHelper cacheHelper;
-    @Inject private ObjectCache objectCache;
 
     @Override
     protected FeatureFlagEntityDAO getDataFetcher() {
@@ -34,30 +29,16 @@ public class HybridFeatureFlagService
         return featureFlagEntityMapper;
     }
 
-    @Override
-    protected ObjectCache getCache() {
-        return objectCache;
-    }
-
-    @Override
-    protected TemporalAmount getCacheDuration() {
-        return FeatureFlagCacheHelper.DEFAULT_FLAG_CACHE_DURATION;
-    }
-
     @Transactional(readOnly = true)
     @Override
     public Optional<FeatureFlag> getByName(String name) {
-        String key = cacheHelper.makeFlagCacheKey(name, null);
-        Supplier<Optional<FeatureFlag>> fetchFlag = () -> featureFlagEntityDAO.getByName(name).map(featureFlagEntityMapper::toDTO);
-        return obtain(key, fetchFlag);
+        return featureFlagEntityDAO.getByName(name).map(featureFlagEntityMapper::toDTO);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Optional<FeatureFlag> getForUser(String name, long userId) {
-        String key = cacheHelper.makeFlagCacheKey(name, userId);
-        Supplier<Optional<FeatureFlag>> fetchFlag = () -> featureFlagEntityDAO.getForUser(name, userId).map(featureFlagEntityMapper::toDTO);
-        return obtain(key, fetchFlag);
+        return featureFlagEntityDAO.getForUser(name, userId).map(featureFlagEntityMapper::toDTO);
     }
 
     @Transactional(readOnly = true)

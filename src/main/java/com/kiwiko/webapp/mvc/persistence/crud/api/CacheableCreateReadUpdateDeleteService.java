@@ -24,7 +24,7 @@ public abstract class CacheableCreateReadUpdateDeleteService<
     @Override
     public Optional<DTO> read(long id) {
         String key = makeCacheKey(id);
-        return obtain(key, () -> super.read(id));
+        return obtain(key, () -> super.read(id).orElse(null));
     }
 
     @Transactional
@@ -51,10 +51,10 @@ public abstract class CacheableCreateReadUpdateDeleteService<
         getCache().invalidate(key);
     }
 
-    protected <T> T obtain(String key, Supplier<T> fetch) {
+    protected <T> Optional<T> obtain(String key, Supplier<T> fetch) {
         ObjectCache cache = getCache();
         Optional<T> cachedResult = cache.get(key);
-        return cachedResult.orElseGet(() -> cache.cache(key, fetch.get(), getCacheDuration()));
+        return cachedResult.or(() -> Optional.of(cache.cache(key, fetch.get(), getCacheDuration())));
     }
 
     private String makeCacheKey(Long id) {

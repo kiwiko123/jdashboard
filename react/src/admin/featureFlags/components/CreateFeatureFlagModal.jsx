@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import TitleModal from '../../../common/components/Modal/TitleModal';
+import TitleModal from 'common/components/Modal/TitleModal';
+import ComponentStateManager from 'state/components/ComponentStateManager';
+import { useStateTransmitter } from 'state/hooks';
 import CreateFeatureFlagForm from './CreateFeatureFlagForm';
+import CreateFeatureFlagFormStateTransmitter from '../state/CreateFeatureFlagFormStateTransmitter';
 
 const CreateFeatureFlagModal = ({
     isOpen, close,
 }) => {
+    const createFeatureFlagFormStateTransmitter = useStateTransmitter(CreateFeatureFlagFormStateTransmitter;
+
     return (
         <TitleModal
             className="create-feature-flag-modal"
@@ -14,7 +19,10 @@ const CreateFeatureFlagModal = ({
             title="Create Feature Flag"
             size="large"
         >
-            <CreateFeatureFlagForm />
+            <ComponentStateManager
+                component={CreateFeatureFlagForm}
+                broadcaster={createFeatureFlagFormStateTransmitter}
+            />
         </TitleModal>
     );
 };

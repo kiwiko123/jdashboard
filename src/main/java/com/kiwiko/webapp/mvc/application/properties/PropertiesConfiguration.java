@@ -9,9 +9,11 @@ import com.kiwiko.webapp.mvc.application.properties.internal.MemoryManageableJda
 import com.kiwiko.webapp.mvc.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.webapp.mvc.security.environments.EnvironmentConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@ComponentScan(basePackageClasses = PropertiesConfiguration.class)
 public class PropertiesConfiguration {
 
     @Bean

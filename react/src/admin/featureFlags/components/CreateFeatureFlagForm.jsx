@@ -1,96 +1,55 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import FormField from '../../../common/forms/components/FormField';
-import DropdownSelector from '../../../common/forms/components/DropdownSelector';
-import IconButton from '../../../common/components/IconButton';
-import Request from '../../../common/js/Request';
+import InputFormField from 'common/forms/components/core/InputFormField';
+import DropdownSelectorFormField from 'common/forms/components/core/DropdownSelectorFormField';
+import IconButton from 'common/components/IconButton';
+import Request from 'common/js/Request';
 
 import './CreateFeatureFlagForm.css';
-
-const CREATE_FEATURE_FLAG_URL = '/feature-flags/api';
-
-const FLAG_STATUS_DROPDOWN_OPTIONS = [
-    {
-        label: 'Enabled',
-        value: 'enabled',
-    },
-    {
-        label: 'Disabled',
-        value: 'disabled',
-    },
-];
 
 function setTextFromEvent(event, setText) {
     setText(event.target.value);
 }
 
 const CreateFeatureFlagForm = ({
-    onSuccessfulSubmit,
+    fields, canSubmitForm, updateFieldValue, submitForm,
 }) => {
-    const [flagName, setFlagName] = useState(null);
-    const [flagStatus, setFlagStatus] = useState(null);
-    const [userScope, setUserScope] = useState(null);
-    const [userId, setUserId] = useState(null);
-    const validateFlagNameField = () => true; // TODO check if the name is available
-    const submitForm = useCallback(() => {
-        const body = {
-            name: flagName,
-            status: flagStatus,
-            userScope,
-            userId,
-        };
-        Request.to(CREATE_FEATURE_FLAG_URL)
-            .withAuthentication()
-            .withBody(body)
-            .post()
-            .then(() => {
-                onSuccessfulSubmit();
-            });
-    });
-
-    const userIdField = userScope === 'INDIVIDUAL' && (
-        <FormField
-            className="user-id-field"
-            label="User ID"
-            isRequired={true}
-            name="userId"
-            text={userId}
-            onChange={event => setTextFromEvent(event, setUserId)}
-        />
-    );
-
     return (
         <div className="CreateFeatureFlagForm">
             <div className="fields">
-                <FormField
+                <InputFormField
                     className="flag-name-field"
-                    label="Flag name"
-                    isRequired={true}
-                    isValid={validateFlagNameField}
+                    label={fields.name.label}
                     name="flagName"
-                    text={flagName}
-                    onChange={event => setTextFromEvent(event, setFlagName)}
+                    isRequired={fields.name.isRequired}
+                    isValid={fields.name.isValid}
+                    validate={fields.name.validate}
+                    value={fields.name.value}
+                    onChange={event => updateFieldValue('name', event.target.value)}
                 />
-                <DropdownSelector
+                <DropdownSelectorFormField
                     className="flag-status-selector"
-                    options={FLAG_STATUS_DROPDOWN_OPTIONS}
-                    onSelect={event => setTextFromEvent(event, setFlagStatus)}
+                    label={fields.status.label}
+                    name={fields.status.name}
+                    options={fields.status.options}
+                    isRequired={fields.status.isRequired}
+                    onChange={event => updateFieldValue('status', event.target.value)}
                 />
-                <FormField
-                    className="scope-field"
-                    label="Scope"
-                    isRequired={true}
-                    name="userScope"
-                    text={userScope}
-                    onChange={event => setTextFromEvent(event, setUserScope)}
+                <DropdownSelectorFormField
+                    className="user-scope-selector"
+                    label={fields.userScope.label}
+                    name={fields.userScope.name}
+                    isRequired={fields.userScope.isRequired}
+                    options={fields.userScope.options}
+                    onChange={event => updateFieldValue('userScope', event.target.value)}
                 />
-                {userIdField}
             </div>
             <div className="buttons">
                 <IconButton
                     className="submit-create-feature-flag-form-button"
                     variant="primary"
                     onClick={submitForm}
+                    disabled={!canSubmitForm}
                 >
                     Submit
                 </IconButton>
@@ -100,11 +59,14 @@ const CreateFeatureFlagForm = ({
 };
 
 CreateFeatureFlagForm.propTypes = {
-    onSuccessfulSubmit: PropTypes.func,
+    fields: PropTypes.object.isRequired, // TODO define shape
+    updateFieldValue: PropTypes.func.isRequired,
+    canSubmitForm: PropTypes.bool,
+    submitForm: PropTypes.func.isRequired,
 };
 
 CreateFeatureFlagForm.defaultProps = {
-    onSuccessfulSubmit: () => {},
+    canSubmitForm: false,
 };
 
 export default CreateFeatureFlagForm;
