@@ -6,6 +6,7 @@ import FeatureFlagToolbarStateTransmitter from './state/FeatureFlagToolbarStateT
 import CreateFeatureFlagModalStateTransmitter from './state/CreateFeatureFlagModalStateTransmitter';
 import FeatureFlagPageToolbar from './components/FeatureFlagPageToolbar';
 import CreateFeatureFlagModal from './components/CreateFeatureFlagModal';
+import FeatureFlagPageContent from './components/FeatureFlagPageContent';
 
 export default function() {
     const toolbarStateTransmitter = useStateTransmitter(FeatureFlagToolbarStateTransmitter);
@@ -26,6 +27,7 @@ export default function() {
                     broadcaster={createFeatureFlagModalStateTransmitter}
                 />
             </div>
+            <FeatureFlagPageContent />
         </DashboardPage>
     );
 }

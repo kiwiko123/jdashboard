@@ -9,7 +9,7 @@ import CreateFeatureFlagFormStateTransmitter from '../state/CreateFeatureFlagFor
 const CreateFeatureFlagModal = ({
     isOpen, close,
 }) => {
-    const createFeatureFlagFormStateTransmitter = useStateTransmitter(CreateFeatureFlagFormStateTransmitter;
+    const createFeatureFlagFormStateTransmitter = useStateTransmitter(CreateFeatureFlagFormStateTransmitter);
 
     return (
         <TitleModal

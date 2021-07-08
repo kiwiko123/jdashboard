@@ -1,0 +1,30 @@
+.FeatureFlagListItem {
+    background-color: white;
+    height: 10rem;
+    width: 80%;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.FeatureFlagListItem > .name {
+    font-weight: bold;
+}
+
+.FeatureFlagListItem > .fields {
+    width: 15rem;
+    margin-left: 1rem;
+    margin-top: 0.5rem;
+}
+
+.FeatureFlagListItem > .fields > * {
+    display: flex;
+}
+
+.FeatureFlagListItem > .fields > * > .label {
+    color: black;
+}
+
+.FeatureFlagListItem > .fields > * > .value {
+    margin-left: auto;
+    text-transform: uppercase;
+}
