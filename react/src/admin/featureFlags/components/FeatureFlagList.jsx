@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import featureFlagPropTypeShape from './propTypes/featureFlagPropTypeShape';
 import FeatureFlagListItem from './FeatureFlagListItem';
 
+import './FeatureFlagList.css';
+
 const FeatureFlagList = ({
-    featureFlags,
+    featureFlagListItems,
 }) => {
-    const listItems = featureFlags.map(item => (
+    const listItems = featureFlagListItems.map(item => (
         <FeatureFlagListItem
             {...item.featureFlag}
             key={item.featureFlag.id}
@@ -21,7 +23,7 @@ const FeatureFlagList = ({
 };
 
 FeatureFlagList.propTypes = {
-    featureFlags: PropTypes.arrayOf(PropTypes.shape({
+    featureFlagListItems: PropTypes.arrayOf(PropTypes.shape({
         featureFlag: PropTypes.shape(featureFlagPropTypeShape).isRequired,
         user: PropTypes.shape({
             id: PropTypes.number.isRequired,
@@ -30,7 +32,7 @@ FeatureFlagList.propTypes = {
 };
 
 FeatureFlagList.defaultProps = {
-    featureFlags: [],
+    featureFlagListItems: [],
 };
 
 export default FeatureFlagList;

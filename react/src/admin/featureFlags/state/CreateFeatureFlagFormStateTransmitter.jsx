@@ -94,6 +94,7 @@ export default class CreateFeatureFlagFormStateTransmitter extends StateTransmit
     }
 
     submitForm() {
+        this.setState({ canSubmitForm: false });
         const payload = {
             name: this.state.fields.name.value,
             status: this.state.fields.status.value,
@@ -109,8 +110,9 @@ export default class CreateFeatureFlagFormStateTransmitter extends StateTransmit
             .withBody(payload)
             .post()
             .then((response) => {
-                // TODO
                 logger.info(`Create feature flag response: ${Object.entries(response)}`);
-            });
+                this.sendState('FeatureFlagListStateTransmitter', null, 'featureFlagCreated');
+                this.sendState('CreateFeatureFlagModalStateTransmitter', null, 'featureFlagCreated');
+            })
     }
 }

@@ -8,18 +8,23 @@ export default class FeatureFlagListStateTransmitter extends StateTransmitter {
     constructor() {
         super();
         this.setState({
-            featureFlags: [],
+            featureFlagListItems: [],
         });
-
-        this.getFeatureFlags().then((response) => {
-            const featureFlags = response || [];
-            this.setState({ featureFlags });
-        });
+        this.refreshFeatureFlags();
     }
 
-    getFeatureFlags() {
-        return Request.to(GET_FEATURE_FLAGS_LIST_URL)
+    receiveCreateFeatureFlagFormStateTransmitter(state, metadata) {
+        if (metadata === 'featureFlagCreated') {
+            this.refreshFeatureFlags();
+        }
+    }
+
+    refreshFeatureFlags() {
+        Request.to(GET_FEATURE_FLAGS_LIST_URL)
             .withAuthentication()
-            .get();
+            .get()
+            .then((response) => {
+                this.setState({ featureFlagListItems: response });
+            });
     }
 }
