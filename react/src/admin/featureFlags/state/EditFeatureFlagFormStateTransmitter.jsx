@@ -1,23 +1,25 @@
 import { get, set } from 'lodash';
-import CreateFeatureFlagFormStateTransmitter from './CreateFeatureFlagFormStateTransmitter';
+import FeatureFlagFormStateTransmitter from './FeatureFlagFormStateTransmitter';
 import logger from 'common/js/logging';
 import Request from 'common/js/Request';
 
-const UPDATE_FEATURE_FLAG_URL = '/feature-flags/api';
-
-export default class EditFeatureFlagFormStateTransmitter extends CreateFeatureFlagFormStateTransmitter {
+export default class EditFeatureFlagFormStateTransmitter extends FeatureFlagFormStateTransmitter {
 
     constructor(featureFlag) {
         super();
         this.featureFlag = featureFlag;
 
-        const { fields } = this.state;
-        set(fields, 'name.value', featureFlag.name);
-        set(fields, 'status.value', featureFlag.status);
-        set(fields, 'userScope.value', featureFlag.userScope);
-        set(fields, 'userId.value', featureFlag.userId);
+        if (featureFlag) {
+            const { fields } = this.state;
+            set(fields, 'name.value', featureFlag.name);
+            set(fields, 'status.value', featureFlag.status);
+            set(fields, 'userScope.value', featureFlag.userScope);
+            set(fields, 'userId.value', featureFlag.userId);
 
-        this.setState({ fields });
+            this.setState({ fields });
+        }
+
+        this.registerMethod(this.submitForm);
     }
 
     submitForm() {
@@ -36,13 +38,13 @@ export default class EditFeatureFlagFormStateTransmitter extends CreateFeatureFl
             versions: this.featureFlag.versions,
         };
 
-        Request.to(UPDATE_FEATURE_FLAG_URL)
+        Request.to(`/feature-flags/api/${this.featureFlag.id}`)
             .withAuthentication()
             .withBody(payload)
             .put()
             .then((response) => {
                 logger.info(`Create feature flag response: ${Object.entries(response)}`);
-                this.sendState('FeatureFlagListStateTransmitter', null, 'featureFlagCreated');
+                this.sendState('FeatureFlagModalStateTransmitter', null, 'featureFlagEdited');
             })
     }
 }

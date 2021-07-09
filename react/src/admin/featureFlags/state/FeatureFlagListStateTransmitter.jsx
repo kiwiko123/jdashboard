@@ -11,6 +11,7 @@ export default class FeatureFlagListStateTransmitter extends StateTransmitter {
             featureFlagListItems: [],
         });
         this.refreshFeatureFlags();
+        this.registerMethod(this.openFeatureFlagForm);
     }
 
     receiveCreateFeatureFlagFormStateTransmitter(state, metadata) {
@@ -26,5 +27,10 @@ export default class FeatureFlagListStateTransmitter extends StateTransmitter {
             .then((response) => {
                 this.setState({ featureFlagListItems: response });
             });
+    }
+
+    openFeatureFlagForm(featureFlagIndex) {
+        const featureFlag = get(this.state.featureFlagListItems, [featureFlagIndex, 'featureFlag']);
+        this.sendState('FeatureFlagModalStateTransmitter', { featureFlag }, 'openEditFeatureFlagModal');
     }
 }

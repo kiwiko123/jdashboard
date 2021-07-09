@@ -1,26 +1,19 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import EditFeatureFlagModal from './EditFeatureFlagModal';
 import featureFlagPropTypeShape from './propTypes/featureFlagPropTypeShape';
 
 import './FeatureFlagListItem.css';
 
 const FeatureFlagListItem = ({
-    id, name, status, userScope, userId, isRemoved, versions,
+    id, name, status, userScope, userId, isRemoved, versions, onClick,
 }) => {
     const flag = { id, name, status, userScope, userId, isRemoved, versions };
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
     return (
         <div
             className="FeatureFlagListItem"
-            onClick={() => setIsEditModalOpen(true)}
+            onClick={onClick}
         >
-            <EditFeatureFlagModal
-                isOpen={isEditModalOpen}
-                close={() => setIsEditModalOpen(false)}
-                featureFlag={flag}
-            />
             <div className="name">
                 {name}
             </div>
@@ -48,9 +41,11 @@ const FeatureFlagListItem = ({
 
 FeatureFlagListItem.propTypes = {
     ...featureFlagPropTypeShape,
+    onClick: PropTypes.func,
 };
 
 FeatureFlagListItem.defaultProps = {
+    onClick: () => {},
 };
 
 export default FeatureFlagListItem;

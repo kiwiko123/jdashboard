@@ -5,17 +5,17 @@ import DropdownSelectorFormField from 'common/forms/components/core/DropdownSele
 import IconButton from 'common/components/IconButton';
 import Request from 'common/js/Request';
 
-import './CreateFeatureFlagForm.css';
+import './FeatureFlagForm.css';
 
 function setTextFromEvent(event, setText) {
     setText(event.target.value);
 }
 
-const CreateFeatureFlagForm = ({
+const FeatureFlagForm = ({
     fields, canSubmitForm, updateFieldValue, submitForm,
 }) => {
     return (
-        <div className="CreateFeatureFlagForm">
+        <div className="FeatureFlagForm">
             <div className="fields">
                 <InputFormField
                     className="flag-name-field"
@@ -58,15 +58,15 @@ const CreateFeatureFlagForm = ({
     );
 };
 
-CreateFeatureFlagForm.propTypes = {
+FeatureFlagForm.propTypes = {
     fields: PropTypes.object.isRequired, // TODO define shape
     updateFieldValue: PropTypes.func.isRequired,
     canSubmitForm: PropTypes.bool,
     submitForm: PropTypes.func.isRequired,
 };
 
-CreateFeatureFlagForm.defaultProps = {
+FeatureFlagForm.defaultProps = {
     canSubmitForm: false,
 };
 
-export default CreateFeatureFlagForm;
+export default FeatureFlagForm;

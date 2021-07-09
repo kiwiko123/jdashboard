@@ -1,0 +1,8 @@
+.FeatureFlagForm > .fields > .FormField > .label {
+    color: black;
+}
+
+.FeatureFlagForm > .fields > .FormField > .input {
+    margin-left: auto;
+    width: 20rem;
+}
