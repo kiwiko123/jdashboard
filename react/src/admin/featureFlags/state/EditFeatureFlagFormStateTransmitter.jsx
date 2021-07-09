@@ -5,21 +5,30 @@ import Request from 'common/js/Request';
 
 export default class EditFeatureFlagFormStateTransmitter extends FeatureFlagFormStateTransmitter {
 
-    constructor(featureFlag) {
+    constructor() {
         super();
-        this.featureFlag = featureFlag;
-
-        if (featureFlag) {
-            const { fields } = this.state;
-            set(fields, 'name.value', featureFlag.name);
-            set(fields, 'status.value', featureFlag.status);
-            set(fields, 'userScope.value', featureFlag.userScope);
-            set(fields, 'userId.value', featureFlag.userId);
-
-            this.setState({ fields });
-        }
-
         this.registerMethod(this.submitForm);
+    }
+
+    receiveFeatureFlagModalStateTransmitter(state, metadata) {
+        if (metadata === 'setFeatureFlag') {
+            this.setFeatureFlag(state.featureFlag);
+        }
+    }
+
+    setFeatureFlag(featureFlag) {
+        if (!featureFlag) {
+            logger.error('No feature flag provided');
+            return;
+        }
+        this.featureFlag = featureFlag;
+        const { fields } = this.state;
+        set(fields, 'name.value', featureFlag.name);
+        set(fields, 'status.value', featureFlag.status);
+        set(fields, 'userScope.value', featureFlag.userScope);
+        set(fields, 'userId.value', featureFlag.userId);
+
+        this.setState({ fields });
     }
 
     submitForm() {

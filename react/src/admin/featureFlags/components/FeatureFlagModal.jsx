@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import TitleModal from 'common/components/Modal/TitleModal';
 import ComponentStateManager from 'state/components/ComponentStateManager';
-import { useStateManager } from 'state/hooks';
+import { useStateTransmitter } from 'state/hooks';
 import FeatureFlagForm from './FeatureFlagForm';
 import CreateFeatureFlagFormStateTransmitter from '../state/CreateFeatureFlagFormStateTransmitter';
 import EditFeatureFlagFormStateTransmitter from '../state/EditFeatureFlagFormStateTransmitter';
 import featureFlagPropTypeShape from './propTypes/featureFlagPropTypeShape';
 
 const FeatureFlagModal = ({
-    isOpen, close, title, createFormTransmitter, featureFlag, formType,
+    isOpen, close, title, createFormTransmitter, formType,
 }) => {
-    const createFormManager = useStateManager(new CreateFeatureFlagFormStateTransmitter());
-    const editFormManager = useStateManager(() => new EditFeatureFlagFormStateTransmitter(featureFlag), [featureFlag]);
+    const createFormManager = useStateTransmitter(CreateFeatureFlagFormStateTransmitter);
+    const editFormManager = useStateTransmitter(EditFeatureFlagFormStateTransmitter);
     const formManager = formType === 'create' ? createFormManager : editFormManager;
 
     return (
@@ -36,13 +36,11 @@ FeatureFlagModal.propTypes = {
     close: PropTypes.func.isRequired,
     createFormTransmitter: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
-    featureFlag: PropTypes.shape(featureFlagPropTypeShape),
     formType: PropTypes.oneOf(['create', 'edit']).isRequired,
 };
 
 FeatureFlagModal.defaultProps = {
     isOpen: false,
-    featureFlag: null,
 };
 
 export default FeatureFlagModal;

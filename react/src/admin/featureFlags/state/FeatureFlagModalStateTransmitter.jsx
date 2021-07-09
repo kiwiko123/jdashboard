@@ -37,8 +37,8 @@ export default class FeatureFlagModalStateTransmitter extends StateTransmitter {
 
     receiveFeatureFlagListStateTransmitter(state, metadata) {
         if (metadata === 'openEditFeatureFlagModal') {
+            this.sendState('EditFeatureFlagFormStateTransmitter', { featureFlag: state.featureFlag }, 'setFeatureFlag');
             this.setState({
-                featureFlag: state.featureFlag,
                 isOpen: true,
                 formType: 'edit',
                 title: 'Edit Feature Flag',

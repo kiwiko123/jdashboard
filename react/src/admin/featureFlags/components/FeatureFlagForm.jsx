@@ -31,6 +31,7 @@ const FeatureFlagForm = ({
                     className="flag-status-selector"
                     label={fields.status.label}
                     name={fields.status.name}
+                    value={fields.status.value}
                     options={fields.status.options}
                     isRequired={fields.status.isRequired}
                     onChange={event => updateFieldValue('status', event.target.value)}
@@ -39,6 +40,7 @@ const FeatureFlagForm = ({
                     className="user-scope-selector"
                     label={fields.userScope.label}
                     name={fields.userScope.name}
+                    value={fields.userScope.value}
                     isRequired={fields.userScope.isRequired}
                     options={fields.userScope.options}
                     onChange={event => updateFieldValue('userScope', event.target.value)}
