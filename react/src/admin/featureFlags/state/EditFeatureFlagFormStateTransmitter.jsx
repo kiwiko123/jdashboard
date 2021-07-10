@@ -16,6 +16,15 @@ export default class EditFeatureFlagFormStateTransmitter extends FeatureFlagForm
         }
     }
 
+    receiveFeatureFlagListStateTransmitter(state, metadata) {
+        if (metadata === 'toggleStatus') {
+            this.setFeatureFlag(state.featureFlag);
+            const status = state.isOn ? 'enabled' : 'disabled';
+            this.updateFieldValue('status', status);
+            this.submitForm();
+        }
+    }
+
     setFeatureFlag(featureFlag) {
         if (!featureFlag) {
             logger.error('No feature flag provided');
@@ -54,6 +63,7 @@ export default class EditFeatureFlagFormStateTransmitter extends FeatureFlagForm
             .then((response) => {
                 logger.info(`Create feature flag response: ${Object.entries(response)}`);
                 this.sendState('FeatureFlagModalStateTransmitter', null, 'featureFlagEdited');
+                this.featureFlag = null;
             })
     }
 }

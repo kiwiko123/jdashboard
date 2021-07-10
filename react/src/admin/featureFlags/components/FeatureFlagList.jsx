@@ -6,13 +6,15 @@ import FeatureFlagListItem from './FeatureFlagListItem';
 import './FeatureFlagList.css';
 
 const FeatureFlagList = ({
-    featureFlagListItems, openFeatureFlagForm,
+    featureFlagListItems, openFeatureFlagForm, toggleFeatureFlagStatus,
 }) => {
     const listItems = featureFlagListItems.map((item, index) => (
         <FeatureFlagListItem
             {...item.featureFlag}
             key={item.featureFlag.id}
+            index={index}
             onClick={() => openFeatureFlagForm(index)}
+            toggleStatus={toggleFeatureFlagStatus}
         />
     ));
 
@@ -30,12 +32,12 @@ FeatureFlagList.propTypes = {
             id: PropTypes.number.isRequired,
         }),
     })),
-    openFeatureFlagForm: PropTypes.func,
+    openFeatureFlagForm: PropTypes.func.isRequired,
+    toggleFeatureFlagStatus: PropTypes.func.isRequired,
 };
 
 FeatureFlagList.defaultProps = {
     featureFlagListItems: [],
-    openFeatureFlagForm: () => {},
 };
 
 export default FeatureFlagList;
