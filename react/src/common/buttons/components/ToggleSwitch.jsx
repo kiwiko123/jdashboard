@@ -6,7 +6,7 @@ import IconButton from 'common/components/IconButton';
 import './ToggleSwitch.css';
 
 const ToggleSwitch = ({
-    className, isSelected, onToggle,
+    className, isSelected, onToggle, disabled,
 }) => {
     const [isOn, setIsOn] = useState(isSelected);
     useEffect(() => {
@@ -25,6 +25,7 @@ const ToggleSwitch = ({
             className={divClassName}
             fontAwesomeClassName={iconClassName}
             onClick={onClick}
+            disabled={disabled}
         />
     );
 };
@@ -33,12 +34,14 @@ ToggleSwitch.propTypes = {
     className: PropTypes.string,
     isSelected: PropTypes.bool,
     onToggle: PropTypes.func,
+    disabled: PropTypes.bool,
 };
 
 ToggleSwitch.defaultProps = {
     className: null,
     isSelected: false,
     onToggle: () => {},
+    disabled: false,
 };
 
 export default ToggleSwitch;

@@ -2,18 +2,17 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import TitleModal from 'common/components/Modal/TitleModal';
 import ComponentStateManager from 'state/components/ComponentStateManager';
-import { useStateTransmitter } from 'state/hooks';
+import { useStateManager } from 'state/hooks';
 import FeatureFlagForm from './FeatureFlagForm';
-import CreateFeatureFlagFormStateTransmitter from '../state/CreateFeatureFlagFormStateTransmitter';
-import EditFeatureFlagFormStateTransmitter from '../state/EditFeatureFlagFormStateTransmitter';
+import FeatureFlagFormStateTransmitter from '../state/FeatureFlagFormStateTransmitter';
 import featureFlagPropTypeShape from './propTypes/featureFlagPropTypeShape';
+import logger from 'common/js/logging';
 
 const FeatureFlagModal = ({
     isOpen, close, title, createFormTransmitter, formType,
 }) => {
-    const createFormManager = useStateTransmitter(CreateFeatureFlagFormStateTransmitter);
-    const editFormManager = useStateTransmitter(EditFeatureFlagFormStateTransmitter);
-    const formManager = formType === 'create' ? createFormManager : editFormManager;
+    const formManager = useStateManager(() => new FeatureFlagFormStateTransmitter());
+    logger.debug(`Form manager ${formManager.id}`);
 
     return (
         <TitleModal

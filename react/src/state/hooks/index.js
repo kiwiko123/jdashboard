@@ -6,6 +6,7 @@ import useOnClickOutside from './useOnClickOutside';
 import usePushService from './usePushService';
 import useStateObject from './useStateObject';
 import useStateTransmitter from './useStateTransmitter';
+import useStateManager from './useStateManager';
 import useWebSocket from './useWebSocket';
 
 export {
@@ -16,6 +17,7 @@ export {
     useOnClickOutside,
     usePushService,
     useStateObject,
+    useStateManager,
     useStateTransmitter,
     useWebSocket,
 };

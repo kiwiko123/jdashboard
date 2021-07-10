@@ -6,8 +6,22 @@
     padding: 1rem;
 }
 
-.FeatureFlagListItem > .name {
+.FeatureFlagListItem > .toolbar {
+    display: flex;
+    align-items: center;
+}
+
+.FeatureFlagListItem > .toolbar > .name {
     font-weight: bold;
+}
+
+.FeatureFlagListItem > .toolbar > .edit-button {
+    padding: 0;
+}
+
+.FeatureFlagListItem > .toolbar > .delete-button {
+    padding: 0;
+    margin-left: auto;
 }
 
 .FeatureFlagListItem > .fields {
@@ -18,6 +32,7 @@
 
 .FeatureFlagListItem > .fields > * {
     display: flex;
+    align-items: center;
 }
 
 .FeatureFlagListItem > .fields > * > .label {

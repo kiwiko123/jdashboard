@@ -6,17 +6,23 @@ import FeatureFlagListItem from './FeatureFlagListItem';
 import './FeatureFlagList.css';
 
 const FeatureFlagList = ({
-    featureFlagListItems, openFeatureFlagForm, toggleFeatureFlagStatus,
+    featureFlagListItems, openFeatureFlagForm, toggleFeatureFlagStatus, removeFeatureFlag,
 }) => {
-    const listItems = featureFlagListItems.map((item, index) => (
-        <FeatureFlagListItem
-            {...item.featureFlag}
-            key={item.featureFlag.id}
-            index={index}
-            onClick={() => openFeatureFlagForm(index)}
-            toggleStatus={toggleFeatureFlagStatus}
-        />
-    ));
+    const listItems = featureFlagListItems.map((item, index) => {
+        const actions = {
+            openEditModal: () => openFeatureFlagForm(index),
+            toggleStatus: (event, value) => toggleFeatureFlagStatus(index, value),
+            removeFlag: () => removeFeatureFlag(index),
+        };
+        return (
+           <FeatureFlagListItem
+               {...item.featureFlag}
+               key={item.featureFlag.id}
+               actions={actions}
+               enableStatusToggle={true}
+           />
+       );
+    });
 
     return (
         <div className="FeatureFlagList">
@@ -34,6 +40,7 @@ FeatureFlagList.propTypes = {
     })),
     openFeatureFlagForm: PropTypes.func.isRequired,
     toggleFeatureFlagStatus: PropTypes.func.isRequired,
+    removeFeatureFlag: PropTypes.func.isRequired,
 };
 
 FeatureFlagList.defaultProps = {

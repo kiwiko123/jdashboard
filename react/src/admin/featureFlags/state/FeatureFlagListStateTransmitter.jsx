@@ -13,10 +13,17 @@ export default class FeatureFlagListStateTransmitter extends StateTransmitter {
         this.refreshFeatureFlags();
         this.registerMethod(this.openFeatureFlagForm);
         this.registerMethod(this.toggleFeatureFlagStatus);
+        this.registerMethod(this.removeFeatureFlag);
     }
 
     receiveCreateFeatureFlagFormStateTransmitter(state, metadata) {
         if (metadata === 'featureFlagCreated') {
+            this.refreshFeatureFlags();
+        }
+    }
+
+    receiveFeatureFlagModalStateTransmitter(state, metadata) {
+        if (metadata === 'refreshFlagList') {
             this.refreshFeatureFlags();
         }
     }
@@ -32,14 +39,19 @@ export default class FeatureFlagListStateTransmitter extends StateTransmitter {
 
     openFeatureFlagForm(featureFlagIndex) {
         const featureFlag = get(this.state.featureFlagListItems, [featureFlagIndex, 'featureFlag']);
-        this.sendState('FeatureFlagModalStateTransmitter', { featureFlag }, 'openEditFeatureFlagModal');
+        this.sendState('FeatureFlagModalStateTransmitter', { featureFlag }, 'openFeatureFlagModal');
     }
 
     toggleFeatureFlagStatus(listItemIndex, isOn) {
         const featureFlag = get(this.state.featureFlagListItems, [listItemIndex, 'featureFlag']);
         this.sendState(
-            'EditFeatureFlagFormStateTransmitter',
+            'FeatureFlagFormStateTransmitter',
             { featureFlag, isOn },
             'toggleStatus');
+    }
+
+    removeFeatureFlag(listItemIndex) {
+        const featureFlag = get(this.state.featureFlagListItems, [listItemIndex, 'featureFlag']);
+        this.sendState('FeatureFlagFormStateTransmitter', { id: featureFlag.id }, 'removeFlagById');
     }
 }

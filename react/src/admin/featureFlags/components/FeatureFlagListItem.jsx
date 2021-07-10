@@ -1,19 +1,34 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ToggleSwitch from 'common/buttons/components/ToggleSwitch';
+import IconButton from 'common/components/IconButton';
 import featureFlagPropTypeShape from './propTypes/featureFlagPropTypeShape';
 
 import './FeatureFlagListItem.css';
 
 const FeatureFlagListItem = ({
-    id, name, status, userScope, userId, isRemoved, versions, onClick, toggleStatus, index,
+    id, name, status, userScope, userId, isRemoved, versions, enableStatusToggle, actions,
 }) => {
     const flag = { id, name, status, userScope, userId, isRemoved, versions };
 
     return (
         <div className="FeatureFlagListItem">
-            <div className="name">
-                {name}
+            <div className="toolbar">
+                <div className="name">
+                    {name}
+                </div>
+                <IconButton
+                    className="edit-button"
+                    fontAwesomeClassName="fas fa-edit"
+                    onClick={actions.openEditModal}
+                    size="lg"
+                />
+                <IconButton
+                    className="delete-button"
+                    fontAwesomeClassName="fas fa-trash-alt"
+                    onClick={actions.removeFlag}
+                    size="lg"
+                />
             </div>
             <div className="fields">
                 <div className="status">
@@ -21,9 +36,10 @@ const FeatureFlagListItem = ({
                         Status
                     </span>
                     <ToggleSwitch
-                        className="status-switch"
+                        className="status-switch value"
                         isSelected={status === 'enabled'}
-                        onToggle={(event, value) => toggleStatus(index, value)}
+                        onToggle={(event, value) => actions.toggleStatus(value)}
+                        disabled={!enableStatusToggle}
                     />
                 </div>
                 <div className="user-scope">
@@ -41,15 +57,16 @@ const FeatureFlagListItem = ({
 
 FeatureFlagListItem.propTypes = {
     ...featureFlagPropTypeShape,
-    onClick: PropTypes.func,
-    toggleStatus: PropTypes.func,
-    index: PropTypes.number,
+    enableStatusToggle: PropTypes.bool,
+    actions: PropTypes.shape({
+        openEditModal: PropTypes.func.isRequired,
+        toggleStatus: PropTypes.func.isRequired,
+        removeFlag: PropTypes.func.isRequired,
+    }),
 };
 
 FeatureFlagListItem.defaultProps = {
-    onClick: () => {},
-    toggleStatus: () => {},
-    index: null,
+    enableStatusToggle: false,
 };
 
 export default FeatureFlagListItem;

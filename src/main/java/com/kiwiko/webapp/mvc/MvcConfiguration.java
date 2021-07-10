@@ -3,6 +3,8 @@ package com.kiwiko.webapp.mvc;
 import com.kiwiko.library.caching.api.ObjectCache;
 import com.kiwiko.library.caching.impl.InMemoryObjectCache;
 import com.kiwiko.webapp.mvc.json.api.JsonSerializer;
+import com.kiwiko.webapp.mvc.json.deserialization.MvcJsonDeserializationConfiguration;
+import com.kiwiko.webapp.mvc.json.deserialization.internal.resolvers.CustomRequestBodyArgumentResolver;
 import com.kiwiko.webapp.mvc.json.impl.GsonJsonSerializer;
 import com.kiwiko.webapp.mvc.json.impl.resolvers.CustomRequestBodyResolver;
 import com.kiwiko.webapp.metrics.api.annotations.CaptureMetrics;
@@ -19,15 +21,19 @@ import com.kiwiko.webapp.mvc.security.environments.data.EnvironmentProperties;
 import org.springframework.aop.Advisor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.inject.Inject;
 import java.util.List;
 
 @Configuration
+@Import(MvcJsonDeserializationConfiguration.class)
 public class MvcConfiguration implements WebMvcConfigurer {
 
+    @Inject private CustomRequestBodyArgumentResolver customRequestBodyArgumentResolver;
     private ConfigurationHelper configurationHelper;
 
     public MvcConfiguration() {
@@ -38,8 +44,9 @@ public class MvcConfiguration implements WebMvcConfigurer {
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(requestBodyParameterResolver());
         resolvers.add(requestBodyCollectionParameterResolver());
-        resolvers.add(customRequestBodyResolver());
+        resolvers.add(legacyCustomRequestBodyResolver());
         resolvers.add(requestContextResolver());
+        resolvers.add(customRequestBodyArgumentResolver);
     }
 
     @Override
@@ -90,7 +97,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    public CustomRequestBodyResolver customRequestBodyResolver() {
+    public CustomRequestBodyResolver legacyCustomRequestBodyResolver() {
         return new CustomRequestBodyResolver();
     }
 

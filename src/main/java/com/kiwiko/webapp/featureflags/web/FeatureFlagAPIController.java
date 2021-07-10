@@ -9,6 +9,8 @@ import com.kiwiko.webapp.featureflags.api.dto.FeatureFlag;
 import com.kiwiko.webapp.featureflags.web.responses.FeatureFlagListItem;
 import com.kiwiko.webapp.mvc.json.api.ResponseBuilder;
 import com.kiwiko.webapp.mvc.json.data.ResponsePayload;
+import com.kiwiko.webapp.mvc.json.deserialization.api.impl.GsonRequestBodyDeserializationStrategy;
+import com.kiwiko.webapp.mvc.json.deserialization.api.interfaces.CustomRequestBody;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.AuthenticationRequired;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.CrossOriginConfigured;
 import com.kiwiko.webapp.users.data.User;
@@ -83,7 +85,7 @@ public class FeatureFlagAPIController {
     @PutMapping("/feature-flags/api/{id}")
     public ResponsePayload update(
             @PathVariable("id") long id,
-            @RequestBody FeatureFlag featureFlag) {
+            @CustomRequestBody(strategy = GsonRequestBodyDeserializationStrategy.class) FeatureFlag featureFlag) {
         featureFlag.setId(id);
         FeatureFlag updatedFlag = featureFlagService.update(featureFlag);
         return ResponseBuilder.payload(updatedFlag);

@@ -1,7 +1,7 @@
 package com.kiwiko.webapp.featureflags.internal.data;
 
 import com.kiwiko.webapp.featureflags.api.dto.FeatureFlagUserScope;
-import com.kiwiko.webapp.mvc.persistence.impl.VersionedEntityManagerDAO;
+import com.kiwiko.webapp.mvc.persistence.dataaccess.api.EntityManagerDAO;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -11,7 +11,7 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Optional;
 
-public class FeatureFlagEntityDAO extends VersionedEntityManagerDAO<FeatureFlagEntity> {
+public class FeatureFlagEntityDAO extends EntityManagerDAO<FeatureFlagEntity> {
 
     @Override
     protected Class<FeatureFlagEntity> getEntityType() {
