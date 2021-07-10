@@ -1,6 +1,7 @@
 .FeatureFlagListItem {
     background-color: white;
-    height: 10rem;
+    height: auto;
+    min-height: 10rem;
     width: 80%;
     margin: 0 auto;
     padding: 1rem;
@@ -17,11 +18,13 @@
 
 .FeatureFlagListItem > .toolbar > .edit-button {
     padding: 0;
+    color: #2f4f4f;
 }
 
 .FeatureFlagListItem > .toolbar > .delete-button {
     padding: 0;
     margin-left: auto;
+    color: #8b0000;
 }
 
 .FeatureFlagListItem > .fields {
@@ -42,4 +45,8 @@
 .FeatureFlagListItem > .fields > * > .value {
     margin-left: auto;
     text-transform: uppercase;
+}
+
+.FeatureFlagListItem > .fields > .status > .status-switch.on {
+    color: #008a00;
 }

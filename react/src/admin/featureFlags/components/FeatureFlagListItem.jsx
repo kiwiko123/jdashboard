@@ -7,9 +7,19 @@ import featureFlagPropTypeShape from './propTypes/featureFlagPropTypeShape';
 import './FeatureFlagListItem.css';
 
 const FeatureFlagListItem = ({
-    id, name, status, userScope, userId, isRemoved, versions, enableStatusToggle, actions,
+    id, name, status, value, userScope, userId, isRemoved, versions, enableStatusToggle, actions,
 }) => {
     const flag = { id, name, status, userScope, userId, isRemoved, versions };
+    const userIdField = userScope === 'individual' && (
+        <div className="userId">
+            <span className="label">
+                User ID:
+            </span>
+            <span className="value">
+                {userId}
+            </span>
+        </div>
+    );
 
     return (
         <div className="FeatureFlagListItem">
@@ -38,9 +48,17 @@ const FeatureFlagListItem = ({
                     <ToggleSwitch
                         className="status-switch value"
                         isSelected={status === 'enabled'}
-                        onToggle={(event, value) => actions.toggleStatus(value)}
+                        onToggle={actions.toggleStatus}
                         disabled={!enableStatusToggle}
                     />
+                </div>
+                <div className="flag-value">
+                    <span className="label">
+                        Value:
+                    </span>
+                    <span className="value">
+                        {value}
+                    </span>
                 </div>
                 <div className="user-scope">
                     <span className="label">
@@ -50,6 +68,7 @@ const FeatureFlagListItem = ({
                         {userScope}
                     </span>
                 </div>
+                {userIdField}
             </div>
         </div>
     );

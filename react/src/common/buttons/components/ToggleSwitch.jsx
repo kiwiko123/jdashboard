@@ -17,7 +17,9 @@ const ToggleSwitch = ({
         setIsOn(newValue);
         onToggle(event, newValue);
     }, [onToggle, isOn]);
-    const divClassName = classnames('ToggleSwitch', className);
+    const divClassName = classnames('ToggleSwitch', className, {
+        on: isOn,
+    });
     const iconClassName = isOn ? 'fas fa-toggle-on' : 'fas fa-toggle-off';
 
     return (

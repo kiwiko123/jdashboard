@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { get, set } from 'lodash';
 import StateTransmitter from 'state/StateTransmitter';
 import Request from 'common/js/Request';
 

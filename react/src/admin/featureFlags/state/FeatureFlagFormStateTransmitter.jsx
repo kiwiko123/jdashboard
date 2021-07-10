@@ -1,4 +1,4 @@
-import { get, isEmpty, set } from 'lodash';
+import { get, isEmpty, isFunction, set } from 'lodash';
 import StateTransmitter from 'state/StateTransmitter';
 import logger from 'common/js/logging';
 import Request from 'common/js/Request';
@@ -40,6 +40,12 @@ const FIELDS = {
         validate: Boolean,
         options: FLAG_STATUS_DROPDOWN_OPTIONS,
     },
+    value: {
+        label: 'Value',
+        name: 'value',
+        isRequired: false,
+        value: null,
+    },
     userScope: {
         label: 'User scope',
         name: 'user-scope',
@@ -52,6 +58,7 @@ const FIELDS = {
         name: 'user-id',
         isRequired: false,
         validate: Boolean,
+        value: null,
     },
 };
 
@@ -59,12 +66,39 @@ function isFieldApproved(field) {
     return !field.isRequired || field.isValid;
 }
 
+function validateField(field) {
+    const { isRequired, validate, name, value } = field;
+    let isValid = true;
+    if (isRequired) {
+        if (!validate) {
+            logger.error(`Feature flag form field "${field.name}" is required but has no validation function`);
+        }
+        isValid = validate(value);
+    }
+
+    field.isValid = isValid;
+    return isValid;
+}
+
+function createFields(fields) {
+    const result = {};
+    Object.entries(fields)
+        .forEach(([name, field]) => {
+            const value = {
+                ...field,
+                isValid: validateField(field),
+            };
+            result[name] = field;
+        });
+    return result;
+}
+
 export default class FeatureFlagFormStateTransmitter extends StateTransmitter {
     constructor() {
         super();
         this.featureFlag = null;
         this.setState({
-            fields: FIELDS,
+            fields: createFields(FIELDS),
             canSubmitForm: false,
         });
         this.registerMethod(this.updateFieldValue);
@@ -92,16 +126,19 @@ export default class FeatureFlagFormStateTransmitter extends StateTransmitter {
 
     setFeatureFlag(featureFlag) {
         this.featureFlag = featureFlag;
-        if (!featureFlag) {
-            return;
-        }
-        const { fields } = this.state;
-        set(fields, 'name.value', featureFlag.name);
-        set(fields, 'status.value', featureFlag.status);
-        set(fields, 'userScope.value', featureFlag.userScope);
-        set(fields, 'userId.value', featureFlag.userId);
 
-        this.setState({ fields });
+        let fields = createFields(FIELDS);
+        set(fields, 'name.value', get(featureFlag, 'name'));
+        set(fields, 'status.value', get(featureFlag, 'status'));
+        set(fields, 'value.value', get(featureFlag, 'value'));
+        set(fields, 'userScope.value', get(featureFlag, 'userScope'));
+        set(fields, 'userId.value', get(featureFlag, 'userId'));
+
+        fields = createFields(fields); // run validation
+        const fieldObjects = Object.values(fields);
+        const canSubmitForm = fieldObjects.length > 0 && fieldObjects.every(isFieldApproved);
+
+        this.setState({ fields, canSubmitForm });
     }
 
     updateFieldValue(fieldName, value, path = 'value') {
@@ -111,7 +148,7 @@ export default class FeatureFlagFormStateTransmitter extends StateTransmitter {
         let isValid = true;
         if (isRequired) {
             if (!validate) {
-                logger.error(`Create feature flag field "${fieldName}" is required but has no validation function`);
+                logger.error(`Feature flag form field "${fieldName}" is required but has no validation function`);
             }
             isValid = validate(value);
         }
@@ -128,13 +165,14 @@ export default class FeatureFlagFormStateTransmitter extends StateTransmitter {
     submitForm() {
         this.setState({ canSubmitForm: false });
         const payload = {
+            // Required fields
             name: this.state.fields.name.value,
             status: this.state.fields.status.value,
 
             // Optional fields
+            value: this.state.fields.value.value,
             userScope: this.state.fields.userScope.value,
             userId: this.state.fields.userId.value,
-            // TODO value
 
             // Non-editable fields
             isRemoved: get(this.featureFlag, 'isRemoved'),

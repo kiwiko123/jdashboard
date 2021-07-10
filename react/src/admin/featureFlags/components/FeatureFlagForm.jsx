@@ -14,6 +14,19 @@ function setTextFromEvent(event, setText) {
 const FeatureFlagForm = ({
     fields, canSubmitForm, updateFieldValue, submitForm,
 }) => {
+    const userIdField = fields.userScope.value === 'individual' && (
+        <InputFormField
+            className="user-id-field"
+            label={fields.userId.label}
+            name="userId"
+            isRequired={fields.userId.isRequired}
+            isValid={fields.userId.isValid}
+            validate={fields.userId.validate}
+            value={fields.userId.value}
+            onChange={event => updateFieldValue('userId', event.target.value)}
+        />
+    );
+
     return (
         <div className="FeatureFlagForm">
             <div className="fields">
@@ -36,6 +49,15 @@ const FeatureFlagForm = ({
                     isRequired={fields.status.isRequired}
                     onChange={event => updateFieldValue('status', event.target.value)}
                 />
+                <InputFormField
+                    className="flag-value-field"
+                    label={fields.value.label}
+                    name="flagValue"
+                    isRequired={fields.value.isRequired}
+                    isValid={fields.value.isValid}
+                    value={fields.value.value}
+                    onChange={event => updateFieldValue('value', event.target.value)}
+                />
                 <DropdownSelectorFormField
                     className="user-scope-selector"
                     label={fields.userScope.label}
@@ -45,6 +67,7 @@ const FeatureFlagForm = ({
                     options={fields.userScope.options}
                     onChange={event => updateFieldValue('userScope', event.target.value)}
                 />
+                {userIdField}
             </div>
             <div className="buttons">
                 <IconButton
