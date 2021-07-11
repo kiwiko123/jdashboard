@@ -1,6 +1,7 @@
 package com.kiwiko.webapp.featureflags.internal.data;
 
-import com.kiwiko.library.persistence.dataAccess.api.versions.VersionedEntity;
+import com.kiwiko.webapp.persistence.data.cdc.api.interfaces.CaptureEntityDataChanges;
+import com.kiwiko.webapp.persistence.data.api.interfaces.SoftDeletableDataEntity;
 
 import javax.annotation.Nullable;
 import javax.persistence.Column;
@@ -12,7 +13,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "feature_flags")
-public class FeatureFlagEntity extends VersionedEntity {
+@CaptureEntityDataChanges
+public class FeatureFlagEntity implements SoftDeletableDataEntity {
 
     private Long id;
     private String name;
@@ -21,7 +23,6 @@ public class FeatureFlagEntity extends VersionedEntity {
     private String userScope;
     private @Nullable Long userId;
     private boolean isRemoved;
-    private String versions;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -82,23 +83,14 @@ public class FeatureFlagEntity extends VersionedEntity {
         this.userId = userId;
     }
 
+    @Override
     @Column(name = "is_removed", nullable = false)
     public boolean getIsRemoved() {
         return isRemoved;
     }
 
+    @Override
     public void setIsRemoved(boolean isRemoved) {
         this.isRemoved = isRemoved;
-    }
-
-    @Column(name = "versions")
-    @Override
-    public String getVersions() {
-        return versions;
-    }
-
-    @Override
-    public void setVersions(String versions) {
-        this.versions = versions;
     }
 }

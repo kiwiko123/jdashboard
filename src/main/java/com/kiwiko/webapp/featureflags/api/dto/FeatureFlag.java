@@ -1,10 +1,10 @@
 package com.kiwiko.webapp.featureflags.api.dto;
 
-import com.kiwiko.library.persistence.dataAccess.data.VersionedEntityDTO;
+import com.kiwiko.webapp.persistence.data.api.interfaces.SoftDeletableDataEntityDTO;
 
 import javax.annotation.Nullable;
 
-public class FeatureFlag extends VersionedEntityDTO {
+public class FeatureFlag extends SoftDeletableDataEntityDTO {
 
     public static FeatureFlag empty() {
         FeatureFlag result = new FeatureFlag();

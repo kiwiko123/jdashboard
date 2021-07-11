@@ -23,3 +23,5 @@ CREATE UNIQUE INDEX ON feature_flags (lower(name)) WHERE is_removed = false;
 CREATE INDEX ON feature_flags (lower(name), user_scope, user_id);
 
 CREATE INDEX ON application_events (event_type, event_key);
+
+CREATE INDEX ON table_record_versions (table_name, record_id);
