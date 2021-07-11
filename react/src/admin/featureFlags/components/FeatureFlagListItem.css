@@ -1,0 +1,52 @@
+.FeatureFlagListItem {
+    background-color: white;
+    height: auto;
+    min-height: 10rem;
+    width: 80%;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.FeatureFlagListItem > .toolbar {
+    display: flex;
+    align-items: center;
+}
+
+.FeatureFlagListItem > .toolbar > .name {
+    font-weight: bold;
+}
+
+.FeatureFlagListItem > .toolbar > .edit-button {
+    padding: 0;
+    color: #2f4f4f;
+}
+
+.FeatureFlagListItem > .toolbar > .delete-button {
+    padding: 0;
+    margin-left: auto;
+    color: #8b0000;
+}
+
+.FeatureFlagListItem > .fields {
+    width: 15rem;
+    margin-left: 1rem;
+    margin-top: 0.5rem;
+}
+
+.FeatureFlagListItem > .fields > * {
+    display: flex;
+    align-items: center;
+}
+
+.FeatureFlagListItem > .fields > * > .label {
+    color: black;
+}
+
+.FeatureFlagListItem > .fields > * > .value {
+    margin-left: auto;
+    text-transform: uppercase;
+}
+
+.FeatureFlagListItem > .fields > .status > .status-switch.on {
+    color: #008a00;
+}

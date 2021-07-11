@@ -94,6 +94,10 @@ export default class Request {
         return this.__makeCreateRequest('PUT', fetchParameters);
     }
 
+    async delete(fetchParameters = {}) {
+        return this.__makeCreateRequest('DELETE', fetchParameters);
+    }
+
     async __makeRequest(url, parameters) {
         const allParameters = {
             ...this._internalFetchParameters,

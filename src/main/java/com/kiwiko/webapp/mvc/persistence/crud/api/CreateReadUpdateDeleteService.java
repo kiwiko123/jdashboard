@@ -1,6 +1,5 @@
 package com.kiwiko.webapp.mvc.persistence.crud.api;
 
-import com.kiwiko.library.persistence.dataAccess.api.DataEntity;
 import com.kiwiko.webapp.mvc.persistence.dataaccess.api.EntityManagerDAO;
 import com.kiwiko.library.persistence.dataAccess.api.PersistenceException;
 import com.kiwiko.library.persistence.identification.Identifiable;
@@ -11,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 public abstract class CreateReadUpdateDeleteService<
-        Entity extends DataEntity,
+        Entity extends Identifiable<Long>,
         DTO extends Identifiable<Long>,
         DataFetcher extends EntityManagerDAO<Entity>,
         Mapper extends EntityMapper<Entity, DTO>>

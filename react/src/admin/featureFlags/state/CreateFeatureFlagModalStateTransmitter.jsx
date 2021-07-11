@@ -16,6 +16,12 @@ export default class CreateFeatureFlagModalStateTransmitter extends StateTransmi
         }
     }
 
+    receiveCreateFeatureFlagFormStateTransmitter(state, metadata) {
+        if (metadata === 'featureFlagCreated') {
+            this.close();
+        }
+    }
+
     close() {
         this.setState({ isOpen: false });
     }

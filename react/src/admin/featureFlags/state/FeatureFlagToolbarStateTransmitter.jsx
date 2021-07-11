@@ -7,9 +7,6 @@ export default class FeatureFlagToolbarStateTransmitter extends StateTransmitter
     }
 
     pressCreateButton() {
-        this.sendState(
-            'CreateFeatureFlagModalStateTransmitter',
-            { isOpen: true },
-            'pressCreateButton');
+        this.sendState('FeatureFlagModalStateTransmitter', null, 'pressCreateButton');
     }
 }

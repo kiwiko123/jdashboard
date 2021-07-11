@@ -83,8 +83,7 @@ CREATE TABLE feature_flags (
     flag_value TEXT,
     user_scope TEXT NOT NULL,
     user_id BIGINT REFERENCES users(user_id),
-    is_removed BOOLEAN NOT NULL DEFAULT FALSE,
-    versions TEXT
+    is_removed BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE application_events (
@@ -93,4 +92,13 @@ CREATE TABLE application_events (
     event_key TEXT,
     metadata TEXT,
     created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE table_record_versions (
+    id BIGSERIAL PRIMARY KEY,
+    table_name TEXT NOT NULL,
+    record_id BIGINT NOT NULL,
+    changes TEXT,
+    created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    created_by_user_id BIGINT
 );
