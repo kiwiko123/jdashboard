@@ -9,6 +9,7 @@ import com.kiwiko.webapp.persistence.data.versions.internal.data.TableRecordVers
 
 import javax.inject.Inject;
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class TableRecordVersionEntityService implements TableRecordVersionService {
@@ -24,6 +25,11 @@ public class TableRecordVersionEntityService implements TableRecordVersionServic
                    .map(mapper::toDTO)
                    .collect(Collectors.collectingAndThen(Collectors.toList(), LinkedList::new));
         });
+    }
+
+    @Override
+    public Optional<TableRecordVersion> get(long id) {
+        return transactionProvider.readOnly(() -> dataFetcher.getById(id).map(mapper::toDTO));
     }
 
     @Override

@@ -13,15 +13,17 @@ import com.kiwiko.webapp.persistence.data.versions.api.interfaces.TableRecordVer
 import com.kiwiko.webapp.users.data.User;
 
 import javax.inject.Inject;
+import javax.persistence.Column;
 import javax.persistence.Table;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class DataChangeCapturer {
     private static final Set<String> IGNORED_VERSION_FIELD_NAMES = Set.of("versions");
@@ -41,7 +43,6 @@ public class DataChangeCapturer {
 
         T existingEntity = getById.apply(id)
                 .orElseThrow(() -> new CaptureEntityDataChangeException(String.format("No existing entity found: %s", entity.toString())));
-        // TODO fields on existingEntity aren't pre-loaded
         return saveExistingEntity(existingEntity, entity, saveEntity);
     }
 
@@ -60,28 +61,48 @@ public class DataChangeCapturer {
         return saveEntity.apply(newEntity);
     }
 
-    private <T extends DataEntity> Set<Field> getEligibleFields(T entity) {
-        return reflectionHelper.getFields(entity.getClass()).stream()
-                .filter(field -> !IGNORED_VERSION_FIELD_NAMES.contains(field.getName()))
-                .collect(Collectors.toUnmodifiableSet());
+    private <T extends DataEntity> Map<Field, Method> getEligibleFields(T entity) {
+        Map<Field, Method> gettersByField = new HashMap<>();
+        Class<?> entityType = entity.getClass();
+
+        for (Field field : reflectionHelper.getFields(entityType)) {
+            String fieldName = field.getName();
+            String inferredGetterName = "get" +
+                    Character.toUpperCase(fieldName.charAt(0)) +
+                    fieldName.substring(1);
+            Method getter;
+            try {
+                getter = entityType.getMethod(inferredGetterName);
+            } catch (NoSuchMethodException e) {
+                logger.warn(String.format("No getter found with inferred name %s", inferredGetterName));
+                continue;
+            }
+
+            if (getter.getDeclaredAnnotation(Column.class) == null) {
+                continue;
+            }
+
+            gettersByField.put(field, getter);
+        }
+
+        return gettersByField;
     }
 
     private <T extends DataEntity> Map<String, Object> getAllFields(T entity) {
         Map<String, Object> valuesByName = new HashMap<>();
 
-        for (Field field : getEligibleFields(entity)) {
+        getEligibleFields(entity).forEach((field, getter) -> {
             Object value;
-            field.trySetAccessible();
 
             try {
-                value = field.get(entity);
-            } catch (IllegalAccessException e) {
+                value = getter.invoke(entity);
+            } catch (IllegalAccessException | InvocationTargetException e) {
                 logger.error(String.format("Error accessing %s field %s for version recording", entity.getClass().getName(), field.getName()), e);
-                return new HashMap<>();
+                return;
             }
 
             valuesByName.put(field.getName(), value);
-        }
+        });
 
         return valuesByName;
     }
@@ -89,23 +110,22 @@ public class DataChangeCapturer {
     private <T extends DataEntity> Map<String, Object> getUpdatedFields(T existingEntity, T newEntity) {
         Map<String, Object> valuesByName = new HashMap<>();
 
-        for (Field field : getEligibleFields(newEntity)) {
+        getEligibleFields(newEntity).forEach((field, getter) -> {
             Object currentValue;
             Object updatedValue;
 
-            field.trySetAccessible();
             try {
-                currentValue = field.get(existingEntity);
-                updatedValue = field.get(newEntity);
-            } catch (IllegalAccessException e) {
+                currentValue = getter.invoke(existingEntity);
+                updatedValue = getter.invoke(newEntity);
+            } catch (IllegalAccessException | InvocationTargetException e) {
                 logger.error(String.format("Error accessing %s field %s for version recording", newEntity.getClass().getName(), field.getName()), e);
-                return new HashMap<>();
+                return;
             }
 
             if (!Objects.equals(currentValue, updatedValue)) {
                 valuesByName.put(field.getName(), updatedValue);
             }
-        }
+        });
 
         return valuesByName;
     }
