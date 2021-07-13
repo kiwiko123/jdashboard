@@ -65,15 +65,12 @@ public class RequestContextInterceptor implements EndpointInterceptor {
     private String makeDebugRequestUri(HttpServletRequest request) {
         String uri = request.getRequestURI();
         String query = request.getQueryString();
-        if (query == null) {
-            return uri;
+        if (query != null) {
+            if (uri.endsWith("/")) {
+                uri = uri.substring(0, uri.length() - 1);
+            }
         }
 
-        String result = uri;
-        if (uri.endsWith("/")) {
-            result = result.substring(0, result.length() - 1);
-        }
-
-        return String.format("%s?%s", result, query);
+        return String.format("(%s) %s", request.getMethod(), uri);
     }
 }

@@ -51,6 +51,7 @@ public class FeatureFlagEntityService implements FeatureFlagService {
         return entityMapper.toTargetType(entity);
     }
 
+    @Transactional
     @Override
     public <R extends FeatureFlag> FeatureFlag update(R obj) {
         FeatureFlagEntity entity = entityMapper.toSourceType(obj);
@@ -58,6 +59,7 @@ public class FeatureFlagEntityService implements FeatureFlagService {
         return entityMapper.toTargetType(entity);
     }
 
+    @Transactional
     @Override
     public void delete(long id) {
         FeatureFlagEntity entity = dataFetcher.getById(id).orElseThrow(() -> new PersistenceException("No entity found"));

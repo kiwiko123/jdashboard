@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
-@Repository
 @Singleton
+@Repository
 public abstract class EntityDataFetcher<T extends DataEntity> {
 
     @PersistenceContext private EntityManager entityManager;
@@ -54,7 +54,7 @@ public abstract class EntityDataFetcher<T extends DataEntity> {
      * @param entity the entity to persist
      * @return the entity that was saved, which can possibly be managed (live database connection)
      */
-    public final T save(T entity) {
+    public T save(T entity) {
         if (captureDataChanges) {
             return dataChangeCapturer.save(entity, this::getById, entityManager::merge);
         }
@@ -62,7 +62,7 @@ public abstract class EntityDataFetcher<T extends DataEntity> {
         return entityManager.merge(entity);
     }
 
-    public final void delete(T entity) {
+    public void delete(T entity) {
         if (entity instanceof SoftDeletableDataEntity) {
             SoftDeletableDataEntity softDeletableDataEntity = (SoftDeletableDataEntity) entity;
             softDeletableDataEntity.setIsRemoved(true);
@@ -78,7 +78,7 @@ public abstract class EntityDataFetcher<T extends DataEntity> {
      * @param id the primary key of the record to look up
      * @return the matching record, if any
      */
-    public final Optional<T> getById(long id) {
+    public Optional<T> getById(long id) {
         return Optional.ofNullable(entityManager.find(entityType, id));
     }
 
@@ -89,7 +89,7 @@ public abstract class EntityDataFetcher<T extends DataEntity> {
      * @param id the record's ID
      * @return a proxy entity
      */
-    public final Optional<T> getProxyById(long id) {
+    public Optional<T> getProxyById(long id) {
         T proxy = null;
         try {
             proxy = entityManager.getReference(entityType, id);
@@ -106,7 +106,7 @@ public abstract class EntityDataFetcher<T extends DataEntity> {
      * @param ids the ids to fetch
      * @return all entities matching the given IDs
      */
-    public final Collection<T> getByIds(Collection<Long> ids) {
+    public Collection<T> getByIds(Collection<Long> ids) {
         if (ids.isEmpty()) {
             return new ArrayList<>();
         }
@@ -123,15 +123,15 @@ public abstract class EntityDataFetcher<T extends DataEntity> {
         return createQuery(query).getResultList();
     }
 
-    public final void flush() {
+    public void flush() {
         entityManager.flush();
     }
 
-    protected final CriteriaBuilder getCriteriaBuilder() {
+    protected CriteriaBuilder getCriteriaBuilder() {
         return entityManager.getCriteriaBuilder();
     }
 
-    protected final TypedQuery<T> createQuery(CriteriaQuery<T> query) {
+    protected TypedQuery<T> createQuery(CriteriaQuery<T> query) {
         return entityManager.createQuery(query);
     }
 
