@@ -19,6 +19,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @deprecated prefer {@link com.kiwiko.webapp.persistence.data.fetchers.api.interfaces.EntityDataFetcher}
+ */
+@Deprecated
 @Repository
 public abstract class EntityManagerDAO<T extends Identifiable<Long>> {
 

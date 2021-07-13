@@ -5,6 +5,7 @@ import com.kiwiko.library.lang.reflection.properties.api.errors.PropertyMappingE
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -107,6 +108,16 @@ public class ReflectionHelper {
             throw new PropertyMappingException(message, e);
         }
 
+        return result;
+    }
+
+    public <T> Class<T> getGenericClassType(Class<?> clazz) {
+        return getGenericClassType(clazz, 0);
+    }
+
+    public <T> Class<T> getGenericClassType(Class<?> clazz, int genericTypeIndex) {
+        @SuppressWarnings("unchecked")
+        Class<T> result = (Class<T>) (((ParameterizedType) clazz.getGenericSuperclass()).getActualTypeArguments()[genericTypeIndex]);
         return result;
     }
 

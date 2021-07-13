@@ -13,13 +13,8 @@ import java.util.Optional;
 
 public class FeatureFlagEntityDAO extends EntityDataFetcher<FeatureFlagEntity> {
 
-    @Override
-    protected Class<FeatureFlagEntity> getEntityType() {
-        return FeatureFlagEntity.class;
-    }
-
     public Optional<FeatureFlagEntity> getByName(String name) {
-        CriteriaBuilder builder = criteriaBuilder();
+        CriteriaBuilder builder = getCriteriaBuilder();
         CriteriaQuery<FeatureFlagEntity> query = builder.createQuery(entityType);
         Root<FeatureFlagEntity> root = query.from(entityType);
 
@@ -34,7 +29,7 @@ public class FeatureFlagEntityDAO extends EntityDataFetcher<FeatureFlagEntity> {
     }
 
     public Optional<FeatureFlagEntity> getForUser(String name, long userId) {
-        CriteriaBuilder builder = criteriaBuilder();
+        CriteriaBuilder builder = getCriteriaBuilder();
         CriteriaQuery<FeatureFlagEntity> query = builder.createQuery(entityType);
         Root<FeatureFlagEntity> root = query.from(entityType);
 
@@ -53,7 +48,7 @@ public class FeatureFlagEntityDAO extends EntityDataFetcher<FeatureFlagEntity> {
     }
 
     public List<FeatureFlagEntity> getAll() {
-        CriteriaBuilder builder = criteriaBuilder();
+        CriteriaBuilder builder = getCriteriaBuilder();
         CriteriaQuery<FeatureFlagEntity> query = builder.createQuery(entityType);
         Root<FeatureFlagEntity> root = query.from(entityType);
 
@@ -61,6 +56,6 @@ public class FeatureFlagEntityDAO extends EntityDataFetcher<FeatureFlagEntity> {
         Predicate isActive = builder.isFalse(isRemovedField);
 
         query.where(isActive);
-        return getResultList(query);
+        return createQuery(query).getResultList();
     }
 }
