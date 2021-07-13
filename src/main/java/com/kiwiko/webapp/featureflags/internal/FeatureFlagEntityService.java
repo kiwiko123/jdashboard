@@ -1,10 +1,9 @@
 package com.kiwiko.webapp.featureflags.internal;
 
-import com.kiwiko.library.persistence.dataAccess.api.PersistenceException;
 import com.kiwiko.webapp.featureflags.api.dto.FeatureFlag;
 import com.kiwiko.webapp.featureflags.api.interfaces.FeatureFlagService;
-import com.kiwiko.webapp.featureflags.internal.data.FeatureFlagEntity;
-import com.kiwiko.webapp.featureflags.internal.data.FeatureFlagEntityDAO;
+import com.kiwiko.webapp.featureflags.internal.data.FeatureFlagEntityDataFetcher;
+import com.kiwiko.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -14,8 +13,9 @@ import java.util.stream.Collectors;
 
 public class FeatureFlagEntityService implements FeatureFlagService {
 
-    @Inject private FeatureFlagEntityDAO dataFetcher;
+    @Inject private FeatureFlagEntityDataFetcher dataFetcher;
     @Inject private FeatureFlagEntityMapper entityMapper;
+    @Inject private CreateReadUpdateDeleteExecutor crudExecutor;
 
     @Transactional(readOnly = true)
     @Override
@@ -37,32 +37,23 @@ public class FeatureFlagEntityService implements FeatureFlagService {
                 .collect(Collectors.toSet());
     }
 
-    @Transactional(readOnly = true)
     @Override
     public Optional<FeatureFlag> read(long id) {
-        return dataFetcher.getById(id).map(entityMapper::toTargetType);
+        return crudExecutor.read(id, dataFetcher, entityMapper);
     }
 
-    @Transactional
     @Override
     public <R extends FeatureFlag> FeatureFlag create(R obj) {
-        FeatureFlagEntity entity = entityMapper.toSourceType(obj);
-        entity = dataFetcher.save(entity);
-        return entityMapper.toTargetType(entity);
+        return crudExecutor.create(obj, dataFetcher, entityMapper);
     }
 
-    @Transactional
     @Override
     public <R extends FeatureFlag> FeatureFlag update(R obj) {
-        FeatureFlagEntity entity = entityMapper.toSourceType(obj);
-        entity = dataFetcher.save(entity);
-        return entityMapper.toTargetType(entity);
+        return crudExecutor.update(obj, dataFetcher, entityMapper);
     }
 
-    @Transactional
     @Override
     public void delete(long id) {
-        FeatureFlagEntity entity = dataFetcher.getById(id).orElseThrow(() -> new PersistenceException("No entity found"));
-        dataFetcher.delete(entity);
+        crudExecutor.delete(id, dataFetcher);
     }
 }

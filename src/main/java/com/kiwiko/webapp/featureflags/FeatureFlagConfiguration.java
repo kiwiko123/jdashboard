@@ -5,7 +5,7 @@ import com.kiwiko.webapp.featureflags.api.interfaces.FeatureFlagService;
 import com.kiwiko.webapp.featureflags.internal.FeatureFlagEntityMapper;
 import com.kiwiko.webapp.featureflags.internal.FeatureFlagEntityService;
 import com.kiwiko.webapp.featureflags.internal.FeatureFlagServiceResolver;
-import com.kiwiko.webapp.featureflags.internal.data.FeatureFlagEntityDAO;
+import com.kiwiko.webapp.featureflags.internal.data.FeatureFlagEntityDataFetcher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -20,8 +20,8 @@ public class FeatureFlagConfiguration {
     }
 
     @Bean
-    public FeatureFlagEntityDAO featureFlagEntityDAO() {
-        return new FeatureFlagEntityDAO();
+    public FeatureFlagEntityDataFetcher featureFlagEntityDAO() {
+        return new FeatureFlagEntityDataFetcher();
     }
 
     @Bean

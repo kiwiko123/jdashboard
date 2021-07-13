@@ -11,7 +11,7 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Optional;
 
-public class FeatureFlagEntityDAO extends EntityDataFetcher<FeatureFlagEntity> {
+public class FeatureFlagEntityDataFetcher extends EntityDataFetcher<FeatureFlagEntity> {
 
     public Optional<FeatureFlagEntity> getByName(String name) {
         CriteriaBuilder builder = getCriteriaBuilder();
