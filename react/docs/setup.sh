@@ -6,6 +6,3 @@ npm i --save lodash
 npm install --save react-router
 npm install --save react-router-dom
 npm install classnames --save
-
-# for static propTypes
-npm install --save-dev @babel/plugin-proposal-class-properties

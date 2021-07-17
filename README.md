@@ -5,28 +5,35 @@ This is a web application made for my own personal learning, experimentation, an
 This project was developed on a machine running macOS Big Sur.
 Unless otherwise stated, any setup instructions may be specific to this environment.
 
-The following development software was used:
-* IntelliJ IDEA Community Edition 2020.3
-* Java 15.0.1
+The following development environment was used:
+* macOS 11.4 (Apple Silicon) 
+* IntelliJ IDEA Community Edition 2021.1.3
+* Java 17 (OpenJDK)
 * React 16.8.6
 * PostgreSQL 13.1
 
 ## Installation setup
 Install Homebrew: https://brew.sh/.
 
-### Java
-Download the Java SDK from Oracle: https://www.oracle.com/java/technologies/javase-downloads.html.
+Run `setup.sh` to install Java, node, Maven, and PostgreSQL:
+```shell
+$ sh ./setush.sh
+```
 
 ### PostgreSQL
-Install PostgreSQL through Homebrew.
-```shell
-$ brew install postgresql
-```
 Control the PostgreSQL server manually with the following commands:
+#### Intel
 ```shell
 $ pg_ctl -D /usr/local/var/postgres start
 $ pg_ctl -D /usr/local/var/postgres stop
 ```
+
+#### Apple Silicon
+```shell
+$ pg_ctl -D /opt/homebrew/var/postgres start
+$ pg_ctl -D /opt/homebrew/var/postgres stop
+```
+
 #### One-time setup
 Start the local PostgreSQL server, then create a new user and database:
 ```shell
@@ -45,11 +52,6 @@ Re-create the database artifacts by copying the contents of [`schema.sql`](./src
 Exit the shell with `\q`.
 
 ### React
-Install nodejs, which includes React, through Homebrew.
-```shell
-$ brew install node
-```
-
 #### NPM dependencies
 Run the script [`setup.sh`](./react/docs/setup.sh) to install all required NPM dependencies:
 ```shell
