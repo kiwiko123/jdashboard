@@ -3,12 +3,11 @@ package com.kiwiko.webapp.persistence.data.fetchers.api.interfaces;
 import com.kiwiko.library.lang.reflection.ReflectionHelper;
 import com.kiwiko.library.persistence.data.api.interfaces.DataEntity;
 import com.kiwiko.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
-import com.kiwiko.webapp.persistence.data.cdc.api.interfaces.CaptureEntityDataChanges;
+import com.kiwiko.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges;
 import com.kiwiko.webapp.persistence.data.cdc.internal.DataChangeCapturer;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
@@ -23,28 +22,22 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
-@Singleton
 @Repository
 public abstract class EntityDataFetcher<T extends DataEntity> {
 
+    // Spring-provisioned fields.
     @PersistenceContext private EntityManager entityManager;
-    private final ReflectionHelper reflectionHelper;
     @Inject private DataChangeCapturer dataChangeCapturer;
 
-    protected final Class<T> entityType;
+    // Stateful data.
+    private final ReflectionHelper reflectionHelper;
     private final boolean captureDataChanges;
+    protected final Class<T> entityType; // Protected so that derived classes can access this without re-calculating the type on each invocation.
 
     public EntityDataFetcher() {
         reflectionHelper = new ReflectionHelper();
         entityType = getEntityType();
-        captureDataChanges = entityType.getAnnotation(CaptureEntityDataChanges.class) != null;
-    }
-
-    /**
-     * @return the entity's class
-     */
-    protected Class<T> getEntityType() {
-        return reflectionHelper.getGenericClassType(getClass());
+        captureDataChanges = entityType.getAnnotation(CaptureDataChanges.class) != null;
     }
 
     /**
@@ -75,6 +68,13 @@ public abstract class EntityDataFetcher<T extends DataEntity> {
     }
 
     /**
+     * @see EntityManager#flush()
+     */
+    public void flush() {
+        entityManager.flush();
+    }
+
+    /**
      * @param id the primary key of the record to look up
      * @return the matching record, if any
      */
@@ -88,6 +88,7 @@ public abstract class EntityDataFetcher<T extends DataEntity> {
      *
      * @param id the record's ID
      * @return a proxy entity
+     * @see EntityManager#getReference(Class, Object)
      */
     public Optional<T> getProxyById(long id) {
         T proxy = null;
@@ -123,14 +124,16 @@ public abstract class EntityDataFetcher<T extends DataEntity> {
         return createQuery(query).getResultList();
     }
 
-    public void flush() {
-        entityManager.flush();
-    }
-
+    /**
+     * @see EntityManager#getCriteriaBuilder()
+     */
     protected CriteriaBuilder getCriteriaBuilder() {
         return entityManager.getCriteriaBuilder();
     }
 
+    /**
+     * @see EntityManager#createQuery(CriteriaQuery)
+     */
     protected TypedQuery<T> createQuery(CriteriaQuery<T> query) {
         return entityManager.createQuery(query);
     }
@@ -144,5 +147,19 @@ public abstract class EntityDataFetcher<T extends DataEntity> {
         }
 
         return Optional.ofNullable(result);
+    }
+
+    /**
+     * Return the entity's {@link Class} type.
+     * By default, this is automatically inferred through reflection.
+     * However, it can be overridden (e.g., {@code return MyEntity.class}) if performance is a concern.
+     *
+     * This is invoked once in the constructor, and can be directly accessed by derived classes via {@link #entityType}.
+     *
+     * @return the entity's class
+     * @see #entityType
+     */
+    protected Class<T> getEntityType() {
+        return reflectionHelper.getGenericClassType(getClass());
     }
 }
