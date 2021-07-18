@@ -6,7 +6,7 @@ import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.mvc.json.gson.GsonProvider;
 import com.kiwiko.webapp.mvc.requests.api.CurrentRequestService;
 import com.kiwiko.webapp.mvc.requests.data.RequestContext;
-import com.kiwiko.webapp.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.library.persistence.data.api.interfaces.DataEntity;
 import com.kiwiko.webapp.persistence.data.cdc.api.interfaces.exceptions.CaptureEntityDataChangeException;
 import com.kiwiko.webapp.persistence.data.versions.api.dto.TableRecordVersion;
 import com.kiwiko.webapp.persistence.data.versions.api.interfaces.TableRecordVersionService;

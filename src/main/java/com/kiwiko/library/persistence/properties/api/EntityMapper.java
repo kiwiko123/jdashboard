@@ -10,6 +10,7 @@ import com.kiwiko.library.lang.reflection.properties.api.errors.PropertyMappingE
  * @param <Entity> the JPA entity class from which fields can be copied
  * @param <DTO> the DTO class to which fields can be copied
  */
+@Deprecated
 public abstract class EntityMapper<Entity, DTO> extends BidirectionalFieldMapper<Entity, DTO> {
 
     private final ReflectionHelper reflectionHelper;

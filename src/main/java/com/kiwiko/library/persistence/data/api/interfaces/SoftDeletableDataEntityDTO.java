@@ -1,4 +1,4 @@
-package com.kiwiko.webapp.persistence.data.api.interfaces;
+package com.kiwiko.library.persistence.data.api.interfaces;
 
 import com.kiwiko.library.persistence.dataAccess.data.DataEntityDTO;
 

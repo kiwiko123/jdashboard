@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.featureflags.api.dto;
 
-import com.kiwiko.webapp.persistence.data.api.interfaces.SoftDeletableDataEntityDTO;
+import com.kiwiko.library.persistence.data.api.interfaces.SoftDeletableDataEntityDTO;
 
 import javax.annotation.Nullable;
 

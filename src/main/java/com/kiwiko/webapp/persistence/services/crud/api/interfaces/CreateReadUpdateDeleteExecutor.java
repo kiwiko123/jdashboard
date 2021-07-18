@@ -1,9 +1,9 @@
 package com.kiwiko.webapp.persistence.services.crud.api.interfaces;
 
-import com.kiwiko.library.lang.reflection.properties.api.BidirectionalPropertyMapper;
+import com.kiwiko.library.persistence.data.properties.api.interfaces.DataEntityMapper;
 import com.kiwiko.library.persistence.dataAccess.data.DataEntityDTO;
 import com.kiwiko.webapp.mvc.persistence.transactions.api.interfaces.TransactionProvider;
-import com.kiwiko.webapp.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.library.persistence.data.api.interfaces.DataEntity;
 import com.kiwiko.webapp.persistence.data.fetchers.api.interfaces.EntityDataFetcher;
 
 import javax.inject.Inject;
@@ -17,40 +17,40 @@ public class CreateReadUpdateDeleteExecutor {
     public <Entity extends DataEntity,
             Dto extends DataEntityDTO,
             DataFetcher extends EntityDataFetcher<Entity>,
-            Mapper extends BidirectionalPropertyMapper<Entity, Dto>> Optional<Dto> read(long id, DataFetcher dataFetcher, Mapper mapper) {
-        return transactionProvider.readOnly(() -> dataFetcher.getById(id).map(mapper::toTargetType));
+            Mapper extends DataEntityMapper<Entity, Dto>> Optional<Dto> read(long id, DataFetcher dataFetcher, Mapper mapper) {
+        return transactionProvider.readOnly(() -> dataFetcher.getById(id).map(mapper::toDto));
     }
 
     public <Entity extends DataEntity,
             Dto extends DataEntityDTO,
             DataFetcher extends EntityDataFetcher<Entity>,
-            Mapper extends BidirectionalPropertyMapper<Entity, Dto>> Optional<Dto> get(long id, DataFetcher dataFetcher, Mapper mapper) {
+            Mapper extends DataEntityMapper<Entity, Dto>> Optional<Dto> get(long id, DataFetcher dataFetcher, Mapper mapper) {
         return read(id, dataFetcher, mapper);
     }
 
     public <Entity extends DataEntity,
             Dto extends DataEntityDTO,
             DataFetcher extends EntityDataFetcher<Entity>,
-            Mapper extends BidirectionalPropertyMapper<Entity, Dto>> Dto create(Dto obj, DataFetcher dataFetcher, Mapper mapper) {
+            Mapper extends DataEntityMapper<Entity, Dto>> Dto create(Dto obj, DataFetcher dataFetcher, Mapper mapper) {
         return transactionProvider.readWrite(() -> {
-            Entity entityToCreate = mapper.toSourceType(obj);
+            Entity entityToCreate = mapper.toEntity(obj);
             Entity savedEntity = dataFetcher.save(entityToCreate);
-            return mapper.toTargetType(savedEntity);
+            return mapper.toDto(savedEntity);
         });
     }
 
     public <Entity extends DataEntity,
             Dto extends DataEntityDTO,
             DataFetcher extends EntityDataFetcher<Entity>,
-            Mapper extends BidirectionalPropertyMapper<Entity, Dto>> Dto update(Dto obj, DataFetcher dataFetcher, Mapper mapper) {
+            Mapper extends DataEntityMapper<Entity, Dto>> Dto update(Dto obj, DataFetcher dataFetcher, Mapper mapper) {
         Objects.requireNonNull(obj.getId(), "ID is required to update an existing entity");
         return transactionProvider.readWrite(() -> {
             Dto existingObject = get(obj.getId(), dataFetcher, mapper).orElse(null);
             Objects.requireNonNull(existingObject, String.format("No existing record found with ID %d: %s", obj.getId(), obj));
 
-            Entity entityToCreate = mapper.toSourceType(obj);
+            Entity entityToCreate = mapper.toEntity(obj);
             Entity savedEntity = dataFetcher.save(entityToCreate);
-            return mapper.toTargetType(savedEntity);
+            return mapper.toDto(savedEntity);
         });
     }
 

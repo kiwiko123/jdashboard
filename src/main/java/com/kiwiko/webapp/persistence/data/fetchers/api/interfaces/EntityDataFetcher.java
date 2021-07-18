@@ -1,8 +1,8 @@
 package com.kiwiko.webapp.persistence.data.fetchers.api.interfaces;
 
 import com.kiwiko.library.lang.reflection.ReflectionHelper;
-import com.kiwiko.webapp.persistence.data.api.interfaces.DataEntity;
-import com.kiwiko.webapp.persistence.data.api.interfaces.SoftDeletableDataEntity;
+import com.kiwiko.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
 import com.kiwiko.webapp.persistence.data.cdc.api.interfaces.CaptureEntityDataChanges;
 import com.kiwiko.webapp.persistence.data.cdc.internal.DataChangeCapturer;
 import org.springframework.stereotype.Repository;
