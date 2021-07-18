@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.system.events.api.dto;
 
-import com.kiwiko.library.persistence.dataAccess.data.DataEntityDTO;
+import com.kiwiko.library.persistence.data.api.interfaces.DataEntityDTO;
 
 import javax.annotation.Nullable;
 import java.time.Instant;

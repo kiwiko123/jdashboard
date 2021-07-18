@@ -1,4 +1,4 @@
-package com.kiwiko.library.persistence.dataAccess.data;
+package com.kiwiko.library.persistence.data.api.interfaces;
 
 import com.kiwiko.library.persistence.identification.Identifiable;
 

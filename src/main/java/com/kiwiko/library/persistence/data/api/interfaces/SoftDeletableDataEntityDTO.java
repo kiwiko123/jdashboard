@@ -1,7 +1,5 @@
 package com.kiwiko.library.persistence.data.api.interfaces;
 
-import com.kiwiko.library.persistence.dataAccess.data.DataEntityDTO;
-
 public class SoftDeletableDataEntityDTO extends DataEntityDTO {
 
     private boolean isRemoved;
