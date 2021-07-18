@@ -33,14 +33,13 @@ public class FeatureFlagEntityDataFetcher extends EntityDataFetcher<FeatureFlagE
         CriteriaQuery<FeatureFlagEntity> query = builder.createQuery(entityType);
         Root<FeatureFlagEntity> root = query.from(entityType);
 
-        Expression<String> nameField = root.get("name");
-        Expression<String> lowerCaseNameField = builder.lower(nameField);
+        Expression<String> nameField = builder.lower(root.get("name"));
         Expression<String> userScopeField = root.get("userScope");
         Expression<Long> userIdField = root.get("userId");
         Expression<Boolean> isRemovedField = root.get("isRemoved");
-        Predicate matchesName = builder.equal(lowerCaseNameField, name.toLowerCase());
-        Predicate hasIndividualScope = builder.equal(userScopeField, FeatureFlagUserScope.INDIVIDUAL.name());
-        Predicate forUserId = builder.equal(userIdField, userIdField);
+        Predicate matchesName = builder.equal(nameField, name.toLowerCase());
+        Predicate hasIndividualScope = builder.equal(userScopeField, FeatureFlagUserScope.INDIVIDUAL.getId());
+        Predicate forUserId = builder.equal(userIdField, userId);
         Predicate isActive = builder.isFalse(isRemovedField);
 
         query.where(matchesName, hasIndividualScope, forUserId, isActive);

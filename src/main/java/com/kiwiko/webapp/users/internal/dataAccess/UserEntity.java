@@ -46,7 +46,7 @@ public class UserEntity extends AuditableDataEntity {
     }
 
     @Nullable
-    @Column(name = "email_address", unique = true)
+    @Column(name = "email_address")
     public String getEmailAddress() {
         return emailAddress;
     }
