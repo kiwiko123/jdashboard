@@ -14,6 +14,8 @@ import java.lang.annotation.Target;
  * </ol>
  *
  * Record updates will be recorded as {@link com.kiwiko.webapp.persistence.data.versions.api.dto.TableRecordVersion}s.
+ *
+ * @see com.kiwiko.webapp.persistence.data.cdc.internal.DataChangeCapturer
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

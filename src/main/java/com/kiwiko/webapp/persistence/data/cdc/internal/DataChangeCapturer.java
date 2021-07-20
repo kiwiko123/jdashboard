@@ -1,7 +1,6 @@
 package com.kiwiko.webapp.persistence.data.cdc.internal;
 
 import com.google.gson.Gson;
-import com.kiwiko.library.lang.reflection.ReflectionHelper;
 import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.mvc.json.gson.GsonProvider;
 import com.kiwiko.webapp.mvc.requests.api.CurrentRequestService;
@@ -15,7 +14,6 @@ import com.kiwiko.webapp.users.data.User;
 import javax.inject.Inject;
 import javax.persistence.Column;
 import javax.persistence.Table;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -31,7 +29,6 @@ public class DataChangeCapturer {
     @Inject private CurrentRequestService currentRequestService;
     @Inject private GsonProvider gsonProvider;
     @Inject private Logger logger;
-    @Inject private ReflectionHelper reflectionHelper;
     @Inject private TableRecordVersionService tableRecordVersionService;
 
     public <T extends DataEntity> T save(T entity, Function<Long, Optional<T>> getById, Function<T, T> saveEntity) {
@@ -61,47 +58,42 @@ public class DataChangeCapturer {
         return saveEntity.apply(newEntity);
     }
 
-    private <T extends DataEntity> Map<Field, Method> getEligibleFields(T entity) {
-        Map<Field, Method> gettersByField = new HashMap<>();
+    private <T extends DataEntity> Map<String, Method> getEligibleFields(T entity) {
+        Map<String, Method> gettersByFieldName = new HashMap<>();
         Class<?> entityType = entity.getClass();
 
-        for (Field field : reflectionHelper.getFields(entityType)) {
-            String fieldName = field.getName();
-            String inferredGetterName = "get" +
-                    Character.toUpperCase(fieldName.charAt(0)) +
-                    fieldName.substring(1);
-            Method getter;
-            try {
-                getter = entityType.getMethod(inferredGetterName);
-            } catch (NoSuchMethodException e) {
-                logger.warn(String.format("No getter found with inferred name %s", inferredGetterName));
+        for (Method method : entityType.getDeclaredMethods()) {
+            if (!method.getName().startsWith("get")) {
+                logger.debug(String.format("Skipping column method %s; does not appear to be a getter", method.getName()));
                 continue;
             }
 
-            if (getter.getDeclaredAnnotation(Column.class) == null) {
+            Column column = method.getDeclaredAnnotation(Column.class);
+            if (column == null) {
                 continue;
             }
 
-            gettersByField.put(field, getter);
+            Objects.requireNonNull(column.name(), "Column name is required");
+            gettersByFieldName.put(column.name(), method);
         }
 
-        return gettersByField;
+        return gettersByFieldName;
     }
 
     private <T extends DataEntity> Map<String, Object> getAllFields(T entity) {
         Map<String, Object> valuesByName = new HashMap<>();
 
-        getEligibleFields(entity).forEach((field, getter) -> {
+        getEligibleFields(entity).forEach((columnName, getter) -> {
             Object value;
 
             try {
                 value = getter.invoke(entity);
             } catch (IllegalAccessException | InvocationTargetException e) {
-                logger.error(String.format("Error accessing %s field %s for version recording", entity.getClass().getName(), field.getName()), e);
+                logger.error(String.format("Error accessing %s field %s for version recording", entity.getClass().getName(), columnName), e);
                 return;
             }
 
-            valuesByName.put(field.getName(), value);
+            valuesByName.put(columnName, value);
         });
 
         return valuesByName;
@@ -110,7 +102,7 @@ public class DataChangeCapturer {
     private <T extends DataEntity> Map<String, Object> getUpdatedFields(T existingEntity, T newEntity) {
         Map<String, Object> valuesByName = new HashMap<>();
 
-        getEligibleFields(newEntity).forEach((field, getter) -> {
+        getEligibleFields(newEntity).forEach((columnName, getter) -> {
             Object currentValue;
             Object updatedValue;
 
@@ -118,12 +110,12 @@ public class DataChangeCapturer {
                 currentValue = getter.invoke(existingEntity);
                 updatedValue = getter.invoke(newEntity);
             } catch (IllegalAccessException | InvocationTargetException e) {
-                logger.error(String.format("Error accessing %s field %s for version recording", newEntity.getClass().getName(), field.getName()), e);
+                logger.error(String.format("Error accessing %s field %s for version recording", newEntity.getClass().getName(), columnName), e);
                 return;
             }
 
             if (!Objects.equals(currentValue, updatedValue)) {
-                valuesByName.put(field.getName(), updatedValue);
+                valuesByName.put(columnName, updatedValue);
             }
         });
 
