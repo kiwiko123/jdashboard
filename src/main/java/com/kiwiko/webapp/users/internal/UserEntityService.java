@@ -2,6 +2,7 @@ package com.kiwiko.webapp.users.internal;
 
 import com.kiwiko.webapp.mvc.security.authentication.api.PasswordService;
 import com.kiwiko.library.persistence.dataAccess.api.PersistenceException;
+import com.kiwiko.webapp.mvc.security.authentication.api.dto.UserLoginParameters;
 import com.kiwiko.webapp.users.api.UserService;
 import com.kiwiko.webapp.users.api.parameters.CreateUserParameters;
 import com.kiwiko.webapp.users.data.User;
@@ -19,14 +20,9 @@ import java.util.stream.Collectors;
 
 public class UserEntityService implements UserService {
 
-    @Inject
-    private UserEntityDAO userEntityDAO;
-
-    @Inject
-    private UserEntityMapper mapper;
-
-    @Inject
-    private PasswordService passwordService;
+    @Inject private UserEntityDAO userEntityDAO;
+    @Inject private UserEntityMapper mapper;
+    @Inject private PasswordService passwordService;
 
     @Transactional(readOnly = true)
     @Override
@@ -63,8 +59,8 @@ public class UserEntityService implements UserService {
         if (getByUsername(parameters.getUsername()).isPresent()) {
             throw new PersistenceException(
                     String.format(
-                            "User with email address \"%s\" already exists",
-                            parameters.getEmailAddress()));
+                            "User with username \"%s\" already exists",
+                            parameters.getUsername()));
         }
 
         String encryptedPassword = passwordService.encryptPassword(parameters.getPassword());
@@ -79,11 +75,10 @@ public class UserEntityService implements UserService {
         return mapper.toDTO(entity);
     }
 
-    @Transactional(readOnly = true)
     @Override
-    public Optional<User> getWithValidation(String username, String password) {
-        return getByUsername(username)
-                .filter(user -> passwordService.matches(password, user.getEncryptedPassword()));
+    public Optional<User> getByLoginParameters(UserLoginParameters parameters) {
+        return getByUsername(parameters.getUsername())
+                .filter(user -> passwordService.matches(parameters.getPassword(), user.getEncryptedPassword()));
     }
 
     @Transactional(readOnly = true)

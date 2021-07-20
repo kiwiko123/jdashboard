@@ -6,6 +6,7 @@ import com.kiwiko.webapp.mvc.json.data.ResponsePayload;
 import com.kiwiko.webapp.mvc.requests.api.annotations.RequestBodyParameter;
 import com.kiwiko.webapp.mvc.requests.data.RequestContext;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.CrossOriginConfigured;
+import com.kiwiko.webapp.mvc.security.authentication.api.dto.UserLoginParameters;
 import com.kiwiko.webapp.mvc.security.authentication.internal.events.UserAuthenticationEventClient;
 import com.kiwiko.webapp.mvc.security.sessions.api.SessionService;
 import com.kiwiko.webapp.mvc.security.sessions.data.Session;
@@ -43,10 +44,9 @@ public class UserAuthenticationAPIController {
 
     @PostMapping("/user-auth/api/login")
     public ResponsePayload login(
-            @RequestBodyParameter(name = "username") String username,
-            @RequestBodyParameter(name = "password") String password,
+            @RequestBody UserLoginParameters userLoginParameters,
             HttpServletResponse httpServletResponse) {
-        User user = userService.getWithValidation(username, password)
+        User user = userService.getByLoginParameters(userLoginParameters)
                 .orElse(null);
         if (user == null) {
             return getInvalidUserResponse();
