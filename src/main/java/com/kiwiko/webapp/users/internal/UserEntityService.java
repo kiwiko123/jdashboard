@@ -3,6 +3,7 @@ package com.kiwiko.webapp.users.internal;
 import com.kiwiko.webapp.mvc.security.authentication.api.PasswordService;
 import com.kiwiko.library.persistence.dataAccess.api.PersistenceException;
 import com.kiwiko.webapp.mvc.security.authentication.api.dto.UserLoginParameters;
+import com.kiwiko.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
 import com.kiwiko.webapp.users.api.UserService;
 import com.kiwiko.webapp.users.api.parameters.CreateUserParameters;
 import com.kiwiko.webapp.users.data.User;
@@ -23,19 +24,20 @@ public class UserEntityService implements UserService {
     @Inject private UserEntityDAO userEntityDAO;
     @Inject private UserEntityMapper mapper;
     @Inject private PasswordService passwordService;
+    @Inject private CreateReadUpdateDeleteExecutor crudExecutor;
 
     @Transactional(readOnly = true)
     @Override
     public Optional<User> getById(long id) {
         return userEntityDAO.getById(id)
-                .map(mapper::toDTO);
+                .map(mapper::toDto);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Set<User> getByIds(Collection<Long> ids) {
         return userEntityDAO.getByIds(ids).stream()
-                .map(mapper::toDTO)
+                .map(mapper::toDto)
                 .collect(Collectors.toSet());
     }
 
@@ -43,14 +45,14 @@ public class UserEntityService implements UserService {
     @Override
     public Optional<User> getByUsername(String username) {
         return userEntityDAO.getByUsername(username)
-                .map(mapper::toDTO);
+                .map(mapper::toDto);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Optional<User> getByEmailAddress(String emailAddress) {
         return userEntityDAO.getByEmailAddress(emailAddress)
-                .map(mapper::toDTO);
+                .map(mapper::toDto);
     }
 
     @Transactional
@@ -72,7 +74,7 @@ public class UserEntityService implements UserService {
 
         UserEntity entity = mapper.toEntity(user);
         entity = userEntityDAO.save(entity);
-        return mapper.toDTO(entity);
+        return mapper.toDto(entity);
     }
 
     @Override
@@ -85,7 +87,12 @@ public class UserEntityService implements UserService {
     @Override
     public List<User> getByQuery(GetUsersQuery query) {
         return userEntityDAO.getByQuery(query).stream()
-                .map(mapper::toDTO)
+                .map(mapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public User merge(User user) {
+        return crudExecutor.merge(user, userEntityDAO, mapper);
     }
 }

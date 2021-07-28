@@ -13,4 +13,6 @@ public interface FeatureFlagService extends CreateReadUpdateDeleteAPI<FeatureFla
     Optional<FeatureFlag> getForUser(String name, long userId);
 
     Set<FeatureFlag> getAll();
+
+    FeatureFlag merge(FeatureFlag featureFlag);
 }

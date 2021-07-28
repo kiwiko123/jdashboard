@@ -5,6 +5,8 @@ import com.kiwiko.library.persistence.data.api.interfaces.DataEntityDTO;
 import com.kiwiko.webapp.mvc.persistence.transactions.api.interfaces.TransactionProvider;
 import com.kiwiko.library.persistence.data.api.interfaces.DataEntity;
 import com.kiwiko.webapp.persistence.data.fetchers.api.interfaces.EntityDataFetcher;
+import com.kiwiko.webapp.persistence.services.crud.internal.EntityMerger;
+import com.kiwiko.webapp.persistence.services.crud.internal.MergeStrategy;
 
 import javax.inject.Inject;
 import java.util.Objects;
@@ -13,6 +15,7 @@ import java.util.Optional;
 public class CreateReadUpdateDeleteExecutor {
 
     @Inject private TransactionProvider transactionProvider;
+    @Inject private EntityMerger entityMerger;
 
     public <Entity extends DataEntity,
             Dto extends DataEntityDTO,
@@ -61,5 +64,12 @@ public class CreateReadUpdateDeleteExecutor {
 
             dataFetcher.delete(existingRecord);
         });
+    }
+
+    public <Entity extends DataEntity,
+            Dto extends DataEntityDTO,
+            DataFetcher extends EntityDataFetcher<Entity>,
+            Mapper extends DataEntityMapper<Entity, Dto>> Dto merge(Dto obj, DataFetcher dataFetcher, Mapper mapper) {
+        return entityMerger.mergeFields(obj, dataFetcher, mapper, MergeStrategy.SET_NON_NULL);
     }
 }

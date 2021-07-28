@@ -1,6 +1,7 @@
 package com.kiwiko.webapp.users.internal.dataAccess;
 
-import com.kiwiko.library.persistence.dataAccess.api.AuditableDataEntity;
+import com.kiwiko.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
+import com.kiwiko.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges;
 
 import javax.annotation.Nullable;
 import javax.persistence.Column;
@@ -9,18 +10,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.time.Instant;
 
 @Entity
 @Table(name = "users")
-public class UserEntity extends AuditableDataEntity {
+@CaptureDataChanges
+public class UserEntity implements SoftDeletableDataEntity {
 
     private Long id;
     private String username;
     private @Nullable String emailAddress;
     private String encryptedPassword;
-    private Instant createdDate;
-    private Instant lastUpdatedDate;
     private boolean isRemoved;
 
     @Id
@@ -31,7 +30,6 @@ public class UserEntity extends AuditableDataEntity {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -64,30 +62,8 @@ public class UserEntity extends AuditableDataEntity {
         this.encryptedPassword = encryptedPassword;
     }
 
-    @Column(name = "created_date", nullable = false)
     @Override
-    public Instant getCreatedDate() {
-        return createdDate;
-    }
-
-    @Override
-    public void setCreatedDate(Instant createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    @Column(name = "last_updated_date", nullable = false)
-    @Override
-    public Instant getLastUpdatedDate() {
-        return createdDate;
-    }
-
-    @Override
-    public void setLastUpdatedDate(Instant lastUpdatedDate) {
-        this.lastUpdatedDate = lastUpdatedDate;
-    }
-
     @Column(name = "is_removed", nullable = false)
-    @Override
     public boolean getIsRemoved() {
         return isRemoved;
     }

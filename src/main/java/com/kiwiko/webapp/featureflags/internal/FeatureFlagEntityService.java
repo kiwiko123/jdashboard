@@ -56,4 +56,9 @@ public class FeatureFlagEntityService implements FeatureFlagService {
     public void delete(long id) {
         crudExecutor.delete(id, dataFetcher);
     }
+
+    @Override
+    public FeatureFlag merge(FeatureFlag featureFlag) {
+        return crudExecutor.merge(featureFlag, dataFetcher, entityMapper);
+    }
 }

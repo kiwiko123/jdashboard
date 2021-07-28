@@ -1,11 +1,11 @@
 package com.kiwiko.webapp.users.data;
 
-import com.kiwiko.library.persistence.dataAccess.data.AuditableDataEntityDTO;
+import com.kiwiko.library.persistence.data.api.interfaces.SoftDeletableDataEntityDTO;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class User extends AuditableDataEntityDTO {
+public class User extends SoftDeletableDataEntityDTO {
 
     private String username;
     private @Nullable String emailAddress;

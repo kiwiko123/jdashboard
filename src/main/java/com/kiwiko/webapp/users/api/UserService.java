@@ -25,4 +25,6 @@ public interface UserService {
     List<User> getByQuery(GetUsersQuery query);
 
     User create(CreateUserParameters parameters);
+
+    User merge(User user);
 }
