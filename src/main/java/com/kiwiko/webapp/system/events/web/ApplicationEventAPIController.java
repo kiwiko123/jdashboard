@@ -1,7 +1,5 @@
 package com.kiwiko.webapp.system.events.web;
 
-import com.kiwiko.webapp.mvc.json.api.ResponseBuilder;
-import com.kiwiko.webapp.mvc.json.data.ResponsePayload;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.AuthenticationLevel;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.AuthenticationRequired;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.CrossOriginConfigured;
@@ -23,14 +21,12 @@ public class ApplicationEventAPIController {
     @Inject private ApplicationEventService applicationEventService;
 
     @GetMapping("/application-events/api/{id}")
-    public ResponsePayload getById(@PathVariable("id") Long id) {
-        ApplicationEvent event = applicationEventService.get(id).orElse(null);
-        return ResponseBuilder.payload(event);
+    public ApplicationEvent getById(@PathVariable("id") Long id) {
+        return applicationEventService.get(id).orElse(null);
     }
 
     @PostMapping("/application-events/api")
-    public ResponsePayload createEvent(@RequestBody ApplicationEvent event) {
-        ApplicationEvent createdEvent = applicationEventService.create(event);
-        return ResponseBuilder.payload(createdEvent);
+    public ApplicationEvent createEvent(@RequestBody ApplicationEvent event) {
+        return applicationEventService.create(event);
     }
 }

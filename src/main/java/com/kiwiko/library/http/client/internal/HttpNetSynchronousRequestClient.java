@@ -2,6 +2,7 @@ package com.kiwiko.library.http.client.internal;
 
 import com.kiwiko.library.http.client.api.SynchronousHttpRequestClient;
 import com.kiwiko.library.http.client.api.errors.ClientException;
+import com.kiwiko.library.http.client.api.errors.RequestTimeoutException;
 import com.kiwiko.library.http.client.api.errors.ServerException;
 import com.kiwiko.library.http.client.dto.DeleteRequest;
 import com.kiwiko.library.http.client.dto.GetRequest;
@@ -14,6 +15,7 @@ import com.kiwiko.webapp.mvc.json.api.JsonSerializer;
 import java.io.IOException;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.net.http.HttpTimeoutException;
 import java.util.Optional;
 
 public class HttpNetSynchronousRequestClient extends AbstractHttpNetRequestClient implements SynchronousHttpRequestClient {
@@ -64,6 +66,8 @@ public class HttpNetSynchronousRequestClient extends AbstractHttpNetRequestClien
 
         try {
             httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+        } catch (HttpTimeoutException e) {
+            throw new RequestTimeoutException(String.format("Request timed out: %s", request.toString()), e);
         } catch (IOException e) {
             throw new ServerException(String.format("I/O error occurred with request %s", request.toString()), e);
         }

@@ -8,6 +8,10 @@ import java.util.Optional;
 
 public class ApplicationEvent extends DataEntityDTO {
 
+    public static Builder newBuilder(String eventType) {
+        return new Builder(eventType);
+    }
+
     private String eventType;
     private @Nullable String eventKey;
     private @Nullable String metadata;

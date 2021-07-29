@@ -1,21 +1,23 @@
 package com.kiwiko.webapp.mvc.security.authentication.http.internal;
 
-import com.kiwiko.library.caching.api.ObjectCache;
 import com.kiwiko.library.http.client.dto.HttpClientRequest;
 import com.kiwiko.library.http.client.dto.RequestHeader;
 import com.kiwiko.library.lang.random.TokenGenerator;
 import com.kiwiko.webapp.mvc.security.authentication.http.api.InternalHttpRequestValidator;
 import com.kiwiko.webapp.mvc.security.authentication.http.api.errors.UnauthorizedInternalRequestException;
+import com.kiwiko.webapp.system.events.api.dto.ApplicationEvent;
+import com.kiwiko.webapp.system.events.api.interfaces.ApplicationEventService;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import java.time.Instant;
 import java.util.Objects;
 
 public class JdashboardInternalHttpRequestValidator implements InternalHttpRequestValidator {
 
-    @Inject private ObjectCache objectCache;
     @Inject private TokenGenerator tokenGenerator;
     @Inject private JdashboardInternalRequestHasher requestHasher;
+    @Inject private ApplicationEventService applicationEventService;
 
     @Override
     public <T extends HttpClientRequest> void authorizeOutgoingRequest(T request) {
@@ -27,31 +29,38 @@ public class JdashboardInternalHttpRequestValidator implements InternalHttpReque
     public void validateIncomingRequest(HttpServletRequest request) throws UnauthorizedInternalRequestException {
         String url = getFullUrl(request);
         String urlHash = Long.toString(requestHasher.hash(url));
-        String cacheKey = makeCacheKey(urlHash);
-        String token = objectCache.<String>get(cacheKey).orElse(null);
-
-        if (token == null) {
-            throw new UnauthorizedInternalRequestException(String.format("Unauthorized internal request: %s", request.getRequestURI()));
-        }
-
         String headerName = makeRequestHeaderName(urlHash);
-        String actualTokenValue = request.getHeader(headerName);
+        String headerValue = request.getHeader(headerName);
 
-        if (!Objects.equals(token, actualTokenValue)) {
+        int splitIndex = headerValue.lastIndexOf('-');
+        String receivedUrlHash = headerValue.substring(0, splitIndex);
+        if (!Objects.equals(urlHash, receivedUrlHash)) {
             throw new UnauthorizedInternalRequestException(String.format("Unauthorized internal request: %s", request.getRequestURI()));
         }
 
-        objectCache.invalidate(cacheKey);
+        long applicationEventId = Long.parseLong(headerValue.substring(splitIndex + 1));
+        ApplicationEvent requestEvent = applicationEventService.get(applicationEventId).orElse(null);
+        if (requestEvent == null) {
+            throw new UnauthorizedInternalRequestException(String.format("Unauthorized internal request: %s", request.getRequestURI()));
+        }
+
+        // If the request is older than the designated time-to-live, deny the request.
+        if (Instant.now().isAfter(requestEvent.getCreatedDate().plus(JdashboardInternalHttpRequestProperties.INTERNAL_REQUEST_TOKEN_TTL))) {
+            throw new UnauthorizedInternalRequestException(String.format("Unauthorized internal request: %s", request.getRequestURI()));
+        }
     }
 
     private <T extends HttpClientRequest> RequestHeader makeAuthorizedOutgoingRequestHeader(T request) {
         String urlHash = Long.toString(requestHasher.hash(request.getUrl()));
         String name = makeRequestHeaderName(urlHash);
-        String valueToken = tokenGenerator.generateToken(JdashboardInternalHttpRequestProperties.HEADER_VALUE_TOKEN_LENGTH);
-        String cacheKey = makeCacheKey(urlHash);
-        objectCache.cache(cacheKey, valueToken, JdashboardInternalHttpRequestProperties.INTERNAL_REQUEST_TOKEN_TTL);
 
-        return new RequestHeader(name, valueToken);
+        ApplicationEvent requestEvent = ApplicationEvent.newBuilder(JdashboardInternalHttpRequestProperties.EVENT_TYPE_NAME)
+                .setEventKey(urlHash)
+                .build();
+        ApplicationEvent createdEvent = applicationEventService.create(requestEvent);
+
+        String headerValue = String.format("%s-%d", urlHash, createdEvent.getId());
+        return new RequestHeader(name, headerValue);
     }
 
     private String getFullUrl(HttpServletRequest request) {
@@ -67,9 +76,5 @@ public class JdashboardInternalHttpRequestValidator implements InternalHttpReque
 
     private String makeRequestHeaderName(String url) {
         return String.format("%s_%s", JdashboardInternalHttpRequestProperties.INTERNAL_REQUEST_HEADER_PREFIX, url);
-    }
-
-    private String makeCacheKey(String value) {
-        return String.format("%s_%s", JdashboardInternalHttpRequestProperties.INTERNAL_REQUEST_HEADER_PREFIX, value);
     }
 }

@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.system.events.internal.data;
 
-import com.kiwiko.webapp.mvc.persistence.dataaccess.api.EntityManagerDAO;
+import com.kiwiko.webapp.persistence.data.fetchers.api.interfaces.EntityDataFetcher;
 import com.kiwiko.webapp.system.events.api.interfaces.parameters.ApplicationEventQuery;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -10,15 +10,10 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-public class ApplicationEventEntityDataFetcher extends EntityManagerDAO<ApplicationEventEntity> {
-
-    @Override
-    protected Class<ApplicationEventEntity> getEntityType() {
-        return ApplicationEventEntity.class;
-    }
+public class ApplicationEventEntityDataFetcher extends EntityDataFetcher<ApplicationEventEntity> {
 
     public List<ApplicationEventEntity> getByQuery(ApplicationEventQuery queryParameters) {
-        CriteriaBuilder builder = criteriaBuilder();
+        CriteriaBuilder builder = getCriteriaBuilder();
         CriteriaQuery<ApplicationEventEntity> query = builder.createQuery(entityType);
         Root<ApplicationEventEntity> root = query.from(entityType);
 
@@ -32,6 +27,6 @@ public class ApplicationEventEntityDataFetcher extends EntityManagerDAO<Applicat
         }
 
         query.where(allCriteria);
-        return getResultList(query);
+        return createQuery(query).getResultList();
     }
 }
