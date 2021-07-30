@@ -32,20 +32,18 @@ CREATE TABLE sessions (
 );
 
 CREATE TABLE game_states (
-    game_state_id BIGSERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     game_id BIGSERIAL,
     game_type TEXT NOT NULL,
     game_state_json TEXT,
-    created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-    last_updated_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     is_removed BOOLEAN NOT NULL DEFAULT FALSE,
     UNIQUE (game_id, game_type)
 );
 
 CREATE TABLE user_game_state_associations (
-    association_id BIGSERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     user_id BIGINT NOT NULL REFERENCES users(user_id),
-    game_state_id BIGINT NOT NULL REFERENCES game_states(game_state_id),
+    game_state_id BIGINT NOT NULL REFERENCES game_states(id),
     UNIQUE (user_id, game_state_id)
 );
 

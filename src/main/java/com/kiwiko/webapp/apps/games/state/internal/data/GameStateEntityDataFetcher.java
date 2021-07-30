@@ -1,33 +1,22 @@
-package com.kiwiko.webapp.apps.games.state.internal.dataAccess;
+package com.kiwiko.webapp.apps.games.state.internal.data;
 
 import com.kiwiko.webapp.apps.games.state.data.GameType;
-import com.kiwiko.webapp.mvc.persistence.dataaccess.api.AuditableEntityManagerDAO;
+import com.kiwiko.webapp.persistence.data.fetchers.api.interfaces.EntityDataFetcher;
 
 import javax.inject.Singleton;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Singleton
-public class GameStateEntityDAO extends AuditableEntityManagerDAO<GameStateEntity> {
-
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Override
-    protected Class<GameStateEntity> getEntityType() {
-        return GameStateEntity.class;
-    }
+public class GameStateEntityDataFetcher extends EntityDataFetcher<GameStateEntity> {
 
     public Optional<GameStateEntity> findForGame(GameType gameType, long gameId) {
-        CriteriaBuilder builder = criteriaBuilder();
+        CriteriaBuilder builder = getCriteriaBuilder();
         CriteriaQuery<GameStateEntity> query = builder.createQuery(entityType);
         Root<GameStateEntity> root = query.from(entityType);
 
@@ -53,7 +42,7 @@ public class GameStateEntityDAO extends AuditableEntityManagerDAO<GameStateEntit
      * @return the current maximum game_id for the given game type
      */
     public Optional<Long> getMaxGameId(GameType gameType) {
-        CriteriaBuilder builder = criteriaBuilder();
+        CriteriaBuilder builder = getCriteriaBuilder();
         CriteriaQuery<Long> query = builder.createQuery(Long.class);
         Root<GameStateEntity> root = query.from(entityType);
 
@@ -66,34 +55,29 @@ public class GameStateEntityDAO extends AuditableEntityManagerDAO<GameStateEntit
         query.select(maxGameId)
                 .where(hasGameType);
 
-        Long maxGameIdValue = null;
-        try {
-            maxGameIdValue = entityManager.createQuery(query).getSingleResult();
-        } catch (NoResultException e) {
-            // do nothing
-        }
-
-        return Optional.ofNullable(maxGameIdValue);
+        return getSingleResult(query);
     }
 
-    public Collection<GameStateEntity> findForUser(long userId) {
+    public List<GameStateEntity> findForUser(long userId) {
         String queryString = "SELECT gs.* FROM game_states gs " +
                 "JOIN user_game_state_associations ugsa ON gs.game_state_id = ugsa.game_state_id " +
                 String.format("WHERE ugsa.user_id = %d ", userId) +
                 "AND gs.is_removed = false;";
 
-        return entityManager.createNativeQuery(queryString, GameStateEntity.class)
-                .getResultList();
+        @SuppressWarnings("unchecked")
+        List<GameStateEntity> results = createNativeQuery(queryString, GameStateEntity.class).getResultList();
+        return results;
     }
 
-    public Collection<GameStateEntity> findByGameTypeAndUser(GameType gameType, long userId) {
+    public List<GameStateEntity> findByGameTypeAndUser(GameType gameType, long userId) {
         String queryString = "SELECT gs.* FROM game_states gs " +
                 "JOIN user_game_state_associations ugsa ON gs.game_state_id = ugsa.game_state_id " +
                 String.format("WHERE ugsa.user_id = %d ", userId) +
                 String.format("AND gs.game_type = '%s' ", gameType.toString()) +
                 "AND gs.is_removed = false;";
 
-        return entityManager.createNativeQuery(queryString, GameStateEntity.class)
-                .getResultList();
+        @SuppressWarnings("unchecked")
+        List<GameStateEntity> results = createNativeQuery(queryString, GameStateEntity.class).getResultList();
+        return results;
     }
 }

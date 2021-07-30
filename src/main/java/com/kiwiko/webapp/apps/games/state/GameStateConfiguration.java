@@ -1,13 +1,13 @@
 package com.kiwiko.webapp.apps.games.state;
 
 import com.kiwiko.webapp.apps.games.state.api.GameStateService;
-import com.kiwiko.webapp.apps.games.state.internal.GameStateEntityPropertyMapper;
+import com.kiwiko.webapp.apps.games.state.internal.GameStateEntityMapper;
 import com.kiwiko.webapp.apps.games.state.internal.GameStateEntityService;
-import com.kiwiko.webapp.apps.games.state.internal.UserGameStateAssociationEntityFieldMapper;
+import com.kiwiko.webapp.apps.games.state.internal.UserGameStateAssociationEntityMapper;
 import com.kiwiko.webapp.apps.games.state.internal.UserGameStateAssociationEntityService;
 import com.kiwiko.webapp.apps.games.state.internal.UserGameStateAssociationService;
-import com.kiwiko.webapp.apps.games.state.internal.dataAccess.GameStateEntityDAO;
-import com.kiwiko.webapp.apps.games.state.internal.dataAccess.UserGameStateAssociationEntityDAO;
+import com.kiwiko.webapp.apps.games.state.internal.data.GameStateEntityDataFetcher;
+import com.kiwiko.webapp.apps.games.state.internal.data.UserGameStateAssociationEntityDataFetcher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,8 +15,8 @@ import org.springframework.context.annotation.Configuration;
 public class GameStateConfiguration {
 
     @Bean
-    public GameStateEntityDAO gameStateEntityDAO() {
-        return new GameStateEntityDAO();
+    public GameStateEntityDataFetcher gameStateEntityDAO() {
+        return new GameStateEntityDataFetcher();
     }
 
     @Bean
@@ -25,13 +25,13 @@ public class GameStateConfiguration {
     }
 
     @Bean
-    public GameStateEntityPropertyMapper gameStateEntityPropertyMapper() {
-        return new GameStateEntityPropertyMapper();
+    public GameStateEntityMapper gameStateEntityPropertyMapper() {
+        return new GameStateEntityMapper();
     }
 
     @Bean
-    public UserGameStateAssociationEntityDAO userGameStateAssociationEntityDAO() {
-        return new UserGameStateAssociationEntityDAO();
+    public UserGameStateAssociationEntityDataFetcher userGameStateAssociationEntityDAO() {
+        return new UserGameStateAssociationEntityDataFetcher();
     }
 
     @Bean
@@ -40,7 +40,7 @@ public class GameStateConfiguration {
     }
 
     @Bean
-    public UserGameStateAssociationEntityFieldMapper userGameStateAssociationEntityFieldMapper() {
-        return new UserGameStateAssociationEntityFieldMapper();
+    public UserGameStateAssociationEntityMapper userGameStateAssociationEntityFieldMapper() {
+        return new UserGameStateAssociationEntityMapper();
     }
 }

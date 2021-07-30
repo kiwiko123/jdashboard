@@ -50,7 +50,7 @@ public class ScrabbleGameEntityService implements ScrabbleGameService {
 
     private GameState createNewScrabbleGameState(ScrabbleGame game) {
         GameState gameState = new GameState();
-        gameState.setGameType(GameType.SCRABBLE);
+        gameState.setGameType(GameType.SCRABBLE.getName());
         gameState.setGameId(game.getId());
 
         return gameState;

@@ -1,13 +1,12 @@
 package com.kiwiko.webapp.apps.games.state.data;
 
-import com.kiwiko.library.persistence.identification.TypeIdentifiable;
-import com.kiwiko.webapp.users.data.User;
+import com.kiwiko.library.persistence.data.api.interfaces.DataEntityDTO;
 
-public class UserGameStateAssociation extends TypeIdentifiable<Long> {
+public class UserGameStateAssociation extends DataEntityDTO {
 
     private Long id;
-    private User user;
-    private GameState gameState;
+    private Long userId;
+    private Long gameStateId;
 
     @Override
     public Long getId() {
@@ -18,19 +17,19 @@ public class UserGameStateAssociation extends TypeIdentifiable<Long> {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public GameState getGameState() {
-        return gameState;
+    public Long getGameStateId() {
+        return gameStateId;
     }
 
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
+    public void setGameStateId(Long gameStateId) {
+        this.gameStateId = gameStateId;
     }
 }

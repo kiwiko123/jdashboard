@@ -23,4 +23,9 @@ public interface GameStateService {
     Optional<GameState> getById(long gameStateId);
 
     Collection<GameState> findGamesForUser(long userId, GameType gameType);
+
+    Optional<GameState> get(long id);
+    GameState create(GameState gameState);
+    GameState update(GameState gameState);
+    GameState merge(GameState gameState);
 }

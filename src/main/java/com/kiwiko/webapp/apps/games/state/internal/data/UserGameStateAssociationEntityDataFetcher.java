@@ -1,29 +1,36 @@
-package com.kiwiko.webapp.apps.games.state.internal.dataAccess;
+package com.kiwiko.webapp.apps.games.state.internal.data;
 
-import com.kiwiko.webapp.mvc.persistence.dataaccess.api.EntityManagerDAO;
+import com.kiwiko.webapp.persistence.data.fetchers.api.interfaces.EntityDataFetcher;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
-public class UserGameStateAssociationEntityDAO extends EntityManagerDAO<UserGameStateAssociationEntity> {
+public class UserGameStateAssociationEntityDataFetcher extends EntityDataFetcher<UserGameStateAssociationEntity> {
 
     @Override
     protected Class<UserGameStateAssociationEntity> getEntityType() {
         return UserGameStateAssociationEntity.class;
     }
 
-    public Collection<UserGameStateAssociationEntity> findForUser(long userId) {
-        CriteriaQuery<UserGameStateAssociationEntity> equalsUserId = selectWhereEqual("userId", userId);
-        return createQuery(equalsUserId).getResultList();
+    public List<UserGameStateAssociationEntity> findForUser(long userId) {
+        CriteriaBuilder builder = getCriteriaBuilder();
+        CriteriaQuery<UserGameStateAssociationEntity> query = builder.createQuery(entityType);
+        Root<UserGameStateAssociationEntity> root = query.from(entityType);
+
+        Expression<Long> userIdField = root.get("userId");
+        Predicate hasUserId = builder.equal(userIdField, userId);
+
+        query.where(hasUserId);
+        return createQuery(query).getResultList();
     }
 
     public Optional<UserGameStateAssociationEntity> findForGameStateAndUser(long gameStateId, long userId) {
-        CriteriaBuilder builder = criteriaBuilder();
+        CriteriaBuilder builder = getCriteriaBuilder();
         CriteriaQuery<UserGameStateAssociationEntity> query = builder.createQuery(entityType);
         Root<UserGameStateAssociationEntity> root = query.from(entityType);
         Expression<Long> gameStateIdField = root.get("gameStateId");
