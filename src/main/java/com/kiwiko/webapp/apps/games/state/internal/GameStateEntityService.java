@@ -3,6 +3,7 @@ package com.kiwiko.webapp.apps.games.state.internal;
 import com.google.gson.JsonSyntaxException;
 import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.apps.games.state.api.GameStateService;
+import com.kiwiko.webapp.apps.games.state.api.parameters.FindGameStateParameters;
 import com.kiwiko.webapp.apps.games.state.data.GameState;
 import com.kiwiko.webapp.apps.games.state.data.GameType;
 import com.kiwiko.webapp.apps.games.state.data.UserGameStateAssociation;
@@ -28,13 +29,13 @@ public class GameStateEntityService implements GameStateService {
 
     @Transactional(readOnly = true)
     @Override
-    public Optional<GameState> findForGame(GameType gameType, long gameId) {
+    public Optional<GameState> findForGame(String gameType, long gameId) {
         return dataFetcher.findForGame(gameType, gameId)
                 .map(mapper::toDto);
     }
 
     @Override
-    public <T> Optional<T> reconstructGame(GameType gameType, long gameId, Class<T> gameStateClass) {
+    public <T> Optional<T> reconstructGame(String gameType, long gameId, Class<T> gameStateClass) {
         String gameStateJson = findForGame(gameType, gameId)
                 .flatMap(GameState::getGameStateJson)
                 .orElse(null);
@@ -62,7 +63,7 @@ public class GameStateEntityService implements GameStateService {
 
     @Transactional(readOnly = true)
     @Override
-    public long getNewGameId(GameType gameType) {
+    public long getNewGameId(String gameType) {
         long maxGameId = dataFetcher.getMaxGameId(gameType)
                 .orElse(0L);
         return maxGameId + 1;
@@ -103,6 +104,13 @@ public class GameStateEntityService implements GameStateService {
         return dataFetcher.findByGameTypeAndUser(gameType, userId).stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toSet());
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<GameState> findGameState(FindGameStateParameters parameters) {
+        return dataFetcher.findIndividualByParameters(parameters)
+                .map(mapper::toDto);
     }
 
     @Override

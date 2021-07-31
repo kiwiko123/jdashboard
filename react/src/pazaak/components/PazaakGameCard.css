@@ -1,0 +1,8 @@
+.PazaakGameCard {
+    border: 3px solid white;
+    height: 12rem;
+    width: 8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

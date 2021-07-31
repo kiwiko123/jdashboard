@@ -1,0 +1,8 @@
+.PazaakGame {
+    display: flex;
+    color: white;
+}
+
+.PazaakGame > .PazaakGameArea {
+    width: 50%;
+}

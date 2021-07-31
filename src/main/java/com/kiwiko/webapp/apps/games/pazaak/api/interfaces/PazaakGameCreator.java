@@ -23,11 +23,14 @@ public class PazaakGameCreator {
         PazaakPlayer player = createPlayerWithRandomCards(parameters.getPlayerId());
         PazaakPlayer opponent = createPlayerWithRandomCards(parameters.getOpponentId());
 
+        player.setPlayerStatus(PazaakPlayerStatuses.READY);
+
         PazaakGame game = new PazaakGame();
         game.setPlayer(player);
         game.setOpponent(opponent);
 
-        saveGame(game, parameters.getPlayerUserId());
+        GameState gameState = saveNewGame(game, parameters.getPlayerUserId());
+        game.setGameId(gameState.getGameId());
 
         return game;
     }
@@ -64,13 +67,15 @@ public class PazaakGameCreator {
         return card;
     }
 
-    private void saveGame(PazaakGame game, Long userId) {
+    private GameState saveNewGame(PazaakGame game, Long userId) {
+        long gameId = gameStateService.getNewGameId(PazaakGameProperties.GAME_TYPE_ID);
         String gameJson = gsonProvider.getDefault().toJson(game);
 
         GameState gameState = new GameState();
         gameState.setGameType(PazaakGameProperties.GAME_TYPE_ID);
         gameState.setGameStateJson(gameJson);
+        gameState.setGameId(gameId);
 
-        gameStateService.saveForUser(gameState, userId);
+        return gameStateService.saveForUser(gameState, userId);
     }
 }
