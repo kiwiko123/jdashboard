@@ -3,13 +3,16 @@ package com.kiwiko.webapp.apps.games.pazaak.web;
 import com.kiwiko.webapp.apps.games.pazaak.api.dto.PazaakGame;
 import com.kiwiko.webapp.apps.games.pazaak.api.interfaces.PazaakGameCreator;
 import com.kiwiko.webapp.apps.games.pazaak.api.interfaces.PazaakGameException;
+import com.kiwiko.webapp.apps.games.pazaak.api.interfaces.PazaakGameHandler;
 import com.kiwiko.webapp.apps.games.pazaak.api.interfaces.PazaakGameLoader;
 import com.kiwiko.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakCreateNewGameParameters;
+import com.kiwiko.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakEndTurnRequest;
 import com.kiwiko.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakLoadGameParameters;
+import com.kiwiko.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakEndTurnResponse;
+import com.kiwiko.webapp.mvc.controllers.api.interfaces.JdashboardController;
 import com.kiwiko.webapp.mvc.requests.data.RequestContext;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.AuthenticationLevel;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.AuthenticationRequired;
-import com.kiwiko.webapp.mvc.security.authentication.api.annotations.CrossOriginConfigured;
 import com.kiwiko.webapp.users.data.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,18 +29,19 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Controller
+@JdashboardController
 @RequestMapping("/pazaak/api")
 @AuthenticationRequired(levels = AuthenticationLevel.AUTHENTICATED)
-@CrossOriginConfigured
 public class PazaakGameController {
 
     @Inject private PazaakGameCreator gameCreator;
     @Inject private PazaakGameLoader gameLoader;
+    @Inject private PazaakGameHandler gameHandler;
 
     @GetMapping("/games/{gameId}")
     @ResponseBody
     public PazaakGame loadGameForUser(
-            @PathVariable("gameId") Long gameId,
+            @PathVariable("gameId") long gameId,
             @RequestParam(value = "userId", required = false) @Nullable Long userId,
             RequestContext requestContext) {
         Long currentUserId = Optional.ofNullable(userId)
@@ -65,5 +69,21 @@ public class PazaakGameController {
         parameters.setPlayerUserId(userId);
 
         return gameCreator.createNewGame(parameters);
+    }
+
+    @PostMapping("/games/{gameId}/end-turn")
+    @ResponseBody
+    public PazaakEndTurnResponse endTurn(
+            @PathVariable("gameId") long gameId,
+            @RequestBody PazaakEndTurnRequest request,
+            RequestContext requestContext) {
+        Long currentUserId = requestContext.getUser()
+                .map(User::getId)
+                .orElseThrow(() -> new PazaakGameException("No current user found"));
+
+        request.setGameId(gameId);
+        request.setUserId(currentUserId);
+
+        return gameHandler.endTurn(request);
     }
 }

@@ -14,7 +14,8 @@ public class PazaakGameLoader {
     @Inject private GameStateService gameStateService;
 
     public Optional<PazaakGame> loadGame(PazaakLoadGameParameters parameters) {
-        Objects.requireNonNull(parameters.getGameId(), "Game ID is required to load");
+        Objects.requireNonNull(parameters.getGameId(), "Game ID is required to load game");
+        Objects.requireNonNull(parameters.getUserId(), "User ID is required to load game");
 
         FindGameStateParameters findGameStateParameters = new FindGameStateParameters()
                 .setGameType(PazaakGameProperties.GAME_TYPE_ID)

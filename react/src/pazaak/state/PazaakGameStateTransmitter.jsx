@@ -1,6 +1,7 @@
 import StateTransmitter from 'state/StateTransmitter';
-import { get, set, sumBy } from 'lodash';
+import { get, identity, set, sumBy } from 'lodash';
 import Request from 'common/js/Request';
+import logger from 'common/js/logging';
 import { getUrlParameters, updateQueryParameters } from 'common/js/urltools';
 
 const PLAYER_ID = 'player';
@@ -13,6 +14,12 @@ export default class PazaakGameStateTransmitter extends StateTransmitter {
     }
 
     initialize() {
+        this.setState({
+            actions: {
+                endTurn: this.endTurn.bind(this),
+            },
+        });
+
         const { gameId } = getUrlParameters();
         if (gameId) {
             this.loadGame(gameId);
@@ -39,7 +46,7 @@ export default class PazaakGameStateTransmitter extends StateTransmitter {
     loadGame(gameId) {
         Request.to(`/pazaak/api/games/${gameId}`)
             .withAuthentication()
-            .withResponseExtractor(e => e)
+            .withResponseExtractor(identity)
             .get()
             .then((game) => {
                 if (game) {
@@ -51,10 +58,7 @@ export default class PazaakGameStateTransmitter extends StateTransmitter {
     }
 
     updateGameState(game) {
-        const { gameId } = game;
-        if (gameId) {
-            updateQueryParameters({ gameId });
-        }
+        updateQueryParameters({ gameId: game.gameId });
 
         const playerCards = get(game, 'player.placedCards', []);
         const opponentCards = get(game, 'opponent.placedCards', []);
@@ -68,6 +72,30 @@ export default class PazaakGameStateTransmitter extends StateTransmitter {
         this.setState({
             player: game.player,
             opponent: game.opponent,
+            gameId: game.gameId,
         });
+    }
+
+    endTurn(playerId, { cardModifier } = {}) {
+        // Played card is present if the player placed a card from their hand.
+        const playedCard = cardModifier ? { modifier: cardModifier } : null;
+        const payload = {
+            playerId,
+            playedCard,
+        };
+
+        Request.to(`/pazaak/api/games/${this.state.gameId}/end-turn`)
+            .withAuthentication()
+            .withBody(payload)
+            .withResponseExtractor(identity)
+            .post()
+            .then((response) => {
+                if (response.errorMessage) {
+                    // handle errors
+                    logger.info(`Pazaak error message: ${response.errorMessage}`);
+                } else {
+                    this.updateGameState(response.game);
+                }
+            });
     }
 }

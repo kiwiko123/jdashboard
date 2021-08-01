@@ -5,26 +5,28 @@ import { sortBy } from 'lodash';
 import PazaakGameHeader from './PazaakGameHeader';
 import PazaakGameCards from './PazaakGameCards';
 import PazaakActionButtons from './PazaakActionButtons';
+import playerPropType from './propTypes/playerPropType';
+import gameActionsPropType from './propTypes/gameActionsPropType';
 
 import './PazaakGameArea.css';
 
 const PazaakGameArea = ({
-    placedCards, handCards, playerName, className, showActionButtons, score, playerStatus,
+    player, className, showActionButtons, actions,
 }) => {
     const divClassName = classnames('PazaakGameArea', className);
     const headerData = {
-        playerName,
-        playerStatus,
-        score,
+        playerName: player.id,
+        playerStatus: player.playerStatus,
+        score: player.score,
     };
     const actionButtonsData = {
         endTurn: {
-            onClick: () => {},
-            disabled: playerStatus !== 'ready',
+            onClick: () => actions.endTurn(player.id),
+            disabled: player.playerStatus !== 'ready',
         },
         stand: {
             onClick: () => {},
-            disabled: playerStatus !== 'ready',
+            disabled: player.playerStatus !== 'ready',
         },
         forfeit: {
             onClick: () => {},
@@ -40,17 +42,17 @@ const PazaakGameArea = ({
         <div className={divClassName}>
             <PazaakGameHeader
                 {...headerData}
-                className={playerName}
+                className={player.id}
             />
             <hr className="divider" />
             <PazaakGameCards
                 className="placed"
-                cards={sortBy(placedCards, card => card.modifier)}
+                cards={sortBy(player.placedCards, card => card.modifier)}
             />
             <hr className="divider" />
             <PazaakGameCards
                 className="hand"
-                cards={sortBy(handCards, card => card.modifier)}
+                cards={sortBy(player.handCards, card => card.modifier)}
             />
             <hr className="divider" />
             {actionButtons}
@@ -59,25 +61,15 @@ const PazaakGameArea = ({
 }
 
 PazaakGameArea.propTypes = {
-    playerName: PropTypes.string.isRequired,
-    playerStatus: PropTypes.string.isRequired,
-    score: PropTypes.number,
-    placedCards: PropTypes.arrayOf(PropTypes.shape({
-        modifier: PropTypes.number.isRequired,
-    })),
-    handCards: PropTypes.arrayOf(PropTypes.shape({
-       modifier: PropTypes.number.isRequired,
-   })),
+   player: PropTypes.shape(playerPropType).isRequired,
    className: PropTypes.string,
    showActionButtons: PropTypes.bool,
+   actions: PropTypes.shape(gameActionsPropType).isRequired,
 };
 
 PazaakGameArea.defaultProps = {
-    placedCards: [],
-    handCards: [],
     className: null,
     showActionButtons: false,
-    score: 0,
 };
 
 export default PazaakGameArea;

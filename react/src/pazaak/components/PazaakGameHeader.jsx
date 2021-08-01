@@ -12,11 +12,11 @@ const PazaakGameHeader = ({
 
     return (
         <div className={divClassName}>
-            <h2 className="score">
-                {score}
-            </h2>
             <h2 className="player-info">
                 {playerName}
+            </h2>
+            <h2 className="score">
+                {score}
             </h2>
             <div className="status">
                 {turnIcon}

@@ -29,10 +29,10 @@ public class TableRecordVersionAPIController {
         return tableRecordVersionService.get(id).orElse(null);
     }
 
-    @GetMapping("/record-updates")
+    @GetMapping("/tables/{tableName}/{id}")
     public List<TableRecordVersion> getUpdatesForRecord(
-            @RequestParam("table-name") String tableName,
-            @RequestParam("id") Long id) {
+            @PathVariable("tableName") String tableName,
+            @PathVariable("id") Long id) {
         return dataEntityUpdateFetcher.getUpdates(tableName, id);
     }
 }

@@ -28,6 +28,7 @@ public class PazaakGameCreator {
         PazaakGame game = new PazaakGame();
         game.setPlayer(player);
         game.setOpponent(opponent);
+        game.setCurrentPlayerId(player.getId());
 
         GameState gameState = saveNewGame(game, parameters.getPlayerUserId());
         game.setGameId(gameState.getGameId());
@@ -47,14 +48,6 @@ public class PazaakGameCreator {
         return player;
     }
 
-    private PazaakCard createRandomCard() {
-        int modifier = randomUtil.rollDice(11);
-        PazaakCard card = new PazaakCard();
-        card.setModifier(modifier);
-
-        return card;
-    }
-
     private PazaakCard createRandomHandCard() {
         int modifier = randomUtil.rollDice(7);
         if (randomUtil.flipCoin()) {
@@ -69,6 +62,7 @@ public class PazaakGameCreator {
 
     private GameState saveNewGame(PazaakGame game, Long userId) {
         long gameId = gameStateService.getNewGameId(PazaakGameProperties.GAME_TYPE_ID);
+        game.setGameId(gameId);
         String gameJson = gsonProvider.getDefault().toJson(game);
 
         GameState gameState = new GameState();
