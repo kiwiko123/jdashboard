@@ -11,13 +11,14 @@ import gameActionsPropType from './propTypes/gameActionsPropType';
 import './PazaakGameArea.css';
 
 const PazaakGameArea = ({
-    player, className, showActionButtons, actions,
+    player, className, showActionButtons, actions, errorMessage,
 }) => {
     const divClassName = classnames('PazaakGameArea', className);
     const headerData = {
         playerName: player.id,
         playerStatus: player.playerStatus,
         score: player.score,
+        errorMessage,
     };
     const actionButtonsData = {
         endTurn: {
@@ -65,11 +66,13 @@ PazaakGameArea.propTypes = {
    className: PropTypes.string,
    showActionButtons: PropTypes.bool,
    actions: PropTypes.shape(gameActionsPropType).isRequired,
+   errorMessage: PropTypes.string,
 };
 
 PazaakGameArea.defaultProps = {
     className: null,
     showActionButtons: false,
+    errorMessage: null,
 };
 
 export default PazaakGameArea;

@@ -12,8 +12,11 @@ import com.kiwiko.webapp.apps.games.state.data.GameState;
 import com.kiwiko.webapp.mvc.json.gson.GsonProvider;
 
 import javax.inject.Inject;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PazaakGameHandler {
@@ -42,6 +45,7 @@ public class PazaakGameHandler {
     }
 
     public PazaakEndTurnResponse endTurn(PazaakEndTurnRequest request) {
+        // Request validation.
         PazaakLoadGameParameters loadGameParameters = new PazaakLoadGameParameters()
                 .setGameId(request.getGameId())
                 .setUserId(request.getUserId());
@@ -55,7 +59,26 @@ public class PazaakGameHandler {
         Objects.requireNonNull(request.getPlayerId(), "Player ID is required to end turn");
         validateTurn(game, request.getPlayerId());
 
-        endTurnForPlayer(game, request);
+        // End the actual turn.
+        if (Objects.equals(request.getPlayerId(), game.getPlayer().getId())) {
+            endTurnForPlayer(game, request);
+        } else {
+            endTurnForOpponent(game, request);
+        }
+
+        PazaakPlayer player = getPlayerById(game, request.getPlayerId());
+        PazaakPlayer oppositePlayer = getOppositePlayer(game, player.getId());
+
+        if (playerHasBusted(player)) {
+            setGameWinner(game, oppositePlayer.getId());
+        }
+
+        // Switch turns if necessary.
+        player.setPlayerStatus(PazaakPlayerStatuses.END_TURN);
+        if (!Objects.equals(oppositePlayer.getPlayerStatus(), PazaakPlayerStatuses.STAND)) {
+            oppositePlayer.setPlayerStatus(PazaakPlayerStatuses.READY);
+            game.setCurrentPlayerId(oppositePlayer.getId());
+        }
 
         calculateWinner(game)
                 .map(PazaakPlayer::getId)
@@ -91,25 +114,27 @@ public class PazaakGameHandler {
     }
 
     private void endTurnForPlayer(PazaakGame game, PazaakEndTurnRequest request) {
-        PazaakPlayer player = getPlayerById(game, request.getPlayerId());
-
         PazaakCard placedCard = Optional.ofNullable(request.getPlayedCard())
                 .orElseGet(this::createRandomCard);
-        player.getPlacedCards().add(placedCard);
+        game.getPlayer().getPlacedCards().add(placedCard);
+    }
 
-        PazaakPlayer oppositePlayer = getOppositePlayer(game, player.getId());
+    private void endTurnForOpponent(PazaakGame game, PazaakEndTurnRequest request) {
+        PazaakCard placedCard = getOpponentCardToEndTurn(game)
+                .orElseGet(this::createRandomCard);
+        game.getOpponent().getPlacedCards().add(placedCard);
+    }
 
-        if (playerHasBusted(player)) {
-            setGameWinner(game, oppositePlayer.getId());
-            return;
-        }
+    private Optional<PazaakCard> getOpponentCardToEndTurn(PazaakGame game) {
+        int minimumRiskThreshold = MAX_WINNING_SCORE_THRESHOLD - 2;
+        int opponentScore = calculatePlayerScore(game.getOpponent());
+        Map<PazaakCard, Integer> outcomeScoresByCard = game.getOpponent().getHandCards().stream()
+                .collect(Collectors.toMap(Function.identity(), card -> card.getModifier() + opponentScore));
 
-        // Switch turns.
-        player.setPlayerStatus(PazaakPlayerStatuses.END_TURN);
-        if (!Objects.equals(oppositePlayer.getPlayerStatus(), PazaakPlayerStatuses.STAND)) {
-            oppositePlayer.setPlayerStatus(PazaakPlayerStatuses.READY);
-            game.setCurrentPlayerId(oppositePlayer.getId());
-        }
+        return outcomeScoresByCard.entrySet().stream()
+                .filter(entry -> (entry.getValue() >= minimumRiskThreshold) && (entry.getValue() <= MAX_WINNING_SCORE_THRESHOLD))
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey);
     }
 
     private PazaakPlayer getPlayerById(PazaakGame game, String playerId) throws PazaakGameException {
@@ -159,7 +184,7 @@ public class PazaakGameHandler {
     }
 
     private PazaakCard createRandomCard() {
-        int modifier = randomUtil.rollDice(11);
+        int modifier = randomUtil.rollDice(10) + 1; // [1, 10]
         PazaakCard card = new PazaakCard();
         card.setModifier(modifier);
 

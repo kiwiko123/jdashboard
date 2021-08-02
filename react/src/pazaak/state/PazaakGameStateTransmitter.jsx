@@ -73,6 +73,8 @@ export default class PazaakGameStateTransmitter extends StateTransmitter {
             player: game.player,
             opponent: game.opponent,
             gameId: game.gameId,
+            currentPlayerId: game.currentPlayerId,
+            winningPlayerId: game.winningPlayerId,
         });
     }
 
@@ -90,12 +92,25 @@ export default class PazaakGameStateTransmitter extends StateTransmitter {
             .withResponseExtractor(identity)
             .post()
             .then((response) => {
-                if (response.errorMessage) {
-                    // handle errors
-                    logger.info(`Pazaak error message: ${response.errorMessage}`);
-                } else {
-                    this.updateGameState(response.game);
-                }
+                this.handleEndTurnResponse(response);
             });
+    }
+
+    handleEndTurnResponse(response) {
+        if (response.errorMessage) {
+            // handle errors
+            logger.info(`Pazaak error message: ${response.errorMessage}`);
+            this.setState({ errorMessage: response.errorMessage });
+            return;
+        }
+
+        const { game } = response;
+        this.updateGameState(game);
+
+        if (game.currentPlayerId === game.opponent.id) {
+            setTimeout(() => {
+                this.endTurn(game.opponent.id);
+            }, 1000);
+        }
     }
 }
