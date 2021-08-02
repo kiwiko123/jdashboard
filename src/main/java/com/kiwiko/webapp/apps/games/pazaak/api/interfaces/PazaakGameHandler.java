@@ -126,13 +126,13 @@ public class PazaakGameHandler {
     }
 
     private Optional<PazaakCard> getOpponentCardToEndTurn(PazaakGame game) {
-        int minimumRiskThreshold = MAX_WINNING_SCORE_THRESHOLD - 2;
+        int playerScore = calculatePlayerScore(game.getPlayer());
         int opponentScore = calculatePlayerScore(game.getOpponent());
         Map<PazaakCard, Integer> outcomeScoresByCard = game.getOpponent().getHandCards().stream()
                 .collect(Collectors.toMap(Function.identity(), card -> card.getModifier() + opponentScore));
 
         return outcomeScoresByCard.entrySet().stream()
-                .filter(entry -> (entry.getValue() >= minimumRiskThreshold) && (entry.getValue() <= MAX_WINNING_SCORE_THRESHOLD))
+                .filter(entry -> (entry.getValue() >= playerScore) && (entry.getValue() <= MAX_WINNING_SCORE_THRESHOLD))
                 .max(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey);
     }
