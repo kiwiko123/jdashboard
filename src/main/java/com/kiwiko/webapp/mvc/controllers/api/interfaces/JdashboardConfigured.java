@@ -12,5 +12,5 @@ import java.lang.annotation.Target;
 @CrossOrigin(
         allowCredentials = "true",
         origins = "*") // Allow all origins here because CrossSiteRequestForgeryPreventionInterceptor will verify them
-public @interface JdashboardController {
+public @interface JdashboardConfigured {
 }

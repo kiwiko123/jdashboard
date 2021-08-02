@@ -9,7 +9,7 @@ import com.kiwiko.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakCreat
 import com.kiwiko.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakEndTurnRequest;
 import com.kiwiko.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakLoadGameParameters;
 import com.kiwiko.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakEndTurnResponse;
-import com.kiwiko.webapp.mvc.controllers.api.interfaces.JdashboardController;
+import com.kiwiko.webapp.mvc.controllers.api.interfaces.JdashboardConfigured;
 import com.kiwiko.webapp.mvc.requests.data.RequestContext;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.AuthenticationLevel;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.AuthenticationRequired;
@@ -29,7 +29,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Controller
-@JdashboardController
+@JdashboardConfigured
 @RequestMapping("/pazaak/api")
 @AuthenticationRequired(levels = AuthenticationLevel.AUTHENTICATED)
 public class PazaakGameController {
