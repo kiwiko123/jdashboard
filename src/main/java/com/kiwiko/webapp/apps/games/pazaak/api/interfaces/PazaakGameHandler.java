@@ -7,6 +7,7 @@ import com.kiwiko.webapp.apps.games.pazaak.api.dto.PazaakPlayer;
 import com.kiwiko.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakEndTurnRequest;
 import com.kiwiko.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakEndTurnResponse;
 import com.kiwiko.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakLoadGameParameters;
+import com.kiwiko.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakSelectHandCardRequest;
 import com.kiwiko.webapp.apps.games.state.api.GameStateService;
 import com.kiwiko.webapp.apps.games.state.data.GameState;
 import com.kiwiko.webapp.mvc.json.gson.GsonProvider;
@@ -46,14 +47,11 @@ public class PazaakGameHandler {
 
     public PazaakEndTurnResponse endTurn(PazaakEndTurnRequest request) {
         // Request validation.
-        PazaakLoadGameParameters loadGameParameters = new PazaakLoadGameParameters()
-                .setGameId(request.getGameId())
-                .setUserId(request.getUserId());
-        PazaakGame game = gameLoader.loadGame(loadGameParameters).orElse(null);
+        PazaakGame game = gameLoader.loadGame(request).orElse(null);
 
         if (game == null) {
             return new PazaakEndTurnResponse()
-                    .setErrorMessage(String.format("No game found matching loading parameters %s", loadGameParameters.toString()));
+                    .setErrorMessage(String.format("No game found matching loading parameters %s", request));
         }
 
         Objects.requireNonNull(request.getPlayerId(), "Player ID is required to end turn");
@@ -90,6 +88,27 @@ public class PazaakGameHandler {
                 .setGame(game);
     }
 
+    public PazaakGame selectHandCard(PazaakSelectHandCardRequest request) throws PazaakGameException {
+        Objects.requireNonNull(request.getPlayerId(), "Player ID is required to select hand card");
+        Objects.requireNonNull(request.getSelectedHandCard(), "Hand card is required");
+
+        PazaakGame game = gameLoader.loadGame(request).orElse(null);
+        if (game == null) {
+            throw new PazaakGameException("No game found");
+        }
+
+        PazaakPlayer player = getPlayerById(game, request.getPlayerId());
+        if (!player.getHandCards().contains(request.getSelectedHandCard())) {
+            throw new PazaakGameException("Hand card not found");
+        }
+
+        player.getHandCards().remove(request.getSelectedHandCard());
+        player.getPlacedCards().add(request.getSelectedHandCard());
+
+        // Don't save.
+        return game;
+    }
+
     private Optional<PazaakPlayer> getOutscoringWinner(PazaakGame game) {
         boolean allPlayersStanding = Stream.of(game.getPlayer(), game.getOpponent())
                 .map(PazaakPlayer::getPlayerStatus)
@@ -114,8 +133,17 @@ public class PazaakGameHandler {
     }
 
     private void endTurnForPlayer(PazaakGame game, PazaakEndTurnRequest request) {
-        PazaakCard placedCard = Optional.ofNullable(request.getPlayedCard())
-                .orElseGet(this::createRandomCard);
+        PazaakCard placedCard;
+        if (request.getPlayedCard() == null) {
+            placedCard = createRandomCard();
+        } else {
+            placedCard = request.getPlayedCard();
+            boolean removedFromHand = game.getPlayer().getHandCards().remove(placedCard);
+            if (!removedFromHand) {
+                throw new PazaakGameException("Expected placed card to come from hand");
+            }
+        }
+
         game.getPlayer().getPlacedCards().add(placedCard);
     }
 
@@ -127,14 +155,21 @@ public class PazaakGameHandler {
 
     private Optional<PazaakCard> getOpponentCardToEndTurn(PazaakGame game) {
         int playerScore = calculatePlayerScore(game.getPlayer());
+        int minimumRiskThreshold = Math.max(playerScore, MAX_WINNING_SCORE_THRESHOLD - 2);
         int opponentScore = calculatePlayerScore(game.getOpponent());
-        Map<PazaakCard, Integer> outcomeScoresByCard = game.getOpponent().getHandCards().stream()
-                .collect(Collectors.toMap(Function.identity(), card -> card.getModifier() + opponentScore));
+        Map<Integer, PazaakCard> cardsByOutcomeScore = game.getOpponent().getHandCards().stream()
+                .collect(Collectors.toMap(card -> card.getModifier() + opponentScore, Function.identity(), (a, b) -> a));
 
-        return outcomeScoresByCard.entrySet().stream()
-                .filter(entry -> (entry.getValue() >= playerScore) && (entry.getValue() <= MAX_WINNING_SCORE_THRESHOLD))
-                .max(Map.Entry.comparingByValue())
-                .map(Map.Entry::getKey);
+        PazaakCard handCardToWin = cardsByOutcomeScore.get(MAX_WINNING_SCORE_THRESHOLD);
+        if (handCardToWin != null) {
+            game.getOpponent().getHandCards().remove(handCardToWin);
+            return Optional.of(handCardToWin);
+        }
+
+        return cardsByOutcomeScore.entrySet().stream()
+                .filter(entry -> (entry.getKey() >= minimumRiskThreshold) && (entry.getKey() <= MAX_WINNING_SCORE_THRESHOLD))
+                .max(Map.Entry.comparingByKey())
+                .map(Map.Entry::getValue);
     }
 
     private PazaakPlayer getPlayerById(PazaakGame game, String playerId) throws PazaakGameException {

@@ -49,7 +49,7 @@ public class PazaakGameCreator {
     }
 
     private PazaakCard createRandomHandCard() {
-        int modifier = randomUtil.rollDice(7);
+        int modifier = randomUtil.rollDice(6) + 1;
         if (randomUtil.flipCoin()) {
             modifier *= -1;
         }

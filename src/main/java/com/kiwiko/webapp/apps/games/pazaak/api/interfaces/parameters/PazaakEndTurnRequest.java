@@ -4,28 +4,10 @@ import com.kiwiko.webapp.apps.games.pazaak.api.dto.PazaakCard;
 
 import javax.annotation.Nullable;
 
-public class PazaakEndTurnRequest {
+public class PazaakEndTurnRequest extends PazaakLoadGameParameters {
 
-    private Long gameId;
-    private Long userId;
     private String playerId;
     private @Nullable PazaakCard playedCard;
-
-    public Long getGameId() {
-        return gameId;
-    }
-
-    public void setGameId(Long gameId) {
-        this.gameId = gameId;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
 
     public String getPlayerId() {
         return playerId;

@@ -4,7 +4,9 @@ export default class StateTransmitterInterface {
 
     sendState(tag) { }
 
-    tryState(newState) { }
+    addState(newState) { }
 
     receiveState(state, tag) { }
+
+    render() { }
 }

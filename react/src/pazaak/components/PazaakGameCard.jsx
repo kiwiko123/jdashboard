@@ -4,10 +4,13 @@ import PropTypes from 'prop-types';
 import './PazaakGameCard.css';
 
 const PazaakGameCard = ({
-    modifier,
+    modifier, onClick,
 }) => {
     return (
-        <div className="PazaakGameCard">
+        <div
+            className="PazaakGameCard"
+            onClick={onClick}
+        >
             <div className="modifier">
                 {modifier}
             </div>
@@ -17,6 +20,11 @@ const PazaakGameCard = ({
 
 PazaakGameCard.propTypes = {
     modifier: PropTypes.number.isRequired,
+    onClick: PropTypes.func,
+};
+
+PazaakGameCard.defaultProps = {
+    onClick: null,
 };
 
 export default PazaakGameCard;
