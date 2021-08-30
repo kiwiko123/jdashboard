@@ -1,28 +1,32 @@
 package com.kiwiko.webapp.streaming.pushservice.internal.impl.websockets.spring.subscribers;
 
-import com.kiwiko.webapp.streaming.pushservice.api.interfaces.PushServiceSubscriber;
+import com.kiwiko.webapp.streaming.pushservice.internal.impl.websockets.spring.subscribers.dto.RegisterPushServiceSubscriberParameters;
 
 import javax.inject.Singleton;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 @Singleton
 public class PushServiceSubscriberRegistry {
 
-    private Map<String, Set<Class<? extends PushServiceSubscriber>>> subscribersByServiceId;
+    private final Map<String, Set<RegisterPushServiceSubscriberParameters>> registrationParametersByServiceId;
 
     public PushServiceSubscriberRegistry() {
-        subscribersByServiceId = new HashMap<>();
+        registrationParametersByServiceId = new HashMap<>();
     }
 
-    public void register(String serviceId, Class<? extends PushServiceSubscriber> subscriberType) {
-        subscribersByServiceId.computeIfAbsent(serviceId, key -> new HashSet<>()).add(subscriberType);
+    public void register(RegisterPushServiceSubscriberParameters parameters) {
+        Objects.requireNonNull(parameters.getServiceId(), "Service ID is required");
+        Objects.requireNonNull(parameters.getSubscriberType(), "Subscriber type is required");
+        registrationParametersByServiceId.computeIfAbsent(parameters.getServiceId(), key -> new HashSet<>()).add(parameters);
     }
 
-    public Collection<Class<? extends PushServiceSubscriber>> getByServiceId(String serviceId) {
-        return subscribersByServiceId.getOrDefault(serviceId, new HashSet<>());
+    public Collection<RegisterPushServiceSubscriberParameters> getByServiceId(String serviceId) {
+        return registrationParametersByServiceId.getOrDefault(serviceId, Collections.emptySet());
     }
 }

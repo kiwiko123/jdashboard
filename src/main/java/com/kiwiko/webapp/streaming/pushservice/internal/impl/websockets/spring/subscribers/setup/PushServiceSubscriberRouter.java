@@ -7,6 +7,7 @@ import com.kiwiko.webapp.streaming.pushservice.api.dto.ClientPushRequest;
 import com.kiwiko.webapp.streaming.pushservice.api.interfaces.PushServiceSubscriber;
 import com.kiwiko.webapp.streaming.pushservice.api.interfaces.parameters.OnPushReceivedParameters;
 import com.kiwiko.webapp.streaming.pushservice.internal.impl.websockets.spring.subscribers.PushServiceSubscriberRegistry;
+import com.kiwiko.webapp.streaming.pushservice.internal.impl.websockets.spring.subscribers.dto.RegisterPushServiceSubscriberParameters;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -38,17 +39,18 @@ public class PushServiceSubscriberRouter {
 
     private List<PushServiceSubscriber> instantiateSubscribers(String serviceId) {
         List<PushServiceSubscriber> subscribers = new ArrayList<>();
-        Collection<Class<? extends PushServiceSubscriber>> subscriberTypes = pushServiceSubscriberRegistry.getByServiceId(serviceId);
+        Collection<RegisterPushServiceSubscriberParameters> registrationParameters = pushServiceSubscriberRegistry.getByServiceId(serviceId);
 
-        for (Class<? extends PushServiceSubscriber> subscriberType : subscriberTypes) {
+        for (RegisterPushServiceSubscriberParameters registrationParameter : registrationParameters) {
             PushServiceSubscriber subscriber;
             try {
-                subscriber = dependencyInstantiator.instantiateDependency(subscriberType);
+                subscriber = dependencyInstantiator.instantiateDependency(registrationParameter.getSubscriberType(), registrationParameter.getBaseSubscriberConfigurationType());
             } catch (DependencyInstantiationException e) {
-                logger.error(String.format("Error instantiating push service subscriber %s", subscriberType.getName()), e);
+                logger.error(String.format("Error instantiating push service subscriber %s", registrationParameter.getSubscriberType().getName()), e);
                 continue;
             }
 
+            logger.debug(String.format("Instantiated subscriber %s", subscriber.getClass().getName()));
             subscribers.add(subscriber);
         }
 
