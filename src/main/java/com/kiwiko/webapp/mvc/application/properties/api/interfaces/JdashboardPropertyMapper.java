@@ -16,7 +16,7 @@ public class JdashboardPropertyMapper {
 
     public <T extends Collection<String>> Property<T> mapToCollection(
             Property<String> property,
-            Function<List<String>, T> toCollection) {
+            Function<Collection<String>, T> toCollection) {
         String rawValue = property.getValue();
         List<String> values;
         if (rawValue == null || rawValue.isBlank()) {

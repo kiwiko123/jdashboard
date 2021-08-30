@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -134,12 +135,19 @@ public abstract class EntityDataFetcher<T extends DataEntity> {
     /**
      * @see EntityManager#createQuery(CriteriaQuery)
      */
-    protected TypedQuery<T> createQuery(CriteriaQuery<T> query) {
+    protected <U> TypedQuery<U> createQuery(CriteriaQuery<U> query) {
         return entityManager.createQuery(query);
     }
 
-    protected Optional<T> getSingleResult(CriteriaQuery<T> query) {
-        T result = null;
+    /**
+     * @see EntityManager#createNativeQuery(String, Class) 
+     */
+    protected <U> Query createNativeQuery(String query, Class<U> type) {
+        return entityManager.createNativeQuery(query, type);
+    } 
+
+    protected <U> Optional<U> getSingleResult(CriteriaQuery<U> query) {
+        U result = null;
         try {
             result = createQuery(query).getSingleResult();
         } catch (NoResultException e) {

@@ -7,6 +7,7 @@ import FeatureFlagPage from './admin/featureFlags/FeatureFlagPage';
 import CreateAccountPage from './accounts/create/CreateAccountPage';
 import LoginPage from './accounts/pages/LoginPage';
 import ScrabblePlayPage from './scrabble/pages/ScrabblePlayPage';
+import PazaakPlayPage from 'pazaak/PazaakPlayPage';
 import ChatroomPage from './chatroom/pages/ChatroomPage';
 import NotFoundPage from './dashboard/pages/NotFoundPage';
 
@@ -23,9 +24,10 @@ export default function() {
                 <Route path="/admin/feature-flags" component={FeatureFlagPage} />
                 <Route path="/accounts/create" component={CreateAccountPage} />
                 <Route path="/accounts/login" component={LoginPage} />
+                <Route path="/chatroom" component={ChatroomPage} />
                 <Route path="/home" component={HomePage} />
                 <Route path="/not-found" component={NotFoundPage} />
-                <Route path="/chatroom" component={ChatroomPage} />
+                <Route path="/pazaak/play" component={PazaakPlayPage} />
                 <Route path="/scrabble/play" component={ScrabblePlayPage} />
                 <Redirect to="/not-found" />
             </Switch>

@@ -64,7 +64,6 @@ public class DataChangeCapturer {
 
         for (Method method : entityType.getDeclaredMethods()) {
             if (!method.getName().startsWith("get")) {
-                logger.debug(String.format("Skipping column method %s; does not appear to be a getter", method.getName()));
                 continue;
             }
 

@@ -1,6 +1,6 @@
-package com.kiwiko.webapp.apps.games.state.internal.dataAccess;
+package com.kiwiko.webapp.apps.games.state.internal.data;
 
-import com.kiwiko.library.persistence.dataAccess.api.DataEntity;
+import com.kiwiko.library.persistence.data.api.interfaces.DataEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "user_game_state_associations")
-public class UserGameStateAssociationEntity extends DataEntity {
+public class UserGameStateAssociationEntity implements DataEntity {
 
     private Long id;
     private long userId;
@@ -19,7 +19,7 @@ public class UserGameStateAssociationEntity extends DataEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "association_id", unique = true, nullable = false)
+    @Column(name = "id", unique = true, nullable = false)
     @Override
     public Long getId() {
         return id;

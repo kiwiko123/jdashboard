@@ -25,17 +25,11 @@ public class GameStateAPIController {
     public ResponsePayload getGameStateForGame(
             @PathVariable(name = "gameType") String gameTypeId,
             @PathVariable(name = "gameId") long gameId) {
-        GameType gameType = GameType.getByName(gameTypeId)
-                .orElse(null);
-        if (gameType == null) {
-            return getInvalidGameTypeResponse(gameTypeId);
-        }
-
-        GameState gameState = gameStateService.findForGame(gameType, gameId)
+        GameState gameState = gameStateService.findForGame(gameTypeId, gameId)
                 .orElse(null);
         if (gameState == null) {
             return new ResponseBuilder()
-                    .withError(String.format("No game found for %s with ID %d", gameType.getName(), gameId))
+                    .withError(String.format("No game found for %s with ID %d", gameTypeId, gameId))
                     .build();
         }
 
@@ -46,9 +40,7 @@ public class GameStateAPIController {
 
     @GetMapping("/games/state/api/new-game-id/get/{gameType}")
     public ResponsePayload getNewGameId(@PathVariable(name = "gameType") String gameTypeId) {
-        long newGameId = GameType.getByName(gameTypeId)
-                .map(gameStateService::getNewGameId)
-                .orElse(1l);
+        long newGameId = gameStateService.getNewGameId(gameTypeId);
 
         return new ResponseBuilder()
                 .withBody(newGameId)

@@ -22,7 +22,7 @@ public class ScrabbleGameEntityService implements ScrabbleGameService {
     private JsonMapper jsonMapper;
 
     public Optional<ScrabbleGame> getGameById(long gameId) {
-        return gameStateService.reconstructGame(GameType.SCRABBLE, gameId, ScrabbleGame.class);
+        return gameStateService.reconstructGame(GameType.SCRABBLE.getName(), gameId, ScrabbleGame.class);
     }
 
     public void saveGame(ScrabbleGame game) {
@@ -50,7 +50,7 @@ public class ScrabbleGameEntityService implements ScrabbleGameService {
 
     private GameState createNewScrabbleGameState(ScrabbleGame game) {
         GameState gameState = new GameState();
-        gameState.setGameType(GameType.SCRABBLE);
+        gameState.setGameType(GameType.SCRABBLE.getName());
         gameState.setGameId(game.getId());
 
         return gameState;
@@ -59,7 +59,7 @@ public class ScrabbleGameEntityService implements ScrabbleGameService {
     private GameState getGameStateFromGame(ScrabbleGame game) {
         String gameJson = jsonMapper.writeValueAsString(game);
 
-        GameState gameState = gameStateService.findForGame(GameType.SCRABBLE, game.getId())
+        GameState gameState = gameStateService.findForGame(GameType.SCRABBLE.getName(), game.getId())
                 .orElseGet(() -> createNewScrabbleGameState(game));
         gameState.setGameStateJson(gameJson);
 

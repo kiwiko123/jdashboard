@@ -16,8 +16,34 @@ import java.lang.annotation.Target;
  *     <li>{@code CreditCardConfiguration} wires {@code CreditCardVerifier}.</li>
  *     <li>{@code CarPurchaser} injects {@code CreditCardVerifier}.</li>
  * </ol>
- * The {@link org.springframework.context.annotation.Bean} method in {@code CarConfiguration} that wires {@code CarPurchaser}
- * should be annotated with {@literal @ConfiguredBy(CreditCardConfiguration.class)} because it relies on a dependency configured there.
+ * {@literal
+ *     // CreditCardConfiguration.java
+ *     @Configuration
+ *     public class CreditCardConfiguration {
+ *          @Bean
+ *          public CreditCardVerifier creditCardVerifier() {
+ *              return new CreditCardVerifier();
+ *          }
+ *     }
+ *
+ *     // CarConfiguration.java
+ *     @Configuration
+ *     public class CarConfiguration {
+ *          @Bean
+ *          @ConfiguredBy(CreditCardConfiguration.class)
+ *          public CarPurchaser carPurchaser() {
+ *              return new CarPurchaser();
+ *          }
+ *     }
+ *
+ *     // CarPurchaser.java
+ *     public class CarPurchaser {
+ *          @Inject private CreditCardVerifier creditCardVerifier;
+ *          // Class implementation...
+ *     }
+ * }
+ * The {@code CarPurchaser} {@link org.springframework.context.annotation.Bean} is annotated with
+ * {@literal @ConfiguredBy(CreditCardConfiguration.class)} because it relies on a dependency configured there.
  *
  * Currently, this annotation is non-functional -- it purely serves as documentation.
  */

@@ -1,0 +1,12 @@
+.PazaakGameArea > .placed {
+    display: flex;
+    min-height: 15rem;
+}
+
+.PazaakGameArea > .hand {
+    display: flex;
+}
+
+.PazaakGameArea > .divider {
+    background-color: white;
+}

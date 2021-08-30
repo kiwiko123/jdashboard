@@ -34,7 +34,7 @@ IconButton.propTypes = {
     children: PropTypes.node,
 
     // https://react-bootstrap.github.io/components/buttons
-    variant: PropTypes.string,
+    variant: PropTypes.oneOf(['primary', 'secondary', 'success', 'warning', 'danger', 'info', 'light', 'dark', 'link', null]),
 
     // https://fontawesome.com/icons?d=gallery&m=free
     fontAwesomeClassName: PropTypes.string,
