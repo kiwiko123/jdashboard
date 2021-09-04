@@ -4,6 +4,7 @@ import com.kiwiko.library.files.properties.readers.api.dto.Property;
 import com.kiwiko.webapp.mvc.application.properties.PropertiesConfiguration;
 import com.kiwiko.webapp.mvc.application.properties.api.interfaces.JdashboardPropertyReader;
 import com.kiwiko.webapp.mvc.configuration.api.interfaces.annotations.ConfiguredBy;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,8 +26,8 @@ public class DatasourceConfiguration {
         String username = getRequiredProperty("database.username");
         String password = getOptionalProperty("database.password");
 
-        @SuppressWarnings("rawtypes")
-        DataSourceBuilder builder = DataSourceBuilder.create()
+        DataSourceBuilder<HikariDataSource> builder = DataSourceBuilder.create()
+                .type(HikariDataSource.class)
                 .url(url)
                 .username(username);
 
