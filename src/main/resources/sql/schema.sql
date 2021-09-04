@@ -100,3 +100,11 @@ CREATE TABLE table_record_versions (
     created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     created_by_user_id BIGINT
 );
+
+CREATE TABLE universal_unique_identifiers (
+    id BIGSERIAL PRIMARY KEY,
+    uuid TEXT UNIQUE NOT NULL,
+    referenced_table_name TEXT NOT NULL,
+    referenced_id BIGINT NOT NULL,
+    created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+);
