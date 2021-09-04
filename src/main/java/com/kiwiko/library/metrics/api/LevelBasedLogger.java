@@ -3,19 +3,20 @@ package com.kiwiko.library.metrics.api;
 import com.kiwiko.library.metrics.data.LevelBasedLog;
 import com.kiwiko.library.monitoring.logging.api.dto.Log;
 import com.kiwiko.library.metrics.data.LogLevel;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public abstract class LevelBasedLogService implements LogService {
+public abstract class LevelBasedLogger implements Logger {
 
     protected int MAX_STACK_TRACE_LIMIT = 10;
 
     private final Set<LogLevel> enabledLogLevels;
 
-    public LevelBasedLogService() {
+    public LevelBasedLogger() {
         enabledLogLevels = EnumSet.allOf(LogLevel.class);
     }
 

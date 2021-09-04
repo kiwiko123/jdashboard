@@ -1,13 +1,13 @@
 package com.kiwiko.library.metrics.impl;
 
-import com.kiwiko.library.metrics.api.LevelBasedLogService;
+import com.kiwiko.library.metrics.api.LevelBasedLogger;
 import com.kiwiko.library.metrics.data.LevelBasedLog;
 
-public class ConsoleLogService extends LevelBasedLogService {
+public class ConsoleLogger extends LevelBasedLogger {
 
     @Override
     protected void log(LevelBasedLog log) {
-        System.out.println(String.format("[%s] %s", log.getLevel().getName().toUpperCase(), log.getMessage()));
+        System.out.printf("[%s] %s%n", log.getLevel().getName().toUpperCase(), log.getMessage());
     }
 
     @Override

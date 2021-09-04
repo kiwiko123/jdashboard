@@ -1,10 +1,10 @@
 package com.kiwiko.webapp.apps.games.scrabble.words.internal.unixlocal;
 
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.apps.games.scrabble.words.api.WordService;
 import com.kiwiko.webapp.apps.games.scrabble.words.data.Word;
 import com.kiwiko.webapp.apps.games.scrabble.words.internal.dataAccess.WordEntityDAO;
 import com.kiwiko.webapp.apps.games.scrabble.words.internal.unixlocal.data.WordMigratorParameters;
-import com.kiwiko.library.metrics.api.LogService;
 
 import javax.inject.Inject;
 import java.io.BufferedReader;
@@ -23,14 +23,9 @@ public class WordMigrator {
 
     private static final String WORDS_FILE_PATH = "/usr/share/dict/words";
 
-    @Inject
-    private WordEntityDAO wordEntityDAO;
-
-    @Inject
-    private WordService wordService;
-
-    @Inject
-    private LogService logService;
+    @Inject private WordEntityDAO wordEntityDAO;
+    @Inject private WordService wordService;
+    @Inject private Logger logger;
 
     public Collection<Long> process(WordMigratorParameters parameters) {
         Charset charset = Charset.forName("US-ASCII");
@@ -67,7 +62,7 @@ public class WordMigrator {
             // In case the number of remaining words of the last run was less than the batch size
             processBatch(processedWordIds, wordsToAdd);
         } catch (IOException e) {
-            logService.error(String.format("Error reading file \"%s\"", WORDS_FILE_PATH), e);
+            logger.error(String.format("Error reading file \"%s\"", WORDS_FILE_PATH), e);
         }
 
         return processedWordIds;
@@ -82,7 +77,7 @@ public class WordMigrator {
         allProcessedWordIds.addAll(wordIdsProcessedInBatch);
 
         Duration duration = Duration.between(start, end);
-        logService.info(
+        logger.info(
                 String.format("Created %d new words in %d ms; %d now processed in total", wordIdsProcessedInBatch.size(), duration.toMillis(), allProcessedWordIds.size()));
 
         wordsToAdd.clear();

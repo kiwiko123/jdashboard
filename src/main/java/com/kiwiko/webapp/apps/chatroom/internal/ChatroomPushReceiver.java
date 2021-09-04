@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.apps.chatroom.internal;
 
-import com.kiwiko.library.metrics.api.LogService;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.push.api.PushReceiver;
 import com.kiwiko.webapp.push.api.parameters.OnPushReceivedParameters;
 import com.kiwiko.webapp.push.data.PushServiceIdentifier;
@@ -9,7 +9,7 @@ import javax.inject.Inject;
 
 public class ChatroomPushReceiver implements PushReceiver {
 
-    @Inject private LogService logService;
+    @Inject private Logger logger;
 
     @Override
     public String getServiceId() {
@@ -18,6 +18,6 @@ public class ChatroomPushReceiver implements PushReceiver {
 
     @Override
     public void onPushReceived(OnPushReceivedParameters parameters) {
-        logService.debug(String.format("Chatroom received push \"%s\"", parameters.getMessage()));
+        logger.debug(String.format("Chatroom received push \"%s\"", parameters.getMessage()));
     }
 }

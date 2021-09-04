@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.push.impl;
 
-import com.kiwiko.library.metrics.api.LogService;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.mvc.json.api.JsonMapper;
 import com.kiwiko.webapp.push.api.PushService;
 import com.kiwiko.webapp.push.api.errors.ClientUnreachablePushException;
@@ -18,7 +18,7 @@ import java.io.IOException;
 abstract class TextWebSocketPushService implements PushService {
 
     @Inject private JsonMapper jsonMapper;
-    @Inject private LogService logService;
+    @Inject private Logger logger;
     @Inject private PushServiceSessionManager pushServiceSessionManager;
     @Inject private PushNotificationDeliveryService pushNotificationDeliveryService;
 

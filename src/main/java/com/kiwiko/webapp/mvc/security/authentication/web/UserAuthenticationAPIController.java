@@ -1,9 +1,8 @@
 package com.kiwiko.webapp.mvc.security.authentication.web;
 
-import com.kiwiko.library.metrics.api.LogService;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.mvc.json.api.ResponseBuilder;
 import com.kiwiko.webapp.mvc.json.data.ResponsePayload;
-import com.kiwiko.webapp.mvc.requests.api.annotations.RequestBodyParameter;
 import com.kiwiko.webapp.mvc.requests.data.RequestContext;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.CrossOriginConfigured;
 import com.kiwiko.webapp.mvc.security.authentication.api.dto.UserLoginParameters;
@@ -28,7 +27,7 @@ public class UserAuthenticationAPIController {
     @Inject private SessionService sessionService;
     @Inject private UserService userService;
     @Inject private UserAuthenticationEventClient userAuthenticationEventClient;
-    @Inject private LogService logService;
+    @Inject private Logger logger;
 
     @PostMapping("/user-auth/api/create")
     public ResponsePayload createUser(

@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.mvc.lifecycle.internal;
 
-import com.kiwiko.library.metrics.api.LogService;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.mvc.lifecycle.api.LifeCycleHook;
 import com.kiwiko.webapp.mvc.lifecycle.api.LifeCycleHookRegistry;
 import com.kiwiko.webapp.mvc.lifecycle.api.ShutdownHook;
@@ -17,7 +17,7 @@ public class LifeCycleHookRegistryHandler implements LifeCycleHookRegistry {
 
     private static final Set<LifeCycleHook> hooks = new HashSet<>();
 
-    @Inject private LogService logService;
+    @Inject private Logger logger;
 
     @Override
     public void register(LifeCycleHook hook) {

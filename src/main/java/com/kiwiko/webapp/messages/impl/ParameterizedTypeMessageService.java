@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.messages.impl;
 
-import com.kiwiko.library.metrics.api.LogService;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.messages.api.MessageService;
 import com.kiwiko.webapp.messages.api.queries.data.GetBetweenParameters;
 import com.kiwiko.webapp.messages.data.Message;
@@ -26,7 +26,7 @@ public abstract class ParameterizedTypeMessageService
     @Inject protected MessageEntityFieldMapper messageMapper;
     @Inject private MessageEntityDAO messageEntityDAO;
     @Inject private MessageServiceHelper messageServiceHelper;
-    @Inject private LogService logService;
+    @Inject private Logger logger;
 
     protected abstract MessageType getMessageType();
 
@@ -68,7 +68,7 @@ public abstract class ParameterizedTypeMessageService
             message.setMessageStatus(MessageStatus.SENT);
             result = create(message);
         } catch (Exception e) {
-            logService.error(String.format("Failed to send message %s", message.toString()), e);
+            logger.error(String.format("Failed to send message %s", message.toString()), e);
             result.setMessageStatus(MessageStatus.FAILURE);
         }
 

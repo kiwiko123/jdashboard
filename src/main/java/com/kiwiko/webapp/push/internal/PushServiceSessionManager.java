@@ -2,7 +2,7 @@ package com.kiwiko.webapp.push.internal;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import com.kiwiko.library.metrics.api.LogService;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -17,10 +17,10 @@ import java.util.Optional;
 public class PushServiceSessionManager {
     private static final BiMap<Long, WebSocketSession> userSessionMapping = HashBiMap.create();
 
-    @Inject private LogService logService;
+    @Inject private Logger logger;
 
     public void startSession(long userId, WebSocketSession session) {
-        logService.debug(
+        logger.debug(
                 String.format(
                     "Starting new push service session %s for user %d",
                     session.getId(),
@@ -50,7 +50,7 @@ public class PushServiceSessionManager {
         closeSession(session);
         Long userId = userSessionMapping.inverse().get(session);
         userSessionMapping.inverse().remove(session);
-        logService.debug(String.format("Ended push service session %s for user %d", session.getId(), userId));
+        logger.debug(String.format("Ended push service session %s for user %d", session.getId(), userId));
     }
 
     public void purge() {
@@ -65,7 +65,7 @@ public class PushServiceSessionManager {
         try {
             session.close(CloseStatus.NORMAL);
         } catch (IOException e) {
-            logService.error("Failed to close push session", e);
+            logger.error("Failed to close push session", e);
         }
     }
 }

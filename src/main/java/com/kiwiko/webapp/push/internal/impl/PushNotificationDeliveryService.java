@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.push.internal.impl;
 
-import com.kiwiko.library.metrics.api.LogService;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.notifications.api.NotificationService;
 import com.kiwiko.webapp.notifications.api.queries.GetNotificationsQuery;
 import com.kiwiko.webapp.notifications.data.Notification;
@@ -14,7 +14,7 @@ import javax.inject.Inject;
 public class PushNotificationDeliveryService extends PushServiceImpl {
 
     @Inject private NotificationService notificationService;
-    @Inject private LogService logService;
+    @Inject private Logger logger;
 
     @Override
     public String getServiceId() {
@@ -35,7 +35,7 @@ public class PushNotificationDeliveryService extends PushServiceImpl {
             try {
                 pushToClient(pushToClientParameters);
             } catch (Exception e) {
-                logService.error(
+                logger.error(
                         String.format("Error sending pending push notification %s", pushToClientParameters.toString()),
                         e);
             }

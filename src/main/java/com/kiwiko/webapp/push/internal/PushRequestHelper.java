@@ -1,10 +1,9 @@
 package com.kiwiko.webapp.push.internal;
 
-import com.kiwiko.library.metrics.api.LogService;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.mvc.json.api.JsonMapper;
 import com.kiwiko.webapp.mvc.json.api.errors.JsonException;
 import com.kiwiko.webapp.push.api.PushReceiver;
-import com.kiwiko.webapp.push.api.PushService;
 import com.kiwiko.webapp.push.api.errors.PushException;
 import com.kiwiko.webapp.push.api.parameters.OnPushReceivedParameters;
 import com.kiwiko.webapp.push.data.ClientPushRequest;
@@ -16,7 +15,7 @@ import javax.inject.Inject;
 public class PushRequestHelper {
 
     @Inject private JsonMapper jsonMapper;
-    @Inject private LogService logService;
+    @Inject private Logger logger;
 
     public ClientPushRequest deserializeClientPushRequest(String json) throws PushException {
         try {

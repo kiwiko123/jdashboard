@@ -1,7 +1,7 @@
 package com.kiwiko.webapp.mvc.security.sessions.internal;
 
 import com.kiwiko.library.lang.random.TokenGenerator;
-import com.kiwiko.library.metrics.api.LogService;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.mvc.security.sessions.api.SessionService;
 import com.kiwiko.webapp.mvc.security.sessions.api.errors.SessionException;
 import com.kiwiko.webapp.mvc.security.sessions.data.Session;
@@ -26,17 +26,10 @@ public class SessionEntityService implements SessionService {
 
     private static final int MAX_TOKEN_GENERATION_ATTEMPTS = 10;
 
-    @Inject
-    private SessionEntityDAO sessionEntityDAO;
-
-    @Inject
-    private SessionEntityMapper mapper;
-
-    @Inject
-    private TokenGenerator tokenHelper;
-
-    @Inject
-    private LogService logService;
+    @Inject private SessionEntityDAO sessionEntityDAO;
+    @Inject private SessionEntityMapper mapper;
+    @Inject private TokenGenerator tokenHelper;
+    @Inject private Logger logger;
 
     @Transactional
     @Override
@@ -129,7 +122,7 @@ public class SessionEntityService implements SessionService {
             isUniqueToken = !getByToken(token).isPresent();
 
             if (attempts > 1) {
-                logService.info(String.format("Attempt #%d to generate a unique session token", attempts));
+                logger.info(String.format("Attempt #%d to generate a unique session token", attempts));
             }
         }
 
@@ -149,6 +142,6 @@ public class SessionEntityService implements SessionService {
         entity.setEndTime(now);
 
         sessionEntityDAO.save(entity);
-        logService.debug(String.format("Invalidated session with ID %d for user ID %d", sessionId, entity.getUserId()));
+        logger.debug(String.format("Invalidated session with ID %d for user ID %d", sessionId, entity.getUserId()));
     }
 }

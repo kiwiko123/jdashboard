@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.mvc.interceptors.api;
 
-import com.kiwiko.library.metrics.api.LogService;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.mvc.interceptors.data.PostMethodContext;
 import com.kiwiko.webapp.mvc.interceptors.data.MethodContext;
 import org.aopalliance.intercept.MethodInterceptor;
@@ -10,8 +10,7 @@ import javax.inject.Inject;
 
 public abstract class ContextMethodInterceptor implements MethodInterceptor {
 
-    @Inject
-    protected LogService logService;
+    @Inject protected Logger logger;
 
     /**
      * Override this to execute any logic prior to the annotated method's execution.
@@ -47,7 +46,7 @@ public abstract class ContextMethodInterceptor implements MethodInterceptor {
         try {
             result = invocation.proceed();
         } catch (Exception e) {
-            logService.error("Intercepted method threw exception", e);
+            logger.error("Intercepted method threw exception", e);
             postContext = new PostMethodContext(invocation, null, e);
         }
 

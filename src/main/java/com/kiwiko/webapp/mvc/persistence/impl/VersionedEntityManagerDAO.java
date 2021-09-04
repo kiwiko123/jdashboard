@@ -1,7 +1,7 @@
 package com.kiwiko.webapp.mvc.persistence.impl;
 
 import com.kiwiko.library.lang.reflection.ReflectionHelper;
-import com.kiwiko.library.metrics.api.LogService;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.mvc.persistence.dataaccess.api.EntityManagerDAO;
 import com.kiwiko.library.persistence.dataAccess.api.PersistenceException;
 import com.kiwiko.library.persistence.dataAccess.api.versions.Version;
@@ -29,7 +29,7 @@ public abstract class VersionedEntityManagerDAO<T extends VersionedEntity> exten
     @Inject private JsonMapper jsonMapper;
     @Inject private VersionConverterHelper versionConverterHelper;
     @Inject private CurrentRequestService currentRequestService;
-    @Inject private LogService logService;
+    @Inject private Logger logger;
     private final ReflectionHelper reflectionHelper;
 
     protected VersionedEntityManagerDAO() {
@@ -42,7 +42,7 @@ public abstract class VersionedEntityManagerDAO<T extends VersionedEntity> exten
         try {
             recordVersion(entity);
         } catch (Exception e) {
-            logService.error(String.format("Error saving new version for entity %s", entity.toString()), e);
+            logger.error(String.format("Error saving new version for entity %s", entity.toString()), e);
             throw e; // TODO remove after this works
         }
 

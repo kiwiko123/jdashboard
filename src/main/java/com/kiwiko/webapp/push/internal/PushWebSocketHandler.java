@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.push.internal;
 
-import com.kiwiko.library.metrics.api.LogService;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.push.api.PushReceiverRegistry;
 import com.kiwiko.webapp.push.api.errors.PushException;
 import com.kiwiko.webapp.push.data.ClientPushRequest;
@@ -17,7 +17,7 @@ import java.util.Set;
 public class PushWebSocketHandler extends TextWebSocketHandler {
     private static final Set<CloseStatus> VALID_CLOSE_STATUSES = Set.of(CloseStatus.NORMAL, CloseStatus.NO_CLOSE_FRAME);
 
-    @Inject private LogService logService;
+    @Inject private Logger logger;
     @Inject private PushRequestHelper pushRequestHelper;
     @Inject private PushReceiverRegistry pushReceiverRegistry;
     @Inject private PushServiceSessionManager pushServiceSessionManager;
