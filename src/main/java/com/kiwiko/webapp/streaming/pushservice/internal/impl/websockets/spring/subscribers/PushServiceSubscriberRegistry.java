@@ -22,7 +22,7 @@ public class PushServiceSubscriberRegistry {
 
     public void register(RegisterPushServiceSubscriberParameters parameters) {
         Objects.requireNonNull(parameters.getServiceId(), "Service ID is required");
-        Objects.requireNonNull(parameters.getSubscriberType(), "Subscriber type is required");
+        Objects.requireNonNull(parameters.getPushServiceSubscriber(), "Push service subscriber is required");
         registrationParametersByServiceId.computeIfAbsent(parameters.getServiceId(), key -> new HashSet<>()).add(parameters);
     }
 
