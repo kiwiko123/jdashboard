@@ -104,7 +104,6 @@ CREATE TABLE table_record_versions (
 CREATE TABLE universal_unique_identifiers (
     id BIGSERIAL PRIMARY KEY,
     uuid TEXT UNIQUE NOT NULL,
-    referenced_table_name TEXT NOT NULL,
-    referenced_id BIGINT NOT NULL,
+    reference_key TEXT UNIQUE NOT NULL,
     created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );

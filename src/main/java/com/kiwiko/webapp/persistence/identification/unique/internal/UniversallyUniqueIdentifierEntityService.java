@@ -3,7 +3,6 @@ package com.kiwiko.webapp.persistence.identification.unique.internal;
 import com.kiwiko.webapp.mvc.persistence.transactions.api.interfaces.TransactionProvider;
 import com.kiwiko.webapp.persistence.identification.unique.api.dto.UniversalUniqueIdentifier;
 import com.kiwiko.webapp.persistence.identification.unique.api.interfaces.UniqueIdentifierService;
-import com.kiwiko.webapp.persistence.identification.unique.api.interfaces.parameters.GetIdentifierByReferenceParameters;
 import com.kiwiko.webapp.persistence.identification.unique.internal.data.UniversalUniqueIdentifierEntity;
 import com.kiwiko.webapp.persistence.identification.unique.internal.data.UniversalUniqueIdentifierEntityDataFetcher;
 import com.kiwiko.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
@@ -23,11 +22,8 @@ public class UniversallyUniqueIdentifierEntityService implements UniqueIdentifie
     @Inject private TransactionProvider transactionProvider;
 
     @Override
-    public Optional<UniversalUniqueIdentifier> getByReference(GetIdentifierByReferenceParameters parameters) {
-        Objects.requireNonNull(parameters.getReferencedTableName());
-        Objects.requireNonNull(parameters.getReferencedId());
-
-        return transactionProvider.readOnly(() -> dataFetcher.getByReference(parameters).map(mapper::toDto));
+    public Optional<UniversalUniqueIdentifier> getByReferenceKey(String referenceKey) {
+        return dataFetcher.getByReferenceKey(referenceKey).map(mapper::toDto);
     }
 
     @Override
@@ -38,8 +34,7 @@ public class UniversallyUniqueIdentifierEntityService implements UniqueIdentifie
 
     @Override
     public UniversalUniqueIdentifier create(UniversalUniqueIdentifier identifier) {
-        Objects.requireNonNull(identifier.getReferencedTableName(), "Referenced table is required to link a UUID");
-        Objects.requireNonNull(identifier.getReferencedId(), "Referenced ID is required to link a UUID");
+        Objects.requireNonNull(identifier.getReferenceKey(), "Reference key is required to link a UUID");
         String uuid = uuidGenerator.generate();
 
         return transactionProvider.readWrite(() -> {

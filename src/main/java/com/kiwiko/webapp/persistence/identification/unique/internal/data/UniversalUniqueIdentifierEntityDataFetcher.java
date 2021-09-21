@@ -1,7 +1,6 @@
 package com.kiwiko.webapp.persistence.identification.unique.internal.data;
 
 import com.kiwiko.webapp.persistence.data.fetchers.api.interfaces.EntityDataFetcher;
-import com.kiwiko.webapp.persistence.identification.unique.api.interfaces.parameters.GetIdentifierByReferenceParameters;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -11,15 +10,13 @@ import java.util.Optional;
 
 public class UniversalUniqueIdentifierEntityDataFetcher extends EntityDataFetcher<UniversalUniqueIdentifierEntity> {
 
-     public Optional<UniversalUniqueIdentifierEntity> getByReference(GetIdentifierByReferenceParameters parameters) {
+     public Optional<UniversalUniqueIdentifierEntity> getByReferenceKey(String referenceKey) {
          CriteriaBuilder builder = getCriteriaBuilder();
          CriteriaQuery<UniversalUniqueIdentifierEntity> query = builder.createQuery(entityType);
          Root<UniversalUniqueIdentifierEntity> root = query.from(entityType);
 
-         Predicate isReferencedTableName = builder.equal(root.get("referencedTableName"), parameters.getReferencedTableName());
-         Predicate isReferencedId = builder.equal(root.get("referencedId"), parameters.getReferencedId());
-
-         query.where(isReferencedTableName, isReferencedId);
+         Predicate isReferenceKey = builder.equal(root.get("referenceKey"), referenceKey);
+         query.where(isReferenceKey);
 
          return getSingleResult(query);
      }

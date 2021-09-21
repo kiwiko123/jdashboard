@@ -9,6 +9,7 @@ import com.kiwiko.webapp.featureflags.api.interfaces.FeatureFlagService;
 
 import javax.inject.Inject;
 import java.time.Instant;
+import java.util.Objects;
 
 public class UuidGenerator {
     private static final int UUID_SECTION_COUNT = 5;
@@ -20,10 +21,11 @@ public class UuidGenerator {
     @Inject private Logger logger;
 
     public String generate() {
-        String timestampId = Long.toString(Instant.now().getEpochSecond());
+        String timestampId = Instant.now().toString();
+        timestampId = Integer.toString(Objects.hash(timestampId));
         final int uuidLength = getUuidLength();
 
-        StringBuilder uuid = new StringBuilder(timestampId);
+        StringBuilder uuid = new StringBuilder(String.format("U%s", timestampId));
 
         while (uuid.length() < uuidLength) {
             String token = generateSection(UUID_SECTION_LENGTH);

@@ -7,8 +7,7 @@ import java.time.Instant;
 public class UniversalUniqueIdentifier extends DataEntityDTO {
 
     private String uuid;
-    private String referencedTableName;
-    private Long referencedId;
+    private String referenceKey;
     private Instant createdDate;
 
     public String getUuid() {
@@ -19,20 +18,12 @@ public class UniversalUniqueIdentifier extends DataEntityDTO {
         this.uuid = uuid;
     }
 
-    public String getReferencedTableName() {
-        return referencedTableName;
+    public String getReferenceKey() {
+        return referenceKey;
     }
 
-    public void setReferencedTableName(String referencedTableName) {
-        this.referencedTableName = referencedTableName;
-    }
-
-    public Long getReferencedId() {
-        return referencedId;
-    }
-
-    public void setReferencedId(Long referencedId) {
-        this.referencedId = referencedId;
+    public void setReferenceKey(String referenceKey) {
+        this.referenceKey = referenceKey;
     }
 
     public Instant getCreatedDate() {

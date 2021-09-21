@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.inject.Inject;
 
 @RestController
-@RequestMapping("/universal-unique-identifiers/api")
+@RequestMapping("/uuids/api")
 public class UniversalUniqueIdentifierAPIController {
 
     @Inject private UniqueIdentifierService uniqueIdentifierService;

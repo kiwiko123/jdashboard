@@ -16,8 +16,7 @@ public class UniversalUniqueIdentifierEntity implements DataEntity {
 
     private Long id;
     private String uuid;
-    private String referencedTableName;
-    private Long referencedId;
+    private String referenceKey;
     private Instant createdDate;
 
     @Id
@@ -32,7 +31,7 @@ public class UniversalUniqueIdentifierEntity implements DataEntity {
         this.id = id;
     }
 
-    @Column(name = "uuid", unique = true, nullable = false)
+    @Column(name = "uuid", nullable = false, unique = true)
     public String getUuid() {
         return uuid;
     }
@@ -41,22 +40,13 @@ public class UniversalUniqueIdentifierEntity implements DataEntity {
         this.uuid = uuid;
     }
 
-    @Column(name = "referenced_table_name", nullable = false)
-    public String getReferencedTableName() {
-        return referencedTableName;
+    @Column(name = "reference_key", nullable = false, unique = true)
+    public String getReferenceKey() {
+        return referenceKey;
     }
 
-    public void setReferencedTableName(String referencedTableName) {
-        this.referencedTableName = referencedTableName;
-    }
-
-    @Column(name = "referenced_id", nullable = false)
-    public Long getReferencedId() {
-        return referencedId;
-    }
-
-    public void setReferencedId(Long referencedId) {
-        this.referencedId = referencedId;
+    public void setReferenceKey(String referenceKey) {
+        this.referenceKey = referenceKey;
     }
 
     @Column(name = "created_date", nullable = false)
