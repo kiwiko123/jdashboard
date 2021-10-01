@@ -46,13 +46,6 @@ export function makeQuickLinkButtonSettings() {
             shouldShow: () => true,
         },
         {
-            id: 'chatroom',
-            label: 'Chatroom',
-            url: '/chatroom',
-            icon: 'fas fa-comments',
-            shouldShow: () => true,
-        },
-        {
             id: 'scrabble',
             label: 'Scrabble',
             url: '/scrabble/play',

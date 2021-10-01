@@ -4,7 +4,6 @@ import CreateAccountPage from './accounts/create/CreateAccountPage';
 import LoginPage from './accounts/pages/LoginPage';
 import ScrabblePlayPage from './scrabble/pages/ScrabblePlayPage';
 import PazaakPlayPage from 'pazaak/PazaakPlayPage';
-import ChatroomPage from './chatroom/pages/ChatroomPage';
 import NotFoundPage from './dashboard/pages/NotFoundPage';
 
 const ROUTES = [
@@ -32,11 +31,6 @@ const ROUTES = [
         id: 'featureFlags',
         path: '/admin/feature-flags',
         component: FeatureFlagPage,
-    },
-    {
-        id: 'chatroom',
-        path: '/chatroom',
-        component: ChatroomPage,
     },
     {
         id: 'pazaakPlay',
