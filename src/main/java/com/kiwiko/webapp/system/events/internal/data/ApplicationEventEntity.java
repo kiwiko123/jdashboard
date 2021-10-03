@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.system.events.internal.data;
 
-import com.kiwiko.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
 
 import javax.annotation.Nullable;
 import javax.persistence.Column;
@@ -13,11 +13,12 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "application_events")
-public class ApplicationEventEntity implements DataEntity {
+public class ApplicationEventEntity implements SoftDeletableDataEntity {
     private Long id;
     private String eventType;
     private @Nullable String eventKey;
     private @Nullable String metadata;
+    private boolean isRemoved;
     private Instant createdDate;
 
     @Id
@@ -59,6 +60,17 @@ public class ApplicationEventEntity implements DataEntity {
 
     public void setMetadata(@Nullable String metadata) {
         this.metadata = metadata;
+    }
+
+    @Override
+    @Column(name = "is_removed", nullable = false)
+    public boolean getIsRemoved() {
+        return isRemoved;
+    }
+
+    @Override
+    public void setIsRemoved(boolean isRemoved) {
+        this.isRemoved = isRemoved;
     }
 
     @Column(name = "created_date", nullable = false)

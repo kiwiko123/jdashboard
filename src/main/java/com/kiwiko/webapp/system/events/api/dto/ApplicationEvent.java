@@ -15,6 +15,7 @@ public class ApplicationEvent extends DataEntityDTO {
     private String eventType;
     private @Nullable String eventKey;
     private @Nullable String metadata;
+    private boolean isRemoved;
     private Instant createdDate;
 
     public String getEventType() {
@@ -41,6 +42,14 @@ public class ApplicationEvent extends DataEntityDTO {
         this.metadata = metadata;
     }
 
+    public boolean getIsRemoved() {
+        return isRemoved;
+    }
+
+    public void setIsRemoved(boolean isRemoved) {
+        this.isRemoved = isRemoved;
+    }
+
     public Instant getCreatedDate() {
         return createdDate;
     }
@@ -64,6 +73,11 @@ public class ApplicationEvent extends DataEntityDTO {
 
         public Builder setMetadata(String metadata) {
             event.setMetadata(metadata);
+            return this;
+        }
+
+        public Builder setIsRemoved(boolean isRemoved) {
+            event.isRemoved = isRemoved;
             return this;
         }
 
