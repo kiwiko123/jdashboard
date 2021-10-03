@@ -15,7 +15,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.function.Consumer;
 
-public class MemoryManageableJdashboardPropertyFileReader implements JdashboardPropertyReader {
+public class InMemoryJdashboardPropertyFileReader implements JdashboardPropertyReader {
 
     @Inject private JdashboardPropertyFileNormalizer propertyFileParser;
     @Inject private JdashboardPropertyFileIdentifier propertyFileIdentifier;
@@ -25,12 +25,12 @@ public class MemoryManageableJdashboardPropertyFileReader implements JdashboardP
     /**
      * Don't create a logger through dependency injection because the default logger implementation reads the properties file.
      * Otherwise, it will be a circular dependency.
-     * 
+     *
      * @see com.kiwiko.webapp.monitoring.logging.impl.ConfigurationLogger
      */
     private Logger logger;
 
-    public MemoryManageableJdashboardPropertyFileReader() {
+    public InMemoryJdashboardPropertyFileReader() {
         properties = new Properties<>();
         logger = new ConsoleLogger();
     }

@@ -5,7 +5,7 @@ import com.kiwiko.webapp.mvc.application.properties.api.interfaces.JdashboardPro
 import com.kiwiko.webapp.mvc.application.properties.api.interfaces.JdashboardPropertyReader;
 import com.kiwiko.webapp.mvc.application.properties.internal.JdashboardPropertyFileIdentifier;
 import com.kiwiko.webapp.mvc.application.properties.internal.JdashboardPropertyFileNormalizer;
-import com.kiwiko.webapp.mvc.application.properties.internal.MemoryManageableJdashboardPropertyFileReader;
+import com.kiwiko.webapp.mvc.application.properties.internal.InMemoryJdashboardPropertyFileReader;
 import com.kiwiko.webapp.mvc.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.webapp.mvc.security.environments.EnvironmentConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +19,7 @@ public class PropertiesConfiguration {
     @Bean
     @ConfiguredBy(LoggingConfiguration.class)
     public JdashboardPropertyReader jdashboardPropertyFileReader() {
-        return new MemoryManageableJdashboardPropertyFileReader();
+        return new InMemoryJdashboardPropertyFileReader();
     }
 
     @Bean
