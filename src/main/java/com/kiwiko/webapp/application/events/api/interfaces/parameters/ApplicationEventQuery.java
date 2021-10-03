@@ -1,9 +1,11 @@
-package com.kiwiko.webapp.system.events.api.interfaces.parameters;
+package com.kiwiko.webapp.application.events.api.interfaces.parameters;
+
+import com.kiwiko.webapp.application.events.api.dto.ApplicationEvent;
 
 import javax.annotation.Nullable;
 
 /**
- * Query parameters for fetching {@link com.kiwiko.webapp.system.events.api.dto.ApplicationEvent}s from the database.
+ * Query parameters for fetching {@link ApplicationEvent}s from the database.
  * Specified parameters are "and"-ed together in the query.
  */
 public class ApplicationEventQuery {

@@ -1,13 +1,13 @@
-package com.kiwiko.webapp.system.events.internal;
+package com.kiwiko.webapp.application.events.internal;
 
+import com.kiwiko.webapp.application.events.internal.data.ApplicationEventEntity;
+import com.kiwiko.webapp.application.events.internal.data.ApplicationEventEntityDataFetcher;
+import com.kiwiko.webapp.application.events.internal.mappers.ApplicationEventEntityMapper;
 import com.kiwiko.webapp.mvc.persistence.transactions.api.interfaces.TransactionProvider;
 import com.kiwiko.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
-import com.kiwiko.webapp.system.events.api.interfaces.ApplicationEventService;
-import com.kiwiko.webapp.system.events.api.interfaces.parameters.ApplicationEventQuery;
-import com.kiwiko.webapp.system.events.api.dto.ApplicationEvent;
-import com.kiwiko.webapp.system.events.internal.data.ApplicationEventEntity;
-import com.kiwiko.webapp.system.events.internal.data.ApplicationEventEntityDataFetcher;
-import com.kiwiko.webapp.system.events.internal.mappers.ApplicationEventEntityMapper;
+import com.kiwiko.webapp.application.events.api.interfaces.ApplicationEventService;
+import com.kiwiko.webapp.application.events.api.interfaces.parameters.ApplicationEventQuery;
+import com.kiwiko.webapp.application.events.api.dto.ApplicationEvent;
 
 import javax.inject.Inject;
 import java.time.Instant;

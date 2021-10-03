@@ -5,8 +5,8 @@ import com.kiwiko.library.http.client.dto.RequestHeader;
 import com.kiwiko.library.lang.random.TokenGenerator;
 import com.kiwiko.webapp.mvc.security.authentication.http.api.InternalHttpRequestValidator;
 import com.kiwiko.webapp.mvc.security.authentication.http.api.errors.UnauthorizedInternalRequestException;
-import com.kiwiko.webapp.system.events.api.dto.ApplicationEvent;
-import com.kiwiko.webapp.system.events.api.interfaces.ApplicationEventService;
+import com.kiwiko.webapp.application.events.api.dto.ApplicationEvent;
+import com.kiwiko.webapp.application.events.api.interfaces.ApplicationEventService;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;

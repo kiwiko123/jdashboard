@@ -1,4 +1,4 @@
-package com.kiwiko.webapp.system.events.internal.data;
+package com.kiwiko.webapp.application.events.internal.data;
 
 import com.kiwiko.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
 

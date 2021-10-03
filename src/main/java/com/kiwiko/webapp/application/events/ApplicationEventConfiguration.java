@@ -1,9 +1,9 @@
-package com.kiwiko.webapp.system.events;
+package com.kiwiko.webapp.application.events;
 
-import com.kiwiko.webapp.system.events.api.interfaces.ApplicationEventService;
-import com.kiwiko.webapp.system.events.internal.ApplicationEventEntityService;
-import com.kiwiko.webapp.system.events.internal.data.ApplicationEventEntityDataFetcher;
-import com.kiwiko.webapp.system.events.internal.mappers.ApplicationEventEntityMapper;
+import com.kiwiko.webapp.application.events.api.interfaces.ApplicationEventService;
+import com.kiwiko.webapp.application.events.internal.ApplicationEventEntityService;
+import com.kiwiko.webapp.application.events.internal.data.ApplicationEventEntityDataFetcher;
+import com.kiwiko.webapp.application.events.internal.mappers.ApplicationEventEntityMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

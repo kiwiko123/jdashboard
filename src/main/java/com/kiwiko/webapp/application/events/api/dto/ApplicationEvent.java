@@ -1,4 +1,4 @@
-package com.kiwiko.webapp.system.events.api.dto;
+package com.kiwiko.webapp.application.events.api.dto;
 
 import com.kiwiko.library.persistence.data.api.interfaces.DataEntityDTO;
 

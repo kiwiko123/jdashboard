@@ -1,7 +1,7 @@
-package com.kiwiko.webapp.system.events.internal.data;
+package com.kiwiko.webapp.application.events.internal.data;
 
 import com.kiwiko.webapp.persistence.data.fetchers.api.interfaces.EntityDataFetcher;
-import com.kiwiko.webapp.system.events.api.interfaces.parameters.ApplicationEventQuery;
+import com.kiwiko.webapp.application.events.api.interfaces.parameters.ApplicationEventQuery;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;

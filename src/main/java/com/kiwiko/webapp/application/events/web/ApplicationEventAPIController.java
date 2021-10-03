@@ -1,10 +1,10 @@
-package com.kiwiko.webapp.system.events.web;
+package com.kiwiko.webapp.application.events.web;
 
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.AuthenticationLevel;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.AuthenticationRequired;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.CrossOriginConfigured;
-import com.kiwiko.webapp.system.events.api.interfaces.ApplicationEventService;
-import com.kiwiko.webapp.system.events.api.dto.ApplicationEvent;
+import com.kiwiko.webapp.application.events.api.interfaces.ApplicationEventService;
+import com.kiwiko.webapp.application.events.api.dto.ApplicationEvent;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;

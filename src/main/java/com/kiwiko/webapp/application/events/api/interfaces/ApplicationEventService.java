@@ -1,7 +1,7 @@
-package com.kiwiko.webapp.system.events.api.interfaces;
+package com.kiwiko.webapp.application.events.api.interfaces;
 
-import com.kiwiko.webapp.system.events.api.interfaces.parameters.ApplicationEventQuery;
-import com.kiwiko.webapp.system.events.api.dto.ApplicationEvent;
+import com.kiwiko.webapp.application.events.api.interfaces.parameters.ApplicationEventQuery;
+import com.kiwiko.webapp.application.events.api.dto.ApplicationEvent;
 
 import java.util.Optional;
 import java.util.Set;
