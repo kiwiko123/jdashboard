@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
 public class ApplicationEventQuery {
     private String eventType;
     private @Nullable String eventKey;
+    private @Nullable Boolean isRemoved;
 
     public ApplicationEventQuery(String eventType) {
         this.eventType = eventType;
@@ -33,5 +34,14 @@ public class ApplicationEventQuery {
     public ApplicationEventQuery setEventKey(@Nullable String eventKey) {
         this.eventKey = eventKey;
         return this;
+    }
+
+    @Nullable
+    public Boolean getIsRemoved() {
+        return isRemoved;
+    }
+
+    public void setIsRemoved(@Nullable Boolean isRemoved) {
+        this.isRemoved = isRemoved;
     }
 }

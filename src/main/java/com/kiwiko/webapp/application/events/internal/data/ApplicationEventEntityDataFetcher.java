@@ -26,6 +26,36 @@ public class ApplicationEventEntityDataFetcher extends EntityDataFetcher<Applica
             allCriteria = builder.and(allCriteria, hasEventKey);
         }
 
+        if (queryParameters.getIsRemoved() != null) {
+            Expression<Boolean> isRemovedField = root.get("isRemoved");
+            Predicate isRemoved = builder.equal(isRemovedField, queryParameters.getIsRemoved());
+            allCriteria = builder.and(allCriteria, isRemoved);
+        }
+
+        query.where(allCriteria);
+        return createQuery(query).getResultList();
+    }
+
+    public List<ApplicationEventEntity> getByQueryLike(ApplicationEventQuery queryParameters) {
+        CriteriaBuilder builder = getCriteriaBuilder();
+        CriteriaQuery<ApplicationEventEntity> query = builder.createQuery(entityType);
+        Root<ApplicationEventEntity> root = query.from(entityType);
+
+        Expression<String> eventTypeField = root.get("eventType");
+        Predicate allCriteria = builder.like(eventTypeField, queryParameters.getEventType());
+
+        if (queryParameters.getEventKey() != null) {
+            Expression<String> eventKeyField = root.get("eventKey");
+            Predicate hasEventKey = builder.equal(eventKeyField, queryParameters.getEventKey());
+            allCriteria = builder.and(allCriteria, hasEventKey);
+        }
+
+        if (queryParameters.getIsRemoved() != null) {
+            Expression<Boolean> isRemovedField = root.get("isRemoved");
+            Predicate isRemoved = builder.equal(isRemovedField, queryParameters.getIsRemoved());
+            allCriteria = builder.and(allCriteria, isRemoved);
+        }
+
         query.where(allCriteria);
         return createQuery(query).getResultList();
     }

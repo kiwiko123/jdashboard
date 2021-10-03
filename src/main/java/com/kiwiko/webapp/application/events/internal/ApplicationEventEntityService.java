@@ -37,6 +37,14 @@ public class ApplicationEventEntityService implements ApplicationEventService {
     }
 
     @Override
+    public Set<ApplicationEvent> queryLike(ApplicationEventQuery query) {
+        Objects.requireNonNull(query.getEventType(), "Event type is required");
+        return transactionProvider.readOnly(() -> applicationEventEntityDataFetcher.getByQueryLike(query).stream()
+                .map(applicationEventEntityMapper::toDto)
+                .collect(Collectors.toSet()));
+    }
+
+    @Override
     public ApplicationEvent create(ApplicationEvent event) {
         ApplicationEventEntity entityToCreate = applicationEventEntityMapper.toEntity(event);
         entityToCreate.setCreatedDate(Instant.now());
@@ -45,5 +53,15 @@ public class ApplicationEventEntityService implements ApplicationEventService {
             ApplicationEventEntity createdEntity = applicationEventEntityDataFetcher.save(entityToCreate);
             return applicationEventEntityMapper.toDto(createdEntity);
         });
+    }
+
+    @Override
+    public ApplicationEvent update(ApplicationEvent event) {
+        return crudExecutor.update(event, applicationEventEntityDataFetcher, applicationEventEntityMapper);
+    }
+
+    @Override
+    public ApplicationEvent merge(ApplicationEvent event) {
+        return crudExecutor.merge(event, applicationEventEntityDataFetcher, applicationEventEntityMapper);
     }
 }

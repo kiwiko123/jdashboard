@@ -1,8 +1,8 @@
 package com.kiwiko.webapp.application.events.web;
 
+import com.kiwiko.webapp.mvc.controllers.api.interfaces.JdashboardConfigured;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.AuthenticationLevel;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.AuthenticationRequired;
-import com.kiwiko.webapp.mvc.security.authentication.api.annotations.CrossOriginConfigured;
 import com.kiwiko.webapp.application.events.api.interfaces.ApplicationEventService;
 import com.kiwiko.webapp.application.events.api.dto.ApplicationEvent;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.inject.Inject;
 
 @RestController
-@CrossOriginConfigured
+@JdashboardConfigured
 @AuthenticationRequired(levels = AuthenticationLevel.AUTHENTICATED)
 public class ApplicationEventAPIController {
 

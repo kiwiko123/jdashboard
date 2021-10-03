@@ -11,6 +11,11 @@ public interface ApplicationEventService {
     Optional<ApplicationEvent> get(long id);
 
     Set<ApplicationEvent> query(ApplicationEventQuery query);
+    Set<ApplicationEvent> queryLike(ApplicationEventQuery query);
 
     ApplicationEvent create(ApplicationEvent event);
+
+    ApplicationEvent update(ApplicationEvent event);
+
+    ApplicationEvent merge(ApplicationEvent event);
 }
