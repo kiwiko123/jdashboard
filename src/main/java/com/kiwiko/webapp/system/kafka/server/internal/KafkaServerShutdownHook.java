@@ -10,6 +10,11 @@ public class KafkaServerShutdownHook implements ShutdownHook {
     @Inject private KafkaServerService kafkaServerService;
 
     @Override
+    public boolean isEnabled() {
+        return kafkaServerService.shouldAutoStartServers();
+    }
+
+    @Override
     public void run() {
         kafkaServerService.stopServer();
     }

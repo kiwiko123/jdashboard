@@ -10,6 +10,11 @@ public class KafkaServerStartupHook implements StartupHook {
     @Inject private KafkaServerService kafkaServerService;
 
     @Override
+    public boolean isEnabled() {
+        return kafkaServerService.shouldAutoStartServers();
+    }
+
+    @Override
     public void run() {
         // TODO delete "logs" folder
         kafkaServerService.startServer();

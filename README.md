@@ -51,6 +51,32 @@ Re-create the database artifacts by copying the contents of [`schema.sql`](./src
 [`indexes.sql`](./src/main/resources/sql/indexes.sql) into the Postgres shell and running them, in that order. 
 Exit the shell with `\q`.
 
+### Apache Kafka
+Download Kafka at https://kafka.apache.org/quickstart. Jdashboard is currently using version `2.13-3.0.0`.
+This will download a tarball; extract it and move the resulting directory to the Jdashboard project root. 
+The directory name should be something like `kafka_2.13-3.0.0`.
+
+#### Start the Kafka environment
+You can start the Kafka environment manually or automatically.
+
+##### Manually
+To manually start the Kafka environment, change into the Kafka directory and run the following (as separate processes / in separate terminal tabs):
+```shell
+$ bin/zookeeper-server-start.sh config/zookeeper.properties
+```
+
+```shell
+$ bin/kafka-server-start.sh config/server.properties
+```
+
+##### Automatically
+Alternatively, you can automatically start the Kafka environment when the Jdashboard web application starts up. 
+To do this, simply open the file `jdashboard-config-dev.properties` and set the property `kafka.auto_start_servers` to `true`. 
+The line should look like this:
+```
+kafka.auto_start_servers=true
+```
+
 ### React
 #### NPM dependencies
 Run the script [`setup.sh`](./react/docs/setup.sh) to install all required NPM dependencies:

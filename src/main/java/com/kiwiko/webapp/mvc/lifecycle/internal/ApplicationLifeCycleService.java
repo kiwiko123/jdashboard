@@ -10,6 +10,7 @@ import com.kiwiko.webapp.mvc.lifecycle.api.StartupHook;
 import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ApplicationLifeCycleService implements LifeCycleService {
 
@@ -47,13 +48,18 @@ public class ApplicationLifeCycleService implements LifeCycleService {
     }
 
     private <Hook extends LifeCycleHook> void sandboxRunHooks(Collection<Hook> hooks, String type) {
-        if (hooks.isEmpty()) {
+        Collection<Hook> eligibleHooks = hooks.stream()
+                .filter(Hook::isEnabled)
+                .collect(Collectors.toUnmodifiableList());
+
+        if (eligibleHooks.isEmpty()) {
             return;
         }
-        int numberOfHooks = hooks.size();
+
+        int numberOfHooks = eligibleHooks.size();
         String hooksModifierWord = numberOfHooks == 1 ? "hook" : "hooks";
         logger.info(String.format("Beginning %d %s %s", numberOfHooks, type, hooksModifierWord));
-        hooks.forEach(this::sandboxRunHook);
+        eligibleHooks.forEach(this::sandboxRunHook);
         logger.info(String.format("Completed %d %s", numberOfHooks, hooksModifierWord));
     }
 }

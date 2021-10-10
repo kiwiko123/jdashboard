@@ -5,4 +5,6 @@ public interface KafkaServerService {
     void startServer();
 
     void stopServer();
+
+    boolean shouldAutoStartServers();
 }

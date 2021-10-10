@@ -1,6 +1,9 @@
 package com.kiwiko.webapp.system.kafka.server.internal;
 
+import com.kiwiko.library.files.properties.readers.api.dto.Property;
 import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.webapp.mvc.application.properties.api.interfaces.JdashboardPropertyConstants;
+import com.kiwiko.webapp.mvc.application.properties.api.interfaces.JdashboardPropertyReader;
 import com.kiwiko.webapp.system.kafka.server.api.KafkaServerService;
 
 import javax.annotation.Nullable;
@@ -8,13 +11,24 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 @Singleton
 public class ProcessBuilderKafkaServerService implements KafkaServerService {
 
+    @Inject private JdashboardPropertyReader jdashboardPropertyReader;
+    @Inject private Logger logger;
+
     private @Nullable Process zookeeperProcess;
     private @Nullable Process kafkaServerProcess;
-    @Inject private Logger logger;
+
+    @Override
+    public boolean shouldAutoStartServers() {
+        return Optional.ofNullable(jdashboardPropertyReader.get(JdashboardPropertyConstants.KAFKA_AUTO_START_SERVERS))
+                .map(Property::getValue)
+                .map(Boolean::parseBoolean)
+                .orElse(false);
+    }
 
     @Override
     public void startServer() {
