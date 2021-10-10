@@ -25,7 +25,10 @@ public class DependencyLifecycleHookRegistry implements LifeCycleHookRegistry {
 
     @Override
     public Set<StartupHook> getStartupHooks() {
-        return Set.of(subscribePushServicesCreator, kafkaServerStartupHook);
+        return Set.of(
+                subscribePushServicesCreator
+//                kafkaServerStartupHook
+                );
     }
 
     @Override

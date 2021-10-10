@@ -11,6 +11,7 @@ public class KafkaServerStartupHook implements StartupHook {
 
     @Override
     public void run() {
+        // TODO delete "logs" folder
         kafkaServerService.startServer();
     }
 }
