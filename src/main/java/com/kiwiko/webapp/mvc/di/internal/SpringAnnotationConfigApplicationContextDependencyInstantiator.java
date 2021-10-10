@@ -15,8 +15,8 @@ public class SpringAnnotationConfigApplicationContextDependencyInstantiator impl
     @Inject private ConfigurationResolver configurationResolver;
 
     @Override
-    public <T> T instantiateDependency(Class<T> clazz) throws DependencyInstantiationException {
-        Set<Class<?>> configurationTypes = configurationResolver.getConfigurations(clazz);
+    public <T> T instantiateDependency(Class<T> clazz, Class<?> configurationType) throws DependencyInstantiationException {
+        Set<Class<?>> configurationTypes = configurationResolver.getConfigurations(configurationType);
         Class<?>[] configurationTypesArray = new Class[configurationTypes.size()];
         configurationTypes.toArray(configurationTypesArray);
 

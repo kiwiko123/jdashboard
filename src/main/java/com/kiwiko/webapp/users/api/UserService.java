@@ -1,5 +1,6 @@
 package com.kiwiko.webapp.users.api;
 
+import com.kiwiko.webapp.mvc.security.authentication.api.dto.UserLoginParameters;
 import com.kiwiko.webapp.users.api.parameters.CreateUserParameters;
 import com.kiwiko.webapp.users.data.User;
 import com.kiwiko.webapp.clients.users.api.parameters.GetUsersQuery;
@@ -19,9 +20,11 @@ public interface UserService {
 
     Optional<User> getByEmailAddress(String emailAddress);
 
-    Optional<User> getWithValidation(String username, String password);
+    Optional<User> getByLoginParameters(UserLoginParameters parameters);
 
     List<User> getByQuery(GetUsersQuery query);
 
     User create(CreateUserParameters parameters);
+
+    User merge(User user);
 }

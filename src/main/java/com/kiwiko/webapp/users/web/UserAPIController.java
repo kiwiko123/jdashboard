@@ -12,25 +12,23 @@ import com.kiwiko.webapp.users.api.parameters.CreateUserParameters;
 import com.kiwiko.webapp.users.data.User;
 import com.kiwiko.webapp.clients.users.api.parameters.GetUsersQuery;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import java.util.List;
 
 @CrossOrigin(origins = EnvironmentProperties.CROSS_ORIGIN_URL)
-@RestController
+@Controller
 public class UserAPIController {
 
     @Inject private UserService userService;
     @Inject private JsonSerializer jsonSerializer;
 
     @GetMapping("/users/api/{userId}")
-    public ResponsePayload getUser(@PathVariable(name = "userId") long userId) {
-        User user = userService.getById(userId).orElse(null);
-
-        return new ResponseBuilder()
-                .withBody(user)
-                .build();
+    @ResponseBody
+    public User getUser(@PathVariable(name = "userId") long userId) {
+        return userService.getById(userId).orElse(null);
     }
 
     @AuthenticationRequired(levels = AuthenticationLevel.INTERNAL_SERVICE)
@@ -56,5 +54,15 @@ public class UserAPIController {
         return new ResponseBuilder()
                 .withBody(result)
                 .build();
+    }
+
+    @PatchMapping("/users/api/{userId}")
+    @AuthenticationRequired(levels = AuthenticationLevel.AUTHENTICATED)
+    @ResponseBody
+    public User mergeUser(
+            @PathVariable("userId") Long userId,
+            @RequestBody User user) {
+        user.setId(userId);
+        return userService.merge(user);
     }
 }

@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class PropertyFileParser {
 
-    private static final Pattern EQUALS_PATTERN = Pattern.compile("^(?<name>\\w+)=(?<value>.*)$");
+    private static final Pattern EQUALS_PATTERN = Pattern.compile("^(?<name>[\\w.]+)=(?<value>.*)$");
 
     public Property<String> parseEquals(String line) {
         Matcher matcher = EQUALS_PATTERN.matcher(line);

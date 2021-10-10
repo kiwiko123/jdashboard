@@ -1,11 +1,13 @@
 package com.kiwiko.webapp.featureflags;
 
+import com.kiwiko.webapp.featureflags.api.interfaces.FeatureFlagEventClient;
 import com.kiwiko.webapp.featureflags.api.interfaces.FeatureFlagResolver;
 import com.kiwiko.webapp.featureflags.api.interfaces.FeatureFlagService;
+import com.kiwiko.webapp.featureflags.internal.events.ApplicationEventFeatureFlagEventClient;
 import com.kiwiko.webapp.featureflags.internal.FeatureFlagEntityMapper;
+import com.kiwiko.webapp.featureflags.internal.FeatureFlagEntityService;
 import com.kiwiko.webapp.featureflags.internal.FeatureFlagServiceResolver;
-import com.kiwiko.webapp.featureflags.internal.HybridFeatureFlagService;
-import com.kiwiko.webapp.featureflags.internal.data.FeatureFlagEntityDAO;
+import com.kiwiko.webapp.featureflags.internal.data.FeatureFlagEntityDataFetcher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -16,12 +18,12 @@ public class FeatureFlagConfiguration {
 
     @Bean
     public FeatureFlagService featureFlagService() {
-        return new HybridFeatureFlagService();
+        return new FeatureFlagEntityService();
     }
 
     @Bean
-    public FeatureFlagEntityDAO featureFlagEntityDAO() {
-        return new FeatureFlagEntityDAO();
+    public FeatureFlagEntityDataFetcher featureFlagEntityDAO() {
+        return new FeatureFlagEntityDataFetcher();
     }
 
     @Bean
@@ -32,5 +34,10 @@ public class FeatureFlagConfiguration {
     @Bean
     public FeatureFlagResolver featureFlagResolver() {
         return new FeatureFlagServiceResolver();
+    }
+
+    @Bean
+    public FeatureFlagEventClient featureFlagEventClient() {
+        return new ApplicationEventFeatureFlagEventClient();
     }
 }

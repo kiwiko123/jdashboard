@@ -1,7 +1,7 @@
 CREATE TABLE users (
     user_id BIGSERIAL PRIMARY KEY,
     username TEXT UNIQUE NOT NULL,
-    email_address TEXT UNIQUE,
+    email_address TEXT,
     encrypted_password TEXT NOT NULL,
     first_name TEXT,
     created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
@@ -32,20 +32,18 @@ CREATE TABLE sessions (
 );
 
 CREATE TABLE game_states (
-    game_state_id BIGSERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     game_id BIGSERIAL,
     game_type TEXT NOT NULL,
     game_state_json TEXT,
-    created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-    last_updated_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     is_removed BOOLEAN NOT NULL DEFAULT FALSE,
     UNIQUE (game_id, game_type)
 );
 
 CREATE TABLE user_game_state_associations (
-    association_id BIGSERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     user_id BIGINT NOT NULL REFERENCES users(user_id),
-    game_state_id BIGINT NOT NULL REFERENCES game_states(game_state_id),
+    game_state_id BIGINT NOT NULL REFERENCES game_states(id),
     UNIQUE (user_id, game_state_id)
 );
 
@@ -91,6 +89,7 @@ CREATE TABLE application_events (
     event_type TEXT NOT NULL,
     event_key TEXT,
     metadata TEXT,
+    is_removed BOOLEAN NOT NULL DEFAULT FALSE,
     created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
 
@@ -101,4 +100,11 @@ CREATE TABLE table_record_versions (
     changes TEXT,
     created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     created_by_user_id BIGINT
+);
+
+CREATE TABLE universal_unique_identifiers (
+    id BIGSERIAL PRIMARY KEY,
+    uuid TEXT UNIQUE NOT NULL,
+    reference_key TEXT UNIQUE NOT NULL,
+    created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );

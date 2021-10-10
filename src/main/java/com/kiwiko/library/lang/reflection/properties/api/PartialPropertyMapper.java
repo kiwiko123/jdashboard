@@ -14,20 +14,23 @@ import com.kiwiko.library.lang.reflection.properties.api.errors.PropertyMappingE
 public abstract class PartialPropertyMapper<SourceType, TargetType> implements PropertyMapper<SourceType, TargetType> {
 
     private final ReflectionHelper reflectionHelper;
+    private final Class<TargetType> targetType;
 
     protected PartialPropertyMapper() {
-        // For versatility (e.g., ease-of-use outside of a web application),
-        // helpers are directly instantiated rather than using conventional dependency injection.
         reflectionHelper = new ReflectionHelper();
+        targetType = getTargetType();
     }
 
     /**
      * Return the target/destination type as a {@link Class}.
      * This is needed to instantiate a new, default instance of its type.
+     * By default, this is automatically inferred through reflection.
      *
      * @return the target type as a class
      */
-    protected abstract Class<TargetType> getTargetType();
+    protected Class<TargetType> getTargetType() {
+        return reflectionHelper.getGenericClassType(getClass(), 1);
+    }
 
     /**
      * Copy all relevant properties from the source object to the destination object.
@@ -47,7 +50,7 @@ public abstract class PartialPropertyMapper<SourceType, TargetType> implements P
 
     @Override
     public TargetType toTargetType(SourceType source) throws PropertyMappingException {
-        TargetType result = reflectionHelper.createDefaultInstance(getTargetType());
+        TargetType result = reflectionHelper.createDefaultInstance(targetType);
         copyToTarget(source, result);
         return result;
     }

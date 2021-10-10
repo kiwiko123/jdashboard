@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.mvc.lifecycle.internal;
 
-import com.kiwiko.library.metrics.api.LogService;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.mvc.lifecycle.api.LifeCycleHook;
 import com.kiwiko.webapp.mvc.lifecycle.api.LifeCycleHookRegistry;
 import com.kiwiko.webapp.mvc.lifecycle.api.LifeCycleService;
@@ -14,7 +14,7 @@ import java.util.Set;
 public class ApplicationLifeCycleService implements LifeCycleService {
 
     @Inject private LifeCycleHookRegistry lifeCycleHookRegistry;
-    @Inject private LogService logService;
+    @Inject private Logger logger;
 
     @Override
     public void startUp() {
@@ -38,11 +38,11 @@ public class ApplicationLifeCycleService implements LifeCycleService {
 
     private void sandboxRunHook(LifeCycleHook hook) {
         String hookName = hook.getClass().getName();
-        logService.info(String.format("Running hook %s", hookName));
+        logger.info(String.format("Running hook %s", hookName));
         try {
             hook.run();
         } catch (Exception e) {
-            logService.error(String.format("Error running hook %s", hookName), e);
+            logger.error(String.format("Error running hook %s", hookName), e);
         }
     }
 
@@ -52,8 +52,8 @@ public class ApplicationLifeCycleService implements LifeCycleService {
         }
         int numberOfHooks = hooks.size();
         String hooksModifierWord = numberOfHooks == 1 ? "hook" : "hooks";
-        logService.info(String.format("Beginning %d %s %s", numberOfHooks, type, hooksModifierWord));
+        logger.info(String.format("Beginning %d %s %s", numberOfHooks, type, hooksModifierWord));
         hooks.forEach(this::sandboxRunHook);
-        logService.info(String.format("Completed %d %s", numberOfHooks, hooksModifierWord));
+        logger.info(String.format("Completed %d %s", numberOfHooks, hooksModifierWord));
     }
 }

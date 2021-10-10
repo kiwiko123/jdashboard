@@ -1,7 +1,7 @@
 package com.kiwiko.webapp.mvc.security.authentication.internal.events;
 
-import com.kiwiko.webapp.system.events.api.interfaces.ApplicationEventService;
-import com.kiwiko.webapp.system.events.api.dto.ApplicationEvent;
+import com.kiwiko.webapp.application.events.api.interfaces.ApplicationEventService;
+import com.kiwiko.webapp.application.events.api.dto.ApplicationEvent;
 
 import javax.inject.Inject;
 

@@ -202,7 +202,7 @@ export default class FeatureFlagFormStateTransmitter extends StateTransmitter {
         Request.to(`/feature-flags/api/${this.featureFlag.id}`)
             .withAuthentication()
             .withBody(payload)
-            .put()
+            .patch()
             .then((response) => {
                 logger.info(`Create feature flag response: ${Object.entries(response)}`);
                 this.sendState('FeatureFlagModalStateTransmitter', null, 'featureFlagSaved');

@@ -1,11 +1,11 @@
 package com.kiwiko.webapp.mvc.security.authentication.web;
 
-import com.kiwiko.library.metrics.api.LogService;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.mvc.json.api.ResponseBuilder;
 import com.kiwiko.webapp.mvc.json.data.ResponsePayload;
-import com.kiwiko.webapp.mvc.requests.api.annotations.RequestBodyParameter;
 import com.kiwiko.webapp.mvc.requests.data.RequestContext;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.CrossOriginConfigured;
+import com.kiwiko.webapp.mvc.security.authentication.api.dto.UserLoginParameters;
 import com.kiwiko.webapp.mvc.security.authentication.internal.events.UserAuthenticationEventClient;
 import com.kiwiko.webapp.mvc.security.sessions.api.SessionService;
 import com.kiwiko.webapp.mvc.security.sessions.data.Session;
@@ -27,7 +27,7 @@ public class UserAuthenticationAPIController {
     @Inject private SessionService sessionService;
     @Inject private UserService userService;
     @Inject private UserAuthenticationEventClient userAuthenticationEventClient;
-    @Inject private LogService logService;
+    @Inject private Logger logger;
 
     @PostMapping("/user-auth/api/create")
     public ResponsePayload createUser(
@@ -43,10 +43,9 @@ public class UserAuthenticationAPIController {
 
     @PostMapping("/user-auth/api/login")
     public ResponsePayload login(
-            @RequestBodyParameter(name = "username") String username,
-            @RequestBodyParameter(name = "password") String password,
+            @RequestBody UserLoginParameters userLoginParameters,
             HttpServletResponse httpServletResponse) {
-        User user = userService.getWithValidation(username, password)
+        User user = userService.getByLoginParameters(userLoginParameters)
                 .orElse(null);
         if (user == null) {
             return getInvalidUserResponse();

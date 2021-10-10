@@ -8,4 +8,10 @@ export default class DashboardNotificationsStateTransmitter extends PushServiceS
             push: this.pushToServer.bind(this),
         });
     }
+
+    onConnectionOpened() {
+        this.pushToServer({
+            message: 'Connection has been opened',
+        });
+    }
 }

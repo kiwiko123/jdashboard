@@ -1,0 +1,11 @@
+.PazaakGameHeader {
+    display: flex;
+}
+
+.PazaakGameHeader > * {
+    margin: 0 1rem 0 1rem;
+}
+
+.PazaakGameHeader > .player-info {
+    text-transform: capitalize;
+}

@@ -7,13 +7,16 @@ import com.kiwiko.webapp.mvc.requests.internal.interceptors.RequestErrorIntercep
 import com.kiwiko.webapp.mvc.security.csrf.interceptors.CrossSiteRequestForgeryPreventionInterceptor;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+@Singleton
 public class EndpointInterceptorChain {
 
-    private List<EndpointInterceptor> interceptors;
+    private Iterable<EndpointInterceptor> interceptors;
+
     @Inject private Logger logger;
     @Inject private CrossSiteRequestForgeryPreventionInterceptor crossSiteRequestForgeryPreventionInterceptor;
     @Inject private AuthenticationRequiredInterceptor authenticationRequiredInterceptor;
@@ -32,7 +35,7 @@ public class EndpointInterceptorChain {
         return Collections.unmodifiableList(interceptors);
     }
 
-    public List<EndpointInterceptor> getInterceptors() {
+    public synchronized Iterable<EndpointInterceptor> getInterceptors() {
         if (interceptors == null) {
             logger.info("Creating endpoint interceptor chain");
             interceptors = makeInterceptors();

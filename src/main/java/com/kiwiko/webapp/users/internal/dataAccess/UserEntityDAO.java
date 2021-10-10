@@ -1,8 +1,8 @@
 package com.kiwiko.webapp.users.internal.dataAccess;
 
-import com.kiwiko.webapp.mvc.persistence.dataaccess.api.AuditableEntityManagerDAO;
 import com.kiwiko.webapp.clients.users.api.parameters.GetUserQuery;
 import com.kiwiko.webapp.clients.users.api.parameters.GetUsersQuery;
+import com.kiwiko.webapp.persistence.data.fetchers.api.interfaces.EntityDataFetcher;
 
 import javax.inject.Singleton;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Singleton
-public class UserEntityDAO extends AuditableEntityManagerDAO<UserEntity> {
+public class UserEntityDAO extends EntityDataFetcher<UserEntity> {
 
     @Override
     protected Class<UserEntity> getEntityType() {
@@ -24,7 +24,7 @@ public class UserEntityDAO extends AuditableEntityManagerDAO<UserEntity> {
     }
 
     public Optional<UserEntity> getByUsername(String username) {
-        CriteriaBuilder builder = criteriaBuilder();
+        CriteriaBuilder builder = getCriteriaBuilder();
         CriteriaQuery<UserEntity> query = builder.createQuery(entityType);
         Root<UserEntity> root = query.from(entityType);
         Expression<String> usernameField = root.get("username");
@@ -36,7 +36,7 @@ public class UserEntityDAO extends AuditableEntityManagerDAO<UserEntity> {
     }
 
     public Optional<UserEntity> getByEmailAddress(String emailAddress) {
-        CriteriaBuilder builder = criteriaBuilder();
+        CriteriaBuilder builder = getCriteriaBuilder();
         CriteriaQuery<UserEntity> query = builder.createQuery(entityType);
         Root<UserEntity> root = query.from(entityType);
         Expression<String> emailAddressField = root.get("emailAddress");
@@ -52,13 +52,13 @@ public class UserEntityDAO extends AuditableEntityManagerDAO<UserEntity> {
                 .map(GetUserQuery::getId)
                 .collect(Collectors.toSet());
 
-        CriteriaBuilder builder = criteriaBuilder();
+        CriteriaBuilder builder = getCriteriaBuilder();
         CriteriaQuery<UserEntity> query = builder.createQuery(entityType);
         Root<UserEntity> root = query.from(entityType);
         Expression<Long> idField = root.get("id");
         Predicate inIds = idField.in(ids);
 
         query.where(inIds);
-        return getResultList(query);
+        return createQuery(query).getResultList();
     }
 }

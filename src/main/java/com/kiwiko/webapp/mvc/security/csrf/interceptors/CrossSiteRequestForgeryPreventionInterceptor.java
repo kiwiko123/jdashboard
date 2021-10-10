@@ -31,7 +31,7 @@ public class CrossSiteRequestForgeryPreventionInterceptor implements EndpointInt
         Property<List<String>> crossOriginUrls = jdashboardPropertyMapper.mapToList(
                 jdashboardPropertyFileReader.store(JdashboardPropertyConstants.CROSS_ORIGIN_URLS));
 
-        if (crossOriginUrls == null) {
+        if (crossOriginUrls == null || crossOriginUrls.getValue() == null) {
             logger.error(String.format("No cross origin URL property found; denying request %s", request.getRequestURL().toString()));
             return false;
         }

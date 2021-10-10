@@ -4,6 +4,7 @@ import com.kiwiko.webapp.mvc.security.hashing.api.MultiplicationHasher;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 
 class JdashboardInternalRequestHasher extends MultiplicationHasher {
 

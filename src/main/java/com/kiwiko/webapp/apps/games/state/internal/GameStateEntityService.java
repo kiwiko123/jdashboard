@@ -1,14 +1,16 @@
 package com.kiwiko.webapp.apps.games.state.internal;
 
+import com.google.gson.JsonSyntaxException;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.apps.games.state.api.GameStateService;
+import com.kiwiko.webapp.apps.games.state.api.parameters.FindGameStateParameters;
 import com.kiwiko.webapp.apps.games.state.data.GameState;
 import com.kiwiko.webapp.apps.games.state.data.GameType;
 import com.kiwiko.webapp.apps.games.state.data.UserGameStateAssociation;
-import com.kiwiko.webapp.apps.games.state.internal.dataAccess.GameStateEntity;
-import com.kiwiko.webapp.apps.games.state.internal.dataAccess.GameStateEntityDAO;
-import com.kiwiko.library.metrics.api.LogService;
-import com.kiwiko.webapp.mvc.json.api.JsonMapper;
-import com.kiwiko.webapp.mvc.json.api.errors.JsonException;
+import com.kiwiko.webapp.apps.games.state.internal.data.GameStateEntity;
+import com.kiwiko.webapp.apps.games.state.internal.data.GameStateEntityDataFetcher;
+import com.kiwiko.webapp.mvc.json.gson.GsonProvider;
+import com.kiwiko.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -18,30 +20,22 @@ import java.util.stream.Collectors;
 
 public class GameStateEntityService implements GameStateService {
 
-    @Inject
-    private GameStateEntityDAO gameStateEntityDAO;
-
-    @Inject
-    private GameStateEntityPropertyMapper mapper;
-
-    @Inject
-    private UserGameStateAssociationService userGameStateAssociationService;
-
-    @Inject
-    private JsonMapper jsonMapper;
-
-    @Inject
-    private LogService logService;
+    @Inject private GameStateEntityDataFetcher dataFetcher;
+    @Inject private GameStateEntityMapper mapper;
+    @Inject private UserGameStateAssociationService userGameStateAssociationService;
+    @Inject private CreateReadUpdateDeleteExecutor crudExecutor;
+    @Inject private GsonProvider gsonProvider;
+    @Inject private Logger logger;
 
     @Transactional(readOnly = true)
     @Override
-    public Optional<GameState> findForGame(GameType gameType, long gameId) {
-        return gameStateEntityDAO.findForGame(gameType, gameId)
-                .map(mapper::toDTO);
+    public Optional<GameState> findForGame(String gameType, long gameId) {
+        return dataFetcher.findForGame(gameType, gameId)
+                .map(mapper::toDto);
     }
 
     @Override
-    public <T> Optional<T> reconstructGame(GameType gameType, long gameId, Class<T> gameStateClass) {
+    public <T> Optional<T> reconstructGame(String gameType, long gameId, Class<T> gameStateClass) {
         String gameStateJson = findForGame(gameType, gameId)
                 .flatMap(GameState::getGameStateJson)
                 .orElse(null);
@@ -51,9 +45,9 @@ public class GameStateEntityService implements GameStateService {
 
         T result = null;
         try {
-            result = jsonMapper.deserialize(gameStateJson, gameStateClass);
-        } catch (JsonException e) {
-            logService.error(String.format("Error converting game state JSON into class %s", gameStateClass.getName()), e);
+            result = gsonProvider.getDefault().fromJson(gameStateJson, gameStateClass);
+        } catch (JsonSyntaxException e) {
+            logger.error(String.format("Error converting game state JSON into class %s", gameStateClass.getName()), e);
         }
 
         return Optional.ofNullable(result);
@@ -63,31 +57,34 @@ public class GameStateEntityService implements GameStateService {
     @Override
     public GameState saveGameState(GameState gameState) {
         GameStateEntity entity = mapper.toEntity(gameState);
-        GameStateEntity managedEntity = gameStateEntityDAO.save(entity);
-        return mapper.toDTO(managedEntity);
+        GameStateEntity managedEntity = dataFetcher.save(entity);
+        return mapper.toDto(managedEntity);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public long getNewGameId(GameType gameType) {
-        long maxGameId = gameStateEntityDAO.getMaxGameId(gameType)
-                .orElse(0l);
+    public long getNewGameId(String gameType) {
+        long maxGameId = dataFetcher.getMaxGameId(gameType)
+                .orElse(0L);
         return maxGameId + 1;
     }
 
     @Transactional(readOnly = true)
     @Override
     public Optional<GameState> getById(long gameStateId) {
-        return gameStateEntityDAO.getById(gameStateId)
-                .map(mapper::toDTO);
+        return dataFetcher.getById(gameStateId)
+                .map(mapper::toDto);
     }
 
     @Transactional
     @Override
     public GameState saveForUser(GameState gameState, long userId) {
         GameState savedGameState = saveGameState(gameState);
-        if (!findByGameStateAndUser(savedGameState.getId(), userId).isPresent()) {
-            userGameStateAssociationService.create(savedGameState.getId(), userId);
+        if (findByGameStateAndUser(savedGameState.getId(), userId).isEmpty()) {
+            UserGameStateAssociation association = new UserGameStateAssociation();
+            association.setGameStateId(savedGameState.getId());
+            association.setUserId(userId);
+            userGameStateAssociationService.create(association);
         }
 
         return savedGameState;
@@ -97,14 +94,42 @@ public class GameStateEntityService implements GameStateService {
     @Override
     public Optional<GameState> findByGameStateAndUser(long gameStateId, long userId) {
         return userGameStateAssociationService.findByGameStateAndUser(gameStateId, userId)
-                .map(UserGameStateAssociation::getGameState);
+                .map(UserGameStateAssociation::getGameStateId)
+                .flatMap(this::get);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Collection<GameState> findGamesForUser(long userId, GameType gameType) {
-        return gameStateEntityDAO.findByGameTypeAndUser(gameType, userId).stream()
-                .map(mapper::toDTO)
+        return dataFetcher.findByGameTypeAndUser(gameType, userId).stream()
+                .map(mapper::toDto)
                 .collect(Collectors.toSet());
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<GameState> findGameState(FindGameStateParameters parameters) {
+        return dataFetcher.findIndividualByParameters(parameters)
+                .map(mapper::toDto);
+    }
+
+    @Override
+    public Optional<GameState> get(long id) {
+        return crudExecutor.get(id, dataFetcher, mapper);
+    }
+
+    @Override
+    public GameState create(GameState gameState) {
+        return crudExecutor.create(gameState, dataFetcher, mapper);
+    }
+
+    @Override
+    public GameState update(GameState gameState) {
+        return crudExecutor.update(gameState, dataFetcher, mapper);
+    }
+
+    @Override
+    public GameState merge(GameState gameState) {
+        return crudExecutor.merge(gameState, dataFetcher, mapper);
     }
 }

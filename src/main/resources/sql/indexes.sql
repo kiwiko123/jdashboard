@@ -25,3 +25,6 @@ CREATE INDEX ON feature_flags (lower(name), user_scope, user_id);
 CREATE INDEX ON application_events (event_type, event_key);
 
 CREATE INDEX ON table_record_versions (table_name, record_id);
+
+CREATE INDEX ON universal_unique_identifiers (uuid);
+CREATE INDEX ON universal_unique_identifiers (reference_key);

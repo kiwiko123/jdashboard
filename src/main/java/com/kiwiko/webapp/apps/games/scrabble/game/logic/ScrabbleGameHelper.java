@@ -1,11 +1,11 @@
 package com.kiwiko.webapp.apps.games.scrabble.game.logic;
 
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.apps.games.scrabble.errors.ScrabbleException;
 import com.kiwiko.webapp.apps.games.scrabble.game.data.ScrabbleGame;
 import com.kiwiko.webapp.apps.games.scrabble.game.data.ScrabblePlayer;
 import com.kiwiko.webapp.apps.games.scrabble.game.data.ScrabbleSubmittedTile;
 import com.kiwiko.webapp.apps.games.scrabble.game.data.ScrabbleTile;
-import com.kiwiko.library.metrics.api.LogService;
 
 import javax.inject.Inject;
 import java.util.Collection;
@@ -16,14 +16,9 @@ import java.util.stream.Stream;
 
 public class ScrabbleGameHelper {
 
-    @Inject
-    private ScrabbleMoveHelper scrabbleMoveHelper;
-
-    @Inject
-    private ScrabbleCreateGameHelper createGameHelper;
-
-    @Inject
-    private LogService logService;
+    @Inject private ScrabbleMoveHelper scrabbleMoveHelper;
+    @Inject private ScrabbleCreateGameHelper createGameHelper;
+    @Inject private Logger logger;
 
     public Optional<ScrabblePlayer> getPlayerById(ScrabbleGame game, String playerId) {
         return Stream.of(game.getPlayer(), game.getOpponent())
@@ -46,7 +41,7 @@ public class ScrabbleGameHelper {
     public boolean placeTiles(ScrabbleGame game, Collection<ScrabbleSubmittedTile> tiles) {
         boolean isValidMove = validateMove(game, tiles);
         if (!isValidMove) {
-            logService.warn(String.format("Invalid move %d: %s", game.getId(), tiles.toString()));
+            logger.warn(String.format("Invalid move %d: %s", game.getId(), tiles.toString()));
             return false;
         }
 

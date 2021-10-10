@@ -1,43 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormFields from '../../../common/forms/components/FormFields';
-
-function isBlank(text) {
-    return !text;
-}
+import InputFormField from 'common/forms/components/core/InputFormField';
+import IconButton from 'common/components/IconButton';
 
 const CreateAccountForm = ({
     username, password, setUsername, setPassword, createUser,
 }) => {
-    const formFields = [
-        {
-            className: 'field-username',
-            name: 'username',
-            label: 'Username',
-            text: username,
-            isRequired: true,
-            onChange: setUsername,
-            isValid: !isBlank(username),
-            autoComplete: 'on',
-        },
-        {
-            className: 'field-password',
-            name: 'password',
-            label: 'Password',
-            text: password,
-            type: 'password',
-            isRequired: true,
-            onChange: setPassword,
-            isValid: !isBlank(password),
-            autoComplete: 'on',
-        },
-    ];
-    const submitButtonProps = {
-        children: 'Submit',
-        variant: 'primary',
-        onClick: createUser,
-    };
-
     return (
         <div className="CreateAccountForm">
             <div className="greeting">
@@ -48,10 +16,39 @@ const CreateAccountForm = ({
                     Let's get started.
                 </span>
             </div>
-            <FormFields
-                fields={formFields}
-                submitButtonProps={submitButtonProps}
-            />
+            <div className="fields">
+                <InputFormField
+                    className="field-username"
+                    name="username"
+                    label="Username"
+                    isRequired={true}
+                    isValid={Boolean(username)}
+                    validate={Boolean}
+                    value={username}
+                    onChange={setUsername}
+                />
+                <InputFormField
+                    className="field-password"
+                    name="password"
+                    label="Password"
+                    isRequired={true}
+                    isValid={Boolean(password)}
+                    validate={Boolean}
+                    value={password}
+                    onChange={setPassword}
+                    type="password"
+                />
+            </div>
+            <div className="buttons">
+                <IconButton
+                    className="create-button"
+                    variant="primary"
+                    onClick={createUser}
+                    disabled={!(username && password)}
+                >
+                    Create
+                </IconButton>
+            </div>
         </div>
     );
 };

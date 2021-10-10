@@ -51,7 +51,7 @@ public class ScrabbleCreateGameHelper {
     }
 
     public ScrabbleGame createGame() {
-        long gameId = gameStateService.getNewGameId(GameType.SCRABBLE);
+        long gameId = gameStateService.getNewGameId(GameType.SCRABBLE.getName());
         ScrabbleGameBoard board = new ScrabbleGameBoard(gameBoardDimensions, gameBoardDimensions);
         ScrabblePlayer player = createPlayer("player", numberOfAvailableTiles);
         ScrabblePlayer opponent = createPlayer("opponent", numberOfAvailableTiles);

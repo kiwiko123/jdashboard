@@ -2,14 +2,14 @@ package com.kiwiko.library.lang.types;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import com.kiwiko.library.metrics.api.LogService;
-import com.kiwiko.library.metrics.impl.ConsoleLogService;
+import com.kiwiko.library.metrics.impl.ConsoleLogger;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 
 import java.util.Map;
 
 public class TypesHelper {
 
-    private final LogService logService;
+    private final Logger logger;
 
     private static final BiMap<Class<?>, Class<?>> objectTypesByPrimitiveType = HashBiMap.create(Map.of(
             boolean.class, Boolean.class,
@@ -22,7 +22,7 @@ public class TypesHelper {
             char.class, Character.class));
 
     public TypesHelper() {
-        logService = new ConsoleLogService();
+        logger = new ConsoleLogger();
     }
 
     /**
@@ -33,7 +33,7 @@ public class TypesHelper {
     public Class<?> getCorrespondingType(Class<?> type) {
         if (type.isPrimitive()) {
             if (!objectTypesByPrimitiveType.containsKey(type)) {
-                logService.error(String.format("No mapped object type for primitive type %s", type.getName()));
+                logger.error(String.format("No mapped object type for primitive type %s", type.getName()));
             }
             return objectTypesByPrimitiveType.get(type);
         }

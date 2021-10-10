@@ -98,6 +98,10 @@ export default class Request {
         return this.__makeCreateRequest('DELETE', fetchParameters);
     }
 
+    async patch(fetchParameters = {}) {
+        return this.__makeCreateRequest('PATCH', fetchParameters);
+    }
+
     async __makeRequest(url, parameters) {
         const allParameters = {
             ...this._internalFetchParameters,

@@ -13,13 +13,17 @@ public abstract class BidirectionalFieldMapper<SourceType, TargetType>
         implements BidirectionalPropertyMapper<SourceType, TargetType> {
 
     private final ReflectionHelper reflectionHelper;
+    private final Class<SourceType> sourceType;
 
     protected BidirectionalFieldMapper() {
         super();
         reflectionHelper = new ReflectionHelper();
+        sourceType = getSourceType();
     }
 
-    protected abstract Class<SourceType> getSourceType();
+    protected Class<SourceType> getSourceType() {
+        return reflectionHelper.getGenericClassType(getClass(), 0);
+    }
 
     @Override
     public void copyToSource(TargetType source, SourceType destination) {
@@ -28,7 +32,7 @@ public abstract class BidirectionalFieldMapper<SourceType, TargetType>
 
     @Override
     public SourceType toSourceType(TargetType source) {
-        SourceType result = reflectionHelper.createDefaultInstance(getSourceType());
+        SourceType result = reflectionHelper.createDefaultInstance(sourceType);
         copyToSource(source, result);
         return result;
     }
