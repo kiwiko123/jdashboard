@@ -89,6 +89,7 @@ CREATE TABLE application_events (
     event_type TEXT NOT NULL,
     event_key TEXT,
     metadata TEXT,
+    is_removed BOOLEAN NOT NULL DEFAULT FALSE,
     created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
 
@@ -99,4 +100,11 @@ CREATE TABLE table_record_versions (
     changes TEXT,
     created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     created_by_user_id BIGINT
+);
+
+CREATE TABLE universal_unique_identifiers (
+    id BIGSERIAL PRIMARY KEY,
+    uuid TEXT UNIQUE NOT NULL,
+    reference_key TEXT UNIQUE NOT NULL,
+    created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );

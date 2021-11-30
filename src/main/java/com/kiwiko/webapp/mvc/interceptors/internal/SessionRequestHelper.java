@@ -1,6 +1,6 @@
 package com.kiwiko.webapp.mvc.interceptors.internal;
 
-import com.kiwiko.library.metrics.api.LogService;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.mvc.security.sessions.api.SessionHelper;
 import com.kiwiko.webapp.mvc.security.sessions.api.SessionService;
 import com.kiwiko.webapp.mvc.security.sessions.data.Session;
@@ -23,7 +23,7 @@ public class SessionRequestHelper {
 
     @Inject private SessionService sessionService;
     @Inject private SessionHelper sessionHelper;
-    @Inject private LogService logService;
+    @Inject private Logger logger;
 
     public Optional<Session> getSessionFromRequest(HttpServletRequest request) {
         List<Cookie> cookies = Optional.ofNullable(request.getCookies())
@@ -58,7 +58,7 @@ public class SessionRequestHelper {
                     .distinct()
                     .map(Object::toString)
                     .collect(Collectors.joining(", "));
-            logService.info(String.format("%d active sessions found for user IDs %s", activeSessions.size(), userIds));
+            logger.info(String.format("%d active sessions found for user IDs %s", activeSessions.size(), userIds));
         }
 
         return activeSessions.stream()

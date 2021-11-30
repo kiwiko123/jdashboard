@@ -1,7 +1,7 @@
 package com.kiwiko.webapp.metrics.web;
 
-import com.kiwiko.library.metrics.api.LogService;
 import com.kiwiko.library.metrics.data.LogLevel;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.metrics.web.data.LogData;
 import com.kiwiko.webapp.mvc.json.api.ResponseBuilder;
 import com.kiwiko.webapp.mvc.json.internal.data.ResponsePayload;
@@ -20,8 +20,7 @@ import java.util.List;
 @CrossOriginConfigured
 public class LoggingAPIController {
 
-    @Inject
-    private LogService logService;
+    @Inject private Logger logger;
 
     @PutMapping("/logging/api/log")
     public ResponseEntity<ResponsePayload> logByLevel(@RequestBody LogData logData) {
@@ -46,16 +45,16 @@ public class LoggingAPIController {
 
         switch (level) {
             case DEBUG:
-                logService.debug(logMessage);
+                logger.debug(logMessage);
                 break;
             case INFO:
-                logService.info(logMessage);
+                logger.info(logMessage);
                 break;
             case WARN:
-                logService.warn(logMessage);
+                logger.warn(logMessage);
                 break;
             case ERROR:
-                logService.error(logMessage);
+                logger.error(logMessage);
                 break;
             default:
                 throw new RequestError(String.format("Unsupported level %s", level.toString()));

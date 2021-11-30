@@ -2,7 +2,7 @@ package com.kiwiko.webapp.mvc.application.properties.api.interfaces;
 
 import com.google.common.base.Splitter;
 import com.kiwiko.library.files.properties.readers.api.dto.Property;
-import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.library.metrics.impl.ConsoleLogger;
 
 import javax.inject.Inject;
 import java.util.Collection;
@@ -12,7 +12,7 @@ import java.util.function.Function;
 
 public class JdashboardPropertyMapper {
 
-    @Inject private Logger logger;
+    @Inject private ConsoleLogger logger;
 
     public <T extends Collection<String>> Property<T> mapToCollection(
             Property<String> property,

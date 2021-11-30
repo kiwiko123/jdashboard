@@ -5,7 +5,6 @@ import com.kiwiko.webapp.mvc.configuration.api.interfaces.annotations.Configured
 import com.kiwiko.webapp.mvc.configuration.api.interfaces.exceptions.ConfigurationResolvingException;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,13 +17,15 @@ public class ConfiguredByConfigurationResolver implements ConfigurationResolver 
         if (clazz.getDeclaredAnnotation(Configuration.class) == null) {
             throw new ConfigurationResolvingException(String.format("Class %s is not a Spring @Configuration", clazz.getSimpleName()));
         }
+
         configurationClasses.add(clazz);
 
         ConfiguredBy configuredBy = clazz.getDeclaredAnnotation(ConfiguredBy.class);
         if (configuredBy != null) {
-            Arrays.stream(configuredBy.value())
-                    .map(this::getConfigurations)
-                    .forEach(configurationClasses::addAll);
+            for (Class<?> configurationDependency : configuredBy.value()) {
+                Set<Class<?>> transitiveConfigurations = getConfigurations(configurationDependency);
+                configurationClasses.addAll(transitiveConfigurations);
+            }
         }
 
         return configurationClasses;

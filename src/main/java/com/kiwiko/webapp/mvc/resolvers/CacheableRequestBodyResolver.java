@@ -1,7 +1,7 @@
 package com.kiwiko.webapp.mvc.resolvers;
 
 import com.kiwiko.library.caching.api.ObjectCache;
-import com.kiwiko.library.metrics.api.LogService;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.webapp.mvc.json.api.JsonMapper;
 import com.kiwiko.webapp.mvc.json.api.errors.JsonException;
 import com.kiwiko.webapp.mvc.requests.api.RequestContextService;
@@ -26,17 +26,10 @@ import java.util.stream.Collectors;
 
 public abstract class CacheableRequestBodyResolver {
 
-    @Inject
-    private JsonMapper jsonMapper;
-
-    @Inject
-    private ObjectCache objectCache;
-
-    @Inject
-    private RequestContextService requestContextService;
-
-    @Inject
-    private LogService logService;
+    @Inject private JsonMapper jsonMapper;
+    @Inject private ObjectCache objectCache;
+    @Inject private RequestContextService requestContextService;
+    @Inject private Logger logger;
 
     /**
      * Determines the duration of time to cache a given request's body.
@@ -108,7 +101,7 @@ public abstract class CacheableRequestBodyResolver {
                     .map(RequestContext::getId)
                     .map(Object::toString)
                     .orElse("(unknown)");
-            logService.warn(String.format("Empty request body when deserializing %s for Request Context %s", httpServletRequest.getRequestURI(), requestContextId));
+            logger.warn(String.format("Empty request body when deserializing %s for Request Context %s", httpServletRequest.getRequestURI(), requestContextId));
         } else {
             try {
                 body = jsonMapper.deserialize(bodyJson, Map.class);

@@ -36,9 +36,9 @@ public class CaptureMetricsMethodInterceptor extends ContextMethodInterceptor {
                 methodDuration.toMillis());
 
         if (context.getException().isPresent()) {
-            logService.info(message, context.getException().get());
+            logger.info(message, context.getException().get());
         } else {
-            logService.info(message);
+            logger.info(message);
         }
     }
 }

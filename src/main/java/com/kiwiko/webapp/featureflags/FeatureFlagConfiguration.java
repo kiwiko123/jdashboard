@@ -1,7 +1,9 @@
 package com.kiwiko.webapp.featureflags;
 
+import com.kiwiko.webapp.featureflags.api.interfaces.FeatureFlagEventClient;
 import com.kiwiko.webapp.featureflags.api.interfaces.FeatureFlagResolver;
 import com.kiwiko.webapp.featureflags.api.interfaces.FeatureFlagService;
+import com.kiwiko.webapp.featureflags.internal.events.ApplicationEventFeatureFlagEventClient;
 import com.kiwiko.webapp.featureflags.internal.FeatureFlagEntityMapper;
 import com.kiwiko.webapp.featureflags.internal.FeatureFlagEntityService;
 import com.kiwiko.webapp.featureflags.internal.FeatureFlagServiceResolver;
@@ -32,5 +34,10 @@ public class FeatureFlagConfiguration {
     @Bean
     public FeatureFlagResolver featureFlagResolver() {
         return new FeatureFlagServiceResolver();
+    }
+
+    @Bean
+    public FeatureFlagEventClient featureFlagEventClient() {
+        return new ApplicationEventFeatureFlagEventClient();
     }
 }

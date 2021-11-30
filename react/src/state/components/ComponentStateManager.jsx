@@ -44,7 +44,6 @@ ComponentStateManager.propTypes = {
 };
 
 ComponentStateManager.defaultProps = {
-    component: null,
     canResolve: () => true,
     id: null,
 };
