@@ -14,4 +14,6 @@ public class AuthenticationConfiguration {
     public UserAuthenticationEventClient userAuthenticationEventClient() {
         return new DirectServiceUserAuthenticationEventClient();
     }
+
+
 }

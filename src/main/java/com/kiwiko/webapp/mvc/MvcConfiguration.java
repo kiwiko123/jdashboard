@@ -17,6 +17,7 @@ import com.kiwiko.webapp.mvc.json.api.JsonMapper;
 import com.kiwiko.webapp.mvc.resolvers.RequestBodyCollectionParameterResolver;
 import com.kiwiko.webapp.mvc.resolvers.RequestBodyParameterResolver;
 import com.kiwiko.webapp.mvc.resolvers.RequestContextResolver;
+import com.kiwiko.webapp.mvc.security.authentication.internal.resolvers.AuthenticatedUserArgumentResolver;
 import com.kiwiko.webapp.mvc.security.environments.data.EnvironmentProperties;
 import org.springframework.aop.Advisor;
 import org.springframework.context.annotation.Bean;
@@ -47,6 +48,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
         resolvers.add(legacyCustomRequestBodyResolver());
         resolvers.add(requestContextResolver());
         resolvers.add(customRequestBodyArgumentResolver);
+        resolvers.add(authenticatedUserArgumentResolver());
     }
 
     @Override
@@ -104,6 +106,11 @@ public class MvcConfiguration implements WebMvcConfigurer {
     @Bean
     public RequestContextResolver requestContextResolver() {
         return new RequestContextResolver();
+    }
+
+    @Bean
+    public AuthenticatedUserArgumentResolver authenticatedUserArgumentResolver() {
+        return new AuthenticatedUserArgumentResolver();
     }
 
     @Bean

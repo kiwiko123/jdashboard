@@ -58,7 +58,7 @@ public class AuthenticationRequiredInterceptor implements EndpointInterceptor {
                 return isActivelyAuthenticated(request);
             case INTERNAL_SERVICE:
                 return isInternalServiceAuthorized(request);
-            case NONE:
+            case PUBLIC:
                 return true;
             default:
                 return false;

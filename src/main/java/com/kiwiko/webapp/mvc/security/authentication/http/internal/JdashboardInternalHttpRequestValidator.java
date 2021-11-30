@@ -32,6 +32,10 @@ public class JdashboardInternalHttpRequestValidator implements InternalHttpReque
         String headerName = makeRequestHeaderName(urlHash);
         String headerValue = request.getHeader(headerName);
 
+        if (headerValue == null) {
+            throw new UnauthorizedInternalRequestException(String.format("Unauthorized internal request: %s", request.getRequestURI()));
+        }
+
         int splitIndex = headerValue.lastIndexOf('-');
         String receivedUrlHash = headerValue.substring(0, splitIndex);
         if (!Objects.equals(urlHash, receivedUrlHash)) {
