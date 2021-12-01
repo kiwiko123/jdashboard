@@ -9,6 +9,7 @@ import com.kiwiko.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakCreat
 import com.kiwiko.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakEndTurnRequest;
 import com.kiwiko.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakLoadGameParameters;
 import com.kiwiko.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakEndTurnResponse;
+import com.kiwiko.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakSelectHandCardRequest;
 import com.kiwiko.webapp.mvc.controllers.api.interfaces.JdashboardConfigured;
 import com.kiwiko.webapp.mvc.requests.data.RequestContext;
 import com.kiwiko.webapp.mvc.security.authentication.api.annotations.AuthenticationLevel;
@@ -85,5 +86,21 @@ public class PazaakGameController {
         request.setUserId(currentUserId);
 
         return gameHandler.endTurn(request);
+    }
+
+    @PostMapping("/games/{gameId}/select-hand-card")
+    @ResponseBody
+    public PazaakGame selectHandCard(
+            @PathVariable("gameId") long gameId,
+            @RequestBody PazaakSelectHandCardRequest request,
+            RequestContext requestContext) {
+        Long currentUserId = requestContext.getUser()
+                .map(User::getId)
+                .orElseThrow(() -> new PazaakGameException("No current user found"));
+
+        request.setGameId(gameId);
+        request.setUserId(currentUserId);
+
+        return gameHandler.selectHandCard(request);
     }
 }

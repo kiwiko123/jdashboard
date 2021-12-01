@@ -5,7 +5,7 @@ import IconButton from 'common/components/IconButton';
 import './PazaakActionButtons.css';
 
 const PazaakActionButtons = ({
-    endTurn, stand, forfeit,
+    endTurn, stand, forfeit, newGame,
 }) => {
     return (
         <div className="PazaakActionButtons">
@@ -33,6 +33,14 @@ const PazaakActionButtons = ({
             >
                 Forfeit
             </IconButton>
+            <IconButton
+                {...newGame}
+                className="new-game-button"
+                variant="info"
+                fontAwesomeClassName="fas fa-redo"
+            >
+                New game
+            </IconButton>
         </div>
     );
 };
@@ -47,6 +55,10 @@ PazaakActionButtons.propTypes = {
        onClick: PropTypes.func.isRequired,
    }).isRequired,
    forfeit: PropTypes.shape({
+       disabled: PropTypes.bool,
+       onClick: PropTypes.func.isRequired,
+   }).isRequired,
+   newGame: PropTypes.shape({
        disabled: PropTypes.bool,
        onClick: PropTypes.func.isRequired,
    }).isRequired,

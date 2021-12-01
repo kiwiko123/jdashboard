@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { sortBy } from 'lodash';
+import { goTo } from 'common/js/urltools';
 import PazaakGameHeader from './PazaakGameHeader';
 import PazaakGameCards from './PazaakGameCards';
 import PazaakActionButtons from './PazaakActionButtons';
@@ -33,6 +34,14 @@ const PazaakGameArea = ({
             onClick: () => {},
             disabled: false,
         },
+        newGame: {
+            onClick: () => goTo('/pazaak/play'),
+            disabled: false,
+        },
+    };
+
+    const handCardActions = {
+        selectCard: actions.selectHandCard,
     };
 
     const actionButtons = showActionButtons && (
@@ -54,6 +63,7 @@ const PazaakGameArea = ({
             <PazaakGameCards
                 className="hand"
                 cards={sortBy(player.handCards, card => card.modifier)}
+                actions={handCardActions}
             />
             <hr className="divider" />
             {actionButtons}
