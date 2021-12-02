@@ -36,7 +36,7 @@ export function makeAccountButtonSettings(props) {
     ];
 }
 
-export function makeQuickLinkButtonSettings() {
+export function makeQuickLinkButtonSettings(props) {
     return [
         {
             id: 'home',
@@ -44,6 +44,13 @@ export function makeQuickLinkButtonSettings() {
             url: '/home',
             icon: 'fas fa-home',
             shouldShow: () => true,
+        },
+        {
+            id: 'chatroom',
+            label: 'Chatroom',
+            url: '/chatroom',
+            icon: 'fas fa-comments',
+            shouldShow: () => props.isLoggedIn,
         },
         {
             id: 'scrabble',
