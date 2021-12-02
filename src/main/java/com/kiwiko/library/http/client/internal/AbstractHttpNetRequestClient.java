@@ -5,8 +5,8 @@ import com.kiwiko.library.http.client.dto.RequestHeader;
 import com.kiwiko.library.http.client.dto.ResponseMetadata;
 import com.kiwiko.library.http.client.internal.caching.RequestCacheHelper;
 import com.kiwiko.library.http.client.internal.security.DefaultAuthenticator;
-import com.kiwiko.webapp.mvc.json.api.JsonSerializer;
-import com.kiwiko.webapp.mvc.json.impl.GsonJsonSerializer;
+import com.kiwiko.jdashboard.webapp.mvc.json.api.JsonSerializer;
+import com.kiwiko.jdashboard.webapp.mvc.json.impl.GsonJsonSerializer;
 
 import java.net.Authenticator;
 import java.net.http.HttpClient;

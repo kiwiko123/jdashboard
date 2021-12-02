@@ -1,7 +1,7 @@
 package com.kiwiko;
 
 import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.webapp.mvc.lifecycle.api.LifeCycleService;
+import com.kiwiko.jdashboard.webapp.mvc.lifecycle.api.LifeCycleService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
