@@ -144,7 +144,11 @@ public abstract class EntityDataFetcher<T extends DataEntity> {
      */
     protected <U> Query createNativeQuery(String query, Class<U> type) {
         return entityManager.createNativeQuery(query, type);
-    } 
+    }
+
+    protected <U> Query createNativeQuery(String query) {
+        return createNativeQuery(query, entityType);
+    }
 
     protected <U> Optional<U> getSingleResult(CriteriaQuery<U> query) {
         U result = null;

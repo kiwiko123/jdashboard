@@ -1,4 +1,4 @@
-package com.kiwiko.webapp.apps.chatroom.internal.data.entities;
+package com.kiwiko.webapp.apps.chatroom.internal.core.data.entities;
 
 import com.kiwiko.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
 import com.kiwiko.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges;
@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import java.time.Instant;
 
 @Entity
-@Table(name = "chatroom_message_rooms")
+@Table(name = "chatroom_messages")
 @CaptureDataChanges
 public class ChatroomMessageEntity implements SoftDeletableDataEntity {
 
@@ -36,7 +36,7 @@ public class ChatroomMessageEntity implements SoftDeletableDataEntity {
         this.id = id;
     }
 
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "sender_user_id", nullable = false)
     public Long getSenderUserId() {
         return senderUserId;
     }

@@ -30,4 +30,5 @@ CREATE INDEX ON universal_unique_identifiers (uuid);
 CREATE INDEX ON universal_unique_identifiers (reference_key);
 
 CREATE INDEX ON chatroom_message_room_users (chatroom_message_room_id) WHERE is_removed = false;
+CREATE INDEX ON chatroom_message_room_users (user_id) WHERE is_removed = false;
 CREATE INDEX ON chatroom_messages (chatroom_message_room_id) WHERE is_removed = false;
