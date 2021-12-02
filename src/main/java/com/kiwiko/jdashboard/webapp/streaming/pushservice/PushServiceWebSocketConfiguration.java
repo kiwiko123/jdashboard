@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.streaming.pushservice;
 
-import com.kiwiko.jdashboard.webapp.mvc.security.environments.data.EnvironmentProperties;
+import com.kiwiko.jdashboard.webapp.framework.security.environments.data.EnvironmentProperties;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.api.interfaces.PushService;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.internal.impl.websockets.spring.PushServiceDeserializationHelper;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.internal.impl.websockets.spring.PushServiceTextWebSocketHandler;

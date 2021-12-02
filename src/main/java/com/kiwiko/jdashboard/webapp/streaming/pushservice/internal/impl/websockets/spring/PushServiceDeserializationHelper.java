@@ -3,7 +3,7 @@ package com.kiwiko.jdashboard.webapp.streaming.pushservice.internal.impl.websock
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.jdashboard.webapp.mvc.json.gson.GsonProvider;
+import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.api.dto.ClientPushRequest;
 
 import javax.inject.Inject;

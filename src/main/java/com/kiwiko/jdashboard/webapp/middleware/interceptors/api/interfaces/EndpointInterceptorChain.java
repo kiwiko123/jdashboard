@@ -1,10 +1,10 @@
 package com.kiwiko.jdashboard.webapp.middleware.interceptors.api.interfaces;
 
 import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.jdashboard.webapp.mvc.interceptors.AuthenticationRequiredInterceptor;
-import com.kiwiko.jdashboard.webapp.mvc.requests.internal.interceptors.RequestContextInterceptor;
-import com.kiwiko.jdashboard.webapp.mvc.requests.internal.interceptors.RequestErrorInterceptor;
-import com.kiwiko.jdashboard.webapp.mvc.security.csrf.interceptors.CrossSiteRequestForgeryPreventionInterceptor;
+import com.kiwiko.jdashboard.webapp.framework.interceptors.AuthenticationRequiredInterceptor;
+import com.kiwiko.jdashboard.webapp.framework.requests.internal.interceptors.RequestContextInterceptor;
+import com.kiwiko.jdashboard.webapp.framework.requests.internal.interceptors.RequestErrorInterceptor;
+import com.kiwiko.jdashboard.webapp.framework.security.csrf.interceptors.CrossSiteRequestForgeryPreventionInterceptor;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

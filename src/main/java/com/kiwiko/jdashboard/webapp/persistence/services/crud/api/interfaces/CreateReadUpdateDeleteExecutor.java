@@ -2,7 +2,7 @@ package com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces;
 
 import com.kiwiko.library.persistence.data.properties.api.interfaces.DataEntityMapper;
 import com.kiwiko.library.persistence.data.api.interfaces.DataEntityDTO;
-import com.kiwiko.jdashboard.webapp.mvc.persistence.transactions.api.interfaces.TransactionProvider;
+import com.kiwiko.jdashboard.webapp.framework.persistence.transactions.api.interfaces.TransactionProvider;
 import com.kiwiko.library.persistence.data.api.interfaces.DataEntity;
 import com.kiwiko.jdashboard.webapp.persistence.data.fetchers.api.interfaces.EntityDataFetcher;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.internal.EntityMerger;

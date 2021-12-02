@@ -1,8 +1,8 @@
 package com.kiwiko.jdashboard.webapp.http.client.impl;
 
 import com.kiwiko.library.http.client.dto.HttpClientRequest;
-import com.kiwiko.jdashboard.webapp.mvc.security.authentication.http.api.InternalHttpRequestValidator;
-import com.kiwiko.jdashboard.webapp.mvc.security.environments.api.EnvironmentService;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.InternalHttpRequestValidator;
+import com.kiwiko.jdashboard.webapp.framework.security.environments.api.EnvironmentService;
 
 import javax.inject.Inject;
 

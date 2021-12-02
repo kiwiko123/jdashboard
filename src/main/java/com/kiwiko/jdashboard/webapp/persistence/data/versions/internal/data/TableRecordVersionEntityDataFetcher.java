@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.persistence.data.versions.internal.data;
 
-import com.kiwiko.jdashboard.webapp.mvc.persistence.dataaccess.api.EntityManagerDAO;
+import com.kiwiko.jdashboard.webapp.framework.persistence.dataaccess.api.EntityManagerDAO;
 import com.kiwiko.jdashboard.webapp.persistence.data.versions.api.interfaces.parameters.GetTableRecordVersions;
 
 import javax.persistence.criteria.CriteriaBuilder;

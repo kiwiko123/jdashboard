@@ -3,7 +3,7 @@ package com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.dto.ChatroomMessageRoomUser;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.data.fetchers.ChatroomMessageRoomUserEntityDataFetcher;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.mappers.ChatroomMessageRoomUserMapper;
-import com.kiwiko.jdashboard.webapp.mvc.persistence.transactions.api.interfaces.TransactionProvider;
+import com.kiwiko.jdashboard.webapp.framework.persistence.transactions.api.interfaces.TransactionProvider;
 
 import javax.inject.Inject;
 import java.util.Collection;

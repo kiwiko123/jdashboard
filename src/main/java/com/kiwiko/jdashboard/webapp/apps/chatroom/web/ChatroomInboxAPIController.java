@@ -4,10 +4,10 @@ import com.kiwiko.jdashboard.webapp.apps.chatroom.api.dto.inbox.ChatroomInboxFee
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.dto.inbox.ChatroomInboxItem;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.ChatroomInboxService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.GetInboxFeedParameters;
-import com.kiwiko.jdashboard.webapp.mvc.controllers.api.interfaces.JdashboardConfigured;
-import com.kiwiko.jdashboard.webapp.mvc.security.authentication.api.annotations.AuthenticatedUser;
-import com.kiwiko.jdashboard.webapp.mvc.security.authentication.api.annotations.AuthenticationLevel;
-import com.kiwiko.jdashboard.webapp.mvc.security.authentication.api.annotations.AuthenticationRequired;
+import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.JdashboardConfigured;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticatedUser;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationLevel;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationRequired;
 import com.kiwiko.jdashboard.webapp.users.data.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,9 +1,9 @@
 package com.kiwiko.jdashboard.webapp.middleware.datasources;
 
 import com.kiwiko.library.files.properties.readers.api.dto.Property;
-import com.kiwiko.jdashboard.webapp.mvc.application.properties.PropertiesConfiguration;
-import com.kiwiko.jdashboard.webapp.mvc.application.properties.api.interfaces.JdashboardPropertyReader;
-import com.kiwiko.jdashboard.webapp.mvc.configuration.api.interfaces.annotations.ConfiguredBy;
+import com.kiwiko.jdashboard.webapp.framework.application.properties.PropertiesConfiguration;
+import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.JdashboardPropertyReader;
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;

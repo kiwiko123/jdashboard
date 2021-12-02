@@ -1,8 +1,8 @@
 package com.kiwiko.jdashboard.webapp.users.internal;
 
-import com.kiwiko.jdashboard.webapp.mvc.security.authentication.api.PasswordService;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.PasswordService;
 import com.kiwiko.library.persistence.dataAccess.api.PersistenceException;
-import com.kiwiko.jdashboard.webapp.mvc.security.authentication.api.dto.UserLoginParameters;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.dto.UserLoginParameters;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
 import com.kiwiko.jdashboard.webapp.users.api.UserService;
 import com.kiwiko.jdashboard.webapp.users.api.parameters.CreateUserParameters;

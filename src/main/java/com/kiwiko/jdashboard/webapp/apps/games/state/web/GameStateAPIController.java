@@ -2,9 +2,9 @@ package com.kiwiko.jdashboard.webapp.apps.games.state.web;
 
 import com.kiwiko.jdashboard.webapp.apps.games.state.api.GameStateService;
 import com.kiwiko.jdashboard.webapp.apps.games.state.data.GameState;
-import com.kiwiko.jdashboard.webapp.mvc.json.api.ResponseBuilder;
-import com.kiwiko.jdashboard.webapp.mvc.json.data.ResponsePayload;
-import com.kiwiko.jdashboard.webapp.mvc.security.environments.data.EnvironmentProperties;
+import com.kiwiko.jdashboard.webapp.framework.json.api.ResponseBuilder;
+import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
+import com.kiwiko.jdashboard.webapp.framework.security.environments.data.EnvironmentProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

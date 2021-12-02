@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.notifications.internal.dataaccess;
 
-import com.kiwiko.jdashboard.webapp.mvc.persistence.dataaccess.api.EntityManagerDAO;
+import com.kiwiko.jdashboard.webapp.framework.persistence.dataaccess.api.EntityManagerDAO;
 import com.kiwiko.jdashboard.webapp.notifications.api.queries.GetNotificationsQuery;
 import com.kiwiko.jdashboard.webapp.notifications.data.NotificationStatus;
 

@@ -5,7 +5,7 @@ import com.kiwiko.jdashboard.webapp.application.events.queue.api.dto.Application
 import com.kiwiko.jdashboard.webapp.application.events.queue.api.interfaces.ApplicationEventQueue;
 import com.kiwiko.jdashboard.webapp.featureflags.api.dto.FeatureFlag;
 import com.kiwiko.jdashboard.webapp.featureflags.api.interfaces.FeatureFlagEventClient;
-import com.kiwiko.jdashboard.webapp.mvc.json.gson.GsonProvider;
+import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
 
 import javax.inject.Inject;
 import java.util.Objects;

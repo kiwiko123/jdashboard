@@ -9,7 +9,7 @@ import com.kiwiko.jdashboard.webapp.apps.games.state.data.GameType;
 import com.kiwiko.jdashboard.webapp.apps.games.state.data.UserGameStateAssociation;
 import com.kiwiko.jdashboard.webapp.apps.games.state.internal.data.GameStateEntity;
 import com.kiwiko.jdashboard.webapp.apps.games.state.internal.data.GameStateEntityDataFetcher;
-import com.kiwiko.jdashboard.webapp.mvc.json.gson.GsonProvider;
+import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
 import org.springframework.transaction.annotation.Transactional;
 

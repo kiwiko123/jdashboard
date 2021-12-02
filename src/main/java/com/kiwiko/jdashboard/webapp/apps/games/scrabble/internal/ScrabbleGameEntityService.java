@@ -6,7 +6,7 @@ import com.kiwiko.jdashboard.webapp.apps.games.scrabble.game.data.ScrabbleGame;
 import com.kiwiko.jdashboard.webapp.apps.games.state.api.GameStateService;
 import com.kiwiko.jdashboard.webapp.apps.games.state.data.GameState;
 import com.kiwiko.jdashboard.webapp.apps.games.state.data.GameType;
-import com.kiwiko.jdashboard.webapp.mvc.json.api.JsonMapper;
+import com.kiwiko.jdashboard.webapp.framework.json.api.JsonMapper;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;

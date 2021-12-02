@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.streaming.pushservice.internal.impl.websockets.spring.subscribers.setup;
 
 import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.jdashboard.webapp.mvc.di.api.interfaces.DependencyInstantiator;
+import com.kiwiko.jdashboard.webapp.framework.di.api.interfaces.DependencyInstantiator;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.api.dto.ClientPushRequest;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.api.interfaces.PushServiceSubscriber;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.api.interfaces.parameters.OnPushReceivedParameters;

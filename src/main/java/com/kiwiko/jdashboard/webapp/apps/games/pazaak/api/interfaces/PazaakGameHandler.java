@@ -9,7 +9,7 @@ import com.kiwiko.jdashboard.webapp.apps.games.pazaak.api.interfaces.parameters.
 import com.kiwiko.jdashboard.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakSelectHandCardRequest;
 import com.kiwiko.jdashboard.webapp.apps.games.state.api.GameStateService;
 import com.kiwiko.jdashboard.webapp.apps.games.state.data.GameState;
-import com.kiwiko.jdashboard.webapp.mvc.json.gson.GsonProvider;
+import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
 
 import javax.inject.Inject;
 import java.util.Map;

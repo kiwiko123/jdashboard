@@ -3,7 +3,7 @@ package com.kiwiko.jdashboard.webapp.application.events.internal;
 import com.kiwiko.jdashboard.webapp.application.events.internal.data.ApplicationEventEntity;
 import com.kiwiko.jdashboard.webapp.application.events.internal.data.ApplicationEventEntityDataFetcher;
 import com.kiwiko.jdashboard.webapp.application.events.internal.mappers.ApplicationEventEntityMapper;
-import com.kiwiko.jdashboard.webapp.mvc.persistence.transactions.api.interfaces.TransactionProvider;
+import com.kiwiko.jdashboard.webapp.framework.persistence.transactions.api.interfaces.TransactionProvider;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
 import com.kiwiko.jdashboard.webapp.application.events.api.interfaces.ApplicationEventService;
 import com.kiwiko.jdashboard.webapp.application.events.api.interfaces.parameters.ApplicationEventQuery;

@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.users;
 
-import com.kiwiko.jdashboard.webapp.mvc.security.authentication.api.PasswordService;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.PasswordService;
 import com.kiwiko.jdashboard.webapp.users.internal.UserEntityPasswordService;
 import com.kiwiko.jdashboard.webapp.users.api.UserService;
 import com.kiwiko.jdashboard.webapp.users.internal.UserEntityMapper;

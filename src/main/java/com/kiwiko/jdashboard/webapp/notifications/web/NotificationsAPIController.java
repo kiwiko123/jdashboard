@@ -1,9 +1,9 @@
 package com.kiwiko.jdashboard.webapp.notifications.web;
 
-import com.kiwiko.jdashboard.webapp.mvc.json.api.ResponseBuilder;
-import com.kiwiko.jdashboard.webapp.mvc.json.data.ResponsePayload;
-import com.kiwiko.jdashboard.webapp.mvc.security.authentication.api.annotations.AuthenticationRequired;
-import com.kiwiko.jdashboard.webapp.mvc.security.authentication.api.annotations.CrossOriginConfigured;
+import com.kiwiko.jdashboard.webapp.framework.json.api.ResponseBuilder;
+import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationRequired;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.CrossOriginConfigured;
 import com.kiwiko.jdashboard.webapp.notifications.api.NotificationService;
 import com.kiwiko.jdashboard.webapp.notifications.api.queries.GetNotificationsQuery;
 import com.kiwiko.jdashboard.webapp.notifications.data.Notification;

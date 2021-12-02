@@ -1,8 +1,8 @@
 package com.kiwiko.jdashboard.webapp.persistence.data.versions.web;
 
-import com.kiwiko.jdashboard.webapp.mvc.security.authentication.api.annotations.AuthenticationLevel;
-import com.kiwiko.jdashboard.webapp.mvc.security.authentication.api.annotations.AuthenticationRequired;
-import com.kiwiko.jdashboard.webapp.mvc.security.authentication.api.annotations.CrossOriginConfigured;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationLevel;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationRequired;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.CrossOriginConfigured;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.DataEntityUpdateFetcher;
 import com.kiwiko.jdashboard.webapp.persistence.data.versions.api.dto.TableRecordVersion;
 import com.kiwiko.jdashboard.webapp.persistence.data.versions.api.interfaces.TableRecordVersionService;

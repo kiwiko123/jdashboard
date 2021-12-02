@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.persistence.identification.unique.internal;
 
-import com.kiwiko.jdashboard.webapp.mvc.persistence.transactions.api.interfaces.TransactionProvider;
+import com.kiwiko.jdashboard.webapp.framework.persistence.transactions.api.interfaces.TransactionProvider;
 import com.kiwiko.jdashboard.webapp.persistence.identification.unique.api.dto.UniversalUniqueIdentifier;
 import com.kiwiko.jdashboard.webapp.persistence.identification.unique.api.interfaces.UniqueIdentifierService;
 import com.kiwiko.jdashboard.webapp.persistence.identification.unique.internal.data.UniversalUniqueIdentifierEntity;

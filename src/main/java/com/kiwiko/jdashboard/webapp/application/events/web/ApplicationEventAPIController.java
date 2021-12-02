@@ -1,8 +1,8 @@
 package com.kiwiko.jdashboard.webapp.application.events.web;
 
-import com.kiwiko.jdashboard.webapp.mvc.controllers.api.interfaces.JdashboardConfigured;
-import com.kiwiko.jdashboard.webapp.mvc.security.authentication.api.annotations.AuthenticationLevel;
-import com.kiwiko.jdashboard.webapp.mvc.security.authentication.api.annotations.AuthenticationRequired;
+import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.JdashboardConfigured;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationLevel;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationRequired;
 import com.kiwiko.jdashboard.webapp.application.events.api.interfaces.ApplicationEventService;
 import com.kiwiko.jdashboard.webapp.application.events.api.dto.ApplicationEvent;
 import org.springframework.web.bind.annotation.GetMapping;

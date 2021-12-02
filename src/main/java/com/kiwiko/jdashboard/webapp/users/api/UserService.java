@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.users.api;
 
-import com.kiwiko.jdashboard.webapp.mvc.security.authentication.api.dto.UserLoginParameters;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.dto.UserLoginParameters;
 import com.kiwiko.jdashboard.webapp.users.api.parameters.CreateUserParameters;
 import com.kiwiko.jdashboard.webapp.users.data.User;
 import com.kiwiko.jdashboard.webapp.clients.users.api.parameters.GetUsersQuery;

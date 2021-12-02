@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.notifications.internal;
 
-import com.kiwiko.jdashboard.webapp.mvc.persistence.crud.api.CreateReadUpdateDeleteService;
+import com.kiwiko.jdashboard.webapp.framework.persistence.crud.api.CreateReadUpdateDeleteService;
 import com.kiwiko.jdashboard.webapp.notifications.api.NotificationService;
 import com.kiwiko.jdashboard.webapp.notifications.api.queries.GetNotificationsQuery;
 import com.kiwiko.jdashboard.webapp.notifications.data.Notification;

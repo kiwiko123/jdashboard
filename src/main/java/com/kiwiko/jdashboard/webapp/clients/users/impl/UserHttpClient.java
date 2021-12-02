@@ -11,7 +11,7 @@ import com.kiwiko.library.http.client.dto.GetRequest;
 import com.kiwiko.library.http.client.dto.HttpClientResponse;
 import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.http.client.impl.JdashboardHttpClient;
-import com.kiwiko.jdashboard.webapp.mvc.json.impl.GsonJsonSerializer;
+import com.kiwiko.jdashboard.webapp.framework.json.impl.GsonJsonSerializer;
 import com.kiwiko.jdashboard.webapp.users.data.User;
 
 import javax.inject.Inject;
