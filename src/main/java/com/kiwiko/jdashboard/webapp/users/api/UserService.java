@@ -1,5 +1,6 @@
 package com.kiwiko.jdashboard.webapp.users.api;
 
+import com.kiwiko.jdashboard.webapp.clients.users.api.parameters.GetUsersBulkQuery;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.dto.UserLoginParameters;
 import com.kiwiko.jdashboard.webapp.users.api.parameters.CreateUserParameters;
 import com.kiwiko.jdashboard.webapp.users.data.User;
@@ -23,6 +24,8 @@ public interface UserService {
     Optional<User> getByLoginParameters(UserLoginParameters parameters);
 
     List<User> getByQuery(GetUsersQuery query);
+
+    Set<User> getByQuery(GetUsersBulkQuery query);
 
     User create(CreateUserParameters parameters);
 

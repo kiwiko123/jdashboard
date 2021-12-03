@@ -2,12 +2,14 @@ package com.kiwiko.jdashboard.webapp.apps.chatroom.api.dto.inbox;
 
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.dto.ChatroomMessageRoom;
 
+import java.time.Instant;
 import java.util.Set;
 
 public class ChatroomInboxItem {
 
     private ChatroomMessageRoom room;
-    private Set<String> usernames;
+    private Set<ChatroomInboxItemUserData> users;
+    private Instant lastUpdatedDate;
 
     public ChatroomMessageRoom getRoom() {
         return room;
@@ -17,11 +19,19 @@ public class ChatroomInboxItem {
         this.room = room;
     }
 
-    public Set<String> getUsernames() {
-        return usernames;
+    public Set<ChatroomInboxItemUserData> getUsers() {
+        return users;
     }
 
-    public void setUsernames(Set<String> usernames) {
-        this.usernames = usernames;
+    public void setUsers(Set<ChatroomInboxItemUserData> users) {
+        this.users = users;
+    }
+
+    public Instant getLastUpdatedDate() {
+        return lastUpdatedDate;
+    }
+
+    public void setLastUpdatedDate(Instant lastUpdatedDate) {
+        this.lastUpdatedDate = lastUpdatedDate;
     }
 }

@@ -1,5 +1,7 @@
 package com.kiwiko.jdashboard.webapp.users.internal;
 
+import com.kiwiko.jdashboard.webapp.clients.users.api.parameters.GetUsersBulkQuery;
+import com.kiwiko.jdashboard.webapp.framework.persistence.transactions.api.interfaces.TransactionProvider;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.PasswordService;
 import com.kiwiko.library.persistence.dataAccess.api.PersistenceException;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.dto.UserLoginParameters;
@@ -25,6 +27,7 @@ public class UserEntityService implements UserService {
     @Inject private UserEntityMapper mapper;
     @Inject private PasswordService passwordService;
     @Inject private CreateReadUpdateDeleteExecutor crudExecutor;
+    @Inject private TransactionProvider transactionProvider;
 
     @Transactional(readOnly = true)
     @Override
@@ -89,6 +92,13 @@ public class UserEntityService implements UserService {
         return userEntityDAO.getByQuery(query).stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Set<User> getByQuery(GetUsersBulkQuery query) {
+        return transactionProvider.readOnly(() -> userEntityDAO.getByQuery(query).stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toSet()));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.kiwiko.jdashboard.webapp.users.internal.dataAccess;
 
 import com.kiwiko.jdashboard.webapp.clients.users.api.parameters.GetUserQuery;
+import com.kiwiko.jdashboard.webapp.clients.users.api.parameters.GetUsersBulkQuery;
 import com.kiwiko.jdashboard.webapp.clients.users.api.parameters.GetUsersQuery;
 import com.kiwiko.jdashboard.webapp.persistence.data.fetchers.api.interfaces.EntityDataFetcher;
 
@@ -10,6 +11,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -60,5 +62,26 @@ public class UserEntityDAO extends EntityDataFetcher<UserEntity> {
 
         query.where(inIds);
         return createQuery(query).getResultList();
+    }
+
+    public Set<UserEntity> getByQuery(GetUsersBulkQuery queryParameters) {
+        CriteriaBuilder builder = getCriteriaBuilder();
+        CriteriaQuery<UserEntity> query = builder.createQuery(entityType);
+        Root<UserEntity> root = query.from(entityType);
+
+        List<Predicate> predicates = new LinkedList<>();
+
+        if (queryParameters.getUserIds() != null) {
+            Expression<Long> idField = root.get("id");
+            predicates.add(idField.in(queryParameters.getUserIds()));
+        }
+
+        if (queryParameters.getUsernames() != null) {
+            Expression<String> usernameField = root.get("username");
+            predicates.add(usernameField.in(queryParameters.getUsernames()));
+        }
+
+        query.where(predicates.toArray(new Predicate[predicates.size()]));
+        return createQuery(query).getResultStream().collect(Collectors.toSet());
     }
 }

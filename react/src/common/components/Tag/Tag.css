@@ -1,0 +1,10 @@
+.Tag {
+    border: 1px solid;
+    width: max-content;
+    padding: 1px 4px 1px 4px;
+    background-color: #e5e5e5;
+}
+
+.Tag > .remove-tag-button {
+    margin-left: 0.25rem;
+}
