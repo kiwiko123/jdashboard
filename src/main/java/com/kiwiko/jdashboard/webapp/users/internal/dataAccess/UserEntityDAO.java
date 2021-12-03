@@ -1,8 +1,6 @@
 package com.kiwiko.jdashboard.webapp.users.internal.dataAccess;
 
-import com.kiwiko.jdashboard.webapp.clients.users.api.parameters.GetUserQuery;
-import com.kiwiko.jdashboard.webapp.clients.users.api.parameters.GetUsersBulkQuery;
-import com.kiwiko.jdashboard.webapp.clients.users.api.parameters.GetUsersQuery;
+import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.queries.GetUsersQuery;
 import com.kiwiko.jdashboard.webapp.persistence.data.fetchers.api.interfaces.EntityDataFetcher;
 
 import javax.inject.Singleton;
@@ -49,22 +47,7 @@ public class UserEntityDAO extends EntityDataFetcher<UserEntity> {
         return getSingleResult(query);
     }
 
-    public List<UserEntity> getByQuery(GetUsersQuery queryParameters) {
-        Set<Long> ids = queryParameters.getQueries().stream()
-                .map(GetUserQuery::getId)
-                .collect(Collectors.toSet());
-
-        CriteriaBuilder builder = getCriteriaBuilder();
-        CriteriaQuery<UserEntity> query = builder.createQuery(entityType);
-        Root<UserEntity> root = query.from(entityType);
-        Expression<Long> idField = root.get("id");
-        Predicate inIds = idField.in(ids);
-
-        query.where(inIds);
-        return createQuery(query).getResultList();
-    }
-
-    public Set<UserEntity> getByQuery(GetUsersBulkQuery queryParameters) {
+    public Set<UserEntity> getByQuery(GetUsersQuery queryParameters) {
         CriteriaBuilder builder = getCriteriaBuilder();
         CriteriaQuery<UserEntity> query = builder.createQuery(entityType);
         Root<UserEntity> root = query.from(entityType);

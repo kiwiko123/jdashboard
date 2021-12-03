@@ -1,11 +1,11 @@
-package com.kiwiko.jdashboard.webapp.clients.users.api.parameters;
+package com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.queries;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class GetUsersBulkQuery {
+public class GetUsersQuery {
 
     public static Builder newBuilder() {
         return new Builder();
@@ -46,8 +46,8 @@ public class GetUsersBulkQuery {
             return this;
         }
 
-        public GetUsersBulkQuery build() {
-            GetUsersBulkQuery query = new GetUsersBulkQuery();
+        public GetUsersQuery build() {
+            GetUsersQuery query = new GetUsersQuery();
             query.setUserIds(userIds);
             query.setUsernames(usernames);
 

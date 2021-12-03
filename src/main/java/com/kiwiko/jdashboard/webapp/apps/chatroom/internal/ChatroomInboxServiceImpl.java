@@ -12,7 +12,7 @@ import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.GetI
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.ChatroomMessageRoomService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.ChatroomMessageRoomUserService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.exceptions.ChatroomMessageRoomAlreadyExistsException;
-import com.kiwiko.jdashboard.webapp.clients.users.api.parameters.GetUsersBulkQuery;
+import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.queries.GetUsersQuery;
 import com.kiwiko.jdashboard.webapp.users.api.UserService;
 import com.kiwiko.jdashboard.webapp.users.data.User;
 
@@ -95,7 +95,7 @@ public class ChatroomInboxServiceImpl implements ChatroomInboxService {
         Set<Long> userIds = messageRoomUsers.stream()
                 .map(ChatroomMessageRoomUser::getUserId)
                 .collect(Collectors.toSet());
-        GetUsersBulkQuery getUsersQuery = GetUsersBulkQuery.newBuilder()
+        GetUsersQuery getUsersQuery = GetUsersQuery.newBuilder()
                 .setUserIds(userIds)
                 .build();
         Map<Long, User> usersById = userService.getByQuery(getUsersQuery).stream()
@@ -126,7 +126,7 @@ public class ChatroomInboxServiceImpl implements ChatroomInboxService {
     }
 
     private Set<User> getUsersForCreateChatroomForm(CreateChatroomFormInput input) {
-        GetUsersBulkQuery getRecipientsQuery = GetUsersBulkQuery.newBuilder()
+        GetUsersQuery getRecipientsQuery = GetUsersQuery.newBuilder()
                 .setUsernames(input.getRecipientUsernames())
                 .build();
 

@@ -1,8 +1,5 @@
 package com.kiwiko.jdashboard.webapp.featureflags.web;
 
-import com.kiwiko.jdashboard.webapp.clients.users.api.UserClient;
-import com.kiwiko.jdashboard.webapp.clients.users.api.parameters.GetUserQuery;
-import com.kiwiko.jdashboard.webapp.clients.users.api.parameters.GetUsersQuery;
 import com.kiwiko.jdashboard.webapp.featureflags.api.interfaces.FeatureFlagEventClient;
 import com.kiwiko.jdashboard.webapp.featureflags.api.interfaces.FeatureFlagResolver;
 import com.kiwiko.jdashboard.webapp.featureflags.api.interfaces.FeatureFlagService;
@@ -14,7 +11,6 @@ import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
 import com.kiwiko.jdashboard.webapp.framework.json.deserialization.api.impl.GsonRequestBodyDeserializationStrategy;
 import com.kiwiko.jdashboard.webapp.framework.json.deserialization.api.interfaces.CustomRequestBody;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationRequired;
-import com.kiwiko.jdashboard.webapp.users.data.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -39,22 +34,6 @@ public class FeatureFlagAPIController {
     @Inject private FeatureFlagEventClient featureFlagEventClient;
     @Inject private FeatureFlagService featureFlagService;
     @Inject private FeatureFlagResolver featureFlagResolver;
-    @Inject private UserClient userClient;
-
-    @GetMapping("/feature-flags/api/test")
-    public ResponsePayload test() throws InterruptedException {
-        GetUserQuery queryOne = new GetUserQuery();
-        queryOne.setId(1L);
-
-        GetUserQuery queryTwo = new GetUserQuery();
-        queryTwo.setId(2L);
-
-        GetUsersQuery query = new GetUsersQuery();
-        query.setQueries(Arrays.asList(queryOne, queryTwo));
-
-        List<User> users = userClient.getByQuery(query);
-        return ResponseBuilder.payload(users);
-    }
 
     @GetMapping("/feature-flags/api/resolve")
     public ResponsePayload resolveFlag(

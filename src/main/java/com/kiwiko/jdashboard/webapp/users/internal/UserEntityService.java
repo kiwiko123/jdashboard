@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.users.internal;
 
-import com.kiwiko.jdashboard.webapp.clients.users.api.parameters.GetUsersBulkQuery;
+import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.queries.GetUsersQuery;
 import com.kiwiko.jdashboard.webapp.framework.persistence.transactions.api.interfaces.TransactionProvider;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.PasswordService;
 import com.kiwiko.library.persistence.dataAccess.api.PersistenceException;
@@ -11,12 +11,10 @@ import com.kiwiko.jdashboard.webapp.users.api.parameters.CreateUserParameters;
 import com.kiwiko.jdashboard.webapp.users.data.User;
 import com.kiwiko.jdashboard.webapp.users.internal.dataAccess.UserEntityDAO;
 import com.kiwiko.jdashboard.webapp.users.internal.dataAccess.UserEntity;
-import com.kiwiko.jdashboard.webapp.clients.users.api.parameters.GetUsersQuery;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -86,16 +84,8 @@ public class UserEntityService implements UserService {
                 .filter(user -> passwordService.matches(parameters.getPassword(), user.getEncryptedPassword()));
     }
 
-    @Transactional(readOnly = true)
     @Override
-    public List<User> getByQuery(GetUsersQuery query) {
-        return userEntityDAO.getByQuery(query).stream()
-                .map(mapper::toDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public Set<User> getByQuery(GetUsersBulkQuery query) {
+    public Set<User> getByQuery(GetUsersQuery query) {
         return transactionProvider.readOnly(() -> userEntityDAO.getByQuery(query).stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toSet()));

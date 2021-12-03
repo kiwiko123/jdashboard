@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.webapp.clients.users.api.parameters;
+package com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.queries;
 
 public class GetUserQuery {
     private Long id;
