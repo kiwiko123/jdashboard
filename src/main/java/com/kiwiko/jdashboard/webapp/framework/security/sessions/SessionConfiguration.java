@@ -1,5 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.security.sessions;
 
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.security.sessions.api.SessionHelper;
 import com.kiwiko.jdashboard.webapp.framework.security.sessions.api.SessionService;
 import com.kiwiko.jdashboard.webapp.framework.security.sessions.internal.SessionEntityMapper;
@@ -10,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class SessionConfiguration {
+public class SessionConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
     public SessionService sessionService() {

@@ -4,13 +4,14 @@ import com.kiwiko.jdashboard.webapp.application.events.api.interfaces.Applicatio
 import com.kiwiko.jdashboard.webapp.application.events.internal.ApplicationEventEntityService;
 import com.kiwiko.jdashboard.webapp.application.events.internal.data.ApplicationEventEntityDataFetcher;
 import com.kiwiko.jdashboard.webapp.application.events.internal.mappers.ApplicationEventEntityMapper;
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackageClasses = ApplicationEventConfiguration.class)
-public class ApplicationEventConfiguration {
+public class ApplicationEventConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
     public ApplicationEventService applicationEventService() {

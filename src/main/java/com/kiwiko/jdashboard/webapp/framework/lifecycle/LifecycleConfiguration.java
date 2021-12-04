@@ -1,5 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.lifecycle;
 
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.lifecycle.api.LifeCycleHookConfigurationCreator;
 import com.kiwiko.jdashboard.webapp.framework.lifecycle.api.LifeCycleHookRegistry;
 import com.kiwiko.jdashboard.webapp.framework.lifecycle.api.LifeCycleService;
@@ -11,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackageClasses = LifecycleConfiguration.class)
-public class LifecycleConfiguration {
+public class LifecycleConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
     public LifeCycleHookRegistry lifeCycleHookRegistry() {

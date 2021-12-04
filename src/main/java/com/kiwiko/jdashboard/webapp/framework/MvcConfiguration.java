@@ -1,5 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework;
 
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.library.caching.api.ObjectCache;
 import com.kiwiko.library.caching.impl.InMemoryObjectCache;
 import com.kiwiko.jdashboard.webapp.framework.json.api.JsonSerializer;
@@ -32,7 +33,7 @@ import java.util.List;
 
 @Configuration
 @Import(MvcJsonDeserializationConfiguration.class)
-public class MvcConfiguration implements WebMvcConfigurer {
+public class MvcConfiguration implements WebMvcConfigurer, JdashboardDependencyConfiguration {
 
     @Inject private CustomRequestBodyArgumentResolver customRequestBodyArgumentResolver;
     private ConfigurationHelper configurationHelper;

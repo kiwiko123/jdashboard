@@ -1,5 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.requests;
 
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.CurrentRequestService;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.RequestContextService;
 import com.kiwiko.jdashboard.webapp.framework.requests.internal.RequestContextEntityMapper;
@@ -12,7 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RequestConfiguration {
+public class RequestConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
     public RequestContextEntityDAO requestContextEntityDAO() {

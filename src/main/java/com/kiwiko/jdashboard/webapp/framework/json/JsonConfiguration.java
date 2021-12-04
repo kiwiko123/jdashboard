@@ -1,12 +1,13 @@
 package com.kiwiko.jdashboard.webapp.framework.json;
 
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.library.lang.random.RandomUtil;
 import com.kiwiko.library.lang.reflection.ReflectionHelper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class JsonConfiguration {
+public class JsonConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
     public ReflectionHelper reflectionHelper() {

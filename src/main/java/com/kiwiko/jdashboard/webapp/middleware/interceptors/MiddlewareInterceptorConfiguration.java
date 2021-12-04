@@ -1,5 +1,6 @@
 package com.kiwiko.jdashboard.webapp.middleware.interceptors;
 
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.middleware.interceptors.api.interfaces.EndpointInterceptorChain;
 import com.kiwiko.jdashboard.webapp.middleware.interceptors.internal.EndpointInterceptorExecutor;
 import com.kiwiko.jdashboard.webapp.monitoring.logging.LoggingConfiguration;
@@ -13,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class MiddlewareInterceptorConfiguration implements WebMvcConfigurer {
+public class MiddlewareInterceptorConfiguration implements WebMvcConfigurer, JdashboardDependencyConfiguration {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

@@ -1,5 +1,7 @@
 package com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations;
 
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -51,5 +53,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ConfiguredBy {
 
-    Class<?>[] value();
+    Class<? extends JdashboardDependencyConfiguration>[] value();
 }

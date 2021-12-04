@@ -8,13 +8,14 @@ import com.kiwiko.jdashboard.webapp.featureflags.internal.FeatureFlagEntityMappe
 import com.kiwiko.jdashboard.webapp.featureflags.internal.FeatureFlagEntityService;
 import com.kiwiko.jdashboard.webapp.featureflags.internal.FeatureFlagServiceResolver;
 import com.kiwiko.jdashboard.webapp.featureflags.internal.data.FeatureFlagEntityDataFetcher;
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackageClasses = FeatureFlagConfiguration.class)
-public class FeatureFlagConfiguration {
+public class FeatureFlagConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
     public FeatureFlagService featureFlagService() {

@@ -8,11 +8,12 @@ import com.kiwiko.jdashboard.webapp.apps.games.state.internal.UserGameStateAssoc
 import com.kiwiko.jdashboard.webapp.apps.games.state.internal.UserGameStateAssociationService;
 import com.kiwiko.jdashboard.webapp.apps.games.state.internal.data.GameStateEntityDataFetcher;
 import com.kiwiko.jdashboard.webapp.apps.games.state.internal.data.UserGameStateAssociationEntityDataFetcher;
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class GameStateConfiguration {
+public class GameStateConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
     public GameStateEntityDataFetcher gameStateEntityDAO() {

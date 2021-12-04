@@ -1,5 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.application.properties;
 
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.monitoring.logging.LoggingConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.JdashboardPropertyMapper;
 import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.JdashboardPropertyReader;
@@ -14,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackageClasses = PropertiesConfiguration.class)
-public class PropertiesConfiguration {
+public class PropertiesConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
     @ConfiguredBy(LoggingConfiguration.class)

@@ -1,5 +1,6 @@
 package com.kiwiko.jdashboard.webapp.http.client;
 
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.library.http.client.api.AsynchronousHttpRequestClient;
 import com.kiwiko.library.http.client.api.SynchronousHttpRequestClient;
 import com.kiwiko.library.http.client.internal.HttpNetAsynchronousRequestClient;
@@ -9,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class JdashboardHttpClientConfiguration {
+public class JdashboardHttpClientConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
     public JdashboardHttpClient jdashboardHttpClient() {

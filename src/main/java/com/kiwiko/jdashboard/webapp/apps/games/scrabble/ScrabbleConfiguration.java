@@ -5,6 +5,7 @@ import com.kiwiko.jdashboard.webapp.apps.games.scrabble.game.logic.ScrabbleMoveH
 import com.kiwiko.jdashboard.webapp.apps.games.scrabble.internal.ScrabbleGameEntityService;
 import com.kiwiko.jdashboard.webapp.apps.games.scrabble.api.ScrabbleGameService;
 import com.kiwiko.jdashboard.webapp.apps.games.scrabble.game.logic.ScrabbleCreateGameHelper;
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
  * Dependencies can be {@link javax.inject.Inject}ed into classes.
  */
 @Configuration
-public class ScrabbleConfiguration {
+public class ScrabbleConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
     public ScrabbleCreateGameHelper scrabbleCreateGameHelper() {

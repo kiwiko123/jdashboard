@@ -1,5 +1,6 @@
 package com.kiwiko.jdashboard.webapp.users;
 
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.PasswordService;
 import com.kiwiko.jdashboard.webapp.users.internal.UserEntityPasswordService;
 import com.kiwiko.jdashboard.webapp.users.api.UserService;
@@ -10,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class UserConfiguration {
+public class UserConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
     public UserService userService() {
