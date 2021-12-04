@@ -12,9 +12,9 @@ import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.GetI
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.ChatroomMessageRoomService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.ChatroomMessageRoomUserService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.exceptions.ChatroomMessageRoomAlreadyExistsException;
+import com.kiwiko.jdashboard.webapp.clients.users.api.dto.User;
+import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.UserClient;
 import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.queries.GetUsersQuery;
-import com.kiwiko.jdashboard.webapp.users.api.UserService;
-import com.kiwiko.jdashboard.webapp.users.data.User;
 
 import javax.inject.Inject;
 import java.util.Collection;
@@ -30,7 +30,7 @@ public class ChatroomInboxServiceImpl implements ChatroomInboxService {
 
     @Inject private ChatroomMessageRoomService chatroomMessageRoomService;
     @Inject private ChatroomMessageRoomUserService chatroomMessageRoomUserService;
-    @Inject private UserService userService;
+    @Inject private UserClient userClient;
 
     @Override
     public ChatroomInboxFeed getInboxFeed(GetInboxFeedParameters parameters) {
@@ -98,7 +98,7 @@ public class ChatroomInboxServiceImpl implements ChatroomInboxService {
         GetUsersQuery getUsersQuery = GetUsersQuery.newBuilder()
                 .setUserIds(userIds)
                 .build();
-        Map<Long, User> usersById = userService.getByQuery(getUsersQuery).stream()
+        Map<Long, User> usersById = userClient.getByQuery(getUsersQuery).getUsers().stream()
                 .collect(Collectors.toMap(User::getId, Function.identity()));
 
         return roomsForUser.stream()
@@ -130,8 +130,8 @@ public class ChatroomInboxServiceImpl implements ChatroomInboxService {
                 .setUsernames(input.getRecipientUsernames())
                 .build();
 
-        Set<User> result = userService.getByQuery(getRecipientsQuery);
-        userService.getById(input.getUserId())
+        Set<User> result = userClient.getByQuery(getRecipientsQuery).getUsers();
+        userClient.getById(input.getUserId()).getUser()
                 .ifPresent(result::add);
 
         return result;
