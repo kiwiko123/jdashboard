@@ -6,7 +6,7 @@ import com.kiwiko.library.http.client.dto.GetRequest;
 import com.kiwiko.library.http.client.dto.HttpClientRequest;
 import com.kiwiko.library.http.client.dto.PostRequest;
 import com.kiwiko.library.http.client.dto.PutRequest;
-import com.kiwiko.webapp.mvc.json.api.JsonSerializer;
+import com.kiwiko.jdashboard.webapp.framework.json.api.JsonSerializer;
 
 import java.net.URI;
 import java.net.URISyntaxException;

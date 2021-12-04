@@ -108,3 +108,24 @@ CREATE TABLE universal_unique_identifiers (
     reference_key TEXT UNIQUE NOT NULL,
     created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
+
+CREATE TABLE chatroom_message_rooms (
+    id BIGSERIAL PRIMARY KEY,
+    is_removed BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+CREATE TABLE chatroom_message_room_users (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL REFERENCES users(user_id),
+    chatroom_message_room_id BIGINT NOT NULL REFERENCES chatroom_message_rooms(id),
+    is_removed BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+CREATE TABLE chatroom_messages (
+    id BIGSERIAL PRIMARY KEY,
+    sender_user_id BIGINT NOT NULL REFERENCES users(user_id),
+    chatroom_message_room_id BIGINT NOT NULL REFERENCES chatroom_message_rooms(id),
+    message_status TEXT NOT NULL,
+    sent_date TIMESTAMP WITH TIME ZONE,
+    is_removed BOOLEAN NOT NULL DEFAULT FALSE
+);

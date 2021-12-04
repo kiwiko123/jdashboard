@@ -59,7 +59,7 @@ $ sh ./react/docs/setup.sh
 ```
 
 ## Start the application
-1. Run [`Application.java`](./src/main/java/com/kiwiko/webapp/Application.java).
+1. Run [`Application.java`](src/main/java/com/kiwiko/jdashboard/webapp/Application.java).
 2. Run the app in development mode:
 ```shell
 $ cd ./react

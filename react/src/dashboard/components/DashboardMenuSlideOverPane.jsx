@@ -31,7 +31,7 @@ const DashboardMenuSlideOverPane = ({
     expanded, toggleExpand, children, accountProps, appId,
 }) => {
     const accountButtons = makeButtons(makeAccountButtonSettings(accountProps), { appId });
-    const quickLinkButtons = makeButtons(makeQuickLinkButtonSettings(), { appId });
+    const quickLinkButtons = makeButtons(makeQuickLinkButtonSettings(accountProps), { appId });
     const greeting = accountProps.isLoggedIn && accountProps.username && (
         <div className="greeting">
             <i className="far fa-smile" />
