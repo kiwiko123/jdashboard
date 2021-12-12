@@ -46,7 +46,7 @@ public class AuthenticatedUserArgumentResolver implements HandlerMethodArgumentR
 
         User currentUser = requestContextService.getFromSession(session, SessionProperties.REQUEST_CONTEXT_ID_SESSION_KEY)
                 .flatMap(RequestContext::getUser)
-                .map(userClient::toUser)
+                .map(userClient::fromLegacyUser)
                 .orElse(null);
 
         if (currentUser != null) {

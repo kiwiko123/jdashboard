@@ -38,7 +38,7 @@ public class UserServiceClient implements UserClient {
     }
 
     @Override
-    public User toUser(com.kiwiko.jdashboard.webapp.users.data.User user) {
+    public User fromLegacyUser(com.kiwiko.jdashboard.webapp.users.data.User user) {
         return userDtoMapper.toTargetType(user);
     }
 }

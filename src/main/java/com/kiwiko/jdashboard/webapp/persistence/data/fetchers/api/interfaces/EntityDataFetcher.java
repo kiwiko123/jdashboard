@@ -50,10 +50,10 @@ public abstract class EntityDataFetcher<T extends DataEntity> {
      */
     public T save(T entity) {
         if (captureDataChanges) {
-            return dataChangeCapturer.save(entity, this::getById, entityManager::merge);
+            return dataChangeCapturer.save(entity, this::getById, this::persistToDataStore);
         }
 
-        return entityManager.merge(entity);
+        return persistToDataStore(entity);
     }
 
     public void delete(T entity) {
@@ -173,5 +173,9 @@ public abstract class EntityDataFetcher<T extends DataEntity> {
      */
     protected Class<T> getEntityType() {
         return reflectionHelper.getGenericClassType(getClass());
+    }
+
+    private T persistToDataStore(T entity) {
+        return entityManager.merge(entity);
     }
 }
