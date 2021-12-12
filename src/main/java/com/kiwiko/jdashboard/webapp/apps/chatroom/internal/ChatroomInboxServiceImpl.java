@@ -15,6 +15,7 @@ import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.exceptions.Chatr
 import com.kiwiko.jdashboard.webapp.clients.users.api.dto.User;
 import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.UserClient;
 import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.queries.GetUsersQuery;
+import com.kiwiko.library.lang.util.TypedObjects;
 
 import javax.inject.Inject;
 import java.util.Collection;
@@ -38,7 +39,7 @@ public class ChatroomInboxServiceImpl implements ChatroomInboxService {
         Objects.requireNonNull(parameters.getUserId(), "User ID is required");
 
         Set<ChatroomMessageRoom> roomsForUser = chatroomMessageRoomService.getRoomsForUsers(Collections.singleton(parameters.getUserId()));
-        List<ChatroomInboxItem> inboxItems = getInboxItemsForFeed(roomsForUser);
+        List<ChatroomInboxItem> inboxItems = getInboxItemsForFeed(parameters, roomsForUser);
 
         ChatroomInboxFeed inboxFeed = new ChatroomInboxFeed();
         inboxFeed.setInboxItems(inboxItems);
@@ -83,7 +84,9 @@ public class ChatroomInboxServiceImpl implements ChatroomInboxService {
         return createdChatroom;
     }
 
-    private List<ChatroomInboxItem> getInboxItemsForFeed(Collection<ChatroomMessageRoom> roomsForUser) {
+    private List<ChatroomInboxItem> getInboxItemsForFeed(
+            GetInboxFeedParameters getInboxFeedParameters,
+            Collection<ChatroomMessageRoom> roomsForUser) {
         Set<Long> chatroomMessageRoomIds = roomsForUser.stream()
                 .map(ChatroomMessageRoom::getId)
                 .collect(Collectors.toSet());
@@ -102,17 +105,19 @@ public class ChatroomInboxServiceImpl implements ChatroomInboxService {
                 .collect(Collectors.toMap(User::getId, Function.identity()));
 
         return roomsForUser.stream()
-                .map(room -> createInboxItem(room, roomUsersByRoomId, usersById))
+                .map(room -> createInboxItem(getInboxFeedParameters, room, roomUsersByRoomId, usersById))
                 .collect(Collectors.toList());
     }
 
     private ChatroomInboxItem createInboxItem(
+            GetInboxFeedParameters getInboxFeedParameters,
             ChatroomMessageRoom chatroomMessageRoom,
             Map<Long, Set<ChatroomMessageRoomUser>> roomUsersByRoomId,
             Map<Long, User> usersById) {
         Set<ChatroomMessageRoomUser> usersInRoom = roomUsersByRoomId.getOrDefault(chatroomMessageRoom.getId(), Collections.emptySet());
         Set<ChatroomInboxItemUserData> userData = usersInRoom.stream()
                 .map(ChatroomMessageRoomUser::getUserId)
+                .filter(userId -> TypedObjects.notEquals(userId, getInboxFeedParameters.getUserId()))
                 .map(usersById::get)
                 .filter(Objects::nonNull)
                 .map(ChatroomInboxItemUserData::fromUser)
