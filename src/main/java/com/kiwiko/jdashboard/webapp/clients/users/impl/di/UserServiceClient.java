@@ -36,4 +36,9 @@ public class UserServiceClient implements UserClient {
 
         return response;
     }
+
+    @Override
+    public User toUser(com.kiwiko.jdashboard.webapp.users.data.User user) {
+        return userDtoMapper.toTargetType(user);
+    }
 }
