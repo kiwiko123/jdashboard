@@ -2,7 +2,7 @@ package com.kiwiko.jdashboard.webapp.apps.chatroom.api.dto.rooms;
 
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.dto.ChatroomMessage;
 
-public class Message {
+public class ChatroomRoomMessage {
     private ChatroomMessage chatroomMessage;
     private String senderDisplayName;
 

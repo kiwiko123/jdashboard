@@ -2,6 +2,7 @@ package com.kiwiko.jdashboard.webapp.apps.chatroom.web;
 
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.dto.rooms.ChatroomMessageFeed;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.ChatroomRoomService;
+import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.rooms.GetMessageFeedParameters;
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.JdashboardConfigured;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticatedUser;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationLevel;
@@ -26,6 +27,10 @@ public class ChatroomAPIController {
     public ChatroomMessageFeed getMessagesForRoom(
             @PathVariable("roomId") Long roomId,
             @AuthenticatedUser User user) {
-        return null;
+        GetMessageFeedParameters getMessageFeedParameters = new GetMessageFeedParameters();
+        getMessageFeedParameters.setRoomId(roomId);
+        getMessageFeedParameters.setUserId(user.getId());
+
+        return chatroomRoomService.getMessageFeed(getMessageFeedParameters);
     }
 }

@@ -6,6 +6,7 @@ import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.ChatroomInboxServiceI
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.ChatroomRoomServiceImpl;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.ChatroomMessageRoomService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.ChatroomMessageRoomUserService;
+import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.ChatroomMessageService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.data.fetchers.ChatroomMessageEntityDataFetcher;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.data.fetchers.ChatroomMessageRoomEntityDataFetcher;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.data.fetchers.ChatroomMessageRoomUserEntityDataFetcher;
@@ -57,6 +58,11 @@ public class ChatroomConfiguration implements JdashboardDependencyConfiguration 
     @Bean
     public ChatroomMessageRoomUserMapper chatroomMessageRoomUserMapper() {
         return new ChatroomMessageRoomUserMapper();
+    }
+
+    @Bean
+    public ChatroomMessageService chatroomMessageService() {
+        return new ChatroomMessageService();
     }
 
     @Bean

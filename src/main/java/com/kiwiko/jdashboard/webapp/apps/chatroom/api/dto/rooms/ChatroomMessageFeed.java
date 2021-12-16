@@ -3,13 +3,13 @@ package com.kiwiko.jdashboard.webapp.apps.chatroom.api.dto.rooms;
 import java.util.List;
 
 public class ChatroomMessageFeed {
-    private List<Message> messages;
+    private List<ChatroomRoomMessage> messages;
 
-    public List<Message> getMessages() {
+    public List<ChatroomRoomMessage> getMessages() {
         return messages;
     }
 
-    public void setMessages(List<Message> messages) {
+    public void setMessages(List<ChatroomRoomMessage> messages) {
         this.messages = messages;
     }
 }
