@@ -40,6 +40,10 @@ public class AuthenticatedUserArgumentResolver implements HandlerMethodArgumentR
             throw new InvalidAuthenticatedUserException("No @AuthenticatedUser annotation found");
         }
 
+        if (methodParameter.getParameterType() != User.class) {
+            throw new IllegalArgumentException(String.format("Incompatible parameter type %s; expected %s", methodParameter.getParameterType().getName(), User.class.getName()));
+        }
+
         HttpSession session = Optional.ofNullable(nativeWebRequest.getNativeRequest(HttpServletRequest.class))
                 .map(HttpServletRequest::getSession)
                 .orElseThrow(() -> new InvalidAuthenticatedUserException("No session found for current request"));
