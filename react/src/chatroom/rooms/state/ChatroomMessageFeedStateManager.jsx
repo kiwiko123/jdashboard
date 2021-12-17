@@ -28,4 +28,8 @@ export default class ChatroomMessageFeedStateManager extends PushServiceStateTra
                 });
             });
     }
+
+    onConnectionOpened() {
+        this.pushToServer();
+    }
 }
