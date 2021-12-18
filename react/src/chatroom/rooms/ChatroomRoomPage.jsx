@@ -8,12 +8,12 @@ import ChatroomMessageFeedStateManager from './state/ChatroomMessageFeedStateMan
 import ChatroomMessageFeed from './components/ChatroomMessageFeed';
 
 export default function() {
-    const roomId = get(getUrlParameters(), 'r');
-    if (!roomId) {
+    const roomUuid = get(getUrlParameters(), 'r');
+    if (!roomUuid) {
         throw new Error('R required');
     }
 
-    const messageFeedStateManager = useStateManager(() => new ChatroomMessageFeedStateManager({ roomId }));
+    const messageFeedStateManager = useStateManager(() => new ChatroomMessageFeedStateManager({ roomUuid }));
 
     return (
         <DashboardPage

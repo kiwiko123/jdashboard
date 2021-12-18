@@ -7,6 +7,7 @@ import java.util.Set;
 
 public class NewChatroom {
     private ChatroomMessageRoom chatroomMessageRoom;
+    private String chatroomMessageRoomUuid;
     private Set<ChatroomMessageRoomUser> chatroomMessageRoomUsers;
 
     public ChatroomMessageRoom getChatroomMessageRoom() {
@@ -15,6 +16,14 @@ public class NewChatroom {
 
     public void setChatroomMessageRoom(ChatroomMessageRoom chatroomMessageRoom) {
         this.chatroomMessageRoom = chatroomMessageRoom;
+    }
+
+    public String getChatroomMessageRoomUuid() {
+        return chatroomMessageRoomUuid;
+    }
+
+    public void setChatroomMessageRoomUuid(String chatroomMessageRoomUuid) {
+        this.chatroomMessageRoomUuid = chatroomMessageRoomUuid;
     }
 
     public Set<ChatroomMessageRoomUser> getChatroomMessageRoomUsers() {

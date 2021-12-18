@@ -8,6 +8,7 @@ import java.util.Set;
 public class ChatroomInboxItem {
 
     private ChatroomMessageRoom room;
+    private String roomUuid;
     private Set<ChatroomInboxItemUserData> users;
     private Instant lastUpdatedDate;
 
@@ -17,6 +18,14 @@ public class ChatroomInboxItem {
 
     public void setRoom(ChatroomMessageRoom room) {
         this.room = room;
+    }
+
+    public String getRoomUuid() {
+        return roomUuid;
+    }
+
+    public void setRoomUuid(String roomUuid) {
+        this.roomUuid = roomUuid;
     }
 
     public Set<ChatroomInboxItemUserData> getUsers() {

@@ -12,9 +12,12 @@ import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.GetI
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.ChatroomMessageRoomService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.ChatroomMessageRoomUserService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.exceptions.ChatroomMessageRoomAlreadyExistsException;
+import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.exceptions.ChatroomRuntimeException;
 import com.kiwiko.jdashboard.webapp.clients.users.api.dto.User;
 import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.UserClient;
 import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.queries.GetUsersQuery;
+import com.kiwiko.jdashboard.webapp.persistence.identification.unique.api.dto.UniversalUniqueIdentifier;
+import com.kiwiko.jdashboard.webapp.persistence.identification.unique.api.interfaces.UniqueIdentifierService;
 import com.kiwiko.library.lang.util.TypedObjects;
 
 import javax.inject.Inject;
@@ -31,6 +34,7 @@ public class ChatroomInboxServiceImpl implements ChatroomInboxService {
 
     @Inject private ChatroomMessageRoomService chatroomMessageRoomService;
     @Inject private ChatroomMessageRoomUserService chatroomMessageRoomUserService;
+    @Inject private UniqueIdentifierService uniqueIdentifierService;
     @Inject private UserClient userClient;
 
     @Override
@@ -64,6 +68,7 @@ public class ChatroomInboxServiceImpl implements ChatroomInboxService {
 
         // Create a new room.
         ChatroomMessageRoom messageRoom = chatroomMessageRoomService.create(new ChatroomMessageRoom());
+        String roomUuid = chatroomMessageRoomService.getRoomUuid(messageRoom.getId());
 
         // Add all users into the newly-created room.
         Set<ChatroomMessageRoomUser> chatroomMessageRoomUsers = allUsers.stream()
@@ -79,6 +84,7 @@ public class ChatroomInboxServiceImpl implements ChatroomInboxService {
 
         NewChatroom createdChatroom = new NewChatroom();
         createdChatroom.setChatroomMessageRoom(messageRoom);
+        createdChatroom.setChatroomMessageRoomUuid(roomUuid);
         createdChatroom.setChatroomMessageRoomUsers(chatroomMessageRoomUsers);
 
         return createdChatroom;
@@ -122,9 +128,11 @@ public class ChatroomInboxServiceImpl implements ChatroomInboxService {
                 .filter(Objects::nonNull)
                 .map(ChatroomInboxItemUserData::fromUser)
                 .collect(Collectors.toSet());
+        String roomUuid = chatroomMessageRoomService.getRoomUuid(chatroomMessageRoom.getId()); // TODO fix N+1 fetch
 
         ChatroomInboxItem item = new ChatroomInboxItem();
         item.setRoom(chatroomMessageRoom);
+        item.setRoomUuid(roomUuid);
         item.setUsers(userData);
 
         return item;

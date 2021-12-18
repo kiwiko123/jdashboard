@@ -1,6 +1,6 @@
 import { get } from 'lodash';
 import StateTransmitter from 'state/StateTransmitter';
-import Request from 'common/js/Request';
+import Request from 'tools/http/Request';
 
 const GET_FEED_URL = '/chatroom/api/inbox/feed';
 
@@ -18,7 +18,7 @@ export default class ChatroomInboxStateManager extends StateTransmitter {
 
     refreshFeed() {
         Request.to(GET_FEED_URL)
-            .withAuthentication()
+            .authenticated()
             .get()
             .then((response) => {
                 this.setState({ inboxItems: get(response, 'inboxItems', []) });
