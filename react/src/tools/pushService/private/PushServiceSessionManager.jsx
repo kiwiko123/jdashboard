@@ -2,7 +2,6 @@
 // TODO use configuration file for host
 const PUSH_SERVICE_URL = 'ws://localhost:8080/push';
 const SESSIONS = new Map();
-const PENDING_SERVICE_IDS = new Set();
 
 function addEventListener(webSocket, name, handler) {
     if (handler) {

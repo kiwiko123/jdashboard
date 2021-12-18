@@ -1,4 +1,4 @@
-import { isEmpty, isUndefined, pickBy } from 'lodash';
+import { isUndefined } from 'lodash';
 import logger from 'common/js/logging';
 import CoreStateManager from '../managers/CoreStateManager';
 import StateTransmitterRegistry from './private/StateTransmitterRegistry';

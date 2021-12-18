@@ -36,7 +36,7 @@ export default function(serviceId, userId, { receivePush } = {}) {
         });
         validateData(data);
         webSocket.send(data);
-    }, [serviceId, userId]);
+    }, [serviceId, userId, webSocket]);
 
     webSocket.onopen = () => {
         pushToServer({ userId });

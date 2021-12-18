@@ -1,9 +1,7 @@
-import { get } from 'lodash';
 import PushServiceStateTransmitter from 'tools/pushService/state/PushServiceStateTransmitter';
 import Request from 'tools/http/Request';
 
 const PUSH_SERVICE_ID_PREFIX = 'chatroomMessageFeed';
-const GET_FEED_URL = '/chatroom/api/inbox/feed';
 
 export default class ChatroomMessageFeedStateManager extends PushServiceStateTransmitter {
 

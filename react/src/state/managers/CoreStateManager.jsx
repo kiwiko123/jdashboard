@@ -1,4 +1,3 @@
-import { isUndefined, pickBy } from 'lodash';
 import logger from 'common/js/logging';
 
 export default class CoreStateManger {

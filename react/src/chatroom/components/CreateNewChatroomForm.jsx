@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import InputFormField from 'common/forms/components/core/InputFormField';
 import Tag from 'common/components/Tag';

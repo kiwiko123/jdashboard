@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
 import { goTo } from 'common/js/urltools';
 import inboxItemPropTypeShape from './propTypes/inboxItemPropTypeShape';
 

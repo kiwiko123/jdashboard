@@ -1,4 +1,4 @@
-import { endsWith, get, identity, isEmpty, isNil, isNumber, omit, pickBy, startsWith } from 'lodash';
+import { endsWith, identity, isEmpty, isNumber, omit, pickBy, startsWith } from 'lodash';
 import { getServerUrl } from 'common/js/config';
 
 function normalizeUrl(base, url) {

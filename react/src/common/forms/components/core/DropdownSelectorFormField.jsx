@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 import FormField from './FormField';
 import DropdownSelector from '../DropdownSelector';
 import fieldPropTypeShape from './propTypes/fieldPropTypeShape';

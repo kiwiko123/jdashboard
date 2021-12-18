@@ -22,7 +22,6 @@ export default class PushServiceBroadcaster extends Broadcaster {
         if (id === 'UserDataBroadcaster') {
             if (state.id) {
                 this.userId = state.id;
-                return; // TESTING PushServiceStateTransmitter
                 this._webSocket = PushServiceSessionManager.getSession(state.id, this.serviceId, {
                     onOpen: this._onOpen.bind(this),
                     onClose: this._onClose.bind(this),
