@@ -7,10 +7,10 @@ const GET_FEED_URL = '/chatroom/api/inbox/feed';
 
 export default class ChatroomMessageFeedStateManager extends PushServiceStateTransmitter {
 
-    constructor({ roomUuid }) {
-        super(`${PUSH_SERVICE_ID_PREFIX}-${roomUuid}`);
+    constructor({ roomId }) {
+        super(`${PUSH_SERVICE_ID_PREFIX}-${roomId}`);
 
-        this.roomUuid = roomUuid;
+        this.roomId = roomId;
         this.setState({
             messages: [],
         });
@@ -19,7 +19,7 @@ export default class ChatroomMessageFeedStateManager extends PushServiceStateTra
     }
 
     refreshFeed() {
-        Request.to(`/chatroom/api/room/${this.roomUuid}/messages`)
+        Request.to(`/chatroom/api/room/${this.roomId}/messages`)
             .authenticated()
             .get()
             .then((response) => {

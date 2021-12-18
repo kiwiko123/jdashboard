@@ -23,12 +23,12 @@ public class ChatroomAPIController {
 
     @Inject private ChatroomRoomService chatroomRoomService;
 
-    @GetMapping("/room/{roomUuid}/messages")
+    @GetMapping("/room/{roomId}/messages")
     public ChatroomMessageFeed getMessagesForRoom(
-            @PathVariable("roomUuid") String roomUuid,
+            @PathVariable("roomId") Long roomId,
             @AuthenticatedUser User user) {
         GetMessageFeedParameters getMessageFeedParameters = new GetMessageFeedParameters();
-        getMessageFeedParameters.setRoomUuid(roomUuid);
+        getMessageFeedParameters.setRoomId(roomId);
         getMessageFeedParameters.setUserId(user.getId());
 
         // TODO permission check

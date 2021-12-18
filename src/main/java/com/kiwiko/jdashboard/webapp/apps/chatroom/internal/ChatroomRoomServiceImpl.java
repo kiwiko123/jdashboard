@@ -1,12 +1,10 @@
 package com.kiwiko.jdashboard.webapp.apps.chatroom.internal;
 
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.dto.ChatroomMessage;
-import com.kiwiko.jdashboard.webapp.apps.chatroom.api.dto.ChatroomMessageRoom;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.dto.rooms.ChatroomMessageFeed;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.dto.rooms.ChatroomRoomMessage;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.ChatroomRoomService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.rooms.GetMessageFeedParameters;
-import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.ChatroomMessageRoomService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.ChatroomMessageService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.parameters.GetMessagesForRoomParameters;
 import com.kiwiko.jdashboard.webapp.clients.users.api.dto.User;
@@ -26,21 +24,16 @@ import java.util.stream.Collectors;
 public class ChatroomRoomServiceImpl implements ChatroomRoomService {
 
     @Inject private ChatroomMessageService chatroomMessageService;
-    @Inject private ChatroomMessageRoomService chatroomMessageRoomService;
     @Inject private UserClient userClient;
 
     @Override
     public ChatroomMessageFeed getMessageFeed(GetMessageFeedParameters parameters) {
         Objects.requireNonNull(parameters, "GetMessageFeedParameters required");
-        Objects.requireNonNull(parameters.getRoomUuid(), "Room ID is required");
+        Objects.requireNonNull(parameters.getRoomId(), "Room ID is required");
         Objects.requireNonNull(parameters.getUserId(), "User ID is required");
 
-        ChatroomMessageRoom chatroomMessageRoom = chatroomMessageRoomService.getByRoomUuid(parameters.getRoomUuid())
-                .orElse(null);
-        Objects.requireNonNull(chatroomMessageRoom, "No room found");
-
         GetMessagesForRoomParameters getMessagesForRoomParameters = new GetMessagesForRoomParameters();
-        getMessagesForRoomParameters.setChatroomMessageRoomId(chatroomMessageRoom.getId());
+        getMessagesForRoomParameters.setChatroomMessageRoomId(parameters.getRoomId());
         getMessagesForRoomParameters.setMaxMessagesToFetch(parameters.getMaxMessagesToFetch());
         getMessagesForRoomParameters.setIncludeRemovedMessages(false);
         List<ChatroomMessage> chatroomMessages = chatroomMessageService.getMessagesByRoomId(getMessagesForRoomParameters);

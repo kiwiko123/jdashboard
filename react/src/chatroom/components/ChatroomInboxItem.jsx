@@ -6,11 +6,11 @@ import inboxItemPropTypeShape from './propTypes/inboxItemPropTypeShape';
 import './ChatroomInboxItem.css';
 
 const ChatroomInboxItem = ({
-    room, roomUuid, users,
+    room, users,
 }) => {
     const goToRoom = useCallback(() => {
-        goTo(`/chatroom/room?r=${roomUuid}`);
-    }, [roomUuid]);
+        goTo(`/chatroom/room?r=${room.id}`);
+    }, [room.id]);
     const userNames = users.map(user => user.displayName).join(', ');
 
     return (

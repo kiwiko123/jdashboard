@@ -2,16 +2,20 @@ package com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.roo
 
 public class GetMessageFeedParameters {
 
-    private String roomUuid;
+    private Long roomId;
     private Long userId;
     private int maxMessagesToFetch = 100;
 
-    public String getRoomUuid() {
-        return roomUuid;
+    public Long getRoomId() {
+        return roomId;
     }
 
-    public void setRoomUuid(String roomUuid) {
-        this.roomUuid = roomUuid;
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
+    }
+
+    public void setMaxMessagesToFetch(int maxMessagesToFetch) {
+        this.maxMessagesToFetch = maxMessagesToFetch;
     }
 
     public Long getUserId() {
