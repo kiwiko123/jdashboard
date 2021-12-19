@@ -1,17 +1,23 @@
 package com.kiwiko.jdashboard.webapp.apps.chatroom.internal;
 
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.dto.ChatroomMessage;
+import com.kiwiko.jdashboard.webapp.apps.chatroom.api.dto.ChatroomMessageRoom;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.dto.rooms.ChatroomMessageFeed;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.dto.rooms.ChatroomRoomMessage;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.ChatroomRoomService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.rooms.GetMessageFeedParameters;
+import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.rooms.SendMessageRequest;
+import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.rooms.SendMessageResponse;
+import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.ChatroomMessageRoomService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.ChatroomMessageService;
+import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.exceptions.ChatroomRuntimeException;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.parameters.GetMessagesForRoomParameters;
 import com.kiwiko.jdashboard.webapp.clients.users.api.dto.User;
 import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.UserClient;
 import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.queries.GetUsersQuery;
 
 import javax.inject.Inject;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +30,7 @@ import java.util.stream.Collectors;
 public class ChatroomRoomServiceImpl implements ChatroomRoomService {
 
     @Inject private ChatroomMessageService chatroomMessageService;
+    @Inject private ChatroomMessageRoomService chatroomMessageRoomService;
     @Inject private UserClient userClient;
 
     @Override
@@ -63,5 +70,33 @@ public class ChatroomRoomServiceImpl implements ChatroomRoomService {
         ChatroomMessageFeed chatroomMessageFeed = new ChatroomMessageFeed();
         chatroomMessageFeed.setMessages(chatroomRoomMessages);
         return chatroomMessageFeed;
+    }
+
+    @Override
+    public SendMessageResponse sendMessage(SendMessageRequest request) {
+        Objects.requireNonNull(request, "Request required");
+        Objects.requireNonNull(request.getChatroomMessageRoomId(), "Chatroom message room ID required");
+        Objects.requireNonNull(request.getSenderUserId(), "Sender user ID required");
+
+        // Validate that the user is in the room.
+        boolean isSendingUserInRoom = chatroomMessageRoomService.getRoomsForUsers(Collections.singleton(request.getSenderUserId())).stream()
+                .map(ChatroomMessageRoom::getId)
+                .anyMatch(request.getChatroomMessageRoomId()::equals);
+        if (!isSendingUserInRoom) {
+            throw new ChatroomRuntimeException(String.format("User ID %d is not in chatroom message room %d", request.getSenderUserId(), request.getChatroomMessageRoomId()));
+        }
+
+        // Send the message.
+        ChatroomMessage message = new ChatroomMessage();
+        message.setChatroomMessageRoomId(request.getChatroomMessageRoomId());
+        message.setSenderUserId(request.getSenderUserId());
+        message.setMessage(request.getMessage());
+
+        ChatroomMessage sentMessage = chatroomMessageService.create(message);
+
+        SendMessageResponse response = new SendMessageResponse();
+        response.setSentMessage(sentMessage);
+
+        return response;
     }
 }

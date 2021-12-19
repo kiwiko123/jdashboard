@@ -20,6 +20,7 @@ public class ChatroomMessageEntity implements SoftDeletableDataEntity {
     private Long id;
     private Long senderUserId;
     private Long chatroomMessageRoomId;
+    private @Nullable String message;
     private @Nullable String messageStatus;
     private @Nullable Instant sentDate;
     private boolean isRemoved;
@@ -52,6 +53,16 @@ public class ChatroomMessageEntity implements SoftDeletableDataEntity {
 
     public void setChatroomMessageRoomId(Long chatroomMessageRoomId) {
         this.chatroomMessageRoomId = chatroomMessageRoomId;
+    }
+
+    @Nullable
+    @Column(name = "message")
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(@Nullable String message) {
+        this.message = message;
     }
 
     @Nullable

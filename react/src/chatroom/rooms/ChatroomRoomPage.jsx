@@ -5,7 +5,9 @@ import ComponentStateManager from 'state/components/ComponentStateManager';
 import { useStateManager } from 'state/hooks';
 import { getUrlParameters } from 'common/js/urltools';
 import ChatroomMessageFeedStateManager from './state/ChatroomMessageFeedStateManager';
+import ChatroomMessageInputStateManager from './state/ChatroomMessageInputStateManager';
 import ChatroomMessageFeed from './components/ChatroomMessageFeed';
+import ChatroomMessageInput from './components/ChatroomMessageInput';
 
 export default function() {
     const roomId = get(getUrlParameters(), 'r');
@@ -14,6 +16,7 @@ export default function() {
     }
 
     const messageFeedStateManager = useStateManager(() => new ChatroomMessageFeedStateManager({ roomId }));
+    const messageInputStateManager = useStateManager(() => new ChatroomMessageInputStateManager(roomId));
 
     return (
         <DashboardPage
@@ -23,6 +26,10 @@ export default function() {
             <ComponentStateManager
                 broadcaster={messageFeedStateManager}
                 component={ChatroomMessageFeed}
+            />
+            <ComponentStateManager
+                broadcaster={messageInputStateManager}
+                component={ChatroomMessageInput}
             />
         </DashboardPage>
     );

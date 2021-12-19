@@ -127,5 +127,6 @@ CREATE TABLE chatroom_messages (
     chatroom_message_room_id BIGINT NOT NULL REFERENCES chatroom_message_rooms(id),
     message_status TEXT NOT NULL,
     sent_date TIMESTAMP WITH TIME ZONE,
+    message TEXT,
     is_removed BOOLEAN NOT NULL DEFAULT FALSE
 );

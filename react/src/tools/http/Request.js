@@ -39,31 +39,31 @@ export default class Request {
     }
 
     constructor(url) {
-        this.url = normalizeUrl(getServerUrl(), url);
-        this.requestParameters = {};
-        this.body = {};
-        this.extractResponse = identity;
-        this.handleErrors = () => {};
+        this._url = normalizeUrl(getServerUrl(), url);
+        this._requestParameters = {};
+        this._body = {};
+        this._extractResponse = identity;
+        this._handleErrors = () => {};
         this._internalFetchParameters = {};
     }
 
     body(body) {
-        this.body = pickBy(body, value => value !== undefined);
+        this._body = pickBy(body, value => value !== undefined);
         return this;
     }
 
     requestParameters(requestParameters) {
-        this.requestParameters = pickBy(requestParameters, value => value !== undefined);
+        this._requestParameters = pickBy(requestParameters, value => value !== undefined);
         return this;
     }
 
     responseExtractor(responseExtractor) {
-        this.extractResponse = responseExtractor;
+        this._extractResponse = responseExtractor;
         return this;
     }
 
     errorHandler(errorHandler) {
-        this.handleErrors = errorHandler;
+        this._handleErrors = errorHandler;
         return this;
     }
 
@@ -77,7 +77,7 @@ export default class Request {
     }
 
     async get(fetchParameters = {}) {
-        const url = makeUrl(this.url, this.requestParameters);
+        const url = makeUrl(this._url, this._requestParameters);
         return this.__makeRequest(url, fetchParameters);
     }
 
@@ -105,16 +105,16 @@ export default class Request {
         return fetch(url, allParameters)
             .then(response => response.json())
             .then((response) => {
-                this.handleErrors(response);
+                this._handleErrors(response);
                 if (isNumber(response.status) && response.status !== 200) {
                     throw new Error(response.message);
                 }
-                return this.extractResponse(response);
+                return this._extractResponse(response);
             });
     }
 
     async __makeCreateRequest(method, fetchParameters = {}) {
-        const url = makeUrl(this.url, this.requestParameters);
+        const url = makeUrl(this._url, this._requestParameters);
         const parameters = {
             headers: {
                 'Accept': 'application/json',
@@ -123,8 +123,8 @@ export default class Request {
             ...fetchParameters,
             method,
         };
-        if (!isEmpty(this.body)) {
-            parameters.body = JSON.stringify(this.body);
+        if (!isEmpty(this._body)) {
+            parameters.body = JSON.stringify(this._body);
         }
 
         return this.__makeRequest(url, parameters);
