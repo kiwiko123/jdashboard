@@ -1,6 +1,7 @@
 package com.kiwiko.jdashboard.webapp.apps.chatroom.web;
 
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.dto.rooms.ChatroomMessageFeed;
+import com.kiwiko.jdashboard.webapp.apps.chatroom.api.dto.rooms.ChatroomRoomMessage;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.ChatroomRoomService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.rooms.GetMessageFeedParameters;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.rooms.SendMessageRequest;
@@ -38,6 +39,12 @@ public class ChatroomAPIController {
         // TODO permission check
 
         return chatroomRoomService.getMessageFeed(getMessageFeedParameters);
+    }
+
+    @GetMapping("/room/message/{messageId}")
+    public ChatroomRoomMessage getMessageInRoom(
+            @PathVariable("messageId") Long messageId) {
+        return chatroomRoomService.getMessageForRoom(messageId);
     }
 
     @PostMapping("/room/message")

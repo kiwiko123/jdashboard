@@ -11,6 +11,7 @@ import com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces.Cre
 import javax.inject.Inject;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ChatroomMessageService {
@@ -19,6 +20,10 @@ public class ChatroomMessageService {
     @Inject private ChatroomMessageMapper chatroomMessageMapper;
     @Inject private TransactionProvider transactionProvider;
     @Inject private CreateReadUpdateDeleteExecutor crudExecutor;
+
+    public Optional<ChatroomMessage> get(long id) {
+        return crudExecutor.get(id, chatroomMessageEntityDataFetcher, chatroomMessageMapper);
+    }
 
     public List<ChatroomMessage> getMessagesByRoomId(GetMessagesForRoomParameters parameters) {
         return transactionProvider.readOnly(() -> chatroomMessageEntityDataFetcher.getMessagesForRoom(parameters).stream()

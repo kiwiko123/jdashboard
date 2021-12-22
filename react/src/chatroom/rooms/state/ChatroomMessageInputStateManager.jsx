@@ -30,6 +30,7 @@ export default class ChatroomMessageInputStateManager extends PushServiceStateTr
             .post()
             .then((response) => {
                 this.setState({ input: null });
+                this.sendState('ChatroomMessageFeedStateManager', { chatroomMessageId: response.sentMessage.id }, 'messageSent');
             });
     }
 }

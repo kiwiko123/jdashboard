@@ -26,11 +26,11 @@ public class ChatroomMessageEntityDataFetcher extends EntityDataFetcher<Chatroom
         if (!parameters.getIncludeRemovedMessages()) {
             Expression<Boolean> isRemoved = root.get("isRemoved");
             Predicate isActive = builder.isFalse(isRemoved);
-            allCriteria = builder.and(isActive);
+            allCriteria = builder.and(allCriteria, isActive);
         }
 
         Expression<Instant> sentDate = root.get("sentDate");
-        Order descendingSentDate = builder.desc(sentDate);
+        Order descendingSentDate = builder.asc(sentDate);
 
         query.where(allCriteria);
         query.orderBy(descendingSentDate);

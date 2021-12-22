@@ -23,6 +23,8 @@ import com.kiwiko.library.lang.util.TypedObjects;
 import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -61,7 +63,7 @@ public class ChatroomInboxServiceImpl implements ChatroomInboxService {
         Set<Long> allUserIds = allUsers.stream()
                 .map(User::getId)
                 .collect(Collectors.toSet());
-        Set<ChatroomMessageRoom> existingRooms = chatroomMessageRoomService.getRoomsForUsers(allUserIds);
+        Set<ChatroomMessageRoom> existingRooms = getExistingRoomsForUsers(allUserIds);
         if (!existingRooms.isEmpty()) {
             throw new ChatroomMessageRoomAlreadyExistsException(String.format("Message rooms %s already exist for user IDs %s", existingRooms, allUserIds));
         }
@@ -113,6 +115,25 @@ public class ChatroomInboxServiceImpl implements ChatroomInboxService {
         return roomsForUser.stream()
                 .map(room -> createInboxItem(getInboxFeedParameters, room, roomUsersByRoomId, usersById))
                 .collect(Collectors.toList());
+    }
+
+    private Set<ChatroomMessageRoom> getExistingRoomsForUsers(Collection<Long> userIds) {
+        Set<ChatroomMessageRoom> existingRooms = chatroomMessageRoomService.getRoomsForUsers(userIds);
+        Map<Long, Set<Long>> userIdsByRoomId = new HashMap<>();
+
+        for (ChatroomMessageRoom room : existingRooms) {
+            Set<Long> userIdsInRoom = chatroomMessageRoomUserService.getByRoomIds(Collections.singleton(room.getId())).stream()
+                    .map(ChatroomMessageRoomUser::getUserId)
+                    .collect(Collectors.toSet());
+            userIdsByRoomId.put(room.getId(), userIdsInRoom);
+        }
+
+        return existingRooms.stream()
+                .filter((room) -> {
+                   Set<Long> userIdsInRoom = userIdsByRoomId.getOrDefault(room.getId(), Collections.emptySet());
+                   return Objects.equals(userIds, userIdsInRoom);
+                })
+                .collect(Collectors.toSet());
     }
 
     private ChatroomInboxItem createInboxItem(

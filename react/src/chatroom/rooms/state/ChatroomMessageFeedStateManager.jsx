@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import PushServiceStateTransmitter from 'tools/pushService/state/PushServiceStateTransmitter';
 import Request from 'tools/http/Request';
 
@@ -16,13 +17,50 @@ export default class ChatroomMessageFeedStateManager extends PushServiceStateTra
         this.refreshFeed();
     }
 
+    onPushReceived(data) {
+        const message = JSON.parse(data);
+        this._loadMessage(message.id);
+    }
+
+    receiveChatroomMessageInputStateManager(state, metadata) {
+        if (metadata === 'messageSent') {
+            this._loadMessage(state.chatroomMessageId);
+        }
+    }
+
     refreshFeed() {
         Request.to(`/chatroom/api/room/${this.roomId}/messages`)
             .authenticated()
             .get()
             .then((response) => {
+                const messages = get(response, 'messages', []);
                 this.setState({
-                    messages: response.messages,
+                    messages: this._transformMessages(messages),
+                });
+            });
+    }
+
+    _transformMessage(message) {
+        const direction = message.chatroomMessage.senderUserId === this.userId ? 'outbound' : 'inbound';
+        return {
+            ...message,
+            direction,
+            caption: direction === 'outbound' ? message.chatroomMessage.messageStatus : null,
+        };
+    }
+
+    _transformMessages(messages) {
+        return messages.map(message => this._transformMessage(message));
+    }
+
+    _loadMessage(chatroomMessageId) {
+        Request.to(`/chatroom/api/room/message/${chatroomMessageId}`)
+            .authenticated()
+            .get()
+            .then((response) => {
+                const { messages } = this.state;
+                this.setState({
+                    messages: [...messages, this._transformMessage(response)],
                 });
             });
     }
