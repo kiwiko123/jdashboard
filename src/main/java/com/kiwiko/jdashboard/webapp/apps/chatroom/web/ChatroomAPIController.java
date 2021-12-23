@@ -2,8 +2,11 @@ package com.kiwiko.jdashboard.webapp.apps.chatroom.web;
 
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.dto.rooms.ChatroomMessageFeed;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.dto.rooms.ChatroomRoomMessage;
+import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.ChatroomPermissionService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.ChatroomRoomService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.rooms.GetMessageFeedParameters;
+import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.rooms.GetRoomPermissionsRequest;
+import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.rooms.GetRoomPermissionsResponse;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.rooms.SendMessageRequest;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.rooms.SendMessageResponse;
 import com.kiwiko.jdashboard.webapp.clients.users.api.dto.User;
@@ -27,6 +30,7 @@ import javax.inject.Inject;
 public class ChatroomAPIController {
 
     @Inject private ChatroomRoomService chatroomRoomService;
+    @Inject private ChatroomPermissionService chatroomPermissionService;
 
     @GetMapping("/room/{roomId}/messages")
     public ChatroomMessageFeed getMessagesForRoom(
@@ -45,6 +49,17 @@ public class ChatroomAPIController {
     public ChatroomRoomMessage getMessageInRoom(
             @PathVariable("messageId") Long messageId) {
         return chatroomRoomService.getMessageForRoom(messageId);
+    }
+
+    @GetMapping("/room/{roomId}/permissions")
+    public GetRoomPermissionsResponse getRoomPermissions(
+            @PathVariable("roomId") Long roomId,
+            @AuthenticatedUser User user) {
+        GetRoomPermissionsRequest request = new GetRoomPermissionsRequest();
+        request.setChatroomMessageRoomId(roomId);
+        request.setUserId(user.getId());
+
+        return chatroomPermissionService.getRoomPermissions(request);
     }
 
     @PostMapping("/room/message")
