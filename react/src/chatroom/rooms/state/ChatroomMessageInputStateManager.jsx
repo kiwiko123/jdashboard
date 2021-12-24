@@ -1,7 +1,7 @@
-import PushServiceStateTransmitter from 'tools/pushService/state/PushServiceStateTransmitter';
+import StateTransmitter from 'state/StateTransmitter';
 import Request from 'tools/http/Request';
 
-export default class ChatroomMessageInputStateManager extends PushServiceStateTransmitter {
+export default class ChatroomMessageInputStateManager extends StateTransmitter {
 
     constructor(roomId) {
         super();

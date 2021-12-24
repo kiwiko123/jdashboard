@@ -6,18 +6,49 @@ import ChatroomMessage from './ChatroomMessage';
 
 import './ChatroomMessageFeed.css';
 
+function createStatusIcon({ direction, messageStatus }) {
+    if (direction !== 'outbound') {
+        return null;
+    }
+
+    let iconClassName;
+    switch (messageStatus) {
+        case 'sent':
+            iconClassName = 'far fa-paper-plane';
+            break;
+        case 'delivered':
+            iconClassName = 'fas fa-check';
+            break;
+        case 'read':
+            iconClassName = 'fas fa-user-check';
+            break;
+        default:
+            return null;
+    }
+
+    return (
+        <i className={iconClassName} />
+    );
+
+}
+
 function createMessage(message, ref) {
     const className = classnames({
         inbound: message.direction === 'inbound',
         outbound: message.direction === 'outbound',
     });
+    const caption = createStatusIcon({
+        direction: message.direction,
+        messageStatus: message.chatroomMessage.messageStatus,
+    });
+
     return (
         <ChatroomMessage
             key={message.chatroomMessage.id}
             className={className}
             ref={ref}
             message={message.chatroomMessage.message}
-            caption={message.caption}
+            caption={caption}
         />
     );
 }

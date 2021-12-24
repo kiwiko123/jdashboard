@@ -13,8 +13,12 @@ export default class ChatroomMessageFeedStateManager extends PushServiceStateTra
         this.setState({
             messages: [],
         });
+    }
 
-        this.refreshFeed();
+    receiveChatroomRoomPermissionStateManager(state, metadata) {
+        if (metadata === 'canAccess') {
+            this.refreshFeed();
+        }
     }
 
     onPushReceived(data) {
@@ -45,7 +49,7 @@ export default class ChatroomMessageFeedStateManager extends PushServiceStateTra
         return {
             ...message,
             direction,
-            caption: direction === 'outbound' ? message.chatroomMessage.messageStatus : null,
+//             status: direction === 'outbound' ? message.chatroomMessage.messageStatus : null,
         };
     }
 

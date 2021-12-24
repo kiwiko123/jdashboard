@@ -44,3 +44,12 @@ export function updateQueryParameters(parameters = {}) {
 export function goTo(url) {
     window.location.href = url;
 }
+
+/**
+ * Naviage to the new URL in the browser without recording it in the history.
+ */
+export function quietlyGoTo(url) {
+    const currentUrl = window.location.href;
+    goTo(url);
+    window.history.replaceState(null, '', currentUrl);
+}

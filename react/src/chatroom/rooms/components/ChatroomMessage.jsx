@@ -9,6 +9,12 @@ const ChatroomMessage = ({
   message, caption, className, ref,
 }) => {
     const divClassName = classnames('ChatroomMessage', className);
+    const captionArea = caption && (
+        <div className="caption">
+            {caption}
+        </div>
+    );
+
     return (
         <div
             className={divClassName}
@@ -17,9 +23,7 @@ const ChatroomMessage = ({
             <div className="message">
                 {message}
             </div>
-            <div className="caption">
-                {caption}
-            </div>
+            {captionArea}
         </div>
     );
 };

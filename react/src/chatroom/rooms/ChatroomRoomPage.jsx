@@ -4,6 +4,7 @@ import DashboardPage from 'dashboard/components/DashboardPage';
 import ComponentStateManager from 'state/components/ComponentStateManager';
 import { useStateManager } from 'state/hooks';
 import { getUrlParameters } from 'common/js/urltools';
+import ChatroomRoomPermissionStateManager from './state/ChatroomRoomPermissionStateManager';
 import ChatroomMessageFeedStateManager from './state/ChatroomMessageFeedStateManager';
 import ChatroomMessageInputStateManager from './state/ChatroomMessageInputStateManager';
 import ChatroomMessageFeed from './components/ChatroomMessageFeed';
@@ -15,6 +16,7 @@ export default function() {
         throw new Error('R required');
     }
 
+    const roomPermissionStateManager = useStateManager(() => new ChatroomRoomPermissionStateManager(roomId));
     const messageFeedStateManager = useStateManager(() => new ChatroomMessageFeedStateManager({ roomId }));
     const messageInputStateManager = useStateManager(() => new ChatroomMessageInputStateManager(roomId));
 
