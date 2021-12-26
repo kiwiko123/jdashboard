@@ -31,6 +31,12 @@ CREATE TABLE sessions (
     is_removed BOOLEAN NOT NULL DEFAULT FALSE
 );
 
+CREATE TABLE client_sessions (
+    id BIGSERIAL PRIMARY KEY,
+    start_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    end_time TIMESTAMP WITH TIME ZONE
+);
+
 CREATE TABLE game_states (
     id BIGSERIAL PRIMARY KEY,
     game_id BIGSERIAL,

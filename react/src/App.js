@@ -2,13 +2,14 @@ import React, { useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import { get } from 'lodash';
-import PushServiceSessionManager from './tools/pushService/private/PushServiceSessionManager';
+import LifecycleManager from 'tools/lifecycle/LifecycleManager';
 import routes from './routes';
 
 export default function() {
     useEffect(() => {
+        LifecycleManager.setUp();
         return () => {
-            PushServiceSessionManager.purge();
+            LifecycleManager.tearDown();
         };
     }, []);
 
