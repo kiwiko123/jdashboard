@@ -2,9 +2,12 @@ package com.kiwiko.jdashboard.webapp.http.client;
 
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.HttpAuthenticationConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.security.environments.EnvironmentConfiguration;
 import com.kiwiko.jdashboard.webapp.http.client.api.interfaces.JdashboardApiClient;
-import com.kiwiko.jdashboard.webapp.http.client.impl.apiclient.HttpClientHelper;
+import com.kiwiko.jdashboard.webapp.http.client.impl.apiclient.ApiClientHttpClient;
+import com.kiwiko.jdashboard.webapp.http.client.impl.apiclient.ApiClientRequestHelper;
+import com.kiwiko.jdashboard.webapp.http.client.impl.apiclient.ApiClientResponseHelper;
 import com.kiwiko.jdashboard.webapp.http.client.impl.apiclient.JdashboardHttpApiClient;
 import com.kiwiko.library.http.client.api.AsynchronousHttpRequestClient;
 import com.kiwiko.library.http.client.api.SynchronousHttpRequestClient;
@@ -18,14 +21,24 @@ import org.springframework.context.annotation.Configuration;
 public class JdashboardHttpClientConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
-    @ConfiguredBy(EnvironmentConfiguration.class)
     public JdashboardApiClient jdashboardApiClient() {
         return new JdashboardHttpApiClient();
     }
 
     @Bean
-    public HttpClientHelper httpClientHelper() {
-        return new HttpClientHelper();
+    public ApiClientHttpClient apiClientHttpClient() {
+        return new ApiClientHttpClient();
+    }
+
+    @Bean
+    @ConfiguredBy({EnvironmentConfiguration.class, HttpAuthenticationConfiguration.class})
+    public ApiClientRequestHelper apiClientRequestHelper() {
+        return new ApiClientRequestHelper();
+    }
+
+    @Bean
+    public ApiClientResponseHelper apiClientResponseHelper() {
+        return new ApiClientResponseHelper();
     }
 
     @Bean

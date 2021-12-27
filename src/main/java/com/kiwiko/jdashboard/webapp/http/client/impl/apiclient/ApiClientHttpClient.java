@@ -15,12 +15,12 @@ import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
 
-public class HttpClientHelper {
+public class ApiClientHttpClient {
     private static final Duration DEFAULT_CLIENT_TIMEOUT = Duration.ofSeconds(10);
 
     protected final HttpClient httpClient;
 
-    public HttpClientHelper() {
+    public ApiClientHttpClient() {
         if (Authenticator.getDefault() == null) {
             Authenticator.setDefault(new DefaultAuthenticator());
         }
