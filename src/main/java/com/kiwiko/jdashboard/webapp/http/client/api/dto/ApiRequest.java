@@ -1,6 +1,7 @@
 package com.kiwiko.jdashboard.webapp.http.client.api.dto;
 
 import com.kiwiko.jdashboard.webapp.http.client.api.constants.RequestMethod;
+import com.kiwiko.library.http.url.UriBuilder;
 
 import javax.annotation.Nullable;
 import java.net.http.HttpClient;
@@ -11,9 +12,11 @@ public interface ApiRequest {
 
     RequestMethod getRequestMethod();
 
-    String getUrl();
+    UriBuilder getUriBuilder();
 
     boolean isRelativeUrl();
+
+    boolean encodeUrlQuery();
 
     @Nullable
     Object getRequestBody();

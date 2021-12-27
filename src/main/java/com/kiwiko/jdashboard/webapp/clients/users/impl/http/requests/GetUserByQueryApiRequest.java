@@ -2,18 +2,18 @@ package com.kiwiko.jdashboard.webapp.clients.users.impl.http.requests;
 
 import com.kiwiko.jdashboard.webapp.http.client.api.constants.RequestMethod;
 import com.kiwiko.jdashboard.webapp.http.client.api.dto.DefaultApiRequest;
-import com.kiwiko.jdashboard.webapp.users.data.User;
 import com.kiwiko.library.http.url.UriBuilder;
 
 import javax.annotation.Nullable;
+import java.util.Set;
 
-public class GetUserByIdApiRequest extends DefaultApiRequest {
+public class GetUserByQueryApiRequest extends DefaultApiRequest {
 
-    private final long userId;
+    private final String queryJson;
 
-    public GetUserByIdApiRequest(long userId) {
-        super();
-        this.userId = userId;
+    public GetUserByQueryApiRequest(String queryJson) {
+//        super();
+        this.queryJson = queryJson;
     }
 
     @Override
@@ -24,17 +24,18 @@ public class GetUserByIdApiRequest extends DefaultApiRequest {
     @Override
     public UriBuilder getUriBuilder() {
         return new UriBuilder()
-                .setPath(String.format("/users/api/%d", userId));
+                .setPath("/users/api/internal/query")
+                .setQuery(String.format("query=%s", queryJson));
     }
 
     @Override
     public boolean isInternalServiceRequest() {
-        return false;
+        return true;
     }
 
     @Nullable
     @Override
     public <ResponseType> Class<ResponseType> getResponseType() {
-        return (Class<ResponseType>) User.class;
+        return (Class<ResponseType>) Set.class;
     }
 }

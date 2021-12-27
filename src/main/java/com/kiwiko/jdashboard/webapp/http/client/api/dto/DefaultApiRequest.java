@@ -1,7 +1,5 @@
 package com.kiwiko.jdashboard.webapp.http.client.api.dto;
 
-import com.kiwiko.jdashboard.webapp.http.client.api.constants.RequestMethod;
-
 import javax.annotation.Nullable;
 import java.net.http.HttpClient;
 import java.time.Duration;
@@ -10,12 +8,13 @@ import java.util.Set;
 
 public abstract class DefaultApiRequest implements ApiRequest {
 
-    public abstract RequestMethod getRequestMethod();
-
-    public abstract String getUrl();
-
     @Override
     public boolean isRelativeUrl() {
+        return true;
+    }
+
+    @Override
+    public boolean encodeUrlQuery() {
         return true;
     }
 

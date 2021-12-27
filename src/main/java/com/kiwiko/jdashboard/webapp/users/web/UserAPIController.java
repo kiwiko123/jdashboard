@@ -1,7 +1,9 @@
 package com.kiwiko.jdashboard.webapp.users.web;
 
+import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.queries.GetUsersQuery;
 import com.kiwiko.jdashboard.webapp.framework.json.api.ResponseBuilder;
 import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
+import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationLevel;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationRequired;
 import com.kiwiko.jdashboard.webapp.framework.security.environments.data.EnvironmentProperties;
@@ -12,12 +14,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.util.Set;
 
 @CrossOrigin(origins = EnvironmentProperties.CROSS_ORIGIN_URL)
 @Controller
 public class UserAPIController {
 
     @Inject private UserService userService;
+    @Inject private GsonProvider gsonProvider;
 
     @GetMapping("/users/api/{userId}")
     @ResponseBody
@@ -41,5 +45,14 @@ public class UserAPIController {
             @RequestBody User user) {
         user.setId(userId);
         return userService.merge(user);
+    }
+
+    @GetMapping("/users/api/internal/query")
+    @AuthenticationRequired(levels = AuthenticationLevel.INTERNAL_SERVICE)
+    @ResponseBody
+    public Set<User> getUsersByQuery(
+            @RequestParam("query") String queryJson) {
+        GetUsersQuery getUsersQuery = gsonProvider.getDefault().fromJson(queryJson, GetUsersQuery.class);
+        return userService.getByQuery(getUsersQuery);
     }
 }

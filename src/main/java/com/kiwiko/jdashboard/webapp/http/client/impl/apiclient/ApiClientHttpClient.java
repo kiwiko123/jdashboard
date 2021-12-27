@@ -14,6 +14,7 @@ import java.net.http.HttpTimeoutException;
 import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 public class ApiClientHttpClient {
     private static final Duration DEFAULT_CLIENT_TIMEOUT = Duration.ofSeconds(10);
@@ -41,6 +42,10 @@ public class ApiClientHttpClient {
         } catch (IOException e) {
             throw new ServerException(String.format("I/O error occurred with request %s", httpRequest.toString()), e);
         }
+    }
+
+    public CompletableFuture<HttpResponse<String>> sendAsynchronousRequest(HttpRequest httpRequest) {
+        return httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString());
     }
 
     private Set<RequestHeader> makeHeaders(HttpResponse<?> httpResponse) {

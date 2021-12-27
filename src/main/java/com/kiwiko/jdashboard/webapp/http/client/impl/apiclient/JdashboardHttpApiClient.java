@@ -30,6 +30,9 @@ public class JdashboardHttpApiClient implements JdashboardApiClient {
     public <ResponseType> CompletableFuture<ApiResponse<ResponseType>> asynchronousCall(ApiRequest request)
             throws InterruptedException, JdashboardApiClientException {
         requestHelper.validateRequest(request);
-        return null;
+        HttpRequest httpRequest = requestHelper.makeHttpRequest(request);
+        CompletableFuture<HttpResponse<String>> httpResponseFuture = httpClient.sendAsynchronousRequest(httpRequest);
+
+        return responseHelper.transformResponseFuture(request, httpResponseFuture);
     }
 }

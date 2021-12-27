@@ -4,11 +4,14 @@ import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.I
 import com.kiwiko.jdashboard.webapp.framework.security.environments.api.EnvironmentService;
 import com.kiwiko.jdashboard.webapp.http.client.api.dto.ApiRequest;
 import com.kiwiko.jdashboard.webapp.http.client.api.exceptions.ClientException;
+import com.kiwiko.library.http.url.UriBuilder;
 
 import javax.inject.Inject;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.net.http.HttpRequest;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -19,11 +22,7 @@ public class ApiClientRequestHelper {
 
     public void validateRequest(ApiRequest request) {
         Objects.requireNonNull(request.getRequestMethod(), "Request method is required");
-        Objects.requireNonNull(request.getUrl(), "URL is required");
-
-        if (request.isInternalServiceRequest()) {
-            internalHttpRequestValidator.authorizeOutgoingRequest(request);
-        }
+        Objects.requireNonNull(request.getUriBuilder(), "URL is required");
     }
 
     public HttpRequest makeHttpRequest(ApiRequest apiRequest) throws ClientException {
@@ -44,10 +43,15 @@ public class ApiClientRequestHelper {
                 break;
         }
 
-        builder.uri(toUri(makeUrl(apiRequest)));
+        URI uri = toUri(apiRequest);
+        builder.uri(uri);
 
         apiRequest.getRequestHeaders()
                 .forEach(header -> builder.header(header.getName(), header.getValue()));
+
+        if (apiRequest.isInternalServiceRequest()) {
+            internalHttpRequestValidator.authorizeOutgoingRequest(uri, builder);
+        }
 
         Optional.ofNullable(apiRequest.getRequestTimeout())
                 .ifPresent(builder::timeout);
@@ -69,33 +73,27 @@ public class ApiClientRequestHelper {
         return HttpRequest.BodyPublishers.ofString(bodyString);
     }
 
-    private String normalizeUrl(String serverUrl, String path) {
-        String normalizedPath = path.trim();
-        if (!normalizedPath.startsWith("/")) {
-            normalizedPath = String.format("/%s", normalizedPath);
+    private URI toUri(ApiRequest apiRequest) throws ClientException {
+        UriBuilder uriBuilder = apiRequest.getUriBuilder();
+
+        if (apiRequest.isRelativeUrl()) {
+            String serverUrl = environmentService.getServerURI().toString();
+            URI serverUri = URI.create(serverUrl);
+
+            uriBuilder.setScheme(serverUri.getScheme())
+                    .setHost(serverUri.getHost())
+                    .setPort(serverUri.getPort());
         }
 
-        return String.format("%s%s", serverUrl, normalizedPath);
-    }
-
-    private String makeUrl(ApiRequest apiRequest) throws ClientException {
-        String rawUrl = apiRequest.getUrl();
-
-        if (!apiRequest.isRelativeUrl()) {
-            return rawUrl;
+        if (apiRequest.encodeUrlQuery() && uriBuilder.getQuery() != null) {
+            String encodedQuery = URLEncoder.encode(uriBuilder.getQuery(), StandardCharsets.UTF_8);
+            uriBuilder.setQuery(encodedQuery);
         }
 
-        String serverUri = environmentService.getServerURI().toString();
-        String requestUrl = rawUrl.trim();
-        return normalizeUrl(serverUri, requestUrl);
-    }
-
-    private URI toUri(String url) throws ClientException {
-        // TODO relative url
         try {
-            return new URI(url);
+            return uriBuilder.build();
         } catch (URISyntaxException e) {
-            throw new ClientException(String.format("Malformed URL %s", url), e);
+            throw new ClientException(String.format("Malformed URL %s", uriBuilder), e);
         }
     }
 }
