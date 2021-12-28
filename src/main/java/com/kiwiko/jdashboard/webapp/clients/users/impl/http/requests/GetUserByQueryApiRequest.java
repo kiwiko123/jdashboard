@@ -2,7 +2,9 @@ package com.kiwiko.jdashboard.webapp.clients.users.impl.http.requests;
 
 import com.kiwiko.jdashboard.webapp.http.client.api.constants.RequestMethod;
 import com.kiwiko.jdashboard.webapp.http.client.api.dto.DefaultApiRequest;
+import com.kiwiko.library.http.url.QueryParameter;
 import com.kiwiko.library.http.url.UriBuilder;
+import com.kiwiko.library.http.url.UrlQuery;
 
 import javax.annotation.Nullable;
 import java.util.Set;
@@ -25,7 +27,10 @@ public class GetUserByQueryApiRequest extends DefaultApiRequest {
     public UriBuilder getUriBuilder() {
         return new UriBuilder()
                 .setPath("/users/api/internal/query")
-                .setQuery(String.format("query=%s", queryJson));
+                .setQuery(
+                        UrlQuery.newBuilder()
+                                .addQueryParameter(QueryParameter.withEncodedValue("query", queryJson))
+                                .build());
     }
 
     @Override

@@ -3,17 +3,21 @@ package com.kiwiko.library.http.url;
 import javax.annotation.Nullable;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Optional;
 
 public class UriBuilder {
     private String scheme;
     private String host;
     private int port;
     private String path;
-    private @Nullable String query;
+    private @Nullable UrlQuery query;
     private @Nullable String fragment;
 
     public URI build() throws URISyntaxException {
-        return new URI(scheme, null, host, port, path, query, fragment);
+        String queryString = Optional.ofNullable(query)
+                .map(UrlQuery::toQuery)
+                .orElse(null);
+        return new URI(scheme, null, host, port, path, queryString, fragment);
     }
 
     public String getScheme() {
@@ -53,11 +57,11 @@ public class UriBuilder {
     }
 
     @Nullable
-    public String getQuery() {
+    public UrlQuery getQuery() {
         return query;
     }
 
-    public UriBuilder setQuery(@Nullable String query) {
+    public UriBuilder setQuery(@Nullable UrlQuery query) {
         this.query = query;
         return this;
     }

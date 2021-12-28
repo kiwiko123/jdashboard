@@ -13,11 +13,6 @@ public abstract class DefaultApiRequest implements ApiRequest {
         return true;
     }
 
-    @Override
-    public boolean encodeUrlQuery() {
-        return true;
-    }
-
     @Nullable
     @Override
     public Object getRequestBody() {

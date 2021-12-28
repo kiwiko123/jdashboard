@@ -9,9 +9,7 @@ import com.kiwiko.library.http.url.UriBuilder;
 import javax.inject.Inject;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLEncoder;
 import java.net.http.HttpRequest;
-import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -83,11 +81,6 @@ public class ApiClientRequestHelper {
             uriBuilder.setScheme(serverUri.getScheme())
                     .setHost(serverUri.getHost())
                     .setPort(serverUri.getPort());
-        }
-
-        if (apiRequest.encodeUrlQuery() && uriBuilder.getQuery() != null) {
-            String encodedQuery = URLEncoder.encode(uriBuilder.getQuery(), StandardCharsets.UTF_8);
-            uriBuilder.setQuery(encodedQuery);
         }
 
         try {

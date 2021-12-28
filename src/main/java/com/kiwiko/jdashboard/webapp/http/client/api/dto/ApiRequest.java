@@ -16,8 +16,6 @@ public interface ApiRequest {
 
     boolean isRelativeUrl();
 
-    boolean encodeUrlQuery();
-
     @Nullable
     Object getRequestBody();
 
