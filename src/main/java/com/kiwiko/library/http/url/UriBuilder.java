@@ -6,6 +6,16 @@ import java.net.URISyntaxException;
 import java.util.Optional;
 
 public class UriBuilder {
+    public static UriBuilder fromUri(URI uri) {
+        return new UriBuilder()
+                .setScheme(uri.getScheme())
+                .setHost(uri.getHost())
+                .setPort(uri.getPort())
+                .setPath(uri.getPath())
+                // TODO support query?
+                .setFragment(uri.getFragment());
+    }
+
     private String scheme;
     private String host;
     private int port;

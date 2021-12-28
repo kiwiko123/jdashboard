@@ -63,7 +63,7 @@ public class ApiClientRequestHelper {
             return HttpRequest.BodyPublishers.noBody();
         }
 
-        String bodyString = apiRequest.getPayloadSerializer().serialize(requestBody);
+        String bodyString = apiRequest.getRequestBodySerializer().serialize(requestBody);
         if (bodyString == null) {
             return HttpRequest.BodyPublishers.noBody();
         }

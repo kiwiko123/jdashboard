@@ -44,7 +44,7 @@ public class ApiClientResponseHelper {
             payload = (ResponseType) (httpResponse.body());
         } else {
             String body = httpResponse.body();
-            payload = apiRequest.getPayloadDeserializer().deserialize(body, responseType);
+            payload = apiRequest.getResponsePayloadDeserializer().deserialize(body, responseType);
         }
 
         return new ApiResponse<>(

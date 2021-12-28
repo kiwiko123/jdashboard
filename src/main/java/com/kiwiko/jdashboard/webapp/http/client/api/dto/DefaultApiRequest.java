@@ -25,7 +25,7 @@ public abstract class DefaultApiRequest implements ApiRequest {
     }
 
     @Override
-    public HttpClient.Redirect getRedirectPolicy() {
+    public HttpClient.Redirect getRedirectionPolicy() {
         return HttpClient.Redirect.NORMAL;
     }
 
@@ -40,12 +40,12 @@ public abstract class DefaultApiRequest implements ApiRequest {
     }
 
     @Override
-    public PayloadSerializer getPayloadSerializer() {
+    public PayloadSerializer getRequestBodySerializer() {
         return new DefaultGsonPayloadSerializer();
     }
 
     @Override
-    public PayloadDeserializer getPayloadDeserializer() {
+    public PayloadDeserializer getResponsePayloadDeserializer() {
         return new DefaultGsonPayloadDeserializer();
     }
 

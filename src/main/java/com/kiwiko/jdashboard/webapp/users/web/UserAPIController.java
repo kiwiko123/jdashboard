@@ -1,6 +1,7 @@
 package com.kiwiko.jdashboard.webapp.users.web;
 
 import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.queries.GetUsersQuery;
+import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.responses.GetUsersByQueryResponse;
 import com.kiwiko.jdashboard.webapp.framework.json.api.ResponseBuilder;
 import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Set;
 
 @CrossOrigin(origins = EnvironmentProperties.CROSS_ORIGIN_URL)
@@ -50,9 +53,10 @@ public class UserAPIController {
     @GetMapping("/users/api/internal/query")
     @AuthenticationRequired(levels = AuthenticationLevel.INTERNAL_SERVICE)
     @ResponseBody
-    public Set<User> getUsersByQuery(
+    public GetUsersByQueryResponse getUsersByQuery(
             @RequestParam("query") String queryJson) {
-        GetUsersQuery getUsersQuery = gsonProvider.getDefault().fromJson(queryJson, GetUsersQuery.class);
+        String decodedQuery = URLDecoder.decode(queryJson, StandardCharsets.UTF_8);
+        GetUsersQuery getUsersQuery = gsonProvider.getDefault().fromJson(decodedQuery, GetUsersQuery.class);
         return userService.getByQuery(getUsersQuery);
     }
 }

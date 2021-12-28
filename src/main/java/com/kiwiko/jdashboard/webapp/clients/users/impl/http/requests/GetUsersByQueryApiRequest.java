@@ -1,5 +1,6 @@
 package com.kiwiko.jdashboard.webapp.clients.users.impl.http.requests;
 
+import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.responses.GetUsersByQueryResponse;
 import com.kiwiko.jdashboard.webapp.http.client.api.constants.RequestMethod;
 import com.kiwiko.jdashboard.webapp.http.client.api.dto.DefaultApiRequest;
 import com.kiwiko.library.http.url.QueryParameter;
@@ -7,13 +8,12 @@ import com.kiwiko.library.http.url.UriBuilder;
 import com.kiwiko.library.http.url.UrlQuery;
 
 import javax.annotation.Nullable;
-import java.util.Set;
 
-public class GetUserByQueryApiRequest extends DefaultApiRequest {
+public class GetUsersByQueryApiRequest extends DefaultApiRequest {
 
     private final String queryJson;
 
-    public GetUserByQueryApiRequest(String queryJson) {
+    public GetUsersByQueryApiRequest(String queryJson) {
 //        super();
         this.queryJson = queryJson;
     }
@@ -41,6 +41,6 @@ public class GetUserByQueryApiRequest extends DefaultApiRequest {
     @Nullable
     @Override
     public <ResponseType> Class<ResponseType> getResponseType() {
-        return (Class<ResponseType>) Set.class;
+        return (Class<ResponseType>) GetUsersByQueryResponse.class;
     }
 }
