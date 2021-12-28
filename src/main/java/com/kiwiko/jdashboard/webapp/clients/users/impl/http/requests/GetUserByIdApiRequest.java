@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.clients.users.impl.http.requests;
 
-import com.kiwiko.jdashboard.webapp.http.client.api.constants.RequestMethod;
-import com.kiwiko.jdashboard.webapp.http.client.api.dto.DefaultApiRequest;
+import com.kiwiko.library.http.client.api.constants.RequestMethod;
+import com.kiwiko.library.http.client.api.dto.DefaultApiRequest;
 import com.kiwiko.jdashboard.webapp.users.data.User;
 import com.kiwiko.library.http.url.UriBuilder;
 

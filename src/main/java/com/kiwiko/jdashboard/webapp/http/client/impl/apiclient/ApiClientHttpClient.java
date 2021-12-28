@@ -1,8 +1,8 @@
 package com.kiwiko.jdashboard.webapp.http.client.impl.apiclient;
 
-import com.kiwiko.jdashboard.webapp.http.client.api.dto.RequestHeader;
-import com.kiwiko.jdashboard.webapp.http.client.api.exceptions.RequestTimeoutException;
-import com.kiwiko.jdashboard.webapp.http.client.api.exceptions.ServerException;
+import com.kiwiko.library.http.client.api.dto.RequestHeader;
+import com.kiwiko.library.http.client.api.exceptions.RequestTimeoutException;
+import com.kiwiko.library.http.client.api.exceptions.ServerException;
 import com.kiwiko.library.http.client.internal.security.DefaultAuthenticator;
 
 import java.io.IOException;

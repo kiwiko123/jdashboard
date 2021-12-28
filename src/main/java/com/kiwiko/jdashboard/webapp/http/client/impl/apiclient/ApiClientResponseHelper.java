@@ -1,11 +1,11 @@
 package com.kiwiko.jdashboard.webapp.http.client.impl.apiclient;
 
-import com.kiwiko.jdashboard.webapp.http.client.api.dto.ApiRequest;
-import com.kiwiko.jdashboard.webapp.http.client.api.dto.ApiResponse;
-import com.kiwiko.jdashboard.webapp.http.client.api.dto.RequestHeader;
-import com.kiwiko.jdashboard.webapp.http.client.api.exceptions.ClientException;
-import com.kiwiko.jdashboard.webapp.http.client.api.exceptions.JdashboardApiClientRuntimeException;
-import com.kiwiko.jdashboard.webapp.http.client.api.exceptions.ServerException;
+import com.kiwiko.library.http.client.api.dto.ApiRequest;
+import com.kiwiko.library.http.client.api.dto.ApiResponse;
+import com.kiwiko.library.http.client.api.dto.RequestHeader;
+import com.kiwiko.library.http.client.api.exceptions.ClientException;
+import com.kiwiko.library.http.client.api.exceptions.JdashboardApiClientRuntimeException;
+import com.kiwiko.library.http.client.api.exceptions.ServerException;
 import org.springframework.http.HttpStatus;
 
 import java.net.http.HttpResponse;

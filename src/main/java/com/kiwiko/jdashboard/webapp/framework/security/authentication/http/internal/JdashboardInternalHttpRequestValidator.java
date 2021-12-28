@@ -1,7 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.security.authentication.http.internal;
 
-import com.kiwiko.library.http.client.dto.HttpClientRequest;
-import com.kiwiko.library.http.client.dto.RequestHeader;
+import com.kiwiko.library.http.client.api.dto.RequestHeader;
 import com.kiwiko.library.lang.random.TokenGenerator;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.InternalHttpRequestValidator;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.errors.UnauthorizedInternalRequestException;
@@ -20,12 +19,6 @@ public class JdashboardInternalHttpRequestValidator implements InternalHttpReque
     @Inject private TokenGenerator tokenGenerator;
     @Inject private JdashboardInternalRequestHasher requestHasher;
     @Inject private ApplicationEventService applicationEventService;
-
-    @Override
-    public <T extends HttpClientRequest> void authorizeOutgoingRequest(T request) {
-        RequestHeader internalRequestHeader = makeAuthorizedOutgoingRequestHeader(request);
-        request.addRequestHeader(internalRequestHeader);
-    }
 
     @Override
     public void authorizeOutgoingRequest(URI uri, HttpRequest.Builder httpRequestBuilder) {
@@ -60,19 +53,6 @@ public class JdashboardInternalHttpRequestValidator implements InternalHttpReque
         if (Instant.now().isAfter(requestEvent.getCreatedDate().plus(JdashboardInternalHttpRequestProperties.INTERNAL_REQUEST_TOKEN_TTL))) {
             throw new UnauthorizedInternalRequestException(String.format("Unauthorized internal request: %s", request.getRequestURI()));
         }
-    }
-
-    private <T extends HttpClientRequest> RequestHeader makeAuthorizedOutgoingRequestHeader(T request) {
-        String urlHash = Long.toString(requestHasher.hash(request.getUrl()));
-        String name = makeRequestHeaderName(urlHash);
-
-        ApplicationEvent requestEvent = ApplicationEvent.newBuilder(JdashboardInternalHttpRequestProperties.EVENT_TYPE_NAME)
-                .setEventKey(urlHash)
-                .build();
-        ApplicationEvent createdEvent = applicationEventService.create(requestEvent);
-
-        String headerValue = String.format("%s-%d", urlHash, createdEvent.getId());
-        return new RequestHeader(name, headerValue);
     }
 
     private RequestHeader makeAuthorizedOutgoingRequestHeader(URI uri) {

@@ -1,8 +1,8 @@
 package com.kiwiko.jdashboard.webapp.clients.users.impl.http.requests;
 
 import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.responses.GetUsersByQueryResponse;
-import com.kiwiko.jdashboard.webapp.http.client.api.constants.RequestMethod;
-import com.kiwiko.jdashboard.webapp.http.client.api.dto.DefaultApiRequest;
+import com.kiwiko.library.http.client.api.constants.RequestMethod;
+import com.kiwiko.library.http.client.api.dto.DefaultApiRequest;
 import com.kiwiko.library.http.url.QueryParameter;
 import com.kiwiko.library.http.url.UriBuilder;
 import com.kiwiko.library.http.url.UrlQuery;
