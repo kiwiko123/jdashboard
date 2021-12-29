@@ -59,5 +59,12 @@ export function makeQuickLinkButtonSettings(props) {
             icon: 'fas fa-font',
             shouldShow: () => true,
         },
+        {
+            id: 'pazaak',
+            label: 'Pazaak',
+            url: '/pazaak/play',
+            icon: 'fas fa-dice',
+            shouldShow: () => props.isLoggedIn,
+        },
     ];
 }

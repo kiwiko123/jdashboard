@@ -1,12 +1,7 @@
-package com.kiwiko.jdashboard.webapp.streaming.pushservice;
+package com.kiwiko.jdashboard.webapp.streaming.pushservice.internal.impl.websockets.spring;
 
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.security.environments.data.EnvironmentProperties;
-import com.kiwiko.jdashboard.webapp.streaming.pushservice.api.interfaces.PushService;
-import com.kiwiko.jdashboard.webapp.streaming.pushservice.internal.impl.websockets.spring.PushServiceDeserializationHelper;
-import com.kiwiko.jdashboard.webapp.streaming.pushservice.internal.impl.websockets.spring.PushServiceTextWebSocketHandler;
-import com.kiwiko.jdashboard.webapp.streaming.pushservice.internal.impl.websockets.spring.PushServiceValidator;
-import com.kiwiko.jdashboard.webapp.streaming.pushservice.internal.impl.websockets.spring.TextWebSocketPushService;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.internal.impl.websockets.spring.sessions.PushServiceWebSocketSessionManager;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.internal.impl.websockets.spring.subscribers.PushServiceSubscriberRegistry;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.internal.impl.websockets.spring.subscribers.setup.PushServiceSubscriberRouter;
@@ -50,11 +45,6 @@ public class PushServiceWebSocketConfiguration implements WebSocketConfigurer, J
     @Bean
     public PushServiceWebSocketSessionManager pushServiceWebSocketSessionManager() {
         return new PushServiceWebSocketSessionManager();
-    }
-
-    @Bean
-    public PushService pushService() {
-        return new TextWebSocketPushService();
     }
 
     @Bean
