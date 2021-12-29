@@ -1,4 +1,3 @@
-import { get } from 'lodash';
 import StateTransmitter from 'state/StateTransmitter';
 
 export default class FeatureFlagModalStateTransmitter extends StateTransmitter {

@@ -20,4 +20,13 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CaptureDataChanges {
+
+    /**
+     * If true, throw a {@link com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.exceptions.CaptureEntityDataChangeException} on failure.
+     * This may roll back the database transaction.
+     * Otherwise, allow the transaction to proceed without recording the data change.
+     *
+     * @return true to throw an exception on failure, or false otherwise
+     */
+    boolean exceptionOnFailure() default true;
 }

@@ -15,6 +15,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import javax.inject.Inject;
+import java.util.Objects;
 
 public class PushServiceTextWebSocketHandler extends TextWebSocketHandler {
 
@@ -43,11 +44,14 @@ public class PushServiceTextWebSocketHandler extends TextWebSocketHandler {
         sessionManager.endSession(session.getId());
     }
 
-    private void handleIncomingPush(WebSocketSession session, ClientPushRequest request, String message) {
+    private void handleIncomingPush(WebSocketSession session, ClientPushRequest request, String message) throws PushException {
         boolean isNewSession = sessionManager.getSessionById(session.getId()).isEmpty();
         if (isNewSession) {
             startSession(session, request);
         } else {
+            if (!Objects.equals(request.getSessionId(), session.getId())) {
+                throw new PushException("Mismatched Push Service sessions");
+            }
             pushServiceSubscriberRouter.routeMessageToSubscribers(request, message);
         }
     }

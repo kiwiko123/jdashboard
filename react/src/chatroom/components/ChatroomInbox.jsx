@@ -1,13 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ChatroomInboxItem from './ChatroomInboxItem';
+import inboxItemPropTypeShape from './propTypes/inboxItemPropTypeShape';
+
+import './ChatroomInbox.css';
 
 const ChatroomInbox = ({
     inboxItems,
 }) => {
     const itemElements = inboxItems.map((item) => (
-        <div key={item.room.id}>
-            {item.room.id}
-        </div>
+        <ChatroomInboxItem
+            {...item}
+            key={item.room.id}
+        />
     ));
     return (
         <div className="ChatroomInbox">
@@ -17,7 +22,7 @@ const ChatroomInbox = ({
 };
 
 ChatroomInbox.propTypes = {
-    inboxItems: PropTypes.array,
+    inboxItems: PropTypes.arrayOf(PropTypes.shape(inboxItemPropTypeShape)),
 };
 
 ChatroomInbox.defaultProps = {

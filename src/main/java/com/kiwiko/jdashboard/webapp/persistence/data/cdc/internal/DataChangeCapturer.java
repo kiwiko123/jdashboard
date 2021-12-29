@@ -1,6 +1,8 @@
 package com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal;
 
 import com.google.gson.Gson;
+import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.parameters.SaveDataChangeCaptureParameters;
+import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.parameters.SaveEntity;
 import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.CurrentRequestService;
@@ -31,19 +33,25 @@ public class DataChangeCapturer {
     @Inject private Logger logger;
     @Inject private TableRecordVersionService tableRecordVersionService;
 
-    public <T extends DataEntity> T save(T entity, Function<Long, Optional<T>> getById, Function<T, T> saveEntity) {
-        Long id = entity.getId();
+    public <T extends DataEntity> T save(SaveDataChangeCaptureParameters<T> parameters) throws CaptureEntityDataChangeException {
+        Objects.requireNonNull(parameters, "Input parameters required");
+        Objects.requireNonNull(parameters.getCaptureDataChanges(), "@CaptureDataChange annotation object required");
+        Objects.requireNonNull(parameters.getEntity(), "Entity subject required");
+        Objects.requireNonNull(parameters.getGetEntityById(), "getById method required");
+        Objects.requireNonNull(parameters.getSaveEntity(), "save method required");
+
+        Long id = parameters.getEntity().getId();
         boolean isNewEntity = id == null;
         if (isNewEntity) {
-            return saveNewEntity(entity, saveEntity);
+            return saveNewEntity(parameters.getEntity(), parameters.getSaveEntity());
         }
 
-        T existingEntity = getById.apply(id)
-                .orElseThrow(() -> new CaptureEntityDataChangeException(String.format("No existing entity found: %s", entity.toString())));
-        return saveExistingEntity(existingEntity, entity, saveEntity);
+        T existingEntity = parameters.getGetEntityById().apply(id)
+                .orElseThrow(() -> new CaptureEntityDataChangeException(String.format("No existing entity found: %s", parameters.getEntity().toString())));
+        return saveExistingEntity(existingEntity, parameters.getEntity(), parameters.getSaveEntity());
     }
 
-    private <T extends DataEntity> T saveNewEntity(T entity, Function<T, T> saveEntity) {
+    private <T extends DataEntity> T saveNewEntity(T entity, SaveEntity<T> saveEntity) {
         T savedEntity = saveEntity.apply(entity);
         Map<String, Object> fieldValuesByName = getAllFields(entity);
         recordChanges(savedEntity, fieldValuesByName);
@@ -51,7 +59,7 @@ public class DataChangeCapturer {
         return savedEntity;
     }
 
-    private <T extends DataEntity> T saveExistingEntity(T existingEntity, T newEntity, Function<T, T> saveEntity) {
+    private <T extends DataEntity> T saveExistingEntity(T existingEntity, T newEntity, SaveEntity<T> saveEntity) {
         Map<String, Object> updatedValuesByName = getUpdatedFields(existingEntity, newEntity);
         recordChanges(newEntity, updatedValuesByName);
 

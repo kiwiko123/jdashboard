@@ -1,6 +1,4 @@
-import { get } from 'lodash';
 import StateTransmitter from 'state/StateTransmitter';
-import Request from 'common/js/Request';
 
 export default class ChatroomToolbarStateManager extends StateTransmitter {
 

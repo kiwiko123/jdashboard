@@ -1,4 +1,4 @@
-import { get, isEmpty, isFunction, set } from 'lodash';
+import { get, isEmpty, set } from 'lodash';
 import StateTransmitter from 'state/StateTransmitter';
 import logger from 'common/js/logging';
 import Request from 'common/js/Request';
@@ -66,28 +66,10 @@ function isFieldApproved(field) {
     return !field.isRequired || field.isValid;
 }
 
-function validateField(field) {
-    const { isRequired, validate, name, value } = field;
-    let isValid = true;
-    if (isRequired) {
-        if (!validate) {
-            logger.error(`Feature flag form field "${field.name}" is required but has no validation function`);
-        }
-        isValid = validate(value);
-    }
-
-    field.isValid = isValid;
-    return isValid;
-}
-
 function createFields(fields) {
     const result = {};
     Object.entries(fields)
         .forEach(([name, field]) => {
-            const value = {
-                ...field,
-                isValid: validateField(field),
-            };
             result[name] = field;
         });
     return result;

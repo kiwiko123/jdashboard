@@ -41,8 +41,7 @@ public class PushServiceWebSocketSessionManager {
         }
 
         logger.debug(String.format("Starting new push service session %s for user %d", sessionId, userId));
-        userSessionIds.put(userId, sessionId);
-        sessionsById.put(sessionId, session);
+        saveSession(userId, session);
     }
 
     public Optional<WebSocketSession> getSessionById(String sessionId) {
@@ -85,5 +84,10 @@ public class PushServiceWebSocketSessionManager {
         } catch (IOException e) {
             logger.error("Failed to close push session", e);
         }
+    }
+
+    private synchronized void saveSession(Long userId, WebSocketSession session) {
+        userSessionIds.put(userId, session.getId());
+        sessionsById.put(session.getId(), session);
     }
 }

@@ -1,12 +1,15 @@
 package com.kiwiko.jdashboard.webapp.persistence.data.fetchers.api.interfaces;
 
+import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.parameters.SaveDataChangeCaptureParameters;
 import com.kiwiko.library.lang.reflection.ReflectionHelper;
+import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.library.persistence.data.api.interfaces.DataEntity;
 import com.kiwiko.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.DataChangeCapturer;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
@@ -29,16 +32,17 @@ public abstract class EntityDataFetcher<T extends DataEntity> {
     // Spring-provisioned fields.
     @PersistenceContext private EntityManager entityManager;
     @Inject private DataChangeCapturer dataChangeCapturer;
+    @Inject private Logger logger;
 
     // Stateful data.
     private final ReflectionHelper reflectionHelper;
-    private final boolean captureDataChanges;
+    private final @Nullable CaptureDataChanges captureDataChanges;
     protected final Class<T> entityType; // Protected so that derived classes can access this without re-calculating the type on each invocation.
 
     public EntityDataFetcher() {
         reflectionHelper = new ReflectionHelper();
         entityType = getEntityType();
-        captureDataChanges = entityType.getAnnotation(CaptureDataChanges.class) != null;
+        captureDataChanges = entityType.getAnnotation(CaptureDataChanges.class);
     }
 
     /**
@@ -49,11 +53,24 @@ public abstract class EntityDataFetcher<T extends DataEntity> {
      * @return the entity that was saved, which can possibly be managed (live database connection)
      */
     public T save(T entity) {
-        if (captureDataChanges) {
-            return dataChangeCapturer.save(entity, this::getById, entityManager::merge);
+        if (captureDataChanges != null) {
+            SaveDataChangeCaptureParameters<T> parameters = new SaveDataChangeCaptureParameters<>();
+            parameters.setCaptureDataChanges(captureDataChanges);
+            parameters.setEntity(entity);
+            parameters.setGetEntityById(this::getById);
+            parameters.setSaveEntity(this::persistToDataStore);
+
+            try {
+                return dataChangeCapturer.save(parameters);
+            } catch (Exception e) {
+                logger.error(String.format("Error capturing data change for entity %s", entity), e);
+                if (captureDataChanges.exceptionOnFailure()) {
+                    throw e;
+                }
+            }
         }
 
-        return entityManager.merge(entity);
+        return persistToDataStore(entity);
     }
 
     public void delete(T entity) {
@@ -173,5 +190,9 @@ public abstract class EntityDataFetcher<T extends DataEntity> {
      */
     protected Class<T> getEntityType() {
         return reflectionHelper.getGenericClassType(getClass());
+    }
+
+    private T persistToDataStore(T entity) {
+        return entityManager.merge(entity);
     }
 }

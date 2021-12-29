@@ -1,12 +1,13 @@
 package com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.resolvers;
 
+import com.kiwiko.jdashboard.webapp.clients.users.api.dto.User;
+import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.UserClient;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.RequestContextService;
 import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticatedUser;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.errors.AuthenticatedUserException;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.errors.InvalidAuthenticatedUserException;
 import com.kiwiko.jdashboard.webapp.framework.security.sessions.data.SessionProperties;
-import com.kiwiko.jdashboard.webapp.users.data.User;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -21,6 +22,7 @@ import java.util.Optional;
 public class AuthenticatedUserArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Inject private RequestContextService requestContextService;
+    @Inject private UserClient userClient;
 
     @Override
     public boolean supportsParameter(MethodParameter methodParameter) {
@@ -38,12 +40,17 @@ public class AuthenticatedUserArgumentResolver implements HandlerMethodArgumentR
             throw new InvalidAuthenticatedUserException("No @AuthenticatedUser annotation found");
         }
 
+        if (methodParameter.getParameterType() != User.class) {
+            throw new IllegalArgumentException(String.format("Incompatible parameter type %s; expected %s", methodParameter.getParameterType().getName(), User.class.getName()));
+        }
+
         HttpSession session = Optional.ofNullable(nativeWebRequest.getNativeRequest(HttpServletRequest.class))
                 .map(HttpServletRequest::getSession)
                 .orElseThrow(() -> new InvalidAuthenticatedUserException("No session found for current request"));
 
         User currentUser = requestContextService.getFromSession(session, SessionProperties.REQUEST_CONTEXT_ID_SESSION_KEY)
                 .flatMap(RequestContext::getUser)
+                .map(userClient::fromLegacyUser)
                 .orElse(null);
 
         if (currentUser != null) {

@@ -6,12 +6,12 @@ public class ChatroomInboxItemUserData {
     public static ChatroomInboxItemUserData fromUser(User user) {
         ChatroomInboxItemUserData data = new ChatroomInboxItemUserData();
         data.setUserId(user.getId());
-        data.setUsername(user.getUsername());
+        data.setDisplayName(user.getUsername());
         return data;
     }
 
     private Long userId;
-    private String username;
+    private String displayName;
 
     public Long getUserId() {
         return userId;
@@ -21,11 +21,11 @@ public class ChatroomInboxItemUserData {
         this.userId = userId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 }

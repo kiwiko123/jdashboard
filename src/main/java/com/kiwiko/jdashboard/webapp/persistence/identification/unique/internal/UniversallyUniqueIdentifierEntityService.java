@@ -3,6 +3,7 @@ package com.kiwiko.jdashboard.webapp.persistence.identification.unique.internal;
 import com.kiwiko.jdashboard.webapp.framework.persistence.transactions.api.interfaces.TransactionProvider;
 import com.kiwiko.jdashboard.webapp.persistence.identification.unique.api.dto.UniversalUniqueIdentifier;
 import com.kiwiko.jdashboard.webapp.persistence.identification.unique.api.interfaces.UniqueIdentifierService;
+import com.kiwiko.jdashboard.webapp.persistence.identification.unique.api.interfaces.parameters.CreateUuidParameters;
 import com.kiwiko.jdashboard.webapp.persistence.identification.unique.internal.data.UniversalUniqueIdentifierEntity;
 import com.kiwiko.jdashboard.webapp.persistence.identification.unique.internal.data.UniversalUniqueIdentifierEntityDataFetcher;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
@@ -45,6 +46,13 @@ public class UniversallyUniqueIdentifierEntityService implements UniqueIdentifie
             UniversalUniqueIdentifierEntity createdEntity = dataFetcher.save(entityToCreate);
             return mapper.toDto(createdEntity);
         });
+    }
+
+    @Override
+    public UniversalUniqueIdentifier create(CreateUuidParameters parameters) {
+        UniversalUniqueIdentifier identifier = new UniversalUniqueIdentifier();
+        identifier.setReferenceKey(parameters.getReferenceKey());
+        return create(identifier);
     }
 
     @Override

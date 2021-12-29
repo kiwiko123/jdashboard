@@ -9,6 +9,7 @@ public class ChatroomMessage extends SoftDeletableDataEntityDTO {
 
     private Long senderUserId;
     private Long chatroomMessageRoomId;
+    private @Nullable String message;
     private @Nullable String messageStatus;
     private @Nullable Instant sentDate;
 
@@ -26,6 +27,15 @@ public class ChatroomMessage extends SoftDeletableDataEntityDTO {
 
     public void setChatroomMessageRoomId(Long chatroomMessageRoomId) {
         this.chatroomMessageRoomId = chatroomMessageRoomId;
+    }
+
+    @Nullable
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(@Nullable String message) {
+        this.message = message;
     }
 
     @Nullable

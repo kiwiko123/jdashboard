@@ -1,7 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.security.authentication.http.internal;
 
-import com.kiwiko.library.http.client.dto.HttpClientRequest;
-import com.kiwiko.library.http.client.dto.RequestHeader;
+import com.kiwiko.library.http.client.api.dto.RequestHeader;
 import com.kiwiko.library.lang.random.TokenGenerator;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.InternalHttpRequestValidator;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.errors.UnauthorizedInternalRequestException;
@@ -10,6 +9,8 @@ import com.kiwiko.jdashboard.webapp.application.events.api.interfaces.Applicatio
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import java.net.URI;
+import java.net.http.HttpRequest;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -20,9 +21,9 @@ public class JdashboardInternalHttpRequestValidator implements InternalHttpReque
     @Inject private ApplicationEventService applicationEventService;
 
     @Override
-    public <T extends HttpClientRequest> void authorizeOutgoingRequest(T request) {
-        RequestHeader internalRequestHeader = makeAuthorizedOutgoingRequestHeader(request);
-        request.addRequestHeader(internalRequestHeader);
+    public void authorizeOutgoingRequest(URI uri, HttpRequest.Builder httpRequestBuilder) {
+        RequestHeader internalRequestHeader = makeAuthorizedOutgoingRequestHeader(uri);
+        httpRequestBuilder.header(internalRequestHeader.getName(), internalRequestHeader.getValue());
     }
 
     @Override
@@ -54,8 +55,9 @@ public class JdashboardInternalHttpRequestValidator implements InternalHttpReque
         }
     }
 
-    private <T extends HttpClientRequest> RequestHeader makeAuthorizedOutgoingRequestHeader(T request) {
-        String urlHash = Long.toString(requestHasher.hash(request.getUrl()));
+    private RequestHeader makeAuthorizedOutgoingRequestHeader(URI uri) {
+        String url = uri.toString();
+        String urlHash = Long.toString(requestHasher.hash(url));
         String name = makeRequestHeaderName(urlHash);
 
         ApplicationEvent requestEvent = ApplicationEvent.newBuilder(JdashboardInternalHttpRequestProperties.EVENT_TYPE_NAME)

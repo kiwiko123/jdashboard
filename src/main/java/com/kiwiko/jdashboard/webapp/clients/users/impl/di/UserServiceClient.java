@@ -8,8 +8,6 @@ import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.responses.GetUs
 import com.kiwiko.jdashboard.webapp.users.api.UserService;
 
 import javax.inject.Inject;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class UserServiceClient implements UserClient {
 
@@ -27,13 +25,11 @@ public class UserServiceClient implements UserClient {
 
     @Override
     public GetUsersByQueryResponse getByQuery(GetUsersQuery query) {
-        Set<User> users = userService.getByQuery(query).stream()
-                .map(userDtoMapper::toTargetType)
-                .collect(Collectors.toSet());
+        return userService.getByQuery(query);
+    }
 
-        GetUsersByQueryResponse response = new GetUsersByQueryResponse();
-        response.setUsers(users);
-
-        return response;
+    @Override
+    public User fromLegacyUser(com.kiwiko.jdashboard.webapp.users.data.User user) {
+        return userDtoMapper.toTargetType(user);
     }
 }

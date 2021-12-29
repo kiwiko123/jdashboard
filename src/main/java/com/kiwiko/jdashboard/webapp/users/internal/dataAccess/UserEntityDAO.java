@@ -9,6 +9,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -55,11 +56,19 @@ public class UserEntityDAO extends EntityDataFetcher<UserEntity> {
         List<Predicate> predicates = new LinkedList<>();
 
         if (queryParameters.getUserIds() != null) {
+            if (queryParameters.getUserIds().isEmpty()) {
+                return Collections.emptySet();
+            }
+
             Expression<Long> idField = root.get("id");
             predicates.add(idField.in(queryParameters.getUserIds()));
         }
 
         if (queryParameters.getUsernames() != null) {
+            if (queryParameters.getUsernames().isEmpty()) {
+                return Collections.emptySet();
+            }
+
             Expression<String> usernameField = root.get("username");
             predicates.add(usernameField.in(queryParameters.getUsernames()));
         }

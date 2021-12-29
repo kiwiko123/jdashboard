@@ -1,9 +1,14 @@
 package com.kiwiko.jdashboard.webapp.apps.chatroom;
 
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.ChatroomInboxService;
+import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.ChatroomPermissionService;
+import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.ChatroomRoomService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.ChatroomInboxServiceImpl;
+import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.ChatroomPermissionServiceImpl;
+import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.ChatroomRoomServiceImpl;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.ChatroomMessageRoomService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.ChatroomMessageRoomUserService;
+import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.ChatroomMessageService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.data.fetchers.ChatroomMessageEntityDataFetcher;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.data.fetchers.ChatroomMessageRoomEntityDataFetcher;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.data.fetchers.ChatroomMessageRoomUserEntityDataFetcher;
@@ -20,6 +25,16 @@ public class ChatroomConfiguration implements JdashboardDependencyConfiguration 
     @Bean
     public ChatroomInboxService chatroomInboxService() {
         return new ChatroomInboxServiceImpl();
+    }
+
+    @Bean
+    public ChatroomRoomService chatroomRoomService() {
+        return new ChatroomRoomServiceImpl();
+    }
+
+    @Bean
+    public ChatroomPermissionService chatroomPermissionService() {
+        return new ChatroomPermissionServiceImpl();
     }
 
     @Bean
@@ -50,6 +65,11 @@ public class ChatroomConfiguration implements JdashboardDependencyConfiguration 
     @Bean
     public ChatroomMessageRoomUserMapper chatroomMessageRoomUserMapper() {
         return new ChatroomMessageRoomUserMapper();
+    }
+
+    @Bean
+    public ChatroomMessageService chatroomMessageService() {
+        return new ChatroomMessageService();
     }
 
     @Bean
