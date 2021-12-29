@@ -3,7 +3,9 @@ package com.kiwiko.jdashboard.webapp.clients.users.impl.http.requests;
 import com.kiwiko.library.http.client.api.constants.RequestMethod;
 import com.kiwiko.library.http.client.api.dto.DefaultApiRequest;
 import com.kiwiko.jdashboard.webapp.users.data.User;
+import com.kiwiko.library.http.client.api.dto.RequestUrl;
 import com.kiwiko.library.http.url.UriBuilder;
+import com.kiwiko.library.http.url.UrlQuery;
 
 import javax.annotation.Nullable;
 
@@ -22,9 +24,8 @@ public class GetUserByIdApiRequest extends DefaultApiRequest {
     }
 
     @Override
-    public UriBuilder getUriBuilder() {
-        return new UriBuilder()
-                .setPath(String.format("/users/api/%d", userId));
+    public RequestUrl getRequestUrl() {
+        return RequestUrl.fromPartial(new UriBuilder().setPath(String.format("/users/api/%d", userId)));
     }
 
     @Override

@@ -8,11 +8,6 @@ import java.util.Set;
 
 public abstract class DefaultApiRequest implements ApiRequest {
 
-    @Override
-    public boolean isRelativeUrl() {
-        return true;
-    }
-
     @Nullable
     @Override
     public Object getRequestBody() {

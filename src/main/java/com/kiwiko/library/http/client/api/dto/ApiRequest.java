@@ -1,7 +1,6 @@
 package com.kiwiko.library.http.client.api.dto;
 
 import com.kiwiko.library.http.client.api.constants.RequestMethod;
-import com.kiwiko.library.http.url.UriBuilder;
 
 import javax.annotation.Nullable;
 import java.net.http.HttpClient;
@@ -19,23 +18,7 @@ public interface ApiRequest {
      */
     RequestMethod getRequestMethod();
 
-    /**
-     * Required.
-     * @return the UriBuilder representing this request's URL
-     */
-    UriBuilder getUriBuilder();
-
-    /**
-     * Required.
-     *
-     * If true, the URL pointed to by {@link #getUriBuilder()} should start at the path. Jdashboard will infer the
-     * scheme, host, and port. Example: {@code /api/test?a=1&b=2}.
-     *
-     * If false, use the value pointed to by {@link #getUriBuilder()} as-is.
-     *
-     * @return true if it's a relative URL, or false otherwise
-     */
-    boolean isRelativeUrl();
+    RequestUrl getRequestUrl();
 
     /**
      * Optional.

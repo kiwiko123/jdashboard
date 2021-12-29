@@ -3,6 +3,7 @@ package com.kiwiko.jdashboard.webapp.http.client.impl.apiclient;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.InternalHttpRequestValidator;
 import com.kiwiko.jdashboard.webapp.framework.security.environments.api.EnvironmentService;
 import com.kiwiko.library.http.client.api.dto.ApiRequest;
+import com.kiwiko.library.http.client.api.dto.RequestUrl;
 import com.kiwiko.library.http.client.api.exceptions.ClientException;
 import com.kiwiko.library.http.url.UriBuilder;
 
@@ -19,8 +20,8 @@ public class ApiClientRequestHelper {
     @Inject private InternalHttpRequestValidator internalHttpRequestValidator;
 
     public void validateRequest(ApiRequest request) {
+        Objects.requireNonNull(request.getRequestUrl(), "Request URL is required");
         Objects.requireNonNull(request.getRequestMethod(), "Request method is required");
-        Objects.requireNonNull(request.getUriBuilder(), "URL is required");
     }
 
     public HttpRequest makeHttpRequest(ApiRequest apiRequest) throws ClientException {
@@ -72,9 +73,17 @@ public class ApiClientRequestHelper {
     }
 
     private URI toUri(ApiRequest apiRequest) throws ClientException {
-        UriBuilder uriBuilder = apiRequest.getUriBuilder();
+        RequestUrl requestUrl = apiRequest.getRequestUrl();
+        if (requestUrl.getUri() != null) {
+            return requestUrl.getUri();
+        }
 
-        if (apiRequest.isRelativeUrl()) {
+        UriBuilder uriBuilder = requestUrl.getUriBuilder();
+        Objects.requireNonNull(uriBuilder, "Partial URI is required");
+
+        if (uriBuilder.getScheme() == null && uriBuilder.getHost() == null) {
+            // If the scheme and host are absent,
+            // assume the request's destination is inside Jdashboard and infer their values.
             String serverUrl = environmentService.getServerURI().toString();
             URI serverUri = URI.create(serverUrl);
 
