@@ -1,0 +1,16 @@
+.CreateNewChatroomForm > .recipient-tags {
+    display: flex;
+}
+
+.CreateNewChatroomForm > .recipient-tags > .Tag {
+    margin-right: 0.5rem;
+}
+
+.CreateNewChatroomForm > .fields > .FormField > .label {
+   color: black;
+}
+
+.CreateNewChatroomForm > .fields > .FormField > .input {
+   margin-left: auto;
+   width: 20rem;
+}

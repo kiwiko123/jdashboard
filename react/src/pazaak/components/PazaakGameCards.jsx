@@ -6,13 +6,14 @@ import PazaakGameCard from './PazaakGameCard';
 import './PazaakGameCards.css';
 
 const PazaakGameCards = ({
-    cards, className,
+    cards, className, actions,
 }) => {
     const divClassName = classnames('PazaakGameCards', className);
     const cardElements = cards.map(card => (
         <PazaakGameCard
             key={card.id}
             modifier={card.modifier}
+            onClick={actions.selectCard ? () => actions.selectCard(card.id) : null}
         />
     ));
 
@@ -28,10 +29,14 @@ PazaakGameCards.propTypes = {
         modifier: PropTypes.number.isRequired,
     })),
     className: PropTypes.string,
+    actions: PropTypes.shape({
+        selectCard: PropTypes.func.isRequired,
+    }),
 };
 
 PazaakGameCards.defaultProps = {
     cards: [],
+    actions: {},
 };
 
 export default PazaakGameCards;

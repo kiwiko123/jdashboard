@@ -4,6 +4,8 @@ import CreateAccountPage from './accounts/create/CreateAccountPage';
 import LoginPage from './accounts/pages/LoginPage';
 import ScrabblePlayPage from './scrabble/pages/ScrabblePlayPage';
 import PazaakPlayPage from 'pazaak/PazaakPlayPage';
+import ChatroomPage from 'chatroom/ChatroomPage';
+import ChatroomRoomPage from 'chatroom/rooms/ChatroomRoomPage';
 import NotFoundPage from './dashboard/pages/NotFoundPage';
 
 const ROUTES = [
@@ -26,6 +28,18 @@ const ROUTES = [
         id: 'home',
         path: '/home',
         component: HomePage,
+    },
+    {
+        id: 'chatroom',
+        path: '/chatroom',
+        component: ChatroomPage,
+        exact: true,
+    },
+    {
+        id: 'chatroomRoom',
+        path: '/chatroom/room',
+        component: ChatroomRoomPage,
+        exact: true,
     },
     {
         id: 'featureFlags',

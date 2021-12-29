@@ -8,7 +8,7 @@ export default function(stateTransmitterType, args) {
             transmitter.destroy();
             setTransmitter(null);
         };
-    }, []);
+    }, [transmitter]);
 
     return transmitter;
 }

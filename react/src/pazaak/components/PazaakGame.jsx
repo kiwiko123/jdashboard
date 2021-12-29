@@ -20,7 +20,7 @@ const PazaakGame = ({
             <PazaakGameArea
                 className="player"
                 player={player}
-                showActionButtons={!winningPlayerId}
+                showActionButtons={true}
                 actions={actions}
                 errorMessage={currentPlayerId === player.id ? errorMessage : null}
             />

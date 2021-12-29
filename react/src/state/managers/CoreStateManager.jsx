@@ -1,4 +1,3 @@
-import { isUndefined, pickBy } from 'lodash';
 import logger from 'common/js/logging';
 
 export default class CoreStateManger {
@@ -12,15 +11,6 @@ export default class CoreStateManger {
      */
     setState(newState) {
         Object.assign(this.state, newState);
-    }
-
-    /**
-     * One-dimensionally merge keys in the input state that are not currently present in this manager's state.
-     * Existing keys are ignored.
-     */
-    tryState(newState) {
-        const newData = pickBy(newState, (value, key) => !isUndefined(this.state[key]));
-        this.setState(newData);
     }
 
     registerMethod(method) {

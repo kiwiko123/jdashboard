@@ -1,15 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import InputFormField from 'common/forms/components/core/InputFormField';
 import DropdownSelectorFormField from 'common/forms/components/core/DropdownSelectorFormField';
 import IconButton from 'common/components/IconButton';
-import Request from 'common/js/Request';
 
 import './FeatureFlagForm.css';
-
-function setTextFromEvent(event, setText) {
-    setText(event.target.value);
-}
 
 const FeatureFlagForm = ({
     fields, canSubmitForm, updateFieldValue, submitForm,

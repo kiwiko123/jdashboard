@@ -6,7 +6,7 @@ This project was developed on a machine running macOS Big Sur.
 Unless otherwise stated, any setup instructions may be specific to this environment.
 
 The following development environment was used:
-* macOS 11.4 (Apple Silicon) 
+* macOS 12.0.1 (Apple Silicon) 
 * IntelliJ IDEA Community Edition 2021.1.3
 * Java 17 (OpenJDK)
 * React 16.8.6
@@ -15,9 +15,9 @@ The following development environment was used:
 ## Installation setup
 Install Homebrew: https://brew.sh/.
 
-Run `setup.sh` to install Java, node, Maven, and PostgreSQL:
+Run [`setup.sh`](./setup.sh) to install Java, node, Maven, and PostgreSQL:
 ```shell
-$ sh ./setush.sh
+$ sh ./setup.sh
 ```
 
 ### PostgreSQL
@@ -59,10 +59,23 @@ $ sh ./react/docs/setup.sh
 ```
 
 ## Start the application
-1. Run [`Application.java`](./src/main/java/com/kiwiko/webapp/Application.java).
+1. Run [`Application.java`](src/main/java/com/kiwiko/jdashboard/webapp/Application.java).
 2. Run the app in development mode:
 ```shell
 $ cd ./react
 $ npm start
 ```
 3. Navigate to http://localhost:3000/home.
+
+### Open JDK Side effects
+#### Strong encapsulation
+With OpenJDK 16+, some Java packages containing non-critical APIs will be closed by default. 
+This prevents non-public data from being accessible by reflection. 
+Jdashboard uses reflection for many things, including object serialization and data change capture. 
+
+You may need to add the following as a JVM option to permit open visibility to the `java.time` packages.
+```
+--add-opens java.base/java.time=ALL-UNNAMED
+```
+
+https://openjdk.java.net/jeps/396

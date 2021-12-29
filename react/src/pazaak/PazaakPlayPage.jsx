@@ -17,7 +17,7 @@ const PazaakPage = () => {
             <ComponentStateManager
                 component={PazaakGame}
                 broadcaster={gameStateTransmitter}
-                canResolve={({ player, opponent }) => player && opponent}
+                canResolve={state => state.player}
             />
         </DashboardPage>
     );

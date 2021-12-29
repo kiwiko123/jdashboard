@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import TitleModal from 'common/components/Modal/TitleModal';
 import ComponentStateManager from 'state/components/ComponentStateManager';
 import { useStateManager } from 'state/hooks';
 import FeatureFlagForm from './FeatureFlagForm';
 import FeatureFlagFormStateTransmitter from '../state/FeatureFlagFormStateTransmitter';
-import featureFlagPropTypeShape from './propTypes/featureFlagPropTypeShape';
 import logger from 'common/js/logging';
 
 const FeatureFlagModal = ({

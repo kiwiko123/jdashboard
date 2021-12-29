@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import ToggleSwitch from 'common/buttons/components/ToggleSwitch';
 import IconButton from 'common/components/IconButton';
@@ -9,7 +9,6 @@ import './FeatureFlagListItem.css';
 const FeatureFlagListItem = ({
     id, name, status, value, userScope, userId, isRemoved, versions, enableStatusToggle, actions,
 }) => {
-    const flag = { id, name, status, userScope, userId, isRemoved, versions };
     const userIdField = userScope === 'individual' && (
         <div className="userId">
             <span className="label">
