@@ -5,7 +5,7 @@ import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annot
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.HttpAuthenticationConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.security.environments.EnvironmentConfiguration;
 import com.kiwiko.library.http.client.api.interfaces.JdashboardApiClient;
-import com.kiwiko.jdashboard.webapp.http.client.impl.apiclient.ApiClientHttpClient;
+import com.kiwiko.jdashboard.webapp.http.client.impl.apiclient.CoreHttpClient;
 import com.kiwiko.jdashboard.webapp.http.client.impl.apiclient.ApiClientRequestHelper;
 import com.kiwiko.jdashboard.webapp.http.client.impl.apiclient.ApiClientResponseHelper;
 import com.kiwiko.jdashboard.webapp.http.client.impl.apiclient.JdashboardHttpApiClient;
@@ -21,8 +21,8 @@ public class JdashboardHttpClientConfiguration implements JdashboardDependencyCo
     }
 
     @Bean
-    public ApiClientHttpClient apiClientHttpClient() {
-        return new ApiClientHttpClient();
+    public CoreHttpClient apiClientHttpClient() {
+        return new CoreHttpClient();
     }
 
     @Bean

@@ -16,12 +16,12 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
-public class ApiClientHttpClient {
+public class CoreHttpClient {
     private static final Duration DEFAULT_CLIENT_TIMEOUT = Duration.ofSeconds(10);
 
     protected final HttpClient httpClient;
 
-    public ApiClientHttpClient() {
+    public CoreHttpClient() {
         if (Authenticator.getDefault() == null) {
             Authenticator.setDefault(new DefaultAuthenticator());
         }

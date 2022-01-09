@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class JdashboardHttpApiClient implements JdashboardApiClient {
 
-    @Inject private ApiClientHttpClient httpClient;
+    @Inject private CoreHttpClient httpClient;
     @Inject private ApiClientRequestHelper requestHelper;
     @Inject private ApiClientResponseHelper responseHelper;
 
