@@ -84,8 +84,7 @@ public class ApiClientRequestHelper {
         if (uriBuilder.getScheme() == null && uriBuilder.getHost() == null) {
             // If the scheme and host are absent,
             // assume the request's destination is inside Jdashboard and infer their values.
-            String serverUrl = environmentService.getServerURI().toString();
-            URI serverUri = URI.create(serverUrl);
+            URI serverUri = environmentService.getServerURI();
 
             uriBuilder.setScheme(serverUri.getScheme())
                     .setHost(serverUri.getHost())
