@@ -20,7 +20,7 @@ public class RandomApiRequest extends DefaultApiRequest {
 
     @Nullable
     @Override
-    public <ResponseType> Class<ResponseType> getResponseType() {
-        return (Class<ResponseType>) String.class;
+    public Class<?> getResponseType() {
+        return String.class;
     }
 }

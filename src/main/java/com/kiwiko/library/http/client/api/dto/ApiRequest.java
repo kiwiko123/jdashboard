@@ -83,5 +83,5 @@ public interface ApiRequest {
     PayloadDeserializer getResponsePayloadDeserializer();
 
     @Nullable
-    <ResponseType> Class<ResponseType> getResponseType();
+    Class<?> getResponseType();
 }

@@ -33,7 +33,7 @@ public class ApiClientResponseHelper {
         validateResponse(httpResponse);
 
         int status = httpResponse.statusCode();
-        Class<ResponseType> responseType = apiRequest.getResponseType();
+        Class<ResponseType> responseType = (Class<ResponseType>) apiRequest.getResponseType();
 
         Set<RequestHeader> responseHeaders = makeHeaders(httpResponse);
         ResponseType payload;

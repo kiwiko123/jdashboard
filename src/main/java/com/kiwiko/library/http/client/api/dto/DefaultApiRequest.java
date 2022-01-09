@@ -46,7 +46,7 @@ public abstract class DefaultApiRequest implements ApiRequest {
 
     @Nullable
     @Override
-    public <ResponseType> Class<ResponseType> getResponseType() {
+    public Class<?> getResponseType() {
         return null;
     }
 }

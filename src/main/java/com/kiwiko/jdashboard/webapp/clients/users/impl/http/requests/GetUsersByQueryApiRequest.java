@@ -41,7 +41,7 @@ public class GetUsersByQueryApiRequest extends DefaultApiRequest {
 
     @Nullable
     @Override
-    public <ResponseType> Class<ResponseType> getResponseType() {
-        return (Class<ResponseType>) GetUsersByQueryResponse.class;
+    public Class<?> getResponseType() {
+        return GetUsersByQueryResponse.class;
     }
 }

@@ -35,7 +35,7 @@ public class GetUserByIdApiRequest extends DefaultApiRequest {
 
     @Nullable
     @Override
-    public <ResponseType> Class<ResponseType> getResponseType() {
-        return (Class<ResponseType>) User.class;
+    public Class<?> getResponseType() {
+        return User.class;
     }
 }
