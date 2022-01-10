@@ -4,6 +4,11 @@ import com.kiwiko.library.persistence.dataAccess.api.DataEntity;
 
 import javax.persistence.Column;
 
+/**
+ * @deprecated
+ * @see com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges
+ */
+@Deprecated
 public abstract class VersionedEntity extends DataEntity {
 
     private boolean isRemoved;
