@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
 
+@Deprecated
 @Repository
 public abstract class AuditableEntityManagerDAO<T extends AuditableEntity> extends EntityManagerDAO<T> {
 

@@ -5,6 +5,7 @@ import com.kiwiko.library.persistence.identification.TypeIdentifiable;
 
 import java.time.Instant;
 
+@Deprecated
 public abstract class AuditableDataEntityDTO extends TypeIdentifiable<Long> implements AuditableEntity {
 
     private Long id;
