@@ -11,7 +11,6 @@ import com.kiwiko.library.persistence.dataAccess.data.VersionDTO;
 import com.kiwiko.jdashboard.webapp.framework.json.api.JsonMapper;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.CurrentRequestService;
 import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
-import com.kiwiko.jdashboard.webapp.users.data.User;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;
@@ -22,6 +21,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+@Deprecated
 public abstract class VersionedEntityManagerDAO<T extends VersionedEntity> extends EntityManagerDAO<T> {
 
     private static final Set<String> IGNORED_VERSION_FIELD_NAMES = Set.of("versions");
@@ -71,8 +71,7 @@ public abstract class VersionedEntityManagerDAO<T extends VersionedEntity> exten
 
         version.setVersion(versions.size());
         currentRequestService.getCurrentRequestContext()
-                .flatMap(RequestContext::getUser)
-                .map(User::getId)
+                .map(RequestContext::getUserId)
                 .ifPresent(version::setUserId);
 
         versions.add(version);

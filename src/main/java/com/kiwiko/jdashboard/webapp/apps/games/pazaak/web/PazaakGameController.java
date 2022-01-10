@@ -12,6 +12,7 @@ import com.kiwiko.jdashboard.webapp.apps.games.pazaak.api.interfaces.parameters.
 import com.kiwiko.jdashboard.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakSelectHandCardRequest;
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.JdashboardConfigured;
 import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticatedUser;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationLevel;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationRequired;
 import com.kiwiko.jdashboard.webapp.users.data.User;
@@ -46,7 +47,7 @@ public class PazaakGameController {
             @RequestParam(value = "userId", required = false) @Nullable Long userId,
             RequestContext requestContext) {
         Long currentUserId = Optional.ofNullable(userId)
-                .or(() -> requestContext.getUser().map(User::getId))
+                .or(() -> Optional.ofNullable(requestContext.getUserId()))
                 .orElseThrow(() -> new PazaakGameException("No user provided to load game"));
 
         PazaakLoadGameParameters parameters = new PazaakLoadGameParameters()
@@ -60,14 +61,11 @@ public class PazaakGameController {
     @ResponseBody
     public PazaakGame createNewGame(
             @RequestBody PazaakCreateNewGameParameters parameters,
-            RequestContext requestContext) {
+            @AuthenticatedUser com.kiwiko.jdashboard.webapp.clients.users.api.dto.User currentUser) {
         Objects.requireNonNull(parameters.getPlayerId(), "Player ID is required");
         Objects.requireNonNull(parameters.getOpponentId(), "Opponent ID is required");
 
-        Long userId = requestContext.getUser()
-                .map(User::getId)
-                .orElseThrow(() -> new PazaakGameException("No logged in user found"));
-        parameters.setPlayerUserId(userId);
+        parameters.setPlayerUserId(currentUser.getId());
 
         return gameCreator.createNewGame(parameters);
     }
@@ -77,13 +75,9 @@ public class PazaakGameController {
     public PazaakEndTurnResponse endTurn(
             @PathVariable("gameId") long gameId,
             @RequestBody PazaakEndTurnRequest request,
-            RequestContext requestContext) {
-        Long currentUserId = requestContext.getUser()
-                .map(User::getId)
-                .orElseThrow(() -> new PazaakGameException("No current user found"));
-
+            @AuthenticatedUser com.kiwiko.jdashboard.webapp.clients.users.api.dto.User currentUser) {
         request.setGameId(gameId);
-        request.setUserId(currentUserId);
+        request.setUserId(currentUser.getId());
 
         return gameHandler.endTurn(request);
     }
@@ -93,13 +87,9 @@ public class PazaakGameController {
     public PazaakGame selectHandCard(
             @PathVariable("gameId") long gameId,
             @RequestBody PazaakSelectHandCardRequest request,
-            RequestContext requestContext) {
-        Long currentUserId = requestContext.getUser()
-                .map(User::getId)
-                .orElseThrow(() -> new PazaakGameException("No current user found"));
-
+            @AuthenticatedUser com.kiwiko.jdashboard.webapp.clients.users.api.dto.User currentUser) {
         request.setGameId(gameId);
-        request.setUserId(currentUserId);
+        request.setUserId(currentUser.getId());
 
         return gameHandler.selectHandCard(request);
     }

@@ -11,7 +11,6 @@ import com.kiwiko.library.persistence.data.api.interfaces.DataEntity;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.exceptions.CaptureEntityDataChangeException;
 import com.kiwiko.jdashboard.webapp.persistence.data.versions.api.dto.TableRecordVersion;
 import com.kiwiko.jdashboard.webapp.persistence.data.versions.api.interfaces.TableRecordVersionService;
-import com.kiwiko.jdashboard.webapp.users.data.User;
 
 import javax.inject.Inject;
 import javax.persistence.Column;
@@ -143,8 +142,7 @@ public class DataChangeCapturer {
         version.setRecordId(entity.getId());
         version.setChanges(jsonChanges);
         currentRequestService.getCurrentRequestContext()
-                .flatMap(RequestContext::getUser)
-                .map(User::getId)
+                .map(RequestContext::getUserId)
                 .ifPresent(version::setCreatedByUserId);
 
         tableRecordVersionService.create(version);

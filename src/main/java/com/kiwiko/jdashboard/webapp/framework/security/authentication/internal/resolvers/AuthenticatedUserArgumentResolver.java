@@ -49,8 +49,8 @@ public class AuthenticatedUserArgumentResolver implements HandlerMethodArgumentR
                 .orElseThrow(() -> new InvalidAuthenticatedUserException("No session found for current request"));
 
         User currentUser = requestContextService.getFromSession(session, SessionProperties.REQUEST_CONTEXT_ID_SESSION_KEY)
-                .flatMap(RequestContext::getUser)
-                .map(userClient::fromLegacyUser)
+                .map(RequestContext::getUserId)
+                .flatMap(userId -> userClient.getById(userId).getUser())
                 .orElse(null);
 
         if (currentUser != null) {

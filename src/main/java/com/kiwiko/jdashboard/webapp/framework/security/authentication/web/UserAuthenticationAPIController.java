@@ -1,9 +1,11 @@
 package com.kiwiko.jdashboard.webapp.framework.security.authentication.web;
 
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticatedUser;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationLevel;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationRequired;
 import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.framework.json.api.ResponseBuilder;
 import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
-import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.CrossOriginConfigured;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.dto.UserLoginParameters;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.events.UserAuthenticationEventClient;
@@ -59,16 +61,9 @@ public class UserAuthenticationAPIController {
                 .build();
     }
 
+    @AuthenticationRequired(levels = AuthenticationLevel.AUTHENTICATED)
     @PostMapping("/user-auth/api/users/current/logout")
-    public ResponsePayload logCurrentUserOut(RequestContext requestContext) {
-        User user = requestContext.getUser()
-                .orElse(null);
-        if (user == null) {
-            return new ResponseBuilder()
-                    .withError("Please try refreshing the page")
-                    .build();
-        }
-
+    public ResponsePayload logCurrentUserOut(@AuthenticatedUser com.kiwiko.jdashboard.webapp.clients.users.api.dto.User user) {
         sessionService.endSessionForUser(user.getId());
         userAuthenticationEventClient.recordLogOutEvent(user.getId());
 
@@ -76,8 +71,7 @@ public class UserAuthenticationAPIController {
     }
 
     @GetMapping("/user-auth/api/users/current")
-    public ResponsePayload getCurrentUser(RequestContext requestContext) {
-        User currentUser = requestContext.getUser().orElse(null);
+    public ResponsePayload getCurrentUser(@AuthenticatedUser(required = false) com.kiwiko.jdashboard.webapp.clients.users.api.dto.User currentUser) {
         return new ResponseBuilder()
                 .withBody(currentUser)
                 .build();
