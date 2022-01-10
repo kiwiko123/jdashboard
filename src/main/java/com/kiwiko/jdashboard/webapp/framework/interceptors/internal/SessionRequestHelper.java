@@ -52,9 +52,8 @@ public class SessionRequestHelper {
 
         if (activeSessions.size() > 1) {
             String userIds = activeSessions.stream()
-                    .map(Session::getUser)
-                    .flatMap(Optional::stream)
-                    .map(User::getId)
+                    .map(Session::getUserId)
+                    .filter(Objects::nonNull)
                     .distinct()
                     .map(Object::toString)
                     .collect(Collectors.joining(", "));

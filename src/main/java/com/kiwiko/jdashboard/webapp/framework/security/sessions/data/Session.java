@@ -12,7 +12,7 @@ public class Session extends AuditableDataEntityDTO {
     private String token;
     private Instant startTime;
     private @Nullable Instant endTime;
-    private @Nullable User user;
+    private @Nullable Long userId;
 
     public String getToken() {
         return token;
@@ -38,11 +38,12 @@ public class Session extends AuditableDataEntityDTO {
         this.endTime = endTime;
     }
 
-    public Optional<User> getUser() {
-        return Optional.ofNullable(user);
+    @Nullable
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(@Nullable User user) {
-        this.user = user;
+    public void setUserId(@Nullable Long userId) {
+        this.userId = userId;
     }
 }

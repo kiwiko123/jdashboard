@@ -1,6 +1,5 @@
 package com.kiwiko.jdashboard.webapp.framework.requests.internal.interceptors;
 
-import com.kiwiko.jdashboard.webapp.users.data.User;
 import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.middleware.interceptors.api.interfaces.EndpointInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.interceptors.internal.SessionRequestHelper;
@@ -38,8 +37,7 @@ public class RequestContextInterceptor implements EndpointInterceptor {
         requestContext.setUri(requestUri);
         requestContext.setStartTime(now);
         sessionRequestHelper.getSessionFromRequest(request)
-                .flatMap(Session::getUser)
-                .map(User::getId)
+                .map(Session::getUserId)
                 .ifPresent(requestContext::setUserId);
         requestContext = requestContextService.saveRequestContext(requestContext);
 
