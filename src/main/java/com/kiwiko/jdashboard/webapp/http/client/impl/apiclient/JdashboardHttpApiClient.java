@@ -3,7 +3,7 @@ package com.kiwiko.jdashboard.webapp.http.client.impl.apiclient;
 import com.kiwiko.library.http.client.api.dto.ApiRequest;
 import com.kiwiko.library.http.client.api.dto.ApiResponse;
 import com.kiwiko.library.http.client.api.exceptions.JdashboardApiClientException;
-import com.kiwiko.library.http.client.api.interfaces.JdashboardApiClient;
+import com.kiwiko.jdashboard.webapp.http.client.api.interfaces.JdashboardApiClient;
 
 import javax.inject.Inject;
 import java.net.http.HttpRequest;

@@ -6,7 +6,7 @@ import com.kiwiko.library.http.client.api.exceptions.JdashboardApiClientExceptio
 
 import java.util.concurrent.CompletableFuture;
 
-public interface JdashboardApiClient {
+public interface ApiClient {
 
     <ResponseType> ApiResponse<ResponseType> synchronousCall(ApiRequest request) throws
             InterruptedException, JdashboardApiClientException;

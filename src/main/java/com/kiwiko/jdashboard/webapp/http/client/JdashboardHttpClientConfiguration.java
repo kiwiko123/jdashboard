@@ -4,7 +4,7 @@ import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.Jdash
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.HttpAuthenticationConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.security.environments.EnvironmentConfiguration;
-import com.kiwiko.library.http.client.api.interfaces.JdashboardApiClient;
+import com.kiwiko.jdashboard.webapp.http.client.api.interfaces.JdashboardApiClient;
 import com.kiwiko.jdashboard.webapp.http.client.impl.apiclient.CoreHttpClient;
 import com.kiwiko.jdashboard.webapp.http.client.impl.apiclient.ApiClientRequestHelper;
 import com.kiwiko.jdashboard.webapp.http.client.impl.apiclient.ApiClientResponseHelper;
