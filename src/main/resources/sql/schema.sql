@@ -136,3 +136,11 @@ CREATE TABLE chatroom_messages (
     message TEXT,
     is_removed BOOLEAN NOT NULL DEFAULT FALSE
 );
+
+CREATE TABLE permissions (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL REFERENCES users(user_id),
+    permission_name TEXT NOT NULL,
+    created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    is_removed BOOLEAN NOT NULL DEFAULT FALSE
+);
