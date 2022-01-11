@@ -1,6 +1,6 @@
-package com.kiwiko.jdashboard.webapp.permissions.api.interfaces;
+package com.kiwiko.jdashboard.webapp.permissions.core.api.interfaces;
 
-import com.kiwiko.jdashboard.webapp.permissions.api.dto.Permission;
+import com.kiwiko.jdashboard.webapp.permissions.core.api.dto.Permission;
 
 import java.util.Optional;
 

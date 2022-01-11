@@ -1,8 +1,8 @@
-package com.kiwiko.jdashboard.webapp.permissions.internal;
+package com.kiwiko.jdashboard.webapp.permissions.core.internal;
 
-import com.kiwiko.jdashboard.webapp.permissions.api.dto.Permission;
-import com.kiwiko.jdashboard.webapp.permissions.api.interfaces.PermissionService;
-import com.kiwiko.jdashboard.webapp.permissions.internal.data.PermissionEntityDataFetcher;
+import com.kiwiko.jdashboard.webapp.permissions.core.api.dto.Permission;
+import com.kiwiko.jdashboard.webapp.permissions.core.api.interfaces.PermissionService;
+import com.kiwiko.jdashboard.webapp.permissions.core.internal.data.PermissionEntityDataFetcher;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
 
 import javax.inject.Inject;

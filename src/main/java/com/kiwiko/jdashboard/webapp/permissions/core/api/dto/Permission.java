@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.webapp.permissions.api.dto;
+package com.kiwiko.jdashboard.webapp.permissions.core.api.dto;
 
 import com.kiwiko.library.persistence.data.api.interfaces.SoftDeletableDataEntityDTO;
 

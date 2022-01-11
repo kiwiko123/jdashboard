@@ -1,10 +1,10 @@
-package com.kiwiko.jdashboard.webapp.permissions.web;
+package com.kiwiko.jdashboard.webapp.permissions.core.web;
 
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.JdashboardConfigured;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationLevel;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationRequired;
-import com.kiwiko.jdashboard.webapp.permissions.api.dto.Permission;
-import com.kiwiko.jdashboard.webapp.permissions.api.interfaces.PermissionService;
+import com.kiwiko.jdashboard.webapp.permissions.core.api.dto.Permission;
+import com.kiwiko.jdashboard.webapp.permissions.core.api.interfaces.PermissionService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

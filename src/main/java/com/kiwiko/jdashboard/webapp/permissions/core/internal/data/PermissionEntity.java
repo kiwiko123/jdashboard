@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.webapp.permissions.internal.data;
+package com.kiwiko.jdashboard.webapp.permissions.core.internal.data;
 
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges;
 import com.kiwiko.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
