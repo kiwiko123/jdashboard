@@ -1,5 +1,8 @@
 package com.kiwiko.jdashboard.webapp.apps.playground.web;
 
+import com.kiwiko.jdashboard.webapp.clients.permissions.api.interfaces.PermissionClient;
+import com.kiwiko.jdashboard.webapp.clients.permissions.api.interfaces.parameters.CreatePermissionInput;
+import com.kiwiko.jdashboard.webapp.clients.permissions.api.interfaces.parameters.CreatePermissionOutput;
 import com.kiwiko.jdashboard.webapp.clients.users.api.dto.User;
 import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.UserClient;
 import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.queries.GetUsersQuery;
@@ -10,6 +13,9 @@ import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annota
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationLevel;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationRequired;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.CrossOriginConfigured;
+import com.kiwiko.jdashboard.webapp.permissions.core.api.dto.Permission;
+import com.kiwiko.jdashboard.webapp.permissions.core.api.interfaces.PermissionNames;
+import com.kiwiko.jdashboard.webapp.permissions.framework.api.annotations.PermissionRequired;
 import com.kiwiko.library.http.client.api.dto.ApiResponse;
 import com.kiwiko.jdashboard.webapp.http.client.api.interfaces.JdashboardApiClient;
 import org.springframework.stereotype.Controller;
@@ -27,11 +33,25 @@ public class PlaygroundController {
 
     @Inject private JdashboardApiClient jdashboardApiClient;
     @Inject private UserClient userClient;
+    @Inject private PermissionClient permissionClient;
 
     @GetMapping("/playground-api/test")
+    @PermissionRequired(permissions = PermissionNames.ADMIN)
     public ResponsePayload test() throws Exception {
-        GetUsersByQueryResponse response = userClient.getByQuery(GetUsersQuery.newBuilder().setUserIds(Arrays.asList(1L, 2L, 3L)).build());;
-        return ResponseBuilder.payload(response);
+//        Permission p = new Permission();
+//        p.setPermissionName("admin");
+//        p.setUserId(3L);
+//
+//        CreatePermissionInput i = new CreatePermissionInput();
+//        i.setPermission(p);
+//
+//        CreatePermissionOutput o = permissionClient.create(i);
+//        return ResponseBuilder.payload(o);
+
+        return ResponseBuilder.payload(true);
+
+//        GetUsersByQueryResponse response = userClient.getByQuery(GetUsersQuery.newBuilder().setUserIds(Arrays.asList(1L, 2L, 3L)).build());;
+//        return ResponseBuilder.payload(response);
     }
 
 //    @GetMapping("/playground-api/test")

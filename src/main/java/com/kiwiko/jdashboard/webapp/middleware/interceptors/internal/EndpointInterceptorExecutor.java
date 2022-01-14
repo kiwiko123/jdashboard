@@ -32,6 +32,9 @@ public class EndpointInterceptorExecutor extends HandlerInterceptorAdapter {
         while (allowRequest && interceptorIterator.hasNext()) {
             EndpointInterceptor interceptor = interceptorIterator.next();
             allowRequest = allowInterceptorRequest(interceptor, request, response, handlerMethod);
+            if (!allowRequest) {
+                logger.debug(String.format("%s denied request %s", interceptor.getClass().getSimpleName(), request.getRequestURL().toString()));
+            }
         }
 
         return allowRequest;

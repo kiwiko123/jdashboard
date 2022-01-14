@@ -1,12 +1,17 @@
 package com.kiwiko.jdashboard.webapp.permissions.core.internal;
 
+import com.kiwiko.jdashboard.webapp.clients.permissions.api.interfaces.parameters.QueryPermissionsInput;
 import com.kiwiko.jdashboard.webapp.permissions.core.api.dto.Permission;
 import com.kiwiko.jdashboard.webapp.permissions.core.api.interfaces.PermissionService;
 import com.kiwiko.jdashboard.webapp.permissions.core.internal.data.PermissionEntityDataFetcher;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
 
 import javax.inject.Inject;
+import java.time.Instant;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class PermissionEntityService implements PermissionService {
 
@@ -21,6 +26,7 @@ public class PermissionEntityService implements PermissionService {
 
     @Override
     public Permission create(Permission permission) {
+        permission.setCreatedDate(Instant.now());
         return crudExecutor.create(permission, permissionEntityDataFetcher, permissionEntityMapper);
     }
 
@@ -32,5 +38,13 @@ public class PermissionEntityService implements PermissionService {
     @Override
     public void remove(long id) {
         crudExecutor.delete(id, permissionEntityDataFetcher);
+    }
+
+    @Override
+    public Set<Permission> query(QueryPermissionsInput input) {
+        Objects.requireNonNull(input, "Input is required");
+        return permissionEntityDataFetcher.query(input).stream()
+                .map(permissionEntityMapper::toDto)
+                .collect(Collectors.toSet());
     }
 }

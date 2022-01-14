@@ -4,7 +4,9 @@ import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.Jdashbo
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationLevel;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationRequired;
 import com.kiwiko.jdashboard.webapp.permissions.core.api.dto.Permission;
+import com.kiwiko.jdashboard.webapp.permissions.core.api.interfaces.PermissionNames;
 import com.kiwiko.jdashboard.webapp.permissions.core.api.interfaces.PermissionService;
+import com.kiwiko.jdashboard.webapp.permissions.framework.api.annotations.PermissionRequired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,11 +31,13 @@ public class PermissionsAPIController {
         return permissionService.get(id).orElse(null);
     }
 
+    @PermissionRequired(permissions = PermissionNames.ADMIN)
     @PostMapping("")
     public Permission create(@RequestBody Permission permission) {
         return permissionService.create(permission);
     }
 
+    @PermissionRequired(permissions = PermissionNames.ADMIN)
     @PutMapping("/{id}")
     public Permission merge(
             @PathVariable("id") long id,
@@ -41,6 +45,7 @@ public class PermissionsAPIController {
         return permissionService.merge(permission);
     }
 
+    @PermissionRequired(permissions = PermissionNames.ADMIN)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") long id) {
         permissionService.remove(id);
