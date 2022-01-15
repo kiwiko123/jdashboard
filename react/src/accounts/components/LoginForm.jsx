@@ -14,9 +14,11 @@ const LoginForm = ({
                 <InputFormField
                     {...fields.username}
                     className="username"
+                    onSubmit={actions.submitForm}
                 />
                 <InputFormField
                     {...fields.password}
+                    onSubmit={actions.submitForm}
                 />
             </div>
             <div className="buttons">

@@ -1,8 +1,10 @@
 package com.kiwiko.jdashboard.webapp.persistence.data.versions.web;
 
+import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.JdashboardConfigured;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationLevel;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationRequired;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.CrossOriginConfigured;
+import com.kiwiko.jdashboard.webapp.permissions.core.api.interfaces.PermissionNames;
+import com.kiwiko.jdashboard.webapp.permissions.framework.api.annotations.PermissionRequired;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.DataEntityUpdateFetcher;
 import com.kiwiko.jdashboard.webapp.persistence.data.versions.api.dto.TableRecordVersion;
 import com.kiwiko.jdashboard.webapp.persistence.data.versions.api.interfaces.TableRecordVersionService;
@@ -15,9 +17,10 @@ import javax.inject.Inject;
 import java.util.List;
 
 @RestController
-@CrossOriginConfigured
+@JdashboardConfigured
 @RequestMapping("/table-record-versions/api")
 @AuthenticationRequired(levels = AuthenticationLevel.AUTHENTICATED)
+@PermissionRequired(PermissionNames.ADMIN)
 public class TableRecordVersionAPIController {
 
     @Inject private TableRecordVersionService tableRecordVersionService;

@@ -24,6 +24,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -35,12 +37,10 @@ public abstract class EntityDataFetcher<T extends DataEntity> {
     @Inject private Logger logger;
 
     // Stateful data.
-    private final ReflectionHelper reflectionHelper;
     private final @Nullable CaptureDataChanges captureDataChanges;
     protected final Class<T> entityType; // Protected so that derived classes can access this without re-calculating the type on each invocation.
 
     public EntityDataFetcher() {
-        reflectionHelper = new ReflectionHelper();
         entityType = getEntityType();
         captureDataChanges = entityType.getAnnotation(CaptureDataChanges.class);
     }
@@ -54,20 +54,7 @@ public abstract class EntityDataFetcher<T extends DataEntity> {
      */
     public T save(T entity) {
         if (captureDataChanges != null) {
-            SaveDataChangeCaptureParameters<T> parameters = new SaveDataChangeCaptureParameters<>();
-            parameters.setCaptureDataChanges(captureDataChanges);
-            parameters.setEntity(entity);
-            parameters.setGetEntityById(this::getById);
-            parameters.setSaveEntity(this::persistToDataStore);
-
-            try {
-                return dataChangeCapturer.save(parameters);
-            } catch (Exception e) {
-                logger.error(String.format("Error capturing data change for entity %s", entity), e);
-                if (captureDataChanges.exceptionOnFailure()) {
-                    throw e;
-                }
-            }
+            return changeDataCaptureSave(entity);
         }
 
         return persistToDataStore(entity);
@@ -125,7 +112,7 @@ public abstract class EntityDataFetcher<T extends DataEntity> {
      * @param ids the ids to fetch
      * @return all entities matching the given IDs
      */
-    public Collection<T> getByIds(Collection<Long> ids) {
+    public List<T> getByIds(Collection<Long> ids) {
         if (ids.isEmpty()) {
             return new ArrayList<>();
         }
@@ -189,10 +176,32 @@ public abstract class EntityDataFetcher<T extends DataEntity> {
      * @see #entityType
      */
     protected Class<T> getEntityType() {
+        ReflectionHelper reflectionHelper = new ReflectionHelper();
         return reflectionHelper.getGenericClassType(getClass());
     }
 
     private T persistToDataStore(T entity) {
         return entityManager.merge(entity);
+    }
+
+    private T changeDataCaptureSave(T entity) {
+        Objects.requireNonNull(captureDataChanges, "@CaptureDataChanges is required");
+
+        SaveDataChangeCaptureParameters<T> parameters = new SaveDataChangeCaptureParameters<>();
+        parameters.setCaptureDataChanges(captureDataChanges);
+        parameters.setEntity(entity);
+        parameters.setGetEntityById(this::getById);
+        parameters.setSaveEntity(this::persistToDataStore);
+
+        try {
+            return dataChangeCapturer.save(parameters);
+        } catch (Exception e) {
+            logger.error(String.format("Error capturing data change for entity %s", entity), e);
+            if (captureDataChanges.exceptionOnFailure()) {
+                throw e;
+            }
+        }
+
+        return persistToDataStore(entity);
     }
 }

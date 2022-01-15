@@ -41,7 +41,7 @@ public class PermissionRequiredInterceptor implements EndpointInterceptor {
             return false;
         }
 
-        Set<String> permissionNames = new HashSet<>(Arrays.asList(permissionRequired.permissions()));
+        Set<String> permissionNames = new HashSet<>(Arrays.asList(permissionRequired.value()));
         QueryPermissionsInput queryPermissionsInput = QueryPermissionsInput.newBuilder()
                 .setUserIds(Collections.singleton(currentUserId))
                 .setPermissionNames(permissionNames)

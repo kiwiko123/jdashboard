@@ -7,8 +7,6 @@ export default class LoginFormStateManager extends StateManager {
     constructor() {
         super();
         this.setState({
-            username: null,
-            password: null,
             fields: {
                 username: {
                     label: 'Username',
@@ -58,6 +56,10 @@ export default class LoginFormStateManager extends StateManager {
     }
 
     submitForm() {
+        if (!this.state.canSubmitForm) {
+            return;
+        }
+
         const payload = {
             username: this.state.fields.username.value,
             password: this.state.fields.password.value,
@@ -76,6 +78,6 @@ export default class LoginFormStateManager extends StateManager {
     }
 
     _isFormValid() {
-        return [this.state.fields.username, this.state.fields.password].every(field => field.isValid);
+        return Object.values(this.state.fields).every(field => field.isValid);
     }
 }

@@ -31,13 +31,13 @@ public class PermissionsAPIController {
         return permissionService.get(id).orElse(null);
     }
 
-    @PermissionRequired(permissions = PermissionNames.ADMIN)
+    @PermissionRequired(PermissionNames.ADMIN)
     @PostMapping("")
     public Permission create(@RequestBody Permission permission) {
         return permissionService.create(permission);
     }
 
-    @PermissionRequired(permissions = PermissionNames.ADMIN)
+    @PermissionRequired(PermissionNames.ADMIN)
     @PutMapping("/{id}")
     public Permission merge(
             @PathVariable("id") long id,
@@ -45,7 +45,7 @@ public class PermissionsAPIController {
         return permissionService.merge(permission);
     }
 
-    @PermissionRequired(permissions = PermissionNames.ADMIN)
+    @PermissionRequired(PermissionNames.ADMIN)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") long id) {
         permissionService.remove(id);
