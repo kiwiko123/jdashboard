@@ -1,69 +1,52 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormFields from '../../common/forms/components/FormFields';
+import InputFormField from 'common/forms/components/core/InputFormField';
+import IconButton from 'common/components/IconButton';
 
 import './LoginForm.css';
 
 const LoginForm = ({
-    username, password, actions, className, disableLoginButton,
+    fields, actions, canSubmitForm,
 }) => {
-    const formFields = [
-        {
-            className: 'field-username',
-            name: 'username',
-            label: 'Username',
-            text: username,
-            isRequired: true,
-            onChange: actions.setUsername,
-            isValid: Boolean(username),
-            autoComplete: 'on',
-        },
-        {
-            className: 'field-password',
-            name: 'password',
-            label: 'Password',
-            text: password,
-            type: 'password',
-            isRequired: true,
-            onChange: actions.setPassword,
-            isValid: Boolean(password),
-            autoComplete: 'on',
-        },
-    ];
-    const submitButtonProps = {
-        className: 'button-login',
-        variant: 'primary',
-        fontAwesomeClassName: 'fas fa-sign-in-alt',
-//         disabled={disableLoginButton}
-        onClick: actions.logIn,
-        children: 'Log in',
-    };
-
     return (
-        <FormFields
-            fields={formFields}
-            submitButtonProps={submitButtonProps}
-        />
+        <div className="LoginForm">
+            <div className="fields">
+                <InputFormField
+                    {...fields.username}
+                    className="username"
+                />
+                <InputFormField
+                    {...fields.password}
+                />
+            </div>
+            <div className="buttons">
+                <IconButton
+                    className="button-login"
+                    variant="primary"
+                    fontAwesomeClassName="fas fa-sign-in-alt"
+                    disabled={!canSubmitForm}
+                    onClick={actions.submitForm}
+                >
+                    Log in
+                </IconButton>
+            </div>
+        </div>
     );
 };
 
 LoginForm.propTypes = {
-    username: PropTypes.string,
-    password: PropTypes.string,
-    actions: PropTypes.shape({
-        setUsername: PropTypes.func.isRequired,
-        setPassword: PropTypes.func.isRequired,
-        logIn: PropTypes.func.isRequired,
+    fields: PropTypes.shape({
+        username: PropTypes.object.isRequired,
+        password: PropTypes.object.isRequired,
     }).isRequired,
-    className: PropTypes.string,
-    disableLoginButton: PropTypes.bool,
+    actions: PropTypes.shape({
+        submitForm: PropTypes.func.isRequired,
+    }).isRequired,
+    canSubmitForm: PropTypes.bool,
 };
 
 LoginForm.defaultProps = {
-    username: null,
-    password: null,
-    className: null,
-    disableLoginButton: false,
+    canSubmitForm: false,
 };
 
 export default LoginForm;

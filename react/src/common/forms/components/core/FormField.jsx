@@ -9,7 +9,7 @@ const FormField = ({
 }) => {
     const labelText = isRequired ? `${label}*` : label;
     const divClassName = classnames('FormField', className);
-    const inputClassName = classnames('input', { invalid: !isValid });
+    const inputClassName = classnames('input', { invalid: isValid === false });
 
     return (
         <div className={divClassName}>

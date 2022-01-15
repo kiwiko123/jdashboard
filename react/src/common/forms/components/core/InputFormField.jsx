@@ -6,7 +6,7 @@ import FormInput from '../FormInput';
 import fieldPropTypeShape from './propTypes/fieldPropTypeShape';
 
 const InputFormField = ({
-    className, label, name, onChange, isRequired, isValid, validate, value, ...props,
+    className, label, name, onChange, isRequired, isValid, value, ...props,
 }) => {
     const divClassName = classnames('InputFormField', className);
     return (

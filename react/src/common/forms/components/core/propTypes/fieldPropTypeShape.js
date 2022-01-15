@@ -6,6 +6,5 @@ export default {
     onChange: PropTypes.func.isRequired,
     isRequired: PropTypes.bool,
     isValid: PropTypes.bool,
-    validate: PropTypes.func,
     value: PropTypes.any.isRequired,
 };

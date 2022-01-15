@@ -1,14 +1,14 @@
 import React from 'react';
 import DashboardPage from '../../dashboard/components/DashboardPage';
 import ComponentStateManager from '../../state/components/ComponentStateManager';
-import { useBroadcaster } from '../../state/hooks/broadcasterHooks';
-import LoginFormBroadcaster from '../state/LoginFormBroadcaster';
+import { useStateManager } from 'state/hooks';
+import LoginFormStateManager from '../state/LoginFormStateManager';
 import LoginForm from '../components/LoginForm';
 
 import '../styles/LoginPage.css';
 
 const LoginPage = () => {
-    const loginFormBroadcaster = useBroadcaster(LoginFormBroadcaster);
+    const loginFormStateManager = useStateManager(() => new LoginFormStateManager());
 
     return (
         <DashboardPage
@@ -17,9 +17,8 @@ const LoginPage = () => {
             appId="login"
         >
             <ComponentStateManager
-                broadcaster={loginFormBroadcaster}
+                broadcaster={loginFormStateManager}
                 component={LoginForm}
-                id="LoginForm"
             />
         </DashboardPage>
 
