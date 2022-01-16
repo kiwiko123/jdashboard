@@ -39,7 +39,7 @@ public class RequestContextInterceptor implements EndpointInterceptor {
         sessionRequestHelper.getSessionFromRequest(request)
                 .map(Session::getUserId)
                 .ifPresent(requestContext::setUserId);
-        requestContext = requestContextService.saveRequestContext(requestContext);
+        requestContext = requestContextService.create(requestContext);
 
         HttpSession session = request.getSession();
         session.setAttribute(SessionProperties.REQUEST_CONTEXT_ID_SESSION_KEY, requestContext.getId());
@@ -56,7 +56,7 @@ public class RequestContextInterceptor implements EndpointInterceptor {
                 .orElseThrow(() -> new RequestError(String.format("No RequestContext found after handling \"%s\"", requestUri)));
         requestContext.setEndTime(now);
         requestContext.setIsRemoved(true);
-        requestContextService.saveRequestContext(requestContext);
+        requestContextService.merge(requestContext);
 
         Duration requestDuration = Duration.between(requestContext.getStartTime(), requestContext.getEndTime().orElse(now));
         logger.debug(String.format("(%d ms) %s", requestDuration.toMillis(), makeDebugRequestUri(request)));

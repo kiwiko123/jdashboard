@@ -14,7 +14,6 @@ import com.kiwiko.jdashboard.webapp.framework.configuration.ConfigurationHelper;
 import com.kiwiko.jdashboard.webapp.framework.interceptors.AuthenticationRequiredInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.interceptors.CaptureMetricsMethodInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.interceptors.internal.SessionRequestHelper;
-import com.kiwiko.jdashboard.webapp.framework.requests.internal.InMemoryRequestContextService;
 import com.kiwiko.jdashboard.webapp.framework.json.api.JsonMapper;
 import com.kiwiko.jdashboard.webapp.framework.resolvers.RequestBodyCollectionParameterResolver;
 import com.kiwiko.jdashboard.webapp.framework.resolvers.RequestBodyParameterResolver;
@@ -78,11 +77,6 @@ public class MvcConfiguration implements WebMvcConfigurer, JdashboardDependencyC
     @Bean
     public GsonJsonSerializer gsonJsonSerializer() {
         return new GsonJsonSerializer();
-    }
-
-    @Bean
-    public InMemoryRequestContextService ineMemoryRequestContextService() {
-        return new InMemoryRequestContextService();
     }
 
     @Bean

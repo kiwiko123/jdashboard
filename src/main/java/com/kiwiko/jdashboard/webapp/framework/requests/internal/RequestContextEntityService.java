@@ -2,35 +2,29 @@ package com.kiwiko.jdashboard.webapp.framework.requests.internal;
 
 import com.kiwiko.jdashboard.webapp.framework.requests.api.RequestContextService;
 import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
-import com.kiwiko.jdashboard.webapp.framework.requests.internal.dataAccess.RequestContextEntity;
 import com.kiwiko.jdashboard.webapp.framework.requests.internal.dataAccess.RequestContextEntityDAO;
-import org.springframework.transaction.annotation.Transactional;
+import com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.time.Instant;
 import java.util.Optional;
 
 public class RequestContextEntityService implements RequestContextService {
 
-    private static final int MAX_RESULTS = 100;
-
-    @Inject
-    private RequestContextEntityDAO requestContextEntityDAO;
-
-    @Inject
-    private RequestContextEntityMapper mapper;
+    @Inject private RequestContextEntityDAO requestContextEntityDAO;
+    @Inject private RequestContextEntityMapper mapper;
+    @Inject private CreateReadUpdateDeleteExecutor crudExecutor;
 
     @Override
     public String getRequestUri(HttpServletRequest request) {
         return request.getRequestURI();
     }
 
-    @Transactional(readOnly = true)
     @Override
     public Optional<RequestContext> getById(long requestContextId) {
-        return requestContextEntityDAO.getById(requestContextId)
-                .map(mapper::toDTO);
+        return crudExecutor.get(requestContextId, requestContextEntityDAO, mapper);
     }
 
     @Override
@@ -41,11 +35,20 @@ public class RequestContextEntityService implements RequestContextService {
                 .flatMap(this::getById);
     }
 
-    @Transactional
     @Override
-    public RequestContext saveRequestContext(RequestContext context) {
-        RequestContextEntity entity = mapper.toEntity(context);
-        RequestContextEntity result = requestContextEntityDAO.save(entity);
-        return mapper.toDTO(result);
+    public RequestContext create(RequestContext requestContext) {
+        Instant now = Instant.now();
+        requestContext.setCreatedDate(now);
+        requestContext.setLastUpdatedDate(now);
+        requestContext.setIsRemoved(false);
+
+        return crudExecutor.create(requestContext, requestContextEntityDAO, mapper);
+    }
+
+    @Override
+    public RequestContext merge(RequestContext requestContext) {
+        requestContext.setLastUpdatedDate(Instant.now());
+
+        return crudExecutor.merge(requestContext, requestContextEntityDAO, mapper);
     }
 }
