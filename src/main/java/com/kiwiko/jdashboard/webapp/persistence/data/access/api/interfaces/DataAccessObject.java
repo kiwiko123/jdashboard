@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.webapp.persistence.data.fetchers.api.interfaces;
+package com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces;
 
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.parameters.SaveDataChangeCaptureParameters;
 import com.kiwiko.library.lang.reflection.ReflectionHelper;
@@ -29,7 +29,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Repository
-public abstract class EntityDataFetcher<T extends DataEntity> {
+public abstract class DataAccessObject<T extends DataEntity> {
 
     // Spring-provisioned fields.
     @PersistenceContext private EntityManager entityManager;
@@ -40,7 +40,7 @@ public abstract class EntityDataFetcher<T extends DataEntity> {
     private final @Nullable CaptureDataChanges captureDataChanges;
     protected final Class<T> entityType; // Protected so that derived classes can access this without re-calculating the type on each invocation.
 
-    public EntityDataFetcher() {
+    public DataAccessObject() {
         entityType = getEntityType();
         captureDataChanges = entityType.getAnnotation(CaptureDataChanges.class);
     }

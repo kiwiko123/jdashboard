@@ -8,7 +8,7 @@ import com.kiwiko.library.persistence.data.api.interfaces.DataEntity;
 import com.kiwiko.library.persistence.data.api.interfaces.DataEntityDTO;
 import com.kiwiko.library.persistence.data.properties.api.interfaces.DataEntityMapper;
 import com.kiwiko.jdashboard.webapp.framework.persistence.transactions.api.interfaces.TransactionProvider;
-import com.kiwiko.jdashboard.webapp.persistence.data.fetchers.api.interfaces.EntityDataFetcher;
+import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;
 
 import javax.inject.Inject;
 import java.util.Objects;
@@ -21,7 +21,7 @@ public class EntityMerger {
 
     public <Entity extends DataEntity,
             Dto extends DataEntityDTO,
-            DataFetcher extends EntityDataFetcher<Entity>,
+            DataFetcher extends DataAccessObject<Entity>,
             Mapper extends DataEntityMapper<Entity, Dto>> Dto mergeFields(Dto obj, DataFetcher dataFetcher, Mapper mapper, MergeStrategy mergeStrategy) {
         Objects.requireNonNull(obj.getId(), "Entity ID is required to merge/update an existing record");
         Dto objectToUpdate = transactionProvider.readOnly(() -> dataFetcher.getById(obj.getId()).map(mapper::toDto).orElse(null));

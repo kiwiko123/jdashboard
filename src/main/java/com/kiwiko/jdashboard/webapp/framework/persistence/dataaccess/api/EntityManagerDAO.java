@@ -1,5 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.persistence.dataaccess.api;
 
+import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;
 import com.kiwiko.library.persistence.dataAccess.api.PersistenceException;
 import com.kiwiko.library.persistence.identification.Identifiable;
 import org.springframework.stereotype.Repository;
@@ -20,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @deprecated prefer {@link com.kiwiko.jdashboard.webapp.persistence.data.fetchers.api.interfaces.EntityDataFetcher}
+ * @deprecated prefer {@link DataAccessObject}
  */
 @Deprecated
 @Repository

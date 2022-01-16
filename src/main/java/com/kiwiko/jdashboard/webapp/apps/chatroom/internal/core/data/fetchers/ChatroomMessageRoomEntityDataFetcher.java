@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.data.fetchers;
 
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.data.entities.ChatroomMessageRoomEntity;
-import com.kiwiko.jdashboard.webapp.persistence.data.fetchers.api.interfaces.EntityDataFetcher;
+import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ChatroomMessageRoomEntityDataFetcher extends EntityDataFetcher<ChatroomMessageRoomEntity> {
+public class ChatroomMessageRoomEntityDataFetcher extends DataAccessObject<ChatroomMessageRoomEntity> {
 
     public Set<ChatroomMessageRoomEntity> getRoomsForUsers(Collection<Long> userIds) {
         if (userIds.isEmpty()) {

@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.apps.games.state.internal.data;
 
-import com.kiwiko.jdashboard.webapp.persistence.data.fetchers.api.interfaces.EntityDataFetcher;
+import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -10,7 +10,7 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Optional;
 
-public class UserGameStateAssociationEntityDataFetcher extends EntityDataFetcher<UserGameStateAssociationEntity> {
+public class UserGameStateAssociationEntityDataFetcher extends DataAccessObject<UserGameStateAssociationEntity> {
 
     @Override
     protected Class<UserGameStateAssociationEntity> getEntityType() {
