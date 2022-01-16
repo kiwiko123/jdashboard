@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.security.sessions.internal.dataAccess;
 
-import com.kiwiko.library.persistence.dataAccess.api.AuditableDataEntity;
+import com.kiwiko.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.Column;
@@ -13,7 +13,7 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "sessions")
-public class SessionEntity extends AuditableDataEntity {
+public class SessionEntity implements SoftDeletableDataEntity {
 
     private Long id;
     private String token;
@@ -32,7 +32,6 @@ public class SessionEntity extends AuditableDataEntity {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -76,23 +75,19 @@ public class SessionEntity extends AuditableDataEntity {
     }
 
     @Column(name = "created_date", nullable = false)
-    @Override
     public Instant getCreatedDate() {
         return createdDate;
     }
 
-    @Override
     public void setCreatedDate(Instant createdDate) {
         this.createdDate = createdDate;
     }
 
     @Column(name = "last_updated_date", nullable = false)
-    @Override
     public Instant getLastUpdatedDate() {
         return lastUpdatedDate;
     }
 
-    @Override
     public void setLastUpdatedDate(Instant lastUpdatedDate) {
         this.lastUpdatedDate = lastUpdatedDate;
     }

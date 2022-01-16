@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.security.sessions.internal.dataAccess;
 
-import com.kiwiko.jdashboard.webapp.framework.persistence.dataaccess.api.AuditableEntityManagerDAO;
+import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -10,12 +10,7 @@ import javax.persistence.criteria.Root;
 import java.time.Instant;
 import java.util.Collection;
 
-public class SessionEntityDAO extends AuditableEntityManagerDAO<SessionEntity> {
-
-    @Override
-    protected Class<SessionEntity> getEntityType() {
-        return SessionEntity.class;
-    }
+public class SessionEntityDAO extends DataAccessObject<SessionEntity> {
 
     @Override
     public SessionEntity save(SessionEntity entity) {
@@ -31,7 +26,7 @@ public class SessionEntityDAO extends AuditableEntityManagerDAO<SessionEntity> {
     }
 
     public Collection<SessionEntity> getByUserId(long userId) {
-        CriteriaBuilder builder = criteriaBuilder();
+        CriteriaBuilder builder = getCriteriaBuilder();
         CriteriaQuery<SessionEntity> query = builder.createQuery(entityType);
         Root<SessionEntity> root = query.from(entityType);
 
@@ -48,7 +43,7 @@ public class SessionEntityDAO extends AuditableEntityManagerDAO<SessionEntity> {
     }
 
     public Collection<SessionEntity> getByTokens(Collection<String> tokens) {
-        CriteriaBuilder builder = criteriaBuilder();
+        CriteriaBuilder builder = getCriteriaBuilder();
         CriteriaQuery<SessionEntity> query = builder.createQuery(entityType);
         Root<SessionEntity> root = query.from(entityType);
 

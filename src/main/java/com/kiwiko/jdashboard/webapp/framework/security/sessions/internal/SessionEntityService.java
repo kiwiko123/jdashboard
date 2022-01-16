@@ -46,9 +46,11 @@ public class SessionEntityService implements SessionService {
         sessionEntity.setToken(token);
         sessionEntity.setStartTime(now);
         sessionEntity.setEndTime(now.plus(SessionProperties.AUTHENTICATION_COOKIE_TIME_TO_LIVE));
+        sessionEntity.setCreatedDate(now);
+        sessionEntity.setLastUpdatedDate(now);
 
         SessionEntity managedEntity = sessionEntityDAO.save(sessionEntity);
-        return mapper.toDTO(managedEntity);
+        return mapper.toDto(managedEntity);
     }
 
     @Transactional
@@ -78,7 +80,7 @@ public class SessionEntityService implements SessionService {
     @Override
     public Set<Session> getByTokens(Collection<String> tokens) {
         return sessionEntityDAO.getByTokens(tokens).stream()
-                .map(mapper::toDTO)
+                .map(mapper::toDto)
                 .collect(Collectors.toSet());
     }
 
@@ -87,15 +89,17 @@ public class SessionEntityService implements SessionService {
     public Optional<Session> getByUser(long userId) {
         return sessionEntityDAO.getByUserId(userId).stream()
                 .findFirst()
-                .map(mapper::toDTO);
+                .map(mapper::toDto);
     }
 
     @Transactional
     @Override
     public Session saveSession(Session session) {
         SessionEntity entity = mapper.toEntity(session);
+        entity.setLastUpdatedDate(Instant.now());
+
         SessionEntity managedEntity = sessionEntityDAO.save(entity);
-        return mapper.toDTO(managedEntity);
+        return mapper.toDto(managedEntity);
     }
 
     @Transactional
@@ -108,7 +112,7 @@ public class SessionEntityService implements SessionService {
 
         return activeSessions.stream()
                 .max(Comparator.comparing(SessionEntity::getStartTime))
-                .map(mapper::toDTO);
+                .map(mapper::toDto);
     }
 
     @Transactional(readOnly = true)
@@ -140,6 +144,7 @@ public class SessionEntityService implements SessionService {
         Instant now = Instant.now();
         entity.setIsRemoved(true);
         entity.setEndTime(now);
+        entity.setLastUpdatedDate(now);
 
         sessionEntityDAO.save(entity);
         logger.debug(String.format("Invalidated session with ID %d for user ID %d", sessionId, entity.getUserId()));
