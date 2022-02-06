@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface PermissionRequired {
+public @interface PermissionCheck {
 
     /**
      * @return the permission names that are required to access the annotated controller or method.

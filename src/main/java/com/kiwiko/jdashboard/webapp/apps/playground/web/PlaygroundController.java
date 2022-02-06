@@ -6,7 +6,7 @@ import com.kiwiko.jdashboard.webapp.framework.json.api.ResponseBuilder;
 import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.CrossOriginConfigured;
 import com.kiwiko.jdashboard.webapp.permissions.core.api.interfaces.PermissionNames;
-import com.kiwiko.jdashboard.webapp.permissions.framework.api.annotations.PermissionRequired;
+import com.kiwiko.jdashboard.webapp.permissions.framework.api.annotations.PermissionCheck;
 import com.kiwiko.jdashboard.webapp.http.client.api.interfaces.JdashboardApiClient;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +22,7 @@ public class PlaygroundController {
     @Inject private PermissionClient permissionClient;
 
     @GetMapping("/playground-api/test")
-    @PermissionRequired(PermissionNames.ADMIN)
+    @PermissionCheck(PermissionNames.ADMIN)
     public ResponsePayload test() throws Exception {
 //        Permission p = new Permission();
 //        p.setPermissionName("admin");
