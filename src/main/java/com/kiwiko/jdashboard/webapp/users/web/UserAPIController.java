@@ -7,6 +7,7 @@ import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationLevel;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationRequired;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.InternalServiceRequest;
 import com.kiwiko.jdashboard.webapp.framework.security.environments.data.EnvironmentProperties;
 import com.kiwiko.jdashboard.webapp.users.api.UserService;
 import com.kiwiko.jdashboard.webapp.users.api.parameters.CreateUserParameters;
@@ -51,7 +52,7 @@ public class UserAPIController {
     }
 
     @GetMapping("/users/api/internal/query")
-    @AuthenticationRequired(levels = AuthenticationLevel.INTERNAL_SERVICE)
+    @InternalServiceRequest
     @ResponseBody
     public GetUsersByQueryResponse getUsersByQuery(
             @RequestParam("query") String queryJson) {

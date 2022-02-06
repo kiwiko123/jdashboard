@@ -61,7 +61,7 @@ public interface ApiRequest {
      * Required.
      *
      * Return true if the target endpoint requires authentication by
-     * {@link com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationLevel#INTERNAL_SERVICE}.
+     * {@link com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.InternalServiceRequest}.
      * Extra validation will occur to verify that this is an authentic service request originating and ending in Jdashboard.
      *
      * @return true if this is an internal service request, or false otherwise

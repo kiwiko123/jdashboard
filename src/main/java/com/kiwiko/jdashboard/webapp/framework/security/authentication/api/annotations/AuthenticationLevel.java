@@ -8,5 +8,6 @@ public enum AuthenticationLevel {
     PUBLIC,
 
     // Only accessible by an internal Jdashboard service client. Extra validation is performed.
-    INTERNAL_SERVICE
+    // Deprecated -- prefer @InternalServiceRequest.
+    @Deprecated INTERNAL_SERVICE
 }
