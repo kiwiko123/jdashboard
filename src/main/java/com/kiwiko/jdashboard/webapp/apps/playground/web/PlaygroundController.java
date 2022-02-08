@@ -8,7 +8,7 @@ import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticatedUser;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.CrossOriginConfigured;
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.InternalServiceCheck;
-import com.kiwiko.jdashboard.webapp.permissions.api.interfaces.PermissionNames;
+import com.kiwiko.jdashboard.services.permissions.api.interfaces.PermissionNames;
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.UserPermissionCheck;
 import com.kiwiko.jdashboard.webapp.http.client.api.interfaces.JdashboardApiClient;
 import com.kiwiko.jdashboard.library.http.client.api.dto.ApiResponse;

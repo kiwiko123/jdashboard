@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.clients.permissions.api.interfaces.parameters;
 
-import com.kiwiko.jdashboard.webapp.permissions.api.dto.Permission;
+import com.kiwiko.jdashboard.services.permissions.api.dto.Permission;
 
 public class CreatePermissionOutput {
     private Permission permission;

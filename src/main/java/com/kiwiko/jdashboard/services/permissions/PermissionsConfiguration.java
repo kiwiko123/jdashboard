@@ -1,10 +1,10 @@
-package com.kiwiko.jdashboard.webapp.permissions;
+package com.kiwiko.jdashboard.services.permissions;
 
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
-import com.kiwiko.jdashboard.webapp.permissions.api.interfaces.PermissionService;
-import com.kiwiko.jdashboard.webapp.permissions.internal.PermissionEntityMapper;
-import com.kiwiko.jdashboard.webapp.permissions.internal.PermissionEntityService;
-import com.kiwiko.jdashboard.webapp.permissions.internal.data.PermissionEntityDataFetcher;
+import com.kiwiko.jdashboard.services.permissions.api.interfaces.PermissionService;
+import com.kiwiko.jdashboard.services.permissions.internal.PermissionEntityMapper;
+import com.kiwiko.jdashboard.services.permissions.internal.PermissionEntityService;
+import com.kiwiko.jdashboard.services.permissions.internal.data.PermissionEntityDataFetcher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
