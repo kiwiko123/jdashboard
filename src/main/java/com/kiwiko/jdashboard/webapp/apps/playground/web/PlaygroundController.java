@@ -7,7 +7,7 @@ import com.kiwiko.jdashboard.webapp.framework.json.api.ResponseBuilder;
 import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticatedUser;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.CrossOriginConfigured;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.InternalServiceRequest;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.InternalServiceCheck;
 import com.kiwiko.jdashboard.webapp.permissions.core.api.interfaces.PermissionNames;
 import com.kiwiko.jdashboard.webapp.permissions.framework.api.annotations.PermissionCheck;
 import com.kiwiko.jdashboard.webapp.http.client.api.interfaces.JdashboardApiClient;
@@ -53,7 +53,7 @@ public class PlaygroundController {
         return ResponseBuilder.payload(response);
     }
 
-    @InternalServiceRequest
+    @InternalServiceCheck
     @PostMapping("/playground-api/test")
     @ResponseBody
     public String testPost(@RequestBody User user) throws Exception {

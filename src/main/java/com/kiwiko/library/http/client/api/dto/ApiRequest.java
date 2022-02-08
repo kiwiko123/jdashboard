@@ -1,5 +1,6 @@
 package com.kiwiko.library.http.client.api.dto;
 
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.InternalServiceCheck;
 import com.kiwiko.library.http.client.api.constants.RequestMethod;
 
 import javax.annotation.Nullable;
@@ -61,7 +62,7 @@ public interface ApiRequest {
      * Required.
      *
      * Return true if the target endpoint requires authentication by
-     * {@link com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.InternalServiceRequest}.
+     * {@link InternalServiceCheck}.
      * Extra validation will occur to verify that this is an authentic service request originating and ending in Jdashboard.
      *
      * @return true if this is an internal service request, or false otherwise

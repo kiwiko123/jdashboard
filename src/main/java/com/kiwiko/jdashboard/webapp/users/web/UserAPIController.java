@@ -7,7 +7,7 @@ import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationLevel;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationRequired;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.InternalServiceRequest;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.InternalServiceCheck;
 import com.kiwiko.jdashboard.webapp.framework.security.environments.data.EnvironmentProperties;
 import com.kiwiko.jdashboard.webapp.users.api.UserService;
 import com.kiwiko.jdashboard.webapp.users.api.parameters.CreateUserParameters;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Set;
 
 @CrossOrigin(origins = EnvironmentProperties.CROSS_ORIGIN_URL)
 @Controller
@@ -52,7 +51,7 @@ public class UserAPIController {
     }
 
     @GetMapping("/users/api/internal/query")
-    @InternalServiceRequest
+    @InternalServiceCheck
     @ResponseBody
     public GetUsersByQueryResponse getUsersByQuery(
             @RequestParam("query") String queryJson) {
