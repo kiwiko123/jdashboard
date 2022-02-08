@@ -1,8 +1,7 @@
 package com.kiwiko.jdashboard.webapp.framework.security.clientsessions.web;
 
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.JdashboardConfigured;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationLevel;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationRequired;
+import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.UserAuthCheck;
 import com.kiwiko.jdashboard.webapp.framework.security.clientsessions.api.dto.ClientSession;
 import com.kiwiko.jdashboard.webapp.framework.security.clientsessions.api.interfaces.ClientSessionService;
 import com.kiwiko.jdashboard.webapp.framework.security.clientsessions.api.interfaces.parameters.CreateClientSessionResponse;
@@ -21,8 +20,8 @@ public class ClientSessionAPIController {
 
     @Inject private ClientSessionService clientSessionService;
 
+    @UserAuthCheck
     @GetMapping("/{id}")
-    @AuthenticationRequired(levels = AuthenticationLevel.AUTHENTICATED)
     public ClientSession getById(@PathVariable("id") Long id) {
         return clientSessionService.get(id).orElse(null);
     }

@@ -1,8 +1,7 @@
 package com.kiwiko.jdashboard.services.permissions.web;
 
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.JdashboardConfigured;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationLevel;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationRequired;
+import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.UserAuthCheck;
 import com.kiwiko.jdashboard.services.permissions.api.dto.Permission;
 import com.kiwiko.jdashboard.services.permissions.api.interfaces.PermissionNames;
 import com.kiwiko.jdashboard.services.permissions.api.interfaces.PermissionService;
@@ -21,7 +20,7 @@ import javax.inject.Inject;
 @RestController
 @RequestMapping("/permissions/api")
 @JdashboardConfigured
-@AuthenticationRequired(levels = AuthenticationLevel.AUTHENTICATED)
+@UserAuthCheck
 public class PermissionsAPIController {
 
     @Inject private PermissionService permissionService;

@@ -1,8 +1,7 @@
 package com.kiwiko.jdashboard.webapp.framework.security.authentication.web;
 
+import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.UserAuthCheck;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticatedUser;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationLevel;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationRequired;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.framework.json.api.ResponseBuilder;
 import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
@@ -61,7 +60,7 @@ public class UserAuthenticationAPIController {
                 .build();
     }
 
-    @AuthenticationRequired(levels = AuthenticationLevel.AUTHENTICATED)
+    @UserAuthCheck
     @PostMapping("/user-auth/api/users/current/logout")
     public ResponsePayload logCurrentUserOut(@AuthenticatedUser com.kiwiko.jdashboard.webapp.clients.users.api.dto.User user) {
         sessionService.endSessionForUser(user.getId());

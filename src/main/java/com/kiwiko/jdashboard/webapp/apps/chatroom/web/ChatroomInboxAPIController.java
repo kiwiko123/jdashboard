@@ -7,9 +7,8 @@ import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.Crea
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.GetInboxFeedParameters;
 import com.kiwiko.jdashboard.webapp.clients.users.api.dto.User;
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.JdashboardConfigured;
+import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.UserAuthCheck;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticatedUser;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationLevel;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationRequired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +20,7 @@ import javax.inject.Inject;
 @RestController
 @RequestMapping("/chatroom/api/inbox")
 @JdashboardConfigured
-@AuthenticationRequired(levels = AuthenticationLevel.AUTHENTICATED)
+@UserAuthCheck
 public class ChatroomInboxAPIController {
 
     @Inject private ChatroomInboxService chatroomInboxService;

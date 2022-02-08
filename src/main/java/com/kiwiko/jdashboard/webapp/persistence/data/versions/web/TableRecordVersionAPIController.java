@@ -1,8 +1,7 @@
 package com.kiwiko.jdashboard.webapp.persistence.data.versions.web;
 
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.JdashboardConfigured;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationLevel;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationRequired;
+import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.UserAuthCheck;
 import com.kiwiko.jdashboard.services.permissions.api.interfaces.PermissionNames;
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.UserPermissionCheck;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.DataEntityUpdateFetcher;
@@ -19,7 +18,7 @@ import java.util.List;
 @RestController
 @JdashboardConfigured
 @RequestMapping("/table-record-versions/api")
-@AuthenticationRequired(levels = AuthenticationLevel.AUTHENTICATED)
+@UserAuthCheck
 @UserPermissionCheck(PermissionNames.ADMIN)
 public class TableRecordVersionAPIController {
 

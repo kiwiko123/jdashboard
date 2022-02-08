@@ -11,9 +11,8 @@ import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.room
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.rooms.SendMessageResponse;
 import com.kiwiko.jdashboard.webapp.clients.users.api.dto.User;
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.JdashboardConfigured;
+import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.UserAuthCheck;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticatedUser;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationLevel;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationRequired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +25,7 @@ import javax.inject.Inject;
 @RestController
 @RequestMapping("/chatroom/api")
 @JdashboardConfigured
-@AuthenticationRequired(levels = AuthenticationLevel.AUTHENTICATED)
+@UserAuthCheck
 public class ChatroomAPIController {
 
     @Inject private ChatroomRoomService chatroomRoomService;

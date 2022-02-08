@@ -6,11 +6,11 @@ import com.kiwiko.jdashboard.webapp.featureflags.api.interfaces.FeatureFlagServi
 import com.kiwiko.jdashboard.webapp.featureflags.api.dto.FeatureFlag;
 import com.kiwiko.jdashboard.webapp.featureflags.web.responses.FeatureFlagListItem;
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.JdashboardConfigured;
+import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.UserAuthCheck;
 import com.kiwiko.jdashboard.webapp.framework.json.api.ResponseBuilder;
 import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
 import com.kiwiko.jdashboard.webapp.framework.json.deserialization.api.impl.GsonRequestBodyDeserializationStrategy;
 import com.kiwiko.jdashboard.webapp.framework.json.deserialization.api.interfaces.CustomRequestBody;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationRequired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,21 +43,21 @@ public class FeatureFlagAPIController {
         return ResponseBuilder.payload(isResolved);
     }
 
-    @AuthenticationRequired
+    @UserAuthCheck
     @GetMapping("/feature-flags/api/list")
     public ResponsePayload getFeatureFlagList() {
         List<FeatureFlagListItem> listItems = featureFlagAPIHelper.getListItems();
         return ResponseBuilder.payload(listItems);
     }
 
-    @AuthenticationRequired
+    @UserAuthCheck
     @GetMapping("/feature-flags/api/{id}")
     public ResponsePayload getById(@PathVariable("id") long id) {
         FeatureFlag flag = featureFlagService.get(id).orElse(null);
         return ResponseBuilder.payload(flag);
     }
 
-    @AuthenticationRequired
+    @UserAuthCheck
     @PostMapping("/feature-flags/api")
     @ResponseBody
     public FeatureFlag create(@RequestBody FeatureFlag featureFlag) {
@@ -65,7 +65,7 @@ public class FeatureFlagAPIController {
         return featureFlagService.create(featureFlag);
     }
 
-    @AuthenticationRequired
+    @UserAuthCheck
     @PutMapping("/feature-flags/api/{id}")
     @ResponseBody
     public FeatureFlag update(
@@ -76,7 +76,7 @@ public class FeatureFlagAPIController {
         return featureFlagService.update(featureFlag);
     }
 
-    @AuthenticationRequired
+    @UserAuthCheck
     @PatchMapping("/feature-flags/api/{id}")
     @ResponseBody
     public FeatureFlag merge(
@@ -87,7 +87,7 @@ public class FeatureFlagAPIController {
         return featureFlagService.merge(featureFlag);
     }
 
-    @AuthenticationRequired
+    @UserAuthCheck
     @DeleteMapping("/feature-flags/api/{id}")
     public ResponsePayload remove(@PathVariable("id") long id) {
         featureFlagEventClient.createDeleteFeatureFlagEvent(id);
