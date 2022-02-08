@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.middleware.interceptors.api.interfaces;
 
-import com.kiwiko.jdashboard.webapp.permissions.framework.impl.PermissionRequiredInterceptor;
+import com.kiwiko.jdashboard.webapp.framework.permissions.PermissionRequiredInterceptor;
 import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.framework.interceptors.AuthenticationRequiredInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.requests.internal.interceptors.RequestContextInterceptor;

@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.webapp.permissions.framework.impl;
+package com.kiwiko.jdashboard.webapp.framework.permissions;
 
 import com.kiwiko.jdashboard.webapp.clients.permissions.api.interfaces.PermissionClient;
 import com.kiwiko.jdashboard.webapp.clients.permissions.api.interfaces.parameters.QueryPermissionsInput;

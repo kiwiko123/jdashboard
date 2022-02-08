@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.webapp.permissions.core.internal.data;
+package com.kiwiko.jdashboard.webapp.permissions.internal.data;
 
 import com.kiwiko.jdashboard.webapp.clients.permissions.api.interfaces.parameters.QueryPermissionsInput;
 import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;

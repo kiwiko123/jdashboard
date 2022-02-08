@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.webapp.permissions.core.api.interfaces;
+package com.kiwiko.jdashboard.webapp.permissions.api.interfaces;
 
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.UserPermissionCheck;
 

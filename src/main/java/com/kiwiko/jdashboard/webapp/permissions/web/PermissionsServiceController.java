@@ -1,12 +1,12 @@
-package com.kiwiko.jdashboard.webapp.permissions.core.web;
+package com.kiwiko.jdashboard.webapp.permissions.web;
 
 import com.kiwiko.jdashboard.webapp.clients.permissions.api.interfaces.parameters.CreatePermissionInput;
 import com.kiwiko.jdashboard.webapp.clients.permissions.api.interfaces.parameters.CreatePermissionOutput;
 import com.kiwiko.jdashboard.webapp.clients.permissions.api.interfaces.parameters.QueryPermissionsInput;
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.JdashboardConfigured;
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.InternalServiceCheck;
-import com.kiwiko.jdashboard.webapp.permissions.core.api.dto.Permission;
-import com.kiwiko.jdashboard.webapp.permissions.core.api.interfaces.PermissionService;
+import com.kiwiko.jdashboard.webapp.permissions.api.dto.Permission;
+import com.kiwiko.jdashboard.webapp.permissions.api.interfaces.PermissionService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

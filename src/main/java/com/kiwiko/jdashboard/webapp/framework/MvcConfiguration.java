@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.framework;
 
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
-import com.kiwiko.jdashboard.webapp.permissions.framework.impl.PermissionRequiredInterceptor;
+import com.kiwiko.jdashboard.webapp.framework.permissions.PermissionRequiredInterceptor;
 import com.kiwiko.library.caching.api.ObjectCache;
 import com.kiwiko.library.caching.impl.InMemoryObjectCache;
 import com.kiwiko.jdashboard.webapp.framework.json.api.JsonSerializer;
