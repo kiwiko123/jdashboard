@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.webapp.permissions.framework.api.annotations;
+package com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface PermissionCheck {
+public @interface UserPermissionCheck {
 
     /**
      * @return the permission names that are required to access the annotated controller or method.

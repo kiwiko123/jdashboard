@@ -6,7 +6,7 @@ import com.kiwiko.jdashboard.webapp.clients.permissions.api.interfaces.parameter
 import com.kiwiko.jdashboard.webapp.framework.interceptors.internal.SessionRequestHelper;
 import com.kiwiko.jdashboard.webapp.framework.security.sessions.data.Session;
 import com.kiwiko.jdashboard.webapp.middleware.interceptors.api.interfaces.EndpointInterceptor;
-import com.kiwiko.jdashboard.webapp.permissions.framework.api.annotations.PermissionCheck;
+import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.UserPermissionCheck;
 import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
 import org.springframework.web.method.HandlerMethod;
 
@@ -27,9 +27,9 @@ public class PermissionRequiredInterceptor implements EndpointInterceptor {
 
     @Override
     public boolean allowRequest(HttpServletRequest request, HttpServletResponse response, HandlerMethod method) throws Exception {
-        PermissionCheck permissionCheck = Optional.ofNullable(method.getMethodAnnotation(PermissionCheck.class))
-                .orElseGet(() -> method.getMethod().getDeclaringClass().getAnnotation(PermissionCheck.class));
-        if (permissionCheck == null) {
+        UserPermissionCheck userPermissionCheck = Optional.ofNullable(method.getMethodAnnotation(UserPermissionCheck.class))
+                .orElseGet(() -> method.getMethod().getDeclaringClass().getAnnotation(UserPermissionCheck.class));
+        if (userPermissionCheck == null) {
             return true;
         }
 
@@ -41,7 +41,7 @@ public class PermissionRequiredInterceptor implements EndpointInterceptor {
             return false;
         }
 
-        Set<String> permissionNames = new HashSet<>(Arrays.asList(permissionCheck.value()));
+        Set<String> permissionNames = new HashSet<>(Arrays.asList(userPermissionCheck.value()));
         QueryPermissionsInput queryPermissionsInput = QueryPermissionsInput.newBuilder()
                 .setUserIds(Collections.singleton(currentUserId))
                 .setPermissionNames(permissionNames)

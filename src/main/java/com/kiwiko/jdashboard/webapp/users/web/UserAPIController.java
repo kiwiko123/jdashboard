@@ -7,7 +7,7 @@ import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationLevel;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationRequired;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.InternalServiceCheck;
+import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.InternalServiceCheck;
 import com.kiwiko.jdashboard.webapp.framework.security.environments.data.EnvironmentProperties;
 import com.kiwiko.jdashboard.webapp.users.api.UserService;
 import com.kiwiko.jdashboard.webapp.users.api.parameters.CreateUserParameters;

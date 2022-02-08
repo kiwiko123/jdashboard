@@ -1,6 +1,6 @@
 package com.kiwiko.library.http.client.api.dto;
 
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.InternalServiceCheck;
+import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.InternalServiceCheck;
 import com.kiwiko.library.http.client.api.constants.RequestMethod;
 
 import javax.annotation.Nullable;

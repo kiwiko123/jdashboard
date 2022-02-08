@@ -7,9 +7,9 @@ import com.kiwiko.jdashboard.webapp.framework.json.api.ResponseBuilder;
 import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticatedUser;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.CrossOriginConfigured;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.InternalServiceCheck;
+import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.InternalServiceCheck;
 import com.kiwiko.jdashboard.webapp.permissions.core.api.interfaces.PermissionNames;
-import com.kiwiko.jdashboard.webapp.permissions.framework.api.annotations.PermissionCheck;
+import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.UserPermissionCheck;
 import com.kiwiko.jdashboard.webapp.http.client.api.interfaces.JdashboardApiClient;
 import com.kiwiko.library.http.client.api.dto.ApiResponse;
 import org.springframework.stereotype.Controller;
@@ -44,7 +44,7 @@ public class PlaygroundController {
 //        return ResponseBuilder.payload(response);
 //    }
 
-    @PermissionCheck(PermissionNames.ADMIN)
+    @UserPermissionCheck(PermissionNames.ADMIN)
     @GetMapping("/playground-api/test")
     public ResponsePayload test(@AuthenticatedUser User currentUser) throws Exception {
         TestPostApiRequest request = new TestPostApiRequest(currentUser);
