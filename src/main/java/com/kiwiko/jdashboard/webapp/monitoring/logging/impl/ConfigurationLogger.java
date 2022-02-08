@@ -1,8 +1,8 @@
 package com.kiwiko.jdashboard.webapp.monitoring.logging.impl;
 
-import com.kiwiko.library.files.properties.readers.api.dto.Property;
-import com.kiwiko.library.metrics.data.LogLevel;
-import com.kiwiko.library.metrics.impl.ConsoleLogger;
+import com.kiwiko.jdashboard.library.files.properties.readers.api.dto.Property;
+import com.kiwiko.jdashboard.library.metrics.data.LogLevel;
+import com.kiwiko.jdashboard.library.metrics.impl.ConsoleLogger;
 import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.JdashboardPropertyConstants;
 import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.JdashboardPropertyMapper;
 import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.JdashboardPropertyReader;

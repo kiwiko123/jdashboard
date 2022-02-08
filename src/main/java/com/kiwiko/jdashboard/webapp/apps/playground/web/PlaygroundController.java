@@ -11,7 +11,7 @@ import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.
 import com.kiwiko.jdashboard.webapp.permissions.api.interfaces.PermissionNames;
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.UserPermissionCheck;
 import com.kiwiko.jdashboard.webapp.http.client.api.interfaces.JdashboardApiClient;
-import com.kiwiko.library.http.client.api.dto.ApiResponse;
+import com.kiwiko.jdashboard.library.http.client.api.dto.ApiResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

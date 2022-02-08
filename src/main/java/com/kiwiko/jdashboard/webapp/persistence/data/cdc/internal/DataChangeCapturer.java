@@ -3,11 +3,11 @@ package com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal;
 import com.google.gson.Gson;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.parameters.SaveDataChangeCaptureParameters;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.parameters.SaveEntity;
-import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.CurrentRequestService;
 import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
-import com.kiwiko.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.exceptions.CaptureEntityDataChangeException;
 import com.kiwiko.jdashboard.webapp.persistence.data.versions.api.dto.TableRecordVersion;
 import com.kiwiko.jdashboard.webapp.persistence.data.versions.api.interfaces.TableRecordVersionService;
@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 
 public class DataChangeCapturer {
     private static final Set<String> IGNORED_VERSION_FIELD_NAMES = Set.of("versions");

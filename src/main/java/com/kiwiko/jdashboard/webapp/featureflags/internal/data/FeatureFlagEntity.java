@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.featureflags.internal.data;
 
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges;
-import com.kiwiko.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
 
 import javax.annotation.Nullable;
 import javax.persistence.Column;

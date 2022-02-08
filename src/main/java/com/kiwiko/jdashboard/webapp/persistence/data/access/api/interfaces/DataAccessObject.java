@@ -1,10 +1,10 @@
 package com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces;
 
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.parameters.SaveDataChangeCaptureParameters;
-import com.kiwiko.library.lang.reflection.ReflectionHelper;
-import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.library.persistence.data.api.interfaces.DataEntity;
-import com.kiwiko.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
+import com.kiwiko.jdashboard.library.lang.reflection.ReflectionHelper;
+import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.DataChangeCapturer;
 import org.springframework.stereotype.Repository;

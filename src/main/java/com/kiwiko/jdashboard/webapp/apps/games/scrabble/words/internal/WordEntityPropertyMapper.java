@@ -2,7 +2,7 @@ package com.kiwiko.jdashboard.webapp.apps.games.scrabble.words.internal;
 
 import com.kiwiko.jdashboard.webapp.apps.games.scrabble.words.data.Word;
 import com.kiwiko.jdashboard.webapp.apps.games.scrabble.words.internal.dataAccess.WordEntity;
-import com.kiwiko.library.lang.reflection.properties.api.FieldMapper;
+import com.kiwiko.jdashboard.library.lang.reflection.properties.api.FieldMapper;
 
 import javax.inject.Singleton;
 

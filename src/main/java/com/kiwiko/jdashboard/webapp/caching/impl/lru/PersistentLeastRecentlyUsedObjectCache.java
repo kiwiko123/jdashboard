@@ -1,10 +1,10 @@
 package com.kiwiko.jdashboard.webapp.caching.impl.lru;
 
-import com.kiwiko.library.caching.api.ObjectCache;
-import com.kiwiko.library.caching.impl.data.CacheValue;
-import com.kiwiko.library.dataStructures.collections.sets.lru.CustomizableActionLeastRecentlyUsedSet;
-import com.kiwiko.library.dataStructures.collections.sets.lru.LeastRecentlyUsedSetActions;
-import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.library.caching.api.ObjectCache;
+import com.kiwiko.jdashboard.library.caching.impl.data.CacheValue;
+import com.kiwiko.jdashboard.library.dataStructures.collections.sets.lru.CustomizableActionLeastRecentlyUsedSet;
+import com.kiwiko.jdashboard.library.dataStructures.collections.sets.lru.LeastRecentlyUsedSetActions;
+import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

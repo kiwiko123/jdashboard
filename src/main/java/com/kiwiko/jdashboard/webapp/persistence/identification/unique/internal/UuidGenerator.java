@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.persistence.identification.unique.internal;
 
-import com.kiwiko.library.lang.random.RandomUtil;
-import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.library.lang.random.RandomUtil;
+import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.featureflags.api.dto.FeatureFlag;
 import com.kiwiko.jdashboard.webapp.featureflags.api.dto.FeatureFlagStatus;
 import com.kiwiko.jdashboard.webapp.featureflags.api.dto.FeatureFlagUserScope;

@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.apps.games.state.internal.data;
 
-import com.kiwiko.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.featureflags.api.dto;
 
-import com.kiwiko.library.persistence.identification.Identifiable;
+import com.kiwiko.jdashboard.library.persistence.identification.Identifiable;
 
 public enum FeatureFlagUserScope implements Identifiable<String> {
     INDIVIDUAL("individual"), // Feature flag is enabled/disabled for a single User.

@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.metrics.web.data;
 
-import com.kiwiko.library.metrics.data.LogLevel;
+import com.kiwiko.jdashboard.library.metrics.data.LogLevel;
 
 import javax.annotation.Nullable;
 import java.time.Instant;

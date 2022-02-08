@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.notifications.internal.push;
 
-import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.api.interfaces.PushServiceSubscriber;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.api.interfaces.parameters.OnPushReceivedParameters;
 

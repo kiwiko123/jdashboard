@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.permissions.api.dto;
 
-import com.kiwiko.library.persistence.data.api.interfaces.SoftDeletableDataEntityDTO;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletableDataEntityDTO;
 
 import java.time.Instant;
 

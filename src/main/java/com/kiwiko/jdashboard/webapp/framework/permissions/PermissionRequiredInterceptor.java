@@ -7,7 +7,7 @@ import com.kiwiko.jdashboard.webapp.framework.interceptors.internal.SessionReque
 import com.kiwiko.jdashboard.webapp.framework.security.sessions.data.Session;
 import com.kiwiko.jdashboard.webapp.middleware.interceptors.api.interfaces.EndpointInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.UserPermissionCheck;
-import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import org.springframework.web.method.HandlerMethod;
 
 import javax.inject.Inject;

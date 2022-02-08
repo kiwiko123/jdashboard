@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.json.deserialization.internal.resolvers;
 
-import com.kiwiko.library.lang.reflection.ReflectionHelper;
+import com.kiwiko.jdashboard.library.lang.reflection.ReflectionHelper;
 import com.kiwiko.jdashboard.webapp.framework.json.deserialization.api.interfaces.CustomRequestBody;
 import com.kiwiko.jdashboard.webapp.framework.json.deserialization.api.interfaces.RequestBodyDeserializationStrategy;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.RequestError;

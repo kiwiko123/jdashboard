@@ -2,8 +2,8 @@ package com.kiwiko.jdashboard.webapp.framework;
 
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.permissions.PermissionRequiredInterceptor;
-import com.kiwiko.library.caching.api.ObjectCache;
-import com.kiwiko.library.caching.impl.InMemoryObjectCache;
+import com.kiwiko.jdashboard.library.caching.api.ObjectCache;
+import com.kiwiko.jdashboard.library.caching.impl.InMemoryObjectCache;
 import com.kiwiko.jdashboard.webapp.framework.json.api.JsonSerializer;
 import com.kiwiko.jdashboard.webapp.framework.json.deserialization.MvcJsonDeserializationConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.json.deserialization.internal.resolvers.CustomRequestBodyArgumentResolver;

@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.application.properties.internal;
 
-import com.kiwiko.library.files.properties.readers.api.interfaces.exceptions.PropertyFileException;
+import com.kiwiko.jdashboard.library.files.properties.readers.api.interfaces.exceptions.PropertyFileException;
 import com.kiwiko.jdashboard.webapp.framework.security.environments.api.EnvironmentService;
 import com.kiwiko.jdashboard.webapp.framework.security.environments.data.EnvironmentType;
 

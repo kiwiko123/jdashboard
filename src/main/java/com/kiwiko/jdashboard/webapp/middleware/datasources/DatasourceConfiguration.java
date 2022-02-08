@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.middleware.datasources;
 
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
-import com.kiwiko.library.files.properties.readers.api.dto.Property;
+import com.kiwiko.jdashboard.library.files.properties.readers.api.dto.Property;
 import com.kiwiko.jdashboard.webapp.framework.application.properties.PropertiesConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.JdashboardPropertyReader;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;

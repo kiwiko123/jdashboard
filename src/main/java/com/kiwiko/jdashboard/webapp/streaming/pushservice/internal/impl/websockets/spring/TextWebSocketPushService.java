@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.streaming.pushservice.internal.impl.websockets.spring;
 
-import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.api.interfaces.PushService;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.api.interfaces.exceptions.ClientUnreachablePushException;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.api.interfaces.exceptions.PushException;

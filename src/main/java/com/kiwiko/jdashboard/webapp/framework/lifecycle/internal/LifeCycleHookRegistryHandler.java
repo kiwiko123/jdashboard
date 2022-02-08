@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.lifecycle.internal;
 
-import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.framework.lifecycle.api.LifeCycleHook;
 import com.kiwiko.jdashboard.webapp.framework.lifecycle.api.LifeCycleHookRegistry;
 import com.kiwiko.jdashboard.webapp.framework.lifecycle.api.ShutdownHook;

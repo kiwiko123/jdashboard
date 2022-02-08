@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.data.entities;
 
-import com.kiwiko.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges;
 
 import javax.persistence.Column;

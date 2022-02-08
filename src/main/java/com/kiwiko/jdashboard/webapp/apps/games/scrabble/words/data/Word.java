@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.apps.games.scrabble.words.data;
 
-import com.kiwiko.library.persistence.identification.TypeIdentifiable;
+import com.kiwiko.jdashboard.library.persistence.identification.TypeIdentifiable;
 
 public class Word extends TypeIdentifiable<Long> {
 

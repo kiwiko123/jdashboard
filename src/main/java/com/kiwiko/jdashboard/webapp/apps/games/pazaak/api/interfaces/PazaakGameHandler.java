@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.apps.games.pazaak.api.interfaces;
 
-import com.kiwiko.library.lang.random.RandomUtil;
+import com.kiwiko.jdashboard.library.lang.random.RandomUtil;
 import com.kiwiko.jdashboard.webapp.apps.games.pazaak.api.dto.PazaakCard;
 import com.kiwiko.jdashboard.webapp.apps.games.pazaak.api.dto.PazaakGame;
 import com.kiwiko.jdashboard.webapp.apps.games.pazaak.api.dto.PazaakPlayer;

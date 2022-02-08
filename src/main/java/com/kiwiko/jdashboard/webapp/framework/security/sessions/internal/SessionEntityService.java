@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.framework.security.sessions.internal;
 
-import com.kiwiko.library.lang.random.TokenGenerator;
-import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.library.lang.random.TokenGenerator;
+import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.framework.security.sessions.api.SessionService;
 import com.kiwiko.jdashboard.webapp.framework.security.sessions.api.errors.SessionException;
 import com.kiwiko.jdashboard.webapp.framework.security.sessions.data.Session;

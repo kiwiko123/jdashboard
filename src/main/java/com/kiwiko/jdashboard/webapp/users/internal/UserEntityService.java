@@ -5,7 +5,7 @@ import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.responses.GetUs
 import com.kiwiko.jdashboard.webapp.clients.users.impl.di.UserDtoMapper;
 import com.kiwiko.jdashboard.webapp.framework.persistence.transactions.api.interfaces.TransactionProvider;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.PasswordService;
-import com.kiwiko.library.persistence.dataAccess.api.PersistenceException;
+import com.kiwiko.jdashboard.library.persistence.dataAccess.api.PersistenceException;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.dto.UserLoginParameters;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
 import com.kiwiko.jdashboard.webapp.users.api.UserService;

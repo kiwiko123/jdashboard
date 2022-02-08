@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.security.sessions.data;
 
-import com.kiwiko.library.persistence.data.api.interfaces.SoftDeletableDataEntityDTO;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletableDataEntityDTO;
 import org.springframework.lang.Nullable;
 
 import java.time.Instant;

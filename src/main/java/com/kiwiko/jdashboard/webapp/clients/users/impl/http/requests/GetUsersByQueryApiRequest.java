@@ -1,12 +1,12 @@
 package com.kiwiko.jdashboard.webapp.clients.users.impl.http.requests;
 
 import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.responses.GetUsersByQueryResponse;
-import com.kiwiko.library.http.client.api.constants.RequestMethod;
-import com.kiwiko.library.http.client.api.dto.DefaultApiRequest;
-import com.kiwiko.library.http.client.api.dto.RequestUrl;
-import com.kiwiko.library.http.url.QueryParameter;
-import com.kiwiko.library.http.url.UriBuilder;
-import com.kiwiko.library.http.url.UrlQuery;
+import com.kiwiko.jdashboard.library.http.client.api.constants.RequestMethod;
+import com.kiwiko.jdashboard.library.http.client.api.dto.DefaultApiRequest;
+import com.kiwiko.jdashboard.library.http.client.api.dto.RequestUrl;
+import com.kiwiko.jdashboard.library.http.url.QueryParameter;
+import com.kiwiko.jdashboard.library.http.url.UriBuilder;
+import com.kiwiko.jdashboard.library.http.url.UrlQuery;
 
 import javax.annotation.Nullable;
 

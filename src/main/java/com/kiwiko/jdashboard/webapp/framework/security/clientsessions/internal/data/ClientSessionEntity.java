@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.security.clientsessions.internal.data;
 
-import com.kiwiko.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
 
 import javax.annotation.Nullable;
 import javax.persistence.Column;

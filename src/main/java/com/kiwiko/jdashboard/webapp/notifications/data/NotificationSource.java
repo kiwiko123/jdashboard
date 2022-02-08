@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.notifications.data;
 
-import com.kiwiko.library.lang.enums.EnumHelper;
-import com.kiwiko.library.persistence.identification.Identifiable;
+import com.kiwiko.jdashboard.library.lang.enums.EnumHelper;
+import com.kiwiko.jdashboard.library.persistence.identification.Identifiable;
 
 import java.util.Optional;
 

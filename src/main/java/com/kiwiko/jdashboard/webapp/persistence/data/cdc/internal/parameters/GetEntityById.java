@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.parameters;
 
-import com.kiwiko.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
 
 import java.util.Optional;
 

@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.application.properties.internal;
 
-import com.kiwiko.library.files.properties.readers.api.interfaces.parsers.PropertyFileParser;
+import com.kiwiko.jdashboard.library.files.properties.readers.api.interfaces.parsers.PropertyFileParser;
 
 import java.util.Optional;
 

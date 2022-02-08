@@ -2,12 +2,12 @@ package com.kiwiko.jdashboard.webapp.clients.permissions.impl.requests;
 
 import com.kiwiko.jdashboard.webapp.clients.permissions.api.interfaces.parameters.CreatePermissionInput;
 import com.kiwiko.jdashboard.webapp.clients.permissions.api.interfaces.parameters.CreatePermissionOutput;
-import com.kiwiko.library.http.client.api.constants.RequestHeaders;
-import com.kiwiko.library.http.client.api.constants.RequestMethod;
-import com.kiwiko.library.http.client.api.dto.DefaultApiRequest;
-import com.kiwiko.library.http.client.api.dto.RequestHeader;
-import com.kiwiko.library.http.client.api.dto.RequestUrl;
-import com.kiwiko.library.http.url.UriBuilder;
+import com.kiwiko.jdashboard.library.http.client.api.constants.RequestHeaders;
+import com.kiwiko.jdashboard.library.http.client.api.constants.RequestMethod;
+import com.kiwiko.jdashboard.library.http.client.api.dto.DefaultApiRequest;
+import com.kiwiko.jdashboard.library.http.client.api.dto.RequestHeader;
+import com.kiwiko.jdashboard.library.http.client.api.dto.RequestUrl;
+import com.kiwiko.jdashboard.library.http.url.UriBuilder;
 
 import javax.annotation.Nullable;
 import java.util.Collections;

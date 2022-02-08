@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.resolvers.data;
 
-import com.kiwiko.library.json.data.IntermediateJsonBody;
+import com.kiwiko.jdashboard.library.json.data.IntermediateJsonBody;
 import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
 
 public class RequestBodyCacheData {

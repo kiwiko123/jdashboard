@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces;
 
-import com.kiwiko.library.files.properties.readers.api.dto.Property;
+import com.kiwiko.jdashboard.library.files.properties.readers.api.dto.Property;
 
 import javax.annotation.Nullable;
 

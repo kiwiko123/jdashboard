@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.apps.games.scrabble.game.data;
 
-import com.kiwiko.library.persistence.identification.TypeIdentifiable;
+import com.kiwiko.jdashboard.library.persistence.identification.TypeIdentifiable;
 
 import java.util.Collection;
 

@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.apps.games.state.internal;
 
 import com.google.gson.JsonSyntaxException;
-import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.apps.games.state.api.GameStateService;
 import com.kiwiko.jdashboard.webapp.apps.games.state.api.parameters.FindGameStateParameters;
 import com.kiwiko.jdashboard.webapp.apps.games.state.data.GameState;

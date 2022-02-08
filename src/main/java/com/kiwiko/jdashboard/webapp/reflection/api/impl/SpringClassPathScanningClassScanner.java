@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.reflection.api.impl;
 
-import com.kiwiko.library.lang.reflection.api.interfaces.ClassScanner;
-import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.library.lang.reflection.api.interfaces.ClassScanner;
+import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.RegexPatternTypeFilter;

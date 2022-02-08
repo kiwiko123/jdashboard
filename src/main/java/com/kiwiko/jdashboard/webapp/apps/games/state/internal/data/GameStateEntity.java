@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.apps.games.state.internal.data;
 
-import com.kiwiko.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges;
 
 import javax.annotation.Nullable;

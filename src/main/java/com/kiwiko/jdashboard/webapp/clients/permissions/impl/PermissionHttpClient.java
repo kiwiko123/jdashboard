@@ -9,8 +9,8 @@ import com.kiwiko.jdashboard.webapp.clients.permissions.impl.requests.CorePermis
 import com.kiwiko.jdashboard.webapp.clients.permissions.impl.requests.CreatePermissionApiRequest;
 import com.kiwiko.jdashboard.webapp.clients.permissions.impl.requests.QueryPermissionsApiRequest;
 import com.kiwiko.jdashboard.webapp.http.client.api.interfaces.JdashboardApiClient;
-import com.kiwiko.library.http.client.api.dto.ApiResponse;
-import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.library.http.client.api.dto.ApiResponse;
+import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 
 import javax.inject.Inject;
 import java.util.Objects;

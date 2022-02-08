@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.json.api;
 
-import com.kiwiko.library.json.data.IntermediateJsonBody;
+import com.kiwiko.jdashboard.library.json.data.IntermediateJsonBody;
 
 public interface CustomRequestBodySerializationStrategy<T> {
 

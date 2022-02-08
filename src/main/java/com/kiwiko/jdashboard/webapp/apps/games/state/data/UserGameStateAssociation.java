@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.apps.games.state.data;
 
-import com.kiwiko.library.persistence.data.api.interfaces.DataEntityDTO;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntityDTO;
 
 public class UserGameStateAssociation extends DataEntityDTO {
 

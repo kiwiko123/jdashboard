@@ -1,8 +1,8 @@
 package com.kiwiko.jdashboard.webapp.framework.json;
 
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
-import com.kiwiko.library.lang.random.RandomUtil;
-import com.kiwiko.library.lang.reflection.ReflectionHelper;
+import com.kiwiko.jdashboard.library.lang.random.RandomUtil;
+import com.kiwiko.jdashboard.library.lang.reflection.ReflectionHelper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

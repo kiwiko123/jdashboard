@@ -5,7 +5,7 @@ import com.kiwiko.jdashboard.webapp.framework.security.sessions.api.SessionHelpe
 import com.kiwiko.jdashboard.webapp.framework.security.sessions.api.SessionService;
 import com.kiwiko.jdashboard.webapp.framework.security.sessions.internal.SessionEntityMapper;
 import com.kiwiko.jdashboard.webapp.framework.security.sessions.internal.SessionEntityService;
-import com.kiwiko.library.lang.random.TokenGenerator;
+import com.kiwiko.jdashboard.library.lang.random.TokenGenerator;
 import com.kiwiko.jdashboard.webapp.framework.security.sessions.internal.dataAccess.SessionEntityDAO;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,12 +1,12 @@
 package com.kiwiko.jdashboard.webapp.persistence.services.crud.internal;
 
-import com.kiwiko.library.lang.reflection.ReflectionHelper;
-import com.kiwiko.library.lang.reflection.merging.api.interfaces.ObjectMerger;
-import com.kiwiko.library.lang.reflection.merging.impl.NonNullFieldMerger;
-import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.library.persistence.data.api.interfaces.DataEntity;
-import com.kiwiko.library.persistence.data.api.interfaces.DataEntityDTO;
-import com.kiwiko.library.persistence.data.properties.api.interfaces.DataEntityMapper;
+import com.kiwiko.jdashboard.library.lang.reflection.ReflectionHelper;
+import com.kiwiko.jdashboard.library.lang.reflection.merging.api.interfaces.ObjectMerger;
+import com.kiwiko.jdashboard.library.lang.reflection.merging.impl.NonNullFieldMerger;
+import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntityDTO;
+import com.kiwiko.jdashboard.library.persistence.data.properties.api.interfaces.DataEntityMapper;
 import com.kiwiko.jdashboard.webapp.framework.persistence.transactions.api.interfaces.TransactionProvider;
 import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;
 

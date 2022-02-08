@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.parameters;
 
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges;
-import com.kiwiko.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
 
 public class SaveDataChangeCaptureParameters<T extends DataEntity> {
     private T entity;
