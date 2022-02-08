@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.framework;
 
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
-import com.kiwiko.jdashboard.webapp.framework.permissions.PermissionRequiredInterceptor;
+import com.kiwiko.jdashboard.webapp.framework.permissions.UserPermissionCheckInterceptor;
 import com.kiwiko.jdashboard.library.caching.api.ObjectCache;
 import com.kiwiko.jdashboard.library.caching.impl.InMemoryObjectCache;
 import com.kiwiko.jdashboard.webapp.framework.json.api.JsonSerializer;
@@ -115,8 +115,8 @@ public class MvcConfiguration implements WebMvcConfigurer, JdashboardDependencyC
     }
 
     @Bean
-    public PermissionRequiredInterceptor permissionRequiredInterceptor() {
-        return new PermissionRequiredInterceptor();
+    public UserPermissionCheckInterceptor permissionRequiredInterceptor() {
+        return new UserPermissionCheckInterceptor();
     }
 
     @Bean

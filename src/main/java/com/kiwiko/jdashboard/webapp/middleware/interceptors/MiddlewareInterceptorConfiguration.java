@@ -1,6 +1,7 @@
 package com.kiwiko.jdashboard.webapp.middleware.interceptors;
 
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.AuthenticationConfiguration;
 import com.kiwiko.jdashboard.webapp.middleware.interceptors.api.interfaces.EndpointInterceptorChain;
 import com.kiwiko.jdashboard.webapp.middleware.interceptors.internal.EndpointInterceptorExecutor;
 import com.kiwiko.jdashboard.webapp.monitoring.logging.LoggingConfiguration;
@@ -26,7 +27,8 @@ public class MiddlewareInterceptorConfiguration implements WebMvcConfigurer, Jda
             LoggingConfiguration.class,
             CsrfConfiguration.class,
             MvcConfiguration.class,
-            RequestConfiguration.class
+            RequestConfiguration.class,
+            AuthenticationConfiguration.class
     })
     public EndpointInterceptorChain endpointInterceptorChain() {
         return new EndpointInterceptorChain();

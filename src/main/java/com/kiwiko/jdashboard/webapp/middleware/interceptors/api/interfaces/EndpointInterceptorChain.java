@@ -1,10 +1,11 @@
 package com.kiwiko.jdashboard.webapp.middleware.interceptors.api.interfaces;
 
-import com.kiwiko.jdashboard.webapp.framework.permissions.PermissionRequiredInterceptor;
+import com.kiwiko.jdashboard.webapp.framework.permissions.UserPermissionCheckInterceptor;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.framework.interceptors.AuthenticationRequiredInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.requests.internal.interceptors.RequestContextInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.requests.internal.interceptors.RequestErrorInterceptor;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.interceptors.UserAuthCheckInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.security.csrf.interceptors.CrossSiteRequestForgeryPreventionInterceptor;
 
 import javax.inject.Inject;
@@ -21,7 +22,8 @@ public class EndpointInterceptorChain {
     @Inject private Logger logger;
     @Inject private CrossSiteRequestForgeryPreventionInterceptor crossSiteRequestForgeryPreventionInterceptor;
     @Inject private AuthenticationRequiredInterceptor authenticationRequiredInterceptor;
-    @Inject private PermissionRequiredInterceptor permissionRequiredInterceptor;
+    @Inject private UserAuthCheckInterceptor userAuthCheckInterceptor;
+    @Inject private UserPermissionCheckInterceptor userPermissionCheckInterceptor;
     @Inject private RequestContextInterceptor requestContextInterceptor;
     @Inject private RequestErrorInterceptor requestErrorInterceptor;
 
@@ -31,7 +33,8 @@ public class EndpointInterceptorChain {
         // Add interceptors here.
         interceptors.add(crossSiteRequestForgeryPreventionInterceptor);
         interceptors.add(authenticationRequiredInterceptor);
-        interceptors.add(permissionRequiredInterceptor);
+        interceptors.add(userAuthCheckInterceptor);
+        interceptors.add(userPermissionCheckInterceptor);
         interceptors.add(requestContextInterceptor);
         interceptors.add(requestErrorInterceptor);
 
