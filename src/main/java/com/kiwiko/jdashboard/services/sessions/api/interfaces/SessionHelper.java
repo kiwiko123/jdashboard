@@ -1,6 +1,6 @@
-package com.kiwiko.jdashboard.webapp.framework.security.sessions.api;
+package com.kiwiko.jdashboard.services.sessions.api.interfaces;
 
-import com.kiwiko.jdashboard.webapp.framework.security.sessions.data.Session;
+import com.kiwiko.jdashboard.services.sessions.api.dto.Session;
 
 import java.time.Instant;
 

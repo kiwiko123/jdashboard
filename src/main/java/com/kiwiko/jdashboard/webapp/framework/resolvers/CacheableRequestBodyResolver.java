@@ -9,7 +9,7 @@ import com.kiwiko.jdashboard.webapp.framework.requests.api.RequestError;
 import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
 import com.kiwiko.jdashboard.library.json.data.IntermediateJsonBody;
 import com.kiwiko.jdashboard.webapp.framework.resolvers.data.RequestBodyCacheData;
-import com.kiwiko.jdashboard.webapp.framework.security.sessions.data.SessionProperties;
+import com.kiwiko.jdashboard.services.sessions.api.dto.SessionProperties;
 import org.springframework.lang.Nullable;
 
 import javax.inject.Inject;

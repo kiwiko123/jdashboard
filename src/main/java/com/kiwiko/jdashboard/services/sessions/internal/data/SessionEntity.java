@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.webapp.framework.security.sessions.internal.dataAccess;
+package com.kiwiko.jdashboard.services.sessions.internal.data;
 
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
 import org.springframework.lang.Nullable;

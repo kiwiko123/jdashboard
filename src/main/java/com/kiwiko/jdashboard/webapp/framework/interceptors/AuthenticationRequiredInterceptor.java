@@ -8,7 +8,7 @@ import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annota
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.errors.AuthenticationException;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.InternalHttpRequestValidator;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.errors.UnauthorizedInternalRequestException;
-import com.kiwiko.jdashboard.webapp.framework.security.sessions.api.SessionHelper;
+import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionHelper;
 import org.springframework.web.method.HandlerMethod;
 
 import javax.inject.Inject;

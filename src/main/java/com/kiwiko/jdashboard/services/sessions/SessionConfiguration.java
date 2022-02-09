@@ -1,12 +1,12 @@
-package com.kiwiko.jdashboard.webapp.framework.security.sessions;
+package com.kiwiko.jdashboard.services.sessions;
 
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
-import com.kiwiko.jdashboard.webapp.framework.security.sessions.api.SessionHelper;
-import com.kiwiko.jdashboard.webapp.framework.security.sessions.api.SessionService;
-import com.kiwiko.jdashboard.webapp.framework.security.sessions.internal.SessionEntityMapper;
-import com.kiwiko.jdashboard.webapp.framework.security.sessions.internal.SessionEntityService;
+import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionHelper;
+import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionService;
+import com.kiwiko.jdashboard.services.sessions.internal.SessionEntityMapper;
+import com.kiwiko.jdashboard.services.sessions.internal.SessionEntityService;
 import com.kiwiko.jdashboard.library.lang.random.TokenGenerator;
-import com.kiwiko.jdashboard.webapp.framework.security.sessions.internal.dataAccess.SessionEntityDAO;
+import com.kiwiko.jdashboard.services.sessions.internal.data.SessionEntityDAO;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

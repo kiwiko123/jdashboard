@@ -1,10 +1,10 @@
 package com.kiwiko.jdashboard.webapp.framework.interceptors.internal;
 
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.jdashboard.webapp.framework.security.sessions.api.SessionHelper;
-import com.kiwiko.jdashboard.webapp.framework.security.sessions.api.SessionService;
-import com.kiwiko.jdashboard.webapp.framework.security.sessions.data.Session;
-import com.kiwiko.jdashboard.webapp.framework.security.sessions.data.SessionProperties;
+import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionHelper;
+import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionService;
+import com.kiwiko.jdashboard.services.sessions.api.dto.Session;
+import com.kiwiko.jdashboard.services.sessions.api.dto.SessionProperties;
 
 import javax.inject.Inject;
 import javax.servlet.http.Cookie;

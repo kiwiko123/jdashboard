@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.webapp.framework.security.sessions.data;
+package com.kiwiko.jdashboard.services.sessions.api.dto;
 
 import java.time.Duration;
 import java.time.temporal.TemporalAmount;
