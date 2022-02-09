@@ -10,7 +10,7 @@ To create an interceptor in vanilla Spring, there are four main steps:
 4. In your overridden `addInterceptors` method, call `InterceptorRegistry#addInterceptor` on the argument registry for your interceptor bean.
 
 ## Jdashboard Endpoint Interceptors
-Jdashboard provides a functional equivalent to Spring interceptors. To create one, :
+Jdashboard provides a functional equivalent to Spring interceptors. To create one:
 1. Create a Java class that implements `EndpointInterceptor`.
 2. Create a `@Bean` that wires up your interceptor in `MiddlewareInterceptorConfiguration`.
 3. `@Inject` your interceptor into `EndpointInterceptorChain`.
