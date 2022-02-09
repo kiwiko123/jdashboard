@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.clients.sessions.impl;
 
 import com.kiwiko.jdashboard.library.http.client.api.dto.ApiResponse;
-import com.kiwiko.jdashboard.library.http.client.api.exceptions.JdashboardApiClientException;
+import com.kiwiko.jdashboard.library.http.client.api.exceptions.ApiClientException;
 import com.kiwiko.jdashboard.webapp.clients.sessions.api.interfaces.GetSessionsByTokensInput;
 import com.kiwiko.jdashboard.webapp.clients.sessions.api.interfaces.GetSessionsByTokensOutput;
 import com.kiwiko.jdashboard.webapp.clients.sessions.api.interfaces.SessionClient;
@@ -17,7 +17,7 @@ public class SessionHttpClient implements SessionClient {
 
     @Override
     public GetSessionsByTokensOutput getByTokens(GetSessionsByTokensInput input)
-            throws JdashboardApiClientException, InterruptedException {
+            throws ApiClientException, InterruptedException {
         Objects.requireNonNull(input.getTokens(), "Input tokens are required");
         GetSessionsByTokensRequest request = new GetSessionsByTokensRequest(input.getTokens());
         ApiResponse<GetSessionsByTokensOutput> response = jdashboardApiClient.synchronousCall(request);

@@ -2,7 +2,8 @@ package com.kiwiko.jdashboard.webapp.http.client.impl.apiclient;
 
 import com.kiwiko.jdashboard.library.http.client.api.dto.ApiRequest;
 import com.kiwiko.jdashboard.library.http.client.api.dto.ApiResponse;
-import com.kiwiko.jdashboard.library.http.client.api.exceptions.JdashboardApiClientException;
+import com.kiwiko.jdashboard.library.http.client.api.exceptions.ClientException;
+import com.kiwiko.jdashboard.library.http.client.api.exceptions.ServerException;
 import com.kiwiko.jdashboard.webapp.http.client.api.interfaces.JdashboardApiClient;
 
 import javax.inject.Inject;
@@ -18,7 +19,7 @@ public class JdashboardHttpApiClient implements JdashboardApiClient {
 
     @Override
     public <ResponseType> ApiResponse<ResponseType> synchronousCall(ApiRequest request)
-            throws InterruptedException, JdashboardApiClientException {
+            throws ClientException, ServerException, InterruptedException {
         requestHelper.validateRequest(request);
         HttpRequest httpRequest = requestHelper.makeHttpRequest(request);
         HttpResponse<String> httpResponse = httpClient.sendSynchronousRequest(httpRequest);
@@ -28,7 +29,7 @@ public class JdashboardHttpApiClient implements JdashboardApiClient {
 
     @Override
     public <ResponseType> CompletableFuture<ApiResponse<ResponseType>> asynchronousCall(ApiRequest request)
-            throws InterruptedException, JdashboardApiClientException {
+            throws ClientException, ServerException, InterruptedException {
         requestHelper.validateRequest(request);
         HttpRequest httpRequest = requestHelper.makeHttpRequest(request);
         CompletableFuture<HttpResponse<String>> httpResponseFuture = httpClient.sendAsynchronousRequest(httpRequest);

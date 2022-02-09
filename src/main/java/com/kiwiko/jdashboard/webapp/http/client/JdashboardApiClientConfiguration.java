@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class JdashboardHttpClientConfiguration implements JdashboardDependencyConfiguration {
+public class JdashboardApiClientConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
     public JdashboardApiClient jdashboardApiClient() {

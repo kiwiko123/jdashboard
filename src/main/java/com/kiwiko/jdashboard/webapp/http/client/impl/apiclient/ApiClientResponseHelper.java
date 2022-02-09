@@ -4,7 +4,7 @@ import com.kiwiko.jdashboard.library.http.client.api.dto.ApiRequest;
 import com.kiwiko.jdashboard.library.http.client.api.dto.ApiResponse;
 import com.kiwiko.jdashboard.library.http.client.api.dto.RequestHeader;
 import com.kiwiko.jdashboard.library.http.client.api.exceptions.ClientException;
-import com.kiwiko.jdashboard.library.http.client.api.exceptions.JdashboardApiClientRuntimeException;
+import com.kiwiko.jdashboard.library.http.client.api.exceptions.ApiClientRuntimeException;
 import com.kiwiko.jdashboard.library.http.client.api.exceptions.ServerException;
 import org.springframework.http.HttpStatus;
 
@@ -61,7 +61,7 @@ public class ApiClientResponseHelper {
             try {
                 return convertHttpResponse(apiRequest, httpResponse);
             } catch (Exception e) {
-                throw new JdashboardApiClientRuntimeException(e);
+                throw new ApiClientRuntimeException(e);
             }
         });
     }

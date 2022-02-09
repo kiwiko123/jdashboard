@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.interceptors.internal;
 
-import com.kiwiko.jdashboard.library.http.client.api.exceptions.JdashboardApiClientException;
+import com.kiwiko.jdashboard.library.http.client.api.exceptions.ApiClientException;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionService;
 import com.kiwiko.jdashboard.services.sessions.api.dto.Session;
@@ -44,7 +44,7 @@ public class SessionRequestHelper {
         Set<Session> sessions;
         try {
             sessions = sessionClient.getByTokens(getSessionsByTokensInput).getSessions();
-        } catch (JdashboardApiClientException | InterruptedException e) {
+        } catch (ApiClientException | InterruptedException e) {
             logger.error(String.format("Error fetching sessions for request %s", request.getRequestURL().toString()), e);
             return Optional.empty();
         }

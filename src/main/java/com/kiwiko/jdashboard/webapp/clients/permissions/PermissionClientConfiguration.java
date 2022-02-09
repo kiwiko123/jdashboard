@@ -4,7 +4,7 @@ import com.kiwiko.jdashboard.webapp.clients.permissions.impl.PermissionHttpClien
 import com.kiwiko.jdashboard.webapp.clients.permissions.api.interfaces.PermissionClient;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
-import com.kiwiko.jdashboard.webapp.http.client.JdashboardHttpClientConfiguration;
+import com.kiwiko.jdashboard.webapp.http.client.JdashboardApiClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class PermissionClientConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
-    @ConfiguredBy(JdashboardHttpClientConfiguration.class)
+    @ConfiguredBy(JdashboardApiClientConfiguration.class)
     public PermissionClient permissionClient() {
         return new PermissionHttpClient();
     }
