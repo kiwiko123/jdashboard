@@ -1,9 +1,12 @@
 package com.kiwiko.jdashboard.webapp.framework.interceptors.internal;
 
+import com.kiwiko.jdashboard.library.http.client.api.exceptions.JdashboardApiClientException;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionService;
 import com.kiwiko.jdashboard.services.sessions.api.dto.Session;
 import com.kiwiko.jdashboard.services.sessions.api.dto.SessionProperties;
+import com.kiwiko.jdashboard.webapp.clients.sessions.api.interfaces.GetSessionsByTokensInput;
+import com.kiwiko.jdashboard.webapp.clients.sessions.api.interfaces.SessionClient;
 
 import javax.inject.Inject;
 import javax.servlet.http.Cookie;
@@ -19,6 +22,7 @@ import java.util.stream.Collectors;
 
 public class SessionRequestHelper {
 
+    @Inject private SessionClient sessionClient;
     @Inject private SessionService sessionService;
     @Inject private Logger logger;
 
@@ -36,7 +40,15 @@ public class SessionRequestHelper {
             return Optional.empty();
         }
 
-        Set<Session> sessions = sessionService.getByTokens(tokens);
+        GetSessionsByTokensInput getSessionsByTokensInput = new GetSessionsByTokensInput(tokens);
+        Set<Session> sessions;
+        try {
+            sessions = sessionClient.getByTokens(getSessionsByTokensInput).getSessions();
+        } catch (JdashboardApiClientException | InterruptedException e) {
+            logger.error(String.format("Error fetching sessions for request %s", request.getRequestURL().toString()), e);
+            return Optional.empty();
+        }
+
         Set<Session> activeSessions = new HashSet<>();
 
         for (Session session : sessions) {
