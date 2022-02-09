@@ -84,14 +84,6 @@ public class SessionEntityService implements SessionService {
                 .collect(Collectors.toSet());
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    public Optional<Session> getByUser(long userId) {
-        return sessionEntityDAO.getByUserId(userId).stream()
-                .findFirst()
-                .map(mapper::toDto);
-    }
-
     @Transactional
     @Override
     public Session saveSession(Session session) {

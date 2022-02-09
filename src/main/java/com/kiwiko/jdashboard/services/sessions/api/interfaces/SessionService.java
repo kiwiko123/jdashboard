@@ -13,8 +13,6 @@ public interface SessionService {
 
     Session createSessionCookieForUser(long userId, HttpServletResponse httpServletResponse);
 
-    Optional<Session> getByUser(long userId);
-
     Optional<Session> getByToken(String token);
 
     Set<Session> getByTokens(Collection<String> tokens);
