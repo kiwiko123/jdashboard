@@ -2,6 +2,7 @@ package com.kiwiko.jdashboard.webapp.persistence.services.crud.internal;
 
 import com.kiwiko.jdashboard.library.lang.reflection.ReflectionHelper;
 import com.kiwiko.jdashboard.library.lang.reflection.merging.api.interfaces.ObjectMerger;
+import com.kiwiko.jdashboard.library.lang.reflection.merging.api.interfaces.ObjectMergingException;
 import com.kiwiko.jdashboard.library.lang.reflection.merging.impl.NonNullFieldMerger;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
@@ -35,7 +36,7 @@ public class EntityMerger {
                 merger = new NonNullFieldMerger<>();
                 break;
             default:
-                throw new RuntimeException("Unknown merge strategy");
+                throw new ObjectMergingException("Unknown merge strategy");
         }
 
         merger.merge(obj, objectToUpdate);
