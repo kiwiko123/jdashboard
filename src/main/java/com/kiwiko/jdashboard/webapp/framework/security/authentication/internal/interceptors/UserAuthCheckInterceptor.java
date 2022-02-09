@@ -1,8 +1,8 @@
 package com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.interceptors;
 
+import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionService;
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.UserAuthCheck;
 import com.kiwiko.jdashboard.webapp.framework.interceptors.internal.SessionRequestHelper;
-import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionHelper;
 import com.kiwiko.jdashboard.webapp.middleware.interceptors.api.interfaces.EndpointInterceptor;
 import org.springframework.web.method.HandlerMethod;
 
@@ -14,7 +14,7 @@ import java.util.Optional;
 public class UserAuthCheckInterceptor implements EndpointInterceptor {
 
     @Inject private SessionRequestHelper sessionRequestHelper;
-    @Inject private SessionHelper sessionHelper;
+    @Inject private SessionService sessionService;
 
     @Override
     public boolean allowRequest(HttpServletRequest request, HttpServletResponse response, HandlerMethod method) throws Exception {
@@ -26,7 +26,7 @@ public class UserAuthCheckInterceptor implements EndpointInterceptor {
         }
 
         boolean isAuthenticated = sessionRequestHelper.getSessionFromRequest(request)
-                .map(session -> !sessionHelper.isExpired(session))
+                .map(session -> !sessionService.isExpired(session))
                 .orElse(false);
 
         if (!isAuthenticated) {

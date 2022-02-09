@@ -1,7 +1,6 @@
 package com.kiwiko.jdashboard.services.sessions;
 
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
-import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionHelper;
 import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionService;
 import com.kiwiko.jdashboard.services.sessions.internal.SessionEntityMapper;
 import com.kiwiko.jdashboard.services.sessions.internal.SessionEntityService;
@@ -31,10 +30,5 @@ public class SessionConfiguration implements JdashboardDependencyConfiguration {
     @Bean
     public TokenGenerator sessionTokenHelper() {
         return new TokenGenerator();
-    }
-
-    @Bean
-    public SessionHelper sessionHelper() {
-        return new SessionHelper();
     }
 }

@@ -1,7 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.interceptors.internal;
 
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionHelper;
 import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionService;
 import com.kiwiko.jdashboard.services.sessions.api.dto.Session;
 import com.kiwiko.jdashboard.services.sessions.api.dto.SessionProperties;
@@ -21,7 +20,6 @@ import java.util.stream.Collectors;
 public class SessionRequestHelper {
 
     @Inject private SessionService sessionService;
-    @Inject private SessionHelper sessionHelper;
     @Inject private Logger logger;
 
     public Optional<Session> getSessionFromRequest(HttpServletRequest request) {
@@ -42,7 +40,7 @@ public class SessionRequestHelper {
         Set<Session> activeSessions = new HashSet<>();
 
         for (Session session : sessions) {
-            if (sessionHelper.isExpired(session)) {
+            if (sessionService.isExpired(session)) {
                 sessionService.invalidateSession(session.getId());
             } else {
                 activeSessions.add(session);

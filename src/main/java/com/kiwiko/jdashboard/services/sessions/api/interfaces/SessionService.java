@@ -24,4 +24,6 @@ public interface SessionService {
     Optional<Session> endSessionForUser(long userId);
 
     void invalidateSession(long sessionId);
+
+    boolean isExpired(Session session);
 }

@@ -149,4 +149,11 @@ public class SessionEntityService implements SessionService {
         sessionEntityDAO.save(entity);
         logger.debug(String.format("Invalidated session with ID %d for user ID %d", sessionId, entity.getUserId()));
     }
+
+    @Override
+    public boolean isExpired(Session session) {
+        return session.getEndTime()
+                .map(Instant.now()::isAfter)
+                .orElse(false);
+    }
 }

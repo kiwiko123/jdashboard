@@ -1,6 +1,7 @@
 package com.kiwiko.jdashboard.webapp.framework.interceptors;
 
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionService;
 import com.kiwiko.jdashboard.webapp.middleware.interceptors.api.interfaces.EndpointInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.interceptors.internal.SessionRequestHelper;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationLevel;
@@ -8,7 +9,6 @@ import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annota
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.errors.AuthenticationException;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.InternalHttpRequestValidator;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.errors.UnauthorizedInternalRequestException;
-import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionHelper;
 import org.springframework.web.method.HandlerMethod;
 
 import javax.inject.Inject;
@@ -22,7 +22,7 @@ import java.util.Set;
 public class AuthenticationRequiredInterceptor implements EndpointInterceptor {
 
     @Inject private SessionRequestHelper sessionRequestHelper;
-    @Inject private SessionHelper sessionHelper;
+    @Inject private SessionService sessionService;
     @Inject private InternalHttpRequestValidator internalHttpRequestValidator;
     @Inject private Logger logger;
 
@@ -67,7 +67,7 @@ public class AuthenticationRequiredInterceptor implements EndpointInterceptor {
 
     private boolean isActivelyAuthenticated(HttpServletRequest request) {
         return sessionRequestHelper.getSessionFromRequest(request)
-                .map(session -> !sessionHelper.isExpired(session))
+                .map(session -> !sessionService.isExpired(session))
                 .orElse(false);
     }
 
