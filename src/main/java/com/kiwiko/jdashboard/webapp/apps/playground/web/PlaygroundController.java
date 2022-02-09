@@ -45,8 +45,8 @@ public class PlaygroundController {
 //        return ResponseBuilder.payload(response);
 //    }
 
-//    @UserPermissionCheck(PermissionNames.ADMIN)
-    @UserAuthCheck
+    @UserPermissionCheck(PermissionNames.ADMIN)
+//    @UserAuthCheck
     @GetMapping("/playground-api/test")
     public ResponsePayload test(@AuthenticatedUser User currentUser) throws Exception {
         TestPostApiRequest request = new TestPostApiRequest(currentUser);

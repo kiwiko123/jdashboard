@@ -28,7 +28,7 @@ public class CreatePermissionApiRequest extends DefaultApiRequest {
 
     @Override
     public RequestUrl getRequestUrl() {
-        return RequestUrl.fromPartial(new UriBuilder().setPath("/internal-api/permissions"));
+        return RequestUrl.fromPartial(new UriBuilder().setPath("/permissions/service-api"));
     }
 
     @Nullable

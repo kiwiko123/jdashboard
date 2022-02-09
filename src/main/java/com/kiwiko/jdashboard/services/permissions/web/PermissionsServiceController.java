@@ -19,7 +19,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/internal-api/permissions")
+@RequestMapping("/permissions/service-api")
 @JdashboardConfigured
 @InternalServiceCheck
 public class PermissionsServiceController {

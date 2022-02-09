@@ -40,7 +40,7 @@ public class QueryPermissionsApiRequest extends DefaultApiRequest {
 
         return RequestUrl.fromPartial(
                 new UriBuilder()
-                    .setPath("/internal-api/permissions/query")
+                    .setPath("/permissions/service-api/query")
                     .setQuery(urlQueryBuilder.build()));
     }
 
