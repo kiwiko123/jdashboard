@@ -1,8 +1,8 @@
 package com.kiwiko.jdashboard.webapp.framework.permissions;
 
-import com.kiwiko.jdashboard.webapp.clients.permissions.api.interfaces.PermissionClient;
-import com.kiwiko.jdashboard.webapp.clients.permissions.api.interfaces.parameters.QueryPermissionsInput;
-import com.kiwiko.jdashboard.webapp.clients.permissions.api.interfaces.parameters.QueryPermissionsOutput;
+import com.kiwiko.jdashboard.clients.permissions.api.interfaces.PermissionClient;
+import com.kiwiko.jdashboard.clients.permissions.api.interfaces.parameters.QueryPermissionsInput;
+import com.kiwiko.jdashboard.clients.permissions.api.interfaces.parameters.QueryPermissionsOutput;
 import com.kiwiko.jdashboard.webapp.framework.interceptors.internal.SessionRequestHelper;
 import com.kiwiko.jdashboard.services.sessions.api.dto.Session;
 import com.kiwiko.jdashboard.webapp.middleware.interceptors.api.interfaces.EndpointInterceptor;

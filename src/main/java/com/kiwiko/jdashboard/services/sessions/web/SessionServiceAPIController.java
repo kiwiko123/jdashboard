@@ -2,9 +2,9 @@ package com.kiwiko.jdashboard.services.sessions.web;
 
 import com.kiwiko.jdashboard.services.sessions.api.dto.Session;
 import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionService;
-import com.kiwiko.jdashboard.webapp.clients.sessions.api.interfaces.GetSessionsInput;
-import com.kiwiko.jdashboard.webapp.clients.sessions.api.interfaces.GetSessionsOutput;
-import com.kiwiko.jdashboard.webapp.clients.sessions.api.interfaces.InvalidateSessionOutput;
+import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsInput;
+import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsOutput;
+import com.kiwiko.jdashboard.clients.sessions.api.interfaces.InvalidateSessionOutput;
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.JdashboardConfigured;
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.InternalServiceCheck;
 import org.springframework.web.bind.annotation.GetMapping;

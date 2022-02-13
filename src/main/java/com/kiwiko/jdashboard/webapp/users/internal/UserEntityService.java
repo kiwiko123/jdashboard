@@ -1,8 +1,8 @@
 package com.kiwiko.jdashboard.webapp.users.internal;
 
-import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.queries.GetUsersQuery;
-import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.responses.GetUsersByQueryResponse;
-import com.kiwiko.jdashboard.webapp.clients.users.impl.di.UserDtoMapper;
+import com.kiwiko.jdashboard.clients.users.api.interfaces.queries.GetUsersQuery;
+import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.GetUsersByQueryResponse;
+import com.kiwiko.jdashboard.clients.users.impl.di.UserDtoMapper;
 import com.kiwiko.jdashboard.webapp.framework.persistence.transactions.api.interfaces.TransactionProvider;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.PasswordService;
 import com.kiwiko.jdashboard.library.persistence.dataAccess.api.PersistenceException;
@@ -89,7 +89,7 @@ public class UserEntityService implements UserService {
 
     @Override
     public GetUsersByQueryResponse getByQuery(GetUsersQuery query) {
-        Set<com.kiwiko.jdashboard.webapp.clients.users.api.dto.User> users = transactionProvider.readOnly(() -> userEntityDAO.getByQuery(query).stream()
+        Set<com.kiwiko.jdashboard.clients.users.api.dto.User> users = transactionProvider.readOnly(() -> userEntityDAO.getByQuery(query).stream()
                 .map(mapper::toDto)
                 .map(userDtoMapper::toTargetType)
                 .collect(Collectors.toSet()));

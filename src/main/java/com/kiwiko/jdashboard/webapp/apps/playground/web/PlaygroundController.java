@@ -1,9 +1,8 @@
 package com.kiwiko.jdashboard.webapp.apps.playground.web;
 
-import com.kiwiko.jdashboard.webapp.clients.permissions.api.interfaces.PermissionClient;
-import com.kiwiko.jdashboard.webapp.clients.users.api.dto.User;
-import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.UserClient;
-import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.UserAuthCheck;
+import com.kiwiko.jdashboard.clients.permissions.api.interfaces.PermissionClient;
+import com.kiwiko.jdashboard.clients.users.api.dto.User;
+import com.kiwiko.jdashboard.clients.users.api.interfaces.UserClient;
 import com.kiwiko.jdashboard.webapp.framework.json.api.ResponseBuilder;
 import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticatedUser;

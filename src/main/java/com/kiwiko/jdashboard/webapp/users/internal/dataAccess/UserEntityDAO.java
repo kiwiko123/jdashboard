@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.users.internal.dataAccess;
 
-import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.queries.GetUsersQuery;
+import com.kiwiko.jdashboard.clients.users.api.interfaces.queries.GetUsersQuery;
 import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;
 
 import javax.inject.Singleton;

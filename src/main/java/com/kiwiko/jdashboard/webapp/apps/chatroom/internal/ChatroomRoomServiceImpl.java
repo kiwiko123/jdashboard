@@ -15,9 +15,9 @@ import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.ChatroomMessageR
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.ChatroomMessageService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.exceptions.ChatroomRuntimeException;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.parameters.GetMessagesForRoomParameters;
-import com.kiwiko.jdashboard.webapp.clients.users.api.dto.User;
-import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.UserClient;
-import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.queries.GetUsersQuery;
+import com.kiwiko.jdashboard.clients.users.api.dto.User;
+import com.kiwiko.jdashboard.clients.users.api.interfaces.UserClient;
+import com.kiwiko.jdashboard.clients.users.api.interfaces.queries.GetUsersQuery;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.api.interfaces.PushService;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.api.interfaces.exceptions.PushException;

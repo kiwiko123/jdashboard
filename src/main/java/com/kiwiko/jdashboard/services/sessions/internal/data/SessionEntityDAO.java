@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.services.sessions.internal.data;
 
-import com.kiwiko.jdashboard.webapp.clients.sessions.api.interfaces.GetSessionsInput;
+import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsInput;
 import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;
 
 import javax.persistence.criteria.CriteriaBuilder;

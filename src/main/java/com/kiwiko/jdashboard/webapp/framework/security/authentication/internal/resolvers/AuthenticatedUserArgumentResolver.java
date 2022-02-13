@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.resolvers;
 
-import com.kiwiko.jdashboard.webapp.clients.users.api.dto.User;
-import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.UserClient;
+import com.kiwiko.jdashboard.clients.users.api.dto.User;
+import com.kiwiko.jdashboard.clients.users.api.interfaces.UserClient;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.RequestContextService;
 import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticatedUser;

@@ -1,8 +1,8 @@
 package com.kiwiko.jdashboard.services.sessions.api.interfaces;
 
 import com.kiwiko.jdashboard.services.sessions.api.dto.Session;
-import com.kiwiko.jdashboard.webapp.clients.sessions.api.interfaces.GetSessionsInput;
-import com.kiwiko.jdashboard.webapp.clients.sessions.api.interfaces.GetSessionsOutput;
+import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsInput;
+import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsOutput;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;

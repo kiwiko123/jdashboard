@@ -9,7 +9,7 @@ import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.room
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.rooms.GetRoomPermissionsResponse;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.rooms.SendMessageRequest;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.rooms.SendMessageResponse;
-import com.kiwiko.jdashboard.webapp.clients.users.api.dto.User;
+import com.kiwiko.jdashboard.clients.users.api.dto.User;
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.JdashboardConfigured;
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.UserAuthCheck;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticatedUser;

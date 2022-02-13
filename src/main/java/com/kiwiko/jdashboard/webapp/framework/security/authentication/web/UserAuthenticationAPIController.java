@@ -62,7 +62,7 @@ public class UserAuthenticationAPIController {
 
     @UserAuthCheck
     @PostMapping("/user-auth/api/users/current/logout")
-    public ResponsePayload logCurrentUserOut(@AuthenticatedUser com.kiwiko.jdashboard.webapp.clients.users.api.dto.User user) {
+    public ResponsePayload logCurrentUserOut(@AuthenticatedUser com.kiwiko.jdashboard.clients.users.api.dto.User user) {
         sessionService.endSessionForUser(user.getId());
         userAuthenticationEventClient.recordLogOutEvent(user.getId());
 
@@ -70,7 +70,7 @@ public class UserAuthenticationAPIController {
     }
 
     @GetMapping("/user-auth/api/users/current")
-    public ResponsePayload getCurrentUser(@AuthenticatedUser(required = false) com.kiwiko.jdashboard.webapp.clients.users.api.dto.User currentUser) {
+    public ResponsePayload getCurrentUser(@AuthenticatedUser(required = false) com.kiwiko.jdashboard.clients.users.api.dto.User currentUser) {
         return new ResponseBuilder()
                 .withBody(currentUser)
                 .build();

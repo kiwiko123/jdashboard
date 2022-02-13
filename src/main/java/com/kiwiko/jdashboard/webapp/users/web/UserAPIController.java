@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.users.web;
 
-import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.queries.GetUsersQuery;
-import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.responses.GetUsersByQueryResponse;
+import com.kiwiko.jdashboard.clients.users.api.interfaces.queries.GetUsersQuery;
+import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.GetUsersByQueryResponse;
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.UserAuthCheck;
 import com.kiwiko.jdashboard.webapp.framework.json.api.ResponseBuilder;
 import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;

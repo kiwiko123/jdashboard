@@ -1,8 +1,8 @@
 package com.kiwiko.jdashboard.services.permissions.web;
 
-import com.kiwiko.jdashboard.webapp.clients.permissions.api.interfaces.parameters.CreatePermissionInput;
-import com.kiwiko.jdashboard.webapp.clients.permissions.api.interfaces.parameters.CreatePermissionOutput;
-import com.kiwiko.jdashboard.webapp.clients.permissions.api.interfaces.parameters.QueryPermissionsInput;
+import com.kiwiko.jdashboard.clients.permissions.api.interfaces.parameters.CreatePermissionInput;
+import com.kiwiko.jdashboard.clients.permissions.api.interfaces.parameters.CreatePermissionOutput;
+import com.kiwiko.jdashboard.clients.permissions.api.interfaces.parameters.QueryPermissionsInput;
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.JdashboardConfigured;
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.InternalServiceCheck;
 import com.kiwiko.jdashboard.services.permissions.api.dto.Permission;

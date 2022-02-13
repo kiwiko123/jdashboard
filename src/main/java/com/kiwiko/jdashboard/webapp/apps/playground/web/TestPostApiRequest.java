@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.apps.playground.web;
 
-import com.kiwiko.jdashboard.webapp.clients.users.api.dto.User;
+import com.kiwiko.jdashboard.clients.users.api.dto.User;
 import com.kiwiko.jdashboard.library.http.client.api.constants.RequestHeaders;
 import com.kiwiko.jdashboard.library.http.client.api.constants.RequestMethod;
 import com.kiwiko.jdashboard.library.http.client.api.dto.DefaultApiRequest;
