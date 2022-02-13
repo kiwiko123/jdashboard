@@ -2,7 +2,6 @@ package com.kiwiko.jdashboard.framework.interceptors.api.interfaces;
 
 import com.kiwiko.jdashboard.framework.permissions.internal.UserPermissionCheckInterceptor;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.jdashboard.webapp.framework.interceptors.AuthenticationRequiredInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.requests.internal.interceptors.RequestContextInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.requests.internal.interceptors.RequestErrorInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.interceptors.InternalServiceCheckInterceptor;
@@ -22,7 +21,6 @@ public class EndpointInterceptorChain {
 
     @Inject private Logger logger;
     @Inject private CrossSiteRequestForgeryPreventionInterceptor crossSiteRequestForgeryPreventionInterceptor;
-    @Inject private AuthenticationRequiredInterceptor authenticationRequiredInterceptor;
     @Inject private UserAuthCheckInterceptor userAuthCheckInterceptor;
     @Inject private InternalServiceCheckInterceptor internalServiceCheckInterceptor;
     @Inject private UserPermissionCheckInterceptor userPermissionCheckInterceptor;
@@ -34,7 +32,6 @@ public class EndpointInterceptorChain {
 
         // Add interceptors here.
         interceptors.add(crossSiteRequestForgeryPreventionInterceptor);
-        interceptors.add(authenticationRequiredInterceptor);
         interceptors.add(userAuthCheckInterceptor);
         interceptors.add(internalServiceCheckInterceptor);
         interceptors.add(userPermissionCheckInterceptor);
