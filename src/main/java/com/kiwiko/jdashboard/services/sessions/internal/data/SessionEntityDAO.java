@@ -1,5 +1,6 @@
 package com.kiwiko.jdashboard.services.sessions.internal.data;
 
+import com.kiwiko.jdashboard.webapp.clients.sessions.api.interfaces.GetSessionsInput;
 import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -9,6 +10,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.time.Instant;
 import java.util.Collection;
+import java.util.List;
 
 public class SessionEntityDAO extends DataAccessObject<SessionEntity> {
 
@@ -56,6 +58,33 @@ public class SessionEntityDAO extends DataAccessObject<SessionEntity> {
         Predicate isActive = builder.isFalse(isRemovedField);
 
         query.where(hasToken, isActive);
+        return createQuery(query).getResultList();
+    }
+
+    public List<SessionEntity> get(GetSessionsInput input) {
+        CriteriaBuilder builder = getCriteriaBuilder();
+        CriteriaQuery<SessionEntity> query = builder.createQuery(entityType);
+        Root<SessionEntity> root = query.from(entityType);
+
+        if (input.getSessionIds() != null) {
+            Expression<Long> id = root.get("id");
+            Predicate hasId = id.in(input.getSessionIds());
+            query.where(hasId);
+        }
+
+        if (input.getTokens() != null) {
+            // Where token in tokens
+            Expression<String> token = root.get("token");
+            Predicate hasToken = token.in(input.getTokens());
+            query.where(hasToken);
+        }
+
+        if (input.getIsActive() != null) {
+            Expression<Boolean> isRemovedField = root.get("isRemoved");
+            Predicate isActive = builder.isFalse(isRemovedField);
+            query.where(isActive);
+        }
+
         return createQuery(query).getResultList();
     }
 }

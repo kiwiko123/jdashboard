@@ -69,6 +69,7 @@ public class RequestContextInterceptor implements EndpointInterceptor {
             if (uri.endsWith("/")) {
                 uri = uri.substring(0, uri.length() - 1);
             }
+            uri = String.format("%s?%s", uri, query);
         }
 
         return String.format("(%s) %s", request.getMethod(), uri);

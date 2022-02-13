@@ -8,6 +8,11 @@ import com.kiwiko.jdashboard.services.sessions.api.dto.Session;
 import com.kiwiko.jdashboard.services.sessions.api.dto.SessionProperties;
 import com.kiwiko.jdashboard.services.sessions.internal.data.SessionEntity;
 import com.kiwiko.jdashboard.services.sessions.internal.data.SessionEntityDAO;
+import com.kiwiko.jdashboard.webapp.clients.sessions.api.interfaces.GetSessionsInput;
+import com.kiwiko.jdashboard.webapp.clients.sessions.api.interfaces.GetSessionsOutput;
+import com.kiwiko.jdashboard.webapp.clients.sessions.api.interfaces.SessionData;
+import com.kiwiko.jdashboard.webapp.framework.persistence.transactions.api.interfaces.TransactionProvider;
+import com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -18,6 +23,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -29,7 +35,35 @@ public class SessionEntityService implements SessionService {
     @Inject private SessionEntityDAO sessionEntityDAO;
     @Inject private SessionEntityMapper mapper;
     @Inject private TokenGenerator tokenHelper;
+    @Inject private CreateReadUpdateDeleteExecutor crudExecutor;
+    @Inject private TransactionProvider transactionProvider;
     @Inject private Logger logger;
+
+    @Override
+    public Optional<Session> get(long id) {
+        return crudExecutor.get(id, sessionEntityDAO, mapper);
+    }
+
+    @Override
+    public GetSessionsOutput get(GetSessionsInput input) {
+        Set<Session> sessions = transactionProvider.readOnly(() -> sessionEntityDAO.get(input).stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toSet()));
+
+        Set<SessionData> sessionData = new HashSet<>();
+        for (Session session : sessions) {
+            SessionData data = new SessionData();
+            data.setSession(session);
+            data.setIsExpired(isExpired(session));
+
+            sessionData.add(data);
+        }
+
+        GetSessionsOutput output = new GetSessionsOutput();
+        output.setSessions(sessionData);
+
+        return output;
+    }
 
     @Transactional
     @Override
@@ -129,17 +163,20 @@ public class SessionEntityService implements SessionService {
         return token;
     }
 
-    @Transactional
-    public void invalidateSession(long sessionId) {
-        SessionEntity entity = sessionEntityDAO.getById(sessionId)
+    public Session invalidateSession(long sessionId) {
+        Session session = get(sessionId)
                 .orElseThrow(() -> new SessionException(String.format("No session found with ID %d", sessionId)));
-        Instant now = Instant.now();
-        entity.setIsRemoved(true);
-        entity.setEndTime(now);
-        entity.setLastUpdatedDate(now);
 
-        sessionEntityDAO.save(entity);
-        logger.debug(String.format("Invalidated session with ID %d for user ID %d", sessionId, entity.getUserId()));
+        Instant now = Instant.now();
+
+        session.setIsRemoved(true);
+        session.setEndTime(now);
+        session.setLastUpdatedDate(now);
+
+        Session updatedSession = crudExecutor.merge(session, sessionEntityDAO, mapper);
+        logger.debug(String.format("Invalidated session with ID %d for user ID %d", sessionId, updatedSession.getUserId()));
+
+        return updatedSession;
     }
 
     @Override

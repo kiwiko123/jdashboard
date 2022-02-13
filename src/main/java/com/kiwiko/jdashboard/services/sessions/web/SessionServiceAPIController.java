@@ -2,14 +2,19 @@ package com.kiwiko.jdashboard.services.sessions.web;
 
 import com.kiwiko.jdashboard.services.sessions.api.dto.Session;
 import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionService;
-import com.kiwiko.jdashboard.webapp.clients.sessions.api.interfaces.GetSessionsByTokensOutput;
+import com.kiwiko.jdashboard.webapp.clients.sessions.api.interfaces.GetSessionsInput;
+import com.kiwiko.jdashboard.webapp.clients.sessions.api.interfaces.GetSessionsOutput;
+import com.kiwiko.jdashboard.webapp.clients.sessions.api.interfaces.InvalidateSessionOutput;
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.JdashboardConfigured;
 import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.InternalServiceCheck;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -24,15 +29,33 @@ public class SessionServiceAPIController {
 
     @Inject private SessionService sessionService;
 
-    @GetMapping("/tokens")
-    public GetSessionsByTokensOutput getByTokens(@RequestParam("t") Set<String> encodedTokens) {
-        Set<String> decodedTokens = encodedTokens.stream()
-                .map(token -> URLDecoder.decode(token, StandardCharsets.UTF_8))
-                .collect(Collectors.toSet());
-        Set<Session> sessions = sessionService.getByTokens(decodedTokens);
+    @GetMapping("/sessions")
+    public GetSessionsOutput get(
+            @RequestParam(value = "id", required = false) @Nullable Set<Long> sessionIds,
+            @RequestParam(value = "t", required = false) @Nullable Set<String> tokens,
+            @RequestParam(value = "ia", required = false) @Nullable Boolean isActive) {
+        GetSessionsInput.Builder builder = GetSessionsInput.newBuilder()
+                .setIsActive(isActive);
 
-        GetSessionsByTokensOutput output = new GetSessionsByTokensOutput();
-        output.setSessions(sessions);
+        if (sessionIds != null) {
+            builder.setSessionIds(sessionIds);
+        }
+        if (tokens != null) {
+            Set<String> decodedTokens = tokens.stream()
+                    .map(token -> URLDecoder.decode(token, StandardCharsets.UTF_8))
+                    .collect(Collectors.toSet());
+            builder.setTokens(decodedTokens);
+        }
+
+        return sessionService.get(builder.build());
+    }
+
+    @PostMapping("/{id}/invalidate")
+    public InvalidateSessionOutput invalidateSessionById(@PathVariable("id") long sessionId) {
+        Session session = sessionService.invalidateSession(sessionId);
+
+        InvalidateSessionOutput output = new InvalidateSessionOutput();
+        output.setSession(session);
 
         return output;
     }
