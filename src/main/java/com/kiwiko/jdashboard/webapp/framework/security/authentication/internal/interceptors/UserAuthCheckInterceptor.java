@@ -1,9 +1,9 @@
 package com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.interceptors;
 
 import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionService;
-import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.UserAuthCheck;
+import com.kiwiko.jdashboard.framework.controllers.api.interfaces.checks.UserAuthCheck;
 import com.kiwiko.jdashboard.webapp.framework.interceptors.internal.SessionRequestHelper;
-import com.kiwiko.jdashboard.webapp.middleware.interceptors.api.interfaces.EndpointInterceptor;
+import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.EndpointInterceptor;
 import org.springframework.web.method.HandlerMethod;
 
 import javax.inject.Inject;

@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations;
 
-import com.kiwiko.jdashboard.webapp.monitoring.logging.LoggingConfiguration;
+import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;

@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.framework.security.clientsessions.web;
 
-import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.JdashboardConfigured;
-import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.UserAuthCheck;
+import com.kiwiko.jdashboard.framework.controllers.api.interfaces.JdashboardConfigured;
+import com.kiwiko.jdashboard.framework.controllers.api.interfaces.checks.UserAuthCheck;
 import com.kiwiko.jdashboard.webapp.framework.security.clientsessions.api.dto.ClientSession;
 import com.kiwiko.jdashboard.webapp.framework.security.clientsessions.api.interfaces.ClientSessionService;
 import com.kiwiko.jdashboard.webapp.framework.security.clientsessions.api.interfaces.parameters.CreateClientSessionResponse;

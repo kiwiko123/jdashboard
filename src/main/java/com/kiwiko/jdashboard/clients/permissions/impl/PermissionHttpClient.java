@@ -8,7 +8,7 @@ import com.kiwiko.jdashboard.clients.permissions.api.interfaces.parameters.Query
 import com.kiwiko.jdashboard.clients.permissions.impl.requests.CorePermissionSet;
 import com.kiwiko.jdashboard.clients.permissions.impl.requests.CreatePermissionApiRequest;
 import com.kiwiko.jdashboard.clients.permissions.impl.requests.QueryPermissionsApiRequest;
-import com.kiwiko.jdashboard.webapp.http.client.api.interfaces.JdashboardApiClient;
+import com.kiwiko.jdashboard.framework.http.client.api.interfaces.JdashboardApiClient;
 import com.kiwiko.jdashboard.library.http.client.api.dto.ApiResponse;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 

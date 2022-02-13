@@ -11,7 +11,7 @@ import com.kiwiko.jdashboard.services.sessions.internal.data.SessionEntityDAO;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsInput;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsOutput;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.SessionData;
-import com.kiwiko.jdashboard.webapp.framework.persistence.transactions.api.interfaces.TransactionProvider;
+import com.kiwiko.jdashboard.framework.persistence.transactions.api.interfaces.TransactionProvider;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
 import org.springframework.transaction.annotation.Transactional;
 

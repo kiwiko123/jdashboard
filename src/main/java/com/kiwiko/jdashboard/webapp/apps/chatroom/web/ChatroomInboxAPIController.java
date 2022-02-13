@@ -6,8 +6,8 @@ import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.ChatroomInboxSe
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.CreateChatroomFormInput;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.GetInboxFeedParameters;
 import com.kiwiko.jdashboard.clients.users.api.dto.User;
-import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.JdashboardConfigured;
-import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.UserAuthCheck;
+import com.kiwiko.jdashboard.framework.controllers.api.interfaces.JdashboardConfigured;
+import com.kiwiko.jdashboard.framework.controllers.api.interfaces.checks.UserAuthCheck;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticatedUser;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

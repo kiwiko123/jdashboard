@@ -5,8 +5,8 @@ import com.kiwiko.jdashboard.webapp.featureflags.api.interfaces.FeatureFlagResol
 import com.kiwiko.jdashboard.webapp.featureflags.api.interfaces.FeatureFlagService;
 import com.kiwiko.jdashboard.webapp.featureflags.api.dto.FeatureFlag;
 import com.kiwiko.jdashboard.webapp.featureflags.web.responses.FeatureFlagListItem;
-import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.JdashboardConfigured;
-import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.UserAuthCheck;
+import com.kiwiko.jdashboard.framework.controllers.api.interfaces.JdashboardConfigured;
+import com.kiwiko.jdashboard.framework.controllers.api.interfaces.checks.UserAuthCheck;
 import com.kiwiko.jdashboard.webapp.framework.json.api.ResponseBuilder;
 import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
 import com.kiwiko.jdashboard.webapp.framework.json.deserialization.api.impl.GsonRequestBodyDeserializationStrategy;

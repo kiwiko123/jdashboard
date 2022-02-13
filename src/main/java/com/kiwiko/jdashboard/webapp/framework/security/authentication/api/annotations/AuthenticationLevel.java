@@ -2,8 +2,8 @@ package com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annot
 
 /**
  * @deprecated prefer individual check annotations
- * @see com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.UserAuthCheck
- * @see com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.InternalServiceCheck
+ * @see com.kiwiko.jdashboard.framework.controllers.api.interfaces.checks.UserAuthCheck
+ * @see com.kiwiko.jdashboard.framework.controllers.api.interfaces.checks.InternalServiceCheck
  */
 @Deprecated
 public enum AuthenticationLevel {

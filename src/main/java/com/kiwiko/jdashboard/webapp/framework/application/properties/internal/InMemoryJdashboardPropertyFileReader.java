@@ -26,7 +26,7 @@ public class InMemoryJdashboardPropertyFileReader implements JdashboardPropertyR
      * Don't create a logger through dependency injection because the default logger implementation reads the properties file.
      * Otherwise, it will be a circular dependency.
      *
-     * @see com.kiwiko.jdashboard.webapp.monitoring.logging.impl.ConfigurationLogger
+     * @see com.kiwiko.jdashboard.framework.monitoring.logging.impl.ConfigurationLogger
      */
     private Logger logger;
 

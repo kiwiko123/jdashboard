@@ -10,8 +10,8 @@ import com.kiwiko.jdashboard.webapp.apps.games.pazaak.api.interfaces.parameters.
 import com.kiwiko.jdashboard.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakLoadGameParameters;
 import com.kiwiko.jdashboard.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakEndTurnResponse;
 import com.kiwiko.jdashboard.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakSelectHandCardRequest;
-import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.JdashboardConfigured;
-import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.checks.UserAuthCheck;
+import com.kiwiko.jdashboard.framework.controllers.api.interfaces.JdashboardConfigured;
+import com.kiwiko.jdashboard.framework.controllers.api.interfaces.checks.UserAuthCheck;
 import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticatedUser;
 import org.springframework.stereotype.Controller;

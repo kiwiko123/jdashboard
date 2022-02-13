@@ -9,7 +9,7 @@ import com.kiwiko.jdashboard.clients.sessions.api.interfaces.InvalidateSessionOu
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.SessionClient;
 import com.kiwiko.jdashboard.clients.sessions.impl.requests.GetSessionsRequest;
 import com.kiwiko.jdashboard.clients.sessions.impl.requests.InvalidateSessionRequest;
-import com.kiwiko.jdashboard.webapp.http.client.api.interfaces.JdashboardApiClient;
+import com.kiwiko.jdashboard.framework.http.client.api.interfaces.JdashboardApiClient;
 
 import javax.inject.Inject;
 

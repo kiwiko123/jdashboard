@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.framework.application.properties;
 
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
-import com.kiwiko.jdashboard.webapp.monitoring.logging.LoggingConfiguration;
+import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.JdashboardPropertyMapper;
 import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.JdashboardPropertyReader;
 import com.kiwiko.jdashboard.webapp.framework.application.properties.internal.JdashboardPropertyFileIdentifier;
