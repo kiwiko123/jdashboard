@@ -15,10 +15,17 @@ public interface ApiRequest {
 
     /**
      * Required.
+     *
      * @return the request method for this request
      */
     RequestMethod getRequestMethod();
 
+    /**
+     * Required.
+     *
+     * @return the URL for this request
+     * @see RequestUrl
+     */
     RequestUrl getRequestUrl();
 
     /**
@@ -54,9 +61,20 @@ public interface ApiRequest {
 
     /**
      * Required.
+     *
      * @return the request headers to be sent with this request
      */
     Set<RequestHeader> getRequestHeaders();
+
+    /**
+     * Required.
+     *
+     * The cache strategy is a signal, but not a guarantee, that the request will be cached as dictated by the strategy.
+     * Certain circumstances may prematurely evict the request from the cache.
+     *
+     * @return the caching strategy for this request
+     */
+    RequestCacheStrategy getCacheStrategy();
 
     /**
      * Required.

@@ -1,5 +1,7 @@
 package com.kiwiko.jdashboard.framework.http.client;
 
+import com.kiwiko.jdashboard.framework.caching.CachingConfiguration;
+import com.kiwiko.jdashboard.framework.http.client.impl.apiclient.ApiClientCache;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.HttpAuthenticationConfiguration;
@@ -34,5 +36,11 @@ public class JdashboardApiClientConfiguration implements JdashboardDependencyCon
     @Bean
     public ApiClientResponseHelper apiClientResponseHelper() {
         return new ApiClientResponseHelper();
+    }
+
+    @Bean
+    @ConfiguredBy(CachingConfiguration.class)
+    public ApiClientCache apiClientCache() {
+        return new ApiClientCache();
     }
 }

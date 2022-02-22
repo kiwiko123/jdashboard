@@ -30,6 +30,11 @@ public abstract class DefaultApiRequest implements ApiRequest {
     }
 
     @Override
+    public RequestCacheStrategy getCacheStrategy() {
+        return new DisabledCacheStrategy();
+    }
+
+    @Override
     public boolean isInternalServiceRequest() {
         return false;
     }
@@ -48,5 +53,10 @@ public abstract class DefaultApiRequest implements ApiRequest {
     @Override
     public Class<?> getResponseType() {
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s(%s)", getClass().getSimpleName(), getRequestUrl());
     }
 }

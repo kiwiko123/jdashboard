@@ -2,8 +2,6 @@ package com.kiwiko.jdashboard.webapp.framework;
 
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.framework.permissions.internal.UserPermissionCheckInterceptor;
-import com.kiwiko.jdashboard.library.caching.api.ObjectCache;
-import com.kiwiko.jdashboard.library.caching.impl.InMemoryObjectCache;
 import com.kiwiko.jdashboard.webapp.framework.json.api.JsonSerializer;
 import com.kiwiko.jdashboard.webapp.framework.json.deserialization.MvcJsonDeserializationConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.json.deserialization.internal.resolvers.CustomRequestBodyArgumentResolver;
@@ -56,11 +54,6 @@ public class MvcConfiguration implements WebMvcConfigurer, JdashboardDependencyC
         registry
                 .addMapping("/**")
                 .allowedOrigins(EnvironmentProperties.CROSS_ORIGIN_URL);
-    }
-
-    @Bean
-    public ObjectCache objectCache() {
-        return new InMemoryObjectCache();
     }
 
     @Bean

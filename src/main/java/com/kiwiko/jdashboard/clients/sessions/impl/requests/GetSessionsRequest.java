@@ -2,6 +2,7 @@ package com.kiwiko.jdashboard.clients.sessions.impl.requests;
 
 import com.kiwiko.jdashboard.library.http.client.api.constants.RequestMethod;
 import com.kiwiko.jdashboard.library.http.client.api.dto.DefaultApiRequest;
+import com.kiwiko.jdashboard.library.http.client.api.dto.RequestCacheStrategy;
 import com.kiwiko.jdashboard.library.http.client.api.dto.RequestUrl;
 import com.kiwiko.jdashboard.library.http.url.QueryParameter;
 import com.kiwiko.jdashboard.library.http.url.UriBuilder;
@@ -49,6 +50,11 @@ public class GetSessionsRequest extends DefaultApiRequest {
         uriBuilder.setQuery(queryBuilder.build());
 
         return RequestUrl.fromPartial(uriBuilder);
+    }
+
+    @Override
+    public RequestCacheStrategy getCacheStrategy() {
+        return new GetSessionsRequestCacheStrategy();
     }
 
     @Override

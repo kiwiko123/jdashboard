@@ -1,6 +1,5 @@
 package com.kiwiko.jdashboard.framework.http.client.impl.apiclient;
 
-import com.kiwiko.jdashboard.library.http.client.api.dto.RequestHeader;
 import com.kiwiko.jdashboard.library.http.client.api.exceptions.RequestTimeoutException;
 import com.kiwiko.jdashboard.library.http.client.api.exceptions.ServerException;
 import com.kiwiko.jdashboard.library.http.client.internal.security.DefaultAuthenticator;
@@ -12,8 +11,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpTimeoutException;
 import java.time.Duration;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 public class CoreHttpClient {
@@ -46,16 +43,5 @@ public class CoreHttpClient {
 
     public CompletableFuture<HttpResponse<String>> sendAsynchronousRequest(HttpRequest httpRequest) {
         return httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString());
-    }
-
-    private Set<RequestHeader> makeHeaders(HttpResponse<?> httpResponse) {
-        Set<RequestHeader> headers = new HashSet<>();
-        httpResponse.headers().map().forEach((header, values) -> {
-            values.stream()
-                    .map(value -> new RequestHeader(header, value))
-                    .forEach(headers::add);
-        });
-
-        return headers;
     }
 }
