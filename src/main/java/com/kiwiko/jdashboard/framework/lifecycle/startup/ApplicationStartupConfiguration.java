@@ -1,5 +1,6 @@
 package com.kiwiko.jdashboard.framework.lifecycle.startup;
 
+import com.kiwiko.jdashboard.framework.codeanalysis.configurations.CodeAnalysisConfigurationsConfiguration;
 import com.kiwiko.jdashboard.framework.lifecycle.startup.internal.ApplicationStartupService;
 import com.kiwiko.jdashboard.framework.lifecycle.startup.registry.ApplicationStartupChain;
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
@@ -18,6 +19,7 @@ public class ApplicationStartupConfiguration implements JdashboardDependencyConf
     }
 
     @Bean
+    @ConfiguredBy({CodeAnalysisConfigurationsConfiguration.class})
     public ApplicationStartupChain applicationStartupChain() {
         return new ApplicationStartupChain();
     }
