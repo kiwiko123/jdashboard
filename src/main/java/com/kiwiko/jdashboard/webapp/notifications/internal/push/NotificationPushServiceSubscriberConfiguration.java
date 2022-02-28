@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class NotificationPushServiceSubscriberConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
+    @ConfiguredBy(LoggingConfiguration.class)
     public NotificationPushServiceSubscriber notificationPushServiceSubscriber() {
         return new NotificationPushServiceSubscriber();
     }

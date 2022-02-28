@@ -95,12 +95,10 @@ public class DependencyResolver {
             Class<?> injectedConfigurationType = beanConfigurationRegistry.getConfigurationForBean(injectedClass).orElse(null);
             if (injectedConfigurationType == null) {
                 throwException(String.format("%s injects bean %s but no transitive configuration was found", beanClass.getSimpleName(), injectedClass.getSimpleName()));
-                return;
             }
 
             if (!transitiveConfigurationClasses.contains(injectedConfigurationType)) {
                 throwException(String.format("Bean %s in configuration %s is missing a transitive configuration for bean type %s", beanClass.getSimpleName(), configuration.getConfigurationClass().getSimpleName(), injectedClass.getSimpleName()));
-                return;
             }
         }
     }

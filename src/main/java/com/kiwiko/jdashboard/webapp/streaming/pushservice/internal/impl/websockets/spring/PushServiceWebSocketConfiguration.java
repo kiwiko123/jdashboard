@@ -1,7 +1,13 @@
 package com.kiwiko.jdashboard.webapp.streaming.pushservice.internal.impl.websockets.spring;
 
+import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
+import com.kiwiko.jdashboard.webapp.framework.di.DependencyInjectionUtilConfiguration;
+import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonJsonConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.security.environments.data.EnvironmentProperties;
+import com.kiwiko.jdashboard.webapp.notifications.internal.push.NotificationPushServiceSubscriberConfiguration;
+import com.kiwiko.jdashboard.webapp.streaming.pushservice.PushServiceConfiguration;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.internal.impl.websockets.spring.sessions.PushServiceWebSocketSessionManager;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.internal.impl.websockets.spring.subscribers.PushServiceSubscriberRegistry;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.internal.impl.websockets.spring.subscribers.setup.PushServiceSubscriberRouter;
@@ -28,11 +34,13 @@ public class PushServiceWebSocketConfiguration implements WebSocketConfigurer, J
     }
 
     @Bean
+    @ConfiguredBy({GsonJsonConfiguration.class, PushServiceConfiguration.class, LoggingConfiguration.class})
     public PushServiceTextWebSocketHandler pushServiceTextWebSocketHandler() {
         return new PushServiceTextWebSocketHandler();
     }
 
     @Bean
+    @ConfiguredBy({GsonJsonConfiguration.class, LoggingConfiguration.class})
     public PushServiceDeserializationHelper pushServiceDeserializationHelper() {
         return new PushServiceDeserializationHelper();
     }
@@ -43,6 +51,7 @@ public class PushServiceWebSocketConfiguration implements WebSocketConfigurer, J
     }
 
     @Bean
+    @ConfiguredBy(LoggingConfiguration.class)
     public PushServiceWebSocketSessionManager pushServiceWebSocketSessionManager() {
         return new PushServiceWebSocketSessionManager();
     }
@@ -53,11 +62,13 @@ public class PushServiceWebSocketConfiguration implements WebSocketConfigurer, J
     }
 
     @Bean
+    @ConfiguredBy({DependencyInjectionUtilConfiguration.class, LoggingConfiguration.class})
     public PushServiceSubscriberRouter pushServiceSubscriberRouter() {
         return new PushServiceSubscriberRouter();
     }
 
     @Bean
+    @ConfiguredBy({LoggingConfiguration.class, NotificationPushServiceSubscriberConfiguration.class})
     public SubscribePushServicesCreator subscribePushServicesCreator() {
         return new SubscribePushServicesCreator();
     }
