@@ -41,11 +41,11 @@ public class DependencyInjectedConfigurationResolver implements ApplicationStart
 
     private Set<Class<?>> getDependencyInjectingClasses() {
         return classScanner.getClasses("com.kiwiko.jdashboard").stream()
-                .filter(this::includeClass)
+                .filter(this::classInjectsDependencies)
                 .collect(Collectors.toUnmodifiableSet());
     }
 
-    private boolean includeClass(Class<?> cls) {
+    private boolean classInjectsDependencies(Class<?> cls) {
         if (cls.isInstance(JdashboardDependencyConfiguration.class)) {
             return false;
         }
@@ -58,10 +58,6 @@ public class DependencyInjectedConfigurationResolver implements ApplicationStart
             return false;
         }
 
-        return classInjectsDependencies(cls);
-    }
-
-    private boolean classInjectsDependencies(Class<?> cls) {
         return Arrays.stream(cls.getDeclaredFields())
                 .map(field -> field.getAnnotation(Inject.class))
                 .anyMatch(Objects::nonNull);
