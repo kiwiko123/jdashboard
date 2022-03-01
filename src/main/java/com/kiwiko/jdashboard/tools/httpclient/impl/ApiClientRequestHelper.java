@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.framework.http.client.impl.apiclient;
+package com.kiwiko.jdashboard.tools.httpclient.impl;
 
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.InternalHttpRequestValidator;
 import com.kiwiko.jdashboard.webapp.framework.security.environments.api.EnvironmentService;

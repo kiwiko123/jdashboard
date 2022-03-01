@@ -4,7 +4,7 @@ import com.kiwiko.jdashboard.clients.sessions.api.interfaces.SessionClient;
 import com.kiwiko.jdashboard.clients.sessions.impl.SessionHttpClient;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
-import com.kiwiko.jdashboard.framework.http.client.JdashboardApiClientConfiguration;
+import com.kiwiko.jdashboard.tools.httpclient.impl.JdashboardApiClientConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

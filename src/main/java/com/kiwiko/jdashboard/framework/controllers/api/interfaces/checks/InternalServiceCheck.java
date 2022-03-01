@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * Annotate an endpoint method or controller class to indicate that it receives Jdashboard internal service requests via
- * {@link com.kiwiko.jdashboard.framework.http.client.api.interfaces.JdashboardApiClient}.
+ * {@link com.kiwiko.jdashboard.tools.httpclient.api.interfaces.JdashboardApiClient}.
  * Jdashboard performs additional validation on internal service requests to verify their legitimacy.
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
