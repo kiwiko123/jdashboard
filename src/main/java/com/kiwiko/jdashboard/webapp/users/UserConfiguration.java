@@ -1,7 +1,11 @@
 package com.kiwiko.jdashboard.webapp.users;
 
+import com.kiwiko.jdashboard.clients.users.UserClientConfiguration;
+import com.kiwiko.jdashboard.framework.persistence.transactions.TransactionConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.PasswordService;
+import com.kiwiko.jdashboard.webapp.persistence.services.crud.PersistenceServicesCrudConfiguration;
 import com.kiwiko.jdashboard.webapp.users.internal.UserEntityPasswordService;
 import com.kiwiko.jdashboard.webapp.users.api.UserService;
 import com.kiwiko.jdashboard.webapp.users.internal.UserEntityMapper;
@@ -14,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
 public class UserConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
+    @ConfiguredBy({UserClientConfiguration.class, PersistenceServicesCrudConfiguration.class, TransactionConfiguration.class})
     public UserService userService() {
         return new UserEntityService();
     }

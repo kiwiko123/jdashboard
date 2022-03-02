@@ -12,6 +12,8 @@ import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;
@@ -46,6 +48,11 @@ public class DependencyInjectedConfigurationResolver implements ApplicationStart
     }
 
     private boolean classInjectsDependencies(Class<?> cls) {
+        // Only concrete classes can inject dependencies.
+        if (cls.isInterface()) {
+            return false;
+        }
+
         if (cls.isInstance(JdashboardDependencyConfiguration.class)) {
             return false;
         }
@@ -54,7 +61,8 @@ public class DependencyInjectedConfigurationResolver implements ApplicationStart
             return false;
         }
 
-        if (cls.isInterface()) {
+        // Currently we have no clear setup to link a configuration with a controller, so exclude them for now.
+        if (cls.getDeclaredAnnotation(Controller.class) != null || cls.getDeclaredAnnotation(RestController.class) != null) {
             return false;
         }
 
@@ -104,7 +112,8 @@ public class DependencyInjectedConfigurationResolver implements ApplicationStart
                     .ifPresent(dependencyMetadata::setConfigurationClass);
             dependencyMetadata.setInjectedClasses(injectedClasses);
 
-            registry.register(cls, dependencyMetadata);
+            // TODO handle duplicates?
+            registry.register(inferredBeanType, dependencyMetadata);
         }
 
         return registry;

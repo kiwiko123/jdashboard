@@ -1,5 +1,6 @@
 package com.kiwiko.jdashboard.webapp.streaming.pushservice;
 
+import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.api.interfaces.PushService;
@@ -12,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 public class PushServiceConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
-    @ConfiguredBy(PushServiceWebSocketConfiguration.class)
+    @ConfiguredBy({PushServiceWebSocketConfiguration.class, LoggingConfiguration.class})
     public PushService pushService() {
         return new TextWebSocketPushService();
     }

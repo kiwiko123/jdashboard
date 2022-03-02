@@ -41,7 +41,7 @@ public class ScrabbleConfiguration implements JdashboardDependencyConfiguration 
     }
 
     @Bean
-    @ConfiguredBy(MvcConfiguration.class)
+    @ConfiguredBy({GameStateConfiguration.class, MvcConfiguration.class})
     public ScrabbleGameService scrabbleGameService() {
         return new ScrabbleGameEntityService();
     }

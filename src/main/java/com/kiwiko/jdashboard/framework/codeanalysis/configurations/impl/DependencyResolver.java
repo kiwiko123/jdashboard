@@ -52,9 +52,8 @@ public class DependencyResolver {
             DependencyMetadata dependencyMetadata,
             ConfigurationRegistry configurationRegistry,
             BeanConfigurationRegistry beanConfigurationRegistry) throws DependencyResolvingException {
-        Class<?> inferredBeanClass = getInferredBeanType(beanClass, beanConfigurationRegistry);
-        if (beanConfigurationRegistry.getConfigurationForBean(inferredBeanClass).isEmpty()) {
-            throwException(String.format("No configuration found for type %s", inferredBeanClass.getName()));
+        if (beanConfigurationRegistry.getConfigurationForBean(beanClass).isEmpty()) {
+            throwException(String.format("No configuration found for type %s", beanClass.getName()));
             return;
         }
 
@@ -63,11 +62,11 @@ public class DependencyResolver {
                 .flatMap(configurationRegistry::getConfiguration)
                 .orElse(null);
         if (configuration == null) {
-            throwException(String.format("No configuration found for type %s", inferredBeanClass.getName()));
+            throwException(String.format("No configuration found for type %s", beanClass.getName()));
             return;
         }
 
-        // Within this @Configuration, find the @Bean declaration that wires this mean.
+        // Within this @Configuration, find the @Bean declaration that wires this bean.
         ConfiguredBean configuredBean = configuration.getConfiguredBeans().stream()
                 .filter(bean -> bean.getBeanClass() == beanClass)
                 .findFirst()
@@ -97,6 +96,7 @@ public class DependencyResolver {
             }
 
             if (!transitiveConfigurationClasses.contains(injectedConfigurationType)) {
+                // TODO suggest which configuration to add?
                 throwException(String.format("Bean %s in configuration %s is missing a transitive configuration for bean type %s", beanClass.getSimpleName(), configuration.getConfigurationClass().getSimpleName(), injectedClass.getSimpleName()));
             }
         }

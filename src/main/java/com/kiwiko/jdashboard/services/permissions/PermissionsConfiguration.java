@@ -5,6 +5,8 @@ import com.kiwiko.jdashboard.services.permissions.api.interfaces.PermissionServi
 import com.kiwiko.jdashboard.services.permissions.internal.PermissionEntityMapper;
 import com.kiwiko.jdashboard.services.permissions.internal.PermissionEntityService;
 import com.kiwiko.jdashboard.services.permissions.internal.data.PermissionEntityDataFetcher;
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
+import com.kiwiko.jdashboard.webapp.persistence.services.crud.PersistenceServicesCrudConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 public class PermissionsConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
+    @ConfiguredBy(PersistenceServicesCrudConfiguration.class)
     public PermissionService permissionService() {
         return new PermissionEntityService();
     }

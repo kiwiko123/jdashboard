@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 public class ApplicationEventQueueConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
+    @ConfiguredBy(ApplicationEventConfiguration.class)
     public ApplicationEventQueue applicationEventQueue() {
         return new ApplicationEventServiceQueue();
     }
