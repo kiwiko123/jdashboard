@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.tools.httpclient.impl;
+package com.kiwiko.jdashboard.tools.apiclient.impl.http;
 
 import com.kiwiko.jdashboard.library.caching.api.ObjectCache;
 import com.kiwiko.jdashboard.library.http.client.api.dto.ApiRequest;

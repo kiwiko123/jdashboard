@@ -1,10 +1,10 @@
-package com.kiwiko.jdashboard.tools.httpclient.impl;
+package com.kiwiko.jdashboard.tools.apiclient.impl.http;
 
 import com.kiwiko.jdashboard.library.http.client.api.dto.ApiRequest;
 import com.kiwiko.jdashboard.library.http.client.api.dto.ApiResponse;
 import com.kiwiko.jdashboard.library.http.client.api.exceptions.ClientException;
 import com.kiwiko.jdashboard.library.http.client.api.exceptions.ServerException;
-import com.kiwiko.jdashboard.tools.httpclient.api.interfaces.JdashboardApiClient;
+import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardApiClient;
 
 import javax.inject.Inject;
 import java.net.http.HttpRequest;

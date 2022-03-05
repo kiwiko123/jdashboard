@@ -10,7 +10,7 @@ import com.kiwiko.jdashboard.clients.users.impl.http.requests.GetUserByIdApiRequ
 import com.kiwiko.jdashboard.clients.users.impl.http.requests.GetUsersByQueryApiRequest;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
 import com.kiwiko.jdashboard.library.http.client.api.dto.ApiResponse;
-import com.kiwiko.jdashboard.tools.httpclient.api.interfaces.JdashboardApiClient;
+import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardApiClient;
 
 import javax.inject.Inject;
 

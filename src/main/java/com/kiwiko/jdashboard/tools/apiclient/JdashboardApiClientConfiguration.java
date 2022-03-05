@@ -1,12 +1,17 @@
-package com.kiwiko.jdashboard.tools.httpclient.impl;
+package com.kiwiko.jdashboard.tools.apiclient;
 
 import com.kiwiko.jdashboard.framework.caching.CachingConfiguration;
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
+import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardApiClient;
+import com.kiwiko.jdashboard.tools.apiclient.impl.http.ApiClientCache;
+import com.kiwiko.jdashboard.tools.apiclient.impl.http.ApiClientRequestHelper;
+import com.kiwiko.jdashboard.tools.apiclient.impl.http.CoreHttpClient;
+import com.kiwiko.jdashboard.tools.apiclient.impl.http.JdashboardHttpApiClient;
+import com.kiwiko.jdashboard.tools.apiclient.impl.http.ApiClientResponseHelper;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.HttpAuthenticationConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.security.environments.EnvironmentConfiguration;
-import com.kiwiko.jdashboard.tools.httpclient.api.interfaces.JdashboardApiClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

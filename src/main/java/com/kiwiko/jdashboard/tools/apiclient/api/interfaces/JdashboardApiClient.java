@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.tools.httpclient.api.interfaces;
+package com.kiwiko.jdashboard.tools.apiclient.api.interfaces;
 
 import com.kiwiko.jdashboard.library.http.client.api.interfaces.ApiClient;
 

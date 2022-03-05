@@ -3,7 +3,7 @@ package com.kiwiko.jdashboard.clients.users;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.UserClient;
 import com.kiwiko.jdashboard.clients.users.impl.di.UserDtoMapper;
 import com.kiwiko.jdashboard.clients.users.impl.http.UserHttpClient;
-import com.kiwiko.jdashboard.tools.httpclient.impl.JdashboardApiClientConfiguration;
+import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiClientConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonJsonConfiguration;
