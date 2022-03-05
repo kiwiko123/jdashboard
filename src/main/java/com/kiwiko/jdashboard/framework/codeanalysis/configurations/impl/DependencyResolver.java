@@ -52,8 +52,9 @@ public class DependencyResolver {
             DependencyMetadata dependencyMetadata,
             ConfigurationRegistry configurationRegistry,
             BeanConfigurationRegistry beanConfigurationRegistry) throws DependencyResolvingException {
-        if (beanConfigurationRegistry.getConfigurationForBean(beanClass).isEmpty()) {
-            throwException(String.format("No configuration found for type %s", beanClass.getName()));
+        Class<?> inferredBeanClass = getInferredBeanType(beanClass, beanConfigurationRegistry);
+        if (beanConfigurationRegistry.getConfigurationForBean(inferredBeanClass).isEmpty()) {
+            throwException(String.format("No configuration found for type %s", inferredBeanClass.getName()));
             return;
         }
 
@@ -93,11 +94,17 @@ public class DependencyResolver {
             Class<?> injectedConfigurationType = beanConfigurationRegistry.getConfigurationForBean(injectedClass).orElse(null);
             if (injectedConfigurationType == null) {
                 throwException(String.format("%s injects bean %s but no transitive configuration was found", beanClass.getSimpleName(), injectedClass.getSimpleName()));
+                return;
             }
 
             if (!transitiveConfigurationClasses.contains(injectedConfigurationType)) {
-                // TODO suggest which configuration to add?
-                throwException(String.format("Bean %s in configuration %s is missing a transitive configuration for bean type %s", beanClass.getSimpleName(), configuration.getConfigurationClass().getSimpleName(), injectedClass.getSimpleName()));
+                throwException(
+                        String.format(
+                                "Bean %s in configuration %s is missing a transitive configuration for bean type %s; possibly %s",
+                                beanClass.getSimpleName(),
+                                configuration.getConfigurationClass().getSimpleName(),
+                                injectedClass.getSimpleName(),
+                                injectedConfigurationType.getSimpleName()));
             }
         }
     }

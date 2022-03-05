@@ -48,6 +48,10 @@ public class DependencyInjectedConfigurationResolver implements ApplicationStart
     }
 
     private boolean classInjectsDependencies(Class<?> cls) {
+        if (DependencyResolverConstants.IGNORED_DEPENDENCY_INJECTING_CLASSES.contains(cls.getName())) {
+            return false;
+        }
+
         // Only concrete classes can inject dependencies.
         if (cls.isInterface()) {
             return false;
@@ -103,7 +107,7 @@ public class DependencyInjectedConfigurationResolver implements ApplicationStart
             DependencyMetadata dependencyMetadata = new DependencyMetadata();
 
             Set<Class<?>> injectedClasses = Arrays.stream(cls.getDeclaredFields())
-                    .filter(field -> field.getAnnotation(Inject.class) != null)
+                    .filter(this::isValidFieldInjectedDependency)
                     .map(Field::getType)
                     .collect(Collectors.toSet());
 
@@ -153,5 +157,13 @@ public class DependencyInjectedConfigurationResolver implements ApplicationStart
         }
 
         return configuredBeans;
+    }
+
+    private boolean isValidFieldInjectedDependency(Field field) {
+        if (field.getDeclaredAnnotation(Inject.class) == null) {
+            return false;
+        }
+
+        return !DependencyResolverConstants.IGNORED_DEPENDENCY_CLASSES.contains(field.getType().getName());
     }
 }
