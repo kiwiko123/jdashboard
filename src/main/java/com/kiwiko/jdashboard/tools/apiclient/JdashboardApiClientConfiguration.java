@@ -6,6 +6,7 @@ import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardApiClient;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.ApiClientCache;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.ApiClientRequestHelper;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.CoreHttpClient;
+import com.kiwiko.jdashboard.tools.apiclient.impl.http.HttpApiClient;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.JdashboardHttpApiClient;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.ApiClientResponseHelper;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
@@ -21,6 +22,11 @@ public class JdashboardApiClientConfiguration implements JdashboardDependencyCon
     @Bean
     public JdashboardApiClient jdashboardApiClient() {
         return new JdashboardHttpApiClient();
+    }
+
+    @Bean
+    public HttpApiClient httpApiClient() {
+        return new HttpApiClient();
     }
 
     @Bean

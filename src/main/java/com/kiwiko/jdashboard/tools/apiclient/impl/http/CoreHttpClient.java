@@ -11,6 +11,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpTimeoutException;
 import java.time.Duration;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class CoreHttpClient {
@@ -19,14 +20,13 @@ public class CoreHttpClient {
     protected final HttpClient httpClient;
 
     public CoreHttpClient() {
-        if (Authenticator.getDefault() == null) {
-            Authenticator.setDefault(new DefaultAuthenticator());
-        }
+        Authenticator authenticator = Optional.ofNullable(Authenticator.getDefault())
+                .orElseGet(DefaultAuthenticator::new);
 
         httpClient = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_2)
                 .connectTimeout(DEFAULT_CLIENT_TIMEOUT)
-                .authenticator(Authenticator.getDefault())
+                .authenticator(authenticator)
                 .build();
     }
 

@@ -8,8 +8,8 @@ import com.kiwiko.jdashboard.clients.permissions.api.interfaces.parameters.Query
 import com.kiwiko.jdashboard.clients.permissions.impl.requests.CorePermissionSet;
 import com.kiwiko.jdashboard.clients.permissions.impl.requests.CreatePermissionApiRequest;
 import com.kiwiko.jdashboard.clients.permissions.impl.requests.QueryPermissionsApiRequest;
+import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
 import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardApiClient;
-import com.kiwiko.jdashboard.library.http.client.api.dto.ApiResponse;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 
 import javax.inject.Inject;
@@ -25,18 +25,16 @@ public class PermissionHttpClient implements PermissionClient {
         Objects.requireNonNull(input, "Input is required");
 
         QueryPermissionsApiRequest apiRequest = new QueryPermissionsApiRequest(input);
-        ApiResponse<CorePermissionSet> apiResponse = null;
+        ClientResponse<CorePermissionSet> response = null;
 
         try {
-            apiResponse = jdashboardApiClient.synchronousCall(apiRequest);
+            response = jdashboardApiClient.synchronousCall(apiRequest);
         } catch (Exception e) {
             logger.error(String.format("Error querying for permissions %s", input), e);
         }
 
         QueryPermissionsOutput output = new QueryPermissionsOutput();
-        if (apiResponse != null) {
-            output.setPermissions(apiResponse.getPayload());
-        }
+        output.setPermissions(response.getPayload());
 
         return output;
     }
@@ -44,14 +42,14 @@ public class PermissionHttpClient implements PermissionClient {
     @Override
     public CreatePermissionOutput create(CreatePermissionInput input) {
         CreatePermissionApiRequest apiRequest = new CreatePermissionApiRequest(input);
-        ApiResponse<CreatePermissionOutput> apiResponse = null;
+        ClientResponse<CreatePermissionOutput> response = null;
 
         try {
-            apiResponse = jdashboardApiClient.synchronousCall(apiRequest);
+            response = jdashboardApiClient.synchronousCall(apiRequest);
         } catch (Exception e) {
             // TODO log
         }
 
-        return apiResponse.getPayload();
+        return response.getPayload();
     }
 }

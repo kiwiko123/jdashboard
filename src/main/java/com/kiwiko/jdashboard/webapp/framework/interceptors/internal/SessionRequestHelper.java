@@ -11,6 +11,7 @@ import com.kiwiko.jdashboard.clients.sessions.api.interfaces.InvalidateSessionIn
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.InvalidateSessionOutput;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.SessionClient;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.SessionData;
+import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
 import org.springframework.http.HttpStatus;
 
 import javax.annotation.Nullable;
@@ -49,7 +50,7 @@ public class SessionRequestHelper {
                 .setTokens(tokens)
                 .setIsActive(true)
                 .build();
-        ApiResponse<GetSessionsOutput> getSessionsResponse;
+        ClientResponse<GetSessionsOutput> getSessionsResponse;
         try {
             getSessionsResponse = sessionClient.get(getSessionsInput);
         } catch (ApiClientException | InterruptedException e) {
@@ -57,7 +58,7 @@ public class SessionRequestHelper {
             return Optional.empty();
         }
 
-        if (getSessionsResponse.getHttpStatusCode() != HttpStatus.OK.value()) {
+        if (!getSessionsResponse.getStatus().isSuccessful()) {
             logger.error("Unsuccessful GetSessions client response");
             return Optional.empty();
         }

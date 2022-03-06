@@ -1,6 +1,5 @@
 package com.kiwiko.jdashboard.clients.sessions.impl;
 
-import com.kiwiko.jdashboard.library.http.client.api.dto.ApiResponse;
 import com.kiwiko.jdashboard.library.http.client.api.exceptions.ApiClientException;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsInput;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsOutput;
@@ -9,6 +8,7 @@ import com.kiwiko.jdashboard.clients.sessions.api.interfaces.InvalidateSessionOu
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.SessionClient;
 import com.kiwiko.jdashboard.clients.sessions.impl.requests.GetSessionsRequest;
 import com.kiwiko.jdashboard.clients.sessions.impl.requests.InvalidateSessionRequest;
+import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
 import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardApiClient;
 
 import javax.inject.Inject;
@@ -18,7 +18,7 @@ public class SessionHttpClient implements SessionClient {
     @Inject private JdashboardApiClient jdashboardApiClient;
 
     @Override
-    public ApiResponse<GetSessionsOutput> get(GetSessionsInput input) throws ApiClientException, InterruptedException {
+    public ClientResponse<GetSessionsOutput> get(GetSessionsInput input) throws ApiClientException, InterruptedException {
         GetSessionsRequest request = new GetSessionsRequest(input);
         return jdashboardApiClient.synchronousCall(request);
     }
@@ -26,7 +26,7 @@ public class SessionHttpClient implements SessionClient {
     @Override
     public InvalidateSessionOutput invalidate(InvalidateSessionInput input) throws ApiClientException, InterruptedException {
         InvalidateSessionRequest request = new InvalidateSessionRequest(input);
-        ApiResponse<InvalidateSessionOutput> response = jdashboardApiClient.synchronousCall(request);
+        ClientResponse<InvalidateSessionOutput> response = jdashboardApiClient.synchronousCall(request);
         return response.getPayload();
     }
 }

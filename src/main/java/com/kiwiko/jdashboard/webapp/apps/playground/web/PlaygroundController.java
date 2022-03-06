@@ -3,6 +3,7 @@ package com.kiwiko.jdashboard.webapp.apps.playground.web;
 import com.kiwiko.jdashboard.clients.permissions.api.interfaces.PermissionClient;
 import com.kiwiko.jdashboard.clients.users.api.dto.User;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.UserClient;
+import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
 import com.kiwiko.jdashboard.webapp.framework.json.api.ResponseBuilder;
 import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticatedUser;
@@ -11,7 +12,6 @@ import com.kiwiko.jdashboard.framework.controllers.api.interfaces.checks.Interna
 import com.kiwiko.jdashboard.services.permissions.api.interfaces.PermissionNames;
 import com.kiwiko.jdashboard.framework.controllers.api.interfaces.checks.UserPermissionCheck;
 import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardApiClient;
-import com.kiwiko.jdashboard.library.http.client.api.dto.ApiResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,7 +49,7 @@ public class PlaygroundController {
     @GetMapping("/playground-api/test")
     public ResponsePayload test(@AuthenticatedUser User currentUser) throws Exception {
         TestPostApiRequest request = new TestPostApiRequest(currentUser);
-        ApiResponse<String> response = jdashboardApiClient.synchronousCall(request);
+        ClientResponse<String> response = jdashboardApiClient.synchronousCall(request);
 
         return ResponseBuilder.payload(response);
     }

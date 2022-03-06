@@ -4,48 +4,39 @@ import com.kiwiko.jdashboard.library.http.client.api.dto.ApiRequest;
 import com.kiwiko.jdashboard.library.http.client.api.dto.ApiResponse;
 import com.kiwiko.jdashboard.library.http.client.api.exceptions.ClientException;
 import com.kiwiko.jdashboard.library.http.client.api.exceptions.ServerException;
+import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
+import com.kiwiko.jdashboard.tools.apiclient.api.dto.ResponseStatus;
 import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardApiClient;
+import org.springframework.http.HttpStatus;
 
 import javax.inject.Inject;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class JdashboardHttpApiClient implements JdashboardApiClient {
 
-    @Inject private CoreHttpClient httpClient;
-    @Inject private ApiClientRequestHelper requestHelper;
-    @Inject private ApiClientResponseHelper responseHelper;
-    @Inject private ApiClientCache apiClientCache;
+    @Inject private HttpApiClient httpApiClient;
 
     @Override
-    public <ResponseType> ApiResponse<ResponseType> synchronousCall(ApiRequest request)
+    public <ResponseType> ClientResponse<ResponseType> synchronousCall(ApiRequest apiRequest)
             throws ClientException, ServerException, InterruptedException {
-        requestHelper.validateRequest(request);
-        Optional<ApiResponse<ResponseType>> cachedResponse = apiClientCache.getCachedResponse(request);
-        if (cachedResponse.isPresent()) {
-            return cachedResponse.get();
-        }
-
-        HttpRequest httpRequest = requestHelper.makeHttpRequest(request);
-        HttpResponse<String> httpResponse = httpClient.sendSynchronousRequest(httpRequest);
-
-        return responseHelper.convertHttpResponse(request, httpResponse);
+        ApiResponse<ResponseType> apiResponse = httpApiClient.synchronousCall(apiRequest);
+        return toClientResponse(apiResponse);
     }
 
     @Override
-    public <ResponseType> CompletableFuture<ApiResponse<ResponseType>> asynchronousCall(ApiRequest request)
-            throws ClientException, ServerException, InterruptedException {
-        requestHelper.validateRequest(request);
-        Optional<ApiResponse<ResponseType>> cachedResponse = apiClientCache.getCachedResponse(request);
-        if (cachedResponse.isPresent()) {
-            return CompletableFuture.completedFuture(cachedResponse.get());
-        }
+    public <ResponseType> CompletableFuture<ClientResponse<ResponseType>> asynchronousCall(ApiRequest apiRequest)
+            throws ServerException, ClientException, InterruptedException {
+        CompletableFuture<ApiResponse<ResponseType>> apiResponseFuture = httpApiClient.asynchronousCall(apiRequest);
+        return apiResponseFuture.thenApply(this::toClientResponse);
+    }
 
-        HttpRequest httpRequest = requestHelper.makeHttpRequest(request);
-        CompletableFuture<HttpResponse<String>> httpResponseFuture = httpClient.sendAsynchronousRequest(httpRequest);
+    private <ResponseType> ClientResponse<ResponseType> toClientResponse(ApiResponse<ResponseType> apiResponse) {
+        HttpStatus httpStatus = HttpStatus.valueOf(apiResponse.getHttpStatusCode());
+        boolean isSuccessful = !httpStatus.isError();
+        String statusCode = Integer.toString(httpStatus.value());
+        String errorMessage = isSuccessful ? null : statusCode;
+        ResponseStatus responseStatus = new ResponseStatus(isSuccessful, statusCode, errorMessage);
 
-        return responseHelper.transformResponseFuture(request, httpResponseFuture);
+        return new ClientResponse<>(apiResponse.getPayload(), responseStatus);
     }
 }

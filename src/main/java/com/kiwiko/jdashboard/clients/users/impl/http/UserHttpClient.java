@@ -8,8 +8,8 @@ import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.GetUsersByQu
 import com.kiwiko.jdashboard.clients.users.impl.di.UserDtoMapper;
 import com.kiwiko.jdashboard.clients.users.impl.http.requests.GetUserByIdApiRequest;
 import com.kiwiko.jdashboard.clients.users.impl.http.requests.GetUsersByQueryApiRequest;
+import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
-import com.kiwiko.jdashboard.library.http.client.api.dto.ApiResponse;
 import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardApiClient;
 
 import javax.inject.Inject;
@@ -23,7 +23,7 @@ public class UserHttpClient implements UserClient {
     @Override
     public GetUserByIdResponse getById(long userId) {
         GetUserByIdApiRequest request = new GetUserByIdApiRequest(userId);
-        ApiResponse<com.kiwiko.jdashboard.webapp.users.data.User> response = null;
+        ClientResponse<com.kiwiko.jdashboard.webapp.users.data.User> response = null;
         try {
             response = jdashboardApiClient.synchronousCall(request);
         } catch (Exception e) {
@@ -38,14 +38,14 @@ public class UserHttpClient implements UserClient {
         String queryJson = gsonProvider.getDefault().toJson(query);
         GetUsersByQueryApiRequest request = new GetUsersByQueryApiRequest(queryJson);
 
-        ApiResponse<GetUsersByQueryResponse> apiResponse = null;
+        ClientResponse<GetUsersByQueryResponse> response = null;
         try {
-            apiResponse = jdashboardApiClient.synchronousCall(request);
+            response = jdashboardApiClient.synchronousCall(request);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        return apiResponse.getPayload();
+        return response.getPayload();
     }
 
     @Override
