@@ -1,8 +1,8 @@
-package com.kiwiko.jdashboard.webapp.users.internal;
+package com.kiwiko.jdashboard.services.users.internal;
 
 import com.kiwiko.jdashboard.library.persistence.data.properties.api.interfaces.DataEntityFieldMapper;
-import com.kiwiko.jdashboard.webapp.users.data.User;
-import com.kiwiko.jdashboard.webapp.users.internal.dataAccess.UserEntity;
+import com.kiwiko.jdashboard.services.users.api.dto.User;
+import com.kiwiko.jdashboard.services.users.internal.data.UserEntity;
 
 import javax.inject.Singleton;
 

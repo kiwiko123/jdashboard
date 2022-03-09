@@ -23,7 +23,7 @@ public class UserHttpClient implements UserClient {
     @Override
     public GetUserByIdResponse getById(long userId) {
         GetUserByIdApiRequest request = new GetUserByIdApiRequest(userId);
-        ClientResponse<com.kiwiko.jdashboard.webapp.users.data.User> response = null;
+        ClientResponse<com.kiwiko.jdashboard.services.users.api.dto.User> response = null;
         try {
             response = jdashboardApiClient.synchronousCall(request);
         } catch (Exception e) {
@@ -49,7 +49,7 @@ public class UserHttpClient implements UserClient {
     }
 
     @Override
-    public User fromLegacyUser(com.kiwiko.jdashboard.webapp.users.data.User user) {
+    public User fromLegacyUser(com.kiwiko.jdashboard.services.users.api.dto.User user) {
         return userDtoMapper.toTargetType(user);
     }
 }

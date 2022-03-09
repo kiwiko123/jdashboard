@@ -1,10 +1,10 @@
-package com.kiwiko.jdashboard.webapp.users.api;
+package com.kiwiko.jdashboard.services.users.api.interfaces;
 
 import com.kiwiko.jdashboard.clients.users.api.interfaces.queries.GetUsersQuery;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.GetUsersByQueryResponse;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.dto.UserLoginParameters;
-import com.kiwiko.jdashboard.webapp.users.api.parameters.CreateUserParameters;
-import com.kiwiko.jdashboard.webapp.users.data.User;
+import com.kiwiko.jdashboard.services.users.api.interfaces.parameters.CreateUserParameters;
+import com.kiwiko.jdashboard.services.users.api.dto.User;
 
 import java.util.Collection;
 import java.util.Optional;

@@ -10,9 +10,9 @@ import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.dto.Us
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.events.UserAuthenticationEventClient;
 import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionService;
 import com.kiwiko.jdashboard.services.sessions.api.dto.Session;
-import com.kiwiko.jdashboard.webapp.users.api.UserService;
-import com.kiwiko.jdashboard.webapp.users.api.parameters.CreateUserParameters;
-import com.kiwiko.jdashboard.webapp.users.data.User;
+import com.kiwiko.jdashboard.services.users.api.interfaces.UserService;
+import com.kiwiko.jdashboard.services.users.api.interfaces.parameters.CreateUserParameters;
+import com.kiwiko.jdashboard.services.users.api.dto.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

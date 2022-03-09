@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.webapp.users.api.parameters;
+package com.kiwiko.jdashboard.services.users.api.interfaces.parameters;
 
 import javax.annotation.Nullable;
 

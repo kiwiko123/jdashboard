@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.webapp.users.internal;
+package com.kiwiko.jdashboard.services.users.internal;
 
 import com.kiwiko.jdashboard.clients.users.api.interfaces.queries.GetUsersQuery;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.GetUsersByQueryResponse;
@@ -8,11 +8,11 @@ import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.Passwo
 import com.kiwiko.jdashboard.library.persistence.dataAccess.api.PersistenceException;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.dto.UserLoginParameters;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
-import com.kiwiko.jdashboard.webapp.users.api.UserService;
-import com.kiwiko.jdashboard.webapp.users.api.parameters.CreateUserParameters;
-import com.kiwiko.jdashboard.webapp.users.data.User;
-import com.kiwiko.jdashboard.webapp.users.internal.dataAccess.UserEntityDAO;
-import com.kiwiko.jdashboard.webapp.users.internal.dataAccess.UserEntity;
+import com.kiwiko.jdashboard.services.users.api.interfaces.UserService;
+import com.kiwiko.jdashboard.services.users.api.interfaces.parameters.CreateUserParameters;
+import com.kiwiko.jdashboard.services.users.api.dto.User;
+import com.kiwiko.jdashboard.services.users.internal.data.UserEntityDAO;
+import com.kiwiko.jdashboard.services.users.internal.data.UserEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;

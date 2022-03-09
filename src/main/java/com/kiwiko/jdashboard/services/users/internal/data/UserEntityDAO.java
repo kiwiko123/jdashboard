@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.webapp.users.internal.dataAccess;
+package com.kiwiko.jdashboard.services.users.internal.data;
 
 import com.kiwiko.jdashboard.clients.users.api.interfaces.queries.GetUsersQuery;
 import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;

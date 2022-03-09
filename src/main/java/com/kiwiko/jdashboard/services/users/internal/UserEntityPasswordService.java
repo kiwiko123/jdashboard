@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.webapp.users.internal;
+package com.kiwiko.jdashboard.services.users.internal;
 
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.PasswordService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

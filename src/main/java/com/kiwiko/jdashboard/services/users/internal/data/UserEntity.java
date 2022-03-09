@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.webapp.users.internal.dataAccess;
+package com.kiwiko.jdashboard.services.users.internal.data;
 
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges;

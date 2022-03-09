@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.webapp.users.web;
+package com.kiwiko.jdashboard.services.users.web;
 
 import com.kiwiko.jdashboard.clients.users.api.interfaces.queries.GetUsersQuery;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.GetUsersByQueryResponse;
@@ -8,9 +8,9 @@ import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
 import com.kiwiko.jdashboard.framework.controllers.api.interfaces.checks.InternalServiceCheck;
 import com.kiwiko.jdashboard.webapp.framework.security.environments.data.EnvironmentProperties;
-import com.kiwiko.jdashboard.webapp.users.api.UserService;
-import com.kiwiko.jdashboard.webapp.users.api.parameters.CreateUserParameters;
-import com.kiwiko.jdashboard.webapp.users.data.User;
+import com.kiwiko.jdashboard.services.users.api.interfaces.UserService;
+import com.kiwiko.jdashboard.services.users.api.interfaces.parameters.CreateUserParameters;
+import com.kiwiko.jdashboard.services.users.api.dto.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 

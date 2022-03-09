@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.webapp.users;
+package com.kiwiko.jdashboard.services.users;
 
 import com.kiwiko.jdashboard.clients.users.UserClientConfiguration;
 import com.kiwiko.jdashboard.framework.persistence.transactions.TransactionConfiguration;
@@ -6,11 +6,11 @@ import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.Jdash
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.PasswordService;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.PersistenceServicesCrudConfiguration;
-import com.kiwiko.jdashboard.webapp.users.internal.UserEntityPasswordService;
-import com.kiwiko.jdashboard.webapp.users.api.UserService;
-import com.kiwiko.jdashboard.webapp.users.internal.UserEntityMapper;
-import com.kiwiko.jdashboard.webapp.users.internal.UserEntityService;
-import com.kiwiko.jdashboard.webapp.users.internal.dataAccess.UserEntityDAO;
+import com.kiwiko.jdashboard.services.users.internal.UserEntityPasswordService;
+import com.kiwiko.jdashboard.services.users.api.interfaces.UserService;
+import com.kiwiko.jdashboard.services.users.internal.UserEntityMapper;
+import com.kiwiko.jdashboard.services.users.internal.UserEntityService;
+import com.kiwiko.jdashboard.services.users.internal.data.UserEntityDAO;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

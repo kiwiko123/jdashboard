@@ -11,5 +11,5 @@ public interface UserClient {
 
     GetUsersByQueryResponse getByQuery(GetUsersQuery query);
 
-    User fromLegacyUser(com.kiwiko.jdashboard.webapp.users.data.User user);
+    User fromLegacyUser(com.kiwiko.jdashboard.services.users.api.dto.User user);
 }

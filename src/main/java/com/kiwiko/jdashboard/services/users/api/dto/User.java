@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.webapp.users.data;
+package com.kiwiko.jdashboard.services.users.api.dto;
 
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletableDataEntityDTO;
 

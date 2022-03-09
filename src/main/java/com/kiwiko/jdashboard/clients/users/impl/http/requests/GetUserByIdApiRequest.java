@@ -2,7 +2,7 @@ package com.kiwiko.jdashboard.clients.users.impl.http.requests;
 
 import com.kiwiko.jdashboard.library.http.client.api.constants.RequestMethod;
 import com.kiwiko.jdashboard.library.http.client.api.dto.DefaultApiRequest;
-import com.kiwiko.jdashboard.webapp.users.data.User;
+import com.kiwiko.jdashboard.services.users.api.dto.User;
 import com.kiwiko.jdashboard.library.http.client.api.dto.RequestUrl;
 import com.kiwiko.jdashboard.library.http.url.UriBuilder;
 
