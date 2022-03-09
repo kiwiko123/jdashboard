@@ -30,7 +30,7 @@ public class UserAuthCheckInterceptor implements EndpointInterceptor {
                 .orElse(false);
 
         if (!isAuthenticated) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Access denied");
         }
 
         return isAuthenticated;

@@ -28,7 +28,7 @@ public class InternalServiceCheckInterceptor implements EndpointInterceptor {
 
         boolean isAuthorized = isInternalServiceAuthorized(request);
         if (!isAuthorized) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Access denied");
         }
 
         return isAuthorized;

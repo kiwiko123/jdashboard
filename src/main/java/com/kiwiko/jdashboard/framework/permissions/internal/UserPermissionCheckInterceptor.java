@@ -48,6 +48,12 @@ public class UserPermissionCheckInterceptor implements EndpointInterceptor {
                 .build();
 
         QueryPermissionsOutput output = permissionClient.query(queryPermissionsInput);
-        return output.getPermissions() != null && !output.getPermissions().isEmpty();
+        boolean hasPermissions = output.getPermissions() != null && !output.getPermissions().isEmpty();
+
+        if (!hasPermissions) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Permission denied");
+        }
+
+        return hasPermissions;
     }
 }
