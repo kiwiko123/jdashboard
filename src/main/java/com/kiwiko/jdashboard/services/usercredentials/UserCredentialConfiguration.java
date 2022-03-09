@@ -4,6 +4,7 @@ import com.kiwiko.jdashboard.services.usercredentials.api.interfaces.UserCredent
 import com.kiwiko.jdashboard.services.usercredentials.internal.UserCredentialEntityMapper;
 import com.kiwiko.jdashboard.services.usercredentials.internal.UserCredentialEntityService;
 import com.kiwiko.jdashboard.services.usercredentials.internal.data.UserCredentialEntityDataAccessObject;
+import com.kiwiko.jdashboard.services.usercredentials.internal.encryption.DefaultUserCredentialEncryptor;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.PersistenceServicesCrudConfiguration;
@@ -27,5 +28,10 @@ public class UserCredentialConfiguration implements JdashboardDependencyConfigur
     @Bean
     public UserCredentialEntityDataAccessObject userCredentialEntityDataAccessObject() {
         return new UserCredentialEntityDataAccessObject();
+    }
+
+    @Bean
+    public DefaultUserCredentialEncryptor defaultUserCredentialEncryptor() {
+        return new DefaultUserCredentialEncryptor();
     }
 }

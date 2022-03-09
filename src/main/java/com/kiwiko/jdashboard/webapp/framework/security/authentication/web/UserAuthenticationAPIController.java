@@ -1,11 +1,14 @@
 package com.kiwiko.jdashboard.webapp.framework.security.authentication.web;
 
+import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.UserCredentialClient;
+import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.CreateUserCredentialInput;
+import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.EncryptionStrategies;
+import com.kiwiko.jdashboard.framework.controllers.api.interfaces.JdashboardConfigured;
 import com.kiwiko.jdashboard.framework.controllers.api.interfaces.checks.UserAuthCheck;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticatedUser;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.framework.json.api.ResponseBuilder;
 import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.CrossOriginConfigured;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.dto.UserLoginParameters;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.events.UserAuthenticationEventClient;
 import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionService;
@@ -21,13 +24,14 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
-@CrossOriginConfigured
+@JdashboardConfigured
 @RestController
 public class UserAuthenticationAPIController {
 
     @Inject private SessionService sessionService;
     @Inject private UserService userService;
     @Inject private UserAuthenticationEventClient userAuthenticationEventClient;
+    @Inject private UserCredentialClient userCredentialClient;
     @Inject private Logger logger;
 
     @PostMapping("/user-auth/api/create")
@@ -36,6 +40,10 @@ public class UserAuthenticationAPIController {
             HttpServletResponse httpServletResponse) {
         User result = userService.create(createUserParameters);
         Session session = sessionService.createSessionCookieForUser(result.getId(), httpServletResponse);
+
+        CreateUserCredentialInput createUserCredentialInput = new CreateUserCredentialInput(result.getId(), "user_password", createUserParameters.getPassword());
+        createUserCredentialInput.setEncryptionStrategy(EncryptionStrategies.DEFAULT);
+        userCredentialClient.create(createUserCredentialInput);
 
         return new ResponseBuilder()
                 .withBody(session)
