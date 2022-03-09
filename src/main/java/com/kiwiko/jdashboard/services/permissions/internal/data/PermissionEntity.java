@@ -1,7 +1,8 @@
 package com.kiwiko.jdashboard.services.permissions.internal.data;
 
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges;
-import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +15,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "permissions")
 @CaptureDataChanges
-public class PermissionEntity implements SoftDeletableDataEntity {
+public class PermissionEntity implements DataEntity, SoftDeletable {
     private Long id;
     private Long userId;
     private String permissionName;

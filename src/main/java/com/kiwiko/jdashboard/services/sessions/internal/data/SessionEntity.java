@@ -1,6 +1,7 @@
 package com.kiwiko.jdashboard.services.sessions.internal.data;
 
-import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletable;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.Column;
@@ -13,7 +14,7 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "sessions")
-public class SessionEntity implements SoftDeletableDataEntity {
+public class SessionEntity implements DataEntity, SoftDeletable {
 
     private Long id;
     private String token;

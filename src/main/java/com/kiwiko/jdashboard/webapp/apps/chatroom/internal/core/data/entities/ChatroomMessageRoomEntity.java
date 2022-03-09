@@ -1,6 +1,7 @@
 package com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.data.entities;
 
-import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletable;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges;
 
 import javax.persistence.Column;
@@ -13,7 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "chatroom_message_rooms")
 @CaptureDataChanges
-public class ChatroomMessageRoomEntity implements SoftDeletableDataEntity {
+public class ChatroomMessageRoomEntity implements DataEntity, SoftDeletable {
 
     private Long id;
     private boolean isRemoved;

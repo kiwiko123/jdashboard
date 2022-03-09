@@ -4,7 +4,7 @@ import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.parameters.Sav
 import com.kiwiko.jdashboard.library.lang.reflection.ReflectionHelper;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
-import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletable;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.DataChangeCapturer;
 import org.springframework.stereotype.Repository;
@@ -61,8 +61,8 @@ public abstract class DataAccessObject<T extends DataEntity> {
     }
 
     public void delete(T entity) {
-        if (entity instanceof SoftDeletableDataEntity) {
-            SoftDeletableDataEntity softDeletableDataEntity = (SoftDeletableDataEntity) entity;
+        if (entity instanceof SoftDeletable) {
+            SoftDeletable softDeletableDataEntity = (SoftDeletable) entity;
             softDeletableDataEntity.setIsRemoved(true);
             save(entity);
             return;

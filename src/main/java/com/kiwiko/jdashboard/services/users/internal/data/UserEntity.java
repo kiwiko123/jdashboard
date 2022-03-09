@@ -1,6 +1,7 @@
 package com.kiwiko.jdashboard.services.users.internal.data;
 
-import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletable;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges;
 
 import javax.annotation.Nullable;
@@ -14,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "users")
 @CaptureDataChanges
-public class UserEntity implements SoftDeletableDataEntity {
+public class UserEntity implements DataEntity, SoftDeletable {
 
     private Long id;
     private String username;

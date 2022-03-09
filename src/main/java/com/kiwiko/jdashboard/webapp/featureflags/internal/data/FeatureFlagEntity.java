@@ -1,7 +1,8 @@
 package com.kiwiko.jdashboard.webapp.featureflags.internal.data;
 
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges;
-import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletableDataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletable;
 
 import javax.annotation.Nullable;
 import javax.persistence.Column;
@@ -14,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "feature_flags")
 @CaptureDataChanges
-public class FeatureFlagEntity implements SoftDeletableDataEntity {
+public class FeatureFlagEntity implements DataEntity, SoftDeletable {
 
     private Long id;
     private String name;
