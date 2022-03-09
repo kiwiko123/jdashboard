@@ -9,6 +9,15 @@ CREATE TABLE users (
     is_removed BOOLEAN NOT NULL DEFAULT FALSE
 );
 
+CREATE TABLE user_credentials (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL REFERENCES users(user_id),
+    credential_type TEXT NOT NULL,
+    credential_value TEXT NOT NULL,
+    created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    is_removed BOOLEAN NOT NULL DEFAULT FALSE
+);
+
 CREATE TABLE request_contexts (
     request_context_id BIGSERIAL PRIMARY KEY,
     uri TEXT NOT NULL,
