@@ -4,18 +4,18 @@ import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.C
 import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.CreateUserCredentialOutput;
 import com.kiwiko.jdashboard.library.http.client.api.constants.RequestHeaders;
 import com.kiwiko.jdashboard.library.http.client.api.constants.RequestMethod;
-import com.kiwiko.jdashboard.library.http.client.api.dto.DefaultApiRequest;
 import com.kiwiko.jdashboard.library.http.client.api.dto.DisabledCacheStrategy;
 import com.kiwiko.jdashboard.library.http.client.api.dto.RequestCacheStrategy;
 import com.kiwiko.jdashboard.library.http.client.api.dto.RequestHeader;
 import com.kiwiko.jdashboard.library.http.client.api.dto.RequestUrl;
 import com.kiwiko.jdashboard.library.http.url.UriBuilder;
+import com.kiwiko.jdashboard.tools.apiclient.api.dto.JdashboardApiRequest;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.Set;
 
-public class CreateUserCredentialRequest extends DefaultApiRequest {
+public class CreateUserCredentialRequest extends JdashboardApiRequest {
 
     private CreateUserCredentialInput input;
 

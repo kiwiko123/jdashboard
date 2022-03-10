@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Configuration;
 public class JdashboardApiClientConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
+    @ConfiguredBy(LoggingConfiguration.class)
     public JdashboardApiClient jdashboardApiClient() {
         return new JdashboardHttpApiClient();
     }
