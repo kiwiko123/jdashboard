@@ -2,9 +2,12 @@ package com.kiwiko.jdashboard.services.usercredentials.api.interfaces;
 
 import com.kiwiko.jdashboard.clients.usercredentials.api.dto.UserCredential;
 import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.CreateUserCredentialInput;
+import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.QueryUserCredentialsInput;
+import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.QueryUserCredentialsOutput;
+import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.ValidateUserCredentialInput;
+import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.ValidateUserCredentialOutput;
 
 import java.util.Optional;
-import java.util.Set;
 
 public interface UserCredentialService {
 
@@ -19,5 +22,7 @@ public interface UserCredentialService {
 
     void delete(long id);
 
-    Set<UserCredential> query(QueryUserCredentialsInput input);
+    QueryUserCredentialsOutput query(QueryUserCredentialsInput input);
+
+    ValidateUserCredentialOutput validateUserCredential(ValidateUserCredentialInput input);
 }

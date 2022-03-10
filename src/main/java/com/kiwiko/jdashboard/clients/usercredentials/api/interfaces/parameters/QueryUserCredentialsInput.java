@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.services.usercredentials.api.interfaces;
+package com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -10,16 +10,18 @@ public class QueryUserCredentialsInput {
         return new Builder();
     }
 
-    private Set<Long> userIds;
-    private Set<String> credentialTypes;
+    private @Nullable Set<Long> userIds;
+    private @Nullable Set<String> credentialTypes;
     private @Nullable Boolean isRemoved;
 
     private QueryUserCredentialsInput() { }
 
+    @Nullable
     public Set<Long> getUserIds() {
         return userIds;
     }
 
+    @Nullable
     public Set<String> getCredentialTypes() {
         return credentialTypes;
     }
@@ -35,12 +37,12 @@ public class QueryUserCredentialsInput {
         private @Nullable Boolean isRemoved;
 
         public Builder setUserIds(Collection<Long> userIds) {
-            this.userIds = Set.copyOf(userIds);
+            this.userIds = userIds == null ? null : Set.copyOf(userIds);
             return this;
         }
 
         public Builder setCredentialTypes(Collection<String> credentialTypes) {
-            this.credentialTypes = Set.copyOf(credentialTypes);
+            this.credentialTypes = credentialTypes == null ? null : Set.copyOf(credentialTypes);
             return this;
         }
 

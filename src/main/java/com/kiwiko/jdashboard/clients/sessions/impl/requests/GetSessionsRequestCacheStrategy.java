@@ -9,6 +9,6 @@ class GetSessionsRequestCacheStrategy extends RequestCacheStrategy {
 
     @Override
     public Optional<Duration> getCacheDuration() {
-        return Optional.of(Duration.ofSeconds(5));
+        return Optional.of(Duration.ofSeconds(1));
     }
 }

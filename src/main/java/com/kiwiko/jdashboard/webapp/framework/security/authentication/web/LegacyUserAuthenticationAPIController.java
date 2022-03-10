@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @JdashboardConfigured
 @RestController
-public class UserAuthenticationAPIController {
+public class LegacyUserAuthenticationAPIController {
 
     @Inject private SessionService sessionService;
     @Inject private UserService userService;

@@ -2,9 +2,12 @@ package com.kiwiko.jdashboard.services.usercredentials.internal;
 
 import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.CreateUserCredentialInput;
 import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.EncryptionStrategies;
+import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.QueryUserCredentialsOutput;
+import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.ValidateUserCredentialInput;
+import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.ValidateUserCredentialOutput;
 import com.kiwiko.jdashboard.framework.persistence.transactions.api.interfaces.TransactionProvider;
 import com.kiwiko.jdashboard.clients.usercredentials.api.dto.UserCredential;
-import com.kiwiko.jdashboard.services.usercredentials.api.interfaces.QueryUserCredentialsInput;
+import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.QueryUserCredentialsInput;
 import com.kiwiko.jdashboard.services.usercredentials.api.interfaces.UserCredentialService;
 import com.kiwiko.jdashboard.services.usercredentials.internal.data.UserCredentialEntity;
 import com.kiwiko.jdashboard.services.usercredentials.internal.data.UserCredentialEntityDataAccessObject;
@@ -87,10 +90,32 @@ public class UserCredentialEntityService implements UserCredentialService {
     }
 
     @Override
-    public Set<UserCredential> query(QueryUserCredentialsInput input) {
-        return transactionProvider.readOnly(() -> dataAccessObject.query(input)
+    public QueryUserCredentialsOutput query(QueryUserCredentialsInput input) {
+        Set<UserCredential> userCredentials = transactionProvider.readOnly(() -> dataAccessObject.query(input)
                 .stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toSet()));
+
+        QueryUserCredentialsOutput output = new QueryUserCredentialsOutput();
+        output.setUserCredentials(userCredentials);
+        return output;
+    }
+
+    @Override
+    public ValidateUserCredentialOutput validateUserCredential(ValidateUserCredentialInput input) {
+        ValidateUserCredentialOutput output = new ValidateUserCredentialOutput();
+
+        UserCredential userCredential = get(input.getUserCredentialId())
+                .orElse(null);
+
+        if (userCredential == null) {
+            output.setIsValid(false);
+            return output;
+        }
+
+        boolean isValid = defaultUserCredentialEncryptor.matches(input.getPlaintextCredentialValue(), userCredential.getCredentialValue());
+        output.setIsValid(isValid);
+
+        return output;
     }
 }

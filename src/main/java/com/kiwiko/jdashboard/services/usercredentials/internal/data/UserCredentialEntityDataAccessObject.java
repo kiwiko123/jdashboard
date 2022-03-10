@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.services.usercredentials.internal.data;
 
-import com.kiwiko.jdashboard.services.usercredentials.api.interfaces.QueryUserCredentialsInput;
+import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.QueryUserCredentialsInput;
 import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;
 
 import javax.persistence.criteria.CriteriaBuilder;

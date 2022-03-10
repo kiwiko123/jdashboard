@@ -65,7 +65,7 @@ export default class LoginFormStateManager extends StateManager {
             password: this.state.fields.password.value,
         };
 
-        Request.to('/user-auth/api/login')
+        Request.to('/user-auth/public-api/users/log-in')
             .body(payload)
             .authenticated()
             .post()

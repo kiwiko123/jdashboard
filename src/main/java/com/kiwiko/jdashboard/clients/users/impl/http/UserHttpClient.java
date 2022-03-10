@@ -38,11 +38,9 @@ public class UserHttpClient implements UserClient {
         String queryJson = gsonProvider.getDefault().toJson(query);
         GetUsersByQueryApiRequest request = new GetUsersByQueryApiRequest(queryJson);
 
-        ClientResponse<GetUsersByQueryResponse> response = null;
-        try {
-            response = jdashboardApiClient.synchronousCall(request);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        ClientResponse<GetUsersByQueryResponse> response = jdashboardApiClient.silencedSynchronousCall(request);
+        if (!response.getStatus().isSuccessful()) {
+            throw new RuntimeException(response.getStatus().getErrorMessage());
         }
 
         return response.getPayload();
