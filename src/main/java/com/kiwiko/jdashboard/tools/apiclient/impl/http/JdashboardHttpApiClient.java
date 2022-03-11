@@ -12,7 +12,9 @@ import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardApiClient;
 import org.springframework.http.HttpStatus;
 
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 public class JdashboardHttpApiClient implements JdashboardApiClient {
 
@@ -66,8 +68,12 @@ public class JdashboardHttpApiClient implements JdashboardApiClient {
     }
 
     private <ResponseType> ClientResponse<ResponseType> getErrorResponse(ApiRequest apiRequest, Throwable throwable) {
-        logger.error(String.format("Error issuing synchronous request %s", apiRequest), throwable);
-        ResponseStatus responseStatus = ResponseStatus.fromMessage(throwable.getMessage());
+        logger.error(String.format("Error issuing silenced request %s", apiRequest), throwable);
+        String stackTraceMessage = Arrays.stream(throwable.getStackTrace())
+                .limit(10)
+                .map(StackTraceElement::toString)
+                .collect(Collectors.joining("\n"));
+        ResponseStatus responseStatus = ResponseStatus.fromMessage(stackTraceMessage);
         return new ClientResponse<>(null, responseStatus);
     }
 }

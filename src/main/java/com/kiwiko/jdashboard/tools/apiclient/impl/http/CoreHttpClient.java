@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class CoreHttpClient {
-    private static final Duration DEFAULT_CLIENT_TIMEOUT = Duration.ofSeconds(10);
+    private static final Duration DEFAULT_CLIENT_TIMEOUT = Duration.ofSeconds(30);
 
     protected final HttpClient httpClient;
 
