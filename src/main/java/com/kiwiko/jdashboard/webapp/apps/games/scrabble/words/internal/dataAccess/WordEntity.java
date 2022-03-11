@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.apps.games.scrabble.words.internal.dataAccess;
 
-import com.kiwiko.library.persistence.dataAccess.api.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.dataAccess.api.DataEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

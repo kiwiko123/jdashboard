@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.apps.games.scrabble.game.data;
 
-import com.kiwiko.library.persistence.identification.Identifiable;
+import com.kiwiko.jdashboard.library.persistence.identification.Identifiable;
 import org.springframework.lang.Nullable;
 
 import java.util.Optional;

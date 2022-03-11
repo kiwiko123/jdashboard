@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.notifications.data;
 
-import com.kiwiko.library.persistence.identification.TypeIdentifiable;
+import com.kiwiko.jdashboard.library.persistence.identification.TypeIdentifiable;
 
 import javax.annotation.Nullable;
 import java.time.Instant;

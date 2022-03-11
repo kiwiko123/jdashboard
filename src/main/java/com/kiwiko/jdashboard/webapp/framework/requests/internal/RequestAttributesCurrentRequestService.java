@@ -1,10 +1,10 @@
 package com.kiwiko.jdashboard.webapp.framework.requests.internal;
 
-import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.CurrentRequestService;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.RequestContextService;
 import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
-import com.kiwiko.jdashboard.webapp.framework.security.sessions.data.SessionProperties;
+import com.kiwiko.jdashboard.services.sessions.api.dto.SessionProperties;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;

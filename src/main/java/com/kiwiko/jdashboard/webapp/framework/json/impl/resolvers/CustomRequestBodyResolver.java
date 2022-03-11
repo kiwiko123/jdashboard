@@ -1,10 +1,10 @@
 package com.kiwiko.jdashboard.webapp.framework.json.impl.resolvers;
 
-import com.kiwiko.library.lang.reflection.ReflectionHelper;
+import com.kiwiko.jdashboard.library.lang.reflection.ReflectionHelper;
 import com.kiwiko.jdashboard.webapp.framework.json.api.CustomRequestBodySerializationStrategy;
 import com.kiwiko.jdashboard.webapp.framework.json.api.annotations.CustomRequestBody;
 import com.kiwiko.jdashboard.webapp.framework.json.api.errors.JsonException;
-import com.kiwiko.library.json.data.IntermediateJsonBody;
+import com.kiwiko.jdashboard.library.json.data.IntermediateJsonBody;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.RequestError;
 import com.kiwiko.jdashboard.webapp.framework.resolvers.CacheableRequestBodyResolver;
 import org.springframework.core.MethodParameter;

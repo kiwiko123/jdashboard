@@ -1,13 +1,13 @@
 package com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.resolvers;
 
-import com.kiwiko.jdashboard.webapp.clients.users.api.dto.User;
-import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.UserClient;
+import com.kiwiko.jdashboard.clients.users.api.dto.User;
+import com.kiwiko.jdashboard.clients.users.api.interfaces.UserClient;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.RequestContextService;
 import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticatedUser;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.errors.AuthenticatedUserException;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.errors.InvalidAuthenticatedUserException;
-import com.kiwiko.jdashboard.webapp.framework.security.sessions.data.SessionProperties;
+import com.kiwiko.jdashboard.services.sessions.api.dto.SessionProperties;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -49,8 +49,8 @@ public class AuthenticatedUserArgumentResolver implements HandlerMethodArgumentR
                 .orElseThrow(() -> new InvalidAuthenticatedUserException("No session found for current request"));
 
         User currentUser = requestContextService.getFromSession(session, SessionProperties.REQUEST_CONTEXT_ID_SESSION_KEY)
-                .flatMap(RequestContext::getUser)
-                .map(userClient::fromLegacyUser)
+                .map(RequestContext::getUserId)
+                .flatMap(userId -> userClient.getById(userId).getUser())
                 .orElse(null);
 
         if (currentUser != null) {

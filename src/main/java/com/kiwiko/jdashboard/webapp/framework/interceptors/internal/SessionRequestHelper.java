@@ -1,12 +1,18 @@
 package com.kiwiko.jdashboard.webapp.framework.interceptors.internal;
 
-import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.jdashboard.webapp.framework.security.sessions.api.SessionHelper;
-import com.kiwiko.jdashboard.webapp.framework.security.sessions.api.SessionService;
-import com.kiwiko.jdashboard.webapp.framework.security.sessions.data.Session;
-import com.kiwiko.jdashboard.webapp.framework.security.sessions.data.SessionProperties;
-import com.kiwiko.jdashboard.webapp.users.data.User;
+import com.kiwiko.jdashboard.library.http.client.api.exceptions.ApiClientException;
+import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.clients.sessions.api.dto.Session;
+import com.kiwiko.jdashboard.services.sessions.api.dto.SessionProperties;
+import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsInput;
+import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsOutput;
+import com.kiwiko.jdashboard.clients.sessions.api.interfaces.InvalidateSessionInput;
+import com.kiwiko.jdashboard.clients.sessions.api.interfaces.InvalidateSessionOutput;
+import com.kiwiko.jdashboard.clients.sessions.api.interfaces.SessionClient;
+import com.kiwiko.jdashboard.clients.sessions.api.interfaces.SessionData;
+import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -21,8 +27,7 @@ import java.util.stream.Collectors;
 
 public class SessionRequestHelper {
 
-    @Inject private SessionService sessionService;
-    @Inject private SessionHelper sessionHelper;
+    @Inject private SessionClient sessionClient;
     @Inject private Logger logger;
 
     public Optional<Session> getSessionFromRequest(HttpServletRequest request) {
@@ -39,22 +44,41 @@ public class SessionRequestHelper {
             return Optional.empty();
         }
 
-        Set<Session> sessions = sessionService.getByTokens(tokens);
-        Set<Session> activeSessions = new HashSet<>();
+        GetSessionsInput getSessionsInput = GetSessionsInput.newBuilder()
+                .setTokens(tokens)
+                .setIsActive(true)
+                .build();
+        ClientResponse<GetSessionsOutput> getSessionsResponse;
+        try {
+            getSessionsResponse = sessionClient.get(getSessionsInput);
+        } catch (ApiClientException | InterruptedException e) {
+            logger.error(String.format("Error fetching sessions for request %s", request.getRequestURL().toString()), e);
+            return Optional.empty();
+        }
 
-        for (Session session : sessions) {
-            if (sessionHelper.isExpired(session)) {
-                sessionService.invalidateSession(session.getId());
+        if (!getSessionsResponse.getStatus().isSuccessful()) {
+            logger.error("Unsuccessful GetSessions client response");
+            return Optional.empty();
+        }
+
+        if (getSessionsResponse.getPayload() == null) {
+            logger.warn("No session payload found");
+            return Optional.empty();
+        }
+
+        Set<Session> activeSessions = new HashSet<>();
+        for (SessionData session : getSessionsResponse.getPayload().getSessions()) {
+            if (session.getIsExpired()) {
+                invalidateSession(session.getSession().getId());
             } else {
-                activeSessions.add(session);
+                activeSessions.add(session.getSession());
             }
         }
 
         if (activeSessions.size() > 1) {
             String userIds = activeSessions.stream()
-                    .map(Session::getUser)
-                    .flatMap(Optional::stream)
-                    .map(User::getId)
+                    .map(Session::getUserId)
+                    .filter(Objects::nonNull)
                     .distinct()
                     .map(Object::toString)
                     .collect(Collectors.joining(", "));
@@ -63,5 +87,18 @@ public class SessionRequestHelper {
 
         return activeSessions.stream()
                 .findFirst();
+    }
+
+    @Nullable
+    private InvalidateSessionOutput invalidateSession(long sessionId) {
+        InvalidateSessionInput input = new InvalidateSessionInput(sessionId);
+
+        try {
+            return sessionClient.invalidate(input);
+        } catch (ApiClientException | InterruptedException e) {
+            logger.error(String.format("Error attempting to invalidate session %d", sessionId), e);
+        }
+
+        return null;
     }
 }

@@ -1,5 +1,8 @@
 package com.kiwiko.jdashboard.webapp.apps.chatroom;
 
+import com.kiwiko.jdashboard.clients.users.UserClientConfiguration;
+import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
+import com.kiwiko.jdashboard.framework.persistence.transactions.TransactionConfiguration;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.ChatroomInboxService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.ChatroomPermissionService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.ChatroomRoomService;
@@ -16,6 +19,11 @@ import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.mappers.Chatroom
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.mappers.ChatroomMessageRoomMapper;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.mappers.ChatroomMessageRoomUserMapper;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
+import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonJsonConfiguration;
+import com.kiwiko.jdashboard.webapp.persistence.identification.unique.UniversalUniqueIdentifierConfiguration;
+import com.kiwiko.jdashboard.webapp.persistence.services.crud.PersistenceServicesCrudConfiguration;
+import com.kiwiko.jdashboard.webapp.streaming.pushservice.PushServiceConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,11 +31,13 @@ import org.springframework.context.annotation.Configuration;
 public class ChatroomConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
+    @ConfiguredBy({UniversalUniqueIdentifierConfiguration.class, UserClientConfiguration.class})
     public ChatroomInboxService chatroomInboxService() {
         return new ChatroomInboxServiceImpl();
     }
 
     @Bean
+    @ConfiguredBy({PushServiceConfiguration.class, UserClientConfiguration.class, GsonJsonConfiguration.class, LoggingConfiguration.class})
     public ChatroomRoomService chatroomRoomService() {
         return new ChatroomRoomServiceImpl();
     }
@@ -68,16 +78,19 @@ public class ChatroomConfiguration implements JdashboardDependencyConfiguration 
     }
 
     @Bean
+    @ConfiguredBy({PersistenceServicesCrudConfiguration.class, TransactionConfiguration.class})
     public ChatroomMessageService chatroomMessageService() {
         return new ChatroomMessageService();
     }
 
     @Bean
+    @ConfiguredBy({UniversalUniqueIdentifierConfiguration.class, PersistenceServicesCrudConfiguration.class, TransactionConfiguration.class})
     public ChatroomMessageRoomService chatroomMessageRoomService() {
         return new ChatroomMessageRoomService();
     }
 
     @Bean
+    @ConfiguredBy({PersistenceServicesCrudConfiguration.class, TransactionConfiguration.class})
     public ChatroomMessageRoomUserService chatroomMessageRoomUserService() {
         return new ChatroomMessageRoomUserService();
     }

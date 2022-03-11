@@ -1,10 +1,10 @@
 package com.kiwiko.jdashboard.webapp.framework.persistence.crud.api;
 
 import com.kiwiko.jdashboard.webapp.framework.persistence.dataaccess.api.EntityManagerDAO;
-import com.kiwiko.library.persistence.dataAccess.api.PersistenceException;
-import com.kiwiko.library.persistence.identification.Identifiable;
-import com.kiwiko.library.persistence.interfaces.api.CreateReadUpdateDeleteAPI;
-import com.kiwiko.library.persistence.properties.api.EntityMapper;
+import com.kiwiko.jdashboard.library.persistence.dataAccess.api.PersistenceException;
+import com.kiwiko.jdashboard.library.persistence.identification.Identifiable;
+import com.kiwiko.jdashboard.library.persistence.interfaces.api.CreateReadUpdateDeleteAPI;
+import com.kiwiko.jdashboard.library.persistence.properties.api.EntityMapper;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;

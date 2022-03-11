@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.apps.games.scrabble.game.logic;
 
 import com.google.common.collect.ImmutableSet;
-import com.kiwiko.library.dataStructures.Pair;
+import com.kiwiko.jdashboard.library.dataStructures.Pair;
 import com.kiwiko.jdashboard.webapp.apps.games.scrabble.game.data.ScrabbleGame;
 import com.kiwiko.jdashboard.webapp.apps.games.scrabble.game.data.ScrabbleGameBoard;
 import com.kiwiko.jdashboard.webapp.apps.games.scrabble.game.data.ScrabbleSubmittedTile;

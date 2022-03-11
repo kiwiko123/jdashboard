@@ -1,8 +1,8 @@
 package com.kiwiko.jdashboard.webapp.framework.security.csrf.interceptors;
 
-import com.kiwiko.library.files.properties.readers.api.dto.Property;
-import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.jdashboard.webapp.middleware.interceptors.api.interfaces.EndpointInterceptor;
+import com.kiwiko.jdashboard.library.files.properties.readers.api.dto.Property;
+import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.EndpointInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.JdashboardPropertyConstants;
 import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.JdashboardPropertyMapper;
 import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.JdashboardPropertyReader;

@@ -7,6 +7,7 @@ import com.kiwiko.jdashboard.webapp.framework.security.clientsessions.internal.C
 import com.kiwiko.jdashboard.webapp.framework.security.clientsessions.internal.ClientSessionEntityService;
 import com.kiwiko.jdashboard.webapp.framework.security.clientsessions.internal.data.ClientSessionEntityDataFetcher;
 import com.kiwiko.jdashboard.webapp.persistence.identification.unique.UniversalUniqueIdentifierConfiguration;
+import com.kiwiko.jdashboard.webapp.persistence.services.crud.PersistenceServicesCrudConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 public class ClientSessionConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
-    @ConfiguredBy(UniversalUniqueIdentifierConfiguration.class)
+    @ConfiguredBy({UniversalUniqueIdentifierConfiguration.class, PersistenceServicesCrudConfiguration.class})
     public ClientSessionService clientSessionService() {
         return new ClientSessionEntityService();
     }

@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.apps.games.scrabble.words.internal.unixlocal;
 
-import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.apps.games.scrabble.words.api.WordService;
 import com.kiwiko.jdashboard.webapp.apps.games.scrabble.words.data.Word;
 import com.kiwiko.jdashboard.webapp.apps.games.scrabble.words.internal.dataAccess.WordEntityDAO;

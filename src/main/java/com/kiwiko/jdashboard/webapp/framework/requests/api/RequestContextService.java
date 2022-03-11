@@ -14,5 +14,7 @@ public interface RequestContextService {
 
     Optional<RequestContext> getFromSession(HttpSession session, String sessionKey);
 
-    RequestContext saveRequestContext(RequestContext context);
+    RequestContext create(RequestContext requestContext);
+
+    RequestContext merge(RequestContext requestContext);
 }

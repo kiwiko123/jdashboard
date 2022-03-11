@@ -2,8 +2,8 @@ package com.kiwiko.jdashboard.webapp.application.events.queue.web;
 
 import com.kiwiko.jdashboard.webapp.application.events.queue.api.dto.ApplicationEventQueueItem;
 import com.kiwiko.jdashboard.webapp.application.events.queue.api.interfaces.ApplicationEventQueue;
-import com.kiwiko.jdashboard.webapp.framework.controllers.api.interfaces.JdashboardConfigured;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticationRequired;
+import com.kiwiko.jdashboard.framework.controllers.api.interfaces.JdashboardConfigured;
+import com.kiwiko.jdashboard.framework.controllers.api.interfaces.checks.UserAuthCheck;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @Controller
 @JdashboardConfigured
-@AuthenticationRequired
+@UserAuthCheck
 @RequestMapping("/application-event-queue/api")
 public class ApplicationEventQueueAPIController {
 

@@ -3,7 +3,7 @@ package com.kiwiko.jdashboard.webapp.framework.resolvers;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.annotations.RequestBodyCollectionParameter;
 import com.kiwiko.jdashboard.webapp.framework.json.api.JsonMapper;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.RequestError;
-import com.kiwiko.library.json.data.IntermediateJsonBody;
+import com.kiwiko.jdashboard.library.json.data.IntermediateJsonBody;
 import org.springframework.core.MethodParameter;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.support.WebDataBinderFactory;

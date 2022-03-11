@@ -1,19 +1,23 @@
 package com.kiwiko.jdashboard.webapp.framework;
 
+import com.kiwiko.jdashboard.clients.permissions.PermissionClientConfiguration;
+import com.kiwiko.jdashboard.clients.sessions.SessionClientConfiguration;
+import com.kiwiko.jdashboard.clients.users.UserClientConfiguration;
+import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
-import com.kiwiko.library.caching.api.ObjectCache;
-import com.kiwiko.library.caching.impl.InMemoryObjectCache;
+import com.kiwiko.jdashboard.framework.permissions.internal.UserPermissionCheckInterceptor;
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
+import com.kiwiko.jdashboard.webapp.framework.json.JsonConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.json.api.JsonSerializer;
 import com.kiwiko.jdashboard.webapp.framework.json.deserialization.MvcJsonDeserializationConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.json.deserialization.internal.resolvers.CustomRequestBodyArgumentResolver;
 import com.kiwiko.jdashboard.webapp.framework.json.impl.GsonJsonSerializer;
 import com.kiwiko.jdashboard.webapp.framework.json.impl.resolvers.CustomRequestBodyResolver;
+import com.kiwiko.jdashboard.webapp.framework.requests.RequestConfiguration;
 import com.kiwiko.jdashboard.webapp.metrics.api.annotations.CaptureMetrics;
 import com.kiwiko.jdashboard.webapp.framework.configuration.ConfigurationHelper;
-import com.kiwiko.jdashboard.webapp.framework.interceptors.AuthenticationRequiredInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.interceptors.CaptureMetricsMethodInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.interceptors.internal.SessionRequestHelper;
-import com.kiwiko.jdashboard.webapp.framework.requests.internal.InMemoryRequestContextService;
 import com.kiwiko.jdashboard.webapp.framework.json.api.JsonMapper;
 import com.kiwiko.jdashboard.webapp.framework.resolvers.RequestBodyCollectionParameterResolver;
 import com.kiwiko.jdashboard.webapp.framework.resolvers.RequestBodyParameterResolver;
@@ -60,11 +64,6 @@ public class MvcConfiguration implements WebMvcConfigurer, JdashboardDependencyC
     }
 
     @Bean
-    public ObjectCache objectCache() {
-        return new InMemoryObjectCache();
-    }
-
-    @Bean
     public JsonMapper propertyObjectMapper() {
         return new JsonMapper();
     }
@@ -80,11 +79,7 @@ public class MvcConfiguration implements WebMvcConfigurer, JdashboardDependencyC
     }
 
     @Bean
-    public InMemoryRequestContextService ineMemoryRequestContextService() {
-        return new InMemoryRequestContextService();
-    }
-
-    @Bean
+    @ConfiguredBy({SessionClientConfiguration.class, LoggingConfiguration.class})
     public SessionRequestHelper sessionRequestHelper() {
         return new SessionRequestHelper();
     }
@@ -100,23 +95,27 @@ public class MvcConfiguration implements WebMvcConfigurer, JdashboardDependencyC
     }
 
     @Bean
+    @ConfiguredBy(JsonConfiguration.class)
     public CustomRequestBodyResolver legacyCustomRequestBodyResolver() {
         return new CustomRequestBodyResolver();
     }
 
     @Bean
+    @ConfiguredBy({JsonConfiguration.class, RequestConfiguration.class})
     public RequestContextResolver requestContextResolver() {
         return new RequestContextResolver();
     }
 
     @Bean
+    @ConfiguredBy({RequestConfiguration.class, UserClientConfiguration.class})
     public AuthenticatedUserArgumentResolver authenticatedUserArgumentResolver() {
         return new AuthenticatedUserArgumentResolver();
     }
 
     @Bean
-    public AuthenticationRequiredInterceptor authenticationRequiredInterceptor() {
-        return new AuthenticationRequiredInterceptor();
+    @ConfiguredBy({PermissionClientConfiguration.class, LoggingConfiguration.class})
+    public UserPermissionCheckInterceptor permissionRequiredInterceptor() {
+        return new UserPermissionCheckInterceptor();
     }
 
     @Bean

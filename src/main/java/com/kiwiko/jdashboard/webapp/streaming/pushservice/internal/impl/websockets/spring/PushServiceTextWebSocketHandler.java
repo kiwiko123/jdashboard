@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.streaming.pushservice.internal.impl.websockets.spring;
 
-import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.api.dto.ClientPushRequest;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.api.interfaces.PushService;
@@ -50,7 +50,9 @@ public class PushServiceTextWebSocketHandler extends TextWebSocketHandler {
             startSession(session, request);
         } else {
             if (!Objects.equals(request.getSessionId(), session.getId())) {
-                throw new PushException("Mismatched Push Service sessions");
+                logger.warn(String.format("Mismatched Push Service sessions; client session ID = %s; socket session ID = %s", request.getSessionId(), session.getId()));
+                return;
+//                throw new PushException("Mismatched Push Service sessions");
             }
             pushServiceSubscriberRouter.routeMessageToSubscribers(request, message);
         }

@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.apps.games.scrabble.game.logic;
 
-import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.apps.games.scrabble.errors.ScrabbleException;
 import com.kiwiko.jdashboard.webapp.apps.games.scrabble.game.data.ScrabbleGame;
 import com.kiwiko.jdashboard.webapp.apps.games.scrabble.game.data.ScrabblePlayer;

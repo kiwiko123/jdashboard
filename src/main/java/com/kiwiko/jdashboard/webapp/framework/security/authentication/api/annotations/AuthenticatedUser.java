@@ -6,9 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Retrieve the {@link com.kiwiko.jdashboard.webapp.clients.users.api.dto.User} issuing the current request in a web endpoint.
+ * Retrieve the {@link com.kiwiko.jdashboard.clients.users.api.dto.User} issuing the current request in a web endpoint.
  * Throws {@link com.kiwiko.jdashboard.webapp.framework.security.authentication.api.errors.AuthenticatedUserException} if a user is not logged in.
- * Can be paired with {@link AuthenticationRequired} to safely retrieve the current user.
+ * Can be paired with {@link com.kiwiko.jdashboard.framework.controllers.api.interfaces.checks.UserAuthCheck} to safely retrieve the current user.
  *
  * @see com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.resolvers.AuthenticatedUserArgumentResolver
  */

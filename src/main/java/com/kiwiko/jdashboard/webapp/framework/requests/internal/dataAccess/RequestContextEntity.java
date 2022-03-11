@@ -1,6 +1,7 @@
 package com.kiwiko.jdashboard.webapp.framework.requests.internal.dataAccess;
 
-import com.kiwiko.library.persistence.dataAccess.api.AuditableDataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletable;
 
 import javax.annotation.Nullable;
 import javax.persistence.Column;
@@ -13,7 +14,7 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "request_contexts")
-public class RequestContextEntity extends AuditableDataEntity {
+public class RequestContextEntity implements DataEntity, SoftDeletable {
 
     private Long id;
     private String uri;
@@ -32,29 +33,24 @@ public class RequestContextEntity extends AuditableDataEntity {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }
 
     @Column(name = "created_date", nullable = false)
-    @Override
     public Instant getCreatedDate() {
         return createdDate;
     }
 
-    @Override
     public void setCreatedDate(Instant createdDate) {
         this.createdDate = createdDate;
     }
 
     @Column(name = "last_updated_date", nullable = false)
-    @Override
     public Instant getLastUpdatedDate() {
         return lastUpdatedDate;
     }
 
-    @Override
     public void setLastUpdatedDate(Instant lastUpdatedDate) {
         this.lastUpdatedDate = lastUpdatedDate;
     }

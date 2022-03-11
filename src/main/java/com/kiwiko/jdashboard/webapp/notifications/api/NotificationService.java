@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.notifications.api;
 
-import com.kiwiko.library.persistence.interfaces.api.CreateReadUpdateDeleteAPI;
+import com.kiwiko.jdashboard.library.persistence.interfaces.api.CreateReadUpdateDeleteAPI;
 import com.kiwiko.jdashboard.webapp.notifications.api.queries.GetNotificationsQuery;
 import com.kiwiko.jdashboard.webapp.notifications.data.Notification;
 

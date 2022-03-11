@@ -12,18 +12,15 @@ import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.GetI
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.ChatroomMessageRoomService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.ChatroomMessageRoomUserService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.exceptions.ChatroomMessageRoomAlreadyExistsException;
-import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.exceptions.ChatroomRuntimeException;
-import com.kiwiko.jdashboard.webapp.clients.users.api.dto.User;
-import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.UserClient;
-import com.kiwiko.jdashboard.webapp.clients.users.api.interfaces.queries.GetUsersQuery;
-import com.kiwiko.jdashboard.webapp.persistence.identification.unique.api.dto.UniversalUniqueIdentifier;
+import com.kiwiko.jdashboard.clients.users.api.dto.User;
+import com.kiwiko.jdashboard.clients.users.api.interfaces.UserClient;
+import com.kiwiko.jdashboard.clients.users.api.interfaces.queries.GetUsersQuery;
 import com.kiwiko.jdashboard.webapp.persistence.identification.unique.api.interfaces.UniqueIdentifierService;
-import com.kiwiko.library.lang.util.TypedObjects;
+import com.kiwiko.jdashboard.library.lang.util.TypedObjects;
 
 import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

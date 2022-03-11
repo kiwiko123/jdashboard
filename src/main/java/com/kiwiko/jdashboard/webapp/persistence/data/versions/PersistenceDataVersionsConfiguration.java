@@ -1,6 +1,8 @@
 package com.kiwiko.jdashboard.webapp.persistence.data.versions;
 
+import com.kiwiko.jdashboard.framework.persistence.transactions.TransactionConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.persistence.data.versions.api.interfaces.TableRecordVersionService;
 import com.kiwiko.jdashboard.webapp.persistence.data.versions.internal.TableRecordVersionEntityMapper;
 import com.kiwiko.jdashboard.webapp.persistence.data.versions.internal.TableRecordVersionEntityService;
@@ -14,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 public class PersistenceDataVersionsConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
+    @ConfiguredBy(TransactionConfiguration.class)
     public TableRecordVersionService tableRecordVersionService() {
         return new TableRecordVersionEntityService();
     }

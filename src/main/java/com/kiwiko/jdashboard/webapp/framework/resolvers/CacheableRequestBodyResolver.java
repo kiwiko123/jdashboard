@@ -1,15 +1,15 @@
 package com.kiwiko.jdashboard.webapp.framework.resolvers;
 
-import com.kiwiko.library.caching.api.ObjectCache;
-import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.library.caching.api.ObjectCache;
+import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.framework.json.api.JsonMapper;
 import com.kiwiko.jdashboard.webapp.framework.json.api.errors.JsonException;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.RequestContextService;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.RequestError;
 import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
-import com.kiwiko.library.json.data.IntermediateJsonBody;
+import com.kiwiko.jdashboard.library.json.data.IntermediateJsonBody;
 import com.kiwiko.jdashboard.webapp.framework.resolvers.data.RequestBodyCacheData;
-import com.kiwiko.jdashboard.webapp.framework.security.sessions.data.SessionProperties;
+import com.kiwiko.jdashboard.services.sessions.api.dto.SessionProperties;
 import org.springframework.lang.Nullable;
 
 import javax.inject.Inject;

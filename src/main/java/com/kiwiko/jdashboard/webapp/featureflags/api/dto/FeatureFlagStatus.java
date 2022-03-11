@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.featureflags.api.dto;
 
-import com.kiwiko.library.persistence.identification.Identifiable;
+import com.kiwiko.jdashboard.library.persistence.identification.Identifiable;
 
 public enum FeatureFlagStatus implements Identifiable<String> {
     ENABLED("enabled"),

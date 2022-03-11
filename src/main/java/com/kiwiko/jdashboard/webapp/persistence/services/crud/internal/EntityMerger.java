@@ -1,14 +1,15 @@
 package com.kiwiko.jdashboard.webapp.persistence.services.crud.internal;
 
-import com.kiwiko.library.lang.reflection.ReflectionHelper;
-import com.kiwiko.library.lang.reflection.merging.api.interfaces.ObjectMerger;
-import com.kiwiko.library.lang.reflection.merging.impl.NonNullFieldMerger;
-import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.library.persistence.data.api.interfaces.DataEntity;
-import com.kiwiko.library.persistence.data.api.interfaces.DataEntityDTO;
-import com.kiwiko.library.persistence.data.properties.api.interfaces.DataEntityMapper;
-import com.kiwiko.jdashboard.webapp.framework.persistence.transactions.api.interfaces.TransactionProvider;
-import com.kiwiko.jdashboard.webapp.persistence.data.fetchers.api.interfaces.EntityDataFetcher;
+import com.kiwiko.jdashboard.library.lang.reflection.ReflectionHelper;
+import com.kiwiko.jdashboard.library.lang.reflection.merging.api.interfaces.ObjectMerger;
+import com.kiwiko.jdashboard.library.lang.reflection.merging.api.interfaces.ObjectMergingException;
+import com.kiwiko.jdashboard.library.lang.reflection.merging.impl.NonNullFieldMerger;
+import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntityDTO;
+import com.kiwiko.jdashboard.library.persistence.data.properties.api.interfaces.DataEntityMapper;
+import com.kiwiko.jdashboard.framework.persistence.transactions.api.interfaces.TransactionProvider;
+import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;
 
 import javax.inject.Inject;
 import java.util.Objects;
@@ -21,7 +22,7 @@ public class EntityMerger {
 
     public <Entity extends DataEntity,
             Dto extends DataEntityDTO,
-            DataFetcher extends EntityDataFetcher<Entity>,
+            DataFetcher extends DataAccessObject<Entity>,
             Mapper extends DataEntityMapper<Entity, Dto>> Dto mergeFields(Dto obj, DataFetcher dataFetcher, Mapper mapper, MergeStrategy mergeStrategy) {
         Objects.requireNonNull(obj.getId(), "Entity ID is required to merge/update an existing record");
         Dto objectToUpdate = transactionProvider.readOnly(() -> dataFetcher.getById(obj.getId()).map(mapper::toDto).orElse(null));
@@ -35,7 +36,7 @@ public class EntityMerger {
                 merger = new NonNullFieldMerger<>();
                 break;
             default:
-                throw new RuntimeException("Unknown merge strategy");
+                throw new ObjectMergingException("Unknown merge strategy");
         }
 
         merger.merge(obj, objectToUpdate);

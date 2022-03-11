@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.persistence.data.versions.internal;
 
-import com.kiwiko.library.persistence.properties.api.EntityMapper;
+import com.kiwiko.jdashboard.library.persistence.properties.api.EntityMapper;
 import com.kiwiko.jdashboard.webapp.persistence.data.versions.api.dto.TableRecordVersion;
 import com.kiwiko.jdashboard.webapp.persistence.data.versions.internal.data.TableRecordVersionEntity;
 

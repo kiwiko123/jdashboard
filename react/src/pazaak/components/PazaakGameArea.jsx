@@ -57,7 +57,7 @@ const PazaakGameArea = ({
             <hr className="divider" />
             <PazaakGameCards
                 className="placed"
-                cards={sortBy(player.placedCards, card => card.modifier)}
+                cards={player.placedCards}
             />
             <hr className="divider" />
             <PazaakGameCards

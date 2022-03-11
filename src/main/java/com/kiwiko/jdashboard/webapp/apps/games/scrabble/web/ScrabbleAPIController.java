@@ -13,8 +13,8 @@ import com.kiwiko.jdashboard.webapp.apps.games.scrabble.game.data.ScrabbleGame;
 import com.kiwiko.jdashboard.webapp.apps.games.scrabble.game.data.ScrabbleSubmittedTile;
 import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.CrossOriginConfigured;
-import com.kiwiko.jdashboard.webapp.users.api.UserService;
-import com.kiwiko.jdashboard.webapp.users.data.User;
+import com.kiwiko.jdashboard.services.users.api.interfaces.UserService;
+import com.kiwiko.jdashboard.services.users.api.dto.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,32 +26,26 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.inject.Inject;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @CrossOriginConfigured
 @RestController
 public class ScrabbleAPIController {
 
-    @Inject
-    private ScrabbleGameService scrabbleGameService;
-
-    @Inject
-    private ScrabbleGameHelper scrabbleGameHelper;
-
-    @Inject
-    private ScrabbleCreateGameHelper scrabbleCreateGameHelper;
-
-    @Inject
-    private ScrabbleMoveHelper scrabbleMoveHelper;
-
-    @Inject
-    private UserService userService;
+    @Inject private ScrabbleGameService scrabbleGameService;
+    @Inject private ScrabbleGameHelper scrabbleGameHelper;
+    @Inject private ScrabbleCreateGameHelper scrabbleCreateGameHelper;
+    @Inject private ScrabbleMoveHelper scrabbleMoveHelper;
+    @Inject private UserService userService;
 
     @GetMapping("/scrabble/api/start-game")
     public ResponsePayload startGame(
             @RequestParam(value = "gameId", required = false) @Nullable Long gameId,
             RequestContext requestContext) {
-        User user = requestContext.getUser().orElse(null);
+        User user = Optional.ofNullable(requestContext.getUserId())
+                .flatMap(userService::getById)
+                .orElse(null);
         ScrabbleGame game = scrabbleCreateGameHelper.getOrCreateGame(user, gameId);
         return new ResponseBuilder()
                 .withBody(game)

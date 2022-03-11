@@ -1,13 +1,13 @@
 package com.kiwiko.jdashboard.webapp.framework.requests.internal.interceptors;
 
-import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.jdashboard.webapp.middleware.interceptors.api.interfaces.EndpointInterceptor;
+import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.EndpointInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.interceptors.internal.SessionRequestHelper;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.RequestContextService;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.RequestError;
 import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
-import com.kiwiko.jdashboard.webapp.framework.security.sessions.data.Session;
-import com.kiwiko.jdashboard.webapp.framework.security.sessions.data.SessionProperties;
+import com.kiwiko.jdashboard.clients.sessions.api.dto.Session;
+import com.kiwiko.jdashboard.services.sessions.api.dto.SessionProperties;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -37,9 +37,9 @@ public class RequestContextInterceptor implements EndpointInterceptor {
         requestContext.setUri(requestUri);
         requestContext.setStartTime(now);
         sessionRequestHelper.getSessionFromRequest(request)
-                .flatMap(Session::getUser)
-                .ifPresent(requestContext::setUser);
-        requestContext = requestContextService.saveRequestContext(requestContext);
+                .map(Session::getUserId)
+                .ifPresent(requestContext::setUserId);
+        requestContext = requestContextService.create(requestContext);
 
         HttpSession session = request.getSession();
         session.setAttribute(SessionProperties.REQUEST_CONTEXT_ID_SESSION_KEY, requestContext.getId());
@@ -56,7 +56,7 @@ public class RequestContextInterceptor implements EndpointInterceptor {
                 .orElseThrow(() -> new RequestError(String.format("No RequestContext found after handling \"%s\"", requestUri)));
         requestContext.setEndTime(now);
         requestContext.setIsRemoved(true);
-        requestContextService.saveRequestContext(requestContext);
+        requestContextService.merge(requestContext);
 
         Duration requestDuration = Duration.between(requestContext.getStartTime(), requestContext.getEndTime().orElse(now));
         logger.debug(String.format("(%d ms) %s", requestDuration.toMillis(), makeDebugRequestUri(request)));
@@ -69,6 +69,7 @@ public class RequestContextInterceptor implements EndpointInterceptor {
             if (uri.endsWith("/")) {
                 uri = uri.substring(0, uri.length() - 1);
             }
+            uri = String.format("%s?%s", uri, query);
         }
 
         return String.format("(%s) %s", request.getMethod(), uri);

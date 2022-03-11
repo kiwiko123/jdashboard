@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.notifications.internal;
 
-import com.kiwiko.library.persistence.properties.api.EntityMapper;
+import com.kiwiko.jdashboard.library.persistence.properties.api.EntityMapper;
 import com.kiwiko.jdashboard.webapp.notifications.data.Notification;
 import com.kiwiko.jdashboard.webapp.notifications.internal.dataaccess.NotificationEntity;
 

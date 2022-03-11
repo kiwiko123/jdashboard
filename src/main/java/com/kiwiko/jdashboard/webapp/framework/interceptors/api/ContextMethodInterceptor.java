@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.interceptors.api;
 
-import com.kiwiko.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.framework.interceptors.data.PostMethodContext;
 import com.kiwiko.jdashboard.webapp.framework.interceptors.data.MethodContext;
 import org.aopalliance.intercept.MethodInterceptor;

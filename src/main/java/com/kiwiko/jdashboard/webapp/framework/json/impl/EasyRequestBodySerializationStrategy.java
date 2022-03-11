@@ -1,9 +1,9 @@
 package com.kiwiko.jdashboard.webapp.framework.json.impl;
 
-import com.kiwiko.library.lang.reflection.ReflectionHelper;
+import com.kiwiko.jdashboard.library.lang.reflection.ReflectionHelper;
 import com.kiwiko.jdashboard.webapp.framework.json.api.CustomRequestBodySerializationStrategy;
 import com.kiwiko.jdashboard.webapp.framework.json.api.errors.JsonException;
-import com.kiwiko.library.json.data.IntermediateJsonBody;
+import com.kiwiko.jdashboard.library.json.data.IntermediateJsonBody;
 
 import java.lang.reflect.Field;
 import java.util.Collections;

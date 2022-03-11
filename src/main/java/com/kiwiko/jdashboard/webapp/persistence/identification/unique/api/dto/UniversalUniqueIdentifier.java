@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.persistence.identification.unique.api.dto;
 
-import com.kiwiko.library.persistence.data.api.interfaces.DataEntityDTO;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntityDTO;
 
 import java.time.Instant;
 
