@@ -1,5 +1,6 @@
 package com.kiwiko.jdashboard.services.usercredentials;
 
+import com.kiwiko.jdashboard.framework.persistence.transactions.TransactionConfiguration;
 import com.kiwiko.jdashboard.services.usercredentials.api.interfaces.UserCredentialService;
 import com.kiwiko.jdashboard.services.usercredentials.internal.UserCredentialEntityMapper;
 import com.kiwiko.jdashboard.services.usercredentials.internal.UserCredentialEntityService;
@@ -15,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 public class UserCredentialConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
-    @ConfiguredBy(PersistenceServicesCrudConfiguration.class)
+    @ConfiguredBy({PersistenceServicesCrudConfiguration.class, TransactionConfiguration.class})
     public UserCredentialService userCredentialService() {
         return new UserCredentialEntityService();
     }

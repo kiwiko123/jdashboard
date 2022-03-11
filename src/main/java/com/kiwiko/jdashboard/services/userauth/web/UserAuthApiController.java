@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.services.userauth.web;
 
-import com.kiwiko.jdashboard.services.userauth.internal.UserAuthenticator;
+import com.kiwiko.jdashboard.services.userauth.internal.UserLoginAuthenticator;
 import com.kiwiko.jdashboard.services.userauth.api.interfaces.exceptions.UserAuthenticationException;
 import com.kiwiko.jdashboard.services.userauth.web.dto.LogUserInInput;
 import com.kiwiko.jdashboard.services.userauth.web.dto.UserLoginData;
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/user-auth/public-api")
 public class UserAuthApiController {
 
-    @Inject private UserAuthenticator userAuthenticator;
+    @Inject private UserLoginAuthenticator userLoginAuthenticator;
 
     @PostMapping("/users/log-in")
     public LogUserInOutput logUserIn(
@@ -29,6 +29,6 @@ public class UserAuthApiController {
         logUserInInput.setUserLoginData(userLoginData);
         logUserInInput.setHttpServletResponse(httpServletResponse);;
 
-        return userAuthenticator.logUserIn(logUserInInput);
+        return userLoginAuthenticator.logUserIn(logUserInInput);
     }
 }

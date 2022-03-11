@@ -29,7 +29,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.Set;
 
-public class UserAuthenticator {
+public class UserLoginAuthenticator {
 
     @Inject private UserClient userClient;
     @Inject private UserCredentialClient userCredentialClient;
