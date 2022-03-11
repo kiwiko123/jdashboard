@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.clients.sessions.api.interfaces;
 
-import com.kiwiko.jdashboard.services.sessions.api.dto.Session;
+import com.kiwiko.jdashboard.clients.sessions.api.dto.Session;
 
 import java.util.Objects;
 

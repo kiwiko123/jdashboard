@@ -1,5 +1,8 @@
 package com.kiwiko.jdashboard.clients.sessions.impl;
 
+import com.kiwiko.jdashboard.clients.sessions.api.interfaces.CreateSessionInput;
+import com.kiwiko.jdashboard.clients.sessions.api.interfaces.CreateSessionOutput;
+import com.kiwiko.jdashboard.clients.sessions.impl.requests.CreateSessionRequest;
 import com.kiwiko.jdashboard.library.http.client.api.exceptions.ApiClientException;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsInput;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsOutput;
@@ -28,5 +31,11 @@ public class SessionHttpClient implements SessionClient {
         InvalidateSessionRequest request = new InvalidateSessionRequest(input);
         ClientResponse<InvalidateSessionOutput> response = jdashboardApiClient.synchronousCall(request);
         return response.getPayload();
+    }
+
+    @Override
+    public ClientResponse<CreateSessionOutput> create(CreateSessionInput input) {
+        CreateSessionRequest request = new CreateSessionRequest(input);
+        return jdashboardApiClient.silencedSynchronousCall(request);
     }
 }

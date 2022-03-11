@@ -4,7 +4,7 @@ import com.kiwiko.jdashboard.library.lang.random.TokenGenerator;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionService;
 import com.kiwiko.jdashboard.services.sessions.api.interfaces.errors.SessionException;
-import com.kiwiko.jdashboard.services.sessions.api.dto.Session;
+import com.kiwiko.jdashboard.clients.sessions.api.dto.Session;
 import com.kiwiko.jdashboard.services.sessions.api.dto.SessionProperties;
 import com.kiwiko.jdashboard.services.sessions.internal.data.SessionEntity;
 import com.kiwiko.jdashboard.services.sessions.internal.data.SessionEntityDAO;

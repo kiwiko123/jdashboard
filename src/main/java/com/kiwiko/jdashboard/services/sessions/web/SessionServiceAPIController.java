@@ -1,6 +1,8 @@
 package com.kiwiko.jdashboard.services.sessions.web;
 
-import com.kiwiko.jdashboard.services.sessions.api.dto.Session;
+import com.kiwiko.jdashboard.clients.sessions.api.dto.Session;
+import com.kiwiko.jdashboard.clients.sessions.api.interfaces.CreateSessionInput;
+import com.kiwiko.jdashboard.clients.sessions.api.interfaces.CreateSessionOutput;
 import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionService;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsInput;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsOutput;
@@ -10,6 +12,7 @@ import com.kiwiko.jdashboard.framework.controllers.api.interfaces.checks.Interna
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,6 +58,15 @@ public class SessionServiceAPIController {
         Session session = sessionService.invalidateSession(sessionId);
 
         InvalidateSessionOutput output = new InvalidateSessionOutput();
+        output.setSession(session);
+
+        return output;
+    }
+
+    @PostMapping("/users/create")
+    public CreateSessionOutput createSessionForUser(@RequestBody CreateSessionInput input) {
+        Session session = sessionService.createSessionForUser(input.getUserId());
+        CreateSessionOutput output = new CreateSessionOutput();
         output.setSession(session);
 
         return output;

@@ -12,7 +12,7 @@ import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.dto.UserLoginParameters;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.events.UserAuthenticationEventClient;
 import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionService;
-import com.kiwiko.jdashboard.services.sessions.api.dto.Session;
+import com.kiwiko.jdashboard.clients.sessions.api.dto.Session;
 import com.kiwiko.jdashboard.services.users.api.interfaces.UserService;
 import com.kiwiko.jdashboard.services.users.api.interfaces.parameters.CreateUserParameters;
 import com.kiwiko.jdashboard.services.users.api.dto.User;

@@ -8,4 +8,6 @@ public interface SessionClient {
     ClientResponse<GetSessionsOutput> get(GetSessionsInput input) throws ApiClientException, InterruptedException;
 
     InvalidateSessionOutput invalidate(InvalidateSessionInput input) throws ApiClientException, InterruptedException;
+
+    ClientResponse<CreateSessionOutput> create(CreateSessionInput input);
 }

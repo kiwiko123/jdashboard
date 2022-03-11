@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.services.sessions.api.dto;
+package com.kiwiko.jdashboard.clients.sessions.api.dto;
 
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletableDataEntityDTO;
 import org.springframework.lang.Nullable;
