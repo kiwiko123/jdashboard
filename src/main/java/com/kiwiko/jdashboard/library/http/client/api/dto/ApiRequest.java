@@ -101,6 +101,12 @@ public interface ApiRequest {
      */
     PayloadDeserializer getResponsePayloadDeserializer();
 
+    /**
+     * Designate the expected class type for the response.
+     * The response payload will be deserialized into this type using {@link #getResponsePayloadDeserializer()}.
+     *
+     * @return the response's class type
+     */
     @Nullable
     Class<?> getResponseType();
 }

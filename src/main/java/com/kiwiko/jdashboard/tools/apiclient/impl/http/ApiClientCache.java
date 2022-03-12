@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public class ApiClientCache {
 
-    private static final String CACHE_KEY_PREFIX = "__JDASHBOARD_API_CLIENT_CACHE:";
+    private static final String CACHE_KEY_PREFIX = "__JDASHBOARD_API_CLIENT_CACHE";
 
     @Inject private ObjectCache objectCache;
     @Inject private Logger logger;
@@ -23,7 +23,7 @@ public class ApiClientCache {
         }
 
         String cacheKey = createCacheKey(apiRequest);
-        Duration cacheDuration = apiRequest.getCacheStrategy().getCacheDuration().get(); // shouldCacheRequest validates that a cache duration exists
+        Duration cacheDuration = apiRequest.getCacheStrategy().getCacheDuration();
         objectCache.cache(cacheKey, apiResponse, cacheDuration);
         return true;
     }
@@ -44,19 +44,20 @@ public class ApiClientCache {
 
     private boolean shouldCacheRequest(ApiRequest apiRequest) {
         RequestCacheStrategy cacheStrategy = apiRequest.getCacheStrategy();
+        if (!cacheStrategy.shouldCacheRequest()) {
+            return false;
+        }
+
         if (!cacheStrategy.getSupportedMethods().contains(apiRequest.getRequestMethod())) {
             return false;
         }
 
-        Duration cacheDuration = cacheStrategy.getCacheDuration().orElse(null);
-        if (cacheDuration == null) {
-            return false;
-        }
-
-        return true;
+        return cacheStrategy.getCacheDuration() != null;
     }
 
     private String createCacheKey(ApiRequest apiRequest) {
-        return String.format("%s%s", CACHE_KEY_PREFIX, apiRequest.getRequestUrl());
+        RequestCacheStrategy cacheStrategy = apiRequest.getCacheStrategy();
+        String cacheKey = cacheStrategy.getCacheKey(apiRequest);
+        return String.format("%s:%s", CACHE_KEY_PREFIX, cacheKey);
     }
 }
