@@ -1,6 +1,8 @@
 package com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces;
 
 import com.kiwiko.jdashboard.library.files.properties.readers.api.dto.Property;
+import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.exceptions.PropertyNotFoundException;
+import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.input.GetPropertyInput;
 
 import javax.annotation.Nullable;
 
@@ -8,6 +10,8 @@ import javax.annotation.Nullable;
  * Retrieve a property from a Jdashboard properties file.
  */
 public interface JdashboardPropertyReader {
+
+    Property<String> get(GetPropertyInput input) throws PropertyNotFoundException;
 
     /**
      * Load and return the given property.

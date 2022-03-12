@@ -2,6 +2,7 @@ import { get, set } from 'lodash';
 import StateManager from 'state/StateManager';
 import Request from 'tools/http/Request';
 import { goTo } from 'common/js/urltools';
+import logger from 'common/js/logging';
 
 export default class LoginFormStateManager extends StateManager {
     constructor() {
@@ -71,6 +72,9 @@ export default class LoginFormStateManager extends StateManager {
             .post()
             .then((response) => {
                 goTo('/home');
+            })
+            .catch((error) => {
+                logger.error('Error logging in', error);
             })
             .finally(() => {
                 this.setPassword(null);

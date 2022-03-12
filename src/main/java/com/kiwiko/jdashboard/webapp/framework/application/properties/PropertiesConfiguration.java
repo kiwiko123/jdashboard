@@ -1,5 +1,8 @@
 package com.kiwiko.jdashboard.webapp.framework.application.properties;
 
+import com.kiwiko.jdashboard.framework.caching.CachingConfiguration;
+import com.kiwiko.jdashboard.webapp.framework.application.properties.internal.CacheableJdashboardPropertyReader;
+import com.kiwiko.jdashboard.webapp.framework.application.properties.internal.JdashboardPropertyLoader;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.JdashboardPropertyMapper;
@@ -17,10 +20,16 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackageClasses = PropertiesConfiguration.class)
 public class PropertiesConfiguration implements JdashboardDependencyConfiguration {
 
+//    @Bean
+//    @ConfiguredBy(LoggingConfiguration.class)
+//    public JdashboardPropertyReader jdashboardPropertyFileReader() {
+//        return new InMemoryJdashboardPropertyFileReader();
+//    }
+
     @Bean
-    @ConfiguredBy(LoggingConfiguration.class)
+    @ConfiguredBy(CachingConfiguration.class)
     public JdashboardPropertyReader jdashboardPropertyFileReader() {
-        return new InMemoryJdashboardPropertyFileReader();
+        return new CacheableJdashboardPropertyReader();
     }
 
     @Bean
@@ -38,5 +47,11 @@ public class PropertiesConfiguration implements JdashboardDependencyConfiguratio
     @ConfiguredBy(LoggingConfiguration.class)
     public JdashboardPropertyMapper jdashboardPropertyMapper() {
         return new JdashboardPropertyMapper();
+    }
+
+    @Bean
+    @ConfiguredBy(LoggingConfiguration.class)
+    public JdashboardPropertyLoader jdashboardPropertyLoader() {
+        return new JdashboardPropertyLoader();
     }
 }
