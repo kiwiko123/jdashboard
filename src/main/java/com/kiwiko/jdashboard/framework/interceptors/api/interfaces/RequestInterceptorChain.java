@@ -15,9 +15,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Singleton
-public class EndpointInterceptorChain {
+public class RequestInterceptorChain {
 
-    private Iterable<EndpointInterceptor> interceptors;
+    private Iterable<RequestInterceptor> interceptors;
 
     @Inject private Logger logger;
     @Inject private CrossSiteRequestForgeryPreventionInterceptor crossSiteRequestForgeryPreventionInterceptor;
@@ -27,8 +27,8 @@ public class EndpointInterceptorChain {
     @Inject private RequestContextInterceptor requestContextInterceptor;
     @Inject private RequestErrorInterceptor requestErrorInterceptor;
 
-    private List<EndpointInterceptor> makeInterceptors() {
-        List<EndpointInterceptor> interceptors = new LinkedList<>();
+    private List<RequestInterceptor> makeInterceptors() {
+        List<RequestInterceptor> interceptors = new LinkedList<>();
 
         // Add interceptors here.
         interceptors.add(crossSiteRequestForgeryPreventionInterceptor);
@@ -41,7 +41,7 @@ public class EndpointInterceptorChain {
         return Collections.unmodifiableList(interceptors);
     }
 
-    public synchronized Iterable<EndpointInterceptor> getInterceptors() {
+    public synchronized Iterable<RequestInterceptor> getInterceptors() {
         if (interceptors == null) {
             logger.info("Creating endpoint interceptor chain");
             interceptors = makeInterceptors();

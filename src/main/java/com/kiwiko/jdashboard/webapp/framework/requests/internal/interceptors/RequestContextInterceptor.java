@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.framework.requests.internal.interceptors;
 
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.EndpointInterceptor;
+import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.RequestInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.interceptors.internal.SessionRequestHelper;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.RequestContextService;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.RequestError;
@@ -22,7 +22,7 @@ import java.time.Instant;
  * Interceptor that creates a {@link com.kiwiko.jdashboard.webapp.framework.requests.internal.dataAccess.RequestContextEntity} for every
  * web request that goes through Jdashboard.
  */
-public class RequestContextInterceptor implements EndpointInterceptor {
+public class RequestContextInterceptor implements RequestInterceptor {
 
     @Inject private RequestContextService requestContextService;
     @Inject private SessionRequestHelper sessionRequestHelper;

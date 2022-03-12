@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.framework.requests.internal.interceptors;
 
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.EndpointInterceptor;
+import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.RequestInterceptor;
 import org.springframework.web.method.HandlerMethod;
 
 import javax.annotation.Nullable;
@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class RequestErrorInterceptor implements EndpointInterceptor {
+public class RequestErrorInterceptor implements RequestInterceptor {
 
     @Inject private Logger logger;
 

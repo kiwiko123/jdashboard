@@ -5,7 +5,7 @@ import com.kiwiko.jdashboard.clients.permissions.api.interfaces.parameters.Query
 import com.kiwiko.jdashboard.clients.permissions.api.interfaces.parameters.QueryPermissionsOutput;
 import com.kiwiko.jdashboard.webapp.framework.interceptors.internal.SessionRequestHelper;
 import com.kiwiko.jdashboard.clients.sessions.api.dto.Session;
-import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.EndpointInterceptor;
+import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.RequestInterceptor;
 import com.kiwiko.jdashboard.framework.controllers.api.interfaces.checks.UserPermissionCheck;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import org.springframework.web.method.HandlerMethod;
@@ -19,7 +19,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-public class UserPermissionCheckInterceptor implements EndpointInterceptor {
+public class UserPermissionCheckInterceptor implements RequestInterceptor {
 
     @Inject private SessionRequestHelper sessionRequestHelper;
     @Inject private PermissionClient permissionClient;

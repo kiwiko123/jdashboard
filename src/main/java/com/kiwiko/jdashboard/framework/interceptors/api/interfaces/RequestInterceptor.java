@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public interface EndpointInterceptor {
+public interface RequestInterceptor {
 
     /**
      * Determine if the incoming request should be processed.

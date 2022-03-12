@@ -2,8 +2,8 @@ package com.kiwiko.jdashboard.framework.interceptors;
 
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.AuthenticationConfiguration;
-import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.EndpointInterceptorChain;
-import com.kiwiko.jdashboard.framework.interceptors.internal.EndpointInterceptorExecutor;
+import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.RequestInterceptorChain;
+import com.kiwiko.jdashboard.framework.interceptors.internal.RequestInterceptorExecutor;
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.MvcConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
@@ -15,11 +15,11 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class InterceptorConfiguration implements WebMvcConfigurer, JdashboardDependencyConfiguration {
+public class InterceptorConfiguration implements JdashboardDependencyConfiguration, WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(endpointInterceptorExecutor());
+        registry.addInterceptor(requestInterceptorExecutor());
     }
 
     @Bean
@@ -30,13 +30,13 @@ public class InterceptorConfiguration implements WebMvcConfigurer, JdashboardDep
             RequestConfiguration.class,
             AuthenticationConfiguration.class
     })
-    public EndpointInterceptorChain endpointInterceptorChain() {
-        return new EndpointInterceptorChain();
+    public RequestInterceptorChain requestInterceptorChain() {
+        return new RequestInterceptorChain();
     }
 
     @Bean
     @ConfiguredBy(LoggingConfiguration.class)
-    public EndpointInterceptorExecutor endpointInterceptorExecutor() {
-        return new EndpointInterceptorExecutor();
+    public RequestInterceptorExecutor requestInterceptorExecutor() {
+        return new RequestInterceptorExecutor();
     }
 }

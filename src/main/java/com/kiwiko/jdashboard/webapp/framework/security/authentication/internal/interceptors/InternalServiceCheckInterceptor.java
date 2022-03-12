@@ -4,7 +4,7 @@ import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.framework.controllers.api.interfaces.checks.InternalServiceCheck;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.InternalHttpRequestValidator;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.errors.UnauthorizedInternalRequestException;
-import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.EndpointInterceptor;
+import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.RequestInterceptor;
 import org.springframework.web.method.HandlerMethod;
 
 import javax.inject.Inject;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
-public class InternalServiceCheckInterceptor implements EndpointInterceptor {
+public class InternalServiceCheckInterceptor implements RequestInterceptor {
 
     @Inject private InternalHttpRequestValidator internalHttpRequestValidator;
     @Inject private Logger logger;

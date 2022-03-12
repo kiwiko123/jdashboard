@@ -3,7 +3,7 @@ package com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.
 import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionService;
 import com.kiwiko.jdashboard.framework.controllers.api.interfaces.checks.UserAuthCheck;
 import com.kiwiko.jdashboard.webapp.framework.interceptors.internal.SessionRequestHelper;
-import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.EndpointInterceptor;
+import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.RequestInterceptor;
 import org.springframework.web.method.HandlerMethod;
 
 import javax.inject.Inject;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
-public class UserAuthCheckInterceptor implements EndpointInterceptor {
+public class UserAuthCheckInterceptor implements RequestInterceptor {
 
     @Inject private SessionRequestHelper sessionRequestHelper;
     @Inject private SessionService sessionService;

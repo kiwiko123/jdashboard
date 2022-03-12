@@ -1,8 +1,8 @@
 package com.kiwiko.jdashboard.framework.interceptors.internal;
 
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.EndpointInterceptor;
-import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.EndpointInterceptorChain;
+import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.RequestInterceptor;
+import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.RequestInterceptorChain;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Iterator;
 
-public class EndpointInterceptorExecutor extends HandlerInterceptorAdapter {
+public class RequestInterceptorExecutor extends HandlerInterceptorAdapter {
 
-    @Inject private EndpointInterceptorChain endpointInterceptorChain;
+    @Inject private RequestInterceptorChain requestInterceptorChain;
     @Inject private Logger logger;
 
     @Override
@@ -32,10 +32,10 @@ public class EndpointInterceptorExecutor extends HandlerInterceptorAdapter {
         HandlerMethod handlerMethod = (HandlerMethod) handler;
 
         boolean allowRequest = true;
-        Iterator<EndpointInterceptor> interceptorIterator = endpointInterceptorChain.getInterceptors().iterator();
+        Iterator<RequestInterceptor> interceptorIterator = requestInterceptorChain.getInterceptors().iterator();
 
         while (allowRequest && interceptorIterator.hasNext()) {
-            EndpointInterceptor interceptor = interceptorIterator.next();
+            RequestInterceptor interceptor = interceptorIterator.next();
             allowRequest = allowInterceptorRequest(interceptor, request, response, handlerMethod);
             if (!allowRequest) {
                 logger.debug(String.format("%s denied request %s", interceptor.getClass().getSimpleName(), request.getRequestURL().toString()));
@@ -48,7 +48,7 @@ public class EndpointInterceptorExecutor extends HandlerInterceptorAdapter {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         HandlerMethod handlerMethod = (HandlerMethod) handler;
-        for (EndpointInterceptor interceptor : endpointInterceptorChain.getInterceptors()) {
+        for (RequestInterceptor interceptor : requestInterceptorChain.getInterceptors()) {
             postHandleInterceptor(interceptor, request, response, handlerMethod, modelAndView);
         }
     }
@@ -56,13 +56,13 @@ public class EndpointInterceptorExecutor extends HandlerInterceptorAdapter {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         HandlerMethod handlerMethod = (HandlerMethod) handler;
-        for (EndpointInterceptor interceptor : endpointInterceptorChain.getInterceptors()) {
+        for (RequestInterceptor interceptor : requestInterceptorChain.getInterceptors()) {
             postCompleteInterceptor(interceptor, request, response, handlerMethod, ex);
         }
     }
 
     private boolean allowInterceptorRequest(
-            EndpointInterceptor interceptor,
+            RequestInterceptor interceptor,
             HttpServletRequest request,
             HttpServletResponse response,
             HandlerMethod handler) {
@@ -75,7 +75,7 @@ public class EndpointInterceptorExecutor extends HandlerInterceptorAdapter {
     }
 
     private void postHandleInterceptor(
-            EndpointInterceptor interceptor,
+            RequestInterceptor interceptor,
             HttpServletRequest request,
             HttpServletResponse response,
             HandlerMethod handler,
@@ -88,7 +88,7 @@ public class EndpointInterceptorExecutor extends HandlerInterceptorAdapter {
     }
 
     private void postCompleteInterceptor(
-            EndpointInterceptor interceptor,
+            RequestInterceptor interceptor,
             HttpServletRequest request,
             HttpServletResponse response,
             HandlerMethod handler,
