@@ -3,26 +3,21 @@ package com.kiwiko.jdashboard.tools.apiclient.api.dto;
 import javax.annotation.Nullable;
 
 public class ResponseStatus {
-
     public static ResponseStatus successful() {
-        return new ResponseStatus(true, null, null);
-    }
-
-    public static ResponseStatus fromCode(String errorCode) {
-        return new ResponseStatus(false, errorCode, null);
+        return new ResponseStatus(true, "success", null);
     }
 
     public static ResponseStatus fromMessage(String errorMessage) {
-        return new ResponseStatus(false, null, errorMessage);
+        return new ResponseStatus(false, "failure", errorMessage);
     }
 
     private final boolean isSuccessful;
-    private final @Nullable String errorCode;
+    private final String statusCode;
     private final @Nullable String errorMessage;
 
-    public ResponseStatus(boolean isSuccessful, @Nullable String errorCode, @Nullable String errorMessage) {
+    public ResponseStatus(boolean isSuccessful, String statusCode, @Nullable String errorMessage) {
         this.isSuccessful = isSuccessful;
-        this.errorCode = errorCode;
+        this.statusCode = statusCode;
         this.errorMessage = errorMessage;
     }
 
@@ -30,9 +25,8 @@ public class ResponseStatus {
         return isSuccessful;
     }
 
-    @Nullable
-    public String getErrorCode() {
-        return errorCode;
+    public String getStatusCode() {
+        return statusCode;
     }
 
     @Nullable
@@ -44,7 +38,7 @@ public class ResponseStatus {
     public String toString() {
         return "ResponseStatus{" +
                 "isSuccessful=" + isSuccessful +
-                ", errorCode='" + errorCode + '\'' +
+                ", errorCode='" + statusCode + '\'' +
                 ", errorMessage='" + errorMessage + '\'' +
                 '}';
     }
