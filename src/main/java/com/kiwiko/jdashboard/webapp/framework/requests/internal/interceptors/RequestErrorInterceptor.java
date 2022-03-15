@@ -18,6 +18,6 @@ public class RequestErrorInterceptor implements RequestInterceptor {
         if (exception == null) {
             return;
         }
-        logger.error(String.format("Uncaught exception while handling request %s", request.getRequestURL().toString()), exception);
+        logger.error("Uncaught exception while handling request {}", request.getRequestURL().toString(), exception);
     }
 }

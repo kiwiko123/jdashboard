@@ -25,16 +25,16 @@ public class ApplicationStartupService implements ApplicationListener<Applicatio
     }
 
     private void sandboxRunHook(ApplicationStartupHook hook) {
-        logger.info(String.format("Running startup hook %s", hook.getClass().getName()));
+        logger.info("Running startup hook {}", hook.getClass().getName());
 
         try {
             hook.run();
         } catch (ApplicationStartupHookException e) {
-            logger.error(String.format("Error running startup hook %s", hook.getClass()), e);
+            logger.error("Error running startup hook %s", hook.getClass(), e);
         } catch (Exception e) {
-            logger.error(String.format("Unexpected error running startup hook %s", hook.getClass()), e);
+            logger.error("Unexpected error running startup hook %s", hook.getClass(), e);
         }
 
-        logger.info(String.format("Completed startup hook %s", hook.getClass().getName()));
+        logger.info("Completed startup hook {}", hook.getClass().getName());
     }
 }

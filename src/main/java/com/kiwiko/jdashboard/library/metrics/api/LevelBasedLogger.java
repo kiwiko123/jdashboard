@@ -4,10 +4,12 @@ import com.kiwiko.jdashboard.library.metrics.data.LevelBasedLog;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.dto.Log;
 import com.kiwiko.jdashboard.library.metrics.data.LogLevel;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
+import com.kiwiko.jdashboard.library.strings.StringSubstitutor;
 
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 public abstract class LevelBasedLogger implements Logger {
@@ -15,9 +17,11 @@ public abstract class LevelBasedLogger implements Logger {
     protected int MAX_STACK_TRACE_LIMIT = 10;
 
     private final Set<LogLevel> enabledLogLevels;
+    private final StringSubstitutor stringSubstitutor;
 
     public LevelBasedLogger() {
         enabledLogLevels = EnumSet.allOf(LogLevel.class);
+        stringSubstitutor = new StringSubstitutor();
     }
 
     /**
@@ -87,6 +91,11 @@ public abstract class LevelBasedLogger implements Logger {
     }
 
     @Override
+    public void debug(String template, Object... args) {
+        logTemplate(this::debug, template, args);
+    }
+
+    @Override
     public void info(Log log) {
         LevelBasedLog copy = new LevelBasedLog(log, LogLevel.INFO);
         logEventWithFilter(copy);
@@ -109,6 +118,11 @@ public abstract class LevelBasedLogger implements Logger {
         log.setException(cause);
 
         logEventWithFilter(log);
+    }
+
+    @Override
+    public void info(String template, Object... args) {
+        logTemplate(this::info, template, args);
     }
 
     @Override
@@ -137,6 +151,11 @@ public abstract class LevelBasedLogger implements Logger {
     }
 
     @Override
+    public void warn(String template, Object... args) {
+        logTemplate(this::warn, template, args);
+    }
+
+    @Override
     public void error(Log log) {
         LevelBasedLog copy = new LevelBasedLog(log, LogLevel.ERROR);
         logEventWithFilter(copy);
@@ -161,9 +180,30 @@ public abstract class LevelBasedLogger implements Logger {
         logEventWithFilter(log);
     }
 
+    @Override
+    public void error(String template, Object... args) {
+        logTemplate(this::error, template, args);
+    }
+
     private void logEventWithFilter(LevelBasedLog log) {
         if (shouldLog(log.getLevel())) {
             logEvent(log);
         }
+    }
+
+    private void logTemplate(BiConsumer<String, Throwable> logImpl, String template, Object... args) {
+        Object lastArg = args[args.length - 1];
+        Object[] argsToSubstitute;
+
+        Throwable throwable = null;
+        if (lastArg instanceof Throwable) {
+            throwable = (Throwable) lastArg;
+            argsToSubstitute = Arrays.copyOf(args, args.length - 1);
+        } else {
+            argsToSubstitute = args;
+        }
+
+        String logMessage = stringSubstitutor.substitute(template, "{}", argsToSubstitute);
+        logImpl.accept(logMessage, throwable);
     }
 }
