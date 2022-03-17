@@ -7,17 +7,25 @@ import com.kiwiko.jdashboard.tools.apiclient.impl.http.ApiClientCache;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.ApiClientRequestHelper;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.CoreHttpClient;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.HttpApiClient;
+import com.kiwiko.jdashboard.tools.apiclient.impl.http.HttpApiClientPlugins;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.JdashboardHttpApiClient;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.ApiClientResponseHelper;
+import com.kiwiko.jdashboard.tools.apiclient.impl.http.plugins.HttpApiClientDefaultPluginsConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.HttpAuthenticationConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.security.environments.EnvironmentConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+
+import javax.inject.Inject;
 
 @Configuration
+@Import(HttpApiClientDefaultPluginsConfiguration.class)
 public class JdashboardApiClientConfiguration implements JdashboardDependencyConfiguration {
+
+    @Inject private HttpApiClientDefaultPluginsConfiguration httpApiClientDefaultPluginsConfiguration;
 
     @Bean
     @ConfiguredBy(LoggingConfiguration.class)
@@ -50,5 +58,11 @@ public class JdashboardApiClientConfiguration implements JdashboardDependencyCon
     @ConfiguredBy({CachingConfiguration.class, LoggingConfiguration.class})
     public ApiClientCache apiClientCache() {
         return new ApiClientCache();
+    }
+
+    @Bean
+    @ConfiguredBy(HttpApiClientDefaultPluginsConfiguration.class)
+    public HttpApiClientPlugins httpApiClientPlugins() {
+        return new HttpApiClientPlugins(httpApiClientDefaultPluginsConfiguration.loggingPreRequestPlugin());
     }
 }

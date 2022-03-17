@@ -48,18 +48,16 @@ public class PlaygroundController {
 //    @UserAuthCheck
     @GetMapping("/playground-api/test")
     public ResponsePayload test(@AuthenticatedUser(required = false) User currentUser) throws Exception {
-        throw new RuntimeException("test test test");
-//        TestPostApiRequest request = new TestPostApiRequest(currentUser);
-//        ClientResponse<String> response = jdashboardApiClient.synchronousCall(request);
-//
-//        return ResponseBuilder.payload(response);
+        TestPostApiRequest request = new TestPostApiRequest(currentUser);
+        ClientResponse<String> response = jdashboardApiClient.synchronousCall(request);
+
+        return ResponseBuilder.payload(response);
     }
 
     @InternalServiceCheck
     @PostMapping("/playground-api/test")
     @ResponseBody
     public String testPost(@RequestBody User user) throws Exception {
-        throw new RuntimeException("test");
-//        return "Success! " + user.toString();
+        return "Success! " + user.toString();
     }
 }

@@ -18,6 +18,7 @@ public class HttpApiClient implements ApiClient {
     @Inject private ApiClientRequestHelper requestHelper;
     @Inject private ApiClientResponseHelper responseHelper;
     @Inject private ApiClientCache apiClientCache;
+    @Inject private HttpApiClientPlugins httpApiClientPlugins;
 
     @Override
     public <ResponseType> ApiResponse<ResponseType> synchronousCall(ApiRequest request)
@@ -29,9 +30,13 @@ public class HttpApiClient implements ApiClient {
         }
 
         HttpRequest httpRequest = requestHelper.makeHttpRequest(request);
+        httpApiClientPlugins.runPreRequestPlugins(request);
         HttpResponse<String> httpResponse = httpClient.sendSynchronousRequest(httpRequest);
 
-        return responseHelper.convertHttpResponse(request, httpResponse);
+        ApiResponse<ResponseType> apiResponse = responseHelper.convertHttpResponse(request, httpResponse);
+        httpApiClientPlugins.runPostRequestPlugins(request, apiResponse);
+
+        return apiResponse;
     }
 
     @Override
@@ -44,8 +49,11 @@ public class HttpApiClient implements ApiClient {
         }
 
         HttpRequest httpRequest = requestHelper.makeHttpRequest(request);
+        httpApiClientPlugins.runPreRequestPlugins(request);
         CompletableFuture<HttpResponse<String>> httpResponseFuture = httpClient.sendAsynchronousRequest(httpRequest);
 
-        return responseHelper.transformResponseFuture(request, httpResponseFuture);
+        CompletableFuture<ApiResponse<ResponseType>> apiResponseFuture = responseHelper.transformResponseFuture(request, httpResponseFuture);
+        apiResponseFuture.thenAccept(apiResponse -> httpApiClientPlugins.runPostRequestPlugins(request, apiResponse));
+        return apiResponseFuture;
     }
 }
