@@ -7,17 +7,21 @@ import com.kiwiko.jdashboard.library.http.client.api.interfaces.plugins.ApiClien
 import com.kiwiko.jdashboard.library.http.client.api.interfaces.plugins.PostRequestPlugin;
 import com.kiwiko.jdashboard.library.http.client.api.interfaces.plugins.PreRequestPlugin;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.plugins.LoggingPreRequestPlugin;
+import com.kiwiko.jdashboard.tools.apiclient.impl.http.plugins.ResponseCachingPostRequestPlugin;
 
 import javax.inject.Inject;
-import java.util.Collections;
 import java.util.List;
 
 public class HttpApiClientPlugins {
     private final ApiClientPlugins apiClientPlugins;
 
     @Inject
-    public HttpApiClientPlugins(LoggingPreRequestPlugin loggingPreRequestPlugin) {
-        apiClientPlugins = new ApiClientPlugins(List.of(loggingPreRequestPlugin), Collections.emptyList());
+    public HttpApiClientPlugins(
+            LoggingPreRequestPlugin loggingPreRequestPlugin,
+            ResponseCachingPostRequestPlugin responseCachingPostRequestPlugin) {
+        apiClientPlugins = new ApiClientPlugins(
+                List.of(loggingPreRequestPlugin),
+                List.of(responseCachingPostRequestPlugin));
     }
 
     public void runPreRequestPlugins(ApiRequest apiRequest) throws ApiClientPluginException {

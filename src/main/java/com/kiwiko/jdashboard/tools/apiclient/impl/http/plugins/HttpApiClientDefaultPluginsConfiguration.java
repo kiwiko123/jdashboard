@@ -1,6 +1,7 @@
 package com.kiwiko.jdashboard.tools.apiclient.impl.http.plugins;
 
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
+import com.kiwiko.jdashboard.tools.apiclient.impl.http.caching.HttpApiClientCachingConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import org.springframework.context.annotation.Bean;
@@ -13,5 +14,11 @@ public class HttpApiClientDefaultPluginsConfiguration implements JdashboardDepen
     @ConfiguredBy(LoggingConfiguration.class)
     public LoggingPreRequestPlugin loggingPreRequestPlugin() {
         return new LoggingPreRequestPlugin();
+    }
+
+    @Bean
+    @ConfiguredBy(HttpApiClientCachingConfiguration.class)
+    public ResponseCachingPostRequestPlugin responseCachingPostRequestPlugin() {
+        return new ResponseCachingPostRequestPlugin();
     }
 }

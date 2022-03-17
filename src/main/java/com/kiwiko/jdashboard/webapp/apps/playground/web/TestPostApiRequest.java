@@ -4,6 +4,7 @@ import com.kiwiko.jdashboard.clients.users.api.dto.User;
 import com.kiwiko.jdashboard.library.http.client.api.constants.RequestHeaders;
 import com.kiwiko.jdashboard.library.http.client.api.constants.RequestMethod;
 import com.kiwiko.jdashboard.library.http.client.api.dto.DefaultApiRequest;
+import com.kiwiko.jdashboard.library.http.client.api.dto.RequestCacheStrategy;
 import com.kiwiko.jdashboard.library.http.client.api.dto.RequestHeader;
 import com.kiwiko.jdashboard.library.http.client.api.dto.RequestUrl;
 import com.kiwiko.jdashboard.library.http.url.UriBuilder;
@@ -31,6 +32,11 @@ public class TestPostApiRequest extends DefaultApiRequest {
         return RequestUrl.fromPartial(new UriBuilder().setPath("/playground-api/test"));
     }
 
+    @Override
+    public RequestCacheStrategy getCacheStrategy() {
+        return new CacheStrategy();
+    }
+
     @Nullable
     @Override
     public Object getRequestBody() {
@@ -56,5 +62,12 @@ public class TestPostApiRequest extends DefaultApiRequest {
     @Override
     public Class<?> getResponseType() {
         return String.class;
+    }
+
+    private static final class CacheStrategy extends RequestCacheStrategy {
+        @Override
+        public Duration getCacheDuration() {
+            return Duration.ofSeconds(10);
+        }
     }
 }

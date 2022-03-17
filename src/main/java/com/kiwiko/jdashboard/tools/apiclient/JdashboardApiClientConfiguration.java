@@ -1,15 +1,14 @@
 package com.kiwiko.jdashboard.tools.apiclient;
 
-import com.kiwiko.jdashboard.framework.caching.CachingConfiguration;
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
 import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardApiClient;
-import com.kiwiko.jdashboard.tools.apiclient.impl.http.ApiClientCache;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.ApiClientRequestHelper;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.CoreHttpClient;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.HttpApiClient;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.HttpApiClientPlugins;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.JdashboardHttpApiClient;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.ApiClientResponseHelper;
+import com.kiwiko.jdashboard.tools.apiclient.impl.http.caching.HttpApiClientCachingConfiguration;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.plugins.HttpApiClientDefaultPluginsConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
@@ -34,6 +33,7 @@ public class JdashboardApiClientConfiguration implements JdashboardDependencyCon
     }
 
     @Bean
+    @ConfiguredBy(HttpApiClientCachingConfiguration.class)
     public HttpApiClient httpApiClient() {
         return new HttpApiClient();
     }
@@ -55,14 +55,10 @@ public class JdashboardApiClientConfiguration implements JdashboardDependencyCon
     }
 
     @Bean
-    @ConfiguredBy({CachingConfiguration.class, LoggingConfiguration.class})
-    public ApiClientCache apiClientCache() {
-        return new ApiClientCache();
-    }
-
-    @Bean
     @ConfiguredBy(HttpApiClientDefaultPluginsConfiguration.class)
     public HttpApiClientPlugins httpApiClientPlugins() {
-        return new HttpApiClientPlugins(httpApiClientDefaultPluginsConfiguration.loggingPreRequestPlugin());
+        return new HttpApiClientPlugins(
+                httpApiClientDefaultPluginsConfiguration.loggingPreRequestPlugin(),
+                httpApiClientDefaultPluginsConfiguration.responseCachingPostRequestPlugin());
     }
 }

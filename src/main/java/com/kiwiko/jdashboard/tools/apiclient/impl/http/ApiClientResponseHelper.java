@@ -8,15 +8,12 @@ import com.kiwiko.jdashboard.library.http.client.api.exceptions.ApiClientRuntime
 import com.kiwiko.jdashboard.library.http.client.api.exceptions.ServerException;
 import org.springframework.http.HttpStatus;
 
-import javax.inject.Inject;
 import java.net.http.HttpResponse;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 public class ApiClientResponseHelper {
-
-    @Inject private ApiClientCache apiClientCache;
 
     private Set<RequestHeader> makeHeaders(HttpResponse<?> httpResponse) {
         Set<RequestHeader> headers = new HashSet<>();
@@ -50,15 +47,11 @@ public class ApiClientResponseHelper {
             payload = apiRequest.getResponsePayloadDeserializer().deserialize(body, responseType);
         }
 
-        ApiResponse<ResponseType> response = new ApiResponse<>(
+        return new ApiResponse<>(
                 payload,
                 status,
                 responseHeaders,
                 httpResponse.uri().toString());
-
-        apiClientCache.processRequestCaching(apiRequest, response);
-
-        return response;
     }
 
     public <T> CompletableFuture<ApiResponse<T>> transformResponseFuture(
