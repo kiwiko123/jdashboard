@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.webapp.framework.security.csrf.interceptors;
+package com.kiwiko.jdashboard.framework.security.csrf.interceptors;
 
 import com.kiwiko.jdashboard.library.files.properties.readers.api.dto.Property;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;

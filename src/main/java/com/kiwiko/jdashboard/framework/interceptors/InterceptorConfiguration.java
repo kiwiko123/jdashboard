@@ -8,7 +8,7 @@ import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.MvcConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.requests.RequestConfiguration;
-import com.kiwiko.jdashboard.webapp.framework.security.csrf.CsrfConfiguration;
+import com.kiwiko.jdashboard.framework.security.csrf.CsrfConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

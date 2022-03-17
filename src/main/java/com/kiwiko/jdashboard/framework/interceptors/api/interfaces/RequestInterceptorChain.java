@@ -6,7 +6,7 @@ import com.kiwiko.jdashboard.webapp.framework.requests.internal.interceptors.Req
 import com.kiwiko.jdashboard.webapp.framework.requests.internal.interceptors.RequestErrorInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.interceptors.InternalServiceCheckInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.interceptors.UserAuthCheckInterceptor;
-import com.kiwiko.jdashboard.webapp.framework.security.csrf.interceptors.CrossSiteRequestForgeryPreventionInterceptor;
+import com.kiwiko.jdashboard.framework.security.csrf.interceptors.CrossSiteRequestForgeryPreventionInterceptor;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
