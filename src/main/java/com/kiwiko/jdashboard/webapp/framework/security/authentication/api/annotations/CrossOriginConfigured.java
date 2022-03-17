@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations;
 
-import com.kiwiko.jdashboard.framework.controllers.api.interfaces.JdashboardConfigured;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.lang.annotation.ElementType;

@@ -1,9 +1,9 @@
 package com.kiwiko.jdashboard.webapp.persistence.data.versions.web;
 
-import com.kiwiko.jdashboard.framework.controllers.api.interfaces.JdashboardConfigured;
-import com.kiwiko.jdashboard.framework.controllers.api.interfaces.checks.UserAuthCheck;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.UserAuthCheck;
 import com.kiwiko.jdashboard.services.permissions.api.interfaces.PermissionNames;
-import com.kiwiko.jdashboard.framework.controllers.api.interfaces.checks.UserPermissionCheck;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.UserPermissionCheck;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.DataEntityUpdateFetcher;
 import com.kiwiko.jdashboard.webapp.persistence.data.versions.api.dto.TableRecordVersion;
 import com.kiwiko.jdashboard.webapp.persistence.data.versions.api.interfaces.TableRecordVersionService;

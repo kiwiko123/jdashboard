@@ -5,7 +5,7 @@ import com.kiwiko.jdashboard.services.userauth.api.interfaces.exceptions.UserAut
 import com.kiwiko.jdashboard.services.userauth.web.dto.LogUserInInput;
 import com.kiwiko.jdashboard.services.userauth.web.dto.UserLoginData;
 import com.kiwiko.jdashboard.services.userauth.web.dto.LogUserInOutput;
-import com.kiwiko.jdashboard.framework.controllers.api.interfaces.JdashboardConfigured;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

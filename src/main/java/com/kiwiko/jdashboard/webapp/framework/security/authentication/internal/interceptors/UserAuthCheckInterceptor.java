@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.interceptors;
 
 import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionService;
-import com.kiwiko.jdashboard.framework.controllers.api.interfaces.checks.UserAuthCheck;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.UserAuthCheck;
 import com.kiwiko.jdashboard.webapp.framework.interceptors.internal.SessionRequestHelper;
 import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.RequestInterceptor;
 import org.springframework.web.method.HandlerMethod;

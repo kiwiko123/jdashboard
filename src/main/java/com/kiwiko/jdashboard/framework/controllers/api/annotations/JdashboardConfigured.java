@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.framework.controllers.api.interfaces;
+package com.kiwiko.jdashboard.framework.controllers.api.annotations;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 

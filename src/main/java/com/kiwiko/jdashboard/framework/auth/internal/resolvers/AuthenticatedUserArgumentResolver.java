@@ -1,10 +1,10 @@
-package com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.resolvers;
+package com.kiwiko.jdashboard.framework.auth.internal.resolvers;
 
 import com.kiwiko.jdashboard.clients.users.api.dto.User;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.UserClient;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.RequestContextService;
 import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.AuthenticatedUser;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.auth.AuthenticatedUser;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.errors.AuthenticatedUserException;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.errors.InvalidAuthenticatedUserException;
 import com.kiwiko.jdashboard.services.sessions.api.dto.SessionProperties;

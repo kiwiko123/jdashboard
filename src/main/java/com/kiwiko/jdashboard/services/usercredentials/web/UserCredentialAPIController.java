@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.services.usercredentials.web;
 
-import com.kiwiko.jdashboard.framework.controllers.api.interfaces.JdashboardConfigured;
-import com.kiwiko.jdashboard.framework.controllers.api.interfaces.checks.UserPermissionCheck;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.UserPermissionCheck;
 import com.kiwiko.jdashboard.services.permissions.api.interfaces.PermissionNames;
 import com.kiwiko.jdashboard.clients.usercredentials.api.dto.UserCredential;
 import com.kiwiko.jdashboard.services.usercredentials.api.interfaces.UserCredentialService;

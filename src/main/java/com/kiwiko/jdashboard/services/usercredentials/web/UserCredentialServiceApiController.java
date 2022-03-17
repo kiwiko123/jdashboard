@@ -7,8 +7,8 @@ import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.Q
 import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.QueryUserCredentialsOutput;
 import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.ValidateUserCredentialInput;
 import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.ValidateUserCredentialOutput;
-import com.kiwiko.jdashboard.framework.controllers.api.interfaces.JdashboardConfigured;
-import com.kiwiko.jdashboard.framework.controllers.api.interfaces.checks.InternalServiceCheck;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.InternalServiceCheck;
 import com.kiwiko.jdashboard.services.usercredentials.api.interfaces.UserCredentialService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

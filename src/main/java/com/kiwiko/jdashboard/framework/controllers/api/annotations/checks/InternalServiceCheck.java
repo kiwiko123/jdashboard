@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.framework.controllers.api.interfaces.checks;
+package com.kiwiko.jdashboard.framework.controllers.api.annotations.checks;
 
 import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardApiClient;
 

@@ -22,7 +22,7 @@ import com.kiwiko.jdashboard.webapp.framework.json.api.JsonMapper;
 import com.kiwiko.jdashboard.webapp.framework.resolvers.RequestBodyCollectionParameterResolver;
 import com.kiwiko.jdashboard.webapp.framework.resolvers.RequestBodyParameterResolver;
 import com.kiwiko.jdashboard.webapp.framework.resolvers.RequestContextResolver;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.resolvers.AuthenticatedUserArgumentResolver;
+import com.kiwiko.jdashboard.framework.auth.internal.resolvers.AuthenticatedUserArgumentResolver;
 import com.kiwiko.jdashboard.webapp.framework.security.environments.data.EnvironmentProperties;
 import org.springframework.aop.Advisor;
 import org.springframework.context.annotation.Bean;
