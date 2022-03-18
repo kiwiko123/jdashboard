@@ -20,7 +20,6 @@ public class UserEntity implements DataEntity, SoftDeletable {
     private Long id;
     private String username;
     private @Nullable String emailAddress;
-    private String encryptedPassword;
     private boolean isRemoved;
 
     @Id
@@ -52,15 +51,6 @@ public class UserEntity implements DataEntity, SoftDeletable {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
-    }
-
-    @Column(name = "encrypted_password", nullable = false)
-    public String getEncryptedPassword() {
-        return encryptedPassword;
-    }
-
-    public void setEncryptedPassword(String encryptedPassword) {
-        this.encryptedPassword = encryptedPassword;
     }
 
     @Override

@@ -2,6 +2,7 @@ CREATE INDEX ON users (lower(username));
 CREATE INDEX ON users (lower(email_address));
 
 CREATE INDEX ON user_credentials (user_id, lower(credential_type));
+CREATE UNIQUE INDEX ON user_credentials (user_id, credential_type) WHERE is_removed = false;
 
 CREATE INDEX ON request_contexts (uri);
 CREATE INDEX ON request_contexts (user_id);

@@ -2,7 +2,6 @@ package com.kiwiko.jdashboard.services.users.api.interfaces;
 
 import com.kiwiko.jdashboard.clients.users.api.interfaces.queries.GetUsersQuery;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.GetUsersByQueryResponse;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.dto.UserLoginParameters;
 import com.kiwiko.jdashboard.services.users.api.interfaces.parameters.CreateUserParameters;
 import com.kiwiko.jdashboard.services.users.api.dto.User;
 
@@ -19,8 +18,6 @@ public interface UserService {
     Optional<User> getByUsername(String username);
 
     Optional<User> getByEmailAddress(String emailAddress);
-
-    Optional<User> getByLoginParameters(UserLoginParameters parameters);
 
     GetUsersByQueryResponse getByQuery(GetUsersQuery query);
 

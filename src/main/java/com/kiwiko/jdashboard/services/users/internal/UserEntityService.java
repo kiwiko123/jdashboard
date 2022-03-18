@@ -4,9 +4,7 @@ import com.kiwiko.jdashboard.clients.users.api.interfaces.queries.GetUsersQuery;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.GetUsersByQueryResponse;
 import com.kiwiko.jdashboard.clients.users.impl.di.UserDtoMapper;
 import com.kiwiko.jdashboard.framework.persistence.transactions.api.interfaces.TransactionProvider;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.PasswordService;
 import com.kiwiko.jdashboard.library.persistence.dataAccess.api.PersistenceException;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.dto.UserLoginParameters;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
 import com.kiwiko.jdashboard.services.users.api.interfaces.UserService;
 import com.kiwiko.jdashboard.services.users.api.interfaces.parameters.CreateUserParameters;
@@ -26,7 +24,6 @@ public class UserEntityService implements UserService {
     @Inject private UserEntityDAO userEntityDAO;
     @Inject private UserEntityMapper mapper;
     @Inject private UserDtoMapper userDtoMapper;
-    @Inject private PasswordService passwordService;
     @Inject private CreateReadUpdateDeleteExecutor crudExecutor;
     @Inject private TransactionProvider transactionProvider;
 
@@ -69,22 +66,13 @@ public class UserEntityService implements UserService {
                             parameters.getUsername()));
         }
 
-        String encryptedPassword = passwordService.encryptPassword(parameters.getPassword());
-
         User user = new User();
         user.setUsername(parameters.getUsername());
-        user.setEncryptedPassword(encryptedPassword);
         user.setEmailAddress(parameters.getEmailAddress());
 
         UserEntity entity = mapper.toEntity(user);
         entity = userEntityDAO.save(entity);
         return mapper.toDto(entity);
-    }
-
-    @Override
-    public Optional<User> getByLoginParameters(UserLoginParameters parameters) {
-        return getByUsername(parameters.getUsername())
-                .filter(user -> passwordService.matches(parameters.getPassword(), user.getEncryptedPassword()));
     }
 
     @Override

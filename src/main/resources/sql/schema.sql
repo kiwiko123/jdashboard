@@ -2,7 +2,6 @@ CREATE TABLE users (
     user_id BIGSERIAL PRIMARY KEY,
     username TEXT UNIQUE NOT NULL,
     email_address TEXT,
-    encrypted_password TEXT NOT NULL,
     first_name TEXT,
     created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     last_updated_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),

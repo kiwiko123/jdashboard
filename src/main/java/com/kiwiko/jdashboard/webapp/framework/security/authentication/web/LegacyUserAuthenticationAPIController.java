@@ -9,7 +9,6 @@ import com.kiwiko.jdashboard.framework.controllers.api.annotations.auth.Authenti
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.framework.json.api.ResponseBuilder;
 import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.dto.UserLoginParameters;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.events.UserAuthenticationEventClient;
 import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionService;
 import com.kiwiko.jdashboard.clients.sessions.api.dto.Session;
@@ -47,24 +46,6 @@ public class LegacyUserAuthenticationAPIController {
 
         return new ResponseBuilder()
                 .withBody(session)
-                .build();
-    }
-
-    @PostMapping("/user-auth/api/login")
-    public ResponsePayload login(
-            @RequestBody UserLoginParameters userLoginParameters,
-            HttpServletResponse httpServletResponse) {
-        User user = userService.getByLoginParameters(userLoginParameters)
-                .orElse(null);
-        if (user == null) {
-            return getInvalidUserResponse();
-        }
-
-        sessionService.createSessionCookieForUser(user.getId(), httpServletResponse);
-        userAuthenticationEventClient.recordLogInEvent(user.getId());
-
-        return new ResponseBuilder()
-                .withBody(user)
                 .build();
     }
 
