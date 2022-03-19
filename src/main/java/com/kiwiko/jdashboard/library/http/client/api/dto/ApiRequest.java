@@ -8,9 +8,6 @@ import java.net.http.HttpClient;
 import java.time.Duration;
 import java.util.Set;
 
-/**
- * @see DefaultApiRequest
- */
 public interface ApiRequest {
 
     /**
