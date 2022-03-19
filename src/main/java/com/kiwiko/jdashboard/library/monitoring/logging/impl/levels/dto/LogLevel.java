@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.library.metrics.data;
+package com.kiwiko.jdashboard.library.monitoring.logging.impl.levels.dto;
 
 import java.util.Arrays;
 import java.util.Map;

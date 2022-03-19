@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.metrics.web;
 
-import com.kiwiko.jdashboard.library.metrics.data.LogLevel;
+import com.kiwiko.jdashboard.library.monitoring.logging.impl.levels.dto.LogLevel;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.metrics.web.data.LogData;
 import com.kiwiko.jdashboard.webapp.framework.json.api.ResponseBuilder;

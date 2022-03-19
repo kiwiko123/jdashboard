@@ -1,8 +1,8 @@
-package com.kiwiko.jdashboard.library.metrics.api;
+package com.kiwiko.jdashboard.library.monitoring.logging.impl.levels;
 
-import com.kiwiko.jdashboard.library.metrics.data.LevelBasedLog;
+import com.kiwiko.jdashboard.library.monitoring.logging.impl.levels.dto.LevelBasedLog;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.dto.Log;
-import com.kiwiko.jdashboard.library.metrics.data.LogLevel;
+import com.kiwiko.jdashboard.library.monitoring.logging.impl.levels.dto.LogLevel;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.library.strings.StringSubstitutor;
 

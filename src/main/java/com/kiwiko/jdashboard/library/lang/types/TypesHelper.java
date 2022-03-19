@@ -2,7 +2,7 @@ package com.kiwiko.jdashboard.library.lang.types;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import com.kiwiko.jdashboard.library.metrics.impl.ConsoleLogger;
+import com.kiwiko.jdashboard.library.monitoring.logging.impl.console.ConsoleLogger;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 
 import java.util.Map;

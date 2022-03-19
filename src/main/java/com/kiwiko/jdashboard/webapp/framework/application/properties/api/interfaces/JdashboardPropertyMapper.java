@@ -2,7 +2,7 @@ package com.kiwiko.jdashboard.webapp.framework.application.properties.api.interf
 
 import com.google.common.base.Splitter;
 import com.kiwiko.jdashboard.library.files.properties.readers.api.dto.Property;
-import com.kiwiko.jdashboard.library.metrics.impl.ConsoleLogger;
+import com.kiwiko.jdashboard.library.monitoring.logging.impl.console.ConsoleLogger;
 
 import javax.inject.Inject;
 import java.util.Collection;

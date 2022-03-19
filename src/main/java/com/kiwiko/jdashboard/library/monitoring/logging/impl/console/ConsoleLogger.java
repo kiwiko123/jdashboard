@@ -1,7 +1,7 @@
-package com.kiwiko.jdashboard.library.metrics.impl;
+package com.kiwiko.jdashboard.library.monitoring.logging.impl.console;
 
-import com.kiwiko.jdashboard.library.metrics.api.LevelBasedLogger;
-import com.kiwiko.jdashboard.library.metrics.data.LevelBasedLog;
+import com.kiwiko.jdashboard.library.monitoring.logging.impl.levels.LevelBasedLogger;
+import com.kiwiko.jdashboard.library.monitoring.logging.impl.levels.dto.LevelBasedLog;
 
 public class ConsoleLogger extends LevelBasedLogger {
 

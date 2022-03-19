@@ -2,7 +2,7 @@ package com.kiwiko.jdashboard.framework.monitoring.logging;
 
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.jdashboard.library.metrics.impl.ConsoleLogger;
+import com.kiwiko.jdashboard.library.monitoring.logging.impl.console.ConsoleLogger;
 import com.kiwiko.jdashboard.framework.monitoring.logging.impl.ConfigurationLogger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

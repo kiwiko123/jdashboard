@@ -2,7 +2,7 @@ package com.kiwiko.jdashboard.webapp.framework.application.properties.internal;
 
 import com.kiwiko.jdashboard.library.files.properties.readers.api.dto.Properties;
 import com.kiwiko.jdashboard.library.files.properties.readers.api.dto.Property;
-import com.kiwiko.jdashboard.library.metrics.impl.ConsoleLogger;
+import com.kiwiko.jdashboard.library.monitoring.logging.impl.console.ConsoleLogger;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.JdashboardPropertyReader;
 import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.exceptions.PropertyNotFoundException;
