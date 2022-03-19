@@ -22,7 +22,7 @@ public class RandomApiRequest extends JdashboardApiRequest {
 
     @Override
     public RequestCacheStrategy getCacheStrategy() {
-        return null;
+        return new CacheStrategy();
     }
 
     @Nullable

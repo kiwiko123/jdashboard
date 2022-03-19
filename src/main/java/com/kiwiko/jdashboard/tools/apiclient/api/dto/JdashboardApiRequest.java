@@ -58,4 +58,18 @@ public abstract class JdashboardApiRequest implements ApiRequest {
     public Class<?> getResponseType() {
         return null;
     }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "{" +
+                "requestBody=" + getRequestBody() +
+                ", requestTimeout=" + getRequestTimeout() +
+                ", redirectionPolicy=" + getRedirectionPolicy() +
+                ", requestHeaders=" + getRequestHeaders() +
+                ", internalServiceRequest=" + isInternalServiceRequest() +
+                ", requestBodySerializer=" + getRequestBodySerializer() +
+                ", responsePayloadDeserializer=" + getResponsePayloadDeserializer() +
+                ", responseType=" + getResponseType() +
+                '}';
+    }
 }

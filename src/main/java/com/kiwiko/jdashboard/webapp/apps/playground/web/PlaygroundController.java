@@ -45,11 +45,11 @@ public class PlaygroundController {
 //    @UserPermissionCheck(PermissionNames.ADMIN)
 //    @UserAuthCheck
     @GetMapping("/playground-api/test")
-    public ResponsePayload test(@AuthenticatedUser(required = false) User currentUser) throws Exception {
-        TestPostApiRequest request = new TestPostApiRequest(currentUser);
-        ClientResponse<String> response = jdashboardApiClient.synchronousCall(request);
-
-        return ResponseBuilder.payload(response);
+    @ResponseBody
+    public ClientResponse<Object> test(@AuthenticatedUser(required = false) User currentUser) throws Exception {
+//        TestPostApiRequest request = new TestPostApiRequest(currentUser);
+        RandomApiRequest request = new RandomApiRequest();
+        return jdashboardApiClient.synchronousCall(request);
     }
 
     @InternalServiceCheck
