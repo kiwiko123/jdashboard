@@ -48,7 +48,7 @@ public abstract class CacheableCreateReadUpdateDeleteService<
     public void delete(long id) {
         super.delete(id);
         String key = makeCacheKey(id);
-        getCache().invalidate(key);
+        getCache().evict(key);
     }
 
     protected <T> Optional<T> obtain(String key, Supplier<T> fetch) {

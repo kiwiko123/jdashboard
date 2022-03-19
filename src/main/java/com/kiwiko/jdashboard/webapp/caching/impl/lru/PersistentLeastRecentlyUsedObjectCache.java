@@ -63,9 +63,11 @@ public class PersistentLeastRecentlyUsedObjectCache implements ObjectCache {
     }
 
     @Override
-    public void invalidate(String key) {
+    public <T> Optional<T> evict(String key) {
         keyCache.remove(key);
-        table.remove(key);
+        @SuppressWarnings("unchecked")
+        T evictedValue = (T) table.remove(key);
+        return Optional.ofNullable(evictedValue);
     }
 
     private void onEvict(String key) {
@@ -78,7 +80,7 @@ public class PersistentLeastRecentlyUsedObjectCache implements ObjectCache {
         logCacheOperation(String.format("Persisting evicted key/value: %s, %s", key, cacheValue.toString()));
         // TODO persist cache value
 
-        invalidate(key);
+        evict(key);
     }
 
     private void logCacheOperation(String message) {

@@ -38,6 +38,7 @@ public interface ObjectCache {
      * If the key doesn't map to a cached value, does nothing.
      *
      * @param key the key whose value will be discarded.
+     * @return the object that was evicted from the cache, or an empty optional if the key did not map to an entry
      */
-    void invalidate(String key);
+    <T> Optional<T> evict(String key);
 }
