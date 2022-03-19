@@ -20,7 +20,9 @@ public interface JdashboardPropertyReader {
      *
      * @param propertyName the name of the property to retrieve
      * @return the matching property, or null if it isn't defined in the properties file
+     * @deprecated prefer {@link #get(GetPropertyInput)}
      */
+    @Deprecated
     @Nullable
     Property<String> get(String propertyName);
 
@@ -33,7 +35,9 @@ public interface JdashboardPropertyReader {
      *
      * @param propertyName the name of the property to retrieve and store
      * @return the matching property, or null if it isn't defined in the properties file
+     * @deprecated prefer {@link #get(GetPropertyInput)}
      */
+    @Deprecated
     @Nullable
     Property<String> store(String propertyName);
 }

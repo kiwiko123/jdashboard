@@ -1,17 +1,16 @@
 package com.kiwiko.jdashboard.framework.security.csrf.interceptors;
 
-import com.kiwiko.jdashboard.library.files.properties.readers.api.dto.Property;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.RequestInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.JdashboardPropertyConstants;
-import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.JdashboardPropertyMapper;
 import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.JdashboardPropertyReader;
+import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.input.GetPropertyInput;
+import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.input.PropertyCacheControls;
 import org.springframework.web.method.HandlerMethod;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,20 +22,16 @@ import java.util.stream.Collectors;
 public class CrossSiteRequestForgeryPreventionInterceptor implements RequestInterceptor {
 
     @Inject private JdashboardPropertyReader jdashboardPropertyFileReader;
-    @Inject private JdashboardPropertyMapper jdashboardPropertyMapper;
     @Inject private Logger logger;
 
     @Override
     public boolean allowRequest(HttpServletRequest request, HttpServletResponse response, HandlerMethod method) throws Exception {
-        Property<List<String>> crossOriginUrls = jdashboardPropertyMapper.mapToList(
-                jdashboardPropertyFileReader.store(JdashboardPropertyConstants.CROSS_ORIGIN_URLS));
-
-        if (crossOriginUrls == null || crossOriginUrls.getValue() == null) {
-            logger.error(String.format("No cross origin URL property found; denying request %s", request.getRequestURL().toString()));
-            return false;
-        }
-
-        Set<String> allowedCrossOriginUrls = crossOriginUrls.getValue().stream()
+        PropertyCacheControls propertyCacheControls = PropertyCacheControls.indefinitely();
+        GetPropertyInput getPropertyInput = new GetPropertyInput(JdashboardPropertyConstants.CROSS_ORIGIN_URLS, propertyCacheControls);
+        Set<String> crossOriginUrls = jdashboardPropertyFileReader.get(getPropertyInput)
+                .mappable()
+                .mapToSet();
+        Set<String> allowedCrossOriginUrls = crossOriginUrls.stream()
                 .map(this::normalizeUrl)
                 .collect(Collectors.toSet());
         String requestUri = normalizeUrl(buildUrl(request));

@@ -1,6 +1,7 @@
 package com.kiwiko.jdashboard.library.files.properties.readers.api.dto;
 
 import javax.annotation.Nullable;
+import java.util.Objects;
 
 public class Property<T> {
     private final String name;
@@ -18,6 +19,11 @@ public class Property<T> {
     @Nullable
     public T getValue() {
         return value;
+    }
+
+    public MappableProperty<T> mappable() {
+        Objects.requireNonNull(value, "Non-null value is required for a mappable property");
+        return new MappableProperty<>(name, value);
     }
 
     @Override
