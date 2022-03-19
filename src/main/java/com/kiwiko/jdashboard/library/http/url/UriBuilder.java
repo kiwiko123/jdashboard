@@ -86,6 +86,29 @@ public class UriBuilder {
         return this;
     }
 
+    public String toUrlString() {
+        StringBuilder builder = new StringBuilder();
+        if (scheme != null) {
+            builder.append(scheme).append("://");
+        }
+        if (host != null) {
+            builder.append(host);
+        }
+        if (port != 0) {
+            builder.append(':').append(port);
+        }
+        if (path != null) {
+            builder.append(path);
+        }
+        if (query != null) {
+            builder.append('?').append(query.toQuery());
+        }
+        if (fragment != null) {
+            builder.append('#').append(fragment);
+        }
+        return builder.toString();
+    }
+
     @Override
     public String toString() {
         return "UriBuilder{" +

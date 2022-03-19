@@ -8,16 +8,6 @@ import java.net.URI;
 public class RequestUrl {
 
     /**
-     * Construct a RequestUrl from a string representation of a fully valid URI.
-     *
-     * @param uri a valid URI
-     * @return a RequestUrl representing the input URI string
-     */
-    public static RequestUrl fromString(String uri) {
-        return fromUri(URI.create(uri));
-    }
-
-    /**
      * Construct a RequestUrl from a fully valid URI.
      *
      * @param uri a valid URI
@@ -28,6 +18,16 @@ public class RequestUrl {
         requestUrl.setUri(uri);
 
         return requestUrl;
+    }
+
+    /**
+     * Construct a RequestUrl from a string representation of a fully valid URI.
+     *
+     * @param uri a valid URI
+     * @return a RequestUrl representing the input URI string
+     */
+    public static RequestUrl fromString(String uri) {
+        return fromUri(URI.create(uri));
     }
 
     /**
@@ -66,6 +66,16 @@ public class RequestUrl {
 
     private void setUriBuilder(@Nullable UriBuilder uriBuilder) {
         this.uriBuilder = uriBuilder;
+    }
+
+    public String toUrlString() {
+        if (uri != null) {
+            return uri.toString();
+        }
+        if (uriBuilder != null) {
+            return uriBuilder.toUrlString();
+        }
+        return toString();
     }
 
     @Override

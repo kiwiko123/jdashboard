@@ -13,6 +13,10 @@ public class LoggingPreRequestPlugin implements PreRequestPlugin {
 
     @Override
     public void preRequest(ApiRequest apiRequest) throws ApiClientPluginException {
-        logger.info("Issuing API client HTTP {} request to {}", apiRequest.getRequestMethod().name(), apiRequest.getRequestUrl().toString());
+        logger.info(
+                "[JdashboardApiClient - {}] {} request to \"{}\"",
+                getClass().getSimpleName(),
+                apiRequest.getRequestMethod().name(),
+                apiRequest.getRequestUrl().toUrlString());
     }
 }
