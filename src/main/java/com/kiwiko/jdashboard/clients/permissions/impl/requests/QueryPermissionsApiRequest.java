@@ -2,15 +2,17 @@ package com.kiwiko.jdashboard.clients.permissions.impl.requests;
 
 import com.kiwiko.jdashboard.clients.permissions.api.interfaces.parameters.QueryPermissionsInput;
 import com.kiwiko.jdashboard.library.http.client.api.constants.RequestMethod;
-import com.kiwiko.jdashboard.library.http.client.api.dto.DefaultApiRequest;
+import com.kiwiko.jdashboard.library.http.client.api.dto.DisabledCacheStrategy;
+import com.kiwiko.jdashboard.library.http.client.api.dto.RequestCacheStrategy;
 import com.kiwiko.jdashboard.library.http.client.api.dto.RequestUrl;
 import com.kiwiko.jdashboard.library.http.url.QueryParameter;
 import com.kiwiko.jdashboard.library.http.url.UriBuilder;
 import com.kiwiko.jdashboard.library.http.url.UrlQuery;
+import com.kiwiko.jdashboard.tools.apiclient.api.dto.JdashboardApiRequest;
 
 import javax.annotation.Nullable;
 
-public class QueryPermissionsApiRequest extends DefaultApiRequest {
+public class QueryPermissionsApiRequest extends JdashboardApiRequest {
 
     private final QueryPermissionsInput queryPermissionsInput;
 
@@ -42,6 +44,11 @@ public class QueryPermissionsApiRequest extends DefaultApiRequest {
                 new UriBuilder()
                     .setPath("/permissions/service-api/query")
                     .setQuery(urlQueryBuilder.build()));
+    }
+
+    @Override
+    public RequestCacheStrategy getCacheStrategy() {
+        return new DisabledCacheStrategy();
     }
 
     @Override

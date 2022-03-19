@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.clients.sessions.impl.requests;
 
 import com.kiwiko.jdashboard.library.http.client.api.constants.RequestMethod;
-import com.kiwiko.jdashboard.library.http.client.api.dto.DefaultApiRequest;
+import com.kiwiko.jdashboard.library.http.client.api.dto.DisabledCacheStrategy;
 import com.kiwiko.jdashboard.library.http.client.api.dto.RequestCacheStrategy;
 import com.kiwiko.jdashboard.library.http.client.api.dto.RequestUrl;
 import com.kiwiko.jdashboard.library.http.url.QueryParameter;
@@ -9,10 +9,11 @@ import com.kiwiko.jdashboard.library.http.url.UriBuilder;
 import com.kiwiko.jdashboard.library.http.url.UrlQuery;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsInput;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsOutput;
+import com.kiwiko.jdashboard.tools.apiclient.api.dto.JdashboardApiRequest;
 
 import javax.annotation.Nullable;
 
-public class GetSessionsRequest extends DefaultApiRequest {
+public class GetSessionsRequest extends JdashboardApiRequest {
 
     private final GetSessionsInput input;
 
@@ -52,10 +53,10 @@ public class GetSessionsRequest extends DefaultApiRequest {
         return RequestUrl.fromPartial(uriBuilder);
     }
 
-//    @Override
-//    public RequestCacheStrategy getCacheStrategy() {
-//        return new GetSessionsRequestCacheStrategy();
-//    }
+    @Override
+    public RequestCacheStrategy getCacheStrategy() {
+        return new DisabledCacheStrategy();
+    }
 
     @Override
     public boolean isInternalServiceRequest() {
