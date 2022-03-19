@@ -38,18 +38,19 @@ public abstract class LevelBasedLogger implements Logger {
      * @see #log(LevelBasedLog)
      */
     protected void logEvent(LevelBasedLog log) {
-        LevelBasedLog copy = new LevelBasedLog(log);
-        String message = log.getMessage();
-
-        if (copy.getException().isPresent()) {
-            Throwable throwable = copy.getException().get();
-            String stackTrace = Arrays.stream(copy.getException().get().getStackTrace())
-                    .limit(MAX_STACK_TRACE_LIMIT)
-                    .map(StackTraceElement::toString)
-                    .collect(Collectors.joining("\n"));
-            message = String.format("%s\n%s", message, stackTrace);
+        if (log.getException().isEmpty()) {
+            log(log);
+            return;
         }
 
+        String message = log.getMessage();
+        String stackTrace = Arrays.stream(log.getException().get().getStackTrace())
+                .limit(MAX_STACK_TRACE_LIMIT)
+                .map(StackTraceElement::toString)
+                .collect(Collectors.joining("\n"));
+        message = String.format("%s\n%s", message, stackTrace);
+
+        LevelBasedLog copy = new LevelBasedLog(log);
         copy.setMessage(message);
         log(copy);
     }

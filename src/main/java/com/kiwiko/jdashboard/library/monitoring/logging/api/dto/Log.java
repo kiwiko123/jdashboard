@@ -8,9 +8,11 @@ public class Log {
 
     private String message;
     private @Nullable Throwable exception;
-    private Instant timestamp = Instant.now();
+    private Instant timestamp;
 
-    public Log() { }
+    public Log() {
+        timestamp = Instant.now();
+    }
 
     public Log(Log other) {
         message = other.message;
