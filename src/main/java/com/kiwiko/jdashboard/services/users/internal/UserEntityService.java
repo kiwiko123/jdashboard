@@ -75,6 +75,7 @@ public class UserEntityService implements UserService {
         return mapper.toDto(entity);
     }
 
+    @Deprecated
     @Override
     public GetUsersByQueryResponse getByQuery(GetUsersQuery query) {
         Set<com.kiwiko.jdashboard.clients.users.api.dto.User> users = transactionProvider.readOnly(() -> userEntityDAO.getByQuery(query).stream()
@@ -88,7 +89,17 @@ public class UserEntityService implements UserService {
     }
 
     @Override
+    public User create(User user) {
+        return crudExecutor.create(user, userEntityDAO, mapper);
+    }
+
+    @Override
     public User merge(User user) {
         return crudExecutor.merge(user, userEntityDAO, mapper);
+    }
+
+    @Override
+    public com.kiwiko.jdashboard.clients.users.api.dto.User toUser(User user) {
+        return userDtoMapper.toTargetType(user);
     }
 }

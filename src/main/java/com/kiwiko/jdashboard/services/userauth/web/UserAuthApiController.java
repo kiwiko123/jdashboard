@@ -1,7 +1,11 @@
 package com.kiwiko.jdashboard.services.userauth.web;
 
+import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.CreateUserOutput;
+import com.kiwiko.jdashboard.services.userauth.api.interfaces.exceptions.CreateUserException;
+import com.kiwiko.jdashboard.services.userauth.internal.UserCreator;
 import com.kiwiko.jdashboard.services.userauth.internal.UserLoginAuthenticator;
 import com.kiwiko.jdashboard.services.userauth.api.interfaces.exceptions.UserAuthenticationException;
+import com.kiwiko.jdashboard.services.userauth.web.dto.CreateUserInput;
 import com.kiwiko.jdashboard.services.userauth.web.dto.LogUserInInput;
 import com.kiwiko.jdashboard.services.userauth.web.dto.UserLoginData;
 import com.kiwiko.jdashboard.services.userauth.web.dto.LogUserInOutput;
@@ -20,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 public class UserAuthApiController {
 
     @Inject private UserLoginAuthenticator userLoginAuthenticator;
+    @Inject private UserCreator userCreator;
 
     @PostMapping("/users/log-in")
     public LogUserInOutput logUserIn(
@@ -30,5 +35,23 @@ public class UserAuthApiController {
         logUserInInput.setHttpServletResponse(httpServletResponse);;
 
         return userLoginAuthenticator.logUserIn(logUserInInput);
+    }
+
+    @PostMapping("/users")
+    public CreateUserOutput createUser(
+            @RequestBody CreateUserInput createUserInput,
+            HttpServletResponse httpServletResponse) throws CreateUserException, UserAuthenticationException {
+        CreateUserOutput createUserOutput = userCreator.createUser(createUserInput);
+
+        UserLoginData userLoginData = new UserLoginData();
+        userLoginData.setUsername(createUserOutput.getUser().getUsername());
+        userLoginData.setPassword(createUserInput.getPassword());
+
+        LogUserInInput logUserInInput = new LogUserInInput();
+        logUserInInput.setUserLoginData(userLoginData);
+        logUserInInput.setHttpServletResponse(httpServletResponse);
+        userLoginAuthenticator.logUserIn(logUserInInput);
+
+        return createUserOutput;
     }
 }

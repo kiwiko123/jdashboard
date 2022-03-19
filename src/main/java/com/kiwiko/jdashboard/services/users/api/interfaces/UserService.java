@@ -21,7 +21,12 @@ public interface UserService {
 
     GetUsersByQueryResponse getByQuery(GetUsersQuery query);
 
+    @Deprecated
     User create(CreateUserParameters parameters);
 
+    User create(User user);
+
     User merge(User user);
+
+    com.kiwiko.jdashboard.clients.users.api.dto.User toUser(User user);
 }

@@ -52,10 +52,10 @@ public class GetSessionsRequest extends DefaultApiRequest {
         return RequestUrl.fromPartial(uriBuilder);
     }
 
-    @Override
-    public RequestCacheStrategy getCacheStrategy() {
-        return new GetSessionsRequestCacheStrategy();
-    }
+//    @Override
+//    public RequestCacheStrategy getCacheStrategy() {
+//        return new GetSessionsRequestCacheStrategy();
+//    }
 
     @Override
     public boolean isInternalServiceRequest() {

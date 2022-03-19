@@ -3,9 +3,12 @@ package com.kiwiko.jdashboard.clients.users.impl.http;
 import com.kiwiko.jdashboard.clients.users.api.dto.User;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.UserClient;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.queries.GetUsersQuery;
+import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.CreateUserInput;
+import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.CreateUserOutput;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.GetUserByIdResponse;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.GetUsersByQueryResponse;
 import com.kiwiko.jdashboard.clients.users.impl.di.UserDtoMapper;
+import com.kiwiko.jdashboard.clients.users.impl.http.requests.CreateUserRequest;
 import com.kiwiko.jdashboard.clients.users.impl.http.requests.GetUserByIdApiRequest;
 import com.kiwiko.jdashboard.clients.users.impl.http.requests.GetUsersByQueryApiRequest;
 import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
@@ -44,6 +47,12 @@ public class UserHttpClient implements UserClient {
         }
 
         return response.getPayload();
+    }
+
+    @Override
+    public ClientResponse<CreateUserOutput> create(CreateUserInput input) {
+        CreateUserRequest request = new CreateUserRequest(input);
+        return jdashboardApiClient.silencedSynchronousCall(request);
     }
 
     @Override
