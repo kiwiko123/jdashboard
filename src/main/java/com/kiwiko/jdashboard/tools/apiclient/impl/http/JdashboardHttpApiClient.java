@@ -29,7 +29,7 @@ public class JdashboardHttpApiClient implements JdashboardApiClient {
     }
 
     @Override
-    public <ResponseType> ClientResponse<ResponseType> silencedSynchronousCall(JdashboardApiRequest apiRequest) {
+    public <ResponseType> ClientResponse<ResponseType> silentSynchronousCall(JdashboardApiRequest apiRequest) {
         ClientResponse<ResponseType> response;
 
         try {
@@ -49,7 +49,7 @@ public class JdashboardHttpApiClient implements JdashboardApiClient {
     }
 
     @Override
-    public <ResponseType> CompletableFuture<ClientResponse<ResponseType>> silencedAsynchronousCall(JdashboardApiRequest apiRequest) {
+    public <ResponseType> CompletableFuture<ClientResponse<ResponseType>> silentAsynchronousCall(JdashboardApiRequest apiRequest) {
         try {
             return asynchronousCall(apiRequest);
         } catch (ClientException | ServerException | InterruptedException e) {

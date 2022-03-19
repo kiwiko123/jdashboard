@@ -41,7 +41,7 @@ public class UserHttpClient implements UserClient {
         String queryJson = gsonProvider.getDefault().toJson(query);
         GetUsersByQueryApiRequest request = new GetUsersByQueryApiRequest(queryJson);
 
-        ClientResponse<GetUsersByQueryResponse> response = jdashboardApiClient.silencedSynchronousCall(request);
+        ClientResponse<GetUsersByQueryResponse> response = jdashboardApiClient.silentSynchronousCall(request);
         if (!response.getStatus().isSuccessful()) {
             throw new RuntimeException(response.getStatus().getErrorMessage());
         }
@@ -52,7 +52,7 @@ public class UserHttpClient implements UserClient {
     @Override
     public ClientResponse<CreateUserOutput> create(CreateUserInput input) {
         CreateUserRequest request = new CreateUserRequest(input);
-        return jdashboardApiClient.silencedSynchronousCall(request);
+        return jdashboardApiClient.silentSynchronousCall(request);
     }
 
     @Override

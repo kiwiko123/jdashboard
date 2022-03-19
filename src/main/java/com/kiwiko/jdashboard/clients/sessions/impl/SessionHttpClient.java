@@ -36,6 +36,6 @@ public class SessionHttpClient implements SessionClient {
     @Override
     public ClientResponse<CreateSessionOutput> create(CreateSessionInput input) {
         CreateSessionRequest request = new CreateSessionRequest(input);
-        return jdashboardApiClient.silencedSynchronousCall(request);
+        return jdashboardApiClient.silentSynchronousCall(request);
     }
 }

@@ -24,18 +24,18 @@ public class UserCredentialHttpClient implements UserCredentialClient {
     @Override
     public ClientResponse<QueryUserCredentialsOutput> query(QueryUserCredentialsInput input) {
         QueryUserCredentialsRequest request = new QueryUserCredentialsRequest(input);
-        return jdashboardApiClient.silencedSynchronousCall(request);
+        return jdashboardApiClient.silentSynchronousCall(request);
     }
 
     @Override
     public ClientResponse<CreateUserCredentialOutput> create(CreateUserCredentialInput input) {
         CreateUserCredentialRequest request = new CreateUserCredentialRequest(input);
-        return jdashboardApiClient.silencedSynchronousCall(request);
+        return jdashboardApiClient.silentSynchronousCall(request);
     }
 
     @Override
     public ClientResponse<ValidateUserCredentialOutput> validate(ValidateUserCredentialInput input) {
         ValidateUserCredentialRequest request = new ValidateUserCredentialRequest(input);
-        return jdashboardApiClient.silencedSynchronousCall(request);
+        return jdashboardApiClient.silentSynchronousCall(request);
     }
 }

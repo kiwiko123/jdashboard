@@ -21,7 +21,7 @@ public interface JdashboardApiClient {
      *
      * @see #synchronousCall(ApiRequest)
      */
-    <ResponseType> ClientResponse<ResponseType> silencedSynchronousCall(JdashboardApiRequest apiRequest);
+    <ResponseType> ClientResponse<ResponseType> silentSynchronousCall(JdashboardApiRequest apiRequest);
 
     <ResponseType> CompletableFuture<ClientResponse<ResponseType>> asynchronousCall(ApiRequest apiRequest)
             throws ServerException, ClientException, InterruptedException;
@@ -34,5 +34,5 @@ public interface JdashboardApiClient {
      *
      * @see #asynchronousCall(ApiRequest)
      */
-    <ResponseType> CompletableFuture<ClientResponse<ResponseType>> silencedAsynchronousCall(JdashboardApiRequest apiRequest);
+    <ResponseType> CompletableFuture<ClientResponse<ResponseType>> silentAsynchronousCall(JdashboardApiRequest apiRequest);
 }
