@@ -63,7 +63,10 @@ const FIELDS = {
 };
 
 function isFieldApproved(field) {
-    return !field.isRequired || field.isValid;
+    if (field.isRequired) {
+        return field.validate(field.value);
+    }
+    return true;
 }
 
 function createFields(fields) {
