@@ -1,7 +1,9 @@
-package com.kiwiko.jdashboard.library.http.client.api.dto;
+package com.kiwiko.jdashboard.library.http.client.api.dto.caching;
 
 import com.kiwiko.jdashboard.library.http.client.api.constants.RequestMethod;
+import com.kiwiko.jdashboard.library.http.client.api.dto.ApiRequest;
 
+import javax.annotation.Nullable;
 import java.time.Duration;
 import java.util.EnumSet;
 import java.util.Set;
@@ -24,10 +26,11 @@ public abstract class RequestCacheStrategy {
      * Specify the duration for which the request should be cached.
      * The duration starts at the first time the request is made while not cached.
      *
-     * If {@code null} is returned, caching will be treated as disabled.
+     * If {@code null} is returned, caching will be treated as indefinitely.
      *
      * @return the duration for which the request should be cached
      */
+    @Nullable
     public Duration getCacheDuration() {
         return null;
     }

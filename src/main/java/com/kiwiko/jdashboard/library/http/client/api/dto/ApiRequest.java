@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.library.http.client.api.dto;
 
-import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.InternalServiceCheck;
 import com.kiwiko.jdashboard.library.http.client.api.constants.RequestMethod;
+import com.kiwiko.jdashboard.library.http.client.api.dto.caching.RequestCacheStrategy;
 
 import javax.annotation.Nullable;
 import java.net.http.HttpClient;
@@ -76,9 +76,7 @@ public interface ApiRequest {
     /**
      * Required.
      *
-     * Return true if the target endpoint requires authentication by
-     * {@link InternalServiceCheck}.
-     * Extra validation will occur to verify that this is an authentic service request originating and ending in Jdashboard.
+     * Return true if this is an internal service request. If true, extra validation may be performed to authenticate it.
      *
      * @return true if this is an internal service request, or false otherwise
      */
@@ -101,6 +99,8 @@ public interface ApiRequest {
     /**
      * Designate the expected class type for the response.
      * The response payload will be deserialized into this type using {@link #getResponsePayloadDeserializer()}.
+     *
+     * If {@code null} is returned, the response payload may be ignored.
      *
      * @return the response's class type
      */

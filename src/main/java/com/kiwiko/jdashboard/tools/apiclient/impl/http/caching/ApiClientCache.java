@@ -3,7 +3,7 @@ package com.kiwiko.jdashboard.tools.apiclient.impl.http.caching;
 import com.kiwiko.jdashboard.library.caching.api.ObjectCache;
 import com.kiwiko.jdashboard.library.http.client.api.dto.ApiRequest;
 import com.kiwiko.jdashboard.library.http.client.api.dto.ApiResponse;
-import com.kiwiko.jdashboard.library.http.client.api.dto.RequestCacheStrategy;
+import com.kiwiko.jdashboard.library.http.client.api.dto.caching.RequestCacheStrategy;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 
 import javax.inject.Inject;

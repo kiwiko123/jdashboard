@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.library.http.client.api.dto;
+package com.kiwiko.jdashboard.library.http.client.api.dto.caching;
 
 public class DisabledCacheStrategy extends RequestCacheStrategy {
 
