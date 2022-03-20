@@ -1,14 +1,14 @@
-package com.kiwiko.jdashboard.webapp.featureflags;
+package com.kiwiko.jdashboard.services.featureflags;
 
 import com.kiwiko.jdashboard.webapp.application.events.queue.ApplicationEventQueueConfiguration;
-import com.kiwiko.jdashboard.webapp.featureflags.api.interfaces.FeatureFlagEventClient;
-import com.kiwiko.jdashboard.webapp.featureflags.api.interfaces.FeatureFlagResolver;
-import com.kiwiko.jdashboard.webapp.featureflags.api.interfaces.FeatureFlagService;
-import com.kiwiko.jdashboard.webapp.featureflags.internal.events.ApplicationEventFeatureFlagEventClient;
-import com.kiwiko.jdashboard.webapp.featureflags.internal.FeatureFlagEntityMapper;
-import com.kiwiko.jdashboard.webapp.featureflags.internal.FeatureFlagEntityService;
-import com.kiwiko.jdashboard.webapp.featureflags.internal.FeatureFlagServiceResolver;
-import com.kiwiko.jdashboard.webapp.featureflags.internal.data.FeatureFlagEntityDataFetcher;
+import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagEventClient;
+import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagResolver;
+import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagService;
+import com.kiwiko.jdashboard.services.featureflags.internal.events.ApplicationEventFeatureFlagEventClient;
+import com.kiwiko.jdashboard.services.featureflags.internal.FeatureFlagEntityMapper;
+import com.kiwiko.jdashboard.services.featureflags.internal.FeatureFlagEntityService;
+import com.kiwiko.jdashboard.services.featureflags.internal.FeatureFlagServiceResolver;
+import com.kiwiko.jdashboard.services.featureflags.internal.data.FeatureFlagEntityDataFetcher;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonJsonConfiguration;

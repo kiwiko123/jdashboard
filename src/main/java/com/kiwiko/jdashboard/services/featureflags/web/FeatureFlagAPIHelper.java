@@ -1,8 +1,8 @@
-package com.kiwiko.jdashboard.webapp.featureflags.web;
+package com.kiwiko.jdashboard.services.featureflags.web;
 
-import com.kiwiko.jdashboard.webapp.featureflags.api.interfaces.FeatureFlagService;
-import com.kiwiko.jdashboard.webapp.featureflags.web.responses.FeatureFlagListItem;
-import com.kiwiko.jdashboard.webapp.featureflags.api.dto.FeatureFlag;
+import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagService;
+import com.kiwiko.jdashboard.services.featureflags.web.responses.FeatureFlagListItem;
+import com.kiwiko.jdashboard.services.featureflags.api.dto.FeatureFlag;
 import com.kiwiko.jdashboard.services.users.api.dto.User;
 
 import javax.inject.Inject;

@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.webapp.featureflags.internal.data;
+package com.kiwiko.jdashboard.services.featureflags.internal.data;
 
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges;

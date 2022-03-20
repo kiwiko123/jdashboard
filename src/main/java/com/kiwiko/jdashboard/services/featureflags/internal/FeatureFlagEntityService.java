@@ -1,8 +1,8 @@
-package com.kiwiko.jdashboard.webapp.featureflags.internal;
+package com.kiwiko.jdashboard.services.featureflags.internal;
 
-import com.kiwiko.jdashboard.webapp.featureflags.api.dto.FeatureFlag;
-import com.kiwiko.jdashboard.webapp.featureflags.api.interfaces.FeatureFlagService;
-import com.kiwiko.jdashboard.webapp.featureflags.internal.data.FeatureFlagEntityDataFetcher;
+import com.kiwiko.jdashboard.services.featureflags.api.dto.FeatureFlag;
+import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagService;
+import com.kiwiko.jdashboard.services.featureflags.internal.data.FeatureFlagEntityDataFetcher;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,10 +1,10 @@
-package com.kiwiko.jdashboard.webapp.featureflags.internal;
+package com.kiwiko.jdashboard.services.featureflags.internal;
 
-import com.kiwiko.jdashboard.webapp.featureflags.api.dto.FeatureFlagUserScope;
-import com.kiwiko.jdashboard.webapp.featureflags.api.interfaces.FeatureFlagResolver;
-import com.kiwiko.jdashboard.webapp.featureflags.api.interfaces.FeatureFlagService;
-import com.kiwiko.jdashboard.webapp.featureflags.api.dto.FeatureFlag;
-import com.kiwiko.jdashboard.webapp.featureflags.api.dto.FeatureFlagStatus;
+import com.kiwiko.jdashboard.services.featureflags.api.dto.FeatureFlagUserScope;
+import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagResolver;
+import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagService;
+import com.kiwiko.jdashboard.services.featureflags.api.dto.FeatureFlag;
+import com.kiwiko.jdashboard.services.featureflags.api.dto.FeatureFlagStatus;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;

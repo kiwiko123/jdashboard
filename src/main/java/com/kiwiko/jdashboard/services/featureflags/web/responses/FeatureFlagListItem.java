@@ -1,6 +1,6 @@
-package com.kiwiko.jdashboard.webapp.featureflags.web.responses;
+package com.kiwiko.jdashboard.services.featureflags.web.responses;
 
-import com.kiwiko.jdashboard.webapp.featureflags.api.dto.FeatureFlag;
+import com.kiwiko.jdashboard.services.featureflags.api.dto.FeatureFlag;
 import com.kiwiko.jdashboard.services.users.api.dto.User;
 
 public class FeatureFlagListItem {

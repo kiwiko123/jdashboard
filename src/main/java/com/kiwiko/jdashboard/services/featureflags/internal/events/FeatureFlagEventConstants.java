@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.webapp.featureflags.internal.events;
+package com.kiwiko.jdashboard.services.featureflags.internal.events;
 
 class FeatureFlagEventConstants {
     public static final String EVENT_TYPE = "__JDASHBOARD_ADMIN_FEATURE_FLAGS";

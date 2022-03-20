@@ -1,6 +1,6 @@
-package com.kiwiko.jdashboard.webapp.featureflags.api.interfaces;
+package com.kiwiko.jdashboard.services.featureflags.api.interfaces;
 
-import com.kiwiko.jdashboard.webapp.featureflags.api.dto.FeatureFlag;
+import com.kiwiko.jdashboard.services.featureflags.api.dto.FeatureFlag;
 
 public interface FeatureFlagEventClient {
 

@@ -1,6 +1,6 @@
-package com.kiwiko.jdashboard.webapp.featureflags.web;
+package com.kiwiko.jdashboard.services.featureflags.web;
 
-import com.kiwiko.jdashboard.webapp.featureflags.FeatureFlagConfiguration;
+import com.kiwiko.jdashboard.services.featureflags.FeatureFlagConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import org.springframework.context.annotation.Bean;
