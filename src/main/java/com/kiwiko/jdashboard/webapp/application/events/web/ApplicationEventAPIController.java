@@ -1,7 +1,8 @@
 package com.kiwiko.jdashboard.webapp.application.events.web;
 
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
-import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.UserAuthCheck;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.UserPermissionCheck;
+import com.kiwiko.jdashboard.services.permissions.api.interfaces.PermissionNames;
 import com.kiwiko.jdashboard.webapp.application.events.api.interfaces.ApplicationEventService;
 import com.kiwiko.jdashboard.webapp.application.events.api.dto.ApplicationEvent;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,7 @@ import javax.inject.Inject;
 
 @RestController
 @JdashboardConfigured
-@UserAuthCheck
+@UserPermissionCheck(PermissionNames.ADMIN)
 public class ApplicationEventAPIController {
 
     @Inject private ApplicationEventService applicationEventService;

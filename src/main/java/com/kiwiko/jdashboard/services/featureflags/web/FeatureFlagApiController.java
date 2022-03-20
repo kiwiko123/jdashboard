@@ -3,7 +3,7 @@ package com.kiwiko.jdashboard.services.featureflags.web;
 import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagEventClient;
 import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagResolver;
 import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagService;
-import com.kiwiko.jdashboard.services.featureflags.api.dto.FeatureFlag;
+import com.kiwiko.jdashboard.clients.featureflags.api.dto.FeatureFlag;
 import com.kiwiko.jdashboard.services.featureflags.web.responses.FeatureFlagListItem;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.UserAuthCheck;
@@ -28,7 +28,7 @@ import java.util.List;
 
 @Controller
 @JdashboardConfigured
-public class FeatureFlagAPIController {
+public class FeatureFlagApiController {
 
     @Inject private FeatureFlagAPIHelper featureFlagAPIHelper;
     @Inject private FeatureFlagEventClient featureFlagEventClient;
@@ -52,9 +52,9 @@ public class FeatureFlagAPIController {
 
     @UserAuthCheck
     @GetMapping("/feature-flags/api/{id}")
-    public ResponsePayload getById(@PathVariable("id") long id) {
-        FeatureFlag flag = featureFlagService.get(id).orElse(null);
-        return ResponseBuilder.payload(flag);
+    @ResponseBody
+    public FeatureFlag getById(@PathVariable("id") long id) {
+        return featureFlagService.get(id).orElse(null);
     }
 
     @UserAuthCheck
