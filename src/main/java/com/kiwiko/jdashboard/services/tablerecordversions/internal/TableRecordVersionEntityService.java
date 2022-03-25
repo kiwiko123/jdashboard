@@ -6,9 +6,12 @@ import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.TableRe
 import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.parameters.GetTableRecordVersions;
 import com.kiwiko.jdashboard.services.tablerecordversions.internal.data.TableRecordVersionEntity;
 import com.kiwiko.jdashboard.services.tablerecordversions.internal.data.TableRecordVersionEntityDataFetcher;
+import com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
 
 import javax.inject.Inject;
+import java.time.Instant;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -17,27 +20,29 @@ public class TableRecordVersionEntityService implements TableRecordVersionServic
     @Inject private TableRecordVersionEntityDataFetcher dataFetcher;
     @Inject private TableRecordVersionEntityMapper mapper;
     @Inject private TransactionProvider transactionProvider;
+    @Inject private CreateReadUpdateDeleteExecutor crudExecutor;
 
     @Override
     public LinkedList<TableRecordVersion> getVersions(GetTableRecordVersions query) {
         return transactionProvider.readOnly(() -> {
            return dataFetcher.getByQuery(query).stream()
-                   .map(mapper::toDTO)
+                   .map(mapper::toDto)
                    .collect(Collectors.collectingAndThen(Collectors.toList(), LinkedList::new));
         });
     }
 
     @Override
     public Optional<TableRecordVersion> get(long id) {
-        return transactionProvider.readOnly(() -> dataFetcher.getById(id).map(mapper::toDTO));
+        return crudExecutor.get(id, dataFetcher, mapper);
     }
 
     @Override
     public TableRecordVersion create(TableRecordVersion version) {
         return transactionProvider.readWrite(() -> {
             TableRecordVersionEntity entity = mapper.toEntity(version);
+            entity.setCreatedDate(Instant.now());
             entity = dataFetcher.save(entity);
-            return mapper.toDTO(entity);
+            return mapper.toDto(entity);
         });
     }
 }

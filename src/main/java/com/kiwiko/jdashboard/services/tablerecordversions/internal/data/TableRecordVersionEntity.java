@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.services.tablerecordversions.internal.data;
 
-import com.kiwiko.jdashboard.library.persistence.dataAccess.api.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
 
 import javax.annotation.Nullable;
 import javax.persistence.Column;
@@ -13,7 +13,7 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "table_record_versions")
-public class TableRecordVersionEntity extends DataEntity {
+public class TableRecordVersionEntity implements DataEntity {
     private Long id;
     private String tableName;
     private Long recordId;

@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.services.tablerecordversions.internal.data;
 
-import com.kiwiko.jdashboard.webapp.framework.persistence.dataaccess.api.EntityManagerDAO;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.parameters.GetTableRecordVersions;
+import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -12,12 +12,7 @@ import javax.persistence.criteria.Root;
 import java.time.Instant;
 import java.util.List;
 
-public class TableRecordVersionEntityDataFetcher extends EntityManagerDAO<TableRecordVersionEntity> {
-
-    @Override
-    protected Class<TableRecordVersionEntity> getEntityType() {
-        return TableRecordVersionEntity.class;
-    }
+public class TableRecordVersionEntityDataFetcher extends DataAccessObject<TableRecordVersionEntity> {
 
     @Override
     public TableRecordVersionEntity save(TableRecordVersionEntity entity) {
@@ -28,7 +23,7 @@ public class TableRecordVersionEntityDataFetcher extends EntityManagerDAO<TableR
     }
 
     public List<TableRecordVersionEntity> getByQuery(GetTableRecordVersions parameters) {
-        CriteriaBuilder builder = criteriaBuilder();
+        CriteriaBuilder builder = getCriteriaBuilder();
         CriteriaQuery<TableRecordVersionEntity> query = builder.createQuery(entityType);
         Root<TableRecordVersionEntity> root = query.from(entityType);
 
@@ -44,6 +39,6 @@ public class TableRecordVersionEntityDataFetcher extends EntityManagerDAO<TableR
         query.where(matchesTableName, matchesRecordId);
         query.orderBy(ascendingCreatedDate);
 
-        return getResultList(query);
+        return createQuery(query).getResultList();
     }
 }

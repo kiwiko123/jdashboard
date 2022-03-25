@@ -8,12 +8,10 @@ import com.kiwiko.jdashboard.services.tablerecordversions.internal.TableRecordVe
 import com.kiwiko.jdashboard.services.tablerecordversions.internal.TableRecordVersionEntityService;
 import com.kiwiko.jdashboard.services.tablerecordversions.internal.data.TableRecordVersionEntityDataFetcher;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan(basePackageClasses = PersistenceDataVersionsConfiguration.class)
-public class PersistenceDataVersionsConfiguration implements JdashboardDependencyConfiguration {
+public class TableRecordVersionsConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
     @ConfiguredBy(TransactionConfiguration.class)

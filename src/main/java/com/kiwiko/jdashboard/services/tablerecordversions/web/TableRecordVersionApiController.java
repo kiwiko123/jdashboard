@@ -1,10 +1,9 @@
 package com.kiwiko.jdashboard.services.tablerecordversions.web;
 
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
-import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.UserAuthCheck;
 import com.kiwiko.jdashboard.services.permissions.api.interfaces.PermissionNames;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.UserPermissionCheck;
-import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.DataEntityUpdateFetcher;
+import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.parameters.GetTableRecordVersions;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.dto.TableRecordVersion;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.TableRecordVersionService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,13 +16,11 @@ import java.util.List;
 
 @RestController
 @JdashboardConfigured
-@RequestMapping("/table-record-versions/api")
-@UserAuthCheck
+@RequestMapping("/table-record-versions/public-api")
 @UserPermissionCheck(PermissionNames.ADMIN)
-public class TableRecordVersionAPIController {
+public class TableRecordVersionApiController {
 
     @Inject private TableRecordVersionService tableRecordVersionService;
-    @Inject private DataEntityUpdateFetcher dataEntityUpdateFetcher;
 
     @GetMapping("/{id}")
     public TableRecordVersion getById(@PathVariable("id") Long id) {
@@ -34,6 +31,7 @@ public class TableRecordVersionAPIController {
     public List<TableRecordVersion> getUpdatesForRecord(
             @PathVariable("tableName") String tableName,
             @PathVariable("id") Long id) {
-        return dataEntityUpdateFetcher.getUpdates(tableName, id);
+        GetTableRecordVersions getTableRecordVersions = new GetTableRecordVersions(tableName, id);
+        return tableRecordVersionService.getVersions(getTableRecordVersions);
     }
 }
