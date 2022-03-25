@@ -8,6 +8,7 @@ import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
 import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardApiClient;
 
 import javax.inject.Inject;
+import java.util.concurrent.CompletableFuture;
 
 public class TableRecordVersionHttpClient implements TableRecordVersionClient {
 
@@ -17,5 +18,11 @@ public class TableRecordVersionHttpClient implements TableRecordVersionClient {
     public ClientResponse<CreateTableRecordVersionOutput> create(CreateTableRecordVersionInput input) {
         CreateTableRecordVersionRequest request = new CreateTableRecordVersionRequest(input);
         return jdashboardApiClient.silentSynchronousCall(request);
+    }
+
+    @Override
+    public CompletableFuture<ClientResponse<CreateTableRecordVersionOutput>> createAsync(CreateTableRecordVersionInput input) {
+        CreateTableRecordVersionRequest request = new CreateTableRecordVersionRequest(input);
+        return jdashboardApiClient.silentAsynchronousCall(request);
     }
 }

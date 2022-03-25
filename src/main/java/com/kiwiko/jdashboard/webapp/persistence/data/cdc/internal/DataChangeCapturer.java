@@ -1,6 +1,8 @@
 package com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal;
 
 import com.google.gson.Gson;
+import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.TableRecordVersionClient;
+import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.CreateTableRecordVersionInput;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.parameters.SaveDataChangeCaptureParameters;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.parameters.SaveEntity;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
@@ -10,7 +12,6 @@ import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.exceptions.CaptureEntityDataChangeException;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.dto.TableRecordVersion;
-import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.TableRecordVersionService;
 
 import javax.inject.Inject;
 import javax.persistence.Column;
@@ -29,7 +30,7 @@ public class DataChangeCapturer {
     @Inject private CurrentRequestService currentRequestService;
     @Inject private GsonProvider gsonProvider;
     @Inject private Logger logger;
-    @Inject private TableRecordVersionService tableRecordVersionService;
+    @Inject private TableRecordVersionClient tableRecordVersionClient;
 
     public <T extends DataEntity> T save(SaveDataChangeCaptureParameters<T> parameters) throws CaptureEntityDataChangeException {
         Objects.requireNonNull(parameters, "Input parameters required");
@@ -144,7 +145,9 @@ public class DataChangeCapturer {
                 .map(RequestContext::getUserId)
                 .ifPresent(version::setCreatedByUserId);
 
-        tableRecordVersionService.create(version);
+        CreateTableRecordVersionInput createTableRecordVersionInput = new CreateTableRecordVersionInput();
+        createTableRecordVersionInput.setTableRecordVersion(version);
+        tableRecordVersionClient.createAsync(createTableRecordVersionInput);
     }
 
     private <T extends DataEntity> void validateEntity(T entity) throws CaptureEntityDataChangeException {

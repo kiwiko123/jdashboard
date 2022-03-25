@@ -3,13 +3,13 @@ package com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.paramet
 import com.kiwiko.jdashboard.services.tablerecordversions.api.dto.TableRecordVersion;
 
 public class CreateTableRecordVersionInput {
-    private final TableRecordVersion tableRecordVersion;
-
-    public CreateTableRecordVersionInput(TableRecordVersion tableRecordVersion) {
-        this.tableRecordVersion = tableRecordVersion;
-    }
+    private TableRecordVersion tableRecordVersion;
 
     public TableRecordVersion getTableRecordVersion() {
         return tableRecordVersion;
+    }
+
+    public void setTableRecordVersion(TableRecordVersion tableRecordVersion) {
+        this.tableRecordVersion = tableRecordVersion;
     }
 }
