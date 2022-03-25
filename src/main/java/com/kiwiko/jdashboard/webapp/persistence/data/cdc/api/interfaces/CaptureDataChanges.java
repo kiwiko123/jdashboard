@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
  *     <li>The entity's manager must extend {@link DataAccessObject}</li>.
  * </ol>
  *
- * Record updates will be recorded as {@link com.kiwiko.jdashboard.webapp.persistence.data.versions.api.dto.TableRecordVersion}s.
+ * Record updates will be recorded as {@link com.kiwiko.jdashboard.services.tablerecordversions.api.dto.TableRecordVersion}s.
  *
  * @see com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.DataChangeCapturer
  */

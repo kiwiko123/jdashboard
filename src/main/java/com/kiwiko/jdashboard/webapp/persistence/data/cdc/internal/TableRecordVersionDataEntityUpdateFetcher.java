@@ -1,9 +1,9 @@
 package com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal;
 
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.DataEntityUpdateFetcher;
-import com.kiwiko.jdashboard.webapp.persistence.data.versions.api.dto.TableRecordVersion;
-import com.kiwiko.jdashboard.webapp.persistence.data.versions.api.interfaces.TableRecordVersionService;
-import com.kiwiko.jdashboard.webapp.persistence.data.versions.api.interfaces.parameters.GetTableRecordVersions;
+import com.kiwiko.jdashboard.services.tablerecordversions.api.dto.TableRecordVersion;
+import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.TableRecordVersionService;
+import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.parameters.GetTableRecordVersions;
 
 import javax.inject.Inject;
 import java.util.LinkedList;

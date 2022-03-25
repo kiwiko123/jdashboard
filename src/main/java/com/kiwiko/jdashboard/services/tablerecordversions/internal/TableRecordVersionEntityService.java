@@ -1,11 +1,11 @@
-package com.kiwiko.jdashboard.webapp.persistence.data.versions.internal;
+package com.kiwiko.jdashboard.services.tablerecordversions.internal;
 
 import com.kiwiko.jdashboard.framework.persistence.transactions.api.interfaces.TransactionProvider;
-import com.kiwiko.jdashboard.webapp.persistence.data.versions.api.dto.TableRecordVersion;
-import com.kiwiko.jdashboard.webapp.persistence.data.versions.api.interfaces.TableRecordVersionService;
-import com.kiwiko.jdashboard.webapp.persistence.data.versions.api.interfaces.parameters.GetTableRecordVersions;
-import com.kiwiko.jdashboard.webapp.persistence.data.versions.internal.data.TableRecordVersionEntity;
-import com.kiwiko.jdashboard.webapp.persistence.data.versions.internal.data.TableRecordVersionEntityDataFetcher;
+import com.kiwiko.jdashboard.services.tablerecordversions.api.dto.TableRecordVersion;
+import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.TableRecordVersionService;
+import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.parameters.GetTableRecordVersions;
+import com.kiwiko.jdashboard.services.tablerecordversions.internal.data.TableRecordVersionEntity;
+import com.kiwiko.jdashboard.services.tablerecordversions.internal.data.TableRecordVersionEntityDataFetcher;
 
 import javax.inject.Inject;
 import java.util.LinkedList;

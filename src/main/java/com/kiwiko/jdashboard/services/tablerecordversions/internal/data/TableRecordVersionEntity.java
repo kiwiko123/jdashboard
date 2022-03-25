@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.webapp.persistence.data.versions.internal.data;
+package com.kiwiko.jdashboard.services.tablerecordversions.internal.data;
 
 import com.kiwiko.jdashboard.library.persistence.dataAccess.api.DataEntity;
 

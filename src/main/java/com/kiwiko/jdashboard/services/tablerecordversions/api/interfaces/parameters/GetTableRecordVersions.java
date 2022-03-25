@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.webapp.persistence.data.versions.api.interfaces.parameters;
+package com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.parameters;
 
 public class GetTableRecordVersions {
     private final String tableName;

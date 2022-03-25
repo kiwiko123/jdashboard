@@ -9,8 +9,8 @@ import com.kiwiko.jdashboard.webapp.framework.requests.api.CurrentRequestService
 import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.exceptions.CaptureEntityDataChangeException;
-import com.kiwiko.jdashboard.webapp.persistence.data.versions.api.dto.TableRecordVersion;
-import com.kiwiko.jdashboard.webapp.persistence.data.versions.api.interfaces.TableRecordVersionService;
+import com.kiwiko.jdashboard.services.tablerecordversions.api.dto.TableRecordVersion;
+import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.TableRecordVersionService;
 
 import javax.inject.Inject;
 import javax.persistence.Column;

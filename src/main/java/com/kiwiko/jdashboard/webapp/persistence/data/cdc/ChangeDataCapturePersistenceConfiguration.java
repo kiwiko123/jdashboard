@@ -8,7 +8,7 @@ import com.kiwiko.jdashboard.webapp.framework.requests.RequestConfiguration;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.DataEntityUpdateFetcher;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.DataChangeCapturer;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.TableRecordVersionDataEntityUpdateFetcher;
-import com.kiwiko.jdashboard.webapp.persistence.data.versions.PersistenceDataVersionsConfiguration;
+import com.kiwiko.jdashboard.services.tablerecordversions.PersistenceDataVersionsConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

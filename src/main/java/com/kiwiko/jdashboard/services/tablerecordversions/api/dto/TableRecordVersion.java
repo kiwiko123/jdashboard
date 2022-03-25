@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.webapp.persistence.data.versions.api.dto;
+package com.kiwiko.jdashboard.services.tablerecordversions.api.dto;
 
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntityDTO;
 

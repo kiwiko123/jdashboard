@@ -1,12 +1,12 @@
-package com.kiwiko.jdashboard.webapp.persistence.data.versions.web;
+package com.kiwiko.jdashboard.services.tablerecordversions.web;
 
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.UserAuthCheck;
 import com.kiwiko.jdashboard.services.permissions.api.interfaces.PermissionNames;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.UserPermissionCheck;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.DataEntityUpdateFetcher;
-import com.kiwiko.jdashboard.webapp.persistence.data.versions.api.dto.TableRecordVersion;
-import com.kiwiko.jdashboard.webapp.persistence.data.versions.api.interfaces.TableRecordVersionService;
+import com.kiwiko.jdashboard.services.tablerecordversions.api.dto.TableRecordVersion;
+import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.TableRecordVersionService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
