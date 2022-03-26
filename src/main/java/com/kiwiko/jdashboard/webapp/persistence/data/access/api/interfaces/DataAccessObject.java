@@ -1,12 +1,13 @@
 package com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces;
 
+import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.SuccessConfidenceLevel;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.parameters.SaveDataChangeCaptureParameters;
 import com.kiwiko.jdashboard.library.lang.reflection.ReflectionHelper;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletable;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges;
-import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.DataChangeCapturer;
+import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.EntityChangeDataCapturer;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Nullable;
@@ -33,7 +34,7 @@ public abstract class DataAccessObject<T extends DataEntity> {
 
     // Spring-provisioned fields.
     @PersistenceContext private EntityManager entityManager;
-    @Inject private DataChangeCapturer dataChangeCapturer;
+    @Inject private EntityChangeDataCapturer dataChangeCapturer;
     @Inject private Logger logger;
 
     // Stateful data.
@@ -196,8 +197,12 @@ public abstract class DataAccessObject<T extends DataEntity> {
         try {
             return dataChangeCapturer.save(parameters);
         } catch (Exception e) {
-            logger.error(String.format("Error capturing data change for entity %s", entity), e);
-            if (captureDataChanges.exceptionOnFailure()) {
+            logger.error(
+                    "Error capturing data change for entity {} at confidence level {}",
+                    entity,
+                    captureDataChanges.successConfidence(),
+                    e);
+            if (captureDataChanges.successConfidence() == SuccessConfidenceLevel.CONFIDENT) {
                 throw e;
             }
         }

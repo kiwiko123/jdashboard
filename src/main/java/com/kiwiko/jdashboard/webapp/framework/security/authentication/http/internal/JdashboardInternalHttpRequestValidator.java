@@ -10,6 +10,8 @@ import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.e
 import com.kiwiko.jdashboard.webapp.application.events.api.dto.ApplicationEvent;
 import com.kiwiko.jdashboard.webapp.application.events.api.interfaces.ApplicationEventService;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -70,7 +72,8 @@ public class JdashboardInternalHttpRequestValidator implements InternalHttpReque
         }
     }
 
-    private RequestHeader makeAuthorizedOutgoingRequestHeader(URI uri) {
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public RequestHeader makeAuthorizedOutgoingRequestHeader(URI uri) {
         String url = uri.toString();
         String urlHash = Long.toString(requestHasher.hash(url));
         String name = makeRequestHeaderName(urlHash);

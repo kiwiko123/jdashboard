@@ -70,7 +70,7 @@ public class JdashboardHttpApiClient implements JdashboardApiClient {
     private <ResponseType> ClientResponse<ResponseType> getErrorResponse(ApiRequest apiRequest, Throwable throwable) {
         logger.error(String.format("Error issuing silenced request %s", apiRequest), throwable);
         String stackTraceMessage = Arrays.stream(throwable.getStackTrace())
-                .limit(10)
+                .limit(1)
                 .map(StackTraceElement::toString)
                 .collect(Collectors.joining("\n"));
         ResponseStatus responseStatus = ResponseStatus.fromMessage(stackTraceMessage);

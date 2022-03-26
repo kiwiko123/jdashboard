@@ -38,10 +38,10 @@ public class InternalServiceCheckInterceptor implements RequestInterceptor {
         try {
             internalHttpRequestValidator.validateIncomingRequest(request);
         } catch (UnauthorizedInternalRequestException e) {
-            logger.debug(String.format("Unauthorized request attempt to internal service endpoint %s", request.getRequestURL().toString()));
+            logger.debug("Unauthorized request attempt to internal service endpoint {}", request.getRequestURL(), e);
             return false;
         } catch (Exception e) {
-            logger.error(String.format("Unexpected exception while attempting to validate internal service request for %s", request.getRequestURL().toString()), e);
+            logger.error("Unexpected exception while attempting to validate internal service request for %s", request.getRequestURL(), e);
             return false;
         }
         return true;

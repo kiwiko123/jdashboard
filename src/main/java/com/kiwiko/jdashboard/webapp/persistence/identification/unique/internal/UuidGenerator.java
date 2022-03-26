@@ -55,7 +55,6 @@ public class UuidGenerator {
                 .orElse(null);
 
         if (flagValue == null) {
-            logger.warn("No feature flag value found for jdashboard-uuid-service-length");
             return 64;
         }
 

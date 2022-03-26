@@ -6,7 +6,7 @@ import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.Jdash
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonJsonConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.requests.RequestConfiguration;
-import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.DataChangeCapturer;
+import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.EntityChangeDataCapturer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,7 @@ public class ChangeDataCapturePersistenceConfiguration implements JdashboardDepe
 
     @Bean
     @ConfiguredBy({RequestConfiguration.class, GsonJsonConfiguration.class, LoggingConfiguration.class, TableRecordVersionClientConfiguration.class})
-    public DataChangeCapturer dataChangeCapturer() {
-        return new DataChangeCapturer();
+    public EntityChangeDataCapturer dataChangeCapturer() {
+        return new EntityChangeDataCapturer();
     }
 }
