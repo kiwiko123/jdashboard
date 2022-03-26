@@ -1,8 +1,6 @@
 package com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces;
 
 import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;
-import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.exceptions.EntityChangeDataCaptureException;
-import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.EntityChangeDataCapturer;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -19,24 +17,18 @@ import java.lang.annotation.Target;
  *
  * Record updates will be recorded as {@link com.kiwiko.jdashboard.services.tablerecordversions.api.dto.TableRecordVersion}s.
  *
- * @see EntityChangeDataCapturer
+ * @see com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.DataChangeCapturer
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CaptureDataChanges {
 
     /**
-     * Describes the confidence level that the change data capture operation will be completed.
+     * If true, throw a {@link com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.exceptions.CaptureEntityDataChangeException} on failure.
+     * This may roll back the database transaction.
+     * Otherwise, allow the transaction to proceed without recording the data change.
      *
-     * {@link SuccessConfidenceLevel#CONFIDENT} indicates that the CDC operation's result will be known. This may take
-     * longer, but offers idempotency. If the operation fails, then a {@link EntityChangeDataCaptureException} will be
-     * thrown and the database transaction will be rolled back.
-     *
-     * {@link SuccessConfidenceLevel#OPTIMISTIC} indicates that the CDC operation will occur independently of the
-     * database transaction. The process may be faster, and the CDC operation's completion state will not affect the
-     * database transaction. This can possibly result in missed data changes.
-     *
-     * @return the confidence level
+     * @return true to throw an exception on failure, or false otherwise
      */
-    SuccessConfidenceLevel successConfidence() default SuccessConfidenceLevel.CONFIDENT;
+    boolean exceptionOnFailure() default true;
 }
