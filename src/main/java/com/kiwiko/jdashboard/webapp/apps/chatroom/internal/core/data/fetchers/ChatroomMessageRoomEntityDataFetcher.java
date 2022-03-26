@@ -23,8 +23,7 @@ public class ChatroomMessageRoomEntityDataFetcher extends JpaDataAccessObject<Ch
                 .append(";")
                 .toString();
 
-        @SuppressWarnings("unchecked")
-        List<ChatroomMessageRoomEntity> result = (List<ChatroomMessageRoomEntity>) createNativeQuery(queryString)
+        List<ChatroomMessageRoomEntity> result = createQuery(queryString)
                 .setParameter("userIds", userIds)
                 .getResultList();
         return new HashSet<>(result);
