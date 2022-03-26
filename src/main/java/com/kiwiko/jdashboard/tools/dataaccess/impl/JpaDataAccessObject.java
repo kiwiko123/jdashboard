@@ -20,12 +20,6 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -109,30 +103,6 @@ public abstract class JpaDataAccessObject<T extends DataEntity> implements DataA
             // do nothing
         }
         return Optional.ofNullable(proxy);
-    }
-
-    /**
-     * Performs a single bulk database fetch for all the entities with the given IDs.
-     * Prefer this over {@link #getById(long)} when multiple entities of the same type need to be fetched.
-     *
-     * @param ids the ids to fetch
-     * @return all entities matching the given IDs
-     */
-    public List<T> getByIds(Collection<Long> ids) {
-        if (ids.isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        CriteriaBuilder criteriaBuilder = getCriteriaBuilder();
-        CriteriaQuery<T> query = criteriaBuilder.createQuery(entityType);
-        Root<T> root = query.from(entityType);
-
-        Expression<Long> idField = root.get("id");
-
-        Predicate hasId = idField.in(ids);
-        query.where(hasId);
-
-        return createQuery(query).getResultList();
     }
 
     /**

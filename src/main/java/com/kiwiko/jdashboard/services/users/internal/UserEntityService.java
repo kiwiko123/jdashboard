@@ -14,7 +14,6 @@ import com.kiwiko.jdashboard.services.users.internal.data.UserEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,14 +31,6 @@ public class UserEntityService implements UserService {
     public Optional<User> getById(long id) {
         return userEntityDAO.getById(id)
                 .map(mapper::toDto);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public Set<User> getByIds(Collection<Long> ids) {
-        return userEntityDAO.getByIds(ids).stream()
-                .map(mapper::toDto)
-                .collect(Collectors.toSet());
     }
 
     @Transactional(readOnly = true)
