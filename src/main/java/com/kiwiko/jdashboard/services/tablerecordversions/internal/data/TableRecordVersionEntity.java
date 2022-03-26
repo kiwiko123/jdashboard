@@ -13,7 +13,6 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "table_record_versions")
-// Cannot use @CaptureDataChanges -- it would lead to a circular dependency.
 public class TableRecordVersionEntity implements DataEntity {
     private Long id;
     private String tableName;
