@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.persistence.identification.unique.internal.data;
 
-import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;
+import com.kiwiko.jdashboard.tools.dataaccess.impl.JpaDataAccessObject;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -8,7 +8,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.Optional;
 
-public class UniversalUniqueIdentifierEntityDataFetcher extends DataAccessObject<UniversalUniqueIdentifierEntity> {
+public class UniversalUniqueIdentifierEntityDataFetcher extends JpaDataAccessObject<UniversalUniqueIdentifierEntity> {
 
      public Optional<UniversalUniqueIdentifierEntity> getByReferenceKey(String referenceKey) {
          CriteriaBuilder builder = getCriteriaBuilder();

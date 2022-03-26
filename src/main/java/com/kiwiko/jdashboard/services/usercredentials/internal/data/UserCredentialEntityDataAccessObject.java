@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.services.usercredentials.internal.data;
 
 import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.QueryUserCredentialsInput;
-import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;
+import com.kiwiko.jdashboard.tools.dataaccess.impl.JpaDataAccessObject;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -10,7 +10,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-public class UserCredentialEntityDataAccessObject extends DataAccessObject<UserCredentialEntity> {
+public class UserCredentialEntityDataAccessObject extends JpaDataAccessObject<UserCredentialEntity> {
 
     public List<UserCredentialEntity> query(QueryUserCredentialsInput input) {
         CriteriaBuilder builder = getCriteriaBuilder();

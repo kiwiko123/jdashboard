@@ -2,7 +2,7 @@ package com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.data.fetchers;
 
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.data.entities.ChatroomMessageEntity;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.parameters.GetMessagesForRoomParameters;
-import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;
+import com.kiwiko.jdashboard.tools.dataaccess.impl.JpaDataAccessObject;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -13,7 +13,7 @@ import javax.persistence.criteria.Root;
 import java.time.Instant;
 import java.util.List;
 
-public class ChatroomMessageEntityDataFetcher extends DataAccessObject<ChatroomMessageEntity> {
+public class ChatroomMessageEntityDataFetcher extends JpaDataAccessObject<ChatroomMessageEntity> {
 
     public List<ChatroomMessageEntity> getMessagesForRoom(GetMessagesForRoomParameters parameters) {
         CriteriaBuilder builder = getCriteriaBuilder();

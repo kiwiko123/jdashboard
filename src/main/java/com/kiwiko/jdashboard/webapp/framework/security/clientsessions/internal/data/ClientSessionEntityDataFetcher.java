@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.security.clientsessions.internal.data;
 
-import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;
+import com.kiwiko.jdashboard.tools.dataaccess.impl.JpaDataAccessObject;
 
-public class ClientSessionEntityDataFetcher extends DataAccessObject<ClientSessionEntity> {
+public class ClientSessionEntityDataFetcher extends JpaDataAccessObject<ClientSessionEntity> {
 }

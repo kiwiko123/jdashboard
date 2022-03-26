@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.services.sessions.internal.data;
 
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsInput;
-import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;
+import com.kiwiko.jdashboard.tools.dataaccess.impl.JpaDataAccessObject;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -12,7 +12,7 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 
-public class SessionEntityDAO extends DataAccessObject<SessionEntity> {
+public class SessionEntityDAO extends JpaDataAccessObject<SessionEntity> {
 
     @Override
     public SessionEntity save(SessionEntity entity) {

@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.services.permissions.internal.data;
 
 import com.kiwiko.jdashboard.clients.permissions.api.interfaces.parameters.QueryPermissionsInput;
-import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;
+import com.kiwiko.jdashboard.tools.dataaccess.impl.JpaDataAccessObject;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -10,7 +10,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-public class PermissionEntityDataFetcher extends DataAccessObject<PermissionEntity> {
+public class PermissionEntityDataFetcher extends JpaDataAccessObject<PermissionEntity> {
 
     public List<PermissionEntity> query(QueryPermissionsInput input) {
         CriteriaBuilder builder = getCriteriaBuilder();

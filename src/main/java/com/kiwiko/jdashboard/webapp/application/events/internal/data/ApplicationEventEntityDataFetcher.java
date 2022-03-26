@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.application.events.internal.data;
 
-import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;
+import com.kiwiko.jdashboard.tools.dataaccess.impl.JpaDataAccessObject;
 import com.kiwiko.jdashboard.webapp.application.events.api.interfaces.parameters.ApplicationEventQuery;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -10,7 +10,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-public class ApplicationEventEntityDataFetcher extends DataAccessObject<ApplicationEventEntity> {
+public class ApplicationEventEntityDataFetcher extends JpaDataAccessObject<ApplicationEventEntity> {
 
     public List<ApplicationEventEntity> getByQuery(ApplicationEventQuery queryParameters) {
         CriteriaBuilder builder = getCriteriaBuilder();

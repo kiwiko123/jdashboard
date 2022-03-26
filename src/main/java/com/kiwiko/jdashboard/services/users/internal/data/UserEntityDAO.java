@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.services.users.internal.data;
 
 import com.kiwiko.jdashboard.clients.users.api.interfaces.queries.GetUsersQuery;
-import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;
+import com.kiwiko.jdashboard.tools.dataaccess.impl.JpaDataAccessObject;
 
 import javax.inject.Singleton;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -17,7 +17,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Singleton
-public class UserEntityDAO extends DataAccessObject<UserEntity> {
+public class UserEntityDAO extends JpaDataAccessObject<UserEntity> {
 
     @Override
     protected Class<UserEntity> getEntityType() {

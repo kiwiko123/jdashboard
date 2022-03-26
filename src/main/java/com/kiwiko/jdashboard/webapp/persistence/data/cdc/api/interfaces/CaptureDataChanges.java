@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces;
 
-import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;
+import com.kiwiko.jdashboard.tools.dataaccess.impl.JpaDataAccessObject;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  * To enroll a data entity, do the following:
  * <ol>
  *     <li>Annotate the JPA {@link javax.persistence.Entity} class with {@literal @CaptureDataChanges}</li>.
- *     <li>The entity's manager must extend {@link DataAccessObject}</li>.
+ *     <li>The entity's manager must extend {@link JpaDataAccessObject}</li>.
  * </ol>
  *
  * Record updates will be recorded as {@link com.kiwiko.jdashboard.services.tablerecordversions.api.dto.TableRecordVersion}s.

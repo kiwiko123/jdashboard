@@ -1,5 +1,6 @@
-package com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces;
+package com.kiwiko.jdashboard.tools.dataaccess.impl;
 
+import com.kiwiko.jdashboard.tools.dataaccess.api.interfaces.DataAccessObject;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.parameters.SaveDataChangeCaptureParameters;
 import com.kiwiko.jdashboard.library.lang.reflection.ReflectionHelper;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
@@ -29,7 +30,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Repository
-public abstract class DataAccessObject<T extends DataEntity> {
+public abstract class JpaDataAccessObject<T extends DataEntity> implements DataAccessObject<T> {
 
     // Spring-provisioned fields.
     @PersistenceContext private EntityManager entityManager;
@@ -40,7 +41,7 @@ public abstract class DataAccessObject<T extends DataEntity> {
     private final @Nullable CaptureDataChanges captureDataChanges;
     protected final Class<T> entityType; // Protected so that derived classes can access this without re-calculating the type on each invocation.
 
-    public DataAccessObject() {
+    public JpaDataAccessObject() {
         entityType = getEntityType();
         captureDataChanges = entityType.getAnnotation(CaptureDataChanges.class);
     }
@@ -52,6 +53,7 @@ public abstract class DataAccessObject<T extends DataEntity> {
      * @param entity the entity to persist
      * @return the entity that was saved, which can possibly be managed (live database connection)
      */
+    @Override
     public T save(T entity) {
         if (captureDataChanges != null) {
             return changeDataCaptureSave(entity);
@@ -60,6 +62,7 @@ public abstract class DataAccessObject<T extends DataEntity> {
         return persistToDataStore(entity);
     }
 
+    @Override
     public void delete(T entity) {
         if (entity instanceof SoftDeletable) {
             SoftDeletable softDeletableDataEntity = (SoftDeletable) entity;
@@ -75,6 +78,7 @@ public abstract class DataAccessObject<T extends DataEntity> {
     /**
      * @see EntityManager#flush()
      */
+    @Override
     public void flush() {
         entityManager.flush();
     }
@@ -83,6 +87,7 @@ public abstract class DataAccessObject<T extends DataEntity> {
      * @param id the primary key of the record to look up
      * @return the matching record, if any
      */
+    @Override
     public Optional<T> getById(long id) {
         return Optional.ofNullable(entityManager.find(entityType, id));
     }
@@ -95,6 +100,7 @@ public abstract class DataAccessObject<T extends DataEntity> {
      * @return a proxy entity
      * @see EntityManager#getReference(Class, Object)
      */
+    @Override
     public Optional<T> getProxyById(long id) {
         T proxy = null;
         try {

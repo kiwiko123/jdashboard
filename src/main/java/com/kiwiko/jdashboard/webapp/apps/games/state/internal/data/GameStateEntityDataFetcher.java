@@ -3,7 +3,7 @@ package com.kiwiko.jdashboard.webapp.apps.games.state.internal.data;
 import com.kiwiko.jdashboard.webapp.apps.games.state.api.errors.GameStateException;
 import com.kiwiko.jdashboard.webapp.apps.games.state.api.parameters.FindGameStateParameters;
 import com.kiwiko.jdashboard.webapp.apps.games.state.data.GameType;
-import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;
+import com.kiwiko.jdashboard.tools.dataaccess.impl.JpaDataAccessObject;
 
 import javax.inject.Singleton;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Singleton
-public class GameStateEntityDataFetcher extends DataAccessObject<GameStateEntity> {
+public class GameStateEntityDataFetcher extends JpaDataAccessObject<GameStateEntity> {
 
     public Optional<GameStateEntity> findForGame(String gameType, long gameId) {
         CriteriaBuilder builder = getCriteriaBuilder();

@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.services.featureflags.internal.data;
 
 import com.kiwiko.jdashboard.clients.featureflags.api.dto.FeatureFlagUserScope;
-import com.kiwiko.jdashboard.webapp.persistence.data.access.api.interfaces.DataAccessObject;
+import com.kiwiko.jdashboard.tools.dataaccess.impl.JpaDataAccessObject;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -11,7 +11,7 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Optional;
 
-public class FeatureFlagEntityDataFetcher extends DataAccessObject<FeatureFlagEntity> {
+public class FeatureFlagEntityDataFetcher extends JpaDataAccessObject<FeatureFlagEntity> {
 
     public Optional<FeatureFlagEntity> getByName(String name) {
         CriteriaBuilder builder = getCriteriaBuilder();
