@@ -5,6 +5,7 @@ import com.kiwiko.jdashboard.library.http.client.api.dto.ApiResponse;
 import com.kiwiko.jdashboard.library.http.client.api.exceptions.ClientException;
 import com.kiwiko.jdashboard.library.http.client.api.exceptions.ServerException;
 import com.kiwiko.jdashboard.library.http.client.api.interfaces.ApiClient;
+import com.kiwiko.jdashboard.library.http.client.impl.CoreHttpClient;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.caching.ApiClientCache;
 
 import javax.inject.Inject;

@@ -3,7 +3,7 @@ package com.kiwiko.jdashboard.tools.apiclient;
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
 import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardApiClient;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.ApiClientRequestHelper;
-import com.kiwiko.jdashboard.tools.apiclient.impl.http.CoreHttpClient;
+import com.kiwiko.jdashboard.library.http.client.impl.CoreHttpClient;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.HttpApiClient;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.HttpApiClientPlugins;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.JdashboardHttpApiClient;

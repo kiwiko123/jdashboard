@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.library.http.client.internal.security;
+package com.kiwiko.jdashboard.library.http.client.impl;
 
 import java.net.Authenticator;
 
