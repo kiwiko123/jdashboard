@@ -18,7 +18,7 @@ export default class CoreStateManger {
     }
 
     /**
-     * Induce a re-render a linked component.
+     * Induce a re-render in a linked component.
      *
      * Do not override this.
      */

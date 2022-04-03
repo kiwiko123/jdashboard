@@ -2,38 +2,44 @@ import React, { useEffect, useReducer, useState } from 'react';
 import PropTypes from 'prop-types';
 import Broadcaster from '../Broadcaster';
 import StateTransmitter from '../StateTransmitter';
+import StateManager from '../StateManager';
 
-let _global_id = 0;
+let _GLOBAL_ID = 0;
+const RESOLVE_SUCCESSFULLY = () => true;
 
 const ComponentStateManager = ({
-    component, broadcaster, canResolve, id,
+    component, manager, broadcaster, canResolve, id,
 }) => {
-    const [numericalId] = useState(_global_id++);
+    const [numericalId] = useState(_GLOBAL_ID++);
     const [, forceUpdate] = useReducer(i => i + 1, 0);
-    useEffect(() => {
-        broadcaster._setUpdater(forceUpdate, numericalId);
-        return () => {
-            broadcaster.removeUpdater(numericalId);
-        };
-    }, [broadcaster, numericalId]);
+    const stateManager = manager || broadcaster;
 
-    const broadcasterState = broadcaster.getState();
-    if (!canResolve(broadcasterState)) {
+    useEffect(() => {
+        stateManager._setUpdater(forceUpdate, numericalId);
+        return () => {
+            stateManager.removeUpdater(numericalId);
+        };
+    }, [stateManager, numericalId]);
+
+    const managerState = stateManager.getState();
+    if (!canResolve(managerState)) {
         return null;
     }
 
     const ComponentType = component;
     return (
-        <ComponentType {...broadcasterState} />
+        <ComponentType {...managerState} />
     );
 };
 
 ComponentStateManager.propTypes = {
     component: PropTypes.elementType.isRequired,
+    manager: PropTypes.instanceOf(StateManager),
+    // Deprecated; prefer `manager`.
     broadcaster: PropTypes.oneOfType([
         PropTypes.instanceOf(Broadcaster),
         PropTypes.instanceOf(StateTransmitter),
-    ]).isRequired,
+    ]),
 
     // A function that takes in the broadcaster's state, and returns a boolean.
     // If this returns false, the component should not be rendered.
@@ -44,7 +50,7 @@ ComponentStateManager.propTypes = {
 };
 
 ComponentStateManager.defaultProps = {
-    canResolve: () => true,
+    canResolve: RESOLVE_SUCCESSFULLY,
     id: null,
 };
 
