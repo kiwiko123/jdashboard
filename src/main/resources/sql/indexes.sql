@@ -37,3 +37,7 @@ CREATE INDEX ON chatroom_message_room_users (user_id) WHERE is_removed = false;
 CREATE INDEX ON chatroom_messages (chatroom_message_room_id) WHERE is_removed = false;
 
 CREATE INDEX ON permissions (user_id, permission_name);
+
+CREATE INDEX ON grocery_lists (user_id) WHERE is_removed = false;
+CREATE INDEX ON grocery_items (lower(name)) WHERE is_removed = false;
+CREATE INDEX ON grocery_list_items (grocery_list_id) WHERE is_removed = false;

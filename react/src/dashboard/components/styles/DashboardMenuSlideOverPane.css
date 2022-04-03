@@ -28,6 +28,10 @@
     margin: 0;
 }
 
+.DashboardMenuSlideOverPane > .quick-links > .section > .IconButton {
+    margin-bottom: 0.5rem;
+}
+
 .DashboardMenuSlideOverPane > .header {
     display: flex;
 }

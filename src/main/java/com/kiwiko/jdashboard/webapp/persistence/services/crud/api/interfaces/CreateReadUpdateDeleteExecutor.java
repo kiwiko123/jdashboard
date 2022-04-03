@@ -81,6 +81,20 @@ public class CreateReadUpdateDeleteExecutor {
         });
     }
 
+    public <Entity extends DataEntity,
+            Dto extends DataEntityDTO,
+            DataFetcher extends JpaDataAccessObject<Entity>,
+            Mapper extends DataEntityMapper<Entity, Dto>> Dto delete(long id, DataFetcher dataFetcher, Mapper mapper) {
+        return transactionProvider.readWrite(() -> {
+            Entity existingRecord = dataFetcher.getById(id).orElse(null);
+            Objects.requireNonNull(existingRecord, String.format("No existing record found with ID %d", id));
+
+            Dto obj = mapper.toDto(existingRecord);
+            dataFetcher.delete(existingRecord);
+            return obj;
+        });
+    }
+
     /**
      * Merge the provided DTO into the existing record and persist changes.
      * The existing record will be retrieved from the database.

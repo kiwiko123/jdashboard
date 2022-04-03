@@ -6,6 +6,7 @@ import ScrabblePlayPage from './scrabble/pages/ScrabblePlayPage';
 import PazaakPlayPage from 'pazaak/PazaakPlayPage';
 import ChatroomPage from 'chatroom/ChatroomPage';
 import ChatroomRoomPage from 'chatroom/rooms/ChatroomRoomPage';
+import GroceryListPage from 'grocerylist/GroceryListPage';
 import NotFoundPage from './dashboard/pages/NotFoundPage';
 
 const ROUTES = [
@@ -55,6 +56,11 @@ const ROUTES = [
         id: 'scrabblePlay',
         path: '/scrabble/play',
         component: ScrabblePlayPage,
+    },
+    {
+        id: 'groceryList',
+        path: '/grocerylist',
+        component: GroceryListPage,
     },
 ];
 
