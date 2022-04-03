@@ -1,5 +1,5 @@
 import React from 'react';
-import DashboardPage from '../../dashboard/components/DashboardPage';
+import JdashboardPage from '../../dashboard/components/JdashboardPage';
 import HomeContent from '../components/HomeContent';
 import HomeBroadcaster from '../state/HomeBroadcaster';
 import DashboardNotificationsStateTransmitter from 'dashboard/notifications/state/DashboardNotificationsStateTransmitter';
@@ -14,7 +14,7 @@ const HomePage = () => {
     const notificationsStateTransmitter = new DashboardNotificationsStateTransmitter('jdashboard-notifications');
 
     return (
-        <DashboardPage
+        <JdashboardPage
             className="HomePage"
             title="Home"
             appId="home"
@@ -24,7 +24,7 @@ const HomePage = () => {
                 broadcaster={notificationsStateTransmitter}
                 component={HomeContent}
             />
-        </DashboardPage>
+        </JdashboardPage>
     );
 };
 
