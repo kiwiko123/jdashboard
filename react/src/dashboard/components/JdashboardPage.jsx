@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import ComponentStateManager from 'state/components/ComponentStateManager';
 import { useStateManager } from 'state/hooks';
+import ClientSessionManager from 'tools/clientSessions/ClientSessionManager';
 import DashboardHeaderStateManager from '../../dashboard/state/DashboardHeaderStateManager';
 import DashboardHeader from './DashboardHeader';
 import DashboardMenuAssistantPane from './DashboardMenuAssistantPane';
@@ -17,6 +18,13 @@ const JdashboardPage = ({
     useEffect(() => {
         document.title = title;
     }, [title]);
+    useEffect(() => {
+        const clientSessionManager = new ClientSessionManager();
+        clientSessionManager.createNewSession();
+        return () => {
+            clientSessionManager.endSession();
+        };
+    }, []);
     const headerStateManager = useStateManager(() => new DashboardHeaderStateManager());
 
     const pageClassName = classnames('DashboardPage', className);

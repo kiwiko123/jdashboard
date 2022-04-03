@@ -1,22 +1,12 @@
-import { isEmpty, throttle } from 'lodash';
-import Request from '../../common/js/Request';
-import { GET_CURRENT_USER_URL } from '../../accounts/js/urls';
+import { throttle } from 'lodash';
+import Request from 'tools/http/Request';
 
 const MAX_REQUEST_MS = 2000;
 
 const getCurrentUserData = throttle(() => {
-    return Request.to(GET_CURRENT_USER_URL)
-        .withAuthentication()
-        .get()
-        .then((data) => {
-            if (isEmpty(data)) {
-                return null;
-            }
-            return {
-                id: data.id,
-                username: data.username,
-            };
-        });
+    return Request.to('/user-auth/public-api/users/current')
+        .authenticated()
+        .get();
 }, MAX_REQUEST_MS);
 
 /**
