@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import ComponentStateManager from 'state/components/ComponentStateManager';
-import { useStateManager } from 'state/hooks';
-import ClientSessionManager from 'tools/clientSessions/ClientSessionManager';
+import { useStateManager, useTabTitle } from 'state/hooks';
+import useManagedClientSession from './util/useManagedClientSession';
 import DashboardHeaderStateManager from '../../dashboard/state/DashboardHeaderStateManager';
 import DashboardHeader from './DashboardHeader';
 import DashboardMenuAssistantPane from './DashboardMenuAssistantPane';
@@ -15,16 +15,8 @@ import './styles/DashboardPage.css';
 const JdashboardPage = ({
     children, className, title, appId, showMenuAssistant,
 }) => {
-    useEffect(() => {
-        document.title = title;
-    }, [title]);
-    useEffect(() => {
-        const clientSessionManager = new ClientSessionManager();
-        clientSessionManager.createNewSession();
-        return () => {
-            clientSessionManager.endSession();
-        };
-    }, []);
+    useTabTitle(title);
+    useManagedClientSession();
     const headerStateManager = useStateManager(() => new DashboardHeaderStateManager());
 
     const pageClassName = classnames('DashboardPage', className);

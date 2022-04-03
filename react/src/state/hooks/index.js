@@ -7,10 +7,11 @@ import usePushService from './usePushService';
 import useStateObject from './useStateObject';
 import useStateTransmitter from './useStateTransmitter';
 import useStateManager from './useStateManager';
+import useTabTitle from './useTabTitle';
 import useWebSocket from './useWebSocket';
 
 export {
-    useBroadcaster,
+    useBroadcaster, // Deprecated.
     useCurrentUser,
     useCurrentUserPromise,
     useEventSubmit,
@@ -18,6 +19,7 @@ export {
     usePushService,
     useStateObject,
     useStateManager,
-    useStateTransmitter,
+    useStateTransmitter, // Deprecated.
+    useTabTitle,
     useWebSocket,
 };

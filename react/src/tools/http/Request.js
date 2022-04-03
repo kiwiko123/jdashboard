@@ -1,49 +1,19 @@
-import { endsWith, identity, isEmpty, isNumber, omit, pickBy, startsWith } from 'lodash';
+import { isEmpty, omit, pickBy } from 'lodash';
 import { getServerUrl } from 'common/js/config';
-
-function normalizeUrl(base, url) {
-    if (!isEmpty(base)) {
-        if (!startsWith(url, '/')) {
-            url = `/${url}`;
-        }
-        if (!endsWith(url, '/')) {
-            url = `${url}/`;
-        }
-    }
-    return `${base}${url}`;
-}
-
-function buildRequestParameterUrl(url, requestParameters) {
-    if (isEmpty(requestParameters)) {
-        return url;
-    }
-
-    const query = Object.entries(requestParameters)
-        .map(([key, value]) => [key, encodeURIComponent(value)])
-        .map(pair => pair.join('='))
-        .join('&');
-    return `${url}?${query}`;
-}
-
-function makeUrl(url, requestParameters) {
-    if (isEmpty(requestParameters)) {
-        return url;
-    }
-    return buildRequestParameterUrl(url, requestParameters);
-}
+import { checkResponseStatus, makeUrl, normalizeUrl, transformResponse } from './requestOperations';
 
 export default class Request {
-
     static to(url) {
-        return new Request(url);
+        const normalizedUrl = normalizeUrl(getServerUrl(), url);
+        return new Request(normalizedUrl);
     }
 
     constructor(url) {
-        this._url = normalizeUrl(getServerUrl(), url);
+        this._url = url;
         this._requestParameters = {};
         this._body = {};
-        this._extractResponse = identity;
-        this._handleErrors = () => {};
+        this._transformResponse = transformResponse;
+        this._handleErrors = checkResponseStatus;
         this._internalFetchParameters = {};
     }
 
@@ -57,8 +27,8 @@ export default class Request {
         return this;
     }
 
-    responseExtractor(responseExtractor) {
-        this._extractResponse = responseExtractor;
+    responseTransformer(responseTransformer) {
+        this._transformResponse = responseTransformer;
         return this;
     }
 
@@ -89,12 +59,12 @@ export default class Request {
         return this.__makeCreateRequest('PUT', fetchParameters);
     }
 
-    async delete(fetchParameters = {}) {
-        return this.__makeCreateRequest('DELETE', fetchParameters);
-    }
-
     async patch(fetchParameters = {}) {
         return this.__makeCreateRequest('PATCH', fetchParameters);
+    }
+
+    async delete(fetchParameters = {}) {
+        return this.__makeCreateRequest('DELETE', fetchParameters);
     }
 
     async __makeRequest(url, parameters) {
@@ -103,29 +73,26 @@ export default class Request {
             ...parameters,
         };
         return fetch(url, allParameters)
-            .then(response => response.json())
+            .then(response => response.text())
+            .then(this._transformResponse)
             .then((response) => {
                 this._handleErrors(response);
-                if (isNumber(response.status) && response.status !== 200) {
-                    throw new Error(response.message);
-                }
-                return this._extractResponse(response);
+                return response;
             });
     }
 
     async __makeCreateRequest(method, fetchParameters = {}) {
         const url = makeUrl(this._url, this._requestParameters);
+        const bodyParameters = isEmpty(this._body) ? {} : { body: JSON.stringify(this._body) };
         const parameters = {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
+            ...bodyParameters,
             ...fetchParameters,
             method,
         };
-        if (!isEmpty(this._body)) {
-            parameters.body = JSON.stringify(this._body);
-        }
 
         return this.__makeRequest(url, parameters);
     }
