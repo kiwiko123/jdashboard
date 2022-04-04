@@ -39,7 +39,7 @@ const JdashboardPage = ({
         <div className={pageClassName}>
             {menuAssistant}
             <ComponentStateManager
-                broadcaster={headerStateManager}
+                stateManager={headerStateManager}
                 component={DashboardHeaderComponent}
             />
             <hr className="header-divider" />

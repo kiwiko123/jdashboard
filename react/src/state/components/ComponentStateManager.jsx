@@ -1,40 +1,41 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Broadcaster from '../Broadcaster';
 import StateTransmitter from '../StateTransmitter';
 import StateManager from '../StateManager';
+import DefaultComponentStateManager from './DefaultComponentStateManager';
+import BroadcasterComponentStateManager from './BroadcasterComponentStateManager';
 
-let _GLOBAL_ID = 0;
 const RESOLVE_SUCCESSFULLY = () => true;
 
 const ComponentStateManager = ({
-    component, manager, broadcaster, canResolve, id,
+    component, stateManager, broadcaster, canResolve, id,
 }) => {
-    const [numericalId] = useState(_GLOBAL_ID++);
-    const [, forceUpdate] = useReducer(i => i + 1, 0);
-    const stateManager = manager || broadcaster;
-
-    useEffect(() => {
-        stateManager._setUpdater(forceUpdate, numericalId);
-        return () => {
-            stateManager.removeUpdater(numericalId);
-        };
-    }, [stateManager, numericalId]);
-
-    const managerState = stateManager.getState();
-    if (!canResolve(managerState)) {
-        return null;
+    if (broadcaster) {
+        // Deprecated flow
+        return (
+            <BroadcasterComponentStateManager
+                component={component}
+                broadcaster={broadcaster}
+                canResolve={canResolve}
+                id={id}
+            />
+        );
     }
 
-    const ComponentType = component;
     return (
-        <ComponentType {...managerState} />
+        <DefaultComponentStateManager
+            component={component}
+            stateManager={stateManager}
+            canResolve={canResolve}
+            id={id}
+        />
     );
 };
 
 ComponentStateManager.propTypes = {
     component: PropTypes.elementType.isRequired,
-    manager: PropTypes.instanceOf(StateManager),
+    stateManager: PropTypes.instanceOf(StateManager),
     // Deprecated; prefer `manager`.
     broadcaster: PropTypes.oneOfType([
         PropTypes.instanceOf(Broadcaster),
