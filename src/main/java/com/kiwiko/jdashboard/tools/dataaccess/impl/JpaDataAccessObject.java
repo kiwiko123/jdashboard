@@ -16,6 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -130,6 +131,13 @@ public abstract class JpaDataAccessObject<T extends DataEntity> implements DataA
      */
     protected TypedQuery<T> createQuery(String queryString) {
         return createQuery(queryString, entityType);
+    }
+
+    /**
+     * @see EntityManager#createNativeQuery(String)
+     */
+    protected <U> Query createNativeQuery(String query) {
+        return entityManager.createNativeQuery(query, entityType);
     }
 
     protected <U> Optional<U> getSingleResult(CriteriaQuery<U> query) {

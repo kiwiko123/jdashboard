@@ -67,7 +67,9 @@ public class GameStateEntityDataFetcher extends JpaDataAccessObject<GameStateEnt
                 String.format("WHERE ugsa.user_id = %d ", userId) +
                 "AND gs.is_removed = false;";
 
-        return createQuery(queryString, GameStateEntity.class).getResultList();
+        @SuppressWarnings("unchecked")
+        List<GameStateEntity> results = createNativeQuery(queryString).getResultList();
+        return results;
     }
 
     public List<GameStateEntity> findByGameTypeAndUser(GameType gameType, long userId) {
@@ -77,7 +79,9 @@ public class GameStateEntityDataFetcher extends JpaDataAccessObject<GameStateEnt
                 String.format("AND gs.game_type = '%s' ", gameType.toString()) +
                 "AND gs.is_removed = false;";
 
-        return createQuery(queryString).getResultList();
+        @SuppressWarnings("unchecked")
+        List<GameStateEntity> results = createNativeQuery(queryString).getResultList();
+        return results;
     }
 
     public Optional<GameStateEntity> findIndividualByParameters(FindGameStateParameters parameters) {
@@ -110,7 +114,8 @@ public class GameStateEntityDataFetcher extends JpaDataAccessObject<GameStateEnt
 
         queryBuilder.append(';');
 
-        List<GameStateEntity> results = createQuery(queryBuilder.toString()).getResultList();
+        @SuppressWarnings("unchecked")
+        List<GameStateEntity> results = createNativeQuery(queryBuilder.toString()).getResultList();
         if (results.size() > 1) {
             throw new GameStateException(String.format("%d entities found for parameters %s", results.size(), parameters));
         }
