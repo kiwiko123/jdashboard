@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,7 +32,7 @@ public class UserAuthApiController {
     @Inject private UserCreator userCreator;
 
     @GetMapping("/users/current")
-    public GetCurrentUserResponse getCurrentUser(@AuthenticatedUser(required = false) User user) {
+    public GetCurrentUserResponse getCurrentUser(@AuthenticatedUser(required = false) @Nullable User user) {
         if (user == null) {
             return null;
         }
