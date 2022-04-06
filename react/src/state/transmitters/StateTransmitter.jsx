@@ -36,7 +36,13 @@ export default class StateTransmitter extends CoreStateManager {
         this.update();
     }
 
-    destroy() {
+    tearDown() {
+        super.tearDown();
         StateTransmitterRegistry.deregister(this);
+    }
+
+    // Deprecated
+    destroy() {
+        this.tearDown();
     }
 }

@@ -2,27 +2,25 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import StateManager from '../StateManager';
 
-let _GLOBAL_ID = 0;
 const RESOLVE_SUCCESSFULLY = () => true;
 
 const DefaultComponentStateManager = ({
     component, stateManager, canResolve, id,
 }) => {
-    const [numericalId] = useState(_GLOBAL_ID++);
-    const [managerState, setManagerState] = useState(stateManager.getState());
-
+    const [managerState, setManagerState] = useState(stateManager.state);
     useEffect(() => {
+        const componentId = `ComponentStateManager-${stateManager.id}`;
         stateManager.setUp({
-            id: numericalId,
+            id: componentId,
             processState: ({ state }) => {
-                setManagerState({ ...state });
+                setManagerState(state);
             },
         });
 
         return () => {
-            stateManager.tearDown({ id: numericalId });
+            stateManager.tearDown({ id: componentId });
         };
-    }, [stateManager, setManagerState, numericalId]);
+    }, [stateManager, setManagerState]);
 
     if (!canResolve(managerState)) {
         return null;
@@ -38,7 +36,7 @@ DefaultComponentStateManager.propTypes = {
     component: PropTypes.elementType.isRequired,
     stateManager: PropTypes.instanceOf(StateManager).isRequired,
 
-    // A function that takes in the broadcaster's state, and returns a boolean.
+    // A function that takes in the manager's state, and returns a boolean.
     // If this returns false, the component should not be rendered.
     canResolve: PropTypes.func,
 
