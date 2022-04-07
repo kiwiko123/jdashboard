@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import Request from '../Request';
+import Request from 'tools/http/Request';
 import Logger from './Logger';
 import ConsoleLogger from './ConsoleLogger';
 
@@ -19,7 +19,7 @@ export default class ServerLogger extends Logger {
             timestamp: new Date(),
         };
         Request.to(LOG_BY_LEVEl_URL)
-            .withBody(payload)
+            .body(payload)
             .put()
             .then(() => {
                 this._consoleLogger.log(level, message, error);

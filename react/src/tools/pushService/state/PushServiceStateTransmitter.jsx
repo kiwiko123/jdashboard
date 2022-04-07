@@ -22,7 +22,7 @@ export default class PushServiceStateTransmitter extends StateTransmitter {
             this._establishConnection();
         } else {
             getCurrentUser().then((user) => {
-                if (!user.id) {
+                if (!user) {
                     logger.error(`Unable to open Push Service connection because the current user cannot be determined: ${this.id}`);
                     return;
                 }

@@ -4,6 +4,8 @@ import classnames from 'classnames';
 import ComponentStateManager from 'state/components/ComponentStateManager';
 import { useStateManager, useTabTitle } from 'state/hooks';
 import useManagedClientSession from './util/useManagedClientSession';
+import useRequiredConditions from './util/useRequiredConditions';
+import conditionsPropType from 'tools/dashboard/conditions/conditionsPropType';
 import DashboardHeaderStateManager from '../../dashboard/state/DashboardHeaderStateManager';
 import DashboardHeader from './DashboardHeader';
 import DashboardMenuAssistantPane from './DashboardMenuAssistantPane';
@@ -13,8 +15,9 @@ import '../../common/styles/common.css';
 import './styles/DashboardPage.css';
 
 const JdashboardPage = ({
-    children, className, title, appId, showMenuAssistant,
+    children, className, title, appId, showMenuAssistant, requiredConditions,
 }) => {
+    useRequiredConditions(requiredConditions);
     useTabTitle(title);
     useManagedClientSession();
     const headerStateManager = useStateManager(() => new DashboardHeaderStateManager());
@@ -50,12 +53,16 @@ JdashboardPage.propTypes = {
     title: PropTypes.string,
     appId: PropTypes.string.isRequired,
     showMenuAssistant: PropTypes.bool,
+
+    // If any of the conditions resolve to a falsy value, the page will be redirected to `/not-found`.
+    requiredConditions: PropTypes.arrayOf(conditionsPropType),
 };
 
 JdashboardPage.defaultProps = {
     className: null,
     title: 'Jdashboard',
     showMenuAssistant: true,
+    requiredConditions: [],
 };
 
 export default JdashboardPage;

@@ -1,7 +1,8 @@
 import React from 'react';
-import DashboardPage from '../../dashboard/components/DashboardPage';
-import ComponentStateManager from '../../state/components/ComponentStateManager';
-import { useStateManager } from '../../state/hooks';
+import { authenticatedUser } from 'tools/dashboard/conditions';
+import JdashboardPage from 'dashboard/components/JdashboardPage';
+import ComponentStateManager from 'state/components/ComponentStateManager';
+import { useStateManager } from 'state/hooks';
 import FeatureFlagToolbarStateTransmitter from './state/FeatureFlagToolbarStateTransmitter';
 import FeatureFlagModalStateTransmitter from './state/FeatureFlagModalStateTransmitter';
 import FeatureFlagPageToolbar from './components/FeatureFlagPageToolbar';
@@ -13,9 +14,10 @@ export default function() {
     const featureFlagModalStateTransmitter = useStateManager(() => new FeatureFlagModalStateTransmitter());
 
     return (
-        <DashboardPage
+        <JdashboardPage
             appId="featureFlagAdminPage"
             title="Feature Flags"
+            requiredConditions={[authenticatedUser()]}
         >
             <ComponentStateManager
                 component={FeatureFlagPageToolbar}
@@ -28,6 +30,6 @@ export default function() {
                 />
             </div>
             <FeatureFlagPageContent />
-        </DashboardPage>
+        </JdashboardPage>
     );
 }

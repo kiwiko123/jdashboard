@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import Request from '../Request';
+import Request from 'tools/http/Request';
 import Logger from './Logger';
 import ConsoleLogger from './ConsoleLogger';
 
@@ -58,7 +58,7 @@ export default class BatchedServerLogger extends Logger {
         LOGS = [];
         const payload = { logs: PENDING_LOGS };
         Request.to(LOG_BY_LEVEl_BATCHED_URL)
-            .withBody(payload)
+            .body(payload)
             .put()
             .then(() => {
                 PENDING_LOGS = [];

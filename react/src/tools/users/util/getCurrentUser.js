@@ -1,11 +1,11 @@
-import Request from 'common/js/Request';
-import logger from 'common/js/logging';
+import { throttle } from 'lodash';
+import Request from 'tools/http/Request';
 
-export default function() {
-    return Request.to('/user-auth/api/users/current')
-        .withAuthentication()
-        .get()
-        .catch((error) => {
-            logger.error('Error fetching the currently logged-in user');
-        });
-}
+const MAX_REQUEST_MS = 2000;
+const getCurrentUserData = throttle(() => {
+    return Request.to('/user-auth/public-api/users/current')
+        .authenticated()
+        .get();
+}, MAX_REQUEST_MS);
+
+export default getCurrentUserData;
