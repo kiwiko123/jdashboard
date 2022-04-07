@@ -33,9 +33,16 @@ export default class CoreStateManager {
      * Do not override this.
      */
     update() {
-        this.__stateProcessorsById.forEach(processState => processState({ state: { ...this.state } }));
-        this.__updaters.forEach(updater => updater()); // Deprecated
+        const state = {...this.state}; // Make a copy to ensure that linked components re-render.
+        this.__stateProcessorsById.forEach(processState => processState({ state }));
+
+        // Deprecated.
+        this.__updaters.forEach(updater => updater());
     }
+
+    // ===            ===
+    // === Deprecated ===
+    // ===            ===
 
     /**
      * A ComponentStateManager invokes this on its first render.

@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import StateManager from '../StateManager';
 
 const RESOLVE_SUCCESSFULLY = () => true;
+const EMPTY_OBJECT = {};
 
 const DefaultComponentStateManager = ({
-    component, stateManager, canResolve, id,
+    component, stateManager, canResolve, id, staticProps,
 }) => {
     const [managerState, setManagerState] = useState(stateManager.state);
     useEffect(() => {
@@ -28,7 +29,10 @@ const DefaultComponentStateManager = ({
 
     const ComponentType = component;
     return (
-        <ComponentType {...managerState} />
+        <ComponentType
+            {...managerState}
+            {...staticProps}
+        />
     );
 };
 
@@ -42,11 +46,14 @@ DefaultComponentStateManager.propTypes = {
 
     // An identifier used solely for debugging purposes, like setting a breakpoint conditional on the ID.
     id: PropTypes.string,
+
+    staticProps: PropTypes.object,
 };
 
 DefaultComponentStateManager.defaultProps = {
     canResolve: RESOLVE_SUCCESSFULLY,
     id: null,
+    staticProps: EMPTY_OBJECT,
 };
 
 export default DefaultComponentStateManager;

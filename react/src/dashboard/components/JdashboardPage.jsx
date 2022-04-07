@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import ComponentStateManager from 'state/components/ComponentStateManager';
@@ -27,20 +27,14 @@ const JdashboardPage = ({
         >
         </DashboardMenuAssistantPane>
     );
-    const DashboardHeaderComponent = useCallback((componentProps) => (
-        <DashboardHeader
-            {...componentProps}
-            title={title}
-            appId={appId}
-        />
-    ), [title, appId]);
 
     return (
         <div className={pageClassName}>
             {menuAssistant}
             <ComponentStateManager
                 stateManager={headerStateManager}
-                component={DashboardHeaderComponent}
+                component={DashboardHeader}
+                staticProps={{ title, appId }}
             />
             <hr className="header-divider" />
             <div className="body">

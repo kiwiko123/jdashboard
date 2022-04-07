@@ -7,9 +7,10 @@ import DefaultComponentStateManager from './DefaultComponentStateManager';
 import BroadcasterComponentStateManager from './BroadcasterComponentStateManager';
 
 const RESOLVE_SUCCESSFULLY = () => true;
+const EMPTY_OBJECT = {};
 
 const ComponentStateManager = ({
-    component, stateManager, broadcaster, canResolve, id,
+    component, stateManager, broadcaster, canResolve, id, staticProps,
 }) => {
     if (broadcaster) {
         // Deprecated flow
@@ -29,6 +30,7 @@ const ComponentStateManager = ({
             stateManager={stateManager}
             canResolve={canResolve}
             id={id}
+            staticProps={staticProps}
         />
     );
 };
@@ -48,11 +50,14 @@ ComponentStateManager.propTypes = {
 
     // An identifier used solely for debugging purposes, like setting a breakpoint conditional on the ID.
     id: PropTypes.string,
+
+    staticProps: PropTypes.object,
 };
 
 ComponentStateManager.defaultProps = {
     canResolve: RESOLVE_SUCCESSFULLY,
     id: null,
+    staticProps: EMPTY_OBJECT,
 };
 
 export default ComponentStateManager;
