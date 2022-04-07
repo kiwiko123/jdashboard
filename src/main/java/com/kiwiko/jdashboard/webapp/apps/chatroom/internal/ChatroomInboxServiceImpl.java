@@ -15,6 +15,7 @@ import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.exceptions.Chatr
 import com.kiwiko.jdashboard.clients.users.api.dto.User;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.UserClient;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.queries.GetUsersQuery;
+import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.exceptions.InvalidUsersException;
 import com.kiwiko.jdashboard.webapp.persistence.identification.unique.api.interfaces.UniqueIdentifierService;
 import com.kiwiko.jdashboard.library.lang.util.TypedObjects;
 
@@ -162,6 +163,10 @@ public class ChatroomInboxServiceImpl implements ChatroomInboxService {
                 .build();
 
         Set<User> result = userClient.getByQuery(getRecipientsQuery).getUsers();
+        if (result.size() != input.getRecipientUsernames().size()) {
+            throw new InvalidUsersException(String.format("Error creating room for users; expected %d but found %d", input.getRecipientUsernames().size(), result.size()));
+        }
+
         userClient.getById(input.getUserId()).getUser()
                 .ifPresent(result::add);
 
