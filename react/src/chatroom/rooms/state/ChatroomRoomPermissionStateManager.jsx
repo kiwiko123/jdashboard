@@ -1,7 +1,6 @@
-import { get } from 'lodash';
 import StateTransmitter from 'state/StateTransmitter';
 import Request from 'tools/http/Request';
-import { goTo, quietlyGoTo } from 'common/js/urltools';
+import { quietlyGoTo } from 'common/js/urltools';
 
 export default class ChatroomRoomPermissionStateManager extends StateTransmitter {
 

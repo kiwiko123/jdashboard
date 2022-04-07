@@ -1,4 +1,4 @@
-import { get, set } from 'lodash';
+import { set } from 'lodash';
 import StateManager from 'state/StateManager';
 import Request from 'tools/http/Request';
 import { goTo } from 'common/js/urltools';

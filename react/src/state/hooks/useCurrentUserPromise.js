@@ -1,4 +1,4 @@
-import { isEmpty, throttle } from 'lodash';
+import { throttle } from 'lodash';
 import Request from 'tools/http/Request';
 
 const MAX_REQUEST_MS = 2000;
