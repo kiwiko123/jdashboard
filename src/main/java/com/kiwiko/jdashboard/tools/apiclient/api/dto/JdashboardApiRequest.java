@@ -62,7 +62,9 @@ public abstract class JdashboardApiRequest implements ApiRequest {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "{" +
-                "requestBody=" + getRequestBody() +
+                "requestUrl=" + getRequestUrl().toUrlString() +
+                ", requestMethod=" + getRequestMethod() +
+                ", requestBody=" + getRequestBody() +
                 ", requestTimeout=" + getRequestTimeout() +
                 ", redirectionPolicy=" + getRedirectionPolicy() +
                 ", requestHeaders=" + getRequestHeaders() +
