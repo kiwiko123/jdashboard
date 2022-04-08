@@ -29,7 +29,7 @@ function getFieldComponents(fields) {
 }
 
 const SimpleForm = ({
-    fields, isFormValid, className,
+    fields, isFormValid, actions, className,
 }) => {
     const fieldComponents = getFieldComponents(fields);
     const divClassName = classnames('SimpleForm', className);
@@ -43,10 +43,19 @@ const SimpleForm = ({
                 <IconButton
                     className="submit-form-button"
                     variant="primary"
-                    onClick={() => {}}
+                    fontAwesomeClassName="fas fa-paper-plane"
+                    onClick={actions.submitForm}
                     disabled={!isFormValid}
                 >
                     Submit
+                </IconButton>
+                <IconButton
+                    className="reset-form-button"
+                    variant="warning"
+                    fontAwesomeClassName="fas fa-undo"
+                    onClick={actions.clearForm}
+                >
+                    Reset
                 </IconButton>
             </div>
         </div>
@@ -65,6 +74,10 @@ SimpleForm.propTypes = {
         onChange: PropTypes.func,
     })),
     isFormValid: PropTypes.bool,
+    actions: PropTypes.shape({
+        submitForm: PropTypes.func.isRequired,
+        clearForm: PropTypes.func.isRequired,
+    }).isRequired,
     className: PropTypes.string,
 };
 

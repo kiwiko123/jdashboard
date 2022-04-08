@@ -1,23 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import SimpleForm from 'tools/forms/components/SimpleForm';
 
-const CreateGroceryListForm = ({
-    fields, isFormValid,
-}) => {
+const CreateGroceryListForm = (props) => {
     return (
         <SimpleForm
+            {...props}
             className="CreateGroceryListForm"
-            fields={fields}
-            isFormValid={isFormValid}
         />
     );
 };
 
 CreateGroceryListForm.propTypes = {
+    ...SimpleForm.propTypes,
 };
 
 CreateGroceryListForm.defaultProps = {
+    ...SimpleForm.defaultProps,
 };
 
 export default CreateGroceryListForm;
