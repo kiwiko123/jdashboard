@@ -1,11 +1,9 @@
-import logger from 'common/js/logging';
 import ClientSessionManager from 'tools/clientSessions/ClientSessionManager';
 import PushServiceSessionManager from 'tools/pushService/private/PushServiceSessionManager';
 
 class LifecycleManager {
 
     constructor() {
-        logger.debug('Init LifecycleManager');
         this.clientSessionManager = new ClientSessionManager();
     }
 

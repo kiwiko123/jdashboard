@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import logger from 'common/js/logging';
+import logger from 'tools/monitoring/logging';
 import StateTransmitter from 'state/StateTransmitter';
 import getCurrentUser from 'tools/users/util/getCurrentUser';
 import PushServiceSessionManager from '../private/PushServiceSessionManager';
@@ -101,9 +101,7 @@ export default class PushServiceStateTransmitter extends StateTransmitter {
 
     _confirmConnection(rawJsonData) {
         const payload = JSON.parse(rawJsonData);
-        if (payload.sessionId) {
-            logger.debug('Client has confirmed connection with push service');
-        } else {
+        if (!payload.sessionId) {
             logger.error('Expected to but did not receive push service connection confirmation');
         }
         this._webSocketSessionId = payload.sessionId;
