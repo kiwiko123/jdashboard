@@ -3,6 +3,7 @@ import StateManager from 'state/StateManager';
 import logger from 'tools/monitoring/logging';
 import * as FormOperations from '../util/formOperations';
 
+//eslint-disable-next-line no-unused-vars
 const FORM_FIELD_TEMPLATE = {
     name: 'exampleFieldName',
     type: 'input',

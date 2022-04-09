@@ -16,7 +16,7 @@ export default function() {
         <JdashboardPage
             appId="groceryList"
             title="Grocery List"
-            requiredConditions={[authenticatedUser()]}
+            requiredConditions={[authenticatedUser]}
         >
             <ComponentStateManager
                 stateManager={modalStateManager}

@@ -17,7 +17,7 @@ export default function() {
         <JdashboardPage
             appId="featureFlagAdminPage"
             title="Feature Flags"
-            requiredConditions={[authenticatedUser()]}
+            requiredConditions={[authenticatedUser]}
         >
             <ComponentStateManager
                 component={FeatureFlagPageToolbar}

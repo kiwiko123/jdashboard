@@ -9,12 +9,13 @@ export default function useRequiredConditions(conditions) {
             return;
         }
 
-        Promise.all(conditions.map(condition => condition.condition))
+        const evaluatedPromises = conditions.map(condition => condition.condition());
+        Promise.all(evaluatedPromises)
             .then((values) => {
                 const failedConditionIndex = values.findIndex(v => !v);
                 if (failedConditionIndex >= 0) {
                     const failedConditionName = get(conditions, [failedConditionIndex, 'name'], '(unknown)');
-                    logger.error(`Failed condition ${failedConditionName}`);
+                    logger.debug(`Failed condition ${failedConditionName}`);
                     goTo('/not-found');
                 }
             });
