@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import logger from 'tools/monitoring/logging';
 import InputFormField from 'common/forms/components/core/InputFormField';
+import DropdownSelectorFormField from 'common/forms/components/core/DropdownSelectorFormField';
 import IconButton from 'common/components/IconButton';
 
 function getFieldComponent(type) {
     switch (type) {
+        case 'dropdownSelector':
+            return DropdownSelectorFormField;
         case 'input':
-            return InputFormField;
         default:
-            logger.error(`Unknown field type "${type}"`);
-            return null;
+            return InputFormField;
     }
 }
 
@@ -65,7 +65,7 @@ const SimpleForm = ({
 SimpleForm.propTypes = {
     fields: PropTypes.objectOf(PropTypes.shape({
         name: PropTypes.string.isRequired,
-        type: PropTypes.string,
+        type: PropTypes.oneOf(['input', 'dropdownSelector']),
         label: PropTypes.string.isRequired,
         value: PropTypes.any,
         isRequired: PropTypes.bool,

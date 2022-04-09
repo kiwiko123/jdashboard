@@ -3,13 +3,25 @@ import StateManager from 'state/StateManager';
 import logger from 'tools/monitoring/logging';
 import * as FormOperations from '../util/formOperations';
 
+const FORM_FIELD_TEMPLATE = {
+    name: 'exampleFieldName',
+    type: 'input',
+    label: 'Example',
+    value: null,
+    isRequired: true,
+    validate: value => Boolean(value) && value.length > 0,
+};
+
+/**
+ * Base state manager for creating simple forms. This state manager is meant to be linked with a SimpleForm component;
+ * the state is packaged up in the exact shape that SimpleForm expects as props.
+ */
 export default class FormStateManager extends StateManager {
     constructor() {
         super();
 
         this.initForm();
         this.setState({
-            isFormValid: FormOperations.isFormValid(this.state.fields),
             actions: {
                 submitForm: this.submitForm.bind(this),
                 clearForm: this.clearForm.bind(this),
@@ -17,15 +29,27 @@ export default class FormStateManager extends StateManager {
         });
     }
 
+    /**
+     * Override to return the form's default fields. Refer to FORM_FIELD_TEMPLATE for an example of what makes up a field.
+     * The returned object's keys should be field names, and values are the corresponding field definitions.
+     *
+     * @return {object} an object whose keys are field names and values are field definitions
+     */
     defaultFields() {
         logger.warn(`No implementation of defaultFields in ${this.tag}`);
         return {};
     }
 
+    /**
+     * Override to define form submission logic. This function is called when the component's "Submit" button is pressed.
+     */
     submitForm() {
         logger.warn(`No implementation of submitForm for ${this.tag}`);
     }
 
+    /**
+     * Add a new field to the form. Derived state managers should invoke this in their constructors to set up the form's necessary fields.
+     */
     addField({ name, type, label, value, isRequired, validate }) {
         const { fields } = this.state;
         fields[name] = {
@@ -42,6 +66,9 @@ export default class FormStateManager extends StateManager {
         this.addState({ fields });
     }
 
+    /**
+     * Updates the value of a specific field. This is invoked when a field's value is updated.
+     */
     updateFieldValue(fieldName, value) {
         const { fields } = this.state;
         const field = fields[fieldName];
@@ -60,15 +87,20 @@ export default class FormStateManager extends StateManager {
         });
     }
 
+    /**
+     * Creates/restores the form state to its default values.
+     */
     initForm() {
-        this.addState({ fields: {} });
+        this.addState({
+            fields: {},
+            isFormValid: false,
+        });
         Object.entries(this.defaultFields())
             .forEach(([name, field]) => this.addField({ ...field, name }));
     }
 
     clearForm() {
         this.initForm();
-        this.render();
     }
 
     packageFormData() {

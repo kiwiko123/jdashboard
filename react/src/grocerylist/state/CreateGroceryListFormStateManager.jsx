@@ -1,4 +1,5 @@
 import FormStateManager from 'tools/forms/state/FormStateManager';
+import Request from 'tools/http/Request';
 
 export default class CreateGroceryListFormStateManager extends FormStateManager {
 
@@ -12,5 +13,16 @@ export default class CreateGroceryListFormStateManager extends FormStateManager 
                 validate: name => Boolean(name) && name.length > 0,
             },
         };
+    }
+
+    submitForm() {
+        const formData = this.packageFormData();
+        Request.to('/grocery-list/app-api/lists')
+            .body(formData)
+            .authenticated()
+            .post()
+            .then((response) => {
+
+            });
     }
 }

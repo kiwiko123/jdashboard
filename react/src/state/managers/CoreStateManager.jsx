@@ -18,11 +18,11 @@ export default class CoreStateManager {
         this.setState({ [method.name]: method.bind(this) });
     }
 
-    setUp({ id, processState }) {
+    setUp({ id, processState } = {}) {
         this.__stateProcessorsById.set(id, processState);
     }
 
-    tearDown({ id }) {
+    tearDown({ id } = {}) {
         logger.debug(`Removing state processor ${id}`);
         this.__stateProcessorsById.delete(id);
     }

@@ -3,11 +3,14 @@ import JdashboardPage from 'dashboard/components/JdashboardPage';
 import ComponentStateManager from 'state/components/ComponentStateManager';
 import { useStateManager } from 'state/hooks';
 import { authenticatedUser } from 'tools/dashboard/conditions';
-import CreateGroceryListFormStateManager from './state/CreateGroceryListFormStateManager';
-import CreateGroceryListForm from './components/CreateGroceryListForm';
+import GroceryListModalStateManager from './state/GroceryListModalStateManager';
+import GroceryListToolbarStateManager from './state/GroceryListToolbarStateManager';
+import GroceryListModalDispatcher from './components/GroceryListModalDispatcher';
+import GroceryListPageToolbar from './components/GroceryListPageToolbar';
 
 export default function() {
-    const createGroceryListFormStateManager = useStateManager(() => new CreateGroceryListFormStateManager());
+    const modalStateManager = useStateManager(() => new GroceryListModalStateManager());
+    const toolbarStateManager = useStateManager(() => new GroceryListToolbarStateManager());
 
     return (
         <JdashboardPage
@@ -16,8 +19,12 @@ export default function() {
             requiredConditions={[authenticatedUser()]}
         >
             <ComponentStateManager
-                stateManager={createGroceryListFormStateManager}
-                component={CreateGroceryListForm}
+                stateManager={modalStateManager}
+                component={GroceryListModalDispatcher}
+            />
+            <ComponentStateManager
+                stateManager={toolbarStateManager}
+                component={GroceryListPageToolbar}
             />
         </JdashboardPage>
     );
