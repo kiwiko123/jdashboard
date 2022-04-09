@@ -12,6 +12,5 @@ public interface ApiClient {
     <ResponseType> ApiResponse<ResponseType> synchronousCall(ApiRequest request)
             throws ClientException, ServerException, InterruptedException;
 
-    <ResponseType> CompletableFuture<ApiResponse<ResponseType>> asynchronousCall(ApiRequest request)
-            throws ClientException, ServerException, InterruptedException;
+    <ResponseType> CompletableFuture<ApiResponse<ResponseType>> asynchronousCall(ApiRequest request) throws ClientException;
 }

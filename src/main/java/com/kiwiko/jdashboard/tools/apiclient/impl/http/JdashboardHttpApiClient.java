@@ -43,7 +43,7 @@ public class JdashboardHttpApiClient implements JdashboardApiClient {
 
     @Override
     public <ResponseType> CompletableFuture<ClientResponse<ResponseType>> asynchronousCall(ApiRequest apiRequest)
-            throws ServerException, ClientException, InterruptedException {
+            throws ClientException {
         CompletableFuture<ApiResponse<ResponseType>> apiResponseFuture = httpApiClient.asynchronousCall(apiRequest);
         return apiResponseFuture.thenApply(this::toClientResponse);
     }
@@ -52,7 +52,7 @@ public class JdashboardHttpApiClient implements JdashboardApiClient {
     public <ResponseType> CompletableFuture<ClientResponse<ResponseType>> silentAsynchronousCall(JdashboardApiRequest apiRequest) {
         try {
             return asynchronousCall(apiRequest);
-        } catch (ClientException | ServerException | InterruptedException e) {
+        } catch (ClientException e) {
             return CompletableFuture.completedFuture(getErrorResponse(apiRequest, e));
         }
     }

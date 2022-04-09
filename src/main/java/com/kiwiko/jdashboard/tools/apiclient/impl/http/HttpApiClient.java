@@ -42,8 +42,7 @@ public class HttpApiClient implements ApiClient {
     }
 
     @Override
-    public <ResponseType> CompletableFuture<ApiResponse<ResponseType>> asynchronousCall(ApiRequest request)
-            throws ClientException, ServerException, InterruptedException {
+    public <ResponseType> CompletableFuture<ApiResponse<ResponseType>> asynchronousCall(ApiRequest request) throws ClientException {
         requestHelper.validateRequest(request);
         Optional<ApiResponse<ResponseType>> cachedResponse = apiClientCache.getCachedResponse(request);
         if (cachedResponse.isPresent()) {
