@@ -16,13 +16,16 @@ export default class CreateGroceryListFormStateManager extends FormStateManager 
     }
 
     submitForm() {
-        const formData = this.packageFormData();
+        const payload = {
+            listName: this.state.fields.listName.value,
+        };
         Request.to('/grocery-list/app-api/lists')
-            .body(formData)
+            .body(payload)
             .authenticated()
             .post()
             .then((response) => {
-
+                this.sendState('GroceryListFeedStateManager', null, 'refresh');
+                this.sendState('GroceryListModalStateManager', null, 'close');
             });
     }
 }

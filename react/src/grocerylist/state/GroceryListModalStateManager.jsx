@@ -34,4 +34,12 @@ export default class GroceryListModalStateManager extends StateManager {
                 logger.error(`Unknown metadata from GroceryListToolbarStateManager ${metadata}`);
         }
     }
+
+    receiveCreateGroceryListFormStateManager(state, metadata) {
+        switch (metadata) {
+            case 'close':
+                this.close('createGroceryList');
+                break;
+        }
+    }
 }
