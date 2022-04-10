@@ -64,7 +64,11 @@ export default class Request {
     }
 
     async delete(fetchParameters = {}) {
-        return this.__makeCreateRequest('DELETE', fetchParameters);
+        const url = makeUrl(this._url, this._requestParameters);
+        return this.__makeRequest(url, {
+            ...fetchParameters,
+            method: 'DELETE',
+        });
     }
 
     async __makeRequest(url, parameters) {
