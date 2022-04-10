@@ -3,11 +3,9 @@ package com.kiwiko.jdashboard.webapp.apps.grocerylist.internal;
 import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.TableRecordVersionClient;
 import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.GetLastUpdatedInput;
 import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.GetLastUpdatedOutput;
-import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.GetTableRecordVersionOutput;
 import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.VersionRecord;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.dto.TableRecordVersion;
-import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.parameters.GetTableRecordVersions;
 import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.api.dto.GetGroceryListFeedRequest;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.api.dto.GetGroceryListFeedResponse;
@@ -20,11 +18,9 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -43,16 +39,12 @@ public class GroceryListFeedLoader {
 
         List<GroceryList> groceryLists = groceryListService.query(input);
 
-        getLastUpdatedRecordsByGroceryListId(groceryLists);
-        Map<Long, List<TableRecordVersion>> versionsByGroceryListId = getTableRecordVersionsByGroceryListId(groceryLists);
+        Map<Long, Instant> lastUpdatedDatesByGroceryListId = getLastUpdatedRecordsByGroceryListId(groceryLists);
 
         List<GroceryListFeedItem> feedItems = new ArrayList<>();
 
         for (GroceryList groceryList : groceryLists) {
-            Instant lastUpdatedDate = Optional.ofNullable(versionsByGroceryListId.get(groceryList.getId()))
-                    .map(versions -> versions.get(versions.size() - 1))
-                    .map(TableRecordVersion::getCreatedDate)
-                    .orElseGet(groceryList::getCreatedDate);
+            Instant lastUpdatedDate = lastUpdatedDatesByGroceryListId.getOrDefault(groceryList.getId(), groceryList.getCreatedDate());
 
             GroceryListFeedItem feedItem = new GroceryListFeedItem();
             feedItem.setGroceryList(groceryList);
@@ -77,27 +69,11 @@ public class GroceryListFeedLoader {
         input.setVersionRecords(versionRecords);
 
         ClientResponse<GetLastUpdatedOutput> response = tableRecordVersionClient.getLastUpdated(input);
-        return null;
-    }
-
-    private Map<Long, List<TableRecordVersion>> getTableRecordVersionsByGroceryListId(Collection<GroceryList> groceryLists) {
-        Set<Long> groceryListIds = groceryLists.stream()
-                .map(GroceryList::getId)
-                .collect(Collectors.toUnmodifiableSet());
-
-        Map<Long, List<TableRecordVersion>> versionsByGroceryListId = new HashMap<>();
-        for (Long groceryListId : groceryListIds) {
-            // TODO make bulk request
-            GetTableRecordVersions getVersions = new GetTableRecordVersions("grocery_lists", groceryListId);
-            ClientResponse<GetTableRecordVersionOutput> response = tableRecordVersionClient.getVersions(getVersions);
-            if (!response.getStatus().isSuccessful()) {
-                logger.warn("Unable to fetch table record versions for grocery list {}", groceryListId);
-                continue;
-            }
-
-            versionsByGroceryListId.put(groceryListId, response.getPayload().getTableRecordVersions());
+        if (!response.getStatus().isSuccessful()) {
+            return Collections.emptyMap();
         }
 
-        return versionsByGroceryListId;
+        return response.getPayload().getLastUpdatedVersions().stream()
+                .collect(Collectors.toMap(TableRecordVersion::getRecordId, TableRecordVersion::getCreatedDate));
     }
 }
