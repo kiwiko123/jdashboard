@@ -94,7 +94,6 @@ public abstract class JpaDataAccessObject<T extends DataEntity> implements DataA
      * @return a proxy entity
      * @see EntityManager#getReference(Class, Object)
      */
-    @Override
     public Optional<T> getProxyById(long id) {
         T proxy = null;
         try {
@@ -136,7 +135,7 @@ public abstract class JpaDataAccessObject<T extends DataEntity> implements DataA
     /**
      * @see EntityManager#createNativeQuery(String)
      */
-    protected <U> Query createNativeQuery(String query) {
+    protected Query createNativeQuery(String query) {
         return entityManager.createNativeQuery(query, entityType);
     }
 
