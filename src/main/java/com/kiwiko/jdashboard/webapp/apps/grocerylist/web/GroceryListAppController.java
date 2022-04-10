@@ -10,6 +10,7 @@ import com.kiwiko.jdashboard.webapp.apps.grocerylist.api.dto.GetGroceryListFeedR
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.api.dto.GetGroceryListFeedResponse;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.api.dto.GroceryList;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.internal.GroceryListAppService;
+import com.kiwiko.jdashboard.webapp.apps.grocerylist.internal.GroceryListFeedLoader;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.internal.GroceryListService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,13 +30,14 @@ public class GroceryListAppController {
 
     @Inject private GroceryListAppService groceryListAppService;
     @Inject private GroceryListService groceryListService;
+    @Inject private GroceryListFeedLoader groceryListFeedLoader;
 
     @GetMapping("/lists/feed")
     public GetGroceryListFeedResponse getGroceryListFeed(@AuthenticatedUser User user) {
         GetGroceryListFeedRequest request = new GetGroceryListFeedRequest();
         request.setUserId(user.getId());
 
-        return groceryListAppService.getGroceryListFeed(request);
+        return groceryListFeedLoader.getGroceryListFeed(request);
     }
 
     @PostMapping("/lists")
