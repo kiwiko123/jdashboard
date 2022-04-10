@@ -1,0 +1,35 @@
+.GroceryListFeedItem {
+    border: 2px solid white;
+    height: 9rem;
+    width: 12rem;
+    position: relative;
+}
+
+.GroceryListFeedItem > .hover-overlay {
+    display: flex;
+    right: 0;
+    margin: 0;
+    position: absolute;
+    background: rgba(255, 255, 255, 0.9);
+    z-index: 1;
+}
+
+.GroceryListFeedItem > .hover-overlay > .hover-action-icon {
+    float: right;
+}
+
+.GroceryListFeedItem > * {
+    margin: 1rem;
+}
+
+.GroceryListFeedItem > .list-name {
+    font-weight: bold;
+}
+
+.GroceryListFeedItem > .divider {
+    background-color: white;
+}
+
+.GroceryListFeedItem > .info > .action-date {
+    font-style: italic;
+}

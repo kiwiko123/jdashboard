@@ -1,0 +1,7 @@
+.GroceryListPage > .body {
+    color: white;
+}
+
+.GroceryListPage > .body > .GroceryListFeed {
+    margin: 1rem;
+}

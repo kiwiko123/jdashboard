@@ -10,6 +10,8 @@ import GroceryListModalDispatcher from './components/GroceryListModalDispatcher'
 import GroceryListPageToolbar from './components/GroceryListPageToolbar';
 import GroceryListFeed from './components/GroceryListFeed';
 
+import './GroceryListPage.css';
+
 export default function() {
     const modalStateManager = useStateManager(() => new GroceryListModalStateManager());
     const toolbarStateManager = useStateManager(() => new GroceryListToolbarStateManager());
@@ -17,6 +19,7 @@ export default function() {
 
     return (
         <JdashboardPage
+            className="GroceryListPage"
             appId="groceryList"
             title="Grocery List"
             requiredConditions={[authenticatedUser]}

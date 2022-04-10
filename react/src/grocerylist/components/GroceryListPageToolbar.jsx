@@ -16,7 +16,9 @@ const GroceryListPageToolbar = ({
                 size="lg"
                 block={true}
                 onClick={pressCreateGroceryListButton}
-            />
+            >
+                New list
+            </IconButton>
         </div>
     );
 };
