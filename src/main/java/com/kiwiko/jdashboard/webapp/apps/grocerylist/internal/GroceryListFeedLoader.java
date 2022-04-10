@@ -1,7 +1,10 @@
 package com.kiwiko.jdashboard.webapp.apps.grocerylist.internal;
 
 import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.TableRecordVersionClient;
+import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.GetLastUpdatedInput;
+import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.GetLastUpdatedOutput;
 import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.GetTableRecordVersionOutput;
+import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.VersionRecord;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.dto.TableRecordVersion;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.parameters.GetTableRecordVersions;
@@ -39,7 +42,10 @@ public class GroceryListFeedLoader {
         input.setIsRemoved(false);
 
         List<GroceryList> groceryLists = groceryListService.query(input);
+
+        getLastUpdatedRecordsByGroceryListId(groceryLists);
         Map<Long, List<TableRecordVersion>> versionsByGroceryListId = getTableRecordVersionsByGroceryListId(groceryLists);
+
         List<GroceryListFeedItem> feedItems = new ArrayList<>();
 
         for (GroceryList groceryList : groceryLists) {
@@ -59,6 +65,19 @@ public class GroceryListFeedLoader {
         GetGroceryListFeedResponse response = new GetGroceryListFeedResponse();
         response.setFeedItems(feedItems);
         return response;
+    }
+
+    private Map<Long, Instant> getLastUpdatedRecordsByGroceryListId(Collection<GroceryList> groceryLists) {
+        Set<VersionRecord> versionRecords = groceryLists.stream()
+                .map(GroceryList::getId)
+                .map(id -> new VersionRecord("grocery_lists", id))
+                .collect(Collectors.toSet());
+
+        GetLastUpdatedInput input = new GetLastUpdatedInput();
+        input.setVersionRecords(versionRecords);
+
+        ClientResponse<GetLastUpdatedOutput> response = tableRecordVersionClient.getLastUpdated(input);
+        return null;
     }
 
     private Map<Long, List<TableRecordVersion>> getTableRecordVersionsByGroceryListId(Collection<GroceryList> groceryLists) {

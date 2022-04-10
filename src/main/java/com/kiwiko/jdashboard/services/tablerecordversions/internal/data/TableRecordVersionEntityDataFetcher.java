@@ -1,5 +1,6 @@
 package com.kiwiko.jdashboard.services.tablerecordversions.internal.data;
 
+import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.GetLastUpdatedInput;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.parameters.GetTableRecordVersions;
 import com.kiwiko.jdashboard.tools.dataaccess.impl.JpaDataAccessObject;
 
@@ -11,6 +12,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TableRecordVersionEntityDataFetcher extends JpaDataAccessObject<TableRecordVersionEntity> {
 
@@ -40,5 +42,22 @@ public class TableRecordVersionEntityDataFetcher extends JpaDataAccessObject<Tab
         query.orderBy(ascendingCreatedDate);
 
         return createQuery(query).getResultList();
+    }
+
+    public List<TableRecordVersionEntity> getLastUpdated(GetLastUpdatedInput input) {
+        String queryString = input.getVersionRecords().stream()
+                .map(versionRecord -> new StringBuilder("(")
+                        .append("SELECT * FROM table_record_versions ")
+                        .append("WHERE table_name = '").append(versionRecord.getTableName()).append('\'')
+                        .append(" AND record_id = ").append(versionRecord.getId()).append(' ')
+                        .append("ORDER BY created_date DESC ")
+                        .append("LIMIT 1")
+                        .append(')')
+                        .toString())
+                .collect(Collectors.joining(" UNION ")) + ';';
+
+        @SuppressWarnings("unchecked")
+        List<TableRecordVersionEntity> result = createNativeQuery(queryString).getResultList();
+        return result;
     }
 }

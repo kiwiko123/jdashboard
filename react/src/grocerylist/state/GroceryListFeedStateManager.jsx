@@ -34,7 +34,7 @@ export default class GroceryListFeedStateManager extends StateManager {
     }
 
     _transformFeedItem(feedItem) {
-        const displayDate = new Date(feedItem.groceryList.createdDate).toDateString();
+        const displayDate = new Date(feedItem.groceryList.lastUpdatedDate).toDateString();
 
         feedItem.groceryList.displayDate = displayDate;
         feedItem.hoverActions = [

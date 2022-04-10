@@ -1,5 +1,6 @@
 package com.kiwiko.jdashboard.services.tablerecordversions.internal;
 
+import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.GetLastUpdatedInput;
 import com.kiwiko.jdashboard.framework.persistence.transactions.api.interfaces.TransactionProvider;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.dto.TableRecordVersion;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.TableRecordVersionService;
@@ -11,8 +12,8 @@ import com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces.Cre
 import javax.inject.Inject;
 import java.time.Instant;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class TableRecordVersionEntityService implements TableRecordVersionService {
@@ -29,6 +30,13 @@ public class TableRecordVersionEntityService implements TableRecordVersionServic
                    .map(mapper::toDto)
                    .collect(Collectors.collectingAndThen(Collectors.toList(), LinkedList::new));
         });
+    }
+
+    @Override
+    public Set<TableRecordVersion> getLastUpdated(GetLastUpdatedInput input) {
+        return transactionProvider.readOnly(() -> dataFetcher.getLastUpdated(input).stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toSet()));
     }
 
     @Override
