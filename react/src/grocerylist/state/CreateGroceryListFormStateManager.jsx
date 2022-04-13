@@ -1,24 +1,10 @@
-import FormStateManager from 'tools/forms/state/FormStateManager';
+import WriteGroceryListFormStateManager from './WriteGroceryListFormStateManager';
 import Request from 'tools/http/Request';
 
-export default class CreateGroceryListFormStateManager extends FormStateManager {
-
-    defaultFields() {
-        return {
-            listName: {
-                name: 'listName',
-                type: 'input',
-                label: 'List name',
-                isRequired: true,
-                validate: name => Boolean(name) && name.length > 0,
-            },
-        };
-    }
+export default class CreateGroceryListFormStateManager extends WriteGroceryListFormStateManager {
 
     submitForm() {
-        const payload = {
-            listName: this.state.fields.listName.value,
-        };
+        const payload = this.packageFormData();
         Request.to('/grocery-list/app-api/lists')
             .body(payload)
             .authenticated()

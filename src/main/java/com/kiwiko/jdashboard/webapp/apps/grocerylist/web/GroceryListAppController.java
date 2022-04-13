@@ -9,11 +9,14 @@ import com.kiwiko.jdashboard.webapp.apps.grocerylist.api.dto.CreateGroceryListRe
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.api.dto.GetGroceryListFeedRequest;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.api.dto.GetGroceryListFeedResponse;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.api.dto.GroceryList;
+import com.kiwiko.jdashboard.webapp.apps.grocerylist.api.dto.UpdateGroceryListRequest;
+import com.kiwiko.jdashboard.webapp.apps.grocerylist.api.dto.UpdateGroceryListResponse;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.internal.GroceryListAppService;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.internal.GroceryListFeedLoader;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.internal.GroceryListService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,6 +49,16 @@ public class GroceryListAppController {
             @AuthenticatedUser User user) {
         request.setUserId(user.getId());
         return groceryListAppService.createGroceryList(request);
+    }
+
+    @PatchMapping("/lists/{id}")
+    public UpdateGroceryListResponse mergeGroceryList(
+            @RequestBody UpdateGroceryListRequest request,
+            @PathVariable("id") long groceryListId,
+            @AuthenticatedUser User user) {
+        request.getGroceryList().setId(groceryListId);
+        request.setUserId(user.getId());
+        return groceryListAppService.updateGroceryList(request);
     }
 
     @DeleteMapping("/lists/{id}")

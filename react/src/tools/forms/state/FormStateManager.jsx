@@ -102,6 +102,7 @@ export default class FormStateManager extends StateManager {
 
     clearForm() {
         this.initForm();
+        this.render();
     }
 
     packageFormData() {

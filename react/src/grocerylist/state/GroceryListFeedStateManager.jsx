@@ -30,11 +30,23 @@ export default class GroceryListFeedStateManager extends StateManager {
             case 'refresh':
                 this.refreshFeed();
                 break;
+            default:
+                logger.warn('Unknown metadata received');
+        }
+    }
+
+    receiveEditGroceryListFormStateManager(state, metadata) {
+        switch (metadata) {
+            case 'refresh':
+                this.refreshFeed();
+                break;
+            default:
+                logger.warn('Unknown metadata received');
         }
     }
 
     _transformFeedItem(feedItem) {
-        const displayDate = new Date(feedItem.groceryList.lastUpdatedDate).toDateString();
+        const displayDate = new Date(feedItem.lastUpdatedDate).toDateString();
 
         feedItem.groceryList.displayDate = displayDate;
         feedItem.hoverActions = [

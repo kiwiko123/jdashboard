@@ -31,7 +31,20 @@ export default class GroceryListModalStateManager extends StateManager {
                 this.open('createGroceryList');
                 return;
             default:
-                logger.error(`Unknown metadata from GroceryListToolbarStateManager ${metadata}`);
+                logger.warn(`Unknown metadata from GroceryListToolbarStateManager ${metadata}`);
+        }
+    }
+
+    receiveGroceryListFeedStateManager(state, metadata) {
+        switch (metadata) {
+            case 'editGroceryList':
+                this.addState({
+                    data: { groceryListId: state.groceryListId },
+                });
+                this.open('editGroceryList');
+                return;
+            default:
+                logger.warn('Unknown metadata from GroceryListFeedStateManager');
         }
     }
 
@@ -39,6 +52,14 @@ export default class GroceryListModalStateManager extends StateManager {
         switch (metadata) {
             case 'close':
                 this.close('createGroceryList');
+                break;
+        }
+    }
+
+    receiveEditGroceryListFormStateManager(state, metadata) {
+        switch (metadata) {
+            case 'close':
+                this.close('editGroceryList');
                 break;
         }
     }
