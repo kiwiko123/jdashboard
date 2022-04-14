@@ -1,4 +1,4 @@
-import logger from 'common/js/logging';
+import logger from 'tools/monitoring/logging';
 
 export default class CoreStateManager {
     constructor() {
@@ -18,14 +18,7 @@ export default class CoreStateManager {
         this.setState({ [method.name]: method.bind(this) });
     }
 
-    setUp({ id, processState } = {}) {
-        this.__stateProcessorsById.set(id, processState);
-    }
-
-    tearDown({ id } = {}) {
-        logger.debug(`Removing state processor ${id}`);
-        this.__stateProcessorsById.delete(id);
-    }
+    tearDown() { }
 
     /**
      * Induce a re-render in a linked component.
@@ -38,6 +31,21 @@ export default class CoreStateManager {
 
         // Deprecated.
         this.__updaters.forEach(updater => updater());
+    }
+
+    // ===            ===
+    // === Private    ===
+    // ===            ===
+    __isActive() {
+        return this.__stateProcessorsById.size > 0;
+    }
+
+    __linkStateProcessor(id, processState) {
+        this.__stateProcessorsById.set(id, processState);
+    }
+
+    __unlink(id) {
+        this.__stateProcessorsById.delete(id);
     }
 
     // ===            ===
@@ -60,7 +68,7 @@ export default class CoreStateManager {
      * Do not override this.
      */
     removeUpdater(id) {
-        logger.debug(`Removing ReceivingElement ${id}`);
+        logger.debug(`Removing updater ${id}`);
         this.__updaters.delete(id);
     }
 

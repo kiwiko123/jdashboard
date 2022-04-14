@@ -2,24 +2,21 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import StateManager from '../StateManager';
 
-const RESOLVE_SUCCESSFULLY = () => true;
-const EMPTY_OBJECT = {};
-
 const DefaultComponentStateManager = ({
     component, stateManager, canResolve, id, staticProps,
 }) => {
     const [managerState, setManagerState] = useState(stateManager.state);
     useEffect(() => {
         const componentId = `ComponentStateManager-${stateManager.id}`;
-        stateManager.setUp({
-            id: componentId,
-            processState: ({ state }) => {
+        stateManager.__linkStateProcessor(
+            componentId,
+            ({ state }) => {
                 setManagerState(state);
             },
-        });
+        );
 
         return () => {
-            stateManager.tearDown({ id: componentId });
+            stateManager.__unlink(componentId);
         };
     }, [stateManager, setManagerState]);
 
@@ -51,9 +48,9 @@ DefaultComponentStateManager.propTypes = {
 };
 
 DefaultComponentStateManager.defaultProps = {
-    canResolve: RESOLVE_SUCCESSFULLY,
+    canResolve: () => true,
     id: null,
-    staticProps: EMPTY_OBJECT,
+    staticProps: {},
 };
 
 export default DefaultComponentStateManager;

@@ -1,4 +1,4 @@
-import logger from 'common/js/logging';
+import logger from 'tools/monitoring/logging';
 
 const STATE_TRANSMITTERS_BY_TAG = new Map();
 
@@ -8,6 +8,7 @@ function register(stateTransmitter) {
         : new Set([]);
     transmitters.add(stateTransmitter);
     STATE_TRANSMITTERS_BY_TAG.set(stateTransmitter.tag, transmitters);
+    logger.debug(`Registered state transmitter ${stateTransmitter.id}`);
 }
 
 function deregister(stateTransmitter) {
@@ -17,6 +18,7 @@ function deregister(stateTransmitter) {
     const transmitters = STATE_TRANSMITTERS_BY_TAG.get(stateTransmitter.tag);
     transmitters.delete(stateTransmitter);
     STATE_TRANSMITTERS_BY_TAG.set(stateTransmitter.tag, transmitters);
+    logger.debug(`De-registered state transmitter ${stateTransmitter.id}`);
 }
 
 function get(tag) {

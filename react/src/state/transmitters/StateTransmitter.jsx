@@ -37,7 +37,6 @@ export default class StateTransmitter extends CoreStateManager {
     }
 
     tearDown() {
-        super.tearDown();
         StateTransmitterRegistry.deregister(this);
     }
 
