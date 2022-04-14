@@ -3,7 +3,6 @@ import useCurrentUser from './useCurrentUser';
 import useCurrentUserPromise from './useCurrentUserPromise';
 import useEventSubmit from './useEventSubmit';
 import useOnClickOutside from './useOnClickOutside';
-import useStateObject from './useStateObject';
 import useStateManager from './useStateManager';
 import useTabTitle from './useTabTitle';
 
@@ -13,7 +12,6 @@ export {
     useCurrentUserPromise,
     useEventSubmit,
     useOnClickOutside,
-    useStateObject,
     useStateManager,
     useTabTitle,
 };
