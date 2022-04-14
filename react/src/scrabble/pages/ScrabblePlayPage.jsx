@@ -4,7 +4,7 @@ import ScrabbleGame from '../components/ScrabbleGame';
 import BroadcasterComponentStateManager from '../../state/components/BroadcasterComponentStateManager';
 import ScrabbleGameBroadcaster from '../state/ScrabbleGameBroadcaster';
 import ScrabbleErrorBroadcaster from '../state/ScrabbleErrorBroadcaster';
-import { useBroadcaster } from '../../state/hooks';
+import { useBroadcaster } from '../../state/hooks/broadcasterHooks';
 
 import '../styles/ScrabblePlayPage.css';
 
