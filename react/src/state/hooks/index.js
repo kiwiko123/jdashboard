@@ -5,7 +5,6 @@ import useEventSubmit from './useEventSubmit';
 import useOnClickOutside from './useOnClickOutside';
 import usePushService from './usePushService';
 import useStateObject from './useStateObject';
-import useStateTransmitter from './useStateTransmitter';
 import useStateManager from './useStateManager';
 import useTabTitle from './useTabTitle';
 import useWebSocket from './useWebSocket';
@@ -19,7 +18,6 @@ export {
     usePushService,
     useStateObject,
     useStateManager,
-    useStateTransmitter, // Deprecated.
     useTabTitle,
     useWebSocket,
 };
