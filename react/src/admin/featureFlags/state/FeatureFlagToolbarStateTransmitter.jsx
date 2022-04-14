@@ -1,6 +1,6 @@
-import StateTransmitter from 'state/StateTransmitter';
+import StateManager from 'state/StateManager';
 
-export default class FeatureFlagToolbarStateTransmitter extends StateTransmitter {
+export default class FeatureFlagToolbarStateTransmitter extends StateManager {
     constructor() {
         super();
         this.registerMethod(this.pressCreateButton);

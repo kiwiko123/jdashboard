@@ -1,6 +1,6 @@
 import { get } from 'lodash';
 import logger from 'tools/monitoring/logging';
-import StateTransmitter from 'state/StateTransmitter';
+import StateManager from 'state/StateManager';
 import getCurrentUser from 'tools/users/util/getCurrentUser';
 import PushServiceSessionManager from '../private/PushServiceSessionManager';
 
@@ -9,7 +9,7 @@ const WEB_SOCKET_TEMPLATE = {
 };
 let GLOBAL_ID = 0;
 
-export default class PushServiceStateTransmitter extends StateTransmitter {
+export default class PushServiceStateTransmitter extends StateManager {
     constructor(serviceId, { userId } = {}) {
         super();
         this.serviceId = serviceId;

@@ -1,8 +1,8 @@
-import StateTransmitter from 'state/StateTransmitter';
+import StateManager from 'state/StateManager';
 import Request from 'tools/http/Request';
 import { quietlyGoTo } from 'common/js/urltools';
 
-export default class ChatroomRoomPermissionStateManager extends StateTransmitter {
+export default class ChatroomRoomPermissionStateManager extends StateManager {
 
     constructor(roomId) {
         super();

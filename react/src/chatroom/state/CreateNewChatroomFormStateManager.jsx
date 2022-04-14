@@ -1,10 +1,10 @@
 import { isEmpty, set } from 'lodash';
-import StateTransmitter from 'state/StateTransmitter';
+import StateManager from 'state/StateManager';
 import Request from 'common/js/Request';
 
 const CREATE_NEW_ROOM_FROM_FORM_URL = '/chatroom/api/inbox/form/room';
 
-export default class CreateNewChatroomFormStateManager extends StateTransmitter {
+export default class CreateNewChatroomFormStateManager extends StateManager {
     constructor() {
         super();
 

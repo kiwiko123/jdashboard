@@ -1,10 +1,10 @@
 import { get } from 'lodash';
-import StateTransmitter from 'state/StateTransmitter';
+import StateManager from 'state/StateManager';
 import Request from 'common/js/Request';
 
 const GET_FEATURE_FLAGS_LIST_URL = '/feature-flags/api/list';
 
-export default class FeatureFlagListStateTransmitter extends StateTransmitter {
+export default class FeatureFlagListStateTransmitter extends StateManager {
     constructor() {
         super();
         this.setState({

@@ -1,5 +1,5 @@
 import { get, isEmpty, set } from 'lodash';
-import StateTransmitter from 'state/StateTransmitter';
+import StateManager from 'state/StateManager';
 import logger from 'common/js/logging';
 import Request from 'common/js/Request';
 
@@ -78,7 +78,7 @@ function createFields(fields) {
     return result;
 }
 
-export default class FeatureFlagFormStateTransmitter extends StateTransmitter {
+export default class FeatureFlagFormStateTransmitter extends StateManager {
     constructor() {
         super();
         this.featureFlag = null;

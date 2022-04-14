@@ -1,7 +1,6 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import PropTypes from 'prop-types';
 import Broadcaster from '../Broadcaster';
-import StateTransmitter from '../StateTransmitter';
 
 let _GLOBAL_ID = 0;
 const RESOLVE_SUCCESSFULLY = () => true;
@@ -35,10 +34,7 @@ const BroadcasterComponentStateManager = ({
 
 BroadcasterComponentStateManager.propTypes = {
     component: PropTypes.elementType.isRequired,
-    broadcaster: PropTypes.oneOfType([
-        PropTypes.instanceOf(Broadcaster),
-        PropTypes.instanceOf(StateTransmitter),
-    ]).isRequired,
+    broadcaster: PropTypes.instanceOf(Broadcaster).isRequired,
 
     // A function that takes in the broadcaster's state, and returns a boolean.
     // If this returns false, the component should not be rendered.
