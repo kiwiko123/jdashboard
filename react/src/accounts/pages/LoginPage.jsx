@@ -17,7 +17,7 @@ const LoginPage = () => {
             appId="login"
         >
             <ComponentStateManager
-                broadcaster={loginFormStateManager}
+                stateManager={loginFormStateManager}
                 component={LoginForm}
             />
         </DashboardPage>

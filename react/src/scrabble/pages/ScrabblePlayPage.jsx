@@ -1,7 +1,7 @@
 import React from 'react';
 import DashboardPage from '../../dashboard/components/DashboardPage';
 import ScrabbleGame from '../components/ScrabbleGame';
-import ComponentStateManager from '../../state/components/ComponentStateManager';
+import BroadcasterComponentStateManager from '../../state/components/BroadcasterComponentStateManager';
 import ScrabbleGameBroadcaster from '../state/ScrabbleGameBroadcaster';
 import ScrabbleErrorBroadcaster from '../state/ScrabbleErrorBroadcaster';
 import { useBroadcaster } from '../../state/hooks';
@@ -26,7 +26,7 @@ export default function ScrabblePlayPage({ history }) {
         history={history}
         broadcasterSubscribers={pageBroadcasterSubscribers}
       >
-        <ComponentStateManager
+        <BroadcasterComponentStateManager
             broadcaster={scrabbleGameBroadcaster}
             component={ScrabbleGame}
             canResolve={({ isLoaded }) => isLoaded}

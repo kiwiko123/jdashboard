@@ -20,15 +20,15 @@ export default function() {
             title="Chatroom"
         >
             <ComponentStateManager
-                broadcaster={modalStateManager}
+                stateManager={modalStateManager}
                 component={ChatroomModalDispatcher}
             />
             <ComponentStateManager
-                broadcaster={toolbarStateManager}
+                stateManager={toolbarStateManager}
                 component={ChatroomToolbar}
             />
             <ComponentStateManager
-                broadcaster={inboxStateManager}
+                stateManager={inboxStateManager}
                 component={ChatroomInbox}
             />
         </DashboardPage>

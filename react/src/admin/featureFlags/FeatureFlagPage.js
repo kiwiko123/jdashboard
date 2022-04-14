@@ -10,8 +10,8 @@ import FeatureFlagModal from './components/FeatureFlagModal';
 import FeatureFlagPageContent from './components/FeatureFlagPageContent';
 
 export default function() {
-    const toolbarStateTransmitter = useStateManager(() => new FeatureFlagToolbarStateTransmitter());
-    const featureFlagModalStateTransmitter = useStateManager(() => new FeatureFlagModalStateTransmitter());
+    const toolbarStateManager = useStateManager(() => new FeatureFlagToolbarStateTransmitter());
+    const featureFlagModalStateManager = useStateManager(() => new FeatureFlagModalStateTransmitter());
 
     return (
         <JdashboardPage
@@ -21,12 +21,12 @@ export default function() {
         >
             <ComponentStateManager
                 component={FeatureFlagPageToolbar}
-                broadcaster={toolbarStateTransmitter}
+                stateManager={toolbarStateManager}
             />
             <div className="interactive-elements-wrapper">
                 <ComponentStateManager
                     component={FeatureFlagModal}
-                    broadcaster={featureFlagModalStateTransmitter}
+                    stateManager={featureFlagModalStateManager}
                 />
             </div>
             <FeatureFlagPageContent />

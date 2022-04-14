@@ -29,11 +29,11 @@ export default function() {
             title="Chatroom"
         >
             <ComponentStateManager
-                broadcaster={messageFeedStateManager}
+                stateManager={messageFeedStateManager}
                 component={ChatroomMessageFeed}
             />
             <ComponentStateManager
-                broadcaster={messageInputStateManager}
+                stateManager={messageInputStateManager}
                 component={ChatroomMessageInput}
             />
         </DashboardPage>

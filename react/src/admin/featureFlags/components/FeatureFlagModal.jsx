@@ -23,7 +23,7 @@ const FeatureFlagModal = ({
         >
             <ComponentStateManager
                 component={FeatureFlagForm}
-                broadcaster={formManager}
+                stateManager={formManager}
             />
         </TitleModal>
     );
