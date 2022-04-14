@@ -3,11 +3,9 @@ import useCurrentUser from './useCurrentUser';
 import useCurrentUserPromise from './useCurrentUserPromise';
 import useEventSubmit from './useEventSubmit';
 import useOnClickOutside from './useOnClickOutside';
-import usePushService from './usePushService';
 import useStateObject from './useStateObject';
 import useStateManager from './useStateManager';
 import useTabTitle from './useTabTitle';
-import useWebSocket from './useWebSocket';
 
 export {
     useBroadcaster, // Deprecated.
@@ -15,9 +13,7 @@ export {
     useCurrentUserPromise,
     useEventSubmit,
     useOnClickOutside,
-    usePushService,
     useStateObject,
     useStateManager,
     useTabTitle,
-    useWebSocket,
 };
