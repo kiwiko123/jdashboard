@@ -1,7 +1,7 @@
 import { set } from 'lodash';
 import StateManager from 'state/StateManager';
 import Request from 'tools/http/Request';
-import { goTo } from 'common/js/urltools';
+import { quietlyGoTo } from 'common/js/urltools';
 import logger from 'common/js/logging';
 
 export default class LoginFormStateManager extends StateManager {
@@ -71,7 +71,7 @@ export default class LoginFormStateManager extends StateManager {
             .authenticated()
             .post()
             .then((response) => {
-                goTo('/home');
+                quietlyGoTo('/auth/log-in?redirect=/home');
             })
             .catch((error) => {
                 logger.error('Error logging in', error);

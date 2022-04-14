@@ -2,7 +2,7 @@ import StateManager from 'state/StateManager';
 import Request from 'tools/http/Request';
 import logger from 'common/js/logging';
 import { useCurrentUserPromise } from 'state/hooks';
-import { goTo } from 'common/js/urltools';
+import { quietlyGoTo } from 'common/js/urltools';
 
 export default class DashboardHeaderStateManager extends StateManager {
     constructor() {
@@ -41,7 +41,7 @@ export default class DashboardHeaderStateManager extends StateManager {
             .authenticated()
             .post()
             .then(() => {
-                goTo('/home');
+                quietlyGoTo('/auth/log-out?redirect=/home');
             });
     }
 
