@@ -24,7 +24,12 @@ public class ApiClientCache {
 
         String cacheKey = createCacheKey(apiRequest);
         Duration cacheDuration = apiRequest.getCacheStrategy().getCacheDuration();
-        objectCache.cache(cacheKey, apiResponse, cacheDuration);
+        if (cacheDuration == null) {
+            objectCache.cache(cacheKey, apiResponse);
+        } else {
+            objectCache.cache(cacheKey, apiResponse, cacheDuration);
+        }
+
         return true;
     }
 
@@ -44,15 +49,12 @@ public class ApiClientCache {
 
     private boolean shouldCacheRequest(ApiRequest apiRequest) {
         RequestCacheStrategy cacheStrategy = apiRequest.getCacheStrategy();
+
         if (!cacheStrategy.shouldCacheRequest()) {
             return false;
         }
 
-        if (!cacheStrategy.getSupportedMethods().contains(apiRequest.getRequestMethod())) {
-            return false;
-        }
-
-        return cacheStrategy.getCacheDuration() != null;
+        return cacheStrategy.getSupportedMethods().contains(apiRequest.getRequestMethod());
     }
 
     private String createCacheKey(ApiRequest apiRequest) {
