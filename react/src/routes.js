@@ -76,8 +76,4 @@ const ROUTES = [
     },
 ];
 
-function processRoutes() {
-    return ROUTES;
-}
-
-export default processRoutes();
+export default ROUTES;
