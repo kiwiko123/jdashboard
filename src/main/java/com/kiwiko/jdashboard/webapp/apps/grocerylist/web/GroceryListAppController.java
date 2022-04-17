@@ -8,11 +8,14 @@ import com.kiwiko.jdashboard.webapp.apps.grocerylist.api.dto.CreateGroceryListRe
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.api.dto.CreateGroceryListResponse;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.api.dto.GetGroceryListFeedRequest;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.api.dto.GetGroceryListFeedResponse;
+import com.kiwiko.jdashboard.webapp.apps.grocerylist.api.dto.GetGroceryListPermissionsRequest;
+import com.kiwiko.jdashboard.webapp.apps.grocerylist.api.dto.GetGroceryListPermissionsResponse;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.api.dto.GroceryList;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.api.dto.UpdateGroceryListRequest;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.api.dto.UpdateGroceryListResponse;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.internal.GroceryListAppService;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.internal.GroceryListFeedLoader;
+import com.kiwiko.jdashboard.webapp.apps.grocerylist.internal.GroceryListPermissionChecker;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.internal.GroceryListService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +37,7 @@ public class GroceryListAppController {
     @Inject private GroceryListAppService groceryListAppService;
     @Inject private GroceryListService groceryListService;
     @Inject private GroceryListFeedLoader groceryListFeedLoader;
+    @Inject private GroceryListPermissionChecker groceryListPermissionChecker;
 
     @GetMapping("/lists/feed")
     public GetGroceryListFeedResponse getGroceryListFeed(@AuthenticatedUser User user) {
@@ -64,5 +68,16 @@ public class GroceryListAppController {
     @DeleteMapping("/lists/{id}")
     public GroceryList removeGroceryList(@PathVariable("id") long groceryListId) {
         return groceryListService.delete(groceryListId);
+    }
+
+    @GetMapping("/lists/{id}/permissions")
+    public GetGroceryListPermissionsResponse getListPermissions(
+            @PathVariable("id") Long groceryListId,
+            @AuthenticatedUser User user) {
+        GetGroceryListPermissionsRequest request = new GetGroceryListPermissionsRequest();
+        request.setGroceryListId(groceryListId);
+        request.setUserId(user.getId());
+
+        return groceryListPermissionChecker.getListPermissions(request);
     }
 }

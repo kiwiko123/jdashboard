@@ -60,6 +60,10 @@ public class GroceryListFeedLoader {
     }
 
     private Map<Long, Instant> getLastUpdatedRecordsByGroceryListId(Collection<GroceryList> groceryLists) {
+        if (groceryLists.isEmpty()) {
+            return Collections.emptyMap();
+        }
+
         Set<VersionRecord> versionRecords = groceryLists.stream()
                 .map(GroceryList::getId)
                 .map(id -> new VersionRecord("grocery_lists", id))

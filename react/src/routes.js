@@ -9,6 +9,7 @@ import PazaakPlayPage from 'pazaak/PazaakPlayPage';
 import ChatroomPage from 'chatroom/ChatroomPage';
 import ChatroomRoomPage from 'chatroom/rooms/ChatroomRoomPage';
 import GroceryListPage from 'grocerylist/GroceryListPage';
+import GroceryListDetailsPage from 'grocerylist/GroceryListDetailsPage';
 import NotFoundPage from './dashboard/pages/NotFoundPage';
 
 const ROUTES = [
@@ -73,6 +74,11 @@ const ROUTES = [
         id: 'groceryList',
         path: '/grocerylist',
         component: GroceryListPage,
+    },
+    {
+        id: 'groceryListDetails',
+        path: '/grocerylist/:listId',
+        component: GroceryListDetailsPage,
     },
 ];
 
