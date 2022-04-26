@@ -1,5 +1,5 @@
 import React from 'react';
-import JdashboardPage from '../../dashboard/components/JdashboardPage';
+import JdashboardPage from 'tools/dashboard/JdashboardPage';
 import HomeContent from '../components/HomeContent';
 import DashboardNotificationsStateTransmitter from 'dashboard/notifications/state/DashboardNotificationsStateTransmitter';
 import { useStateManager } from '../../state/hooks';

@@ -1,11 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { get } from 'lodash';
-import { goTo } from 'common/js/urltools';
 import logger from 'tools/monitoring/logging';
 
+const STATUSES = {
+    success: 'success',
+    failed: 'failed',
+    resolving: 'resolving',
+};
+
 export default function useRequiredConditions(conditions) {
+    const hasNoConditions = !conditions || conditions.length === 0;
+    const [status, setStatus] = useState(hasNoConditions ? STATUSES.success : STATUSES.resolving);
     useEffect(() => {
-        if (!conditions || conditions.length === 0) {
+        if (status === STATUSES.success) {
             return;
         }
 
@@ -13,11 +20,14 @@ export default function useRequiredConditions(conditions) {
         Promise.all(evaluatedPromises)
             .then((values) => {
                 const failedConditionIndex = values.findIndex(v => !v);
-                if (failedConditionIndex >= 0) {
+                const evaluatedStatus = failedConditionIndex >= 0 ? STATUSES.failed : STATUSES.success;
+                if (evaluatedStatus === STATUSES.failed) {
                     const failedConditionName = get(conditions, [failedConditionIndex, 'name'], '(unknown)');
                     logger.debug(`Failed condition ${failedConditionName}`);
-                    goTo('/not-found');
                 }
+                setStatus(evaluatedStatus);
             });
     }, [conditions]);
+
+    return status;
 }
