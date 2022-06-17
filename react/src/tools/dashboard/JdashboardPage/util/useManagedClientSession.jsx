@@ -5,8 +5,12 @@ export default function useManagedClientSession() {
     useEffect(() => {
         const clientSessionManager = new ClientSessionManager();
         clientSessionManager.createNewSession();
+
+        const endSession = clientSessionManager.endSession.bind(clientSessionManager);
+        window.addEventListener('beforeunload', endSession);
+
         return () => {
-            clientSessionManager.endSession();
+            window.removeEventListener('beforeunload', endSession);
         };
     }, []);
 }
