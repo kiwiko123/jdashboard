@@ -1,8 +1,6 @@
 package com.kiwiko.jdashboard.tools.apiclient.api.dto;
 
 import com.kiwiko.jdashboard.library.http.client.api.dto.ApiRequest;
-import com.kiwiko.jdashboard.library.http.client.api.dto.DefaultGsonPayloadDeserializer;
-import com.kiwiko.jdashboard.library.http.client.api.dto.DefaultGsonPayloadSerializer;
 import com.kiwiko.jdashboard.library.http.client.api.dto.PayloadDeserializer;
 import com.kiwiko.jdashboard.library.http.client.api.dto.PayloadSerializer;
 import com.kiwiko.jdashboard.library.http.client.api.dto.RequestHeader;
@@ -45,12 +43,12 @@ public abstract class JdashboardApiRequest implements ApiRequest {
 
     @Override
     public PayloadSerializer getRequestBodySerializer() {
-        return new DefaultGsonPayloadSerializer();
+        return RequestConstants.DEFAULT_PAYLOAD_SERIALIZER;
     }
 
     @Override
     public PayloadDeserializer getResponsePayloadDeserializer() {
-        return new DefaultGsonPayloadDeserializer();
+        return RequestConstants.DEFAULT_PAYLOAD_DESERIALIZER;
     }
 
     @Nullable
