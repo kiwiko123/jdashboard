@@ -16,6 +16,9 @@ export default function() {
         throw new Error('R required');
     }
 
+    // roomPermissionStateManager validates the current user's access and communicates with another state manager.
+    // It is not bound directly to a component.
+    //eslint-disable-next-line no-unused-vars
     const roomPermissionStateManager = useStateManager(() => new ChatroomRoomPermissionStateManager(roomId));
     const messageFeedStateManager = useStateManager(() => new ChatroomMessageFeedStateManager({ roomId }));
     const messageInputStateManager = useStateManager(() => new ChatroomMessageInputStateManager(roomId));
@@ -26,11 +29,11 @@ export default function() {
             title="Chatroom"
         >
             <ComponentStateManager
-                broadcaster={messageFeedStateManager}
+                stateManager={messageFeedStateManager}
                 component={ChatroomMessageFeed}
             />
             <ComponentStateManager
-                broadcaster={messageInputStateManager}
+                stateManager={messageInputStateManager}
                 component={ChatroomMessageInput}
             />
         </DashboardPage>

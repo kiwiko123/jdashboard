@@ -40,7 +40,7 @@ public abstract class RequestCacheStrategy {
      * @return the cache key for this request
      */
     public String getCacheKey(ApiRequest request) {
-        return request.getRequestUrl().toString();
+        return request.getRequestUrl().toUrlString();
     }
 
     /**

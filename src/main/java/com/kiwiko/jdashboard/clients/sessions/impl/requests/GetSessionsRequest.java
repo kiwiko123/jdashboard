@@ -1,7 +1,6 @@
 package com.kiwiko.jdashboard.clients.sessions.impl.requests;
 
 import com.kiwiko.jdashboard.library.http.client.api.constants.RequestMethod;
-import com.kiwiko.jdashboard.library.http.client.api.dto.caching.DisabledCacheStrategy;
 import com.kiwiko.jdashboard.library.http.client.api.dto.caching.RequestCacheStrategy;
 import com.kiwiko.jdashboard.library.http.client.api.dto.RequestUrl;
 import com.kiwiko.jdashboard.library.http.url.QueryParameter;
@@ -15,10 +14,12 @@ import javax.annotation.Nullable;
 
 public class GetSessionsRequest extends JdashboardApiRequest {
 
-    private final GetSessionsInput input;
+    private final RequestUrl requestUrl;
+    private final GetSessionsRequestCacheStrategy cacheStrategy;
 
     public GetSessionsRequest(GetSessionsInput input) {
-        this.input = input;
+        requestUrl = makeRequestUrl(input);
+        cacheStrategy = new GetSessionsRequestCacheStrategy();
     }
 
     @Override
@@ -28,6 +29,26 @@ public class GetSessionsRequest extends JdashboardApiRequest {
 
     @Override
     public RequestUrl getRequestUrl() {
+        return requestUrl;
+    }
+
+    @Override
+    public RequestCacheStrategy getCacheStrategy() {
+        return cacheStrategy;
+    }
+
+    @Override
+    public boolean isInternalServiceRequest() {
+        return true;
+    }
+
+    @Nullable
+    @Override
+    public Class<?> getResponseType() {
+        return GetSessionsOutput.class;
+    }
+
+    private RequestUrl makeRequestUrl(GetSessionsInput input) {
         UriBuilder uriBuilder = new UriBuilder()
                 .setPath("/sessions/service-api/sessions");
 
@@ -51,21 +72,5 @@ public class GetSessionsRequest extends JdashboardApiRequest {
         uriBuilder.setQuery(queryBuilder.build());
 
         return RequestUrl.fromPartial(uriBuilder);
-    }
-
-    @Override
-    public RequestCacheStrategy getCacheStrategy() {
-        return new DisabledCacheStrategy();
-    }
-
-    @Override
-    public boolean isInternalServiceRequest() {
-        return true;
-    }
-
-    @Nullable
-    @Override
-    public Class<?> getResponseType() {
-        return GetSessionsOutput.class;
     }
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import ComponentStateManager from '../../state/components/ComponentStateManager';
+import BroadcasterComponentStateManager from '../../state/components/BroadcasterComponentStateManager';
 import Broadcaster from '../../state/Broadcaster';
 import UserDataBroadcaster from '../../accounts/state/UserDataBroadcaster';
 import DashboardAlertBroadcaster from '../../dashboard/state/DashboardAlertBroadcaster';
@@ -79,13 +79,13 @@ const DashboardPage = ({
     return (
         <div className={pageClassName}>
             {menuAssistant}
-            <ComponentStateManager
+            <BroadcasterComponentStateManager
                 broadcaster={headerBroadcaster}
                 component={DashboardHeaderComponent}
             />
             <hr className="header-divider" />
             <div className="body">
-                <ComponentStateManager
+                <BroadcasterComponentStateManager
                     broadcaster={alertBroadcaster}
                     component={DashboardAlerts}
                 />

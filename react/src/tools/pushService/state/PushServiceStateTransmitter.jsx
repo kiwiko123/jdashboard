@@ -1,6 +1,6 @@
 import { get } from 'lodash';
-import logger from 'common/js/logging';
-import StateTransmitter from 'state/StateTransmitter';
+import logger from 'tools/monitoring/logging';
+import StateManager from 'state/StateManager';
 import getCurrentUser from 'tools/users/util/getCurrentUser';
 import PushServiceSessionManager from '../private/PushServiceSessionManager';
 
@@ -9,7 +9,7 @@ const WEB_SOCKET_TEMPLATE = {
 };
 let GLOBAL_ID = 0;
 
-export default class PushServiceStateTransmitter extends StateTransmitter {
+export default class PushServiceStateTransmitter extends StateManager {
     constructor(serviceId, { userId } = {}) {
         super();
         this.serviceId = serviceId;
@@ -22,11 +22,11 @@ export default class PushServiceStateTransmitter extends StateTransmitter {
             this._establishConnection();
         } else {
             getCurrentUser().then((user) => {
-                if (!user.id) {
+                if (!user) {
                     logger.error(`Unable to open Push Service connection because the current user cannot be determined: ${this.id}`);
                     return;
                 }
-                this.userId = user.id;
+                this.userId = user.userId;
                 this._establishConnection();
             });
         }
@@ -101,9 +101,7 @@ export default class PushServiceStateTransmitter extends StateTransmitter {
 
     _confirmConnection(rawJsonData) {
         const payload = JSON.parse(rawJsonData);
-        if (payload.sessionId) {
-            logger.debug('Client has confirmed connection with push service');
-        } else {
+        if (!payload.sessionId) {
             logger.error('Expected to but did not receive push service connection confirmation');
         }
         this._webSocketSessionId = payload.sessionId;

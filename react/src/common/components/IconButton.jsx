@@ -34,9 +34,12 @@ IconButton.propTypes = {
     children: PropTypes.node,
 
     // https://react-bootstrap.github.io/components/buttons
-    variant: PropTypes.oneOf(['primary', 'secondary', 'success', 'warning', 'danger', 'info', 'light', 'dark', 'link', null]),
+    variant: PropTypes.oneOf([
+        'primary', 'secondary', 'success', 'warning', 'danger', 'info', 'light', 'dark', 'link',
+        'outline-primary', 'outline-secondary', 'outline-success', 'outline-warning', 'outline-danger', 'outline-info',
+        'outline-light', 'outline-dark', 'outline-link', null]),
 
-    // https://fontawesome.com/icons?d=gallery&m=free
+    // https://fontawesome.com/v5/search?m=free
     fontAwesomeClassName: PropTypes.string,
 
     disabled: PropTypes.bool,

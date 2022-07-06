@@ -15,9 +15,9 @@ export default function() {
 
     const pageRoutes = routes.map(route => (
         <Route
-            exact={get(route, 'exact', true)}
             key={route.id}
             path={route.path}
+            exact={get(route, 'exact', true)}
             component={route.component}
         />
     ));

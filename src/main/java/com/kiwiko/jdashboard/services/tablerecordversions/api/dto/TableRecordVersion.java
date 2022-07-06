@@ -7,22 +7,11 @@ import java.time.Instant;
 
 public class TableRecordVersion extends DataEntityDTO {
 
-    private Long id;
     private String tableName;
     private Long recordId;
     private @Nullable String changes;
     private Instant createdDate;
     private @Nullable Long createdByUserId;
-
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTableName() {
         return tableName;

@@ -23,8 +23,7 @@ public interface JdashboardApiClient {
      */
     <ResponseType> ClientResponse<ResponseType> silentSynchronousCall(JdashboardApiRequest apiRequest);
 
-    <ResponseType> CompletableFuture<ClientResponse<ResponseType>> asynchronousCall(ApiRequest apiRequest)
-            throws ServerException, ClientException, InterruptedException;
+    <ResponseType> CompletableFuture<ClientResponse<ResponseType>> asynchronousCall(ApiRequest apiRequest) throws ClientException;
 
     /**
      * Like {@link #asynchronousCall(ApiRequest)}, but does not throw checked exceptions.

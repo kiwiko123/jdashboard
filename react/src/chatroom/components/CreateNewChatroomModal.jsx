@@ -19,7 +19,7 @@ const CreateNewChatroomModal = ({
             size="small"
         >
             <ComponentStateManager
-                broadcaster={formStateManager}
+                stateManager={formStateManager}
                 component={CreateNewChatroomForm}
             />
         </TitleModal>

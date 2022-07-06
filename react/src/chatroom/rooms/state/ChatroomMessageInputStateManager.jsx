@@ -1,7 +1,7 @@
-import StateTransmitter from 'state/StateTransmitter';
+import StateManager from 'state/StateManager';
 import Request from 'tools/http/Request';
 
-export default class ChatroomMessageInputStateManager extends StateTransmitter {
+export default class ChatroomMessageInputStateManager extends StateManager {
 
     constructor(roomId) {
         super();

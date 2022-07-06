@@ -21,12 +21,10 @@ public class RequestInterceptorExecutor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (!(handler instanceof HandlerMethod)) {
-            logger.debug(
-                    String.format(
-                            "%s has unknown handler type %s for url %s; denying request",
-                            getClass().getSimpleName(),
-                            handler.getClass().getName(),
-                            request.getRequestURL().toString()));
+//            logger.debug(
+//                    "Unknown handler type {} for url {}; denying request",
+//                    handler.getClass().getName(),
+//                    request.getRequestURL().toString());
             return false;
         }
         HandlerMethod handlerMethod = (HandlerMethod) handler;

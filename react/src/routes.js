@@ -2,10 +2,14 @@ import HomePage from './home/pages/HomePage';
 import FeatureFlagPage from './admin/featureFlags/FeatureFlagPage';
 import CreateAccountPage from './accounts/create/CreateAccountPage';
 import LoginPage from './accounts/pages/LoginPage';
+import LogInRedirectPage from './accounts/pages/LogInRedirectPage';
+import LogOutRedirectPage from './accounts/pages/LogOutRedirectPage';
 import ScrabblePlayPage from './scrabble/pages/ScrabblePlayPage';
 import PazaakPlayPage from 'pazaak/PazaakPlayPage';
 import ChatroomPage from 'chatroom/ChatroomPage';
 import ChatroomRoomPage from 'chatroom/rooms/ChatroomRoomPage';
+import GroceryListPage from 'grocerylist/GroceryListPage';
+import GroceryListDetailsPage from 'grocerylist/GroceryListDetailsPage';
 import NotFoundPage from './dashboard/pages/NotFoundPage';
 
 const ROUTES = [
@@ -23,6 +27,16 @@ const ROUTES = [
         id: 'login',
         path: '/accounts/login',
         component: LoginPage,
+    },
+    {
+        id: 'logInRedirect',
+        path: '/auth/log-in',
+        component: LogInRedirectPage,
+    },
+    {
+        id: 'logOutRedirect',
+        path: '/auth/log-out',
+        component: LogOutRedirectPage,
     },
     {
         id: 'home',
@@ -56,10 +70,16 @@ const ROUTES = [
         path: '/scrabble/play',
         component: ScrabblePlayPage,
     },
+    {
+        id: 'groceryList',
+        path: '/grocerylist',
+        component: GroceryListPage,
+    },
+    {
+        id: 'groceryListDetails',
+        path: '/grocerylist/:listId',
+        component: GroceryListDetailsPage,
+    },
 ];
 
-function processRoutes() {
-    return ROUTES;
-}
-
-export default processRoutes();
+export default ROUTES;

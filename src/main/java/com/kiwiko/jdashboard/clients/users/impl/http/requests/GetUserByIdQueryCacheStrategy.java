@@ -8,6 +8,6 @@ class GetUserByIdQueryCacheStrategy extends RequestCacheStrategy {
 
     @Override
     public Duration getCacheDuration() {
-        return Duration.ofMinutes(1);
+        return Duration.ofHours(1);
     }
 }

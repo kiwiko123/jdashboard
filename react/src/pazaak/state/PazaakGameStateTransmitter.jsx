@@ -1,4 +1,4 @@
-import StateTransmitter from 'state/StateTransmitter';
+import StateManager from 'state/StateManager';
 import { find, get, identity, set, sumBy } from 'lodash';
 import Request from 'common/js/Request';
 import logger from 'common/js/logging';
@@ -7,7 +7,7 @@ import { getUrlParameters, updateQueryParameters } from 'common/js/urltools';
 const PLAYER_ID = 'player';
 const OPPONENT_ID = 'opponent';
 
-export default class PazaakGameStateTransmitter extends StateTransmitter {
+export default class PazaakGameStateTransmitter extends StateManager {
     constructor() {
         super();
         this.initialize();

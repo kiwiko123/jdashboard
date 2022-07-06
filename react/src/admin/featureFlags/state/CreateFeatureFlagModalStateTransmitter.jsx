@@ -1,7 +1,7 @@
 import { get } from 'lodash';
-import StateTransmitter from 'state/StateTransmitter';
+import StateManager from 'state/StateManager';
 
-export default class CreateFeatureFlagModalStateTransmitter extends StateTransmitter {
+export default class CreateFeatureFlagModalStateTransmitter extends StateManager {
     constructor() {
         super();
         this.setState({

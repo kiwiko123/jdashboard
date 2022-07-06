@@ -1,5 +1,4 @@
-import ConsoleLogger from './ConsoleLogger';
-//import ServerLogger from './ServerLogger';
-//import BatchedServerLogger from './BatchedServerLogger';
+// Deprecated! Use the logger located at 'tools/monitoring/logging' instead.
 
-export default new ConsoleLogger();
+import logger from 'tools/monitoring/logging';
+export default logger;

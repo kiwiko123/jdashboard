@@ -1,6 +1,6 @@
-import StateTransmitter from 'state/StateTransmitter';
+import StateManager from 'state/StateManager';
 
-export default class FeatureFlagModalStateTransmitter extends StateTransmitter {
+export default class FeatureFlagModalStateTransmitter extends StateManager {
     constructor() {
         super();
         this.setState({

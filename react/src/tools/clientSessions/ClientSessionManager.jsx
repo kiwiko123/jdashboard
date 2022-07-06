@@ -15,11 +15,13 @@ export default class ClientSessionManager {
     }
 
     endSession() {
+        if (!this._clientSessionUuid) {
+            logger.warn('No client session ID present');
+            return;
+        }
+
         Request.to(`/client-sessions/api/${this._clientSessionUuid}/end`)
             .post()
-            .then((response) => {
-                logger.debug(`Successfully ended client session ${response.id}`);
-            })
             .catch((e) => {
                 logger.error(`Error ending client session UUID ${this._clientSessionUuid}`, e);
             })

@@ -1,6 +1,6 @@
-import StateTransmitter from 'state/StateTransmitter';
+import StateManager from 'state/StateManager';
 
-export default class ChatroomToolbarStateManager extends StateTransmitter {
+export default class ChatroomToolbarStateManager extends StateManager {
 
     constructor() {
         super();

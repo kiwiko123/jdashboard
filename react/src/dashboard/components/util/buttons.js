@@ -66,5 +66,12 @@ export function makeQuickLinkButtonSettings(props) {
             icon: 'fas fa-dice',
             shouldShow: () => props.isLoggedIn,
         },
+        {
+            id: 'groceryList',
+            label: 'Grocery List',
+            url: '/grocerylist',
+            icon: 'fas fa-list-ul',
+            shouldShow: () => props.isLoggedIn,
+        },
     ];
 }

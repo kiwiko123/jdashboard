@@ -14,7 +14,7 @@ public class LoggingPreRequestPlugin implements PreRequestPlugin {
     @Override
     public void preRequest(ApiRequest apiRequest) throws ApiClientPluginException {
         logger.info(
-                "[JdashboardApiClient - {}] {} request to \"{}\"",
+                "[JdashboardApiClient:{}] {} request to \"{}\"",
                 getClass().getSimpleName(),
                 apiRequest.getRequestMethod().name(),
                 apiRequest.getRequestUrl().toUrlString());

@@ -1,0 +1,8 @@
+.GroceryListFeed > .feed {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.GroceryListFeed > .feed > .GroceryListFeedItem {
+    margin: 1rem;
+}

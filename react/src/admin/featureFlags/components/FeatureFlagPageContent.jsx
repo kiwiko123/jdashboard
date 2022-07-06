@@ -1,5 +1,5 @@
 import React from 'react';
-import { useStateTransmitter } from 'state/hooks';
+import { useStateManager } from 'state/hooks';
 import ComponentStateManager from 'state/components/ComponentStateManager';
 import FeatureFlagList from './FeatureFlagList';
 import FeatureFlagListStateTransmitter from '../state/FeatureFlagListStateTransmitter';
@@ -7,13 +7,13 @@ import FeatureFlagListStateTransmitter from '../state/FeatureFlagListStateTransm
 import './FeatureFlagPageContent.css';
 
 const FeatureFlagPageContent = () => {
-    const featureFlagListManager = useStateTransmitter(FeatureFlagListStateTransmitter);
+    const featureFlagListManager = useStateManager(() => new FeatureFlagListStateTransmitter());
 
     return (
         <div className="FeatureFlagPageContent">
             <ComponentStateManager
                 component={FeatureFlagList}
-                broadcaster={featureFlagListManager}
+                stateManager={featureFlagListManager}
             />
         </div>
     );

@@ -13,6 +13,4 @@ public interface DataAccessObject<T extends DataEntity> {
     void flush();
 
     Optional<T> getById(long id);
-
-    Optional<T> getProxyById(long id);
 }

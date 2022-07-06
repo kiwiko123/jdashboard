@@ -12,7 +12,6 @@ import com.kiwiko.jdashboard.webapp.framework.json.api.JsonSerializer;
 import com.kiwiko.jdashboard.webapp.framework.json.deserialization.MvcJsonDeserializationConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.json.deserialization.internal.resolvers.CustomRequestBodyArgumentResolver;
 import com.kiwiko.jdashboard.webapp.framework.json.impl.GsonJsonSerializer;
-import com.kiwiko.jdashboard.webapp.framework.json.impl.resolvers.CustomRequestBodyResolver;
 import com.kiwiko.jdashboard.webapp.framework.requests.RequestConfiguration;
 import com.kiwiko.jdashboard.webapp.metrics.api.annotations.CaptureMetrics;
 import com.kiwiko.jdashboard.webapp.framework.configuration.ConfigurationHelper;
@@ -50,7 +49,6 @@ public class MvcConfiguration implements WebMvcConfigurer, JdashboardDependencyC
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(requestBodyParameterResolver());
         resolvers.add(requestBodyCollectionParameterResolver());
-        resolvers.add(legacyCustomRequestBodyResolver());
         resolvers.add(requestContextResolver());
         resolvers.add(customRequestBodyArgumentResolver);
         resolvers.add(authenticatedUserArgumentResolver());
@@ -92,12 +90,6 @@ public class MvcConfiguration implements WebMvcConfigurer, JdashboardDependencyC
     @Bean
     public RequestBodyCollectionParameterResolver requestBodyCollectionParameterResolver() {
         return new RequestBodyCollectionParameterResolver();
-    }
-
-    @Bean
-    @ConfiguredBy(JsonConfiguration.class)
-    public CustomRequestBodyResolver legacyCustomRequestBodyResolver() {
-        return new CustomRequestBodyResolver();
     }
 
     @Bean

@@ -71,11 +71,15 @@ public class StringSubstitutor {
             Object[] args) {
         int subjectLength = subject.length();
         int currentPosition = 0;
-        StringPlaceholderPosition currentPlaceholderPosition = placeholderPositions.removeFirst(); // placeholderPositions guaranteed to be non-empty
+
+        if (placeholderPositions.isEmpty()) {
+            throw new StringSubstitutionException("placeholderPositions should not be empty but is");
+        }
+
+        StringPlaceholderPosition currentPlaceholderPosition = placeholderPositions.removeFirst();
         StringBuilder stringBuilder = new StringBuilder();
 
         while (currentPosition < subjectLength) {
-            char currentCharacter = subject.charAt(currentPosition);
             if (currentPlaceholderPosition == null) {
                 String remainingString = subject.substring(currentPosition);
                 stringBuilder.append(remainingString);
@@ -90,7 +94,7 @@ public class StringSubstitutor {
                 continue;
             }
 
-            stringBuilder.append(currentCharacter);
+            stringBuilder.append(subject.charAt(currentPosition));
             ++currentPosition;
         }
 

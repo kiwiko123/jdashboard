@@ -81,7 +81,7 @@ public class SessionEntityDAO extends JpaDataAccessObject<SessionEntity> {
 
         if (input.getIsActive() != null) {
             Expression<Boolean> isRemovedField = root.get("isRemoved");
-            Predicate isActive = builder.isFalse(isRemovedField);
+            Predicate isActive = input.getIsActive() ? builder.isFalse(isRemovedField) : builder.isTrue(isRemovedField);
             query.where(isActive);
         }
 

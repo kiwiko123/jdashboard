@@ -10,6 +10,8 @@ import com.kiwiko.jdashboard.framework.controllers.api.annotations.auth.Authenti
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.CrossOriginConfigured;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.InternalServiceCheck;
 import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardApiClient;
+import com.kiwiko.jdashboard.webapp.streaming.pushservice.api.interfaces.PushService;
+import com.kiwiko.jdashboard.webapp.streaming.pushservice.api.interfaces.parameters.PushToClientParameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +27,7 @@ public class PlaygroundController {
     @Inject private JdashboardApiClient jdashboardApiClient;
     @Inject private UserClient userClient;
     @Inject private PermissionClient permissionClient;
+    @Inject private PushService pushService;
 
 //    @GetMapping("/playground-api/test")
 //    @PermissionCheck(PermissionNames.ADMIN)
@@ -47,6 +50,14 @@ public class PlaygroundController {
     @GetMapping("/playground-api/test")
     @ResponseBody
     public ClientResponse<Object> test(@AuthenticatedUser(required = false) User currentUser) throws Exception {
+        PushToClientParameters parameters = new PushToClientParameters();
+        parameters.setUserId(99L);
+        parameters.setRecipientUserId(3L);
+        parameters.setServiceId("jdashboard-notifications");
+        parameters.setData("hello!");
+
+        pushService.pushToClient(parameters);
+
 //        TestPostApiRequest request = new TestPostApiRequest(currentUser);
         RandomApiRequest request = new RandomApiRequest();
         return jdashboardApiClient.synchronousCall(request);

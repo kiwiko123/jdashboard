@@ -1,3 +1,4 @@
+// Deprecated.
 import { useEffect, useState } from 'react';
 
 function useBroadcaster(broadcasterType, args) {

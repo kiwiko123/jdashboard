@@ -26,12 +26,15 @@ public class HttpApiClient implements ApiClient {
     public <ResponseType> ApiResponse<ResponseType> synchronousCall(ApiRequest request)
             throws ClientException, ServerException, InterruptedException {
         requestHelper.validateRequest(request);
+
+        // Make the HTTP request first to handle preparation-related side effects.
+        HttpRequest httpRequest = requestHelper.makeHttpRequest(request);
+
         Optional<ApiResponse<ResponseType>> cachedResponse = apiClientCache.getCachedResponse(request);
         if (cachedResponse.isPresent()) {
             return cachedResponse.get();
         }
 
-        HttpRequest httpRequest = requestHelper.makeHttpRequest(request);
         httpApiClientPlugins.runPreRequestPlugins(request);
         HttpResponse<String> httpResponse = httpClient.sendSynchronousRequest(httpRequest);
 
@@ -42,15 +45,17 @@ public class HttpApiClient implements ApiClient {
     }
 
     @Override
-    public <ResponseType> CompletableFuture<ApiResponse<ResponseType>> asynchronousCall(ApiRequest request)
-            throws ClientException, ServerException, InterruptedException {
+    public <ResponseType> CompletableFuture<ApiResponse<ResponseType>> asynchronousCall(ApiRequest request) throws ClientException {
         requestHelper.validateRequest(request);
+
+        // Make the HTTP request first to handle preparation-related side effects.
+        HttpRequest httpRequest = requestHelper.makeHttpRequest(request);
+
         Optional<ApiResponse<ResponseType>> cachedResponse = apiClientCache.getCachedResponse(request);
         if (cachedResponse.isPresent()) {
             return CompletableFuture.completedFuture(cachedResponse.get());
         }
 
-        HttpRequest httpRequest = requestHelper.makeHttpRequest(request);
         httpApiClientPlugins.runPreRequestPlugins(request);
         CompletableFuture<HttpResponse<String>> httpResponseFuture = httpClient.sendAsynchronousRequest(httpRequest);
 

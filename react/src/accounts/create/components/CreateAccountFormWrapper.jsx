@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react';
-import ComponentStateWrapper from '../../../state/components/ComponentStateWrapper';
 import Request from '../../../common/js/Request';
 import { goTo } from '../../../common/js/urltools';
 import CreateAccountForm from './CreateAccountForm';
@@ -12,6 +11,8 @@ function setTextFromEvent(event, setText) {
 const CreateAccountFormWrapper = () => {
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
+    const setUsernameFromEvent = useCallback(event => setTextFromEvent(event, setUsername));
+    const setPasswordFromEvent = useCallback(event => setTextFromEvent(event, setPassword));
     const createUser = useCallback(() => {
         Request.to(CREATE_USER_URL)
             .withAuthentication()
@@ -21,18 +22,14 @@ const CreateAccountFormWrapper = () => {
                 goTo('/home');
             });
     }, [username, password]);
-    const data = {
-        username,
-        password,
-        setUsername: event => setTextFromEvent(event, setUsername),
-        setPassword: event => setTextFromEvent(event, setPassword),
-        createUser,
-    };
 
     return (
-        <ComponentStateWrapper
-            component={CreateAccountForm}
-            data={data}
+        <CreateAccountForm
+            username={username}
+            password={password}
+            setUsername={setUsernameFromEvent}
+            setPassword={setPasswordFromEvent}
+            createUser={createUser}
         />
     );
 };
