@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { getUrlParameters, goTo } from 'common/js/urltools';
+import LoadingIndicator from 'ui/LoadingIndicator';
 
 import './UserAuthRedirectPage.css';
 
@@ -25,7 +26,7 @@ const UserAuthRedirectPage = ({
             <div className="text">
                 {text}
             </div>
-            <i className="fas fa-circle-notch fa-spin" />
+            <LoadingIndicator />
         </div>
     );
 };
