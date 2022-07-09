@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import './SwipeView.css';
+import './index.css';
 
 const DEFAULT_COORDINATES = { x: 0, y: 0 };
 const PULL_TO_VIEW_INTERACTIVE_PIXELS_HEIGHT = 50;
@@ -15,7 +15,7 @@ const DefaultInteractiveLeftPaneContent = () => (<i className="fas fa-arrow-righ
 const DefaultInteractiveRightPaneContent = () => (<i className="fas fa-arrow-left interactive-panel-indicator" />);
 
 const SwipeView = ({
-    children, className, fullScreen, onSwipeFromTop, onSwipeFromBottom, onSwipeFromLeft, onSwipeFromRight,
+    children, className, size, onSwipeFromTop, onSwipeFromBottom, onSwipeFromLeft, onSwipeFromRight,
     interactiveHeader, interactiveFooter, interactiveLeftPane, interactiveRightPane,
 }) => {
     const [isClicking, setIsClicking] = useState(false);
@@ -141,7 +141,7 @@ const SwipeView = ({
     }
 
     const divClassName = classnames('SwipeView', className, {
-        fullscreen: fullScreen,
+        fullscreen: size === 'full-screen',
     });
     return (
         <div
@@ -172,7 +172,7 @@ SwipeView.propTypes = {
     interactiveLeftPane: PropTypes.node,
     interactiveRightPane: PropTypes.node,
     className: PropTypes.string,
-    fullScreen: PropTypes.bool,
+    size: PropTypes.oneOf([null, 'full-screen']),
 };
 
 SwipeView.defaultProps = {
@@ -186,7 +186,7 @@ SwipeView.defaultProps = {
     interactiveLeftPane: <DefaultInteractiveLeftPaneContent />,
     interactiveRightPane: <DefaultInteractiveRightPaneContent />,
     className: null,
-    fullScreen: true,
+    size: 'full-screen',
 };
 
 export default SwipeView;

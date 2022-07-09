@@ -5,6 +5,7 @@ import ComponentStateManager from 'state/components/ComponentStateManager';
 import { useStateManager, useTabTitle } from 'state/hooks';
 import DashboardHeaderStateManager from 'dashboard/state/DashboardHeaderStateManager';
 import DashboardHeader from 'dashboard/components/DashboardHeader';
+import SwipeView from 'ui/views/components/SwipeView';
 import conditionsPropType from '../conditions/conditionsPropType';
 import DashboardMenuAssistantPane from 'dashboard/components/DashboardMenuAssistantPane';
 import useManagedClientSession from './util/useManagedClientSession';
@@ -31,7 +32,7 @@ const JdashboardResolvedPage = ({
     );
 
     return (
-        <div className={pageClassName}>
+        <SwipeView className={pageClassName}>
             {menuAssistant}
             <ComponentStateManager
                 stateManager={headerStateManager}
@@ -42,7 +43,7 @@ const JdashboardResolvedPage = ({
             <div className="body">
                 {children}
             </div>
-        </div>
+        </SwipeView>
     );
 }
 
