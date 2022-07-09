@@ -14,6 +14,17 @@ const UpArrow = () => (<i className="fas fa-arrow-up interactive-panel-indicator
 const RightArrow = () => (<i className="fas fa-arrow-right interactive-panel-indicator" />);
 const LeftArrow = () => (<i className="fas fa-arrow-left interactive-panel-indicator" />);
 
+const VerticalPanelHint = ({ location }) => (
+    <div className={classnames('interactive-panel-hint', location)}>
+        <i class="fas fa-ellipsis-h"></i>
+    </div>
+);
+const HorizontalPanelHint = ({ location }) => (
+    <div className={classnames('interactive-panel-hint', location)}>
+        <i class="fas fa-ellipsis-v"></i>
+    </div>
+);
+
 const SwipeView = ({
     children, className, size, onSwipeFromTop, onSwipeFromBottom, onSwipeFromLeft, onSwipeFromRight,
     interactiveHeader, interactiveFooter, interactiveLeftPane, interactiveRightPane,
@@ -26,22 +37,27 @@ const SwipeView = ({
     const [showInteractiveLeftPane, setShowInteractiveLeftPane] = useState(false);
     const [showInteractiveRightPane, setShowInteractiveRightPane] = useState(false);
 
-    const allowInteractiveHeader = onSwipeFromTop
+    const canUseInteractiveHeader = Boolean(onSwipeFromTop);
+    const canUseInteractiveFooter = Boolean(onSwipeFromBottom);
+    const canUseInteractiveLeftPane = Boolean(onSwipeFromLeft);
+    const canUseInteractiveRightPane = Boolean(onSwipeFromRight);
+
+    const allowInteractiveHeader = canUseInteractiveHeader
         && isClicking
         && clickStartCoordinates.y <= CLICK_START_INTERACTIVE_PIXELS_THRESHOLD
         && pointerCoordinates.y > clickStartCoordinates.y;
 
-    const allowInteractiveFooter = onSwipeFromBottom
+    const allowInteractiveFooter = canUseInteractiveFooter
         && isClicking
         && (window.innerHeight - clickStartCoordinates.y) <= CLICK_START_INTERACTIVE_PIXELS_THRESHOLD
         && pointerCoordinates.y < clickStartCoordinates.y;
 
-    const allowInteractiveLeftPane = onSwipeFromLeft
+    const allowInteractiveLeftPane = canUseInteractiveLeftPane
         && isClicking
         && clickStartCoordinates.x <= CLICK_START_INTERACTIVE_PIXELS_THRESHOLD
         && pointerCoordinates.x > clickStartCoordinates.x;
 
-    const allowInteractiveRightPane = onSwipeFromRight
+    const allowInteractiveRightPane = canUseInteractiveRightPane
         && isClicking
         && (window.innerWidth - clickStartCoordinates.x) <= CLICK_START_INTERACTIVE_PIXELS_THRESHOLD
         && pointerCoordinates.x < clickStartCoordinates.x;
@@ -116,6 +132,8 @@ const SwipeView = ({
                 {interactiveHeader}
             </div>
         );
+    } else if (canUseInteractiveHeader) {
+        interactiveHeaderDiv = <VerticalPanelHint location="top" />
     }
 
     let interactiveFooterDiv;
@@ -127,6 +145,8 @@ const SwipeView = ({
                 {interactiveFooter}
             </div>
         );
+    } else if (canUseInteractiveFooter) {
+        interactiveFooterDiv = <VerticalPanelHint location="bottom" />;
     }
 
     let interactiveLeftPaneDiv;
@@ -138,6 +158,8 @@ const SwipeView = ({
                 {interactiveLeftPane}
             </div>
         );
+    } else if (canUseInteractiveLeftPane) {
+        interactiveLeftPaneDiv = <HorizontalPanelHint location="left" />;
     }
 
     let interactiveRightPaneDiv;
@@ -149,6 +171,8 @@ const SwipeView = ({
                 {interactiveRightPane}
             </div>
         );
+    } else if (canUseInteractiveRightPane) {
+        interactiveRightPaneDiv = <HorizontalPanelHint location="right" />;
     }
 
     const divClassName = classnames('SwipeView', className, {

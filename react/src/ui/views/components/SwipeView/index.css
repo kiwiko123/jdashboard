@@ -38,3 +38,34 @@
 .SwipeView > .swipe-view-body > .interactive-panel > .interactive-panel-indicator {
     color: white;
 }
+
+.SwipeView > .interactive-panel-hint {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;
+}
+
+.SwipeView > .interactive-panel-hint.top {
+    margin-top: 0.5rem;
+}
+
+.SwipeView > .interactive-panel-hint.bottom {
+    margin-bottom: 0.5rem;
+}
+
+.SwipeView > .swipe-view-body > .interactive-panel-hint {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;
+    margin: 0 0.5rem 0 0.5rem;
+}
+
+.SwipeView > .swipe-view-body > .interactive-panel-hint.left {
+    margin-left: 0.5rem;
+}
+
+.SwipeView > .swipe-view-body > .interactive-panel-hint.right {
+    margin-right: 0.5rem;
+}
