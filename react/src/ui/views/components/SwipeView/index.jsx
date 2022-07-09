@@ -9,10 +9,10 @@ const PULL_TO_VIEW_INTERACTIVE_PIXELS_HEIGHT = 50;
 const PULL_TO_VIEW_INTERACTIVE_PIXELS_WIDTH = 150;
 const CLICK_START_INTERACTIVE_PIXELS_THRESHOLD = 400;
 
-const DefaultInteractiveHeaderContent = () => (<i className="fas fa-arrow-down interactive-panel-indicator" />);
-const DefaultInteractiveFooterContent = () => (<i className="fas fa-arrow-up interactive-panel-indicator" />);
-const DefaultInteractiveLeftPaneContent = () => (<i className="fas fa-arrow-right interactive-panel-indicator" />);
-const DefaultInteractiveRightPaneContent = () => (<i className="fas fa-arrow-left interactive-panel-indicator" />);
+const DownArrow = () => (<i className="fas fa-arrow-down interactive-panel-indicator" />);
+const UpArrow = () => (<i className="fas fa-arrow-up interactive-panel-indicator" />);
+const RightArrow = () => (<i className="fas fa-arrow-right interactive-panel-indicator" />);
+const LeftArrow = () => (<i className="fas fa-arrow-left interactive-panel-indicator" />);
 
 const SwipeView = ({
     children, className, size, onSwipeFromTop, onSwipeFromBottom, onSwipeFromLeft, onSwipeFromRight,
@@ -46,12 +46,17 @@ const SwipeView = ({
         && (window.innerWidth - clickStartCoordinates.x) <= CLICK_START_INTERACTIVE_PIXELS_THRESHOLD
         && pointerCoordinates.x < clickStartCoordinates.x;
 
-    useEffect(() => {
-        setShowInteractiveHeader(allowInteractiveHeader && !(showInteractiveFooter || showInteractiveLeftPane || showInteractiveRightPane));
-        setShowInteractiveFooter(allowInteractiveFooter && !(showInteractiveHeader || showInteractiveLeftPane || showInteractiveRightPane));
-        setShowInteractiveLeftPane(allowInteractiveLeftPane && !(showInteractiveHeader || showInteractiveFooter || showInteractiveRightPane));
-        setShowInteractiveRightPane(allowInteractiveRightPane && !(showInteractiveHeader || showInteractiveFooter || showInteractiveLeftPane));
-    }, [allowInteractiveHeader, allowInteractiveFooter, allowInteractiveLeftPane, allowInteractiveRightPane]);
+    useEffect(
+        () => {
+            setShowInteractiveHeader(allowInteractiveHeader && !(showInteractiveFooter || showInteractiveLeftPane || showInteractiveRightPane));
+            setShowInteractiveFooter(allowInteractiveFooter && !(showInteractiveHeader || showInteractiveLeftPane || showInteractiveRightPane));
+            setShowInteractiveLeftPane(allowInteractiveLeftPane && !(showInteractiveHeader || showInteractiveFooter || showInteractiveRightPane));
+            setShowInteractiveRightPane(allowInteractiveRightPane && !(showInteractiveHeader || showInteractiveFooter || showInteractiveLeftPane));
+        },
+        [
+            allowInteractiveHeader, allowInteractiveFooter, allowInteractiveLeftPane, allowInteractiveRightPane,
+            showInteractiveHeader, showInteractiveFooter, showInteractiveLeftPane, showInteractiveRightPane,
+        ]);
 
     const onMouseMove = useCallback((event) => {
         if (!isClicking) {
@@ -66,25 +71,31 @@ const SwipeView = ({
         setPointerCoordinates({ x: event.screenX, y: event.screenY });
     }, []);
 
-    const onClickEnd = useCallback(() => {
-        setIsClicking(false);
+    const onClickEnd = useCallback(
+        () => {
+            setIsClicking(false);
 
-        if (showInteractiveHeader && pointerCoordinates.y - clickStartCoordinates.y >= PULL_TO_VIEW_INTERACTIVE_PIXELS_HEIGHT) {
-            onSwipeFromTop();
-        }
+            if (showInteractiveHeader && pointerCoordinates.y - clickStartCoordinates.y >= PULL_TO_VIEW_INTERACTIVE_PIXELS_HEIGHT) {
+                onSwipeFromTop();
+            }
 
-        if (showInteractiveFooter && clickStartCoordinates.y - pointerCoordinates.y >= PULL_TO_VIEW_INTERACTIVE_PIXELS_HEIGHT) {
-            onSwipeFromBottom();
-        }
+            if (showInteractiveFooter && clickStartCoordinates.y - pointerCoordinates.y >= PULL_TO_VIEW_INTERACTIVE_PIXELS_HEIGHT) {
+                onSwipeFromBottom();
+            }
 
-        if (showInteractiveLeftPane && pointerCoordinates.x - clickStartCoordinates.x >= PULL_TO_VIEW_INTERACTIVE_PIXELS_WIDTH) {
-            onSwipeFromLeft();
-        }
+            if (showInteractiveLeftPane && pointerCoordinates.x - clickStartCoordinates.x >= PULL_TO_VIEW_INTERACTIVE_PIXELS_WIDTH) {
+                onSwipeFromLeft();
+            }
 
-        if (showInteractiveRightPane && clickStartCoordinates.x - pointerCoordinates.x >= PULL_TO_VIEW_INTERACTIVE_PIXELS_WIDTH) {
-            onSwipeFromRight();
-        }
-    }, [pointerCoordinates, clickStartCoordinates]);
+            if (showInteractiveRightPane && clickStartCoordinates.x - pointerCoordinates.x >= PULL_TO_VIEW_INTERACTIVE_PIXELS_WIDTH) {
+                onSwipeFromRight();
+            }
+        },
+        [
+            pointerCoordinates, clickStartCoordinates, onSwipeFromTop, onSwipeFromBottom, onSwipeFromLeft, onSwipeFromRight,
+            showInteractiveHeader, showInteractiveFooter, showInteractiveLeftPane, showInteractiveRightPane,
+        ],
+    );
 
     useEffect(() => {
         document.addEventListener('mousedown', onClickStart);
@@ -181,10 +192,10 @@ SwipeView.defaultProps = {
     onSwipeFromBottom: null,
     onSwipeFromLeft: null,
     onSwipeFromRight: null,
-    interactiveHeader: <DefaultInteractiveHeaderContent />,
-    interactiveFooter: <DefaultInteractiveFooterContent />,
-    interactiveLeftPane: <DefaultInteractiveLeftPaneContent />,
-    interactiveRightPane: <DefaultInteractiveRightPaneContent />,
+    interactiveHeader: <DownArrow />,
+    interactiveFooter: <UpArrow />,
+    interactiveLeftPane: <RightArrow />,
+    interactiveRightPane: <LeftArrow />,
     className: null,
     size: 'full-screen',
 };

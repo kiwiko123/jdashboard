@@ -5,7 +5,7 @@ import ComponentStateManager from 'state/components/ComponentStateManager';
 import { useStateManager, useTabTitle } from 'state/hooks';
 import DashboardHeaderStateManager from 'dashboard/state/DashboardHeaderStateManager';
 import DashboardHeader from 'dashboard/components/DashboardHeader';
-import SwipeView from 'ui/views/components/SwipeView';
+import JdashboardPageView from './JdashboardPageView';
 import conditionsPropType from '../conditions/conditionsPropType';
 import DashboardMenuAssistantPane from 'dashboard/components/DashboardMenuAssistantPane';
 import useManagedClientSession from './util/useManagedClientSession';
@@ -15,14 +15,14 @@ import 'common/styles/colors.css';
 import 'common/styles/common.css';
 import './JdashboardPage.css';
 
-const JdashboardResolvedPage = ({
+const JdashboardPage = ({
     children, className, title, appId, showMenuAssistant,
 }) => {
     useTabTitle(title);
     useManagedClientSession();
     const headerStateManager = useStateManager(() => new DashboardHeaderStateManager());
 
-    const pageClassName = classnames('DashboardPage', className);
+    const pageClassName = classnames('JdashboardPage', className);
     const menuAssistant = showMenuAssistant && (
         <DashboardMenuAssistantPane
             openFrom="auto"
@@ -32,7 +32,7 @@ const JdashboardResolvedPage = ({
     );
 
     return (
-        <SwipeView className={pageClassName}>
+        <JdashboardPageView className={pageClassName}>
             {menuAssistant}
             <ComponentStateManager
                 stateManager={headerStateManager}
@@ -43,11 +43,11 @@ const JdashboardResolvedPage = ({
             <div className="body">
                 {children}
             </div>
-        </SwipeView>
+        </JdashboardPageView>
     );
 }
 
-JdashboardResolvedPage.propTypes = {
+JdashboardPage.propTypes = {
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
     title: PropTypes.string,
@@ -55,10 +55,10 @@ JdashboardResolvedPage.propTypes = {
     showMenuAssistant: PropTypes.bool,
 };
 
-JdashboardResolvedPage.defaultProps = {
+JdashboardPage.defaultProps = {
     className: null,
     title: 'Jdashboard',
     showMenuAssistant: true,
 };
 
-export default JdashboardResolvedPage;
+export default JdashboardPage;
