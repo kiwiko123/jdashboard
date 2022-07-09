@@ -2,6 +2,9 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+.SwipeView.fullscreen {
     height: 100vh;
 }
 
@@ -14,12 +17,24 @@
     width: 100%;
 }
 
-.SwipeView > .interactive-header {
+.SwipeView > .interactive-panel {
     flex-grow: 1;
-    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.SwipeView > .interactive-footer {
+.SwipeView > .interactive-panel > .interactive-panel-indicator {
+    color: white;
+}
+
+.SwipeView > .swipe-view-body > .interactive-panel {
     flex-grow: 1;
-    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.SwipeView > .swipe-view-body > .interactive-panel > .interactive-panel-indicator {
+    color: white;
 }
