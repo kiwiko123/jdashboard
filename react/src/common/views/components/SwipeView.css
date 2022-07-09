@@ -1,0 +1,25 @@
+.SwipeView {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+}
+
+.SwipeView > .swipe-view-body {
+    display: flex;
+    flex-grow: 10;
+}
+
+.SwipeView > .swipe-view-body > .swipe-view-body-content {
+    width: 100%;
+}
+
+.SwipeView > .interactive-header {
+    flex-grow: 1;
+    background-color: white;
+}
+
+.SwipeView > .interactive-footer {
+    flex-grow: 1;
+    background-color: white;
+}
