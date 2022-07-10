@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
-import SwipeView from 'ui/views/components/SwipeView';
+import PerimeterPullView from 'ui/views/components/PerimeterPullView';
 import LoadingIndicator from 'ui/LoadingIndicator';
 
 const RightArrow = () => (<i className="fas fa-arrow-right interactive-panel-indicator" />);
@@ -22,17 +22,17 @@ const JdashboardPageView = ({
     }, [history]);
 
     return (
-        <SwipeView
+        <PerimeterPullView
             className={className}
-            onSwipeFromTop={refreshPage}
-            onSwipeFromLeft={browserBack}
-            onSwipeFromRight={browserForward}
+            onPullFromTop={refreshPage}
+            onPullFromLeft={browserBack}
+            onPullFromRight={browserForward}
             interactiveHeader={<LoadingIndicator size="2x" />}
             interactiveLeftPane={<LeftArrow />}
             interactiveRightPane={<RightArrow />}
         >
             {children}
-        </SwipeView>
+        </PerimeterPullView>
     );
 };
 

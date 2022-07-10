@@ -16,17 +16,17 @@ const LeftArrow = () => (<i className="fas fa-arrow-left interactive-panel-indic
 
 const VerticalPanelHint = ({ location }) => (
     <div className={classnames('interactive-panel-hint', location)}>
-        <i class="fas fa-ellipsis-h"></i>
+        <i className="fas fa-ellipsis-h"></i>
     </div>
 );
 const HorizontalPanelHint = ({ location }) => (
     <div className={classnames('interactive-panel-hint', location)}>
-        <i class="fas fa-ellipsis-v"></i>
+        <i className="fas fa-ellipsis-v"></i>
     </div>
 );
 
-const SwipeView = ({
-    children, className, size, onSwipeFromTop, onSwipeFromBottom, onSwipeFromLeft, onSwipeFromRight,
+const PerimeterPullView = ({
+    children, className, size, onPullFromTop, onPullFromBottom, onPullFromLeft, onPullFromRight,
     interactiveHeader, interactiveFooter, interactiveLeftPane, interactiveRightPane,
 }) => {
     const [isClicking, setIsClicking] = useState(false);
@@ -37,10 +37,10 @@ const SwipeView = ({
     const [showInteractiveLeftPane, setShowInteractiveLeftPane] = useState(false);
     const [showInteractiveRightPane, setShowInteractiveRightPane] = useState(false);
 
-    const canUseInteractiveHeader = Boolean(onSwipeFromTop);
-    const canUseInteractiveFooter = Boolean(onSwipeFromBottom);
-    const canUseInteractiveLeftPane = Boolean(onSwipeFromLeft);
-    const canUseInteractiveRightPane = Boolean(onSwipeFromRight);
+    const canUseInteractiveHeader = Boolean(onPullFromTop);
+    const canUseInteractiveFooter = Boolean(onPullFromBottom);
+    const canUseInteractiveLeftPane = Boolean(onPullFromLeft);
+    const canUseInteractiveRightPane = Boolean(onPullFromRight);
 
     const allowInteractiveHeader = canUseInteractiveHeader
         && isClicking
@@ -92,23 +92,23 @@ const SwipeView = ({
             setIsClicking(false);
 
             if (showInteractiveHeader && pointerCoordinates.y - clickStartCoordinates.y >= PULL_TO_VIEW_INTERACTIVE_PIXELS_HEIGHT) {
-                onSwipeFromTop();
+                onPullFromTop();
             }
 
             if (showInteractiveFooter && clickStartCoordinates.y - pointerCoordinates.y >= PULL_TO_VIEW_INTERACTIVE_PIXELS_HEIGHT) {
-                onSwipeFromBottom();
+                onPullFromBottom();
             }
 
             if (showInteractiveLeftPane && pointerCoordinates.x - clickStartCoordinates.x >= PULL_TO_VIEW_INTERACTIVE_PIXELS_WIDTH) {
-                onSwipeFromLeft();
+                onPullFromLeft();
             }
 
             if (showInteractiveRightPane && clickStartCoordinates.x - pointerCoordinates.x >= PULL_TO_VIEW_INTERACTIVE_PIXELS_WIDTH) {
-                onSwipeFromRight();
+                onPullFromRight();
             }
         },
         [
-            pointerCoordinates, clickStartCoordinates, onSwipeFromTop, onSwipeFromBottom, onSwipeFromLeft, onSwipeFromRight,
+            pointerCoordinates, clickStartCoordinates, onPullFromTop, onPullFromBottom, onPullFromLeft, onPullFromRight,
             showInteractiveHeader, showInteractiveFooter, showInteractiveLeftPane, showInteractiveRightPane,
         ],
     );
@@ -175,7 +175,7 @@ const SwipeView = ({
         interactiveRightPaneDiv = <HorizontalPanelHint location="right" />;
     }
 
-    const divClassName = classnames('SwipeView', className, {
+    const divClassName = classnames('PerimeterPullView', className, {
         fullscreen: size === 'full-screen',
     });
     return (
@@ -184,9 +184,9 @@ const SwipeView = ({
             onMouseMove={onMouseMove}
         >
             {interactiveHeaderDiv}
-            <div className="swipe-view-body">
+            <div className="pull-view-body">
                 {interactiveLeftPaneDiv}
-                <div className="swipe-view-body-content">
+                <div className="pull-view-body-content">
                     {children}
                 </div>
                 {interactiveRightPaneDiv}
@@ -196,12 +196,12 @@ const SwipeView = ({
     );
 };
 
-SwipeView.propTypes = {
+PerimeterPullView.propTypes = {
     children: PropTypes.node,
-    onSwipeFromTop: PropTypes.func,
-    onSwipeFromBottom: PropTypes.func,
-    onSwipeFromLeft: PropTypes.func,
-    onSwipeFromRight: PropTypes.func,
+    onPullFromTop: PropTypes.func,
+    onPullFromBottom: PropTypes.func,
+    onPullFromLeft: PropTypes.func,
+    onPullFromRight: PropTypes.func,
     interactiveHeader: PropTypes.node,
     interactiveFooter: PropTypes.node,
     interactiveLeftPane: PropTypes.node,
@@ -210,12 +210,12 @@ SwipeView.propTypes = {
     size: PropTypes.oneOf([null, 'full-screen']),
 };
 
-SwipeView.defaultProps = {
+PerimeterPullView.defaultProps = {
     children: null,
-    onSwipeFromTop: null,
-    onSwipeFromBottom: null,
-    onSwipeFromLeft: null,
-    onSwipeFromRight: null,
+    onPullFromTop: null,
+    onPullFromBottom: null,
+    onPullFromLeft: null,
+    onPullFromRight: null,
     interactiveHeader: <DownArrow />,
     interactiveFooter: <UpArrow />,
     interactiveLeftPane: <RightArrow />,
@@ -224,4 +224,4 @@ SwipeView.defaultProps = {
     size: 'full-screen',
 };
 
-export default SwipeView;
+export default PerimeterPullView;
