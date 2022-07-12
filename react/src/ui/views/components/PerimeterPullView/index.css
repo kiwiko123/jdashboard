@@ -39,30 +39,12 @@
     color: white;
 }
 
-.PerimeterPullView > .interactive-panel-hint {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: grab;
-    color: white;
-    opacity: 25%;
-}
-
 .PerimeterPullView > .interactive-panel-hint.top {
     margin-top: 0.5rem;
 }
 
 .PerimeterPullView > .interactive-panel-hint.bottom {
     margin-bottom: 0.5rem;
-}
-
-.PerimeterPullView > .pull-view-body > .interactive-panel-hint {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: grab;
-    color: white;
-    opacity: 25%;
 }
 
 .PerimeterPullView > .pull-view-body > .interactive-panel-hint.left {

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import InteractivePanelHint from './InteractivePanelHint';
 
 import './index.css';
 
@@ -133,7 +134,12 @@ const PerimeterPullView = ({
             </div>
         );
     } else if (canUseInteractiveHeader) {
-        interactiveHeaderDiv = <VerticalPanelHint location="top" />
+        interactiveHeaderDiv = (
+            <InteractivePanelHint
+                className="interactive-panel-hint top"
+                orientation="horizontal"
+            />
+        );
     }
 
     let interactiveFooterDiv;
@@ -146,7 +152,12 @@ const PerimeterPullView = ({
             </div>
         );
     } else if (canUseInteractiveFooter) {
-        interactiveFooterDiv = <VerticalPanelHint location="bottom" />;
+        interactiveFooterDiv = (
+           <InteractivePanelHint
+               className="interactive-panel-hint bottom"
+               orientation="horizontal"
+           />
+       );
     }
 
     let interactiveLeftPaneDiv;
@@ -159,7 +170,12 @@ const PerimeterPullView = ({
             </div>
         );
     } else if (canUseInteractiveLeftPane) {
-        interactiveLeftPaneDiv = <HorizontalPanelHint location="left" />;
+        interactiveLeftPaneDiv = (
+            <InteractivePanelHint
+                 className="interactive-panel-hint left"
+                 orientation="vertical"
+            />
+        );
     }
 
     let interactiveRightPaneDiv;
@@ -172,7 +188,12 @@ const PerimeterPullView = ({
             </div>
         );
     } else if (canUseInteractiveRightPane) {
-        interactiveRightPaneDiv = <HorizontalPanelHint location="right" />;
+        interactiveRightPaneDiv = (
+            <InteractivePanelHint
+                className="interactive-panel-hint right"
+                orientation="vertical"
+            />
+        );
     }
 
     const divClassName = classnames('PerimeterPullView', className, {
