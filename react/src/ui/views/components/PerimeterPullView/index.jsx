@@ -196,9 +196,10 @@ const PerimeterPullView = ({
         );
     }
 
-    const divClassName = classnames('PerimeterPullView', className, {
+    const divClassName = classnames('PerimeterPullView', {
         fullscreen: size === 'full-screen',
     });
+    const bodyContentClassName = classnames('pull-view-body-content', className);
     return (
         <div
             className={divClassName}
@@ -207,7 +208,7 @@ const PerimeterPullView = ({
             {interactiveHeaderDiv}
             <div className="pull-view-body">
                 {interactiveLeftPaneDiv}
-                <div className="pull-view-body-content">
+                <div className={bodyContentClassName}>
                     {children}
                 </div>
                 {interactiveRightPaneDiv}
