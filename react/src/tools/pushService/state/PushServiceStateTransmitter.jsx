@@ -94,8 +94,8 @@ export default class PushServiceStateTransmitter extends StateManager {
         // TODO
     }
 
-    destroy() {
-        super.destroy();
+    tearDown() {
+        super.tearDown();
         this._onClose();
     }
 
