@@ -6,6 +6,7 @@ import PushServiceSessionManager from '../private/PushServiceSessionManager';
 
 const WEB_SOCKET_TEMPLATE = {
     close: () => {},
+    send: () => {},
 };
 let GLOBAL_ID = 0;
 
