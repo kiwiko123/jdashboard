@@ -32,9 +32,6 @@ export default class CoreStateManager {
     // ===            ===
     // === Private    ===
     // ===            ===
-    __isActive() {
-        return this.__stateProcessorsById.size > 0;
-    }
 
     __linkStateProcessor(id, processState) {
         this.__stateProcessorsById.set(id, processState);
@@ -42,9 +39,5 @@ export default class CoreStateManager {
 
     __unlink(id) {
         this.__stateProcessorsById.delete(id);
-    }
-
-    getState() {
-        return this.state;
     }
 }
