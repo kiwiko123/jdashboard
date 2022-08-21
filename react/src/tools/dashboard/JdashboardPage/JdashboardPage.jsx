@@ -63,7 +63,7 @@ JdashboardPage.defaultProps = {
     className: null,
     title: 'Jdashboard',
     showMenuAssistant: true,
-    enableInteractivePerimeter: true,
+    enableInteractivePerimeter: false,
 };
 
 export default JdashboardPage;
