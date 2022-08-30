@@ -4,6 +4,9 @@ import com.kiwiko.jdashboard.webapp.application.events.internal.data.Application
 import com.kiwiko.jdashboard.webapp.application.events.internal.data.ApplicationEventEntityDataFetcher;
 import com.kiwiko.jdashboard.webapp.application.events.internal.mappers.ApplicationEventEntityMapper;
 import com.kiwiko.jdashboard.framework.persistence.transactions.api.interfaces.TransactionProvider;
+import com.kiwiko.jdashboard.webapp.application.events.internal.streaming.ApplicationEventEmitter;
+import com.kiwiko.jdashboard.webapp.application.events.internal.streaming.EmitApplicationEventOperations;
+import com.kiwiko.jdashboard.webapp.application.events.internal.streaming.EmitApplicationEventRequest;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
 import com.kiwiko.jdashboard.webapp.application.events.api.interfaces.ApplicationEventService;
 import com.kiwiko.jdashboard.webapp.application.events.api.interfaces.parameters.ApplicationEventQuery;
@@ -20,6 +23,7 @@ public class ApplicationEventEntityService implements ApplicationEventService {
 
     @Inject private ApplicationEventEntityDataFetcher applicationEventEntityDataFetcher;
     @Inject private ApplicationEventEntityMapper applicationEventEntityMapper;
+    @Inject private ApplicationEventEmitter applicationEventEmitter;
     @Inject private TransactionProvider transactionProvider;
     @Inject private CreateReadUpdateDeleteExecutor crudExecutor;
 
@@ -49,19 +53,40 @@ public class ApplicationEventEntityService implements ApplicationEventService {
         ApplicationEventEntity entityToCreate = applicationEventEntityMapper.toEntity(event);
         entityToCreate.setCreatedDate(Instant.now());
 
-        return transactionProvider.readWrite(() -> {
+        ApplicationEvent createdEvent = transactionProvider.readWrite(() -> {
             ApplicationEventEntity createdEntity = applicationEventEntityDataFetcher.save(entityToCreate);
             return applicationEventEntityMapper.toDto(createdEntity);
         });
+
+        EmitApplicationEventRequest emitApplicationEventRequest = new EmitApplicationEventRequest();
+        emitApplicationEventRequest.setEvent(createdEvent);
+        emitApplicationEventRequest.setOperation(EmitApplicationEventOperations.CREATED);
+        applicationEventEmitter.emit(emitApplicationEventRequest);
+
+        return createdEvent;
     }
 
     @Override
     public ApplicationEvent update(ApplicationEvent event) {
-        return crudExecutor.update(event, applicationEventEntityDataFetcher, applicationEventEntityMapper);
+        ApplicationEvent updatedEvent = crudExecutor.update(event, applicationEventEntityDataFetcher, applicationEventEntityMapper);
+
+        EmitApplicationEventRequest emitApplicationEventRequest = new EmitApplicationEventRequest();
+        emitApplicationEventRequest.setEvent(updatedEvent);
+        emitApplicationEventRequest.setOperation(EmitApplicationEventOperations.UPDATED);
+        applicationEventEmitter.emit(emitApplicationEventRequest);
+
+        return updatedEvent;
     }
 
     @Override
     public ApplicationEvent merge(ApplicationEvent event) {
-        return crudExecutor.merge(event, applicationEventEntityDataFetcher, applicationEventEntityMapper);
+        ApplicationEvent updatedEvent = crudExecutor.merge(event, applicationEventEntityDataFetcher, applicationEventEntityMapper);
+
+        EmitApplicationEventRequest emitApplicationEventRequest = new EmitApplicationEventRequest();
+        emitApplicationEventRequest.setEvent(updatedEvent);
+        emitApplicationEventRequest.setOperation(EmitApplicationEventOperations.UPDATED);
+        applicationEventEmitter.emit(emitApplicationEventRequest);
+
+        return updatedEvent;
     }
 }
