@@ -45,7 +45,7 @@ java {
 mainClassName = 'com.kiwiko.jdashboard.Application'
 group = 'org.springframework'
 version = '0.1.0'
-description = 'gs-rest-service'
+description = 'Jdashboard'
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
