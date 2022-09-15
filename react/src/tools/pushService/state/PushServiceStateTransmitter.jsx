@@ -6,6 +6,7 @@ import PushServiceSessionManager from '../private/PushServiceSessionManager';
 
 const WEB_SOCKET_TEMPLATE = {
     close: () => {},
+    send: () => {},
 };
 let GLOBAL_ID = 0;
 
@@ -94,8 +95,8 @@ export default class PushServiceStateTransmitter extends StateManager {
         // TODO
     }
 
-    destroy() {
-        super.destroy();
+    tearDown() {
+        super.tearDown();
         this._onClose();
     }
 

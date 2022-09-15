@@ -45,18 +45,15 @@ public class MapTest {
 
     @Test
     public void testPut() {
-        String value = stringMap.put("A", "1");
-        Assert.assertEquals("1", value);
+        stringMap.put("A", "1");
         MatcherAssert.assertThat(stringMap, hasEntry("A", "1"));
         MatcherAssert.assertThat(stringMap, is(aMapWithSize(1)));
 
-        value = stringMap.put("A", "2");
-        Assert.assertEquals("2", value);
+        stringMap.put("A", "2");
         MatcherAssert.assertThat(stringMap, hasEntry("A", "2"));
         MatcherAssert.assertThat(stringMap, is(aMapWithSize(1)));
 
-        value = stringMap.put("B", "10");
-        Assert.assertEquals("10", value);
+        stringMap.put("B", "10");
         MatcherAssert.assertThat(stringMap, hasEntry("B", "10"));
         MatcherAssert.assertThat(stringMap, hasEntry("A", "2"));
         MatcherAssert.assertThat(stringMap, is(aMapWithSize(2)));

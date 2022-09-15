@@ -1,0 +1,12 @@
+.InteractivePanelHint {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;
+    color: white;
+    opacity: 25%;
+}
+
+.InteractivePanelHint:hover {
+    opacity: 100%;
+}

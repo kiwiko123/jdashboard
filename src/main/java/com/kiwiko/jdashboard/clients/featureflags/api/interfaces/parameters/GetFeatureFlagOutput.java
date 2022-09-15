@@ -1,15 +1,11 @@
 package com.kiwiko.jdashboard.clients.featureflags.api.interfaces.parameters;
 
 import com.kiwiko.jdashboard.clients.featureflags.api.dto.FeatureFlag;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+@Getter
+@RequiredArgsConstructor
 public class GetFeatureFlagOutput {
-    private FeatureFlag featureFlag;
-
-    public FeatureFlag getFeatureFlag() {
-        return featureFlag;
-    }
-
-    public void setFeatureFlag(FeatureFlag featureFlag) {
-        this.featureFlag = featureFlag;
-    }
+    private final FeatureFlag featureFlag;
 }

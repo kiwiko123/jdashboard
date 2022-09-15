@@ -15,8 +15,10 @@ import 'common/styles/colors.css';
 import 'common/styles/common.css';
 import './JdashboardPage.css';
 
+const Div = ({ className, children }) => <div className={className}>{children}</div>;
+
 const JdashboardPage = ({
-    children, className, title, appId, showMenuAssistant,
+    children, className, title, appId, showMenuAssistant, enableInteractivePerimeter,
 }) => {
     useTabTitle(title);
     useManagedClientSession();
@@ -30,9 +32,10 @@ const JdashboardPage = ({
         >
         </DashboardMenuAssistantPane>
     );
+    const ViewComponent = enableInteractivePerimeter ? JdashboardPageView : Div;
 
     return (
-        <JdashboardPageView className={pageClassName}>
+        <ViewComponent className={pageClassName}>
             {menuAssistant}
             <ComponentStateManager
                 stateManager={headerStateManager}
@@ -43,7 +46,7 @@ const JdashboardPage = ({
             <div className="body">
                 {children}
             </div>
-        </JdashboardPageView>
+        </ViewComponent>
     );
 }
 
@@ -53,12 +56,14 @@ JdashboardPage.propTypes = {
     title: PropTypes.string,
     appId: PropTypes.string.isRequired,
     showMenuAssistant: PropTypes.bool,
+    enableInteractivePerimeter: PropTypes.bool,
 };
 
 JdashboardPage.defaultProps = {
     className: null,
     title: 'Jdashboard',
     showMenuAssistant: true,
+    enableInteractivePerimeter: false,
 };
 
 export default JdashboardPage;

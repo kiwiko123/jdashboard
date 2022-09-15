@@ -5,15 +5,8 @@ import { get } from 'lodash';
 import LifecycleManager from 'tools/lifecycle/LifecycleManager';
 import routes from './routes';
 
-export default function() {
-    useEffect(() => {
-        LifecycleManager.setUp();
-        return () => {
-            LifecycleManager.tearDown();
-        };
-    }, []);
-
-    const pageRoutes = routes.map(route => (
+const PAGE_ROUTES = Object.values(routes)
+    .map(route => (
         <Route
             key={route.id}
             path={route.path}
@@ -22,10 +15,18 @@ export default function() {
         />
     ));
 
+export default function() {
+    useEffect(() => {
+        LifecycleManager.setUp();
+        return () => {
+            LifecycleManager.tearDown();
+        };
+    }, []);
+
     return (
         <BrowserRouter>
             <Switch>
-                {pageRoutes}
+                {PAGE_ROUTES}
                 <Redirect to="/not-found" />
             </Switch>
         </BrowserRouter>

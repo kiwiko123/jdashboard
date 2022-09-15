@@ -11,6 +11,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @CrossOrigin(
         allowCredentials = "true",
-        origins = "*") // Allow all origins here because CrossSiteRequestForgeryPreventionInterceptor will verify them
+        originPatterns = "*" // Allow all origins here because CrossSiteRequestForgeryPreventionInterceptor will verify them
+)
 public @interface JdashboardConfigured {
 }

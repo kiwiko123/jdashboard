@@ -1,0 +1,56 @@
+.PerimeterPullView {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.PerimeterPullView.fullscreen {
+    height: 100vh;
+}
+
+.PerimeterPullView > .pull-view-body {
+    display: flex;
+    flex-grow: 10;
+}
+
+.PerimeterPullView > .pull-view-body > .pull-view-body-content {
+    width: 100%;
+}
+
+.PerimeterPullView > .interactive-panel {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.PerimeterPullView > .interactive-panel > .interactive-panel-indicator {
+    color: white;
+}
+
+.PerimeterPullView > .pull-view-body > .interactive-panel {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.PerimeterPullView > .pull-view-body > .interactive-panel > .interactive-panel-indicator {
+    color: white;
+}
+
+.PerimeterPullView > .interactive-panel-hint.top {
+    margin-top: 0.5rem;
+}
+
+.PerimeterPullView > .interactive-panel-hint.bottom {
+    margin-bottom: 0.5rem;
+}
+
+.PerimeterPullView > .pull-view-body > .interactive-panel-hint.left {
+    margin-left: 0.5rem;
+}
+
+.PerimeterPullView > .pull-view-body > .interactive-panel-hint.right {
+    margin-right: 0.5rem;
+}
