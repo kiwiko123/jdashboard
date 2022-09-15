@@ -4,8 +4,8 @@
 /logs
 .DS_Store
 /gs_rest_service.iml
-/.gradle
-/build
+.gradle
+build
 /gradle
 /gradlew
 /gradlew.bat

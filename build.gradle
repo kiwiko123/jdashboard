@@ -4,6 +4,7 @@
 
 plugins {
     id 'application'
+    id 'jdashboard.java-conventions'
     id "io.freefair.lombok" version "6.5.1"
 }
 
@@ -15,25 +16,25 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.google.code.findbugs:jsr305:3.0.2'
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.google.guava:guava:28.1-jre'
-    implementation 'com.sun.xml.bind:jaxb-impl:2.3.1'
-    implementation 'javax.inject:javax.inject:1'
-    implementation 'javax.xml.bind:jaxb-api:2.3.1'
-    implementation 'org.glassfish.jaxb:jaxb-core:4.0.0'
-    implementation 'org.postgresql:postgresql:42.2.11'
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.7.3'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.3'
-    implementation 'org.springframework.boot:spring-boot-starter-security:2.7.3'
-    implementation 'org.springframework:spring-aspects:5.2.4.RELEASE'
-    implementation 'org.springframework:spring-websocket:5.3.22'
-    implementation 'org.springframework:spring-messaging:5.3.22'
-    testImplementation 'com.jayway.jsonpath:json-path:2.4.0'
-    testImplementation 'junit:junit:4.13'
-    testImplementation 'org.hamcrest:hamcrest:2.2'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.3'
-    compileOnly 'org.projectlombok:lombok:1.18.24'
+    implementation 'com.google.code.findbugs:jsr305'
+    implementation 'com.google.code.gson:gson'
+    implementation 'com.google.guava:guava'
+    implementation 'com.sun.xml.bind:jaxb-impl'
+    implementation 'javax.inject:javax.inject'
+    implementation 'javax.xml.bind:jaxb-api'
+    implementation 'org.glassfish.jaxb:jaxb-core'
+    implementation 'org.postgresql:postgresql'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework:spring-aspects'
+    implementation 'org.springframework:spring-websocket'
+    implementation 'org.springframework:spring-messaging'
+    testImplementation 'com.jayway.jsonpath:json-path'
+    testImplementation 'junit:junit'
+    testImplementation 'org.hamcrest:hamcrest'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    compileOnly 'org.projectlombok:lombok'
 }
 
 java {
