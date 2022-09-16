@@ -59,8 +59,8 @@ $ sh ./react/docs/setup.sh
 ```
 
 ## Start the application
-1. Run [`Application.java`](src/main/java/com/kiwiko/jdashboard/webapp/Application.java).
-2. Run the app in development mode:
+1. To start the web application, run `./gradle run` from the project root.
+2. To start the client application:
 ```shell
 $ cd ./react
 $ npm start
