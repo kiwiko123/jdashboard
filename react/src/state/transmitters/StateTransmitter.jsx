@@ -10,6 +10,9 @@ export default class StateTransmitter extends CoreStateManager {
         super();
         this.tag = this.constructor.name;
         this.id = `${this.tag}-${INSTANCE_ID++}`;
+        this.state = {
+            __INTERNAL_STATE_MANAGER_ID: this.id,
+        };
 
         StateTransmitterRegistry.register(this);
     }

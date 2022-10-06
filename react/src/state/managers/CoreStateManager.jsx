@@ -1,5 +1,3 @@
-import logger from 'tools/monitoring/logging';
-
 export default class CoreStateManager {
     constructor() {
         this.state = {};
@@ -26,7 +24,9 @@ export default class CoreStateManager {
      */
     update() {
         const state = {...this.state}; // Make a copy to ensure that linked components re-render.
-        this.__stateProcessorsById.forEach(processState => processState({ state }));
+        this.__stateProcessorsById.forEach((processState) => {
+            processState({ state });
+        });
     }
 
     // ===            ===

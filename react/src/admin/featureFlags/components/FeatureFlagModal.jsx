@@ -8,7 +8,7 @@ import FeatureFlagFormStateTransmitter from '../state/FeatureFlagFormStateTransm
 import logger from 'common/js/logging';
 
 const FeatureFlagModal = ({
-    isOpen, close, title, createFormTransmitter, formType,
+    isOpen, close, title, formType,
 }) => {
     const formManager = useStateManager(() => new FeatureFlagFormStateTransmitter());
     logger.debug(`Form manager ${formManager.id}`);
@@ -32,7 +32,6 @@ const FeatureFlagModal = ({
 FeatureFlagModal.propTypes = {
     isOpen: PropTypes.bool,
     close: PropTypes.func.isRequired,
-    createFormTransmitter: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     formType: PropTypes.oneOf(['create', 'edit']).isRequired,
 };

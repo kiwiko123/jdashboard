@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import logger from 'tools/monitoring/logging';
 import StateManager from '../StateManager';
 
 const ComponentStateManager = ({
@@ -18,7 +19,12 @@ const ComponentStateManager = ({
         return () => {
             stateManager.__unlink(componentId);
         };
-    }, [stateManager, setManagerState]);
+    }, [stateManager]);
+
+    if (stateManager.id !== managerState.__INTERNAL_STATE_MANAGER_ID) {
+        logger.debug(`ComponentStateManager render mismatch; actual state manager is ${stateManager.id} but attempting to render with ${managerState.__INTERNAL_STATE_MANAGER_ID}`);
+        return null;
+    }
 
     if (!canResolve(managerState)) {
         return null;
