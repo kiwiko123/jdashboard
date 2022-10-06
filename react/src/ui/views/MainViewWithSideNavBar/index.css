@@ -1,0 +1,31 @@
+.MainViewWithSideNavBar {
+    display: flex;
+}
+
+.MainViewWithSideNavBar.full-screen {
+    height: 100vh;
+}
+
+.MainViewWithSideNavBar > .left-nav-bar {
+    background-color: rgba(200 200 200 / 80%);
+    flex: 1;
+}
+
+.MainViewWithSideNavBar > .left-nav-bar > .nav-item {
+    height: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.MainViewWithSideNavBar > .left-nav-bar > .nav-item:hover {
+    background-color: rgba(100 100 100);
+}
+
+.MainViewWithSideNavBar > .left-nav-bar > .nav-item.selected {
+    background-color: rgba(200 200 200);
+}
+
+.MainViewWithSideNavBar > .main-view {
+    flex: 4;
+}

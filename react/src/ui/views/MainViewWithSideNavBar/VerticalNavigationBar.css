@@ -1,0 +1,4 @@
+.VerticalNavigationBar {
+    display: flex;
+    flex-direction: column;
+}
