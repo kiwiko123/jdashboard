@@ -25,7 +25,9 @@ public class EntityMerger {
             DataFetcher extends JpaDataAccessObject<Entity>,
             Mapper extends DataEntityMapper<Entity, Dto>> Dto mergeFields(Dto obj, DataFetcher dataFetcher, Mapper mapper, MergeStrategy mergeStrategy) {
         Objects.requireNonNull(obj.getId(), "Entity ID is required to merge/update an existing record");
-        Dto objectToUpdate = transactionProvider.readOnly(() -> dataFetcher.getById(obj.getId()).map(mapper::toDto).orElse(null));
+        Dto objectToUpdate = transactionProvider.readOnly(
+                dataFetcher.getDataSource(),
+                () -> dataFetcher.getById(obj.getId()).map(mapper::toDto).orElse(null));
         Objects.requireNonNull(objectToUpdate, String.format("No existing record found with ID %d", obj.getId()));
 
         ObjectMerger<Dto> merger;
@@ -40,10 +42,12 @@ public class EntityMerger {
         }
 
         merger.merge(obj, objectToUpdate);
-        return transactionProvider.readWrite(() -> {
-           Entity entityToSave = mapper.toEntity(objectToUpdate);
-           Entity updatedEntity = dataFetcher.save(entityToSave);
-           return mapper.toDto(updatedEntity);
-        });
+        return transactionProvider.readWrite(
+                dataFetcher.getDataSource(),
+                () -> {
+                    Entity entityToSave = mapper.toEntity(objectToUpdate);
+                    Entity updatedEntity = dataFetcher.save(entityToSave);
+                    return mapper.toDto(updatedEntity);
+                });
     }
 }

@@ -40,6 +40,7 @@ Start the local PostgreSQL server, then create a new user and database:
 $ pg_ctl -D /usr/local/var/postgres start
 $ createuser jdashboard_tester
 $ createdb jdashboard_test
+$ createdb jdashboard_framework_internal_test
 ```
 
 #### Start-up

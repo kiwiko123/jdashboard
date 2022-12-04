@@ -31,7 +31,9 @@ public class CreateReadUpdateDeleteExecutor {
             Dto extends DataEntityDTO,
             DataFetcher extends JpaDataAccessObject<Entity>,
             Mapper extends DataEntityMapper<Entity, Dto>> Optional<Dto> read(long id, DataFetcher dataFetcher, Mapper mapper) {
-        return transactionProvider.readOnly(() -> dataFetcher.getById(id).map(mapper::toDto));
+        return transactionProvider.readOnly(
+                dataFetcher.getDataSource(),
+                () -> dataFetcher.getById(id).map(mapper::toDto));
     }
 
     /**
@@ -50,11 +52,13 @@ public class CreateReadUpdateDeleteExecutor {
             Dto extends DataEntityDTO,
             DataFetcher extends JpaDataAccessObject<Entity>,
             Mapper extends DataEntityMapper<Entity, Dto>> Dto create(Dto obj, DataFetcher dataFetcher, Mapper mapper) {
-        return transactionProvider.readWrite(() -> {
-            Entity entityToCreate = mapper.toEntity(obj);
-            Entity savedEntity = dataFetcher.save(entityToCreate);
-            return mapper.toDto(savedEntity);
-        });
+        return transactionProvider.readWrite(
+                dataFetcher.getDataSource(),
+                () -> {
+                    Entity entityToCreate = mapper.toEntity(obj);
+                    Entity savedEntity = dataFetcher.save(entityToCreate);
+                    return mapper.toDto(savedEntity);
+                });
     }
 
     public <Entity extends DataEntity,
@@ -62,37 +66,43 @@ public class CreateReadUpdateDeleteExecutor {
             DataFetcher extends JpaDataAccessObject<Entity>,
             Mapper extends DataEntityMapper<Entity, Dto>> Dto update(Dto obj, DataFetcher dataFetcher, Mapper mapper) {
         Objects.requireNonNull(obj.getId(), "ID is required to update an existing entity");
-        return transactionProvider.readWrite(() -> {
-            Dto existingObject = get(obj.getId(), dataFetcher, mapper).orElse(null);
-            Objects.requireNonNull(existingObject, String.format("No existing record found with ID %d: %s", obj.getId(), obj));
+        return transactionProvider.readWrite(
+                dataFetcher.getDataSource(),
+                () -> {
+                    Dto existingObject = get(obj.getId(), dataFetcher, mapper).orElse(null);
+                    Objects.requireNonNull(existingObject, String.format("No existing record found with ID %d: %s", obj.getId(), obj));
 
-            Entity entityToCreate = mapper.toEntity(obj);
-            Entity savedEntity = dataFetcher.save(entityToCreate);
-            return mapper.toDto(savedEntity);
-        });
+                    Entity entityToCreate = mapper.toEntity(obj);
+                    Entity savedEntity = dataFetcher.save(entityToCreate);
+                    return mapper.toDto(savedEntity);
+                });
     }
 
     public <Entity extends DataEntity, DataFetcher extends JpaDataAccessObject<Entity>> void delete(long id, DataFetcher dataFetcher) {
-        transactionProvider.readWrite(() -> {
-            Entity existingRecord = dataFetcher.getById(id).orElse(null);
-            Objects.requireNonNull(existingRecord, String.format("No existing record found with ID %d", id));
+        transactionProvider.readWrite(
+                dataFetcher.getDataSource(),
+                () -> {
+                    Entity existingRecord = dataFetcher.getById(id).orElse(null);
+                    Objects.requireNonNull(existingRecord, String.format("No existing record found with ID %d", id));
 
-            dataFetcher.delete(existingRecord);
-        });
+                    dataFetcher.delete(existingRecord);
+                });
     }
 
     public <Entity extends DataEntity,
             Dto extends DataEntityDTO,
             DataFetcher extends JpaDataAccessObject<Entity>,
             Mapper extends DataEntityMapper<Entity, Dto>> Dto delete(long id, DataFetcher dataFetcher, Mapper mapper) {
-        return transactionProvider.readWrite(() -> {
-            Entity existingRecord = dataFetcher.getById(id).orElse(null);
-            Objects.requireNonNull(existingRecord, String.format("No existing record found with ID %d", id));
+        return transactionProvider.readWrite(
+                dataFetcher.getDataSource(),
+                () -> {
+                    Entity existingRecord = dataFetcher.getById(id).orElse(null);
+                    Objects.requireNonNull(existingRecord, String.format("No existing record found with ID %d", id));
 
-            Dto obj = mapper.toDto(existingRecord);
-            dataFetcher.delete(existingRecord);
-            return obj;
-        });
+                    Dto obj = mapper.toDto(existingRecord);
+                    dataFetcher.delete(existingRecord);
+                    return obj;
+                });
     }
 
     /**

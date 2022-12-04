@@ -1,33 +1,54 @@
 package com.kiwiko.jdashboard.framework.persistence.transactions.internal;
 
+import com.kiwiko.jdashboard.framework.datasources.api.JdashboardDataSources;
 import com.kiwiko.jdashboard.framework.persistence.transactions.api.interfaces.TransactionProvider;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import java.util.function.Supplier;
 
-public class SpringTransactionProvider implements TransactionProvider {
+public class SpringTransactionProvider extends AbstractTransactionProvider implements TransactionProvider {
+
+    @Inject private TransactionProviderResolver transactionProviderResolver;
 
     @Override
-    @Transactional(readOnly = true)
+    public void readOnly(String dataSource, Runnable runnable) {
+        transactionProviderResolver.byDataSource(dataSource).readOnly(runnable);
+    }
+
+    @Override
+    public <T> T readOnly(String dataSource, Supplier<T> supplier) {
+        return transactionProviderResolver.byDataSource(dataSource).readOnly(supplier);
+    }
+
+    @Override
+    public void readWrite(String dataSource, Runnable runnable) {
+        transactionProviderResolver.byDataSource(dataSource).readWrite(runnable);
+    }
+
+    @Override
+    public <T> T readWrite(String dataSource, Supplier<T> supplier) {
+        return transactionProviderResolver.byDataSource(dataSource).readWrite(supplier);
+    }
+
+    @Override
     public void readOnly(Runnable runnable) {
-        runnable.run();
+        readOnly(JdashboardDataSources.DEFAULT, runnable);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public <T> T readOnly(Supplier<T> supplier) {
-        return supplier.get();
+        return readOnly(JdashboardDataSources.DEFAULT, supplier);
     }
 
     @Override
-    @Transactional(readOnly = false)
     public void readWrite(Runnable runnable) {
-        runnable.run();
+        readWrite(JdashboardDataSources.DEFAULT, runnable);
     }
 
     @Override
-    @Transactional(readOnly = false)
     public <T> T readWrite(Supplier<T> supplier) {
-        return supplier.get();
+        return readWrite(JdashboardDataSources.DEFAULT, supplier);
     }
+
+
 }

@@ -2,11 +2,11 @@ package com.kiwiko.jdashboard.framework.persistence.transactions.api.interfaces;
 
 import java.util.function.Supplier;
 
-public interface TransactionProvider {
+public interface TransactionProvider extends SimpleTransactionProvider {
 
-    void readOnly(Runnable runnable);
-    <T> T readOnly(Supplier<T> supplier);
+    void readOnly(String dataSource, Runnable runnable);
+    <T> T readOnly(String dataSource, Supplier<T> supplier);
 
-    void readWrite(Runnable runnable);
-    <T> T readWrite(Supplier<T> supplier);
+    void readWrite(String dataSource, Runnable runnable);
+    <T> T readWrite(String dataSource, Supplier<T> supplier);
 }
