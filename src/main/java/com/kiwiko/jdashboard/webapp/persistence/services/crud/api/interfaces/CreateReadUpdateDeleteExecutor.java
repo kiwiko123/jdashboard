@@ -32,7 +32,6 @@ public class CreateReadUpdateDeleteExecutor {
             DataFetcher extends JpaDataAccessObject<Entity>,
             Mapper extends DataEntityMapper<Entity, Dto>> Optional<Dto> read(long id, DataFetcher dataFetcher, Mapper mapper) {
         return transactionProvider.readOnly(
-                dataFetcher.getDataSource(),
                 () -> dataFetcher.getById(id).map(mapper::toDto));
     }
 
@@ -53,7 +52,6 @@ public class CreateReadUpdateDeleteExecutor {
             DataFetcher extends JpaDataAccessObject<Entity>,
             Mapper extends DataEntityMapper<Entity, Dto>> Dto create(Dto obj, DataFetcher dataFetcher, Mapper mapper) {
         return transactionProvider.readWrite(
-                dataFetcher.getDataSource(),
                 () -> {
                     Entity entityToCreate = mapper.toEntity(obj);
                     Entity savedEntity = dataFetcher.save(entityToCreate);
@@ -67,7 +65,6 @@ public class CreateReadUpdateDeleteExecutor {
             Mapper extends DataEntityMapper<Entity, Dto>> Dto update(Dto obj, DataFetcher dataFetcher, Mapper mapper) {
         Objects.requireNonNull(obj.getId(), "ID is required to update an existing entity");
         return transactionProvider.readWrite(
-                dataFetcher.getDataSource(),
                 () -> {
                     Dto existingObject = get(obj.getId(), dataFetcher, mapper).orElse(null);
                     Objects.requireNonNull(existingObject, String.format("No existing record found with ID %d: %s", obj.getId(), obj));
@@ -80,7 +77,6 @@ public class CreateReadUpdateDeleteExecutor {
 
     public <Entity extends DataEntity, DataFetcher extends JpaDataAccessObject<Entity>> void delete(long id, DataFetcher dataFetcher) {
         transactionProvider.readWrite(
-                dataFetcher.getDataSource(),
                 () -> {
                     Entity existingRecord = dataFetcher.getById(id).orElse(null);
                     Objects.requireNonNull(existingRecord, String.format("No existing record found with ID %d", id));
@@ -94,7 +90,6 @@ public class CreateReadUpdateDeleteExecutor {
             DataFetcher extends JpaDataAccessObject<Entity>,
             Mapper extends DataEntityMapper<Entity, Dto>> Dto delete(long id, DataFetcher dataFetcher, Mapper mapper) {
         return transactionProvider.readWrite(
-                dataFetcher.getDataSource(),
                 () -> {
                     Entity existingRecord = dataFetcher.getById(id).orElse(null);
                     Objects.requireNonNull(existingRecord, String.format("No existing record found with ID %d", id));

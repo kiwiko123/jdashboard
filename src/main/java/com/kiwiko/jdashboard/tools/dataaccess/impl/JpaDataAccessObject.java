@@ -1,6 +1,5 @@
 package com.kiwiko.jdashboard.tools.dataaccess.impl;
 
-import com.kiwiko.jdashboard.framework.datasources.api.JdashboardDataSources;
 import com.kiwiko.jdashboard.tools.dataaccess.api.interfaces.DataAccessObject;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.parameters.SaveDataChangeCaptureParameters;
 import com.kiwiko.jdashboard.library.lang.reflection.ReflectionHelper;
@@ -76,10 +75,6 @@ public abstract class JpaDataAccessObject<T extends DataEntity> implements DataA
     @Override
     public void flush() {
         entityManager.flush();
-    }
-
-    public String getDataSource() {
-        return JdashboardDataSources.DEFAULT;
     }
 
     /**

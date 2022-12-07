@@ -53,7 +53,7 @@ public class ApplicationEventEntityService implements ApplicationEventService {
         ApplicationEventEntity entityToCreate = applicationEventEntityMapper.toEntity(event);
         entityToCreate.setCreatedDate(Instant.now());
 
-        ApplicationEvent createdEvent = transactionProvider.readWrite(applicationEventEntityDataFetcher.getDataSource(), () -> {
+        ApplicationEvent createdEvent = transactionProvider.readWrite(() -> {
             ApplicationEventEntity createdEntity = applicationEventEntityDataFetcher.save(entityToCreate);
             return applicationEventEntityMapper.toDto(createdEntity);
         });
