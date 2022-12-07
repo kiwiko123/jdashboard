@@ -1,5 +1,6 @@
 import React from 'react';
-import DashboardPage from 'dashboard/components/DashboardPage';
+import JdashboardPage from 'dashboard/components/DashboardPage';
+// import JdashboardPage from 'tools/dashboard/JdashboardPage';
 import ComponentStateManager from 'state/components/ComponentStateManager';
 import { useStateManager } from 'state/hooks';
 import ChatroomInboxStateManager from './state/ChatroomInboxStateManager';
@@ -15,7 +16,7 @@ export default function() {
     const toolbarStateManager = useStateManager(() => new ChatroomToolbarStateManager());
 
     return (
-        <DashboardPage
+        <JdashboardPage
             appId="chatroom"
             title="Chatroom"
         >
@@ -31,6 +32,6 @@ export default function() {
                 stateManager={inboxStateManager}
                 component={ChatroomInbox}
             />
-        </DashboardPage>
+        </JdashboardPage>
     );
 }

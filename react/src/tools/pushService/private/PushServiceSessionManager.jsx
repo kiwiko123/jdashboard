@@ -36,6 +36,7 @@ function processUserServices(userId, fn) {
 function getSession(userId, serviceId, { onOpen, onClose, onMessage, onError } = {}) {
     let data;
     if (SESSIONS.has(userId)) {
+        // TODO "getting" an existing session does not use the newly passed-in handlers
         data = SESSIONS.get(userId);
         data.serviceIds.add(serviceId);
     } else {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { get } from 'lodash';
-import DashboardPage from 'dashboard/components/DashboardPage';
+import JdashboardPage from 'tools/dashboard/JdashboardPage';
 import ComponentStateManager from 'state/components/ComponentStateManager';
 import { useStateManager } from 'state/hooks';
 import { getUrlParameters } from 'common/js/urltools';
@@ -24,7 +24,7 @@ export default function() {
     const messageInputStateManager = useStateManager(() => new ChatroomMessageInputStateManager(roomId));
 
     return (
-        <DashboardPage
+        <JdashboardPage
             appId="chatroomRoom"
             title="Chatroom"
         >
@@ -36,6 +36,6 @@ export default function() {
                 stateManager={messageInputStateManager}
                 component={ChatroomMessageInput}
             />
-        </DashboardPage>
+        </JdashboardPage>
     );
 }

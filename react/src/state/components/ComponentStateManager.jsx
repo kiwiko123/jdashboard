@@ -9,6 +9,7 @@ const ComponentStateManager = ({
     const [managerState, setManagerState] = useState(stateManager.state);
     useEffect(() => {
         const componentId = `ComponentStateManager-${stateManager.id}`;
+        logger.debug('[ComponentStateManager] Linking ${componentId}');
         stateManager.__linkStateProcessor(
             componentId,
             ({ state }) => {
@@ -17,13 +18,15 @@ const ComponentStateManager = ({
         );
 
         return () => {
+            logger.debug('[ComponentStateManager] Unlinking ${componentId}');
             stateManager.__unlink(componentId);
         };
     }, [stateManager]);
 
     if (stateManager.id !== managerState.__INTERNAL_STATE_MANAGER_ID) {
-        logger.debug(`ComponentStateManager render mismatch; actual state manager is ${stateManager.id} but attempting to render with ${managerState.__INTERNAL_STATE_MANAGER_ID}`);
-        return null;
+        logger.debug(`ComponentStateManager render mismatch; actual state manager is ${stateManager.id} but attempting to render ${component.name} with ${managerState.__INTERNAL_STATE_MANAGER_ID}`);
+        // TODO what should we do in this case?
+        setManagerState(stateManager.state);
     }
 
     if (!canResolve(managerState)) {
