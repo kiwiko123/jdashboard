@@ -65,26 +65,28 @@ public class SessionEntityDAO extends JpaDataAccessObject<SessionEntity> {
         CriteriaBuilder builder = getCriteriaBuilder();
         CriteriaQuery<SessionEntity> query = builder.createQuery(entityType);
         Root<SessionEntity> root = query.from(entityType);
+        Predicate allCriteria = builder.and();
 
         if (input.getSessionIds() != null) {
             Expression<Long> id = root.get("id");
             Predicate hasId = id.in(input.getSessionIds());
-            query.where(hasId);
+            allCriteria = builder.and(allCriteria, hasId);
         }
 
         if (input.getTokens() != null) {
             // Where token in tokens
             Expression<String> token = root.get("token");
             Predicate hasToken = token.in(input.getTokens());
-            query.where(hasToken);
+            allCriteria = builder.and(allCriteria, hasToken);
         }
 
         if (input.getIsActive() != null) {
             Expression<Boolean> isRemovedField = root.get("isRemoved");
             Predicate isActive = input.getIsActive() ? builder.isFalse(isRemovedField) : builder.isTrue(isRemovedField);
-            query.where(isActive);
+            allCriteria = builder.and(allCriteria, isActive);
         }
 
+        query.where(allCriteria);
         return createQuery(query).getResultList();
     }
 }
