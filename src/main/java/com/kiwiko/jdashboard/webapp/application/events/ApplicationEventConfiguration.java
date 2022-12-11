@@ -2,7 +2,9 @@ package com.kiwiko.jdashboard.webapp.application.events;
 
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
 import com.kiwiko.jdashboard.framework.persistence.transactions.TransactionConfiguration;
+import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiClientConfiguration;
+import com.kiwiko.jdashboard.framework.datasources.frameworkinternal.FrameworkInternalEntityManagerProvider;
 import com.kiwiko.jdashboard.webapp.application.events.api.interfaces.ApplicationEventService;
 import com.kiwiko.jdashboard.webapp.application.events.internal.ApplicationEventEntityService;
 import com.kiwiko.jdashboard.webapp.application.events.internal.data.ApplicationEventEntityDataFetcher;
@@ -11,6 +13,7 @@ import com.kiwiko.jdashboard.webapp.application.events.internal.streaming.Applic
 import com.kiwiko.jdashboard.webapp.application.events.internal.streaming.HttpApplicationEventEmitter;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
+import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.DataChangeCapturer;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.PersistenceServicesCrudConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -33,8 +36,11 @@ public class ApplicationEventConfiguration implements JdashboardDependencyConfig
     }
 
     @Bean
-    public ApplicationEventEntityDataFetcher applicationEventEntityDataFetcher() {
-        return new ApplicationEventEntityDataFetcher();
+    public ApplicationEventEntityDataFetcher applicationEventEntityDataFetcher(
+            FrameworkInternalEntityManagerProvider entityManagerProvider,
+            DataChangeCapturer dataChangeCapturer,
+            Logger logger) {
+        return new ApplicationEventEntityDataFetcher(entityManagerProvider, dataChangeCapturer, logger);
     }
 
     @Bean

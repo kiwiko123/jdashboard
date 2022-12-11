@@ -16,7 +16,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class ServiceOperation<Entity extends DataEntity, Dto extends DataEntityDTO, DataAccessObject extends JpaDataAccessObject<Entity>, Mapper extends DataEntityMapper<Entity, Dto>> {
+public class ServiceOperation<Entity extends DataEntity, Dto extends DataEntityDTO, DataAccessObject extends com.kiwiko.jdashboard.tools.dataaccess.api.interfaces.DataAccessObject<Entity>, Mapper extends DataEntityMapper<Entity, Dto>> {
     private final @Nonnull DataAccessObject dataAccessObject;
     private final @Nonnull Mapper mapper;
     private final @Nullable String dataSource;

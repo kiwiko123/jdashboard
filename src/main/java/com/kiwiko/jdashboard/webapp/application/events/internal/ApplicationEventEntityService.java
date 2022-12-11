@@ -1,5 +1,6 @@
 package com.kiwiko.jdashboard.webapp.application.events.internal;
 
+import com.kiwiko.jdashboard.framework.datasources.api.JdashboardDataSources;
 import com.kiwiko.jdashboard.webapp.application.events.internal.data.ApplicationEventEntity;
 import com.kiwiko.jdashboard.webapp.application.events.internal.data.ApplicationEventEntityDataFetcher;
 import com.kiwiko.jdashboard.webapp.application.events.internal.mappers.ApplicationEventEntityMapper;
@@ -29,23 +30,32 @@ public class ApplicationEventEntityService implements ApplicationEventService {
 
     @Override
     public Optional<ApplicationEvent> get(long id) {
-        return crudExecutor.get(id, applicationEventEntityDataFetcher, applicationEventEntityMapper);
+        return crudExecutor.<ApplicationEventEntity, ApplicationEvent, ApplicationEventEntityDataFetcher, ApplicationEventEntityMapper>data()
+                .dataAccessObject(applicationEventEntityDataFetcher)
+                .mapper(applicationEventEntityMapper)
+                .dataSource(JdashboardDataSources.FRAMEWORK_INTERNAL)
+                .operation()
+                .get(id);
     }
 
     @Override
     public Set<ApplicationEvent> query(ApplicationEventQuery query) {
         Objects.requireNonNull(query.getEventType(), "Event type is required");
-        return transactionProvider.readOnly(() -> applicationEventEntityDataFetcher.getByQuery(query).stream()
-                .map(applicationEventEntityMapper::toDto)
-                .collect(Collectors.toSet()));
+        return transactionProvider.readOnly(
+                JdashboardDataSources.FRAMEWORK_INTERNAL,
+                () -> applicationEventEntityDataFetcher.getByQuery(query).stream()
+                    .map(applicationEventEntityMapper::toDto)
+                    .collect(Collectors.toSet()));
     }
 
     @Override
     public Set<ApplicationEvent> queryLike(ApplicationEventQuery query) {
         Objects.requireNonNull(query.getEventType(), "Event type is required");
-        return transactionProvider.readOnly(() -> applicationEventEntityDataFetcher.getByQueryLike(query).stream()
-                .map(applicationEventEntityMapper::toDto)
-                .collect(Collectors.toSet()));
+        return transactionProvider.readOnly(
+                JdashboardDataSources.FRAMEWORK_INTERNAL,
+                () -> applicationEventEntityDataFetcher.getByQueryLike(query).stream()
+                    .map(applicationEventEntityMapper::toDto)
+                    .collect(Collectors.toSet()));
     }
 
     @Override
@@ -53,10 +63,12 @@ public class ApplicationEventEntityService implements ApplicationEventService {
         ApplicationEventEntity entityToCreate = applicationEventEntityMapper.toEntity(event);
         entityToCreate.setCreatedDate(Instant.now());
 
-        ApplicationEvent createdEvent = transactionProvider.readWrite(() -> {
-            ApplicationEventEntity createdEntity = applicationEventEntityDataFetcher.save(entityToCreate);
-            return applicationEventEntityMapper.toDto(createdEntity);
-        });
+        ApplicationEvent createdEvent = transactionProvider.readWrite(
+                JdashboardDataSources.FRAMEWORK_INTERNAL,
+                () -> {
+                    ApplicationEventEntity createdEntity = applicationEventEntityDataFetcher.save(entityToCreate);
+                    return applicationEventEntityMapper.toDto(createdEntity);
+                });
 
         EmitApplicationEventRequest emitApplicationEventRequest = new EmitApplicationEventRequest();
         emitApplicationEventRequest.setEvent(createdEvent);
@@ -68,7 +80,12 @@ public class ApplicationEventEntityService implements ApplicationEventService {
 
     @Override
     public ApplicationEvent update(ApplicationEvent event) {
-        ApplicationEvent updatedEvent = crudExecutor.update(event, applicationEventEntityDataFetcher, applicationEventEntityMapper);
+        ApplicationEvent updatedEvent = crudExecutor.<ApplicationEventEntity, ApplicationEvent, ApplicationEventEntityDataFetcher, ApplicationEventEntityMapper>data()
+                .dataAccessObject(applicationEventEntityDataFetcher)
+                .mapper(applicationEventEntityMapper)
+                .dataSource(JdashboardDataSources.FRAMEWORK_INTERNAL)
+                .operation()
+                .update(event);
 
         EmitApplicationEventRequest emitApplicationEventRequest = new EmitApplicationEventRequest();
         emitApplicationEventRequest.setEvent(updatedEvent);
@@ -80,7 +97,12 @@ public class ApplicationEventEntityService implements ApplicationEventService {
 
     @Override
     public ApplicationEvent merge(ApplicationEvent event) {
-        ApplicationEvent updatedEvent = crudExecutor.merge(event, applicationEventEntityDataFetcher, applicationEventEntityMapper);
+        ApplicationEvent updatedEvent = crudExecutor.<ApplicationEventEntity, ApplicationEvent, ApplicationEventEntityDataFetcher, ApplicationEventEntityMapper>data()
+                .dataAccessObject(applicationEventEntityDataFetcher)
+                .mapper(applicationEventEntityMapper)
+                .dataSource(JdashboardDataSources.FRAMEWORK_INTERNAL)
+                .operation()
+                .merge(event);
 
         EmitApplicationEventRequest emitApplicationEventRequest = new EmitApplicationEventRequest();
         emitApplicationEventRequest.setEvent(updatedEvent);

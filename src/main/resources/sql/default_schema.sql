@@ -7,6 +7,8 @@ CREATE TABLE users (
     last_updated_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     is_removed BOOLEAN NOT NULL DEFAULT FALSE
 );
+CREATE INDEX ON users (lower(username));
+CREATE INDEX ON users (lower(email_address));
 
 CREATE TABLE user_credentials (
     id BIGSERIAL PRIMARY KEY,
@@ -16,6 +18,8 @@ CREATE TABLE user_credentials (
     created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     is_removed BOOLEAN NOT NULL DEFAULT FALSE
 );
+CREATE INDEX ON user_credentials (user_id, lower(credential_type));
+CREATE UNIQUE INDEX ON user_credentials (user_id, credential_type) WHERE is_removed = false;
 
 CREATE TABLE request_contexts (
     request_context_id BIGSERIAL PRIMARY KEY,
@@ -27,6 +31,8 @@ CREATE TABLE request_contexts (
     is_removed BOOLEAN NOT NULL DEFAULT FALSE,
     user_id BIGINT REFERENCES users(user_id)
 );
+CREATE INDEX ON request_contexts (uri);
+CREATE INDEX ON request_contexts (user_id);
 
 CREATE TABLE sessions (
     session_id BIGSERIAL PRIMARY KEY,
@@ -38,6 +44,8 @@ CREATE TABLE sessions (
     last_updated_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     is_removed BOOLEAN NOT NULL DEFAULT FALSE
 );
+CREATE INDEX ON sessions (user_id, is_removed);
+CREATE INDEX ON sessions (token, is_removed);
 
 CREATE TABLE client_sessions (
     id BIGSERIAL PRIMARY KEY,
@@ -53,6 +61,7 @@ CREATE TABLE game_states (
     is_removed BOOLEAN NOT NULL DEFAULT FALSE,
     UNIQUE (game_id, game_type)
 );
+CREATE INDEX ON game_states (game_type, game_id);
 
 CREATE TABLE user_game_state_associations (
     id BIGSERIAL PRIMARY KEY,
@@ -60,11 +69,13 @@ CREATE TABLE user_game_state_associations (
     game_state_id BIGINT NOT NULL REFERENCES game_states(id),
     UNIQUE (user_id, game_state_id)
 );
+CREATE INDEX ON user_game_state_associations (user_id);
 
 CREATE TABLE words (
     word_id BIGSERIAL PRIMARY KEY,
     word TEXT UNIQUE NOT NULL
 );
+CREATE INDEX ON words (lower(word));
 
 CREATE TABLE messages (
     message_id BIGSERIAL PRIMARY KEY,
@@ -77,6 +88,9 @@ CREATE TABLE messages (
     is_removed BOOLEAN NOT NULL DEFAULT FALSE,
     versions TEXT
 );
+CREATE INDEX ON messages (message_type_id);
+CREATE INDEX ON messages (sender_user_id);
+CREATE INDEX ON messages (recipient_user_id);
 
 CREATE TABLE notifications (
     notification_id BIGSERIAL PRIMARY KEY,
@@ -87,6 +101,7 @@ CREATE TABLE notifications (
     created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     received_date TIMESTAMP WITH TIME ZONE
 );
+CREATE INDEX ON notifications (user_id);
 
 CREATE TABLE feature_flags (
     feature_flag_id BIGSERIAL PRIMARY KEY,
@@ -97,15 +112,8 @@ CREATE TABLE feature_flags (
     user_id BIGINT REFERENCES users(user_id),
     is_removed BOOLEAN NOT NULL DEFAULT FALSE
 );
-
-CREATE TABLE application_events (
-    id BIGSERIAL PRIMARY KEY,
-    event_type TEXT NOT NULL,
-    event_key TEXT,
-    metadata TEXT,
-    is_removed BOOLEAN NOT NULL DEFAULT FALSE,
-    created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
-);
+CREATE UNIQUE INDEX ON feature_flags (lower(name)) WHERE is_removed = false;
+CREATE INDEX ON feature_flags (lower(name), user_scope, user_id);
 
 CREATE TABLE table_record_versions (
     id BIGSERIAL PRIMARY KEY,
@@ -115,6 +123,7 @@ CREATE TABLE table_record_versions (
     created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     created_by_user_id BIGINT
 );
+CREATE INDEX ON table_record_versions (table_name, record_id);
 
 CREATE TABLE universal_unique_identifiers (
     id BIGSERIAL PRIMARY KEY,
@@ -122,6 +131,8 @@ CREATE TABLE universal_unique_identifiers (
     reference_key TEXT UNIQUE NOT NULL,
     created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
+CREATE INDEX ON universal_unique_identifiers (uuid);
+CREATE INDEX ON universal_unique_identifiers (reference_key);
 
 CREATE TABLE chatroom_message_rooms (
     id BIGSERIAL PRIMARY KEY,
@@ -134,6 +145,9 @@ CREATE TABLE chatroom_message_room_users (
     chatroom_message_room_id BIGINT NOT NULL REFERENCES chatroom_message_rooms(id),
     is_removed BOOLEAN NOT NULL DEFAULT FALSE
 );
+CREATE INDEX ON chatroom_message_room_users (chatroom_message_room_id) WHERE is_removed = false;
+CREATE INDEX ON chatroom_message_room_users (user_id) WHERE is_removed = false;
+CREATE INDEX ON chatroom_messages (chatroom_message_room_id) WHERE is_removed = false;
 
 CREATE TABLE chatroom_messages (
     id BIGSERIAL PRIMARY KEY,
@@ -152,6 +166,7 @@ CREATE TABLE permissions (
     created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     is_removed BOOLEAN NOT NULL DEFAULT FALSE
 );
+CREATE INDEX ON permissions (user_id, permission_name);
 
 CREATE TABLE grocery_lists (
     id BIGSERIAL PRIMARY KEY,
@@ -160,6 +175,8 @@ CREATE TABLE grocery_lists (
     created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     is_removed BOOLEAN NOT NULL DEFAULT FALSE
 );
+CREATE INDEX ON grocery_lists (user_id) WHERE is_removed = false;
+CREATE INDEX ON grocery_items (lower(name)) WHERE is_removed = false;
 
 CREATE TABLE grocery_items (
     id BIGSERIAL PRIMARY KEY,
@@ -175,3 +192,4 @@ CREATE TABLE grocery_list_items (
     created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     is_removed BOOLEAN NOT NULL DEFAULT FALSE
 );
+CREATE INDEX ON grocery_list_items (grocery_list_id) WHERE is_removed = false;

@@ -23,6 +23,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * @deprecated prefer {@link CustomJpaDataAccessObject}
+ */
+@Deprecated
 @Repository
 public abstract class JpaDataAccessObject<T extends DataEntity> implements DataAccessObject<T> {
 

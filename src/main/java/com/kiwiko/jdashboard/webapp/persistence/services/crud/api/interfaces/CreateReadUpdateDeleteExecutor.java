@@ -116,7 +116,7 @@ public class CreateReadUpdateDeleteExecutor {
 
     public <Entity extends DataEntity,
             Dto extends DataEntityDTO,
-            DataAccessObject extends JpaDataAccessObject<Entity>,
+            DataAccessObject extends com.kiwiko.jdashboard.tools.dataaccess.api.interfaces.DataAccessObject<Entity>,
             Mapper extends DataEntityMapper<Entity, Dto>> ServiceOperationParameters.Builder<Entity, Dto, DataAccessObject, Mapper> data() {
         return new ServiceOperationParameters.Builder<>(entityMerger, transactionProvider);
     }

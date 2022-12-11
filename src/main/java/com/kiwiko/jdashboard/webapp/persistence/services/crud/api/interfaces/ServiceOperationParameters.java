@@ -4,14 +4,13 @@ import com.kiwiko.jdashboard.framework.persistence.transactions.api.interfaces.T
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntityDTO;
 import com.kiwiko.jdashboard.library.persistence.data.properties.api.interfaces.DataEntityMapper;
-import com.kiwiko.jdashboard.tools.dataaccess.impl.JpaDataAccessObject;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.internal.EntityMerger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
-public class ServiceOperationParameters<Entity extends DataEntity, Dto extends DataEntityDTO, DataAccessObject extends JpaDataAccessObject<Entity>, Mapper extends DataEntityMapper<Entity, Dto>> {
+public class ServiceOperationParameters<Entity extends DataEntity, Dto extends DataEntityDTO, DataAccessObject extends com.kiwiko.jdashboard.tools.dataaccess.api.interfaces.DataAccessObject<Entity>, Mapper extends DataEntityMapper<Entity, Dto>> {
     private final @Nonnull DataAccessObject dataAccessObject;
     private final @Nonnull Mapper mapper;
     private final @Nullable String dataSource;
@@ -51,7 +50,7 @@ public class ServiceOperationParameters<Entity extends DataEntity, Dto extends D
         return transactionProvider;
     }
 
-    public static final class Builder<Entity extends DataEntity, Dto extends DataEntityDTO, DataAccessObject extends JpaDataAccessObject<Entity>, Mapper extends DataEntityMapper<Entity, Dto>> {
+    public static final class Builder<Entity extends DataEntity, Dto extends DataEntityDTO, DataAccessObject extends com.kiwiko.jdashboard.tools.dataaccess.api.interfaces.DataAccessObject<Entity>, Mapper extends DataEntityMapper<Entity, Dto>> {
         private @Nonnull DataAccessObject dataAccessObject;
         private @Nonnull Mapper mapper;
         private @Nullable String dataSource;
