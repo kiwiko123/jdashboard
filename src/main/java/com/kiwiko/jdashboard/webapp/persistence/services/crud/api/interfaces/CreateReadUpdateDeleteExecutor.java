@@ -113,4 +113,11 @@ public class CreateReadUpdateDeleteExecutor {
             Mapper extends DataEntityMapper<Entity, Dto>> Dto merge(Dto obj, DataFetcher dataFetcher, Mapper mapper) {
         return entityMerger.mergeFields(obj, dataFetcher, mapper, MergeStrategy.SET_NON_NULL);
     }
+
+    public <Entity extends DataEntity,
+            Dto extends DataEntityDTO,
+            DataAccessObject extends JpaDataAccessObject<Entity>,
+            Mapper extends DataEntityMapper<Entity, Dto>> ServiceOperationParameters.Builder<Entity, Dto, DataAccessObject, Mapper> data() {
+        return new ServiceOperationParameters.Builder<>(entityMerger, transactionProvider);
+    }
 }
