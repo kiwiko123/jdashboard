@@ -26,7 +26,7 @@ const ComponentStateManager = ({
     if (stateManager.id !== managerState.__INTERNAL_STATE_MANAGER_ID) {
         logger.debug(`ComponentStateManager render mismatch; actual state manager is ${stateManager.id} but attempting to render ${component.name} with ${managerState.__INTERNAL_STATE_MANAGER_ID}`);
         // TODO what should we do in this case?
-        setManagerState(stateManager.state);
+        return null;
     }
 
     if (!canResolve(managerState)) {
