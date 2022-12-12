@@ -30,7 +30,7 @@ public class ChatroomMessageEntityDataFetcher extends JpaDataAccessObject<Chatro
         }
 
         Expression<Instant> sentDate = root.get("sentDate");
-        Order descendingSentDate = builder.asc(sentDate);
+        Order descendingSentDate = builder.desc(sentDate);
 
         query.where(allCriteria);
         query.orderBy(descendingSentDate);

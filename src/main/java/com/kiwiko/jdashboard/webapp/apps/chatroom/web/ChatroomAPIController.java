@@ -38,6 +38,7 @@ public class ChatroomAPIController {
         GetMessageFeedParameters getMessageFeedParameters = new GetMessageFeedParameters();
         getMessageFeedParameters.setRoomId(roomId);
         getMessageFeedParameters.setUserId(user.getId());
+        getMessageFeedParameters.setMaxMessagesToFetch(200);
 
         // TODO permission check
 

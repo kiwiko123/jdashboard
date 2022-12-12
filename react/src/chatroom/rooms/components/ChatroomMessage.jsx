@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import './ChatroomMessage.css';
 
 const ChatroomMessage = ({
-  message, caption, className, ref,
+  message, caption, className,
 }) => {
     const divClassName = classnames('ChatroomMessage', className);
     const captionArea = caption && (
@@ -17,7 +17,6 @@ const ChatroomMessage = ({
     return (
         <div
             className={divClassName}
-            ref={ref}
         >
             <div className="message">
                 {message}

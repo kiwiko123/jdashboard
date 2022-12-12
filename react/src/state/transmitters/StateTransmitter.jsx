@@ -9,9 +9,9 @@ export default class StateTransmitter extends CoreStateManager {
     constructor() {
         super();
         this.tag = this.constructor.name;
-        this.id = `${this.tag}-${INSTANCE_ID++}`;
+        this.__id = `${this.tag}-${INSTANCE_ID++}`;
         this.state = {
-            __INTERNAL_STATE_MANAGER_ID: this.id,
+            __INTERNAL_STATE_MANAGER_ID: this.__id,
         };
 
         StateTransmitterRegistry.register(this);
@@ -32,7 +32,7 @@ export default class StateTransmitter extends CoreStateManager {
     }
 
     receiveState(tag, state, metadata) {
-        logger.warn(`No implementation for receive in ${this.id}`);
+        logger.warn(`No implementation for receive in ${this.__id}`);
     }
 
     render() {

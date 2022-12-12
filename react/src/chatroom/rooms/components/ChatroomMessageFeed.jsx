@@ -32,7 +32,7 @@ function createStatusIcon({ direction, messageStatus }) {
 
 }
 
-function createMessage(message, ref) {
+function createMessage(message) {
     const className = classnames({
         inbound: message.direction === 'inbound',
         outbound: message.direction === 'outbound',
@@ -46,7 +46,6 @@ function createMessage(message, ref) {
         <ChatroomMessage
             key={message.chatroomMessage.id}
             className={className}
-            ref={ref}
             message={message.chatroomMessage.message}
             caption={caption}
         />
@@ -63,13 +62,11 @@ const ChatroomMessageFeed = ({
         }
     }, [messages]);
 
-    const messageElements = messages.map((message, index) => {
-        const ref = (index >= messages.length - 1) ? endRef : null;
-        return createMessage(message, ref);
-    });
+    const messageElements = messages.map(createMessage);
     return (
         <div className="ChatroomMessageFeed">
             {messageElements}
+            <div ref={endRef} />
         </div>
     );
 };
