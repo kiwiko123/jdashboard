@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.interceptors;
 
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.AuthorizedServiceClients;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.InternalServiceCheck;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.InternalHttpRequestValidator;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.errors.UnauthorizedInternalRequestException;
 import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.RequestInterceptor;
@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
+import java.util.Set;
 
 public class InternalServiceCheckInterceptor implements RequestInterceptor {
 
@@ -19,14 +20,14 @@ public class InternalServiceCheckInterceptor implements RequestInterceptor {
 
     @Override
     public boolean allowRequest(HttpServletRequest request, HttpServletResponse response, HandlerMethod method) throws Exception {
-        InternalServiceCheck internalServiceCheck = Optional.ofNullable(method.getMethodAnnotation(InternalServiceCheck.class))
-                .orElseGet(() -> method.getMethod().getDeclaringClass().getAnnotation(InternalServiceCheck.class));
+        AuthorizedServiceClients authorizedServiceClients = Optional.ofNullable(method.getMethodAnnotation(AuthorizedServiceClients.class))
+                .orElseGet(() -> method.getMethod().getDeclaringClass().getAnnotation(AuthorizedServiceClients.class));
 
-        if (internalServiceCheck == null) {
+        if (authorizedServiceClients == null) {
             return true;
         }
 
-        boolean isAuthorized = isInternalServiceAuthorized(request);
+        boolean isAuthorized = isInternalServiceAuthorized(request, authorizedServiceClients);
         if (!isAuthorized) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Access denied");
         }
@@ -34,14 +35,15 @@ public class InternalServiceCheckInterceptor implements RequestInterceptor {
         return isAuthorized;
     }
 
-    private boolean isInternalServiceAuthorized(HttpServletRequest request) {
+    private boolean isInternalServiceAuthorized(HttpServletRequest request, AuthorizedServiceClients authorizedServiceClients) {
+        Set<String> authorizedServiceClientIdentifiers = Set.of(authorizedServiceClients.value());
         try {
-            internalHttpRequestValidator.validateIncomingRequest(request);
+            internalHttpRequestValidator.validateIncomingRequest(request, authorizedServiceClientIdentifiers);
         } catch (UnauthorizedInternalRequestException e) {
-            logger.debug(String.format("Unauthorized request attempt to internal service endpoint %s", request.getRequestURL().toString()));
+            logger.warn("Unauthorized request attempt to internal service endpoint {}", request.getRequestURL(), e);
             return false;
         } catch (Exception e) {
-            logger.error(String.format("Unexpected exception while attempting to validate internal service request for %s", request.getRequestURL().toString()), e);
+            logger.error("Unexpected exception while attempting to validate internal service request for {}", request.getRequestURL(), e);
             return false;
         }
         return true;

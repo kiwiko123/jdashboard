@@ -4,11 +4,13 @@ import com.kiwiko.jdashboard.library.http.client.api.dto.ApiRequest;
 import com.kiwiko.jdashboard.library.http.client.api.dto.PayloadDeserializer;
 import com.kiwiko.jdashboard.library.http.client.api.dto.PayloadSerializer;
 import com.kiwiko.jdashboard.library.http.client.api.dto.RequestHeader;
+import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardServiceClientIdentifiers;
 
 import javax.annotation.Nullable;
 import java.net.http.HttpClient;
 import java.time.Duration;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
 
 public abstract class JdashboardApiRequest implements ApiRequest {
@@ -36,9 +38,15 @@ public abstract class JdashboardApiRequest implements ApiRequest {
         return Collections.emptySet();
     }
 
+    @Nullable
+    @Override
+    public String getServiceClientIdentifier() {
+        return null;
+    }
+
     @Override
     public boolean isInternalServiceRequest() {
-        return false;
+        return Objects.equals(getServiceClientIdentifier(), JdashboardServiceClientIdentifiers.DEFAULT);
     }
 
     @Override

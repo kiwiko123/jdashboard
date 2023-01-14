@@ -5,4 +5,8 @@ public class UnauthorizedInternalRequestException extends Exception {
     public UnauthorizedInternalRequestException(String message) {
         super(message);
     }
+
+    public UnauthorizedInternalRequestException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

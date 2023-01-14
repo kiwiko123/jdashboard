@@ -73,6 +73,9 @@ public interface ApiRequest {
      */
     RequestCacheStrategy getCacheStrategy();
 
+    @Nullable
+    String getServiceClientIdentifier();
+
     /**
      * Required.
      *
@@ -80,6 +83,7 @@ public interface ApiRequest {
      *
      * @return true if this is an internal service request, or false otherwise
      */
+    @Deprecated
     boolean isInternalServiceRequest();
 
     /**

@@ -5,8 +5,8 @@ import com.kiwiko.jdashboard.services.sessions.SessionConfiguration;
 import com.kiwiko.jdashboard.webapp.application.events.ApplicationEventConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
+import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonJsonConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.InternalHttpRequestValidator;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.internal.InternalHttpAuthenticationConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.internal.JdashboardInternalHttpRequestValidator;
 import com.kiwiko.jdashboard.webapp.persistence.identification.unique.UniversalUniqueIdentifierConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -19,9 +19,9 @@ public class HttpAuthenticationConfiguration implements JdashboardDependencyConf
     @ConfiguredBy({
             SessionConfiguration.class,
             LoggingConfiguration.class,
-            InternalHttpAuthenticationConfiguration.class,
             ApplicationEventConfiguration.class,
-            UniversalUniqueIdentifierConfiguration.class
+            UniversalUniqueIdentifierConfiguration.class,
+            GsonJsonConfiguration.class,
     })
     public InternalHttpRequestValidator internalHttpRequestValidator() {
         return new JdashboardInternalHttpRequestValidator();

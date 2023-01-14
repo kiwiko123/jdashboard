@@ -48,8 +48,8 @@ public class ApiClientRequestHelper {
         apiRequest.getRequestHeaders()
                 .forEach(header -> builder.header(header.getName(), header.getValue()));
 
-        if (apiRequest.isInternalServiceRequest()) {
-            internalHttpRequestValidator.authorizeOutgoingRequest(uri, builder);
+        if (apiRequest.getServiceClientIdentifier() != null || apiRequest.isInternalServiceRequest()) {
+            internalHttpRequestValidator.authorizeOutgoingRequest(uri, builder, apiRequest);
         }
 
         Optional.ofNullable(apiRequest.getRequestTimeout())
