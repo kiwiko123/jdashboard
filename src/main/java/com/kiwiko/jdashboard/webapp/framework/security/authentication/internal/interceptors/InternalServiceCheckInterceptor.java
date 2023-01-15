@@ -5,6 +5,7 @@ import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.InternalHttpRequestValidator;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.errors.UnauthorizedInternalRequestException;
 import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.RequestInterceptor;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.method.HandlerMethod;
 
 import javax.inject.Inject;
@@ -20,8 +21,8 @@ public class InternalServiceCheckInterceptor implements RequestInterceptor {
 
     @Override
     public boolean allowRequest(HttpServletRequest request, HttpServletResponse response, HandlerMethod method) throws Exception {
-        AuthorizedServiceClients authorizedServiceClients = Optional.ofNullable(method.getMethodAnnotation(AuthorizedServiceClients.class))
-                .orElseGet(() -> method.getMethod().getDeclaringClass().getAnnotation(AuthorizedServiceClients.class));
+        AuthorizedServiceClients authorizedServiceClients = Optional.ofNullable(AnnotationUtils.findAnnotation(method.getMethod(), AuthorizedServiceClients.class))
+                .orElseGet(() -> AnnotationUtils.findAnnotation(method.getMethod().getDeclaringClass(), AuthorizedServiceClients.class));
 
         if (authorizedServiceClients == null) {
             return true;
