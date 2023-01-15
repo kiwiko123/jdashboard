@@ -5,7 +5,6 @@ import com.kiwiko.jdashboard.webapp.application.events.internal.data.Application
 import com.kiwiko.jdashboard.webapp.application.events.internal.data.ApplicationEventEntityDataFetcher;
 import com.kiwiko.jdashboard.webapp.application.events.internal.mappers.ApplicationEventEntityMapper;
 import com.kiwiko.jdashboard.framework.persistence.transactions.api.interfaces.TransactionProvider;
-import com.kiwiko.jdashboard.webapp.application.events.internal.streaming.ApplicationEventEmitter;
 import com.kiwiko.jdashboard.webapp.application.events.internal.streaming.EmitApplicationEventOperations;
 import com.kiwiko.jdashboard.webapp.application.events.internal.streaming.EmitApplicationEventRequest;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
@@ -24,7 +23,6 @@ public class ApplicationEventEntityService implements ApplicationEventService {
 
     @Inject private ApplicationEventEntityDataFetcher applicationEventEntityDataFetcher;
     @Inject private ApplicationEventEntityMapper applicationEventEntityMapper;
-    @Inject private ApplicationEventEmitter applicationEventEmitter;
     @Inject private TransactionProvider transactionProvider;
     @Inject private CreateReadUpdateDeleteExecutor crudExecutor;
 
@@ -73,7 +71,6 @@ public class ApplicationEventEntityService implements ApplicationEventService {
         EmitApplicationEventRequest emitApplicationEventRequest = new EmitApplicationEventRequest();
         emitApplicationEventRequest.setEvent(createdEvent);
         emitApplicationEventRequest.setOperation(EmitApplicationEventOperations.CREATED);
-        applicationEventEmitter.emit(emitApplicationEventRequest);
 
         return createdEvent;
     }
@@ -90,7 +87,6 @@ public class ApplicationEventEntityService implements ApplicationEventService {
         EmitApplicationEventRequest emitApplicationEventRequest = new EmitApplicationEventRequest();
         emitApplicationEventRequest.setEvent(updatedEvent);
         emitApplicationEventRequest.setOperation(EmitApplicationEventOperations.UPDATED);
-        applicationEventEmitter.emit(emitApplicationEventRequest);
 
         return updatedEvent;
     }
@@ -107,7 +103,6 @@ public class ApplicationEventEntityService implements ApplicationEventService {
         EmitApplicationEventRequest emitApplicationEventRequest = new EmitApplicationEventRequest();
         emitApplicationEventRequest.setEvent(updatedEvent);
         emitApplicationEventRequest.setOperation(EmitApplicationEventOperations.UPDATED);
-        applicationEventEmitter.emit(emitApplicationEventRequest);
 
         return updatedEvent;
     }
