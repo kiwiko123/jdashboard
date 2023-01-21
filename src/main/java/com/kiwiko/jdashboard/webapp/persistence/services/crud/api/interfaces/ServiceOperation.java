@@ -48,6 +48,7 @@ public class ServiceOperation<Entity extends DataEntity, Dto extends DataEntityD
     public Dto update(@Nonnull Dto obj) throws EntityNotFoundException {
         Objects.requireNonNull(obj.getId(), "ID is required to update an existing entity");
         return transactionProvider.readWrite(
+                dataSource,
                 () -> {
                     Dto existingObject = get(obj.getId()).orElse(null);
                     if (existingObject == null) {
