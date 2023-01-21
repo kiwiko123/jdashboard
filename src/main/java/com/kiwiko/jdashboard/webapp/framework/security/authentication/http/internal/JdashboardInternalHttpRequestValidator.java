@@ -29,8 +29,11 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class JdashboardInternalHttpRequestValidator implements InternalHttpRequestValidator {
+    private static final Pattern UUID_REFERENCE_KEY_PATTERN = Pattern.compile("^applicationEventId:(?<applicationEventId>\\w+)$");
 
     @Inject private ServiceCallRequestKeyProvisioner serviceCallRequestKeyProvisioner;
     @Inject private ApplicationEventService applicationEventService;
@@ -72,9 +75,19 @@ public class JdashboardInternalHttpRequestValidator implements InternalHttpReque
             throw new InvalidServiceClientIdentifierRequestHeaderIdException(String.format("Request url: %s", url));
         }
 
-        RequestReferenceKeyMetadata requestKeyMetadata;
+        ApplicationEvent requestEvent = Optional.ofNullable(uniqueIdentifier.getReferenceKey())
+                .map(UUID_REFERENCE_KEY_PATTERN::matcher)
+                .filter(Matcher::matches)
+                .map(matcher -> matcher.group("applicationEventId"))
+                .map(Long::parseLong)
+                .flatMap(applicationEventService::get)
+                .orElseThrow(() -> new UnauthorizedServiceClientIdentifierException(String.format("Unable to determine request metadata for UUID ID %d. Request url: %s", uniqueIdentifier.getId(), url)));
+
+        RequestKeyEventMetadata requestKeyMetadata;
         try {
-            requestKeyMetadata = gsonProvider.getDefault().fromJson(uniqueIdentifier.getReferenceKey(), RequestReferenceKeyMetadata.class);
+            requestKeyMetadata = requestEvent.getMetadata()
+                    .map(metadataJson -> gsonProvider.getDefault().fromJson(metadataJson, RequestKeyEventMetadata.class))
+                    .orElseThrow(() -> new UnauthorizedServiceClientIdentifierException(String.format("Unable to determine request metadata for UUID ID %d. Request url: %s", uniqueIdentifier.getId(), url)));
             Objects.requireNonNull(requestKeyMetadata.getServiceClientId(), "Service client identifier is required to authorize incoming request");
             Objects.requireNonNull(requestKeyMetadata.getExpirationTime(), "Expiration time is required to authorize incoming request");
         } catch (JsonSyntaxException e) {
@@ -83,7 +96,7 @@ public class JdashboardInternalHttpRequestValidator implements InternalHttpReque
             throw new UnauthorizedServiceClientIdentifierException(String.format("Invalid request metadata for UUID ID %d. Request url: %s", uniqueIdentifier.getId(), url), e);
         }
 
-        updateApplicationEventMetadataWithUrl(requestKeyMetadata.getApplicationEventId(), url);
+        updateApplicationEventMetadataWithUrl(requestEvent, requestKeyMetadata, url);
 
         if (!authorizedServiceClientIdentifiers.contains(requestKeyMetadata.getServiceClientId())) {
             throw new UnauthorizedServiceClientIdentifierException(String.format("Unrecognized service client identifier \"%s\". Request url: %s", requestKeyMetadata.getServiceClientId(), url));
@@ -95,24 +108,11 @@ public class JdashboardInternalHttpRequestValidator implements InternalHttpReque
         }
     }
 
-    private void updateApplicationEventMetadataWithUrl(long applicationEventId, String url) {
-        ApplicationEvent applicationEvent = applicationEventService.get(applicationEventId)
-                .orElse(null);
-        if (applicationEvent == null) {
-            return;
-        }
-
-        RequestKeyEventMetadata eventMetadata = applicationEvent.getMetadata()
-                .map(metadataJson -> gsonProvider.getDefault().fromJson(metadataJson, RequestKeyEventMetadata.class))
-                .orElse(null);
-        if (eventMetadata == null) {
-            return;
-        }
-
-        eventMetadata.setUrl(url);
-        applicationEvent.setMetadata(gsonProvider.getDefault().toJson(eventMetadata));
-        applicationEvent.setIsRemoved(true);
-        applicationEventService.update(applicationEvent);
+    private void updateApplicationEventMetadataWithUrl(ApplicationEvent requestEvent, RequestKeyEventMetadata metadata, String url) {
+        metadata.setUrl(url);
+        requestEvent.setMetadata(gsonProvider.getDefault().toJson(metadata));
+        requestEvent.setIsRemoved(true);
+        applicationEventService.update(requestEvent);
     }
 
     private String getFullUrl(HttpServletRequest request) {

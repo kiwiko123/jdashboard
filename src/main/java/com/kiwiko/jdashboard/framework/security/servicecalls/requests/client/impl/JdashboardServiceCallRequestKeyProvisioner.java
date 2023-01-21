@@ -40,8 +40,11 @@ public class JdashboardServiceCallRequestKeyProvisioner implements ServiceCallRe
     
     private ProvisionServiceRequestKeyOutput provisionServiceRequestKey(ProvisionServiceRequestKeyInput input, String scope) throws ProvisionServiceRequestKeyException {
         String eventKey = String.format("%s-%d", input.getServiceClientIdentifier(), Instant.now().toEpochMilli());
+        Instant expirationTime = getExpirationTime(input);
         RequestKeyEventMetadata requestEventMetadata = RequestKeyEventMetadata.builder()
                 .scope(scope)
+                .serviceClientId(input.getServiceClientIdentifier())
+                .expirationTime(expirationTime)
                 .description(input.getDescription())
                 .build();
         ApplicationEvent requestEvent = ApplicationEvent.newBuilder(ServiceCallRequestKeyConstants.PROVISION_REQUEST_KEY_APPLICATION_EVENT_NAME)
@@ -50,16 +53,7 @@ public class JdashboardServiceCallRequestKeyProvisioner implements ServiceCallRe
                 .build();
         ApplicationEvent createdEvent = applicationEventService.create(requestEvent);
 
-        Instant expirationTime = getExpirationTime(input);
-
-        RequestReferenceKeyMetadata metadata = RequestReferenceKeyMetadata.builder()
-                // Provide an Application Event ID to ensure unique reference keys.
-                .applicationEventId(createdEvent.getId())
-                .serviceClientId(input.getServiceClientIdentifier())
-                .scope(scope)
-                .expirationTime(expirationTime)
-                .build();
-        String referenceKey = SERIALIZER.toJson(metadata);
+        String referenceKey = String.format("applicationEventId:%d", createdEvent.getId());
         CreateUuidParameters createUuidParameters = new CreateUuidParameters(referenceKey);
         UniversalUniqueIdentifier uniqueIdentifier = uniqueIdentifierService.create(createUuidParameters);
 
