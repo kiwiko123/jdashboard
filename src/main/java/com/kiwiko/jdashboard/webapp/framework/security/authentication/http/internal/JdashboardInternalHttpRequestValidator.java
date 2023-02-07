@@ -42,10 +42,10 @@ public class JdashboardInternalHttpRequestValidator implements InternalHttpReque
 
     @Override
     public void authorizeOutgoingRequest(URI uri, HttpRequest.Builder httpRequestBuilder, ApiRequest apiRequest) throws ClientException {
-        String serviceClientIdentifier = Optional.ofNullable(apiRequest.getServiceClientIdentifier())
+        String clientIdentifier = Optional.ofNullable(apiRequest.getClientIdentifier())
                 .orElseGet(() -> apiRequest.isInternalServiceRequest() ? JdashboardServiceClientIdentifiers.DEFAULT : null);
         ProvisionServiceRequestKeyInput provisionServiceRequestKeyInput = ProvisionServiceRequestKeyInput.builder()
-                .serviceClientIdentifier(serviceClientIdentifier)
+                .serviceClientIdentifier(clientIdentifier)
                 .description("Jdashboard internal service request (existing)")
                 .expirationTime(Instant.now().plus(JdashboardInternalHttpRequestProperties.INTERNAL_REQUEST_TOKEN_TTL).toString())
                 .build();

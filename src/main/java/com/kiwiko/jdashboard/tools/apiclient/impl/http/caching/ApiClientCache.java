@@ -41,7 +41,7 @@ public class ApiClientCache {
         String cacheKey = createCacheKey(apiRequest);
         Optional<ApiResponse<ResponseType>> cachedResponse = objectCache.get(cacheKey);
         if (cachedResponse.isPresent()) {
-            logger.debug("[JdashboardApiClient] Retrieved cached response for {}", apiRequest);
+            logger.debug("[JdashboardApiClient] Retrieved cached response for {}", apiRequest.getClass().getSimpleName());
         }
 
         return cachedResponse;

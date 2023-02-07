@@ -49,7 +49,7 @@ public class ApiClientRequestHelper {
         apiRequest.getRequestHeaders()
                 .forEach(header -> builder.header(header.getName(), header.getValue()));
 
-        if (apiRequest.getServiceClientIdentifier() != null || apiRequest.isInternalServiceRequest()) {
+        if (apiRequest.getClientIdentifier() != null || apiRequest.isInternalServiceRequest()) {
             internalHttpRequestValidator.authorizeOutgoingRequest(uri, builder, apiRequest);
         }
 

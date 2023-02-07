@@ -73,8 +73,16 @@ public interface ApiRequest {
      */
     RequestCacheStrategy getCacheStrategy();
 
+    /**
+     * Optional.
+     *
+     * A string that identifies the caller issuing the request to the recipient.
+     * It should not be assumed that this identifier is treated as a secure secret.
+     *
+     * @return a string that identifies the caller issuing the request
+     */
     @Nullable
-    String getServiceClientIdentifier();
+    String getClientIdentifier();
 
     /**
      * Required.
@@ -82,6 +90,7 @@ public interface ApiRequest {
      * Return true if this is an internal service request. If true, extra validation may be performed to authenticate it.
      *
      * @return true if this is an internal service request, or false otherwise
+     * @deprecated use {@link #getClientIdentifier()} with an identifier representing an internal service
      */
     @Deprecated
     boolean isInternalServiceRequest();

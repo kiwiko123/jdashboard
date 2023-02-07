@@ -46,13 +46,13 @@ public abstract class JdashboardApiRequest implements ApiRequest {
 
     @Nullable
     @Override
-    public String getServiceClientIdentifier() {
+    public String getClientIdentifier() {
         return null;
     }
 
     @Override
     public boolean isInternalServiceRequest() {
-        return Objects.equals(getServiceClientIdentifier(), JdashboardServiceClientIdentifiers.DEFAULT);
+        return Objects.equals(getClientIdentifier(), JdashboardServiceClientIdentifiers.DEFAULT);
     }
 
     @Override

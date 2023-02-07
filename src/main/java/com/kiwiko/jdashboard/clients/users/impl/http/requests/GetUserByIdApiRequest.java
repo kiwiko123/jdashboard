@@ -36,7 +36,7 @@ public class GetUserByIdApiRequest extends JdashboardApiRequest {
 
     @Nullable
     @Override
-    public String getServiceClientIdentifier() {
+    public String getClientIdentifier() {
         return JdashboardServiceClientIdentifiers.DEFAULT;
     }
 

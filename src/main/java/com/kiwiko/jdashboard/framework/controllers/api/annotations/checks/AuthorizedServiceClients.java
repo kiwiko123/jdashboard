@@ -18,5 +18,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AuthorizedServiceClients {
 
+    /**
+     * @return the service client identifiers allowed for this endpoint/controller
+     */
     String[] value() default {};
 }
