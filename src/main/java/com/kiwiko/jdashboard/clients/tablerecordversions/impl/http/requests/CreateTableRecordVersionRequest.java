@@ -10,6 +10,7 @@ import com.kiwiko.jdashboard.library.http.client.api.dto.caching.DisabledCacheSt
 import com.kiwiko.jdashboard.library.http.client.api.dto.caching.RequestCacheStrategy;
 import com.kiwiko.jdashboard.library.http.url.UriBuilder;
 import com.kiwiko.jdashboard.tools.apiclient.api.dto.JdashboardApiRequest;
+import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardServiceClientIdentifiers;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -49,9 +50,10 @@ public class CreateTableRecordVersionRequest extends JdashboardApiRequest {
         return Collections.singleton(RequestHeaders.CONTENT_TYPE_JSON);
     }
 
+    @Nullable
     @Override
-    public boolean isInternalServiceRequest() {
-        return true;
+    public String getClientIdentifier() {
+        return JdashboardServiceClientIdentifiers.DEFAULT;
     }
 
     @Nullable

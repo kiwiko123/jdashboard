@@ -7,6 +7,7 @@ import com.kiwiko.jdashboard.library.http.client.api.dto.caching.RequestCacheStr
 import com.kiwiko.jdashboard.library.http.url.UriBuilder;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.parameters.GetTableRecordVersions;
 import com.kiwiko.jdashboard.tools.apiclient.api.dto.JdashboardApiRequest;
+import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardServiceClientIdentifiers;
 
 import javax.annotation.Nullable;
 
@@ -37,9 +38,10 @@ public class GetTableRecordVersionsRequest extends JdashboardApiRequest {
         return cacheStrategy;
     }
 
+    @Nullable
     @Override
-    public boolean isInternalServiceRequest() {
-        return true;
+    public String getClientIdentifier() {
+        return JdashboardServiceClientIdentifiers.DEFAULT;
     }
 
     @Nullable

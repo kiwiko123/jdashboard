@@ -7,7 +7,6 @@ import com.kiwiko.jdashboard.framework.security.servicecalls.requests.client.Pro
 import com.kiwiko.jdashboard.framework.security.servicecalls.requests.client.ServiceCallRequestKeyProvisioner;
 import com.kiwiko.jdashboard.library.http.client.api.dto.ApiRequest;
 import com.kiwiko.jdashboard.library.http.client.api.exceptions.ClientException;
-import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardServiceClientIdentifiers;
 import com.kiwiko.jdashboard.webapp.application.events.api.dto.ApplicationEvent;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.errors.InvalidServiceClientIdentifierRequestHeaderIdException;
@@ -42,10 +41,8 @@ public class JdashboardInternalHttpRequestValidator implements InternalHttpReque
 
     @Override
     public void authorizeOutgoingRequest(URI uri, HttpRequest.Builder httpRequestBuilder, ApiRequest apiRequest) throws ClientException {
-        String clientIdentifier = Optional.ofNullable(apiRequest.getClientIdentifier())
-                .orElseGet(() -> apiRequest.isInternalServiceRequest() ? JdashboardServiceClientIdentifiers.DEFAULT : null);
         ProvisionServiceRequestKeyInput provisionServiceRequestKeyInput = ProvisionServiceRequestKeyInput.builder()
-                .serviceClientIdentifier(clientIdentifier)
+                .serviceClientIdentifier(apiRequest.getClientIdentifier())
                 .description("Jdashboard internal service request (existing)")
                 .expirationTime(Instant.now().plus(JdashboardInternalHttpRequestProperties.INTERNAL_REQUEST_TOKEN_TTL).toString())
                 .build();

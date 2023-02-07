@@ -8,6 +8,7 @@ import com.kiwiko.jdashboard.library.http.url.UriBuilder;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.InvalidateSessionInput;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.InvalidateSessionOutput;
 import com.kiwiko.jdashboard.tools.apiclient.api.dto.JdashboardApiRequest;
+import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardServiceClientIdentifiers;
 
 import javax.annotation.Nullable;
 
@@ -36,9 +37,10 @@ public class InvalidateSessionRequest extends JdashboardApiRequest {
         return new DisabledCacheStrategy();
     }
 
+    @Nullable
     @Override
-    public boolean isInternalServiceRequest() {
-        return true;
+    public String getClientIdentifier() {
+        return JdashboardServiceClientIdentifiers.DEFAULT;
     }
 
     @Nullable

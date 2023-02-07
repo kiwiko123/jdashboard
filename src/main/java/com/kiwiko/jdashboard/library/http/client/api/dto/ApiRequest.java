@@ -85,17 +85,6 @@ public interface ApiRequest {
     String getClientIdentifier();
 
     /**
-     * Required.
-     *
-     * Return true if this is an internal service request. If true, extra validation may be performed to authenticate it.
-     *
-     * @return true if this is an internal service request, or false otherwise
-     * @deprecated use {@link #getClientIdentifier()} with an identifier representing an internal service
-     */
-    @Deprecated
-    boolean isInternalServiceRequest();
-
-    /**
      * Required for POST and PUT requests.
      *
      * @return the request body serializer

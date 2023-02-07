@@ -4,6 +4,7 @@ import com.kiwiko.jdashboard.clients.featureflags.api.interfaces.parameters.GetF
 import com.kiwiko.jdashboard.library.http.client.api.constants.RequestMethod;
 import com.kiwiko.jdashboard.library.http.client.api.dto.caching.RequestCacheStrategy;
 import com.kiwiko.jdashboard.tools.apiclient.api.dto.JdashboardApiRequest;
+import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardServiceClientIdentifiers;
 
 import javax.annotation.Nullable;
 
@@ -25,9 +26,10 @@ abstract class GetFeatureFlagRequest extends JdashboardApiRequest {
         return cacheStrategy;
     }
 
+    @Nullable
     @Override
-    public boolean isInternalServiceRequest() {
-        return true;
+    public String getClientIdentifier() {
+        return JdashboardServiceClientIdentifiers.DEFAULT;
     }
 
     @Nullable

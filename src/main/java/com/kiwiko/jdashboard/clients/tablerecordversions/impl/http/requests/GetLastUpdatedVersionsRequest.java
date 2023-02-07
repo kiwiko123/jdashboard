@@ -8,6 +8,7 @@ import com.kiwiko.jdashboard.library.http.url.QueryParameter;
 import com.kiwiko.jdashboard.library.http.url.UriBuilder;
 import com.kiwiko.jdashboard.library.http.url.UrlQuery;
 import com.kiwiko.jdashboard.tools.apiclient.api.dto.JdashboardApiRequest;
+import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardServiceClientIdentifiers;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -45,9 +46,10 @@ public class GetLastUpdatedVersionsRequest extends JdashboardApiRequest {
         return cacheStrategy;
     }
 
+    @Nullable
     @Override
-    public boolean isInternalServiceRequest() {
-        return true;
+    public String getClientIdentifier() {
+        return JdashboardServiceClientIdentifiers.DEFAULT;
     }
 
     @Nullable
