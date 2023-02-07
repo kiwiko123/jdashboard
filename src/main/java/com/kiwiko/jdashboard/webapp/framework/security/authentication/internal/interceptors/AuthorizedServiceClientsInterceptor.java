@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 import java.util.Set;
 
-public class InternalServiceCheckInterceptor implements RequestInterceptor {
+public class AuthorizedServiceClientsInterceptor implements RequestInterceptor {
 
     @Inject private InternalHttpRequestValidator internalHttpRequestValidator;
     @Inject private Logger logger;

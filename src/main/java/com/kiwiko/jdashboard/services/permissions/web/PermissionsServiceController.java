@@ -4,9 +4,10 @@ import com.kiwiko.jdashboard.clients.permissions.api.interfaces.parameters.Creat
 import com.kiwiko.jdashboard.clients.permissions.api.interfaces.parameters.CreatePermissionOutput;
 import com.kiwiko.jdashboard.clients.permissions.api.interfaces.parameters.QueryPermissionsInput;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
-import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.InternalServiceCheck;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.AuthorizedServiceClients;
 import com.kiwiko.jdashboard.services.permissions.api.dto.Permission;
 import com.kiwiko.jdashboard.services.permissions.api.interfaces.PermissionService;
+import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardServiceClientIdentifiers;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +22,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/permissions/service-api")
 @JdashboardConfigured
-@InternalServiceCheck
+@AuthorizedServiceClients(JdashboardServiceClientIdentifiers.DEFAULT)
 public class PermissionsServiceController {
 
     @Inject private PermissionService permissionService;

@@ -6,11 +6,12 @@ import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.paramete
 import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.GetLastUpdatedOutput;
 import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.VersionRecord;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
-import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.InternalServiceCheck;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.AuthorizedServiceClients;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.dto.TableRecordVersion;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.TableRecordVersionService;
 import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.GetTableRecordVersionOutput;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.parameters.GetTableRecordVersions;
+import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardServiceClientIdentifiers;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +32,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/table-record-versions/service-api")
 @JdashboardConfigured
-@InternalServiceCheck
+@AuthorizedServiceClients(JdashboardServiceClientIdentifiers.DEFAULT)
 public class TableRecordVersionServiceApiController {
 
     @Inject private TableRecordVersionService tableRecordVersionService;

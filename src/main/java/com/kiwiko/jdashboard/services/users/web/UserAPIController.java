@@ -2,11 +2,12 @@ package com.kiwiko.jdashboard.services.users.web;
 
 import com.kiwiko.jdashboard.clients.users.api.interfaces.queries.GetUsersQuery;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.GetUsersByQueryResponse;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.AuthorizedServiceClients;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.UserAuthCheck;
+import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardServiceClientIdentifiers;
 import com.kiwiko.jdashboard.webapp.framework.json.api.ResponseBuilder;
 import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
-import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.InternalServiceCheck;
 import com.kiwiko.jdashboard.webapp.framework.security.environments.data.EnvironmentProperties;
 import com.kiwiko.jdashboard.services.users.api.interfaces.UserService;
 import com.kiwiko.jdashboard.services.users.api.interfaces.parameters.CreateUserParameters;
@@ -50,7 +51,7 @@ public class UserAPIController {
     }
 
     @GetMapping("/users/api/internal/query")
-    @InternalServiceCheck
+    @AuthorizedServiceClients(JdashboardServiceClientIdentifiers.DEFAULT)
     @ResponseBody
     public GetUsersByQueryResponse getUsersByQuery(
             @RequestParam("query") String queryJson) {
