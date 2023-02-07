@@ -29,8 +29,7 @@ public class JdashboardServiceCallRequestKeyProvisioner implements ServiceCallRe
 
     @Override
     public ProvisionServiceRequestKeyOutput provisionInternalServiceRequestKey(ProvisionServiceRequestKeyInput input) throws ProvisionServiceRequestKeyException {
-        String scope = "internal";
-        return provisionServiceRequestKey(input, scope);
+        return provisionServiceRequestKey(input, "internal");
     }
 
     @Override

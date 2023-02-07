@@ -19,10 +19,14 @@ public class ApiClientRequestHelper {
     @Inject private EnvironmentService environmentService;
     @Inject private InternalHttpRequestValidator internalHttpRequestValidator;
 
-    public void validateRequest(ApiRequest request) {
-        Objects.requireNonNull(request.getRequestUrl(), "Request URL is required");
-        Objects.requireNonNull(request.getRequestMethod(), "Request method is required");
-        Objects.requireNonNull(request.getRequestErrorHandler(), "Request error handler is required");
+    public void validateRequest(ApiRequest request) throws ClientException {
+        try {
+            Objects.requireNonNull(request.getRequestUrl(), "Request URL is required");
+            Objects.requireNonNull(request.getRequestMethod(), "Request method is required");
+            Objects.requireNonNull(request.getRequestErrorHandler(), "Request error handler is required");
+        } catch (NullPointerException e) {
+            throw new ClientException("Request object failed validation", e);
+        }
     }
 
     public HttpRequest makeHttpRequest(ApiRequest apiRequest) throws ClientException {
