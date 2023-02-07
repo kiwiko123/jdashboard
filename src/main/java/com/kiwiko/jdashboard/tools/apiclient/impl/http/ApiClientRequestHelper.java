@@ -22,6 +22,7 @@ public class ApiClientRequestHelper {
     public void validateRequest(ApiRequest request) {
         Objects.requireNonNull(request.getRequestUrl(), "Request URL is required");
         Objects.requireNonNull(request.getRequestMethod(), "Request method is required");
+        Objects.requireNonNull(request.getRequestErrorHandler(), "Request error handler is required");
     }
 
     public HttpRequest makeHttpRequest(ApiRequest apiRequest) throws ClientException {

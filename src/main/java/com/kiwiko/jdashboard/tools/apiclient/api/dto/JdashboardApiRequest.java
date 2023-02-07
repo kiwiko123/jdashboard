@@ -1,8 +1,12 @@
 package com.kiwiko.jdashboard.tools.apiclient.api.dto;
 
 import com.kiwiko.jdashboard.library.http.client.api.dto.ApiRequest;
+import com.kiwiko.jdashboard.library.http.client.api.dto.DefaultGsonPayloadDeserializer;
+import com.kiwiko.jdashboard.library.http.client.api.dto.DefaultGsonPayloadSerializer;
+import com.kiwiko.jdashboard.library.http.client.api.dto.HttpStatusValidationRequestErrorHandler;
 import com.kiwiko.jdashboard.library.http.client.api.dto.PayloadDeserializer;
 import com.kiwiko.jdashboard.library.http.client.api.dto.PayloadSerializer;
+import com.kiwiko.jdashboard.library.http.client.api.dto.RequestErrorHandler;
 import com.kiwiko.jdashboard.library.http.client.api.dto.RequestHeader;
 import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardServiceClientIdentifiers;
 
@@ -14,6 +18,9 @@ import java.util.Objects;
 import java.util.Set;
 
 public abstract class JdashboardApiRequest implements ApiRequest {
+    private static final PayloadSerializer DEFAULT_PAYLOAD_SERIALIZER = new DefaultGsonPayloadSerializer();
+    private static final PayloadDeserializer DEFAULT_PAYLOAD_DESERIALIZER = new DefaultGsonPayloadDeserializer();
+    private static final RequestErrorHandler DEFAULT_REQUEST_ERROR_HANDLER = new HttpStatusValidationRequestErrorHandler();
 
     @Nullable
     @Override
@@ -24,8 +31,7 @@ public abstract class JdashboardApiRequest implements ApiRequest {
     @Nullable
     @Override
     public Duration getRequestTimeout() {
-        // Generous default timeout.
-        return Duration.ofSeconds(30);
+        return Duration.ofSeconds(10);
     }
 
     @Override
@@ -51,33 +57,22 @@ public abstract class JdashboardApiRequest implements ApiRequest {
 
     @Override
     public PayloadSerializer getRequestBodySerializer() {
-        return RequestConstants.DEFAULT_PAYLOAD_SERIALIZER;
+        return DEFAULT_PAYLOAD_SERIALIZER;
+    }
+
+    @Override
+    public RequestErrorHandler getRequestErrorHandler() {
+        return DEFAULT_REQUEST_ERROR_HANDLER;
     }
 
     @Override
     public PayloadDeserializer getResponsePayloadDeserializer() {
-        return RequestConstants.DEFAULT_PAYLOAD_DESERIALIZER;
+        return DEFAULT_PAYLOAD_DESERIALIZER;
     }
 
     @Nullable
     @Override
     public Class<?> getResponseType() {
         return null;
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "{" +
-                "requestUrl=" + getRequestUrl().toUrlString() +
-                ", requestMethod=" + getRequestMethod() +
-                ", requestBody=" + getRequestBody() +
-                ", requestTimeout=" + getRequestTimeout() +
-                ", redirectionPolicy=" + getRedirectionPolicy() +
-                ", requestHeaders=" + getRequestHeaders() +
-                ", internalServiceRequest=" + isInternalServiceRequest() +
-                ", requestBodySerializer=" + getRequestBodySerializer() +
-                ", responsePayloadDeserializer=" + getResponsePayloadDeserializer() +
-                ", responseType=" + getResponseType() +
-                '}';
     }
 }

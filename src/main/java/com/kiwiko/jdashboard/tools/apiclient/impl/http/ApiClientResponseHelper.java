@@ -6,7 +6,6 @@ import com.kiwiko.jdashboard.library.http.client.api.dto.RequestHeader;
 import com.kiwiko.jdashboard.library.http.client.api.exceptions.ClientException;
 import com.kiwiko.jdashboard.library.http.client.api.exceptions.ApiClientRuntimeException;
 import com.kiwiko.jdashboard.library.http.client.api.exceptions.ServerException;
-import org.springframework.http.HttpStatus;
 
 import java.net.http.HttpResponse;
 import java.util.HashSet;
@@ -30,7 +29,7 @@ public class ApiClientResponseHelper {
     public <ResponseType> ApiResponse<ResponseType> convertHttpResponse(
             ApiRequest apiRequest,
             HttpResponse<String> httpResponse) throws ClientException, ServerException {
-        validateResponse(httpResponse);
+        apiRequest.getRequestErrorHandler().handleError(httpResponse);
 
         int status = httpResponse.statusCode();
         Class<ResponseType> responseType = (Class<ResponseType>) apiRequest.getResponseType();
@@ -64,20 +63,5 @@ public class ApiClientResponseHelper {
                 throw new ApiClientRuntimeException(e);
             }
         });
-    }
-
-    private void validateResponse(HttpResponse<String> httpResponse) throws ClientException, ServerException {
-        validateHttpStatus(httpResponse);
-    }
-
-    private void validateHttpStatus(HttpResponse<String> httpResponse) throws ClientException, ServerException {
-        HttpStatus httpStatus = HttpStatus.valueOf(httpResponse.statusCode());
-        if (httpStatus.is4xxClientError()) {
-            throw new ClientException(String.format("Request failed with HTTP status %s: %s", httpStatus, httpResponse));
-        }
-
-        if (httpStatus.is5xxServerError()) {
-            throw new ServerException(String.format("Request failed with HTTP status %s: %s", httpStatus, httpResponse));
-        }
     }
 }

@@ -96,9 +96,17 @@ public interface ApiRequest {
     /**
      * Required.
      *
+     * @return an error handler that parses the HTTP response for errors
+     */
+    RequestErrorHandler getRequestErrorHandler();
+
+    /**
+     * Required.
+     *
      * @return the response payload deserializer
      */
     PayloadDeserializer getResponsePayloadDeserializer();
+
 
     /**
      * Designate the expected class type for the response.
