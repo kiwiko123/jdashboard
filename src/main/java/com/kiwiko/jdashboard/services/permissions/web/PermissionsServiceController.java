@@ -7,7 +7,7 @@ import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardCon
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.AuthorizedServiceClients;
 import com.kiwiko.jdashboard.services.permissions.api.dto.Permission;
 import com.kiwiko.jdashboard.services.permissions.api.interfaces.PermissionService;
-import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardServiceClientIdentifiers;
+import com.kiwiko.jdashboard.tools.apiclient.JdashboardServiceClientIdentifiers;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

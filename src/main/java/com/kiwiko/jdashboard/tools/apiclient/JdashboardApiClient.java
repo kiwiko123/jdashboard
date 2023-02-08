@@ -1,10 +1,8 @@
-package com.kiwiko.jdashboard.tools.apiclient.api.interfaces;
+package com.kiwiko.jdashboard.tools.apiclient;
 
 import com.kiwiko.jdashboard.library.http.client.ApiRequest;
 import com.kiwiko.jdashboard.library.http.client.exceptions.ClientException;
 import com.kiwiko.jdashboard.library.http.client.exceptions.ServerException;
-import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
-import com.kiwiko.jdashboard.tools.apiclient.api.dto.JdashboardApiRequest;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -17,7 +15,7 @@ public interface JdashboardApiClient {
      * Like {@link #synchronousCall(ApiRequest)}, but does not throw checked exceptions.
      * If one of the checked exceptions occurs, it will not be thrown;
      * the {@link ClientResponse} will contain an unsuccessful
-     * {@link com.kiwiko.jdashboard.tools.apiclient.api.dto.ResponseStatus} that reflects the exception.
+     * {@link ResponseStatus} that reflects the exception.
      *
      * @see #synchronousCall(ApiRequest)
      */
@@ -29,7 +27,7 @@ public interface JdashboardApiClient {
      * Like {@link #asynchronousCall(ApiRequest)}, but does not throw checked exceptions.
      * If one of the checked exceptions occurs, it will not be thrown;
      * the {@link ClientResponse} will contain an unsuccessful
-     * {@link com.kiwiko.jdashboard.tools.apiclient.api.dto.ResponseStatus} that reflects the exception.
+     * {@link ResponseStatus} that reflects the exception.
      *
      * @see #asynchronousCall(ApiRequest)
      */

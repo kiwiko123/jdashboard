@@ -10,8 +10,8 @@ import com.kiwiko.jdashboard.clients.tablerecordversions.impl.http.requests.Crea
 import com.kiwiko.jdashboard.clients.tablerecordversions.impl.http.requests.GetLastUpdatedVersionsRequest;
 import com.kiwiko.jdashboard.clients.tablerecordversions.impl.http.requests.GetTableRecordVersionsRequest;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.parameters.GetTableRecordVersions;
-import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
-import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardApiClient;
+import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
+import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiClient;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
 
 import javax.inject.Inject;

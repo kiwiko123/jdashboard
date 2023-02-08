@@ -11,7 +11,7 @@ import com.kiwiko.jdashboard.services.tablerecordversions.api.dto.TableRecordVer
 import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.TableRecordVersionService;
 import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.GetTableRecordVersionOutput;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.parameters.GetTableRecordVersions;
-import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardServiceClientIdentifiers;
+import com.kiwiko.jdashboard.tools.apiclient.JdashboardServiceClientIdentifiers;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

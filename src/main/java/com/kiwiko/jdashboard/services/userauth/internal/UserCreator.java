@@ -8,7 +8,7 @@ import com.kiwiko.jdashboard.clients.users.api.interfaces.UserClient;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.CreateUserOutput;
 import com.kiwiko.jdashboard.services.userauth.api.interfaces.exceptions.CreateUserException;
 import com.kiwiko.jdashboard.services.userauth.web.dto.CreateUserInput;
-import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
+import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
 
 import javax.inject.Inject;
 import java.util.Objects;

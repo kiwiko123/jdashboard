@@ -3,7 +3,7 @@ package com.kiwiko.jdashboard.clients.usercredentials;
 import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.UserCredentialClient;
 import com.kiwiko.jdashboard.clients.usercredentials.impl.http.UserCredentialHttpClient;
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
-import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiClientConfiguration;
+import com.kiwiko.jdashboard.tools.apiclient.configuration.JdashboardApiClientConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import org.springframework.context.annotation.Bean;

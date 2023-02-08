@@ -1,7 +1,7 @@
-package com.kiwiko.jdashboard.tools.apiclient;
+package com.kiwiko.jdashboard.tools.apiclient.configuration;
 
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
-import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardApiClient;
+import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiClient;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.ApiClientRequestHelper;
 import com.kiwiko.jdashboard.library.http.client.impl.CoreHttpClient;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.HttpApiClient;

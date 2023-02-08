@@ -7,9 +7,9 @@ import com.kiwiko.jdashboard.clients.featureflags.api.interfaces.parameters.GetF
 import com.kiwiko.jdashboard.clients.featureflags.api.interfaces.parameters.GetFeatureFlagOutput;
 import com.kiwiko.jdashboard.library.http.client.exceptions.ClientException;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
-import com.kiwiko.jdashboard.tools.apiclient.api.dto.ResponseStatus;
-import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardApiClient;
+import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
+import com.kiwiko.jdashboard.tools.apiclient.ResponseStatus;
+import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiClient;
 
 import javax.inject.Inject;
 import java.util.Arrays;

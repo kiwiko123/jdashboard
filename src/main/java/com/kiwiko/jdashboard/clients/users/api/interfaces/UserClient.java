@@ -6,7 +6,7 @@ import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.CreateUserIn
 import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.CreateUserOutput;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.GetUserByIdResponse;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.GetUsersByQueryResponse;
-import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
+import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
 
 public interface UserClient {
 

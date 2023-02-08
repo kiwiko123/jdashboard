@@ -11,9 +11,9 @@ import com.kiwiko.jdashboard.clients.users.impl.di.UserDtoMapper;
 import com.kiwiko.jdashboard.clients.users.impl.http.requests.CreateUserRequest;
 import com.kiwiko.jdashboard.clients.users.impl.http.requests.GetUserByIdApiRequest;
 import com.kiwiko.jdashboard.clients.users.impl.http.requests.GetUsersByQueryApiRequest;
-import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
+import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
-import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardApiClient;
+import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiClient;
 
 import javax.inject.Inject;
 

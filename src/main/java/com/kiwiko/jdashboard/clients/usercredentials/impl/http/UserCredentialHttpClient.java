@@ -11,8 +11,8 @@ import com.kiwiko.jdashboard.clients.usercredentials.impl.http.requests.CreateUs
 import com.kiwiko.jdashboard.clients.usercredentials.impl.http.requests.QueryUserCredentialsRequest;
 import com.kiwiko.jdashboard.clients.usercredentials.impl.http.requests.ValidateUserCredentialRequest;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
-import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardApiClient;
+import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
+import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiClient;
 
 import javax.inject.Inject;
 

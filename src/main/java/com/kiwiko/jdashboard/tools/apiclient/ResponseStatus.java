@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.tools.apiclient.api.dto;
+package com.kiwiko.jdashboard.tools.apiclient;
 
 import javax.annotation.Nullable;
 

@@ -20,7 +20,7 @@ import com.kiwiko.jdashboard.services.userauth.api.interfaces.exceptions.Invalid
 import com.kiwiko.jdashboard.services.userauth.api.interfaces.exceptions.UserAuthenticationException;
 import com.kiwiko.jdashboard.services.userauth.web.dto.LogUserInInput;
 import com.kiwiko.jdashboard.services.userauth.web.dto.LogUserInOutput;
-import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
+import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
 
 import javax.inject.Inject;
 import javax.servlet.http.Cookie;

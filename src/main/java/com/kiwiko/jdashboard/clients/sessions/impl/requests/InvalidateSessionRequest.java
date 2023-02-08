@@ -7,8 +7,8 @@ import com.kiwiko.jdashboard.library.http.client.RequestUrl;
 import com.kiwiko.jdashboard.library.http.url.UriBuilder;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.InvalidateSessionInput;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.InvalidateSessionOutput;
-import com.kiwiko.jdashboard.tools.apiclient.api.dto.JdashboardApiRequest;
-import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardServiceClientIdentifiers;
+import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiRequest;
+import com.kiwiko.jdashboard.tools.apiclient.JdashboardServiceClientIdentifiers;
 
 import javax.annotation.Nullable;
 

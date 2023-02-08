@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.tools.apiclient.api.dto;
+package com.kiwiko.jdashboard.tools.apiclient;
 
 import com.kiwiko.jdashboard.library.http.client.ApiRequest;
 import com.kiwiko.jdashboard.library.http.client.DefaultGsonPayloadDeserializer;

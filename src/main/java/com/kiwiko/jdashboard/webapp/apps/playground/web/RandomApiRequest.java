@@ -3,7 +3,7 @@ package com.kiwiko.jdashboard.webapp.apps.playground.web;
 import com.kiwiko.jdashboard.library.http.client.RequestMethod;
 import com.kiwiko.jdashboard.library.http.client.caching.RequestCacheStrategy;
 import com.kiwiko.jdashboard.library.http.client.RequestUrl;
-import com.kiwiko.jdashboard.tools.apiclient.api.dto.JdashboardApiRequest;
+import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiRequest;
 
 import javax.annotation.Nullable;
 import java.time.Duration;

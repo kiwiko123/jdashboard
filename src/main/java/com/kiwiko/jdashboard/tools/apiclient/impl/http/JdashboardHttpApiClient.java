@@ -5,10 +5,10 @@ import com.kiwiko.jdashboard.library.http.client.ApiResponse;
 import com.kiwiko.jdashboard.library.http.client.exceptions.ClientException;
 import com.kiwiko.jdashboard.library.http.client.exceptions.ServerException;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
-import com.kiwiko.jdashboard.tools.apiclient.api.dto.JdashboardApiRequest;
-import com.kiwiko.jdashboard.tools.apiclient.api.dto.ResponseStatus;
-import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardApiClient;
+import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
+import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiRequest;
+import com.kiwiko.jdashboard.tools.apiclient.ResponseStatus;
+import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiClient;
 import org.springframework.http.HttpStatus;
 
 import javax.inject.Inject;

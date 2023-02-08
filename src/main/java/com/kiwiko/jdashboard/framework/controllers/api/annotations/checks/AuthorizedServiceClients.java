@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.framework.controllers.api.annotations.checks;
 
-import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardApiClient;
+import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiClient;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.interceptors.AuthorizedServiceClientsInterceptor;
 
 import java.lang.annotation.ElementType;

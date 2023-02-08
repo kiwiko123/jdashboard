@@ -10,7 +10,7 @@ import com.kiwiko.jdashboard.clients.sessions.api.interfaces.InvalidateSessionIn
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.InvalidateSessionOutput;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.SessionClient;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.SessionData;
-import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
+import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;

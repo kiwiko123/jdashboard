@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.tools.apiclient.api.interfaces;
+package com.kiwiko.jdashboard.tools.apiclient;
 
 public final class JdashboardServiceClientIdentifiers {
 
