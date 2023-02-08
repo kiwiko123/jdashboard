@@ -5,7 +5,7 @@ import com.kiwiko.jdashboard.clients.featureflags.api.dto.FeatureFlagStatus;
 import com.kiwiko.jdashboard.clients.featureflags.api.interfaces.FeatureFlagClient;
 import com.kiwiko.jdashboard.clients.featureflags.api.interfaces.parameters.GetFeatureFlagInput;
 import com.kiwiko.jdashboard.clients.featureflags.api.interfaces.parameters.GetFeatureFlagOutput;
-import com.kiwiko.jdashboard.library.http.client.api.exceptions.ClientException;
+import com.kiwiko.jdashboard.library.http.client.exceptions.ClientException;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
 import com.kiwiko.jdashboard.tools.apiclient.api.dto.ResponseStatus;

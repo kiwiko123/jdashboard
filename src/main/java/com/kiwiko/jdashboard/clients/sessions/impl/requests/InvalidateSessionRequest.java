@@ -1,9 +1,9 @@
 package com.kiwiko.jdashboard.clients.sessions.impl.requests;
 
-import com.kiwiko.jdashboard.library.http.client.api.constants.RequestMethod;
-import com.kiwiko.jdashboard.library.http.client.api.dto.caching.DisabledCacheStrategy;
-import com.kiwiko.jdashboard.library.http.client.api.dto.caching.RequestCacheStrategy;
-import com.kiwiko.jdashboard.library.http.client.api.dto.RequestUrl;
+import com.kiwiko.jdashboard.library.http.client.RequestMethod;
+import com.kiwiko.jdashboard.library.http.client.caching.DisabledCacheStrategy;
+import com.kiwiko.jdashboard.library.http.client.caching.RequestCacheStrategy;
+import com.kiwiko.jdashboard.library.http.client.RequestUrl;
 import com.kiwiko.jdashboard.library.http.url.UriBuilder;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.InvalidateSessionInput;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.InvalidateSessionOutput;

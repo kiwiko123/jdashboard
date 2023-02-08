@@ -1,8 +1,8 @@
 package com.kiwiko.jdashboard.tools.apiclient.impl.http.plugins;
 
-import com.kiwiko.jdashboard.library.http.client.api.dto.ApiRequest;
-import com.kiwiko.jdashboard.library.http.client.api.exceptions.ApiClientPluginException;
-import com.kiwiko.jdashboard.library.http.client.api.interfaces.plugins.PreRequestPlugin;
+import com.kiwiko.jdashboard.library.http.client.ApiRequest;
+import com.kiwiko.jdashboard.library.http.client.exceptions.ApiClientPluginException;
+import com.kiwiko.jdashboard.library.http.client.plugins.PreRequestPlugin;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 
 import javax.inject.Inject;

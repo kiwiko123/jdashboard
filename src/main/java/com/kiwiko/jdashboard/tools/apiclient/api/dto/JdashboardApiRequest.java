@@ -1,13 +1,13 @@
 package com.kiwiko.jdashboard.tools.apiclient.api.dto;
 
-import com.kiwiko.jdashboard.library.http.client.api.dto.ApiRequest;
-import com.kiwiko.jdashboard.library.http.client.api.dto.DefaultGsonPayloadDeserializer;
-import com.kiwiko.jdashboard.library.http.client.api.dto.DefaultGsonPayloadSerializer;
-import com.kiwiko.jdashboard.library.http.client.api.dto.HttpStatusValidationRequestErrorHandler;
-import com.kiwiko.jdashboard.library.http.client.api.dto.PayloadDeserializer;
-import com.kiwiko.jdashboard.library.http.client.api.dto.PayloadSerializer;
-import com.kiwiko.jdashboard.library.http.client.api.dto.RequestErrorHandler;
-import com.kiwiko.jdashboard.library.http.client.api.dto.RequestHeader;
+import com.kiwiko.jdashboard.library.http.client.ApiRequest;
+import com.kiwiko.jdashboard.library.http.client.DefaultGsonPayloadDeserializer;
+import com.kiwiko.jdashboard.library.http.client.DefaultGsonPayloadSerializer;
+import com.kiwiko.jdashboard.library.http.client.HttpStatusValidationRequestErrorHandler;
+import com.kiwiko.jdashboard.library.http.client.PayloadDeserializer;
+import com.kiwiko.jdashboard.library.http.client.PayloadSerializer;
+import com.kiwiko.jdashboard.library.http.client.RequestErrorHandler;
+import com.kiwiko.jdashboard.library.http.client.RequestHeader;
 
 import javax.annotation.Nullable;
 import java.net.http.HttpClient;

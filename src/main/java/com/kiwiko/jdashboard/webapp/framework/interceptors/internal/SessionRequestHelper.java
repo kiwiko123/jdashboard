@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.interceptors.internal;
 
-import com.kiwiko.jdashboard.library.http.client.api.exceptions.ApiClientException;
+import com.kiwiko.jdashboard.library.http.client.exceptions.ApiClientException;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.clients.sessions.api.dto.Session;
 import com.kiwiko.jdashboard.services.sessions.api.dto.SessionProperties;

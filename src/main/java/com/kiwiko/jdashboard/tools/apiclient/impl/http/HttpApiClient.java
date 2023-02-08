@@ -1,10 +1,10 @@
 package com.kiwiko.jdashboard.tools.apiclient.impl.http;
 
-import com.kiwiko.jdashboard.library.http.client.api.dto.ApiRequest;
-import com.kiwiko.jdashboard.library.http.client.api.dto.ApiResponse;
-import com.kiwiko.jdashboard.library.http.client.api.exceptions.ClientException;
-import com.kiwiko.jdashboard.library.http.client.api.exceptions.ServerException;
-import com.kiwiko.jdashboard.library.http.client.api.interfaces.ApiClient;
+import com.kiwiko.jdashboard.library.http.client.ApiRequest;
+import com.kiwiko.jdashboard.library.http.client.ApiResponse;
+import com.kiwiko.jdashboard.library.http.client.exceptions.ClientException;
+import com.kiwiko.jdashboard.library.http.client.exceptions.ServerException;
+import com.kiwiko.jdashboard.library.http.client.ApiClient;
 import com.kiwiko.jdashboard.library.http.client.impl.CoreHttpClient;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.caching.ApiClientCache;
 

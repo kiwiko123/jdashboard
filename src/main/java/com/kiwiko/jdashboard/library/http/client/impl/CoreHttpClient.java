@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.library.http.client.impl;
 
-import com.kiwiko.jdashboard.library.http.client.api.exceptions.RequestTimeoutException;
-import com.kiwiko.jdashboard.library.http.client.api.exceptions.ServerException;
+import com.kiwiko.jdashboard.library.http.client.exceptions.RequestTimeoutException;
+import com.kiwiko.jdashboard.library.http.client.exceptions.ServerException;
 
 import java.io.IOException;
 import java.net.Authenticator;

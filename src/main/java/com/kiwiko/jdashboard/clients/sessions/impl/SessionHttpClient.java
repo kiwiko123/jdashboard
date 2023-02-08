@@ -3,7 +3,7 @@ package com.kiwiko.jdashboard.clients.sessions.impl;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.CreateSessionInput;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.CreateSessionOutput;
 import com.kiwiko.jdashboard.clients.sessions.impl.requests.CreateSessionRequest;
-import com.kiwiko.jdashboard.library.http.client.api.exceptions.ApiClientException;
+import com.kiwiko.jdashboard.library.http.client.exceptions.ApiClientException;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsInput;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsOutput;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.InvalidateSessionInput;

@@ -2,9 +2,9 @@ package com.kiwiko.jdashboard.tools.apiclient.impl.http;
 
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.InternalHttpRequestValidator;
 import com.kiwiko.jdashboard.webapp.framework.security.environments.api.EnvironmentService;
-import com.kiwiko.jdashboard.library.http.client.api.dto.ApiRequest;
-import com.kiwiko.jdashboard.library.http.client.api.dto.RequestUrl;
-import com.kiwiko.jdashboard.library.http.client.api.exceptions.ClientException;
+import com.kiwiko.jdashboard.library.http.client.ApiRequest;
+import com.kiwiko.jdashboard.library.http.client.RequestUrl;
+import com.kiwiko.jdashboard.library.http.client.exceptions.ClientException;
 import com.kiwiko.jdashboard.library.http.url.UriBuilder;
 
 import javax.inject.Inject;
