@@ -2,6 +2,7 @@ package com.kiwiko.jdashboard.tools.apiclient;
 
 import javax.annotation.Nullable;
 
+@Deprecated
 public class ResponseStatus {
     public static ResponseStatus successful() {
         return new ResponseStatus(true, "success", null);

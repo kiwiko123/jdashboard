@@ -8,7 +8,6 @@ import com.kiwiko.jdashboard.clients.featureflags.api.interfaces.parameters.GetF
 import com.kiwiko.jdashboard.library.http.client.exceptions.ClientException;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
-import com.kiwiko.jdashboard.tools.apiclient.ResponseStatus;
 import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiClient;
 
 import javax.inject.Inject;
@@ -48,7 +47,7 @@ public class HttpApplicationEventEmitter implements ApplicationEventEmitter {
 
     private ClientResponse<Object> handleRequestException(Throwable throwable, EmitApplicationEventRequest request) {
         logger.error("Error emitting application event request {}", request, throwable);
-        return new ClientResponse<>(null, ResponseStatus.fromMessage(throwable.getMessage()));
+        return ClientResponse.unsuccessful("httpApplicationEventEmitterFailure", throwable.getMessage());
     }
 
     private boolean shouldEmitEvent(EmitApplicationEventRequest request) {

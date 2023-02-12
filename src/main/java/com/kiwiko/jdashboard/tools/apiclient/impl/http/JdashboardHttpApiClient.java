@@ -7,7 +7,6 @@ import com.kiwiko.jdashboard.library.http.client.exceptions.ServerException;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
 import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiRequest;
-import com.kiwiko.jdashboard.tools.apiclient.ResponseStatus;
 import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiClient;
 import org.springframework.http.HttpStatus;
 
@@ -60,20 +59,22 @@ public class JdashboardHttpApiClient implements JdashboardApiClient {
     private <ResponseType> ClientResponse<ResponseType> toClientResponse(ApiResponse<ResponseType> apiResponse) {
         HttpStatus httpStatus = HttpStatus.valueOf(apiResponse.getHttpStatusCode());
         boolean isSuccessful = !httpStatus.isError();
-        String statusCode = Integer.toString(httpStatus.value());
-        String errorMessage = isSuccessful ? null : statusCode;
-        ResponseStatus responseStatus = new ResponseStatus(isSuccessful, statusCode, errorMessage);
+        if (isSuccessful) {
+            return ClientResponse.of(apiResponse.getPayload());
+        }
 
-        return new ClientResponse<>(apiResponse.getPayload(), responseStatus);
+        String statusCode = Integer.toString(httpStatus.value());
+        return ClientResponse.unsuccessful(statusCode, httpStatus.getReasonPhrase());
     }
 
     private <ResponseType> ClientResponse<ResponseType> getErrorResponse(ApiRequest apiRequest, Throwable throwable) {
         logger.error(String.format("Error issuing silenced request %s", apiRequest), throwable);
         String stackTraceMessage = Arrays.stream(throwable.getStackTrace())
-                .limit(10)
+                .limit(5)
                 .map(StackTraceElement::toString)
                 .collect(Collectors.joining("\n"));
-        ResponseStatus responseStatus = ResponseStatus.fromMessage(stackTraceMessage);
-        return new ClientResponse<>(null, responseStatus);
+
+        // TODO include more detailed error information?
+        return ClientResponse.unsuccessful("failure", stackTraceMessage);
     }
 }
