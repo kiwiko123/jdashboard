@@ -6,7 +6,7 @@ import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.paramete
 import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.GetLastUpdatedOutput;
 import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.GetTableRecordVersionOutput;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.parameters.GetTableRecordVersions;
-import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
+import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
 
 public interface TableRecordVersionClient {
 

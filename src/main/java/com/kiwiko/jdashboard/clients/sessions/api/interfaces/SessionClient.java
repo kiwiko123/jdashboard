@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.clients.sessions.api.interfaces;
 
-import com.kiwiko.jdashboard.library.http.client.api.exceptions.ApiClientException;
-import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
+import com.kiwiko.jdashboard.library.http.client.exceptions.ApiClientException;
+import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
 
 public interface SessionClient {
 

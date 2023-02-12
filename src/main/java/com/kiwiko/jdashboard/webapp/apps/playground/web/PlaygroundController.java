@@ -4,13 +4,11 @@ import com.kiwiko.jdashboard.clients.permissions.api.interfaces.PermissionClient
 import com.kiwiko.jdashboard.clients.users.api.dto.User;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.UserClient;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.AuthorizedServiceClients;
-import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
-import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardServiceClientIdentifiers;
-import com.kiwiko.jdashboard.webapp.framework.json.api.ResponseBuilder;
-import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
+import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
+import com.kiwiko.jdashboard.tools.apiclient.JdashboardServiceClientIdentifiers;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.auth.AuthenticatedUser;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.CrossOriginConfigured;
-import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardApiClient;
+import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiClient;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.api.interfaces.PushService;
 import com.kiwiko.jdashboard.webapp.streaming.pushservice.api.interfaces.parameters.PushToClientParameters;
 import org.springframework.stereotype.Controller;

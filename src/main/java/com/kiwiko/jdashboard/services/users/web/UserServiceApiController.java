@@ -6,7 +6,7 @@ import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.CreateUserOu
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.AuthorizedServiceClients;
 import com.kiwiko.jdashboard.services.users.api.interfaces.UserService;
-import com.kiwiko.jdashboard.tools.apiclient.api.interfaces.JdashboardServiceClientIdentifiers;
+import com.kiwiko.jdashboard.tools.apiclient.JdashboardServiceClientIdentifiers;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -6,7 +6,7 @@ import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.paramete
 import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.VersionRecord;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.dto.TableRecordVersion;
-import com.kiwiko.jdashboard.tools.apiclient.api.dto.ClientResponse;
+import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.api.dto.GetGroceryListFeedRequest;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.api.dto.GetGroceryListFeedResponse;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.api.dto.GroceryList;

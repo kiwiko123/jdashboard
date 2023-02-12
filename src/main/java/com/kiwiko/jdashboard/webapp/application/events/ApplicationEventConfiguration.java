@@ -3,7 +3,7 @@ package com.kiwiko.jdashboard.webapp.application.events;
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
 import com.kiwiko.jdashboard.framework.persistence.transactions.TransactionConfiguration;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiClientConfiguration;
+import com.kiwiko.jdashboard.tools.apiclient.configuration.JdashboardApiClientConfiguration;
 import com.kiwiko.jdashboard.framework.datasources.frameworkinternal.FrameworkInternalEntityManagerProvider;
 import com.kiwiko.jdashboard.webapp.application.events.api.interfaces.ApplicationEventService;
 import com.kiwiko.jdashboard.webapp.application.events.internal.ApplicationEventEntityService;

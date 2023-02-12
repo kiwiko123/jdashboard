@@ -5,8 +5,8 @@ import com.kiwiko.jdashboard.framework.security.servicecalls.requests.client.Pro
 import com.kiwiko.jdashboard.framework.security.servicecalls.requests.client.ProvisionServiceRequestKeyInput;
 import com.kiwiko.jdashboard.framework.security.servicecalls.requests.client.ProvisionServiceRequestKeyOutput;
 import com.kiwiko.jdashboard.framework.security.servicecalls.requests.client.ServiceCallRequestKeyProvisioner;
-import com.kiwiko.jdashboard.library.http.client.api.dto.ApiRequest;
-import com.kiwiko.jdashboard.library.http.client.api.exceptions.ClientException;
+import com.kiwiko.jdashboard.library.http.client.ApiRequest;
+import com.kiwiko.jdashboard.library.http.client.exceptions.ClientException;
 import com.kiwiko.jdashboard.webapp.application.events.api.dto.ApplicationEvent;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.errors.InvalidServiceClientIdentifierRequestHeaderIdException;
@@ -15,7 +15,7 @@ import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.e
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.errors.UnauthorizedServiceClientIdentifierException;
 import com.kiwiko.jdashboard.webapp.persistence.identification.unique.api.dto.UniversalUniqueIdentifier;
 import com.kiwiko.jdashboard.webapp.persistence.identification.unique.api.interfaces.UniqueIdentifierService;
-import com.kiwiko.jdashboard.library.http.client.api.dto.RequestHeader;
+import com.kiwiko.jdashboard.library.http.client.RequestHeader;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.InternalHttpRequestValidator;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.errors.UnauthorizedInternalRequestException;
 import com.kiwiko.jdashboard.webapp.application.events.api.interfaces.ApplicationEventService;

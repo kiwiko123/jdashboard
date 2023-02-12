@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.clients.featureflags.impl.http;
 
-import com.kiwiko.jdashboard.library.http.client.api.dto.caching.RequestCacheStrategy;
+import com.kiwiko.jdashboard.library.http.client.caching.RequestCacheStrategy;
 
 import javax.annotation.Nullable;
 import java.time.Duration;
