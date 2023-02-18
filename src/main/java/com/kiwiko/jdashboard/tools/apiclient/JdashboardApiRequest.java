@@ -8,6 +8,8 @@ import com.kiwiko.jdashboard.library.http.client.PayloadDeserializer;
 import com.kiwiko.jdashboard.library.http.client.PayloadSerializer;
 import com.kiwiko.jdashboard.library.http.client.RequestErrorHandler;
 import com.kiwiko.jdashboard.library.http.client.RequestHeader;
+import com.kiwiko.jdashboard.library.http.client.caching.DisabledCacheStrategy;
+import com.kiwiko.jdashboard.library.http.client.caching.RequestCacheStrategy;
 
 import javax.annotation.Nullable;
 import java.net.http.HttpClient;
@@ -19,6 +21,7 @@ public abstract class JdashboardApiRequest implements ApiRequest {
     private static final PayloadSerializer DEFAULT_PAYLOAD_SERIALIZER = new DefaultGsonPayloadSerializer();
     private static final PayloadDeserializer DEFAULT_PAYLOAD_DESERIALIZER = new DefaultGsonPayloadDeserializer();
     private static final RequestErrorHandler DEFAULT_REQUEST_ERROR_HANDLER = new HttpStatusValidationRequestErrorHandler();
+    private static final RequestCacheStrategy DEFAULT_DISABLED_CACHE_STRATEGY = new DisabledCacheStrategy();
 
     @Nullable
     @Override
@@ -35,6 +38,11 @@ public abstract class JdashboardApiRequest implements ApiRequest {
     @Override
     public HttpClient.Redirect getRedirectionPolicy() {
         return HttpClient.Redirect.NORMAL;
+    }
+
+    @Override
+    public RequestCacheStrategy getCacheStrategy() {
+        return DEFAULT_DISABLED_CACHE_STRATEGY;
     }
 
     @Override
@@ -61,11 +69,5 @@ public abstract class JdashboardApiRequest implements ApiRequest {
     @Override
     public PayloadDeserializer getResponsePayloadDeserializer() {
         return DEFAULT_PAYLOAD_DESERIALIZER;
-    }
-
-    @Nullable
-    @Override
-    public Class<?> getResponseType() {
-        return null;
     }
 }
