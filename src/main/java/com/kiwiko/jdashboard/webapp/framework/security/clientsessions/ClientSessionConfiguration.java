@@ -1,10 +1,12 @@
 package com.kiwiko.jdashboard.webapp.framework.security.clientsessions;
 
+import com.kiwiko.jdashboard.clients.permissions.PermissionClientConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.security.clientsessions.api.interfaces.ClientSessionService;
 import com.kiwiko.jdashboard.webapp.framework.security.clientsessions.internal.ClientSessionEntityDataMapper;
 import com.kiwiko.jdashboard.webapp.framework.security.clientsessions.internal.ClientSessionEntityService;
+import com.kiwiko.jdashboard.webapp.framework.security.clientsessions.internal.ClientSessionPermissionFetcher;
 import com.kiwiko.jdashboard.webapp.framework.security.clientsessions.internal.data.ClientSessionEntityDataFetcher;
 import com.kiwiko.jdashboard.webapp.persistence.identification.unique.UniversalUniqueIdentifierConfiguration;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.PersistenceServicesCrudConfiguration;
@@ -28,5 +30,11 @@ public class ClientSessionConfiguration implements JdashboardDependencyConfigura
     @Bean
     public ClientSessionEntityDataMapper clientSessionEntityDataMapper() {
         return new ClientSessionEntityDataMapper();
+    }
+
+    @Bean
+    @ConfiguredBy(PermissionClientConfiguration.class)
+    public ClientSessionPermissionFetcher clientSessionPermissionFetcher() {
+        return new ClientSessionPermissionFetcher();
     }
 }

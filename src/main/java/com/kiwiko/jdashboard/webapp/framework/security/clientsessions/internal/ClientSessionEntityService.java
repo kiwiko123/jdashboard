@@ -1,5 +1,7 @@
 package com.kiwiko.jdashboard.webapp.framework.security.clientsessions.internal;
 
+import com.kiwiko.jdashboard.webapp.framework.requests.api.CurrentRequestService;
+import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
 import com.kiwiko.jdashboard.webapp.framework.security.clientsessions.api.dto.ClientSession;
 import com.kiwiko.jdashboard.webapp.framework.security.clientsessions.api.exceptions.ClientSessionRuntimeException;
 import com.kiwiko.jdashboard.webapp.framework.security.clientsessions.api.interfaces.ClientSessionService;
@@ -13,6 +15,7 @@ import com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces.Cre
 import javax.inject.Inject;
 import java.time.Instant;
 import java.util.Optional;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,6 +25,8 @@ public class ClientSessionEntityService implements ClientSessionService {
     @Inject private ClientSessionEntityDataMapper clientSessionEntityDataMapper;
     @Inject private CreateReadUpdateDeleteExecutor crudExecutor;
     @Inject private UniqueIdentifierService uniqueIdentifierService;
+    @Inject private CurrentRequestService currentRequestService;
+    @Inject private ClientSessionPermissionFetcher clientSessionPermissionFetcher;
 
     @Override
     public Optional<ClientSession> get(long id) {
@@ -60,9 +65,16 @@ public class ClientSessionEntityService implements ClientSessionService {
         CreateUuidParameters parameters = new CreateUuidParameters(createUuidReferenceKey(createdSession.getId()));
         UniversalUniqueIdentifier identifier = uniqueIdentifierService.create(parameters);
 
+        Long currentUserId = currentRequestService.getCurrentRequestContext()
+                .map(RequestContext::getUserId)
+                .orElse(null);
+        Set<Integer> permissionInternalIds = clientSessionPermissionFetcher.getPermissionInternalIdsForClientSession(currentUserId);
+
         CreateClientSessionResponse response = new CreateClientSessionResponse();
         response.setClientSession(createdSession);
         response.setUuid(identifier.getUuid());
+        response.setUserId(currentUserId);
+        response.setPermissions(permissionInternalIds);
 
         return response;
     }

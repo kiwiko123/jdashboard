@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.Objects;
 import java.util.Set;
@@ -30,7 +31,7 @@ public class PermissionsServiceController {
     @GetMapping("/query")
     public Set<Permission> query(
             @RequestParam("u") Set<Long> userIds,
-            @RequestParam("pn") Set<String> permissionNames) {
+            @RequestParam(value = "pn", required = false) @Nullable Set<String> permissionNames) {
         QueryPermissionsInput input = QueryPermissionsInput.newBuilder()
                 .setUserIds(userIds)
                 .setPermissionNames(permissionNames)

@@ -1,7 +1,6 @@
 
 class GlobalStorage {
     constructor() {
-        super();
         this.__storage = new Map();
     }
 
@@ -11,6 +10,11 @@ class GlobalStorage {
 
     get(key) {
         return this.__storage.get(key);
+    }
+
+    set(key, data) {
+        this.__storage.set(key, data);
+        return true;
     }
 
     remove(key) {
