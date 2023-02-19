@@ -1,18 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { authenticatedUser } from 'tools/dashboard/conditions';
 import JdashboardPage from 'tools/dashboard/JdashboardPage';
 import MainViewWithSideNavBar from 'ui/views/MainViewWithSideNavBar';
 import ComponentStateManager from 'state/components/ComponentStateManager';
 import { useStateManager } from 'state/hooks';
-import FeatureFlagFormStateTransmitter from './state/FeatureFlagFormStateTransmitter';
-import FeatureFlagListStateTransmitter from './state/FeatureFlagListStateTransmitter';
-import FeatureFlagModalStateTransmitter from './state/FeatureFlagModalStateTransmitter';
-import FeatureFlagToolbarStateTransmitter from './state/FeatureFlagToolbarStateTransmitter';
-import FeatureFlagForm from './components/FeatureFlagForm';
+import FeatureFlagModalDelegateStateManager from './state/FeatureFlagModalDelegateStateManager';
+import FeatureFlagListStateManager from './state/FeatureFlagListStateManager';
+import FeatureFlagModalDelegate from './components/FeatureFlagModalDelegate';
 import FeatureFlagList from './components/FeatureFlagList';
-import FeatureFlagModal from './components/FeatureFlagModal';
-import FeatureFlagPageContent from './components/FeatureFlagPageContent';
-import FeatureFlagPageToolbar from './components/FeatureFlagPageToolbar';
 
 const NAVIGATION_ITEM_KEYS = {
     CREATE: {
@@ -31,10 +26,15 @@ const NAVIGATION_ITEMS = [
 ];
 
 export default function() {
-    const toolbarStateManager = useStateManager(() => new FeatureFlagToolbarStateTransmitter());
-    const featureFlagModalStateManager = useStateManager(() => new FeatureFlagModalStateTransmitter());
-    const featureFlagListStateManager = useStateManager(() => new FeatureFlagListStateTransmitter());
-    const featureFlagFormStateManager = useStateManager(() => new FeatureFlagFormStateTransmitter());
+    const featureFlagListStateManager = useStateManager(() => new FeatureFlagListStateManager());
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const featureFlagModalDelegateStateManager = useStateManager(
+        () => new FeatureFlagModalDelegateStateManager({
+            openModal: () => setIsModalOpen(true),
+            closeModal: () => setIsModalOpen(false),
+        }),
+    );
 
     const renderMainView = ({ id }) => {
         switch (id) {
@@ -46,12 +46,7 @@ export default function() {
                     />
                 );
             case NAVIGATION_ITEM_KEYS.CREATE.id:
-                return (
-                    <ComponentStateManager
-                        component={FeatureFlagForm}
-                        stateManager={featureFlagFormStateManager}
-                    />
-                );
+                // TODO
             default:
                 return null;
         }
@@ -64,8 +59,9 @@ export default function() {
             requiredConditions={[authenticatedUser]}
         >
             <ComponentStateManager
-                component={FeatureFlagModal}
-                stateManager={featureFlagModalStateManager}
+                component={FeatureFlagModalDelegate}
+                stateManager={featureFlagModalDelegateStateManager}
+                staticProps={{ isOpen: isModalOpen }}
             />
             <MainViewWithSideNavBar
                 navigationItems={NAVIGATION_ITEMS}

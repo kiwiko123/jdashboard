@@ -7,7 +7,7 @@ import featureFlagPropTypeShape from './propTypes/featureFlagPropTypeShape';
 import './FeatureFlagListItem.css';
 
 const FeatureFlagListItem = ({
-    id, name, status, value, userScope, userId, isRemoved, versions, enableStatusToggle, actions,
+    id, name, status, value, userScope, userId, isRemoved, versions, actions, disabled,
 }) => {
     const userIdField = userScope === 'individual' && (
         <div className="userId">
@@ -31,12 +31,14 @@ const FeatureFlagListItem = ({
                     fontAwesomeClassName="fas fa-edit"
                     onClick={actions.openEditModal}
                     size="lg"
+                    disabled={disabled}
                 />
                 <IconButton
                     className="delete-button"
                     fontAwesomeClassName="fas fa-trash-alt"
                     onClick={actions.removeFlag}
                     size="lg"
+                    disabled={disabled}
                 />
             </div>
             <div className="fields">
@@ -48,7 +50,7 @@ const FeatureFlagListItem = ({
                         className="status-switch value"
                         isSelected={status === 'enabled'}
                         onToggle={actions.toggleStatus}
-                        disabled={!enableStatusToggle}
+                        disabled={disabled}
                     />
                 </div>
                 <div className="flag-value">
@@ -75,16 +77,16 @@ const FeatureFlagListItem = ({
 
 FeatureFlagListItem.propTypes = {
     ...featureFlagPropTypeShape,
-    enableStatusToggle: PropTypes.bool,
     actions: PropTypes.shape({
         openEditModal: PropTypes.func.isRequired,
         toggleStatus: PropTypes.func.isRequired,
         removeFlag: PropTypes.func.isRequired,
     }),
+    disabled: PropTypes.bool,
 };
 
 FeatureFlagListItem.defaultProps = {
-    enableStatusToggle: false,
+    disabled: false,
 };
 
 export default FeatureFlagListItem;

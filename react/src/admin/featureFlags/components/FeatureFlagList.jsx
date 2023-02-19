@@ -6,11 +6,11 @@ import FeatureFlagListItem from './FeatureFlagListItem';
 import './FeatureFlagList.css';
 
 const FeatureFlagList = ({
-    featureFlagListItems, openFeatureFlagForm, toggleFeatureFlagStatus, removeFeatureFlag,
+    featureFlagListItems, editFeatureFlagForm, toggleFeatureFlagStatus, removeFeatureFlag,
 }) => {
     const listItems = featureFlagListItems.map((item, index) => {
         const actions = {
-            openEditModal: () => openFeatureFlagForm(index),
+            openEditModal: () => editFeatureFlagForm(index),
             toggleStatus: (event, value) => toggleFeatureFlagStatus(index, value),
             removeFlag: () => removeFeatureFlag(index),
         };
@@ -19,7 +19,7 @@ const FeatureFlagList = ({
                {...item.featureFlag}
                key={item.featureFlag.id}
                actions={actions}
-               enableStatusToggle={true}
+               disabled={item.disabled}
            />
        );
     });
@@ -32,13 +32,8 @@ const FeatureFlagList = ({
 };
 
 FeatureFlagList.propTypes = {
-    featureFlagListItems: PropTypes.arrayOf(PropTypes.shape({
-        featureFlag: PropTypes.shape(featureFlagPropTypeShape).isRequired,
-        user: PropTypes.shape({
-            id: PropTypes.number.isRequired,
-        }),
-    })),
-    openFeatureFlagForm: PropTypes.func.isRequired,
+    featureFlagListItems: PropTypes.arrayOf(PropTypes.shape(FeatureFlagListItem.propTypes)),
+    editFeatureFlagForm: PropTypes.func.isRequired,
     toggleFeatureFlagStatus: PropTypes.func.isRequired,
     removeFeatureFlag: PropTypes.func.isRequired,
 };

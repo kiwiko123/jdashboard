@@ -5,6 +5,8 @@ import InputFormField from 'common/forms/components/core/InputFormField';
 import DropdownSelectorFormField from 'common/forms/components/core/DropdownSelectorFormField';
 import IconButton from 'common/components/IconButton';
 
+import './SimpleForm.css';
+
 function getFieldComponent(type) {
     switch (type) {
         case 'dropdownSelector':
@@ -29,10 +31,12 @@ function getFieldComponents(fields) {
 }
 
 const SimpleForm = ({
-    fields, isFormValid, actions, className,
+    fields, isFormValid, actions, className, theme,
 }) => {
     const fieldComponents = getFieldComponents(fields);
-    const divClassName = classnames('SimpleForm', className);
+    const divClassName = classnames('SimpleForm', className, {
+        [`theme-${theme}`]: theme,
+    });
 
     return (
         <div className={divClassName}>
@@ -41,6 +45,14 @@ const SimpleForm = ({
             </div>
             <div className="form-buttons">
                 <IconButton
+                    className="reset-form-button"
+                    variant="warning"
+                    fontAwesomeClassName="fas fa-undo"
+                    onClick={actions.clearForm}
+                >
+                    Reset
+                </IconButton>
+                <IconButton
                     className="submit-form-button"
                     variant="primary"
                     fontAwesomeClassName="fas fa-paper-plane"
@@ -48,14 +60,6 @@ const SimpleForm = ({
                     disabled={!isFormValid}
                 >
                     Submit
-                </IconButton>
-                <IconButton
-                    className="reset-form-button"
-                    variant="warning"
-                    fontAwesomeClassName="fas fa-undo"
-                    onClick={actions.clearForm}
-                >
-                    Reset
                 </IconButton>
             </div>
         </div>
@@ -79,12 +83,14 @@ SimpleForm.propTypes = {
         clearForm: PropTypes.func.isRequired,
     }).isRequired,
     className: PropTypes.string,
+    theme: PropTypes.oneOf(['light', 'dark']),
 };
 
 SimpleForm.defaultProps = {
     fields: {},
     isFormValid: false,
     className: null,
+    theme: null,
 };
 
 export default SimpleForm;

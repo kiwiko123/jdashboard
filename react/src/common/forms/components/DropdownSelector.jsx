@@ -12,8 +12,8 @@ const DropdownSelector = ({
 }) => {
     const [selectedValue, setSelectedValue] = useState(preSelectedValue);
     useEffect(() => {
-        if (isNil(preSelectedValue)) {
-            setSelectedValue(DEFAULT_SELECTED_VALUE);
+        if (selectedValue !== preSelectedValue) {
+            setSelectedValue(isNil(preSelectedValue) ? DEFAULT_SELECTED_VALUE : selectedValue);
         }
     }, [preSelectedValue]);
 
