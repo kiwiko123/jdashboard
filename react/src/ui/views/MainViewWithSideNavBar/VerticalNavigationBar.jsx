@@ -20,9 +20,7 @@ const VerticalNavigationBar = ({
                 onClick={selectItem}
                 key={item.id}
             >
-                <span className="nav-item-label">
-                    {item.label}
-                </span>
+                {item.content}
             </div>
         );
     });
@@ -39,7 +37,7 @@ VerticalNavigationBar.propTypes = {
     className: PropTypes.string,
     items: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string.isRequired,
-        label: PropTypes.string.isRequired,
+        content: PropTypes.node.isRequired,
         className: PropTypes.string,
     })),
     onClick: PropTypes.func,

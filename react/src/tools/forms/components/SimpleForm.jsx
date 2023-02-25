@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import InputFormField from 'common/forms/components/core/InputFormField';
 import DropdownSelectorFormField from 'common/forms/components/core/DropdownSelectorFormField';
-import IconButton from 'common/components/IconButton';
+import StandardButton from 'ui/StandardButton';
 
 import './SimpleForm.css';
 
@@ -44,15 +44,15 @@ const SimpleForm = ({
                 {fieldComponents}
             </div>
             <div className="form-buttons">
-                <IconButton
+                <StandardButton
                     className="reset-form-button"
                     variant="warning"
                     fontAwesomeClassName="fas fa-undo"
                     onClick={actions.clearForm}
                 >
                     Reset
-                </IconButton>
-                <IconButton
+                </StandardButton>
+                <StandardButton
                     className="submit-form-button"
                     variant="primary"
                     fontAwesomeClassName="fas fa-paper-plane"
@@ -60,7 +60,7 @@ const SimpleForm = ({
                     disabled={!isFormValid}
                 >
                     Submit
-                </IconButton>
+                </StandardButton>
             </div>
         </div>
     );

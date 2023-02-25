@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import CreateFeatureFlagFormModal from './CreateFeatureFlagFormModal';
 import EditFeatureFlagFormModal from './EditFeatureFlagFormModal';
 
 const FeatureFlagModalDelegate = ({
@@ -11,6 +12,14 @@ const FeatureFlagModalDelegate = ({
 
     let content;
     switch (modal.id) {
+        case 'createFeatureFlagForm':
+            content = (
+                <CreateFeatureFlagFormModal
+                    isOpen={isOpen}
+                    close={close}
+                />
+            );
+            break;
         case 'editFeatureFlagForm':
             content = (
                 <EditFeatureFlagFormModal

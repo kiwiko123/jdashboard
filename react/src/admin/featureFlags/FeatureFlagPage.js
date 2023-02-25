@@ -6,26 +6,16 @@ import ComponentStateManager from 'state/components/ComponentStateManager';
 import { useStateManager } from 'state/hooks';
 import FeatureFlagModalDelegateStateManager from './state/FeatureFlagModalDelegateStateManager';
 import FeatureFlagListStateManager from './state/FeatureFlagListStateManager';
+import FeatureFlagPageToolbarStateManager from './state/FeatureFlagPageToolbarStateManager';
 import FeatureFlagModalDelegate from './components/FeatureFlagModalDelegate';
 import FeatureFlagList from './components/FeatureFlagList';
+import FeatureFlagPageNavigationItem from './components/FeatureFlagPageNavigationItem';
+import FeatureFlagPageToolbar from './components/FeatureFlagPageToolbar';
 
-const NAVIGATION_ITEM_KEYS = {
-    CREATE: {
-        id: 'createFeatureFlag',
-        label: 'Create feature flag',
-    },
-    VIEW: {
-        id: 'viewFeatureFlags',
-        label: 'View feature flags',
-    },
-}
-
-const NAVIGATION_ITEMS = [
-    NAVIGATION_ITEM_KEYS.VIEW,
-    NAVIGATION_ITEM_KEYS.CREATE,
-];
+import './FeatureFlagPage.css';
 
 export default function() {
+    const featureFlagPageToolbarStateManager = useStateManager(() => new FeatureFlagPageToolbarStateManager());
     const featureFlagListStateManager = useStateManager(() => new FeatureFlagListStateManager());
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,17 +26,33 @@ export default function() {
         }),
     );
 
+    const navigationItems = [
+        {
+            id: 'featureFlags',
+            content: (
+                <FeatureFlagPageNavigationItem
+                    icon={<i className="fas fa-toggle-on" />}
+                    label="Feature flags"
+                />
+            ),
+        },
+    ];
+
     const renderMainView = ({ id }) => {
         switch (id) {
-            case NAVIGATION_ITEM_KEYS.VIEW.id:
+            case 'featureFlags':
                 return (
-                    <ComponentStateManager
-                        component={FeatureFlagList}
-                        stateManager={featureFlagListStateManager}
-                    />
+                    <div>
+                        <ComponentStateManager
+                            component={FeatureFlagPageToolbar}
+                            stateManager={featureFlagPageToolbarStateManager}
+                        />
+                        <ComponentStateManager
+                            component={FeatureFlagList}
+                            stateManager={featureFlagListStateManager}
+                        />
+                    </div>
                 );
-            case NAVIGATION_ITEM_KEYS.CREATE.id:
-                // TODO
             default:
                 return null;
         }
@@ -64,7 +70,7 @@ export default function() {
                 staticProps={{ isOpen: isModalOpen }}
             />
             <MainViewWithSideNavBar
-                navigationItems={NAVIGATION_ITEMS}
+                navigationItems={navigationItems}
                 renderMainView={renderMainView}
             />
         </JdashboardPage>

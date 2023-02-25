@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 const FormInput = ({
-    text, type, name, className, onSubmit, onChange, onBlur, autoComplete,
+    text, type, name, className, onSubmit, onChange, onBlur, autoComplete, placeholder,
 }) => {
     const divClassName = classnames('FormInput', className);
     // TODO useEventSubmit
@@ -23,6 +23,7 @@ const FormInput = ({
             onKeyDown={onKeyDown}
             onBlur={onBlur}
             autoComplete={autoComplete}
+            placeholder={placeholder}
         />
     );
 };
@@ -36,6 +37,7 @@ FormInput.propTypes = {
     onSubmit: PropTypes.func,
     onBlur: PropTypes.func,
     autoComplete: PropTypes.oneOf(['none', 'on']),
+    placeholder: PropTypes.string,
 };
 
 FormInput.defaultProps = {
@@ -45,6 +47,7 @@ FormInput.defaultProps = {
     onSubmit: null,
     onBlur: null,
     autoComplete: 'none',
+    placeholder: null,
 };
 
 export default FormInput;

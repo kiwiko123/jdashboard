@@ -11,6 +11,17 @@ export default class FeatureFlagModalDelegateStateManager extends StateManager {
         this.registerMethod(this.close);
     }
 
+    receiveFeatureFlagPageToolbarStateManager(state, metadata) {
+        if (metadata === 'createNewFeatureFlag') {
+            this.setState({
+                modal: {
+                    id: 'createFeatureFlagForm',
+                },
+            });
+            this.openModal();
+        }
+    }
+
     receiveFeatureFlagListStateManager(state, metadata) {
         if (metadata === 'editFeatureFlagForm') {
             this.setState({

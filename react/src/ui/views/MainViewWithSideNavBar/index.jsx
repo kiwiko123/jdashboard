@@ -43,7 +43,7 @@ const MainViewWithSideNavBar = ({
 MainViewWithSideNavBar.propTypes = {
     navigationItems: PropTypes.arrayOf(PropTypes.shape({
          id: PropTypes.string.isRequired,
-         label: PropTypes.string.isRequired,
+         content: PropTypes.node.isRequired,
      })).isRequired,
      renderMainView: PropTypes.func.isRequired,
      className: PropTypes.string,

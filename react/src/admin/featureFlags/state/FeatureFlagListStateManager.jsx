@@ -22,6 +22,12 @@ export default class FeatureFlagListStateManager extends StateManager {
         }
     }
 
+    receiveCreateFeatureFlagFormStateManager(state, metadata) {
+        if (metadata === 'refresh') {
+            this.refreshFeatureFlags();
+        }
+    }
+
     refreshFeatureFlags() {
         Request.to('/feature-flags/api/list')
             .authenticated()
