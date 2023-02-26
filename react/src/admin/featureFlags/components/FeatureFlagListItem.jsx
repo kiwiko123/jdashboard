@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import LoadingIndicator from 'ui/LoadingIndicator';
 import ToggleSwitch from 'common/buttons/components/ToggleSwitch';
 import IconButton from 'common/components/IconButton';
 import featureFlagPropTypeShape from './propTypes/featureFlagPropTypeShape';
@@ -7,7 +8,7 @@ import featureFlagPropTypeShape from './propTypes/featureFlagPropTypeShape';
 import './FeatureFlagListItem.css';
 
 const FeatureFlagListItem = ({
-    id, name, status, value, userScope, userId, isRemoved, versions, actions, disabled,
+    id, name, status, value, userScope, userId, isRemoved, versions, actions, disabled, isLoading,
 }) => {
     const userIdField = userScope === 'individual' && (
         <div className="userId">
@@ -26,20 +27,23 @@ const FeatureFlagListItem = ({
                 <div className="name">
                     {name}
                 </div>
-                <IconButton
-                    className="edit-button"
-                    fontAwesomeClassName="fas fa-edit"
-                    onClick={actions.openEditModal}
-                    size="lg"
-                    disabled={disabled}
-                />
-                <IconButton
-                    className="delete-button"
-                    fontAwesomeClassName="fas fa-trash-alt"
-                    onClick={actions.removeFlag}
-                    size="lg"
-                    disabled={disabled}
-                />
+                <div className="indicators">
+                    {isLoading && <LoadingIndicator />}
+                    <IconButton
+                        className="edit-button"
+                        fontAwesomeClassName="fas fa-edit"
+                        onClick={actions.openEditModal}
+                        size="lg"
+                        disabled={disabled}
+                    />
+                    <IconButton
+                        className="delete-button"
+                        fontAwesomeClassName="fas fa-trash-alt"
+                        onClick={actions.removeFlag}
+                        size="lg"
+                        disabled={disabled}
+                    />
+                </div>
             </div>
             <div className="fields">
                 <div className="status">
@@ -83,10 +87,12 @@ FeatureFlagListItem.propTypes = {
         removeFlag: PropTypes.func.isRequired,
     }),
     disabled: PropTypes.bool,
+    isLoading: PropTypes.bool,
 };
 
 FeatureFlagListItem.defaultProps = {
     disabled: false,
+    isLoading: false,
 };
 
 export default FeatureFlagListItem;

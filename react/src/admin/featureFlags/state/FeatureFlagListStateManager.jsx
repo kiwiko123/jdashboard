@@ -35,6 +35,7 @@ export default class FeatureFlagListStateManager extends StateManager {
             .then((response) => {
                 const listItems = response.payload.map(item => ({
                     ...item,
+                    isLoading: false,
                     disabled: false,
                 }));
                 this.setState({ featureFlagListItems: listItems });
@@ -52,6 +53,7 @@ export default class FeatureFlagListStateManager extends StateManager {
     toggleFeatureFlagStatus(listItemIndex, isOn) {
         const { featureFlagListItems } = this.state;
         featureFlagListItems[listItemIndex].disabled = true;
+        featureFlagListItems[listItemIndex].isLoading = true;
         this.setState({ featureFlagListItems });
 
         const featureFlagId = get(featureFlagListItems, [listItemIndex, 'featureFlag', 'id']);

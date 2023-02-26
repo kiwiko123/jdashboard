@@ -1,15 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { isNil } from 'lodash';
 
 const LoadingIndicator = ({
     animated, size, className,
 }) => {
-    const divClassName = classnames('LoadingIndicator', 'fas fa-circle-notch', className, `fa-${size}`, {
+    const divClassName = classnames('LoadingIndicator', className);
+    const iconClassName = classnames('fas fa-circle-notch', {
+        [`fa-${size}`]: !isNil(size) && size !== '1x',
         'fa-spin': animated,
     });
     return (
-        <i className={divClassName} />
+        <div className={divClassName}>
+            <i className={iconClassName} />
+        </div>
     );
 };
 

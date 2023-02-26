@@ -20,6 +20,7 @@ const FeatureFlagList = ({
                key={item.featureFlag.id}
                actions={actions}
                disabled={item.disabled}
+               isLoading={item.isLoading}
            />
        );
     });
