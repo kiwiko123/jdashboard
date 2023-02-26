@@ -54,15 +54,10 @@ export default class FeatureFlagListStateManager extends StateManager {
         featureFlagListItems[listItemIndex].disabled = true;
         this.setState({ featureFlagListItems });
 
-        const featureFlag = get(featureFlagListItems, [listItemIndex, 'featureFlag']);
-        const payload = {
-            ...featureFlag,
-            status: isOn ? 'enabled' : 'disabled',
-        };
-        Request.to(`/feature-flags/api/${featureFlag.id}`)
-            .body(payload)
+        const featureFlagId = get(featureFlagListItems, [listItemIndex, 'featureFlag', 'id']);
+        Request.to(`/feature-flags/app-api/${featureFlagId}/status/toggle`)
             .authenticated()
-            .put()
+            .post()
             .then(() => {
                 this.refreshFeatureFlags();
             });

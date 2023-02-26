@@ -1,5 +1,6 @@
 package com.kiwiko.jdashboard.services.featureflags.web;
 
+import com.kiwiko.jdashboard.clients.featureflags.api.dto.FeatureFlagStatus;
 import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagService;
 import com.kiwiko.jdashboard.services.featureflags.web.responses.FeatureFlagListItem;
 import com.kiwiko.jdashboard.clients.featureflags.api.dto.FeatureFlag;
@@ -24,6 +25,13 @@ class FeatureFlagAPIHelper {
         }
 
         return listItems;
+    }
+
+    public FeatureFlag toggleStatus(long featureFlagId) {
+        FeatureFlag flag = featureFlagService.get(featureFlagId)
+                .orElseThrow(() -> new IllegalArgumentException(String.format("No flag found with ID %d", featureFlagId)));
+        flag.setStatus(FeatureFlagStatus.opposite(flag.getStatus()));
+        return featureFlagService.update(flag);
     }
 
     private FeatureFlagListItem makeListItem(FeatureFlag flag, User user) {
