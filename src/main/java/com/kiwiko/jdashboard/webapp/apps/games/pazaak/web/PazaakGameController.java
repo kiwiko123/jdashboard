@@ -12,6 +12,7 @@ import com.kiwiko.jdashboard.webapp.apps.games.pazaak.api.interfaces.parameters.
 import com.kiwiko.jdashboard.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakSelectHandCardRequest;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.UserAuthCheck;
+import com.kiwiko.jdashboard.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakStandRequest;
 import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.auth.AuthenticatedUser;
 import org.springframework.stereotype.Controller;
@@ -52,7 +53,7 @@ public class PazaakGameController {
                 .setGameId(gameId)
                 .setUserId(currentUserId);
 
-        return gameLoader.loadGame(parameters).orElse(null);
+        return gameLoader.loadGame(parameters);
     }
 
     @PostMapping("")
@@ -90,5 +91,17 @@ public class PazaakGameController {
         request.setUserId(currentUser.getId());
 
         return gameHandler.selectHandCard(request);
+    }
+
+    @PostMapping("/games/{gameId}/stand")
+    @ResponseBody
+    public PazaakGame stand(
+            @PathVariable("gameId") long gameId,
+            @RequestBody PazaakStandRequest request,
+            @AuthenticatedUser com.kiwiko.jdashboard.clients.users.api.dto.User currentUser) {
+        request.setGameId(gameId);
+        request.setUserId(currentUser.getId());
+
+        return gameHandler.stand(request);
     }
 }

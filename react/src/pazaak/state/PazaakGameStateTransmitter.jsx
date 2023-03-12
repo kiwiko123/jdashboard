@@ -18,6 +18,7 @@ export default class PazaakGameStateTransmitter extends StateManager {
             actions: {
                 endTurn: this.endTurn.bind(this),
                 selectHandCard: this.selectHandCard.bind(this),
+                stand: this.stand.bind(this),
             },
         });
 
@@ -139,6 +140,17 @@ export default class PazaakGameStateTransmitter extends StateManager {
                 const { player } = this.state;
                 player.selectedHandCard = selectedHandCard;
                 this.setState({ player });
+            });
+    }
+
+    stand(playerId) {
+        const payload = { playerId };
+        Request.to(`/pazaak/api/games/${this.state.gameId}/stand`)
+            .withAuthentication()
+            .withBody(payload)
+            .post()
+            .then((game) => {
+                this.updateGameState(game);
             });
     }
 }

@@ -7,6 +7,7 @@ import com.kiwiko.jdashboard.webapp.apps.games.pazaak.api.dto.PazaakPlayer;
 import com.kiwiko.jdashboard.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakEndTurnRequest;
 import com.kiwiko.jdashboard.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakEndTurnResponse;
 import com.kiwiko.jdashboard.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakSelectHandCardRequest;
+import com.kiwiko.jdashboard.webapp.apps.games.pazaak.api.interfaces.parameters.PazaakStandRequest;
 import com.kiwiko.jdashboard.webapp.apps.games.state.api.GameStateService;
 import com.kiwiko.jdashboard.webapp.apps.games.state.data.GameState;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
@@ -45,13 +46,7 @@ public class PazaakGameHandler {
     }
 
     public PazaakEndTurnResponse endTurn(PazaakEndTurnRequest request) {
-        // Request validation.
-        PazaakGame game = gameLoader.loadGame(request).orElse(null);
-
-        if (game == null) {
-            return new PazaakEndTurnResponse()
-                    .setErrorMessage(String.format("No game found matching loading parameters %s", request));
-        }
+        PazaakGame game = gameLoader.loadGame(request);
 
         Objects.requireNonNull(request.getPlayerId(), "Player ID is required to end turn");
         validateTurn(game, request.getPlayerId());
@@ -91,10 +86,7 @@ public class PazaakGameHandler {
         Objects.requireNonNull(request.getPlayerId(), "Player ID is required to select hand card");
         Objects.requireNonNull(request.getSelectedHandCard(), "Hand card is required");
 
-        PazaakGame game = gameLoader.loadGame(request).orElse(null);
-        if (game == null) {
-            throw new PazaakGameException("No game found");
-        }
+        PazaakGame game = gameLoader.loadGame(request);
 
         PazaakPlayer player = getPlayerById(game, request.getPlayerId());
         if (!player.getHandCards().contains(request.getSelectedHandCard())) {
@@ -105,6 +97,22 @@ public class PazaakGameHandler {
         player.getPlacedCards().add(request.getSelectedHandCard());
 
         // Don't save.
+        return game;
+    }
+
+    public PazaakGame stand(PazaakStandRequest request) throws PazaakGameException {
+        Objects.requireNonNull(request.getPlayerId(), "Player ID is required to select hand card");
+        PazaakGame game = gameLoader.loadGame(request);
+
+        PazaakPlayer player = getPlayerById(game, request.getPlayerId());
+        player.setPlayerStatus(PazaakPlayerStatuses.STAND);
+
+        if (playerHasBusted(player)) {
+            PazaakPlayer oppositePlayer = getOppositePlayer(game, player.getId());
+            game.setWinningPlayerId(oppositePlayer.getId());
+        }
+
+        saveGame(game);
         return game;
     }
 

@@ -27,7 +27,7 @@ const PazaakGameArea = ({
             disabled: player.playerStatus !== 'ready',
         },
         stand: {
-            onClick: () => {},
+            onClick: () => actions.stand(player.id),
             disabled: player.playerStatus !== 'ready',
         },
         forfeit: {
