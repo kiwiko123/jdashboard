@@ -1,13 +1,16 @@
 package com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.internal;
 
 import com.kiwiko.jdashboard.framework.datasources.api.JdashboardDataSources;
+import com.kiwiko.jdashboard.framework.persistence.transactions.api.interfaces.TransactionProvider;
 import com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.interfaces.ServiceRequestKey;
 import com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.interfaces.ServiceRequestKeyService;
 import com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.internal.data.ServiceRequestKeyEntity;
 import com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.internal.data.ServiceRequestKeyEntityDataAccessObject;
+import com.kiwiko.jdashboard.webapp.persistence.identification.unique.internal.UuidGenerator;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
 
 import javax.inject.Inject;
+import java.time.Instant;
 import java.util.Optional;
 
 public class ServiceRequestKeyServiceImpl implements ServiceRequestKeyService {
@@ -15,6 +18,8 @@ public class ServiceRequestKeyServiceImpl implements ServiceRequestKeyService {
     @Inject private ServiceRequestKeyEntityDataAccessObject dataAccessObject;
     @Inject private ServiceRequestKeyEntityMapper mapper;
     @Inject private CreateReadUpdateDeleteExecutor crudExecutor;
+    @Inject private UuidGenerator uuidGenerator;
+    @Inject private TransactionProvider transactionProvider;
 
     @Override
     public Optional<ServiceRequestKey> get(long id) {
@@ -27,13 +32,22 @@ public class ServiceRequestKeyServiceImpl implements ServiceRequestKeyService {
     }
 
     @Override
+    public Optional<ServiceRequestKey> getByToken(String token) {
+        return transactionProvider.readOnly(() -> dataAccessObject.getByToken(token).map(mapper::toDto));
+    }
+
+    @Override
     public ServiceRequestKey create(ServiceRequestKey serviceRequestKey) {
-        return crudExecutor.<ServiceRequestKeyEntity, ServiceRequestKey, ServiceRequestKeyEntityDataAccessObject, ServiceRequestKeyEntityMapper>data()
-                .dataSource(JdashboardDataSources.FRAMEWORK_INTERNAL)
-                .dataAccessObject(dataAccessObject)
-                .mapper(mapper)
-                .operation()
-                .create(serviceRequestKey);
+        String requestToken = uuidGenerator.generateCustomFromTimestamp();
+        ServiceRequestKeyEntity entityToCreate = mapper.toEntity(serviceRequestKey);
+        entityToCreate.setRequestToken(requestToken);
+        entityToCreate.setCreatedDate(Instant.now());
+        // TODO set user ID if available
+
+        return transactionProvider.readWrite(JdashboardDataSources.FRAMEWORK_INTERNAL, () -> {
+            ServiceRequestKeyEntity createdEntity = dataAccessObject.save(entityToCreate);
+            return mapper.toDto(createdEntity);
+        });
     }
 
     @Override

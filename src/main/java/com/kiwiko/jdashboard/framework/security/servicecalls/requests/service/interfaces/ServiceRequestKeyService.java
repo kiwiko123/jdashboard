@@ -6,6 +6,8 @@ public interface ServiceRequestKeyService {
 
     Optional<ServiceRequestKey> get(long id);
 
+    Optional<ServiceRequestKey> getByToken(String token);
+
     ServiceRequestKey create(ServiceRequestKey serviceRequestKey);
 
     ServiceRequestKey update(ServiceRequestKey serviceRequestKey);
