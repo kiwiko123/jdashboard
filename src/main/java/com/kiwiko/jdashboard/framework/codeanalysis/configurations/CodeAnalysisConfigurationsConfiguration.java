@@ -20,7 +20,7 @@ public class CodeAnalysisConfigurationsConfiguration implements JdashboardDepend
 
     @Bean
     @ConfiguredBy({LoggingConfiguration.class})
-    public DependencyResolver dependencyResolver() {
+    public DependencyResolver dependencyResolverDeprecated() {
         return new DependencyResolver();
     }
 }

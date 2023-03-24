@@ -30,9 +30,9 @@ public class ApplicationStartupService implements ApplicationListener<Applicatio
         try {
             hook.run();
         } catch (ApplicationStartupHookException e) {
-            logger.error("Error running startup hook %s", hook.getClass(), e);
+            logger.error("Error running startup hook {}", hook.getClass(), e);
         } catch (Exception e) {
-            logger.error("Unexpected error running startup hook %s", hook.getClass(), e);
+            logger.error("Unexpected error running startup hook {}", hook.getClass(), e);
         }
 
         logger.info("Completed startup hook {}", hook.getClass().getName());
