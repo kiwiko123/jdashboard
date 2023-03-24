@@ -1,5 +1,7 @@
 package com.kiwiko.jdashboard.webapp.apps.grocerylist;
 
+import com.kiwiko.jdashboard.clients.tablerecordversions.TableRecordVersionClientConfiguration;
+import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.internal.GroceryListAppService;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.internal.GroceryListCoreConfiguration;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.internal.GroceryListFeedLoader;
@@ -19,12 +21,17 @@ public class GroceryListConfiguration implements JdashboardDependencyConfigurati
     }
 
     @Bean
-    @ConfiguredBy(GroceryListCoreConfiguration.class)
+    @ConfiguredBy({
+            GroceryListCoreConfiguration.class,
+            TableRecordVersionClientConfiguration.class,
+            LoggingConfiguration.class,
+    })
     public GroceryListFeedLoader groceryListFeedLoader() {
         return new GroceryListFeedLoader();
     }
 
     @Bean
+    @ConfiguredBy(GroceryListCoreConfiguration.class)
     public GroceryListPermissionChecker groceryListPermissionChecker() {
         return new GroceryListPermissionChecker();
     }

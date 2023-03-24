@@ -7,6 +7,7 @@ import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.TableRe
 import com.kiwiko.jdashboard.services.tablerecordversions.internal.TableRecordVersionEntityMapper;
 import com.kiwiko.jdashboard.services.tablerecordversions.internal.TableRecordVersionEntityService;
 import com.kiwiko.jdashboard.services.tablerecordversions.internal.data.TableRecordVersionEntityDataFetcher;
+import com.kiwiko.jdashboard.webapp.persistence.services.crud.PersistenceServicesCrudConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,7 +15,10 @@ import org.springframework.context.annotation.Configuration;
 public class TableRecordVersionsConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
-    @ConfiguredBy(TransactionConfiguration.class)
+    @ConfiguredBy({
+            TransactionConfiguration.class,
+            PersistenceServicesCrudConfiguration.class,
+    })
     public TableRecordVersionService tableRecordVersionService() {
         return new TableRecordVersionEntityService();
     }

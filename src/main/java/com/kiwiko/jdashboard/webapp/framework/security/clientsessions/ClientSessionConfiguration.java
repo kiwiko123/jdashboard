@@ -3,6 +3,7 @@ package com.kiwiko.jdashboard.webapp.framework.security.clientsessions;
 import com.kiwiko.jdashboard.clients.permissions.PermissionClientConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
+import com.kiwiko.jdashboard.webapp.framework.requests.RequestConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.security.clientsessions.api.interfaces.ClientSessionService;
 import com.kiwiko.jdashboard.webapp.framework.security.clientsessions.internal.ClientSessionEntityDataMapper;
 import com.kiwiko.jdashboard.webapp.framework.security.clientsessions.internal.ClientSessionEntityService;
@@ -17,7 +18,11 @@ import org.springframework.context.annotation.Configuration;
 public class ClientSessionConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
-    @ConfiguredBy({UniversalUniqueIdentifierConfiguration.class, PersistenceServicesCrudConfiguration.class})
+    @ConfiguredBy({
+            UniversalUniqueIdentifierConfiguration.class,
+            PersistenceServicesCrudConfiguration.class,
+            RequestConfiguration.class,
+    })
     public ClientSessionService clientSessionService() {
         return new ClientSessionEntityService();
     }

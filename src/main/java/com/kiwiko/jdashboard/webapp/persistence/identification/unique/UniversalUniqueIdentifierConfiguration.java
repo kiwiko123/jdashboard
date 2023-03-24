@@ -3,6 +3,7 @@ package com.kiwiko.jdashboard.webapp.persistence.identification.unique;
 import com.kiwiko.jdashboard.framework.persistence.transactions.TransactionConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
+import com.kiwiko.jdashboard.webapp.framework.json.JsonConfiguration;
 import com.kiwiko.jdashboard.webapp.persistence.identification.unique.api.interfaces.UniqueIdentifierService;
 import com.kiwiko.jdashboard.webapp.persistence.identification.unique.internal.UniversalUniqueIdentifierEntityMapper;
 import com.kiwiko.jdashboard.webapp.persistence.identification.unique.internal.UniversallyUniqueIdentifierEntityService;
@@ -32,6 +33,7 @@ public class UniversalUniqueIdentifierConfiguration implements JdashboardDepende
     }
 
     @Bean
+    @ConfiguredBy(JsonConfiguration.class)
     public UuidGenerator uuidGenerator() {
         return new UuidGenerator();
     }

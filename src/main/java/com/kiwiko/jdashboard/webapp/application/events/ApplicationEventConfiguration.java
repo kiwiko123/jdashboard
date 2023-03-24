@@ -1,5 +1,7 @@
 package com.kiwiko.jdashboard.webapp.application.events;
 
+import com.kiwiko.jdashboard.framework.datasources.frameworkinternal.FrameworkInternalDatasourceConfiguration;
+import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
 import com.kiwiko.jdashboard.framework.persistence.transactions.TransactionConfiguration;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.framework.datasources.frameworkinternal.FrameworkInternalEntityManagerProvider;
@@ -9,6 +11,7 @@ import com.kiwiko.jdashboard.webapp.application.events.internal.data.Application
 import com.kiwiko.jdashboard.webapp.application.events.internal.mappers.ApplicationEventEntityMapper;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
+import com.kiwiko.jdashboard.webapp.persistence.data.cdc.ChangeDataCapturePersistenceConfiguration;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.DataChangeCapturer;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.PersistenceServicesCrudConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +29,11 @@ public class ApplicationEventConfiguration implements JdashboardDependencyConfig
     }
 
     @Bean
+    @ConfiguredBy({
+            FrameworkInternalDatasourceConfiguration.class,
+            LoggingConfiguration.class,
+            ChangeDataCapturePersistenceConfiguration.class,
+    })
     public ApplicationEventEntityDataFetcher applicationEventEntityDataFetcher(
             FrameworkInternalEntityManagerProvider entityManagerProvider,
             DataChangeCapturer dataChangeCapturer,
