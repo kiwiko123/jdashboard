@@ -1,5 +1,7 @@
 package com.kiwiko.jdashboard.services.featureflags;
 
+import com.kiwiko.jdashboard.framework.codeanalysis.spidi.interfaces.ConfigurationScope;
+import com.kiwiko.jdashboard.framework.codeanalysis.spidi.interfaces.ConfigurationScopeLevel;
 import com.kiwiko.jdashboard.webapp.application.events.queue.ApplicationEventQueueConfiguration;
 import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagEventClient;
 import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagResolver;
@@ -19,6 +21,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackageClasses = FeatureFlagConfiguration.class)
+@ConfigurationScope(ConfigurationScopeLevel.PACKAGE)
 public class FeatureFlagConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean

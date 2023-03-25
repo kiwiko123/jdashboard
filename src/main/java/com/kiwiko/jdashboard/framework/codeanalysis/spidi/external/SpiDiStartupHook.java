@@ -12,7 +12,6 @@ public class SpiDiStartupHook implements ApplicationStartupHook {
 
     @Inject private SpiDiService spiDiService;
 
-
     @Override
     public void run() throws ApplicationStartupHookException {
         ResolveDependenciesInput input = ResolveDependenciesInput.builder()

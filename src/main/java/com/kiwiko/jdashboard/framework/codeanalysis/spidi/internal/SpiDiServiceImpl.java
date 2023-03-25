@@ -6,6 +6,7 @@ import com.kiwiko.jdashboard.framework.codeanalysis.spidi.interfaces.SpiDiServic
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.dto.BeanConfigurationRegistry;
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.dto.BeanDependencyRegistry;
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.dto.ConfigurationRegistry;
+import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.scope.ConfigurationScopeResolver;
 
 import javax.inject.Inject;
 
@@ -13,6 +14,7 @@ public class SpiDiServiceImpl implements SpiDiService {
 
     @Inject private DependencyConfigurationAnalyzer dependencyConfigurationAnalyzer;
     @Inject private DependencyResolver dependencyResolver;
+    @Inject private ConfigurationScopeResolver configurationScopeResolver;
 
     @Override
     public void resolveConfigurationDependencies(ResolveDependenciesInput input) throws SpiDiException {
@@ -25,5 +27,7 @@ public class SpiDiServiceImpl implements SpiDiService {
                 configurationRegistry,
                 beanConfigurationRegistry,
                 beanDependencyRegistry);
+
+        configurationScopeResolver.resolve();
     }
 }
