@@ -6,9 +6,12 @@ import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.DependencyInj
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.DependencyResolver;
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.SpiDiServiceImpl;
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.scope.ConfigurationScopeResolver;
-import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.scope.PackageConfigurationScopeLevelResolver;
-import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.scope.PrivateConfigurationScopeLevelResolver;
-import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.scope.PublicConfigurationScopeLevelResolver;
+import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.scope.PackageDependencyInjectionConfigurationScopeResolver;
+import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.scope.PackageTransitiveConfigurationScopeResolver;
+import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.scope.PrivateDependencyInjectionConfigurationScopeResolver;
+import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.scope.PrivateTransitiveConfigurationScopeResolver;
+import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.scope.PublicDependencyInjectionConfigurationScopeResolver;
+import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.scope.PublicTransitiveConfigurationScopeResolver;
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
@@ -51,17 +54,32 @@ public class SpiDiConfiguration implements JdashboardDependencyConfiguration {
     }
 
     @Bean
-    public PrivateConfigurationScopeLevelResolver privateConfigurationScopeLevelResolver() {
-        return new PrivateConfigurationScopeLevelResolver();
+    public PrivateDependencyInjectionConfigurationScopeResolver privateConfigurationScopeLevelResolver() {
+        return new PrivateDependencyInjectionConfigurationScopeResolver();
     }
 
     @Bean
-    public PackageConfigurationScopeLevelResolver packageConfigurationScopeLevelResolver() {
-        return new PackageConfigurationScopeLevelResolver();
+    public PackageDependencyInjectionConfigurationScopeResolver packageConfigurationScopeLevelResolver() {
+        return new PackageDependencyInjectionConfigurationScopeResolver();
     }
 
     @Bean
-    public PublicConfigurationScopeLevelResolver publicConfigurationScopeLevelResolver() {
-        return new PublicConfigurationScopeLevelResolver();
+    public PublicDependencyInjectionConfigurationScopeResolver publicConfigurationScopeLevelResolver() {
+        return new PublicDependencyInjectionConfigurationScopeResolver();
+    }
+
+    @Bean
+    public PrivateTransitiveConfigurationScopeResolver privateTransitiveConfigurationScopeResolver() {
+        return new PrivateTransitiveConfigurationScopeResolver();
+    }
+
+    @Bean
+    public PackageTransitiveConfigurationScopeResolver packageTransitiveConfigurationScopeResolver() {
+        return new PackageTransitiveConfigurationScopeResolver();
+    }
+
+    @Bean
+    public PublicTransitiveConfigurationScopeResolver publicTransitiveConfigurationScopeResolver() {
+        return new PublicTransitiveConfigurationScopeResolver();
     }
 }

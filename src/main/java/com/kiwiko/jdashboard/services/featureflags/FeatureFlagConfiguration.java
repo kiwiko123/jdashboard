@@ -7,10 +7,8 @@ import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagEve
 import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagResolver;
 import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagService;
 import com.kiwiko.jdashboard.services.featureflags.internal.events.ApplicationEventFeatureFlagEventClient;
-import com.kiwiko.jdashboard.services.featureflags.internal.FeatureFlagEntityMapper;
 import com.kiwiko.jdashboard.services.featureflags.internal.FeatureFlagEntityService;
 import com.kiwiko.jdashboard.services.featureflags.internal.FeatureFlagServiceResolver;
-import com.kiwiko.jdashboard.services.featureflags.internal.data.FeatureFlagEntityDataFetcher;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonJsonConfiguration;
@@ -21,23 +19,16 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackageClasses = FeatureFlagConfiguration.class)
-@ConfigurationScope(ConfigurationScopeLevel.PACKAGE)
+@ConfigurationScope(ConfigurationScopeLevel.PUBLIC)
 public class FeatureFlagConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
-    @ConfiguredBy(PersistenceServicesCrudConfiguration.class)
+    @ConfiguredBy({
+            FeatureFlagInternalConfiguration.class,
+            PersistenceServicesCrudConfiguration.class
+    })
     public FeatureFlagService featureFlagService() {
         return new FeatureFlagEntityService();
-    }
-
-    @Bean
-    public FeatureFlagEntityDataFetcher featureFlagEntityDAO() {
-        return new FeatureFlagEntityDataFetcher();
-    }
-
-    @Bean
-    public FeatureFlagEntityMapper featureFlagEntityMapper() {
-        return new FeatureFlagEntityMapper();
     }
 
     @Bean

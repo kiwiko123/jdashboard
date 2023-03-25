@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.framework.security.authentication.http;
 
 import com.kiwiko.jdashboard.framework.security.servicecalls.requests.client.ServiceCallRequestKeyProvisionerClientConfiguration;
-import com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.ServiceRequestKeyServiceConfiguration;
+import com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.ServiceRequestKeyServiceExternalConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.InternalHttpRequestValidator;
@@ -15,7 +15,7 @@ public class HttpAuthenticationConfiguration implements JdashboardDependencyConf
     @Bean
     @ConfiguredBy({
             ServiceCallRequestKeyProvisionerClientConfiguration.class,
-            ServiceRequestKeyServiceConfiguration.class,
+            ServiceRequestKeyServiceExternalConfiguration.class,
     })
     public InternalHttpRequestValidator internalHttpRequestValidator() {
         return new JdashboardInternalHttpRequestValidator();

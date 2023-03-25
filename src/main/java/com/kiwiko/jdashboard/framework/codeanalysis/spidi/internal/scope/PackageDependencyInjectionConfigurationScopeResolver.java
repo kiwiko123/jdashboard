@@ -1,12 +1,13 @@
 package com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.scope;
 
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.interfaces.ConfigurationScopeLevel;
-import com.kiwiko.jdashboard.framework.codeanalysis.spidi.interfaces.ConfigurationScopeViolationException;
 
-import java.util.Objects;
+public class PackageDependencyInjectionConfigurationScopeResolver extends AbstractDependencyInjectionConfigurationScopeResolver {
 
-public class PackageConfigurationScopeLevelResolver extends AbstractConfigurationScopeLevelResolver {
-
+    @Override
+    protected ConfigurationScopeLevel getConfigurationScopeLevel() {
+        return ConfigurationScopeLevel.PACKAGE;
+    }
 
     @Override
     protected boolean isValid(ResolveScopeLevelInput input) {
@@ -14,10 +15,5 @@ public class PackageConfigurationScopeLevelResolver extends AbstractConfiguratio
         String injectedClassPackageName = input.getInjectedClass().getPackageName();
 
         return injectedClassPackageName.startsWith(injectingConfigurationPackageName);
-    }
-
-    @Override
-    protected void onViolationDetected(ResolveScopeLevelInput input) throws ConfigurationScopeViolationException {
-        throwDefaultViolationException(input, ConfigurationScopeLevel.PACKAGE);
     }
 }
