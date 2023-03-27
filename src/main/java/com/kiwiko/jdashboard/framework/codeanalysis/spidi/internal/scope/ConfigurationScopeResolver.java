@@ -79,13 +79,19 @@ public class ConfigurationScopeResolver {
             Class<?> injectingClass = entry.getKey();
             DependencyMetadata dependencyMetadata = entry.getValue();
 
+            Class<?> injectingConfigurationClass = beanConfigurationRegistry.getConfigurationForBean(injectingClass)
+                    .orElse(null);
+            if (injectingConfigurationClass == null) {
+                logger.debug("No @Configuration found for injecting dependency {}", injectingClass);
+            }
+
             for (Class<?> injectedDependency : dependencyMetadata.getInjectedClasses()) {
                 Configuration configuration = beanConfigurationRegistry.getConfigurationForBean(injectedDependency)
                         .flatMap(configurationRegistry::getConfiguration)
                         .orElse(null);
 
                 if (configuration == null) {
-                    logger.info("No @Configuration found for injected dependency {}", injectedDependency);
+                    logger.debug("No @Configuration found for injected dependency {}", injectedDependency);
                     continue;
                 }
 
@@ -96,8 +102,9 @@ public class ConfigurationScopeResolver {
 
                 ResolveScopeLevelInput resolveScopeLevelInput = ResolveScopeLevelInput.builder()
                         .injectingClass(injectingClass)
+                        .injectingConfigurationClass(injectingConfigurationClass)
                         .injectedClass(injectedDependency)
-                        .injectingConfigurationClass(configuration.getConfigurationClass())
+                        .injectedConfigurationClass(configuration.getConfigurationClass())
                         .build();
 
                 resolveDependencyInjectionScopeLevel(resolveScopeLevelInput, configurationScope);

@@ -11,7 +11,7 @@ abstract class AbstractDependencyInjectionConfigurationScopeResolver extends Abs
                 "%s cannot inject an instance of %s because it's wired by %s, which is restricted by scope visibility %s",
                 input.getInjectingClass().getSimpleName(),
                 input.getInjectedClass().getSimpleName(),
-                input.getInjectingConfigurationClass().getSimpleName(),
+                input.getInjectedConfigurationClass().getSimpleName(),
                 scopeLevel.name());
         throw new ConfigurationScopeViolationException(message);
     }

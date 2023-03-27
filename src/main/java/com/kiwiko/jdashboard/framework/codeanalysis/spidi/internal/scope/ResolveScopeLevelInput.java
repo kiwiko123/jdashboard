@@ -9,4 +9,5 @@ public class ResolveScopeLevelInput {
     private final Class<?> injectingClass;
     private final Class<?> injectingConfigurationClass;
     private final Class<?> injectedClass;
+    private final Class<?> injectedConfigurationClass;
 }
