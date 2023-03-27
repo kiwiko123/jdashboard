@@ -1,6 +1,5 @@
 package com.kiwiko.jdashboard.webapp.notifications;
 
-import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.notifications.api.NotificationService;
 import com.kiwiko.jdashboard.webapp.notifications.internal.NotificationEntityMapper;
 import com.kiwiko.jdashboard.webapp.notifications.internal.NotificationEntityService;
@@ -9,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class NotificationConfiguration implements JdashboardDependencyConfiguration {
+public class NotificationConfiguration {
 
     @Bean
     public NotificationService notificationService() {

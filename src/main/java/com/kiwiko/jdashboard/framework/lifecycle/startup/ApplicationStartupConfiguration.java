@@ -4,13 +4,12 @@ import com.kiwiko.jdashboard.framework.codeanalysis.spidi.SpiDiExternalConfigura
 import com.kiwiko.jdashboard.framework.lifecycle.startup.internal.ApplicationStartupService;
 import com.kiwiko.jdashboard.framework.lifecycle.startup.registry.ApplicationStartupChain;
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
-import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ApplicationStartupConfiguration implements JdashboardDependencyConfiguration {
+public class ApplicationStartupConfiguration {
 
     @Bean
     @ConfiguredBy(LoggingConfiguration.class)

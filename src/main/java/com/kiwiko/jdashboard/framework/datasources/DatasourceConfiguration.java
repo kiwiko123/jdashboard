@@ -1,7 +1,6 @@
 package com.kiwiko.jdashboard.framework.datasources;
 
 import com.kiwiko.jdashboard.framework.datasources.api.JdashboardDataSources;
-import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -22,7 +21,7 @@ import java.util.Map;
 
 @Configuration
 @EnableTransactionManagement
-public class DatasourceConfiguration implements JdashboardDependencyConfiguration {
+public class DatasourceConfiguration {
 
     @Inject private JpaVendorAdapter jpaVendorAdapter;
 

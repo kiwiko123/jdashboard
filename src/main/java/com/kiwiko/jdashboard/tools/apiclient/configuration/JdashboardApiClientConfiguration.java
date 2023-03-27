@@ -10,7 +10,6 @@ import com.kiwiko.jdashboard.tools.apiclient.impl.http.JdashboardHttpApiClient;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.ApiClientResponseHelper;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.caching.HttpApiClientCachingConfiguration;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.plugins.HttpApiClientDefaultPluginsConfiguration;
-import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.HttpAuthenticationConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.security.environments.EnvironmentConfiguration;
@@ -22,7 +21,7 @@ import javax.inject.Inject;
 
 @Configuration
 @Import(HttpApiClientDefaultPluginsConfiguration.class)
-public class JdashboardApiClientConfiguration implements JdashboardDependencyConfiguration {
+public class JdashboardApiClientConfiguration {
 
     @Inject private HttpApiClientDefaultPluginsConfiguration httpApiClientDefaultPluginsConfiguration;
 

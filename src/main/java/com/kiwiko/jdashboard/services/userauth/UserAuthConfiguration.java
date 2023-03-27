@@ -5,13 +5,12 @@ import com.kiwiko.jdashboard.clients.usercredentials.UserCredentialClientConfigu
 import com.kiwiko.jdashboard.clients.users.UserClientConfiguration;
 import com.kiwiko.jdashboard.services.userauth.internal.UserCreator;
 import com.kiwiko.jdashboard.services.userauth.internal.UserLoginAuthenticator;
-import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class UserAuthConfiguration implements JdashboardDependencyConfiguration {
+public class UserAuthConfiguration {
 
     @Bean
     @ConfiguredBy({UserClientConfiguration.class, UserCredentialClientConfiguration.class, SessionClientConfiguration.class})

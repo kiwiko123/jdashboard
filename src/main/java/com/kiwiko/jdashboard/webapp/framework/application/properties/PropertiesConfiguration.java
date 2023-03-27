@@ -3,7 +3,6 @@ package com.kiwiko.jdashboard.webapp.framework.application.properties;
 import com.kiwiko.jdashboard.framework.caching.CachingConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.application.properties.internal.CacheableJdashboardPropertyReader;
 import com.kiwiko.jdashboard.webapp.framework.application.properties.internal.JdashboardPropertyLoader;
-import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.JdashboardPropertyReader;
 import com.kiwiko.jdashboard.webapp.framework.application.properties.internal.JdashboardPropertyFileIdentifier;
@@ -16,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackageClasses = PropertiesConfiguration.class)
-public class PropertiesConfiguration implements JdashboardDependencyConfiguration {
+public class PropertiesConfiguration {
 
     @Bean
     @ConfiguredBy(CachingConfiguration.class)

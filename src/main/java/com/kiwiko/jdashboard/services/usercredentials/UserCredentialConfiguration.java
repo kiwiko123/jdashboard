@@ -6,14 +6,13 @@ import com.kiwiko.jdashboard.services.usercredentials.internal.UserCredentialEnt
 import com.kiwiko.jdashboard.services.usercredentials.internal.UserCredentialEntityService;
 import com.kiwiko.jdashboard.services.usercredentials.internal.data.UserCredentialEntityDataAccessObject;
 import com.kiwiko.jdashboard.services.usercredentials.internal.encryption.DefaultUserCredentialEncryptor;
-import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.PersistenceServicesCrudConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class UserCredentialConfiguration implements JdashboardDependencyConfiguration {
+public class UserCredentialConfiguration {
 
     @Bean
     @ConfiguredBy({PersistenceServicesCrudConfiguration.class, TransactionConfiguration.class})

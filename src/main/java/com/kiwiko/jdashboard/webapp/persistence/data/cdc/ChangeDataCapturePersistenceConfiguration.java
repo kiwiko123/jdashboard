@@ -1,7 +1,6 @@
 package com.kiwiko.jdashboard.webapp.persistence.data.cdc;
 
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
-import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonJsonConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.requests.RequestConfiguration;
@@ -13,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackageClasses = ChangeDataCapturePersistenceConfiguration.class)
-public class ChangeDataCapturePersistenceConfiguration implements JdashboardDependencyConfiguration {
+public class ChangeDataCapturePersistenceConfiguration {
 
     @Bean
     @ConfiguredBy({RequestConfiguration.class, GsonJsonConfiguration.class, LoggingConfiguration.class, TableRecordVersionsConfiguration.class})

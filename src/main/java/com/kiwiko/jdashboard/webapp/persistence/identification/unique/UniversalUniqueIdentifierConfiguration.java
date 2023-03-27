@@ -1,7 +1,6 @@
 package com.kiwiko.jdashboard.webapp.persistence.identification.unique;
 
 import com.kiwiko.jdashboard.framework.persistence.transactions.TransactionConfiguration;
-import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.json.JsonConfiguration;
 import com.kiwiko.jdashboard.webapp.persistence.identification.unique.api.interfaces.UniqueIdentifierService;
@@ -14,7 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class UniversalUniqueIdentifierConfiguration implements JdashboardDependencyConfiguration {
+public class UniversalUniqueIdentifierConfiguration {
 
     @Bean
     @ConfiguredBy({PersistenceServicesCrudConfiguration.class, TransactionConfiguration.class})

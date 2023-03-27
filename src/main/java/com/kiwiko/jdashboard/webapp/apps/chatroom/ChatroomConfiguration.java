@@ -18,7 +18,6 @@ import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.data.fetchers.Ch
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.mappers.ChatroomMessageMapper;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.mappers.ChatroomMessageRoomMapper;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.mappers.ChatroomMessageRoomUserMapper;
-import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonJsonConfiguration;
 import com.kiwiko.jdashboard.webapp.persistence.identification.unique.UniversalUniqueIdentifierConfiguration;
@@ -28,7 +27,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ChatroomConfiguration implements JdashboardDependencyConfiguration {
+public class ChatroomConfiguration {
 
     @Bean
     @ConfiguredBy({UniversalUniqueIdentifierConfiguration.class, UserClientConfiguration.class})

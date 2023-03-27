@@ -8,7 +8,6 @@ import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
 import com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.internal.ServiceRequestKeyEntityMapper;
 import com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.internal.data.ServiceRequestKeyEntityDataAccessObject;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.ChangeDataCapturePersistenceConfiguration;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.DataChangeCapturer;
@@ -17,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConfigurationScope(ConfigurationScopeLevel.PACKAGE)
-public class ServiceRequestKeyServiceInternalConfiguration implements JdashboardDependencyConfiguration {
+public class ServiceRequestKeyServiceInternalConfiguration {
 
     @Bean
     @ConfiguredBy({

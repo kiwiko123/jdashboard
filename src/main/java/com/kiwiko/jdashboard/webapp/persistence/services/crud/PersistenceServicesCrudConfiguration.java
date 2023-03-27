@@ -2,7 +2,6 @@ package com.kiwiko.jdashboard.webapp.persistence.services.crud;
 
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
 import com.kiwiko.jdashboard.framework.persistence.transactions.TransactionConfiguration;
-import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.json.JsonConfiguration;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
@@ -13,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackageClasses = PersistenceServicesCrudConfiguration.class)
-public class PersistenceServicesCrudConfiguration implements JdashboardDependencyConfiguration {
+public class PersistenceServicesCrudConfiguration {
 
     @Bean
     @ConfiguredBy(TransactionConfiguration.class)

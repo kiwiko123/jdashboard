@@ -1,7 +1,6 @@
 package com.kiwiko.jdashboard.webapp.streaming.pushservice.internal.impl.websockets.spring;
 
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
-import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.di.DependencyInjectionUtilConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonJsonConfiguration;
@@ -23,7 +22,7 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
 @Configuration
 @ComponentScan(basePackageClasses = PushServiceWebSocketConfiguration.class)
 @EnableWebSocket
-public class PushServiceWebSocketConfiguration implements WebSocketConfigurer, JdashboardDependencyConfiguration {
+public class PushServiceWebSocketConfiguration implements WebSocketConfigurer {
     private static final String PUSH_SERVICE_REQUEST_URL = "/push";
 
     @Override

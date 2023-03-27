@@ -9,7 +9,6 @@ import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagSer
 import com.kiwiko.jdashboard.services.featureflags.internal.events.ApplicationEventFeatureFlagEventClient;
 import com.kiwiko.jdashboard.services.featureflags.internal.FeatureFlagEntityService;
 import com.kiwiko.jdashboard.services.featureflags.internal.FeatureFlagServiceResolver;
-import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonJsonConfiguration;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.PersistenceServicesCrudConfiguration;
@@ -20,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ComponentScan(basePackageClasses = FeatureFlagConfiguration.class)
 @ConfigurationScope(ConfigurationScopeLevel.PUBLIC)
-public class FeatureFlagConfiguration implements JdashboardDependencyConfiguration {
+public class FeatureFlagConfiguration {
 
     @Bean
     @ConfiguredBy({

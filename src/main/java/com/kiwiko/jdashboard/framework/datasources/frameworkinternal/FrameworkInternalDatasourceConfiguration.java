@@ -3,7 +3,6 @@ package com.kiwiko.jdashboard.framework.datasources.frameworkinternal;
 import com.kiwiko.jdashboard.framework.datasources.DataSourceBeanNames;
 import com.kiwiko.jdashboard.framework.datasources.EntityPackagePaths;
 import com.kiwiko.jdashboard.framework.datasources.api.JdashboardDataSources;
-import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -20,7 +19,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @Configuration
-public class FrameworkInternalDatasourceConfiguration implements JdashboardDependencyConfiguration {
+public class FrameworkInternalDatasourceConfiguration {
     private static final String ENTITY_MANAGER_FACTORY_BEAN_NAME = "entityManagerFactory_frameworkInternal";
 
     @Inject private JpaVendorAdapter jpaVendorAdapter;

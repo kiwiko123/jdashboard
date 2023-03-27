@@ -6,13 +6,12 @@ import com.kiwiko.jdashboard.webapp.apps.grocerylist.internal.GroceryListAppServ
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.internal.GroceryListCoreConfiguration;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.internal.GroceryListFeedLoader;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.internal.GroceryListPermissionChecker;
-import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class GroceryListConfiguration implements JdashboardDependencyConfiguration {
+public class GroceryListConfiguration {
 
     @Bean
     @ConfiguredBy(GroceryListCoreConfiguration.class)

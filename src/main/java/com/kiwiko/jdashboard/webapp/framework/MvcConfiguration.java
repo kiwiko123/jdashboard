@@ -4,7 +4,6 @@ import com.kiwiko.jdashboard.clients.permissions.PermissionClientConfiguration;
 import com.kiwiko.jdashboard.clients.sessions.SessionClientConfiguration;
 import com.kiwiko.jdashboard.clients.users.UserClientConfiguration;
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
-import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.framework.permissions.internal.UserPermissionCheckInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.json.JsonConfiguration;
@@ -36,7 +35,7 @@ import java.util.List;
 
 @Configuration
 @Import(MvcJsonDeserializationConfiguration.class)
-public class MvcConfiguration implements WebMvcConfigurer, JdashboardDependencyConfiguration {
+public class MvcConfiguration implements WebMvcConfigurer {
 
     @Inject private CustomRequestBodyArgumentResolver customRequestBodyArgumentResolver;
     private ConfigurationHelper configurationHelper;

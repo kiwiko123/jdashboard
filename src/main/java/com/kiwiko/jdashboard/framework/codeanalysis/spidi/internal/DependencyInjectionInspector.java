@@ -1,7 +1,6 @@
 package com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal;
 
 import com.google.common.collect.Sets;
-import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,10 +25,6 @@ public class DependencyInjectionInspector {
 
         // Only concrete classes can inject dependencies.
         if (cls.isInterface()) {
-            return false;
-        }
-
-        if (cls.isInstance(JdashboardDependencyConfiguration.class)) {
             return false;
         }
 

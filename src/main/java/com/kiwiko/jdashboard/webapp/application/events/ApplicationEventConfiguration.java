@@ -9,7 +9,6 @@ import com.kiwiko.jdashboard.webapp.application.events.api.interfaces.Applicatio
 import com.kiwiko.jdashboard.webapp.application.events.internal.ApplicationEventEntityService;
 import com.kiwiko.jdashboard.webapp.application.events.internal.data.ApplicationEventEntityDataFetcher;
 import com.kiwiko.jdashboard.webapp.application.events.internal.mappers.ApplicationEventEntityMapper;
-import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.ChangeDataCapturePersistenceConfiguration;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.DataChangeCapturer;
@@ -20,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackageClasses = ApplicationEventConfiguration.class)
-public class ApplicationEventConfiguration implements JdashboardDependencyConfiguration {
+public class ApplicationEventConfiguration {
 
     @Bean
     @ConfiguredBy({TransactionConfiguration.class, PersistenceServicesCrudConfiguration.class})

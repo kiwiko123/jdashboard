@@ -1,6 +1,5 @@
 package com.kiwiko.jdashboard.framework.interceptors;
 
-import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.AuthenticationConfiguration;
 import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.RequestInterceptorChain;
 import com.kiwiko.jdashboard.framework.interceptors.internal.RequestInterceptorExecutor;
@@ -15,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class InterceptorConfiguration implements JdashboardDependencyConfiguration, WebMvcConfigurer {
+public class InterceptorConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

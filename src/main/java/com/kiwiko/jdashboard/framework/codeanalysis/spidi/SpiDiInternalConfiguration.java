@@ -2,11 +2,9 @@ package com.kiwiko.jdashboard.framework.codeanalysis.spidi;
 
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.interfaces.ConfigurationScope;
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.interfaces.ConfigurationScopeLevel;
-import com.kiwiko.jdashboard.framework.codeanalysis.spidi.interfaces.SpiDiService;
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.DependencyConfigurationAnalyzer;
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.DependencyInjectionInspector;
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.DependencyResolver;
-import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.SpiDiServiceImpl;
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.scope.ConfigurationScopeResolver;
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.scope.PackageDependencyInjectionConfigurationScopeResolver;
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.scope.PackageTransitiveConfigurationScopeResolver;
@@ -15,7 +13,6 @@ import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.scope.Private
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.scope.PublicDependencyInjectionConfigurationScopeResolver;
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.scope.PublicTransitiveConfigurationScopeResolver;
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
-import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.JdashboardDependencyConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.reflection.ReflectionConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConfigurationScope(ConfigurationScopeLevel.PACKAGE)
-public class SpiDiInternalConfiguration implements JdashboardDependencyConfiguration {
+public class SpiDiInternalConfiguration {
 
     @Bean
     @ConfiguredBy({
