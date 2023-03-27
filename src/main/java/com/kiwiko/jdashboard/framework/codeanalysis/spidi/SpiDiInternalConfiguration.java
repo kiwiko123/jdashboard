@@ -1,5 +1,7 @@
 package com.kiwiko.jdashboard.framework.codeanalysis.spidi;
 
+import com.kiwiko.jdashboard.framework.codeanalysis.spidi.interfaces.ConfigurationScope;
+import com.kiwiko.jdashboard.framework.codeanalysis.spidi.interfaces.ConfigurationScopeLevel;
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.interfaces.SpiDiService;
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.DependencyConfigurationAnalyzer;
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.DependencyInjectionInspector;
@@ -20,12 +22,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class SpiDiConfiguration implements JdashboardDependencyConfiguration {
-
-    @Bean
-    public SpiDiService spiDiService() {
-        return new SpiDiServiceImpl();
-    }
+@ConfigurationScope(ConfigurationScopeLevel.PACKAGE)
+public class SpiDiInternalConfiguration implements JdashboardDependencyConfiguration {
 
     @Bean
     @ConfiguredBy({

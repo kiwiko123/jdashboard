@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.framework.lifecycle.startup;
 
-import com.kiwiko.jdashboard.framework.codeanalysis.spidi.external.SpiDiExternalConfiguration;
+import com.kiwiko.jdashboard.framework.codeanalysis.spidi.SpiDiExternalConfiguration;
 import com.kiwiko.jdashboard.framework.lifecycle.startup.internal.ApplicationStartupService;
 import com.kiwiko.jdashboard.framework.lifecycle.startup.registry.ApplicationStartupChain;
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;

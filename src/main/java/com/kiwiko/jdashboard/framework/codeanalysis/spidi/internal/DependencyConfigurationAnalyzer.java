@@ -16,9 +16,13 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class DependencyConfigurationAnalyzer {
 
@@ -126,15 +130,21 @@ public class DependencyConfigurationAnalyzer {
             return beanClass;
         }
 
-        for (Class<?> interfaceClass : beanClass.getInterfaces()) {
-            Class<?> inferredBeanType = getInferredBeanType(interfaceClass, beanConfigurationRegistry);
+        List<Class<?>> resolutionOrder = new LinkedList<>(Arrays.asList(beanClass.getInterfaces()));
+        Class<?> superClass = beanClass.getSuperclass();
+        if (superClass != null && superClass != Object.class) {
+            resolutionOrder.add(superClass);
+        }
+
+        for (Class<?> baseType : resolutionOrder) {
+            Class<?> inferredBeanType = getInferredBeanType(baseType, beanConfigurationRegistry);
             if (inferredBeanType != beanClass) {
                 return inferredBeanType;
             }
         }
 
         // TODO currently this cannot identify controllers
-//        logger.warn(String.format("Unable to infer bean type for %s", beanClass.getName()));
+        logger.warn(String.format("Unable to infer bean type for %s", beanClass.getName()));
         return beanClass;
     }
 }
