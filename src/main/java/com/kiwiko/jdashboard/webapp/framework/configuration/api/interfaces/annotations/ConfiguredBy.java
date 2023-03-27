@@ -7,7 +7,10 @@ import java.lang.annotation.Target;
 
 /**
  * Specify the immediate configuration dependencies of a {@link org.springframework.context.annotation.Configuration}
- * class or a {@link org.springframework.context.annotation.Bean}. Transitive configuration classes do not need to be listed.
+ * class or a {@link org.springframework.context.annotation.Bean}.
+ *
+ * Currently, this annotation is non-functional -- it purely serves as documentation. In the future, it may be used to
+ * enforce stricter dependency configurations at application startup.
  *
  * Consider an example of car-buying software where we have {@code CarPurchaser.java} and {@code CreditCardVerifier.java}.
  * The former uses the latter in its business logic to validate the customer's credit card for a down payment.
@@ -44,12 +47,16 @@ import java.lang.annotation.Target;
  * }
  * The {@code CarPurchaser} {@link org.springframework.context.annotation.Bean} is annotated with
  * {@literal @ConfiguredBy(CreditCardConfiguration.class)} because it relies on a dependency configured there.
- *
- * Currently, this annotation is non-functional -- it purely serves as documentation.
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ConfiguredBy {
 
+    /**
+     * Provide the transitive configuration classes required by this configuration or bean method.
+     * Provided values should only be {@link Class} types referring to {@link org.springframework.context.annotation.Configuration}s.
+     *
+     * @return the transitive configuration classes required by this configuration or bean
+     */
     Class<?>[] value();
 }
