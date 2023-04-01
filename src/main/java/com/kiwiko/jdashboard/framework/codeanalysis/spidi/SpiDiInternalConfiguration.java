@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.framework.codeanalysis.spidi;
 
-import com.kiwiko.jdashboard.framework.codeanalysis.spidi.interfaces.ConfigurationScope;
-import com.kiwiko.jdashboard.framework.codeanalysis.spidi.interfaces.ConfigurationScopeLevel;
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfigurationScope;
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfigurationScopeLevel;
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.DependencyConfigurationAnalyzer;
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.DependencyInjectionInspector;
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.DependencyResolver;

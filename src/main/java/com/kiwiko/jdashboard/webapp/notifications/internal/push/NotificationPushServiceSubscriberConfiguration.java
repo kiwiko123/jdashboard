@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfiguredBy(LoggingConfiguration.class)
 public class NotificationPushServiceSubscriberConfiguration {
 
     @Bean

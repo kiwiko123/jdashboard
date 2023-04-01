@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.services.featureflags;
 
-import com.kiwiko.jdashboard.framework.codeanalysis.spidi.interfaces.ConfigurationScope;
-import com.kiwiko.jdashboard.framework.codeanalysis.spidi.interfaces.ConfigurationScopeLevel;
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfigurationScope;
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfigurationScopeLevel;
 import com.kiwiko.jdashboard.services.featureflags.internal.FeatureFlagEntityMapper;
 import com.kiwiko.jdashboard.services.featureflags.internal.data.FeatureFlagEntityDataFetcher;
 import org.springframework.context.annotation.Bean;

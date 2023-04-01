@@ -1,8 +1,6 @@
 package com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.scope;
 
-import com.kiwiko.jdashboard.framework.codeanalysis.spidi.interfaces.ConfigurationScopeLevel;
-
-import java.util.Objects;
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfigurationScopeLevel;
 
 public class PackageTransitiveConfigurationScopeResolver extends AbstractTransitiveConfigurationScopeResolver {
     @Override

@@ -6,8 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specify the immediate configuration dependencies of a {@link org.springframework.context.annotation.Configuration}
- * class or a {@link org.springframework.context.annotation.Bean}.
+ * Specify the immediate configuration dependencies of a wired {@link org.springframework.context.annotation.Bean}
+ * in a {@link org.springframework.context.annotation.Configuration} class.
  *
  * Currently, this annotation is non-functional -- it purely serves as documentation. In the future, it may be used to
  * enforce stricter dependency configurations at application startup.
@@ -48,7 +48,7 @@ import java.lang.annotation.Target;
  * The {@code CarPurchaser} {@link org.springframework.context.annotation.Bean} is annotated with
  * {@literal @ConfiguredBy(CreditCardConfiguration.class)} because it relies on a dependency configured there.
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ConfiguredBy {
 

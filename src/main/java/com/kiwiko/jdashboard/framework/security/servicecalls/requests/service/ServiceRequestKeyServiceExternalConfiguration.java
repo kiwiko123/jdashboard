@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.framework.security.servicecalls.requests.service;
 
-import com.kiwiko.jdashboard.framework.codeanalysis.spidi.interfaces.ConfigurationScope;
-import com.kiwiko.jdashboard.framework.codeanalysis.spidi.interfaces.ConfigurationScopeLevel;
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfigurationScope;
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfigurationScopeLevel;
 import com.kiwiko.jdashboard.framework.persistence.transactions.TransactionConfiguration;
 import com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.interfaces.ServiceRequestKeyService;
 import com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.internal.ServiceRequestKeyServiceImpl;

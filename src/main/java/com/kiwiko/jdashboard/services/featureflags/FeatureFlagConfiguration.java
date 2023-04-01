@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.services.featureflags;
 
-import com.kiwiko.jdashboard.framework.codeanalysis.spidi.interfaces.ConfigurationScope;
-import com.kiwiko.jdashboard.framework.codeanalysis.spidi.interfaces.ConfigurationScopeLevel;
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfigurationScope;
+import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfigurationScopeLevel;
 import com.kiwiko.jdashboard.webapp.application.events.queue.ApplicationEventQueueConfiguration;
 import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagEventClient;
 import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagResolver;
