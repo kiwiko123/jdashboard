@@ -54,6 +54,7 @@ public class DependencyInjectionInspector {
 
         Set<Class<?>> dependencies = Arrays.stream(cls.getDeclaredConstructors())
                 .filter(constructor -> constructor.getDeclaredAnnotation(Inject.class) != null)
+                // TODO ignore parameters with annotations
                 .map(Constructor::getParameterTypes)
                 .map(Arrays::asList)
                 .flatMap(Collection::stream)

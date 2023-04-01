@@ -1,16 +1,15 @@
 package com.kiwiko.jdashboard.framework.security.csrf.interceptors;
 
-import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.RequestInterceptor;
-import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.JdashboardPropertyConstants;
-import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.JdashboardPropertyReader;
-import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.input.GetPropertyInput;
-import com.kiwiko.jdashboard.webapp.framework.application.properties.api.interfaces.input.PropertyCacheControls;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.method.HandlerMethod;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -20,23 +19,23 @@ import java.util.stream.Collectors;
  * If a request comes in from a cross-origin URL not listed there, it will be denied.
  */
 public class CrossSiteRequestForgeryPreventionInterceptor implements RequestInterceptor {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CrossSiteRequestForgeryPreventionInterceptor.class);
 
-    @Inject private JdashboardPropertyReader jdashboardPropertyFileReader;
-    @Inject private Logger logger;
+    private final Set<String> allowedCrossOriginUrls;
+
+    @Inject
+    public CrossSiteRequestForgeryPreventionInterceptor(
+            @Value("${jdashboard.framework.security.csrf.allowed-cross-origin-urls}") String[] allowedCrossOriginUrls) {
+        this.allowedCrossOriginUrls = Arrays.stream(allowedCrossOriginUrls)
+                .map(this::normalizeUrl)
+                .collect(Collectors.toUnmodifiableSet());
+    }
 
     @Override
     public boolean allowRequest(HttpServletRequest request, HttpServletResponse response, HandlerMethod method) throws Exception {
-        PropertyCacheControls propertyCacheControls = PropertyCacheControls.indefinitely();
-        GetPropertyInput getPropertyInput = new GetPropertyInput(JdashboardPropertyConstants.CROSS_ORIGIN_URLS, propertyCacheControls);
-        Set<String> crossOriginUrls = jdashboardPropertyFileReader.get(getPropertyInput)
-                .mappable()
-                .mapToSet();
-        Set<String> allowedCrossOriginUrls = crossOriginUrls.stream()
-                .map(this::normalizeUrl)
-                .collect(Collectors.toSet());
         String requestUri = normalizeUrl(buildUrl(request));
         if (!allowedCrossOriginUrls.contains(requestUri)) {
-            logger.warn(String.format("%s is not a permitted cross-origin URL; denying request (%s)", requestUri, request.getRequestURL().toString()));
+            LOGGER.warn(String.format("%s is not a permitted cross-origin URL; denying request (%s)", requestUri, request.getRequestURL().toString()));
             return false;
         }
 

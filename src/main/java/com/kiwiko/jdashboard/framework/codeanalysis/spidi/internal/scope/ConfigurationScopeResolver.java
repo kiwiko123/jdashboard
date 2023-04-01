@@ -10,13 +10,15 @@ import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.dto.Configura
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.dto.ConfigurationRegistry;
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.dto.ConfiguredBean;
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.internal.dto.DependencyMetadata;
-import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import java.util.Map;
 
 public class ConfigurationScopeResolver {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConfigurationScopeResolver.class);
 
     @Inject private DependencyConfigurationAnalyzer dependencyConfigurationAnalyzer;
     @Inject private PrivateDependencyInjectionConfigurationScopeResolver privateDependencyInjectionConfigurationScopeResolver;
@@ -25,7 +27,6 @@ public class ConfigurationScopeResolver {
     @Inject private PrivateTransitiveConfigurationScopeResolver privateTransitiveConfigurationScopeResolver;
     @Inject private PackageTransitiveConfigurationScopeResolver packageTransitiveConfigurationScopeResolver;
     @Inject private PublicTransitiveConfigurationScopeResolver publicTransitiveConfigurationScopeResolver;
-    @Inject private Logger logger;
 
     public void resolve() throws ConfigurationScopeViolationException {
         ConfigurationRegistry configurationRegistry = dependencyConfigurationAnalyzer.buildConfigurationRegistry();
@@ -67,7 +68,7 @@ public class ConfigurationScopeResolver {
             case PRIVATE -> privateTransitiveConfigurationScopeResolver.resolve(input);
             case PACKAGE -> packageTransitiveConfigurationScopeResolver.resolve(input);
             case PUBLIC -> publicTransitiveConfigurationScopeResolver.resolve(input);
-            default -> logger.error("Unknown scope level {}", scopeLevel);
+            default -> LOGGER.error("Unknown scope level {}", scopeLevel);
         }
     }
 
@@ -82,7 +83,7 @@ public class ConfigurationScopeResolver {
             Class<?> injectingConfigurationClass = beanConfigurationRegistry.getConfigurationForBean(injectingClass)
                     .orElse(null);
             if (injectingConfigurationClass == null) {
-                logger.debug("No @Configuration found for injecting dependency {}", injectingClass);
+                LOGGER.debug("No @Configuration found for injecting dependency {}", injectingClass);
             }
 
             for (Class<?> injectedDependency : dependencyMetadata.getInjectedClasses()) {
@@ -91,7 +92,7 @@ public class ConfigurationScopeResolver {
                         .orElse(null);
 
                 if (configuration == null) {
-                    logger.debug("No @Configuration found for injected dependency {}", injectedDependency);
+                    LOGGER.debug("No @Configuration found for injected dependency {}", injectedDependency);
                     continue;
                 }
 
@@ -118,7 +119,7 @@ public class ConfigurationScopeResolver {
             case PRIVATE -> privateDependencyInjectionConfigurationScopeResolver.resolve(input);
             case PACKAGE -> packageDependencyInjectionConfigurationScopeResolver.resolve(input);
             case PUBLIC -> publicDependencyInjectionConfigurationScopeResolver.resolve(input);
-            default -> logger.error("Unknown scope level {}", scopeLevel);
+            default -> LOGGER.error("Unknown scope level {}", scopeLevel);
         }
     }
 }
