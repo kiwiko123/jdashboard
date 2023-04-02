@@ -20,7 +20,10 @@ import com.kiwiko.jdashboard.library.monitoring.logging.api.dto.Log;
  *         logger.error("This is a log of level {} with a count of {}", info, count, e);
  *     }
  * </code>
+ *
+ * @deprecated prefer {@link org.slf4j.Logger}
  */
+@Deprecated
 public interface Logger {
 
     void debug(Log log);
