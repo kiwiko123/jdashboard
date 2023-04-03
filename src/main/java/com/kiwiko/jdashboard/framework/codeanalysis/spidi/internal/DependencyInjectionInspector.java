@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.inject.Inject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -54,10 +55,13 @@ public class DependencyInjectionInspector {
 
         Set<Class<?>> dependencies = Arrays.stream(cls.getDeclaredConstructors())
                 .filter(constructor -> constructor.getDeclaredAnnotation(Inject.class) != null)
-                // TODO ignore parameters with annotations
-                .map(Constructor::getParameterTypes)
+                .map(Constructor::getParameters)
                 .map(Arrays::asList)
                 .flatMap(Collection::stream)
+
+                // Ignore constructor injected fields with annotations.
+                .filter(parameter -> parameter.getDeclaredAnnotations().length == 0)
+                .map(Parameter::getType)
                 .filter(type -> !DependencyResolverConstants.IGNORED_DEPENDENCY_CLASSES.contains(type.getName()))
                 .collect(Collectors.toUnmodifiableSet());
 
