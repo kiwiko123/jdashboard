@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.servicerequestkeys.service.internal.data;
 
-import com.kiwiko.jdashboard.framework.datasources.frameworkinternal.FrameworkInternalEntityManagerProvider;
+import com.kiwiko.jdashboard.framework.datasources.DefaultEntityManagerProvider;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.tools.dataaccess.impl.CustomJpaDataAccessObject;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.DataChangeCapturer;
@@ -17,7 +17,7 @@ public class ServiceRequestKeyEntityDataAccessObject extends CustomJpaDataAccess
 
     @Inject
     public ServiceRequestKeyEntityDataAccessObject(
-            FrameworkInternalEntityManagerProvider entityManagerProvider,
+            DefaultEntityManagerProvider entityManagerProvider,
             DataChangeCapturer dataChangeCapturer,
             Logger logger) {
         super(entityManagerProvider, dataChangeCapturer, logger);

@@ -20,9 +20,9 @@ public final class EntityPackagePaths {
             "com.kiwiko.jdashboard.services.sessions.internal.data",
             "com.kiwiko.jdashboard.services.users.internal.data",
             "com.kiwiko.jdashboard.services.tablerecordversions.internal.data",
-            "com.kiwiko.jdashboard.services.featureflags.internal.data");
+            "com.kiwiko.jdashboard.services.featureflags.internal.data",
+            "com.kiwiko.jdashboard.servicerequestkeys.service.internal.data");
 
     public static final Set<String> FRAMEWORK_INTERNAL_DATASOURCE_PACKAGE_PATHS = Set.of(
-            "com.kiwiko.jdashboard.webapp.application.events.internal.data",
-            "com.kiwiko.jdashboard.servicerequestkeys.service.internal.data");
+            "com.kiwiko.jdashboard.webapp.application.events.internal.data");
 }

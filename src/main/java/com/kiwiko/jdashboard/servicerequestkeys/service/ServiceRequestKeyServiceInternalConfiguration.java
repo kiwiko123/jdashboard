@@ -1,9 +1,9 @@
 package com.kiwiko.jdashboard.servicerequestkeys.service;
 
+import com.kiwiko.jdashboard.framework.datasources.DefaultEntityManagerProvider;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfigurationScope;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfigurationScopeLevel;
 import com.kiwiko.jdashboard.framework.datasources.frameworkinternal.FrameworkInternalDatasourceConfiguration;
-import com.kiwiko.jdashboard.framework.datasources.frameworkinternal.FrameworkInternalEntityManagerProvider;
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
 import com.kiwiko.jdashboard.servicerequestkeys.service.internal.ServiceRequestKeyEntityMapper;
 import com.kiwiko.jdashboard.servicerequestkeys.service.internal.data.ServiceRequestKeyEntityDataAccessObject;
@@ -25,7 +25,7 @@ public class ServiceRequestKeyServiceInternalConfiguration {
             ChangeDataCapturePersistenceConfiguration.class,
     })
     public ServiceRequestKeyEntityDataAccessObject serviceRequestKeyEntityDataAccessObject(
-            FrameworkInternalEntityManagerProvider entityManagerProvider,
+            DefaultEntityManagerProvider entityManagerProvider,
             DataChangeCapturer dataChangeCapturer,
             Logger logger) {
         return new ServiceRequestKeyEntityDataAccessObject(entityManagerProvider, dataChangeCapturer, logger);

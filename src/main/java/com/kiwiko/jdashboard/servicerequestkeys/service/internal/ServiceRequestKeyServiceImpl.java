@@ -24,7 +24,7 @@ public class ServiceRequestKeyServiceImpl implements ServiceRequestKeyService {
     @Override
     public Optional<ServiceRequestKey> get(long id) {
         return crudExecutor.<ServiceRequestKeyEntity, ServiceRequestKey, ServiceRequestKeyEntityDataAccessObject, ServiceRequestKeyEntityMapper>data()
-                .dataSource(JdashboardDataSources.FRAMEWORK_INTERNAL)
+                .dataSource(JdashboardDataSources.DEFAULT)
                 .dataAccessObject(dataAccessObject)
                 .mapper(mapper)
                 .operation()
@@ -44,7 +44,7 @@ public class ServiceRequestKeyServiceImpl implements ServiceRequestKeyService {
         entityToCreate.setCreatedDate(Instant.now());
         // TODO set user ID if available
 
-        return transactionProvider.readWrite(JdashboardDataSources.FRAMEWORK_INTERNAL, () -> {
+        return transactionProvider.readWrite(() -> {
             ServiceRequestKeyEntity createdEntity = dataAccessObject.save(entityToCreate);
             return mapper.toDto(createdEntity);
         });
@@ -53,7 +53,7 @@ public class ServiceRequestKeyServiceImpl implements ServiceRequestKeyService {
     @Override
     public ServiceRequestKey update(ServiceRequestKey serviceRequestKey) {
         return crudExecutor.<ServiceRequestKeyEntity, ServiceRequestKey, ServiceRequestKeyEntityDataAccessObject, ServiceRequestKeyEntityMapper>data()
-                .dataSource(JdashboardDataSources.FRAMEWORK_INTERNAL)
+                .dataSource(JdashboardDataSources.DEFAULT)
                 .dataAccessObject(dataAccessObject)
                 .mapper(mapper)
                 .operation()
@@ -63,7 +63,7 @@ public class ServiceRequestKeyServiceImpl implements ServiceRequestKeyService {
     @Override
     public ServiceRequestKey merge(ServiceRequestKey serviceRequestKey) {
         return crudExecutor.<ServiceRequestKeyEntity, ServiceRequestKey, ServiceRequestKeyEntityDataAccessObject, ServiceRequestKeyEntityMapper>data()
-                .dataSource(JdashboardDataSources.FRAMEWORK_INTERNAL)
+                .dataSource(JdashboardDataSources.DEFAULT)
                 .dataAccessObject(dataAccessObject)
                 .mapper(mapper)
                 .operation()

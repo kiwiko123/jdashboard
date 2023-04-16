@@ -54,4 +54,9 @@ public class DatasourceConfiguration {
         transactionManager.setEntityManagerFactory(entityManagerFactory);
         return transactionManager;
     }
+
+    @Bean
+    public DefaultEntityManagerProvider defaultEntityManagerProvider() {
+        return new DefaultEntityManagerProvider();
+    }
 }
