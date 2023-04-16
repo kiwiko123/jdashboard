@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.framework.security.authentication.http;
 
-import com.kiwiko.jdashboard.framework.security.servicecalls.requests.client.ServiceCallRequestKeyProvisionerClientConfiguration;
-import com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.ServiceRequestKeyServiceExternalConfiguration;
+import com.kiwiko.jdashboard.servicerequestkeys.client.ServiceCallRequestKeyProvisionerClientConfiguration;
+import com.kiwiko.jdashboard.servicerequestkeys.service.ServiceRequestKeyServiceExternalConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.InternalHttpRequestValidator;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.internal.JdashboardInternalHttpRequestValidator;

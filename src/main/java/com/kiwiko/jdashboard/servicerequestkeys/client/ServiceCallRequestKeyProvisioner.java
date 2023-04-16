@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.framework.security.servicecalls.requests.client;
+package com.kiwiko.jdashboard.servicerequestkeys.client;
 
 public interface ServiceCallRequestKeyProvisioner {
     

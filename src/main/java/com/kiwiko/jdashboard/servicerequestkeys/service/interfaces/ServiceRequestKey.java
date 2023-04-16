@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.interfaces;
+package com.kiwiko.jdashboard.servicerequestkeys.service.interfaces;
 
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntityDTO;
 import lombok.Getter;

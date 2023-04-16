@@ -1,10 +1,10 @@
-package com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.web;
+package com.kiwiko.jdashboard.servicerequestkeys.service.web;
 
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
-import com.kiwiko.jdashboard.framework.security.servicecalls.requests.client.ProvisionServiceRequestKeyException;
-import com.kiwiko.jdashboard.framework.security.servicecalls.requests.client.ProvisionServiceRequestKeyInput;
-import com.kiwiko.jdashboard.framework.security.servicecalls.requests.client.ProvisionServiceRequestKeyOutput;
-import com.kiwiko.jdashboard.framework.security.servicecalls.requests.client.ServiceCallRequestKeyProvisioner;
+import com.kiwiko.jdashboard.servicerequestkeys.client.ProvisionServiceRequestKeyException;
+import com.kiwiko.jdashboard.servicerequestkeys.client.ProvisionServiceRequestKeyInput;
+import com.kiwiko.jdashboard.servicerequestkeys.client.ProvisionServiceRequestKeyOutput;
+import com.kiwiko.jdashboard.servicerequestkeys.client.ServiceCallRequestKeyProvisioner;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

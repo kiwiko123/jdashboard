@@ -1,11 +1,11 @@
-package com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.internal;
+package com.kiwiko.jdashboard.servicerequestkeys.service.internal;
 
 import com.kiwiko.jdashboard.framework.datasources.api.JdashboardDataSources;
 import com.kiwiko.jdashboard.framework.persistence.transactions.api.interfaces.TransactionProvider;
-import com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.interfaces.ServiceRequestKey;
-import com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.interfaces.ServiceRequestKeyService;
-import com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.internal.data.ServiceRequestKeyEntity;
-import com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.internal.data.ServiceRequestKeyEntityDataAccessObject;
+import com.kiwiko.jdashboard.servicerequestkeys.service.interfaces.ServiceRequestKey;
+import com.kiwiko.jdashboard.servicerequestkeys.service.interfaces.ServiceRequestKeyService;
+import com.kiwiko.jdashboard.servicerequestkeys.service.internal.data.ServiceRequestKeyEntity;
+import com.kiwiko.jdashboard.servicerequestkeys.service.internal.data.ServiceRequestKeyEntityDataAccessObject;
 import com.kiwiko.jdashboard.webapp.persistence.identification.unique.internal.UuidGenerator;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
 

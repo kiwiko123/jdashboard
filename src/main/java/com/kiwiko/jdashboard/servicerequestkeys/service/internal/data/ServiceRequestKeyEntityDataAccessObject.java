@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.internal.data;
+package com.kiwiko.jdashboard.servicerequestkeys.service.internal.data;
 
 import com.kiwiko.jdashboard.framework.datasources.frameworkinternal.FrameworkInternalEntityManagerProvider;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;

@@ -24,5 +24,5 @@ public final class EntityPackagePaths {
 
     public static final Set<String> FRAMEWORK_INTERNAL_DATASOURCE_PACKAGE_PATHS = Set.of(
             "com.kiwiko.jdashboard.webapp.application.events.internal.data",
-            "com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.internal.data");
+            "com.kiwiko.jdashboard.servicerequestkeys.service.internal.data");
 }

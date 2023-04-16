@@ -1,11 +1,11 @@
-package com.kiwiko.jdashboard.framework.security.servicecalls.requests.client.impl;
+package com.kiwiko.jdashboard.servicerequestkeys.client.impl;
 
-import com.kiwiko.jdashboard.framework.security.servicecalls.requests.client.ProvisionServiceRequestKeyInput;
-import com.kiwiko.jdashboard.framework.security.servicecalls.requests.client.ProvisionServiceRequestKeyException;
-import com.kiwiko.jdashboard.framework.security.servicecalls.requests.client.ProvisionServiceRequestKeyOutput;
-import com.kiwiko.jdashboard.framework.security.servicecalls.requests.client.ServiceCallRequestKeyProvisioner;
-import com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.interfaces.ServiceRequestKey;
-import com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.interfaces.ServiceRequestKeyService;
+import com.kiwiko.jdashboard.servicerequestkeys.client.ProvisionServiceRequestKeyInput;
+import com.kiwiko.jdashboard.servicerequestkeys.client.ProvisionServiceRequestKeyException;
+import com.kiwiko.jdashboard.servicerequestkeys.client.ProvisionServiceRequestKeyOutput;
+import com.kiwiko.jdashboard.servicerequestkeys.client.ServiceCallRequestKeyProvisioner;
+import com.kiwiko.jdashboard.servicerequestkeys.service.interfaces.ServiceRequestKey;
+import com.kiwiko.jdashboard.servicerequestkeys.service.interfaces.ServiceRequestKeyService;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 
 import javax.inject.Inject;

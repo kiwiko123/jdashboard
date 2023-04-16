@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.web;
+package com.kiwiko.jdashboard.servicerequestkeys.service.web;
 
 import lombok.Getter;
 

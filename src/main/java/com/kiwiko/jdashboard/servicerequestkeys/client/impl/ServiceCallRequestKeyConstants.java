@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.framework.security.servicecalls.requests.client.impl;
+package com.kiwiko.jdashboard.servicerequestkeys.client.impl;
 
 import java.time.Duration;
 

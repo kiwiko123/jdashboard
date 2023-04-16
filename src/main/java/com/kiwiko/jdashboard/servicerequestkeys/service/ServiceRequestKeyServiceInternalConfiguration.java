@@ -1,12 +1,12 @@
-package com.kiwiko.jdashboard.framework.security.servicecalls.requests.service;
+package com.kiwiko.jdashboard.servicerequestkeys.service;
 
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfigurationScope;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfigurationScopeLevel;
 import com.kiwiko.jdashboard.framework.datasources.frameworkinternal.FrameworkInternalDatasourceConfiguration;
 import com.kiwiko.jdashboard.framework.datasources.frameworkinternal.FrameworkInternalEntityManagerProvider;
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
-import com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.internal.ServiceRequestKeyEntityMapper;
-import com.kiwiko.jdashboard.framework.security.servicecalls.requests.service.internal.data.ServiceRequestKeyEntityDataAccessObject;
+import com.kiwiko.jdashboard.servicerequestkeys.service.internal.ServiceRequestKeyEntityMapper;
+import com.kiwiko.jdashboard.servicerequestkeys.service.internal.data.ServiceRequestKeyEntityDataAccessObject;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.ChangeDataCapturePersistenceConfiguration;
