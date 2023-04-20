@@ -1,0 +1,8 @@
+package com.kiwiko.jdashboard.framework.applicationrequestlogs.incoming.service.internal;
+
+import com.kiwiko.jdashboard.framework.applicationrequestlogs.incoming.service.interfaces.IncomingApplicationRequestLog;
+import com.kiwiko.jdashboard.framework.applicationrequestlogs.incoming.service.internal.data.IncomingApplicationRequestLogEntity;
+import com.kiwiko.jdashboard.library.persistence.data.properties.api.interfaces.DataEntityFieldMapper;
+
+public class IncomingApplicationRequestLogEntityMapper extends DataEntityFieldMapper<IncomingApplicationRequestLogEntity, IncomingApplicationRequestLog> {
+}
