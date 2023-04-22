@@ -8,7 +8,7 @@ import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.Q
 import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.ValidateUserCredentialInput;
 import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.ValidateUserCredentialOutput;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
-import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.AuthorizedServiceClients;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.LockedApi;
 import com.kiwiko.jdashboard.services.usercredentials.api.interfaces.UserCredentialService;
 import com.kiwiko.jdashboard.tools.apiclient.JdashboardServiceClientIdentifiers;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @RestController
 @JdashboardConfigured
 @RequestMapping("/user-credentials/service-api")
-@AuthorizedServiceClients(JdashboardServiceClientIdentifiers.DEFAULT)
+@LockedApi(JdashboardServiceClientIdentifiers.DEFAULT)
 public class UserCredentialServiceApiController {
 
     @Inject private UserCredentialService userCredentialService;

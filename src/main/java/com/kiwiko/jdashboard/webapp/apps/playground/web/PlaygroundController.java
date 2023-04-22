@@ -3,7 +3,7 @@ package com.kiwiko.jdashboard.webapp.apps.playground.web;
 import com.kiwiko.jdashboard.clients.permissions.api.interfaces.PermissionClient;
 import com.kiwiko.jdashboard.clients.users.api.dto.User;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.UserClient;
-import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.AuthorizedServiceClients;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.LockedApi;
 import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
 import com.kiwiko.jdashboard.tools.apiclient.JdashboardServiceClientIdentifiers;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.auth.AuthenticatedUser;
@@ -62,7 +62,7 @@ public class PlaygroundController {
         return jdashboardApiClient.synchronousCall(request);
     }
 
-    @AuthorizedServiceClients(JdashboardServiceClientIdentifiers.DEFAULT)
+    @LockedApi(JdashboardServiceClientIdentifiers.DEFAULT)
     @PostMapping("/playground-api/test")
     @ResponseBody
     public String testPost(@RequestBody User user) throws Exception {

@@ -55,12 +55,10 @@ public class JdashboardInternalHttpRequestValidator implements InternalHttpReque
             throw new MissingServiceClientIdentifierRequestHeaderException(String.format("Request url: %s", url));
         }
 
-        ServiceRequestKey serviceRequestKey = serviceRequestKeyService.getByToken(requestToken).orElse(null);
-        if (serviceRequestKey == null) {
-            throw new InvalidServiceClientIdentifierRequestHeaderIdException(String.format("Request url: %s", url));
-        }
+        ServiceRequestKey serviceRequestKey = serviceRequestKeyService.getByToken(requestToken)
+                .orElseThrow(() -> new InvalidServiceClientIdentifierRequestHeaderIdException(String.format("Request url: %s", url)));
 
-        if (!authorizedServiceClientIdentifiers.contains(serviceRequestKey.getServiceClientName())) {
+        if (!authorizedServiceClientIdentifiers.isEmpty() && !authorizedServiceClientIdentifiers.contains(serviceRequestKey.getServiceClientName())) {
             throw new UnauthorizedServiceClientIdentifierException(String.format("Unrecognized service client identifier \"%s\". Request url: %s", serviceRequestKey.getServiceClientName(), url));
         }
 

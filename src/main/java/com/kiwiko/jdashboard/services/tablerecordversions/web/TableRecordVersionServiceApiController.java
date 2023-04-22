@@ -6,7 +6,7 @@ import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.paramete
 import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.GetLastUpdatedOutput;
 import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.VersionRecord;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
-import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.AuthorizedServiceClients;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.LockedApi;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.dto.TableRecordVersion;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.TableRecordVersionService;
 import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.GetTableRecordVersionOutput;
@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/table-record-versions/service-api")
 @JdashboardConfigured
-@AuthorizedServiceClients(JdashboardServiceClientIdentifiers.DEFAULT)
+@LockedApi(JdashboardServiceClientIdentifiers.DEFAULT)
 public class TableRecordVersionServiceApiController {
 
     @Inject private TableRecordVersionService tableRecordVersionService;

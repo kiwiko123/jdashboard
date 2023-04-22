@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.framework.controllers.api.annotations.checks;
 
 import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiClient;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.interceptors.AuthorizedServiceClientsInterceptor;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.interceptors.LockedApiInterceptor;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -13,11 +13,11 @@ import java.lang.annotation.Target;
  *
  * Jdashboard performs additional validation on internal service requests to verify their legitimacy.
  *
- * @see AuthorizedServiceClientsInterceptor
+ * @see LockedApiInterceptor
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface AuthorizedServiceClients {
+public @interface LockedApi {
 
     /**
      * @return the service client identifiers allowed for this endpoint/controller

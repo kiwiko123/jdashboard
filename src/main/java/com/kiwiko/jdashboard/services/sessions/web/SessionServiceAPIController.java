@@ -3,7 +3,7 @@ package com.kiwiko.jdashboard.services.sessions.web;
 import com.kiwiko.jdashboard.clients.sessions.api.dto.Session;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.CreateSessionInput;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.CreateSessionOutput;
-import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.AuthorizedServiceClients;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.LockedApi;
 import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionService;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsInput;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsOutput;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/sessions/service-api")
 @JdashboardConfigured
-@AuthorizedServiceClients(JdashboardServiceClientIdentifiers.DEFAULT)
+@LockedApi(JdashboardServiceClientIdentifiers.DEFAULT)
 public class SessionServiceAPIController {
 
     @Inject private SessionService sessionService;

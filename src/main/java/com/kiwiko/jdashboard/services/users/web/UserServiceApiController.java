@@ -4,7 +4,7 @@ import com.kiwiko.jdashboard.clients.users.api.dto.User;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.CreateUserInput;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.CreateUserOutput;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
-import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.AuthorizedServiceClients;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.LockedApi;
 import com.kiwiko.jdashboard.services.users.api.interfaces.UserService;
 import com.kiwiko.jdashboard.tools.apiclient.JdashboardServiceClientIdentifiers;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +17,7 @@ import javax.inject.Inject;
 @RestController
 @JdashboardConfigured
 @RequestMapping("/users/service-api")
-@AuthorizedServiceClients(JdashboardServiceClientIdentifiers.DEFAULT)
+@LockedApi(JdashboardServiceClientIdentifiers.DEFAULT)
 public class UserServiceApiController {
 
     @Inject private UserService userService;
