@@ -1,6 +1,7 @@
 package com.kiwiko.jdashboard.framework.interceptors;
 
 import com.kiwiko.jdashboard.framework.applicationrequestlogs.interceptors.ApplicationRequestLogInterceptorConfiguration;
+import com.kiwiko.jdashboard.framework.ratelimiting.interceptors.RateLimitInterceptorConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.AuthenticationConfiguration;
 import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.RequestInterceptorChain;
 import com.kiwiko.jdashboard.framework.interceptors.internal.RequestInterceptorExecutor;
@@ -25,6 +26,7 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
     @Bean
     @ConfiguredBy({
             CsrfConfiguration.class,
+            RateLimitInterceptorConfiguration.class,
             MvcConfiguration.class,
             ApplicationRequestLogInterceptorConfiguration.class,
             RequestConfiguration.class,

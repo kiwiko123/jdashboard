@@ -9,7 +9,9 @@ import org.springframework.web.method.HandlerMethod;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.InetAddress;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,9 +35,14 @@ public class CrossSiteRequestForgeryPreventionInterceptor implements RequestInte
 
     @Override
     public boolean allowRequest(HttpServletRequest request, HttpServletResponse response, HandlerMethod method) throws Exception {
+        if (Objects.equals(InetAddress.getLocalHost().getHostAddress(), request.getRemoteAddr())) {
+            return true;
+        }
+
         String requestUri = normalizeUrl(buildUrl(request));
         if (!allowedCrossOriginUrls.contains(requestUri)) {
-            LOGGER.warn(String.format("%s is not a permitted cross-origin URL; denying request (%s)", requestUri, request.getRequestURL().toString()));
+            LOGGER.warn("{} is not a permitted cross-origin URL; denying request ({})", requestUri, request.getRequestURL());
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
             return false;
         }
 

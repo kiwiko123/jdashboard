@@ -2,6 +2,7 @@ package com.kiwiko.jdashboard.framework.interceptors.api.interfaces;
 
 import com.kiwiko.jdashboard.framework.applicationrequestlogs.interceptors.IncomingApplicationRequestRecordingInterceptor;
 import com.kiwiko.jdashboard.framework.permissions.internal.UserPermissionCheckInterceptor;
+import com.kiwiko.jdashboard.framework.ratelimiting.interceptors.RateLimiterInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.requests.internal.interceptors.RequestContextInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.requests.internal.interceptors.RequestErrorInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.interceptors.AuthorizedServiceClientsInterceptor;
@@ -23,6 +24,7 @@ public class RequestInterceptorChain {
     private Iterable<RequestInterceptor> interceptors;
 
     @Inject private CrossSiteRequestForgeryPreventionInterceptor crossSiteRequestForgeryPreventionInterceptor;
+    @Inject private RateLimiterInterceptor rateLimiterInterceptor;
     @Inject private UserAuthCheckInterceptor userAuthCheckInterceptor;
     @Inject private AuthorizedServiceClientsInterceptor authorizedServiceClientsInterceptor;
     @Inject private UserPermissionCheckInterceptor userPermissionCheckInterceptor;
@@ -35,6 +37,7 @@ public class RequestInterceptorChain {
 
         // Add interceptors here.
         interceptors.add(crossSiteRequestForgeryPreventionInterceptor);
+        interceptors.add(rateLimiterInterceptor);
         interceptors.add(userAuthCheckInterceptor);
         interceptors.add(authorizedServiceClientsInterceptor);
         interceptors.add(userPermissionCheckInterceptor);
