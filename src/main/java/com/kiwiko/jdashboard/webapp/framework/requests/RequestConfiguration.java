@@ -41,13 +41,12 @@ public class RequestConfiguration {
     }
 
     @Bean
-    @ConfiguredBy({LoggingConfiguration.class, MvcConfiguration.class})
+    @ConfiguredBy(MvcConfiguration.class)
     public RequestContextInterceptor requestContextInterceptor() {
         return new RequestContextInterceptor();
     }
 
     @Bean
-    @ConfiguredBy(LoggingConfiguration.class)
     public RequestErrorInterceptor requestErrorInterceptor() {
         return new RequestErrorInterceptor();
     }

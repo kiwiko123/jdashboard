@@ -1,6 +1,5 @@
 package com.kiwiko.jdashboard.webapp.framework.requests.internal.interceptors;
 
-import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.RequestInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.interceptors.internal.SessionRequestHelper;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.RequestContextService;
@@ -8,6 +7,8 @@ import com.kiwiko.jdashboard.webapp.framework.requests.api.RequestError;
 import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
 import com.kiwiko.jdashboard.clients.sessions.api.dto.Session;
 import com.kiwiko.jdashboard.services.sessions.api.dto.SessionProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,10 +24,10 @@ import java.time.Instant;
  * web request that goes through Jdashboard.
  */
 public class RequestContextInterceptor implements RequestInterceptor {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RequestContextInterceptor.class);
 
     @Inject private RequestContextService requestContextService;
     @Inject private SessionRequestHelper sessionRequestHelper;
-    @Inject private Logger logger;
 
     @Override
     public boolean allowRequest(HttpServletRequest request, HttpServletResponse response, HandlerMethod method) throws Exception {
@@ -59,7 +60,7 @@ public class RequestContextInterceptor implements RequestInterceptor {
         requestContextService.merge(requestContext);
 
         Duration requestDuration = Duration.between(requestContext.getStartTime(), requestContext.getEndTime().orElse(now));
-        logger.debug(String.format("(%d ms) %s", requestDuration.toMillis(), makeDebugRequestUri(request)));
+        LOGGER.debug("({} ms) {}", requestDuration.toMillis(), makeDebugRequestUri(request));
     }
 
     private String makeDebugRequestUri(HttpServletRequest request) {

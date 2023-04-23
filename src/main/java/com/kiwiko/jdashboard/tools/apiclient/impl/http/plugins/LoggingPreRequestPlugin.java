@@ -3,19 +3,16 @@ package com.kiwiko.jdashboard.tools.apiclient.impl.http.plugins;
 import com.kiwiko.jdashboard.library.http.client.ApiRequest;
 import com.kiwiko.jdashboard.library.http.client.exceptions.ApiClientPluginException;
 import com.kiwiko.jdashboard.library.http.client.plugins.PreRequestPlugin;
-import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
-
-import javax.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LoggingPreRequestPlugin implements PreRequestPlugin {
-
-    @Inject private Logger logger;
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoggingPreRequestPlugin.class);
 
     @Override
     public void preRequest(ApiRequest apiRequest) throws ApiClientPluginException {
-        logger.info(
-                "[JdashboardApiClient:{}] {} request to \"{}\"",
-                getClass().getSimpleName(),
+        LOGGER.info(
+                "[JdashboardApiClient] {} request to \"{}\"",
                 apiRequest.getRequestMethod().name(),
                 apiRequest.getRequestUrl().toUrlString());
     }
