@@ -13,7 +13,6 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
-import java.util.Set;
 
 public class LockedApiInterceptor implements RequestInterceptor {
     private static final Logger LOGGER = LoggerFactory.getLogger(LockedApiInterceptor.class);
@@ -38,9 +37,8 @@ public class LockedApiInterceptor implements RequestInterceptor {
     }
 
     private boolean isInternalServiceAuthorized(HttpServletRequest request, LockedApi lockedApi) {
-        Set<String> authorizedServiceClientIdentifiers = Set.of(lockedApi.clients());
         try {
-            internalHttpRequestValidator.validateIncomingRequest(request, authorizedServiceClientIdentifiers);
+            internalHttpRequestValidator.validateIncomingRequest(request, lockedApi);
         } catch (UnauthorizedInternalRequestException e) {
             LOGGER.warn("Unauthorized request attempt to internal service endpoint {}", request.getRequestURL(), e);
             return false;

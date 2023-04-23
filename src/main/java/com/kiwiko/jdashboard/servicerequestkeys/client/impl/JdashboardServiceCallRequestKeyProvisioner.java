@@ -5,6 +5,7 @@ import com.kiwiko.jdashboard.servicerequestkeys.client.ProvisionServiceRequestKe
 import com.kiwiko.jdashboard.servicerequestkeys.client.ProvisionServiceRequestKeyOutput;
 import com.kiwiko.jdashboard.servicerequestkeys.client.ServiceCallRequestKeyProvisioner;
 import com.kiwiko.jdashboard.servicerequestkeys.service.interfaces.ServiceRequestKey;
+import com.kiwiko.jdashboard.servicerequestkeys.service.interfaces.ServiceRequestKeyScopes;
 import com.kiwiko.jdashboard.servicerequestkeys.service.interfaces.ServiceRequestKeyService;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 
@@ -19,12 +20,12 @@ public class JdashboardServiceCallRequestKeyProvisioner implements ServiceCallRe
 
     @Override
     public ProvisionServiceRequestKeyOutput provisionInternalServiceRequestKey(ProvisionServiceRequestKeyInput input) throws ProvisionServiceRequestKeyException {
-        return provisionServiceRequestKey(input, "internal");
+        return provisionServiceRequestKey(input, ServiceRequestKeyScopes.INTERNAL);
     }
 
     @Override
     public ProvisionServiceRequestKeyOutput provisionExternalServiceRequestKey(ProvisionServiceRequestKeyInput input) throws ProvisionServiceRequestKeyException {
-        return provisionServiceRequestKey(input, "external");
+        return provisionServiceRequestKey(input, ServiceRequestKeyScopes.EXTERNAL);
     }
     
     private ProvisionServiceRequestKeyOutput provisionServiceRequestKey(ProvisionServiceRequestKeyInput input, String scope) throws ProvisionServiceRequestKeyException {

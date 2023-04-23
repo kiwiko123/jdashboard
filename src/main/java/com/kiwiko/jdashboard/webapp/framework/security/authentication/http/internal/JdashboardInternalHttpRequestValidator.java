@@ -1,5 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.security.authentication.http.internal;
 
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.LockedApi;
 import com.kiwiko.jdashboard.servicerequestkeys.client.ProvisionServiceRequestKeyException;
 import com.kiwiko.jdashboard.servicerequestkeys.client.ProvisionServiceRequestKeyInput;
 import com.kiwiko.jdashboard.servicerequestkeys.client.ProvisionServiceRequestKeyOutput;
@@ -9,6 +10,7 @@ import com.kiwiko.jdashboard.servicerequestkeys.service.interfaces.ServiceReques
 import com.kiwiko.jdashboard.library.http.client.ApiRequest;
 import com.kiwiko.jdashboard.library.http.client.exceptions.ClientException;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.errors.InvalidServiceClientIdentifierRequestHeaderIdException;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.errors.InvalidServiceRequestScopeException;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.errors.MissingServiceClientIdentifierRequestHeaderException;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.errors.StaleServiceClientRequestException;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.errors.UnauthorizedServiceClientIdentifierException;
@@ -47,7 +49,7 @@ public class JdashboardInternalHttpRequestValidator implements InternalHttpReque
     }
 
     @Override
-    public void validateIncomingRequest(HttpServletRequest request, Set<String> authorizedServiceClientIdentifiers) throws UnauthorizedInternalRequestException {
+    public void validateIncomingRequest(HttpServletRequest request, LockedApi lockedApi) throws UnauthorizedInternalRequestException {
         String url = getFullUrl(request);
         String requestToken = request.getHeader(JdashboardInternalHttpRequestProperties.SERVICE_CLIENT_IDENTIFIER_REQUEST_HEADER);
 
@@ -58,8 +60,19 @@ public class JdashboardInternalHttpRequestValidator implements InternalHttpReque
         ServiceRequestKey serviceRequestKey = serviceRequestKeyService.getByToken(requestToken)
                 .orElseThrow(() -> new InvalidServiceClientIdentifierRequestHeaderIdException(String.format("Request url: %s", url)));
 
-        if (!authorizedServiceClientIdentifiers.isEmpty() && !authorizedServiceClientIdentifiers.contains(serviceRequestKey.getServiceClientName())) {
+        Set<String> allowedClients = Set.of(lockedApi.clients());
+        if (!allowedClients.isEmpty() && !allowedClients.contains(serviceRequestKey.getServiceClientName())) {
             throw new UnauthorizedServiceClientIdentifierException(String.format("Unrecognized service client identifier \"%s\". Request url: %s", serviceRequestKey.getServiceClientName(), url));
+        }
+
+        Set<String> allowedScopes = Set.of(lockedApi.scope());
+        if (!allowedScopes.contains(serviceRequestKey.getScope())) {
+            throw new InvalidServiceRequestScopeException(
+                    String.format(
+                            "Scope \"%s\" is not permitted for %s. Allowed scopes: %s",
+                            serviceRequestKey.getScope(),
+                            request.getRequestURI(),
+                            allowedScopes));
         }
 
         // If the request is older than the designated time-to-live, deny the request.
