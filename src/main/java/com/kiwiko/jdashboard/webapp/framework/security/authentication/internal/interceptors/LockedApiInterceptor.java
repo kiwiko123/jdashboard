@@ -38,7 +38,7 @@ public class LockedApiInterceptor implements RequestInterceptor {
     }
 
     private boolean isInternalServiceAuthorized(HttpServletRequest request, LockedApi lockedApi) {
-        Set<String> authorizedServiceClientIdentifiers = Set.of(lockedApi.value());
+        Set<String> authorizedServiceClientIdentifiers = Set.of(lockedApi.clients());
         try {
             internalHttpRequestValidator.validateIncomingRequest(request, authorizedServiceClientIdentifiers);
         } catch (UnauthorizedInternalRequestException e) {

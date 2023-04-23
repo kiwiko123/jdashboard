@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @RestController
 @JdashboardConfigured
 @RequestMapping("/user-credentials/service-api")
-@LockedApi(JdashboardServiceClientIdentifiers.DEFAULT)
+@LockedApi(clients = JdashboardServiceClientIdentifiers.DEFAULT)
 public class UserCredentialServiceApiController {
 
     @Inject private UserCredentialService userCredentialService;

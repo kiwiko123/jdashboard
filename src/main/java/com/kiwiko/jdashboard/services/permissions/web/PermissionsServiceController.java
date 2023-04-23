@@ -23,7 +23,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/permissions/service-api")
 @JdashboardConfigured
-@LockedApi(JdashboardServiceClientIdentifiers.DEFAULT)
+@LockedApi(clients = JdashboardServiceClientIdentifiers.DEFAULT)
 public class PermissionsServiceController {
 
     @Inject private PermissionService permissionService;

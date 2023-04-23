@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/table-record-versions/service-api")
 @JdashboardConfigured
-@LockedApi(JdashboardServiceClientIdentifiers.DEFAULT)
+@LockedApi(clients = JdashboardServiceClientIdentifiers.DEFAULT)
 public class TableRecordVersionServiceApiController {
 
     @Inject private TableRecordVersionService tableRecordVersionService;

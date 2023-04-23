@@ -20,7 +20,15 @@ import java.lang.annotation.Target;
 public @interface LockedApi {
 
     /**
+     * Designate the client identifiers allowed by this API. If provided, each request made to this API must have both:
+     * <ul>
+     *     <li>A valid {@link com.kiwiko.jdashboard.servicerequestkeys.service.interfaces.ServiceRequestKey} token.</li>
+     *     <li>A {@link com.kiwiko.jdashboard.servicerequestkeys.service.interfaces.ServiceRequestKey} with one of the designated client identifiers.</li>
+     * </ul>
+     *
+     * If this is an empty array, then no client restriction is applied.
+     *
      * @return the service client identifiers allowed for this endpoint/controller
      */
-    String[] value() default {};
+    String[] clients() default {};
 }

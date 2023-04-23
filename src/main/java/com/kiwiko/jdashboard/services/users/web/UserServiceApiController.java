@@ -17,7 +17,7 @@ import javax.inject.Inject;
 @RestController
 @JdashboardConfigured
 @RequestMapping("/users/service-api")
-@LockedApi(JdashboardServiceClientIdentifiers.DEFAULT)
+@LockedApi(clients = JdashboardServiceClientIdentifiers.DEFAULT)
 public class UserServiceApiController {
 
     @Inject private UserService userService;

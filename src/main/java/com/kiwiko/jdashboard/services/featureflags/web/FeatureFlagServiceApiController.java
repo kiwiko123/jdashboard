@@ -20,7 +20,7 @@ import java.nio.charset.StandardCharsets;
 @RestController
 @RequestMapping("/feature-flags/service-api")
 @JdashboardConfigured
-@LockedApi(JdashboardServiceClientIdentifiers.DEFAULT)
+@LockedApi(clients = JdashboardServiceClientIdentifiers.DEFAULT)
 public class FeatureFlagServiceApiController {
 
     @Inject private FeatureFlagService featureFlagService;

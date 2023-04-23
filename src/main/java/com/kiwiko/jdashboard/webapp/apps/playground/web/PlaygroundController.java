@@ -62,7 +62,7 @@ public class PlaygroundController {
         return jdashboardApiClient.synchronousCall(request);
     }
 
-    @LockedApi(JdashboardServiceClientIdentifiers.DEFAULT)
+    @LockedApi(clients = JdashboardServiceClientIdentifiers.DEFAULT)
     @PostMapping("/playground-api/test")
     @ResponseBody
     public String testPost(@RequestBody User user) throws Exception {

@@ -51,7 +51,7 @@ public class UserAPIController {
     }
 
     @GetMapping("/users/api/internal/query")
-    @LockedApi(JdashboardServiceClientIdentifiers.DEFAULT)
+    @LockedApi(clients = JdashboardServiceClientIdentifiers.DEFAULT)
     @ResponseBody
     public GetUsersByQueryResponse getUsersByQuery(
             @RequestParam("query") String queryJson) {
