@@ -4,7 +4,7 @@ import com.kiwiko.jdashboard.tools.dataaccess.api.interfaces.DataAccessObject;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.parameters.SaveDataChangeCaptureParameters;
 import com.kiwiko.jdashboard.library.lang.reflection.ReflectionHelper;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.LongDataEntity;
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletable;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.DataChangeCapturer;
@@ -28,7 +28,7 @@ import java.util.Optional;
  */
 @Deprecated
 @Repository
-public abstract class JpaDataAccessObject<T extends DataEntity> implements DataAccessObject<T> {
+public abstract class JpaDataAccessObject<T extends LongDataEntity> implements DataAccessObject<T> {
 
     // Spring-provisioned fields.
     @PersistenceContext private EntityManager entityManager;

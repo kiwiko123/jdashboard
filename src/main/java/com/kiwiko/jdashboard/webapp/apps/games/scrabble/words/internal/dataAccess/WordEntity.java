@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.apps.games.scrabble.words.internal.dataAccess;
 
-import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.LongDataEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "words")
-public class WordEntity implements DataEntity {
+public class WordEntity implements LongDataEntity {
 
     private Long id;
     private String word;

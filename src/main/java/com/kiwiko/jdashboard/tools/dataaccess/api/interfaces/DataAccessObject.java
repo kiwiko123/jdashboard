@@ -1,10 +1,10 @@
 package com.kiwiko.jdashboard.tools.dataaccess.api.interfaces;
 
-import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.LongDataEntity;
 
 import java.util.Optional;
 
-public interface DataAccessObject<T extends DataEntity> {
+public interface DataAccessObject<T extends LongDataEntity> {
 
     T save(T entity);
 

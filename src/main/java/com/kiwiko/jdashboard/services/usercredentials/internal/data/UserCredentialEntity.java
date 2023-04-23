@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.services.usercredentials.internal.data;
 
-import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.LongDataEntity;
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletable;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges;
 
@@ -15,7 +15,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "user_credentials")
 @CaptureDataChanges
-public class UserCredentialEntity implements DataEntity, SoftDeletable {
+public class UserCredentialEntity implements LongDataEntity, SoftDeletable {
     private Long id;
     private Long userId;
     private String credentialType;

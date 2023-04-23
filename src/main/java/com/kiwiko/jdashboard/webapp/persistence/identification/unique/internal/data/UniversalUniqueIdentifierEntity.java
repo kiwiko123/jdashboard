@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.persistence.identification.unique.internal.data;
 
-import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.LongDataEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +12,7 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "universal_unique_identifiers")
-public class UniversalUniqueIdentifierEntity implements DataEntity {
+public class UniversalUniqueIdentifierEntity implements LongDataEntity {
 
     private Long id;
     private String uuid;

@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.tools.dataaccess.impl;
 
 import com.kiwiko.jdashboard.library.lang.reflection.ReflectionHelper;
-import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.LongDataEntity;
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletable;
 import com.kiwiko.jdashboard.tools.dataaccess.api.interfaces.DataAccessObject;
 import com.kiwiko.jdashboard.tools.dataaccess.api.interfaces.EntityManagerProvider;
@@ -15,7 +15,7 @@ import java.util.Optional;
  *
  * @param <T> the data entity type
  */
-public abstract class SimpleJpaDataAccessObject<T extends DataEntity> implements DataAccessObject<T> {
+public abstract class SimpleJpaDataAccessObject<T extends LongDataEntity> implements DataAccessObject<T> {
     // Dependencies
     protected final EntityManagerProvider entityManagerProvider;
 

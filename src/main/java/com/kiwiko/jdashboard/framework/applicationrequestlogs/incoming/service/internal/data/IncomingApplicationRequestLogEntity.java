@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.framework.applicationrequestlogs.incoming.service.internal.data;
 
-import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.LongDataEntity;
 
 import javax.annotation.Nullable;
 import javax.persistence.Column;
@@ -13,7 +13,7 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "incoming_application_request_logs")
-public class IncomingApplicationRequestLogEntity implements DataEntity {
+public class IncomingApplicationRequestLogEntity implements LongDataEntity {
     private Long id;
     private String uri;
     private @Nullable String remoteHost;

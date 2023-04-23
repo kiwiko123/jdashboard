@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.application.events.internal.data;
 
-import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.LongDataEntity;
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletable;
 
 import javax.annotation.Nullable;
@@ -14,7 +14,7 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "application_events")
-public class ApplicationEventEntity implements DataEntity, SoftDeletable {
+public class ApplicationEventEntity implements LongDataEntity, SoftDeletable {
     private Long id;
     private String eventType;
     private @Nullable String eventKey;

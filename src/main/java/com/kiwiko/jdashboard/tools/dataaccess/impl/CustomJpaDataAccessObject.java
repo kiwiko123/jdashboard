@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.tools.dataaccess.impl;
 
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.LongDataEntity;
 import com.kiwiko.jdashboard.tools.dataaccess.api.interfaces.EntityManagerProvider;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.DataChangeCapturer;
@@ -23,7 +23,7 @@ import java.util.Objects;
  *
  * @param <T>
  */
-public abstract class CustomJpaDataAccessObject<T extends DataEntity> extends AbstractJpaDataAccessObject<T> {
+public abstract class CustomJpaDataAccessObject<T extends LongDataEntity> extends AbstractJpaDataAccessObject<T> {
     // Dependencies
     private final DataChangeCapturer dataChangeCapturer;
     private final Logger logger;

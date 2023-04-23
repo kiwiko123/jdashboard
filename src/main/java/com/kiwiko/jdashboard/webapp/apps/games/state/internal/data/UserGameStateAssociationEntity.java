@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.apps.games.state.internal.data;
 
-import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.LongDataEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "user_game_state_associations")
-public class UserGameStateAssociationEntity implements DataEntity {
+public class UserGameStateAssociationEntity implements LongDataEntity {
 
     private Long id;
     private long userId;

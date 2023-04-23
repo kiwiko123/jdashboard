@@ -7,7 +7,7 @@ import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.CurrentRequestService;
 import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
-import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.LongDataEntity;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.exceptions.CaptureEntityDataChangeException;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.dto.TableRecordVersion;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.TableRecordVersionService;
@@ -31,7 +31,7 @@ public class DataChangeCapturer {
     @Inject private Logger logger;
     @Inject private TableRecordVersionService tableRecordVersionService;
 
-    public <T extends DataEntity> T save(SaveDataChangeCaptureParameters<T> parameters) throws CaptureEntityDataChangeException {
+    public <T extends LongDataEntity> T save(SaveDataChangeCaptureParameters<T> parameters) throws CaptureEntityDataChangeException {
         Objects.requireNonNull(parameters, "Input parameters required");
         Objects.requireNonNull(parameters.getCaptureDataChanges(), "@CaptureDataChange annotation object required");
         Objects.requireNonNull(parameters.getEntity(), "Entity subject required");
@@ -49,7 +49,7 @@ public class DataChangeCapturer {
         return saveExistingEntity(existingEntity, parameters.getEntity(), parameters.getSaveEntity());
     }
 
-    private <T extends DataEntity> T saveNewEntity(T entity, SaveEntity<T> saveEntity) {
+    private <T extends LongDataEntity> T saveNewEntity(T entity, SaveEntity<T> saveEntity) {
         T savedEntity = saveEntity.apply(entity);
         Map<String, Object> fieldValuesByName = getAllFields(entity);
         recordChanges(savedEntity, fieldValuesByName);
@@ -57,14 +57,14 @@ public class DataChangeCapturer {
         return savedEntity;
     }
 
-    private <T extends DataEntity> T saveExistingEntity(T existingEntity, T newEntity, SaveEntity<T> saveEntity) {
+    private <T extends LongDataEntity> T saveExistingEntity(T existingEntity, T newEntity, SaveEntity<T> saveEntity) {
         Map<String, Object> updatedValuesByName = getUpdatedFields(existingEntity, newEntity);
         recordChanges(newEntity, updatedValuesByName);
 
         return saveEntity.apply(newEntity);
     }
 
-    private <T extends DataEntity> Map<String, Method> getEligibleFields(T entity) {
+    private <T extends LongDataEntity> Map<String, Method> getEligibleFields(T entity) {
         Map<String, Method> gettersByFieldName = new HashMap<>();
         Class<?> entityType = entity.getClass();
 
@@ -85,7 +85,7 @@ public class DataChangeCapturer {
         return gettersByFieldName;
     }
 
-    private <T extends DataEntity> Map<String, Object> getAllFields(T entity) {
+    private <T extends LongDataEntity> Map<String, Object> getAllFields(T entity) {
         Map<String, Object> valuesByName = new HashMap<>();
 
         getEligibleFields(entity).forEach((columnName, getter) -> {
@@ -104,7 +104,7 @@ public class DataChangeCapturer {
         return valuesByName;
     }
 
-    private <T extends DataEntity> Map<String, Object> getUpdatedFields(T existingEntity, T newEntity) {
+    private <T extends LongDataEntity> Map<String, Object> getUpdatedFields(T existingEntity, T newEntity) {
         Map<String, Object> valuesByName = new HashMap<>();
 
         getEligibleFields(newEntity).forEach((columnName, getter) -> {
@@ -127,7 +127,7 @@ public class DataChangeCapturer {
         return valuesByName;
     }
 
-    private <T extends DataEntity> void recordChanges(T entity, Map<String, Object> diff) {
+    private <T extends LongDataEntity> void recordChanges(T entity, Map<String, Object> diff) {
         validateEntity(entity);
         String tableName = Optional.ofNullable(entity.getClass().getDeclaredAnnotation(Table.class))
                 .map(Table::name)
@@ -147,7 +147,7 @@ public class DataChangeCapturer {
         tableRecordVersionService.create(version);
     }
 
-    private <T extends DataEntity> void validateEntity(T entity) throws CaptureEntityDataChangeException {
+    private <T extends LongDataEntity> void validateEntity(T entity) throws CaptureEntityDataChangeException {
         if (entity.getId() == null) {
             throw new CaptureEntityDataChangeException(String.format("ID is required to capture entity data changes: %s", entity.toString()));
         }

@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.apps.games.state.internal.data;
 
-import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.LongDataEntity;
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletable;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges;
 
@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "game_states")
 @CaptureDataChanges
-public class GameStateEntity implements DataEntity, SoftDeletable {
+public class GameStateEntity implements LongDataEntity, SoftDeletable {
 
     private Long id;
     private String gameType;

@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces;
 
 import com.kiwiko.jdashboard.framework.persistence.transactions.api.interfaces.TransactionProvider;
-import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.LongDataEntity;
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntityDTO;
 import com.kiwiko.jdashboard.library.persistence.data.properties.api.interfaces.DataEntityMapper;
 import com.kiwiko.jdashboard.tools.dataaccess.impl.JpaDataAccessObject;
@@ -11,7 +11,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
-public final class ServiceOperationParametersBuilder<Entity extends DataEntity, Dto extends DataEntityDTO, Dao extends JpaDataAccessObject<Entity>, Mapper extends DataEntityMapper<Entity, Dto>> {
+public final class ServiceOperationParametersBuilder<Entity extends LongDataEntity, Dto extends DataEntityDTO, Dao extends JpaDataAccessObject<Entity>, Mapper extends DataEntityMapper<Entity, Dto>> {
     private @Nonnull
     Dao dataAccessObject;
     private @Nonnull Mapper mapper;

@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.notifications.internal.dataaccess;
 
-import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.LongDataEntity;
 import com.kiwiko.jdashboard.webapp.notifications.data.NotificationSource;
 import com.kiwiko.jdashboard.webapp.notifications.data.NotificationStatus;
 
@@ -17,7 +17,7 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "notifications")
-public class NotificationEntity implements DataEntity {
+public class NotificationEntity implements LongDataEntity {
 
     private Long id;
     private NotificationStatus status;

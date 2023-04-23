@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.servicerequestkeys.service.internal.data;
 
-import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.LongDataEntity;
 
 import javax.annotation.Nullable;
 import javax.persistence.Column;
@@ -13,7 +13,7 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "service_request_keys")
-public class ServiceRequestKeyEntity implements DataEntity {
+public class ServiceRequestKeyEntity implements LongDataEntity {
     private Long id;
     private String scope;
     private String serviceClientName;

@@ -3,7 +3,7 @@ package com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces;
 import com.kiwiko.jdashboard.library.persistence.data.properties.api.interfaces.DataEntityMapper;
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntityDTO;
 import com.kiwiko.jdashboard.framework.persistence.transactions.api.interfaces.TransactionProvider;
-import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.LongDataEntity;
 import com.kiwiko.jdashboard.tools.dataaccess.impl.JpaDataAccessObject;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.internal.EntityMerger;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.internal.MergeStrategy;
@@ -16,7 +16,7 @@ import java.util.Optional;
  * Utility class to provide basic create, read, update, and delete operations for data entities that conform to
  * Jdashboard service interfaces with the following criteria:
  * <ul>
- *     <li>Data entities must extend {@link DataEntity}.</li>
+ *     <li>Data entities must extend {@link LongDataEntity}.</li>
  *     <li>DTOs must extend {@link DataEntityDTO}.</li>
  *     <li>Data access objects must extend {@link JpaDataAccessObject}.</li>
  *     <li>Data entity mappers must extend {@link DataEntityMapper}.</li>
@@ -27,7 +27,7 @@ public class CreateReadUpdateDeleteExecutor {
     @Inject private TransactionProvider transactionProvider;
     @Inject private EntityMerger entityMerger;
 
-    public <Entity extends DataEntity,
+    public <Entity extends LongDataEntity,
             Dto extends DataEntityDTO,
             DataFetcher extends JpaDataAccessObject<Entity>,
             Mapper extends DataEntityMapper<Entity, Dto>> Optional<Dto> read(long id, DataFetcher dataFetcher, Mapper mapper) {
@@ -40,14 +40,14 @@ public class CreateReadUpdateDeleteExecutor {
      *
      * @see #read(long, JpaDataAccessObject, DataEntityMapper)
      */
-    public <Entity extends DataEntity,
+    public <Entity extends LongDataEntity,
             Dto extends DataEntityDTO,
             DataFetcher extends JpaDataAccessObject<Entity>,
             Mapper extends DataEntityMapper<Entity, Dto>> Optional<Dto> get(long id, DataFetcher dataFetcher, Mapper mapper) {
         return read(id, dataFetcher, mapper);
     }
 
-    public <Entity extends DataEntity,
+    public <Entity extends LongDataEntity,
             Dto extends DataEntityDTO,
             DataFetcher extends JpaDataAccessObject<Entity>,
             Mapper extends DataEntityMapper<Entity, Dto>> Dto create(Dto obj, DataFetcher dataFetcher, Mapper mapper) {
@@ -59,7 +59,7 @@ public class CreateReadUpdateDeleteExecutor {
                 });
     }
 
-    public <Entity extends DataEntity,
+    public <Entity extends LongDataEntity,
             Dto extends DataEntityDTO,
             DataFetcher extends JpaDataAccessObject<Entity>,
             Mapper extends DataEntityMapper<Entity, Dto>> Dto update(Dto obj, DataFetcher dataFetcher, Mapper mapper) {
@@ -75,7 +75,7 @@ public class CreateReadUpdateDeleteExecutor {
                 });
     }
 
-    public <Entity extends DataEntity, DataFetcher extends JpaDataAccessObject<Entity>> void delete(long id, DataFetcher dataFetcher) {
+    public <Entity extends LongDataEntity, DataFetcher extends JpaDataAccessObject<Entity>> void delete(long id, DataFetcher dataFetcher) {
         transactionProvider.readWrite(
                 () -> {
                     Entity existingRecord = dataFetcher.getById(id).orElse(null);
@@ -85,7 +85,7 @@ public class CreateReadUpdateDeleteExecutor {
                 });
     }
 
-    public <Entity extends DataEntity,
+    public <Entity extends LongDataEntity,
             Dto extends DataEntityDTO,
             DataFetcher extends JpaDataAccessObject<Entity>,
             Mapper extends DataEntityMapper<Entity, Dto>> Dto delete(long id, DataFetcher dataFetcher, Mapper mapper) {
@@ -107,14 +107,14 @@ public class CreateReadUpdateDeleteExecutor {
      *
      * @return the newly updated DTO
      */
-    public <Entity extends DataEntity,
+    public <Entity extends LongDataEntity,
             Dto extends DataEntityDTO,
             DataFetcher extends JpaDataAccessObject<Entity>,
             Mapper extends DataEntityMapper<Entity, Dto>> Dto merge(Dto obj, DataFetcher dataFetcher, Mapper mapper) {
         return entityMerger.mergeFields(obj, dataFetcher, mapper, MergeStrategy.SET_NON_NULL);
     }
 
-    public <Entity extends DataEntity,
+    public <Entity extends LongDataEntity,
             Dto extends DataEntityDTO,
             DataAccessObject extends com.kiwiko.jdashboard.tools.dataaccess.api.interfaces.DataAccessObject<Entity>,
             Mapper extends DataEntityMapper<Entity, Dto>> ServiceOperationParameters.Builder<Entity, Dto, DataAccessObject, Mapper> data() {

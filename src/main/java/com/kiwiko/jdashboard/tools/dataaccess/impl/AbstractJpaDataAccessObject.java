@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.tools.dataaccess.impl;
 
-import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.LongDataEntity;
 import com.kiwiko.jdashboard.tools.dataaccess.api.interfaces.EntityManagerProvider;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +18,7 @@ import java.util.Optional;
  * @param <T> the data entity type
  */
 @Repository
-public abstract class AbstractJpaDataAccessObject<T extends DataEntity> extends SimpleJpaDataAccessObject<T> {
+public abstract class AbstractJpaDataAccessObject<T extends LongDataEntity> extends SimpleJpaDataAccessObject<T> {
 
     public AbstractJpaDataAccessObject(EntityManagerProvider entityManagerProvider) {
         super(entityManagerProvider);

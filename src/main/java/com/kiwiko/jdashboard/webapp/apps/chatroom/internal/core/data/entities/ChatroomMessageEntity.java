@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.data.entities;
 
-import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntity;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.LongDataEntity;
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletable;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges;
 
@@ -16,7 +16,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "chatroom_messages")
 @CaptureDataChanges
-public class ChatroomMessageEntity implements DataEntity, SoftDeletable {
+public class ChatroomMessageEntity implements LongDataEntity, SoftDeletable {
 
     private Long id;
     private Long senderUserId;
