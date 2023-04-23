@@ -38,8 +38,8 @@ public class RequestInterceptorChain {
         // Add interceptors here.
         interceptors.add(crossSiteRequestForgeryPreventionInterceptor);
         interceptors.add(rateLimiterInterceptor);
-        interceptors.add(userAuthCheckInterceptor);
         interceptors.add(lockedApiInterceptor);
+        interceptors.add(userAuthCheckInterceptor);
         interceptors.add(userPermissionCheckInterceptor);
         interceptors.add(incomingApplicationRequestRecordingInterceptor);
         interceptors.add(requestContextInterceptor);
