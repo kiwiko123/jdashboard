@@ -73,9 +73,10 @@ public interface ApiRequest {
     RequestCacheStrategy getCacheStrategy();
 
     /**
-     * Optional.
+     * Required if making a request to a {@link com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.LockedApi}.
+     * When provided, Jdashboard will automatically sign this as a secure internal service-to-service request.
      *
-     * A string that identifies the caller issuing the request to the recipient.
+     * A string that identifies the caller issuing the request.
      * It should not be assumed that this identifier is treated as a secure secret.
      *
      * @return a string that identifies the caller issuing the request
