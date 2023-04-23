@@ -10,7 +10,6 @@ import com.kiwiko.jdashboard.library.http.client.caching.DisabledCacheStrategy;
 import com.kiwiko.jdashboard.library.http.client.caching.RequestCacheStrategy;
 import com.kiwiko.jdashboard.library.http.url.UriBuilder;
 import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiRequest;
-import com.kiwiko.jdashboard.tools.apiclient.JdashboardServiceClientIdentifiers;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -53,7 +52,7 @@ public class CreateTableRecordVersionRequest extends JdashboardApiRequest {
     @Nullable
     @Override
     public String getClientIdentifier() {
-        return JdashboardServiceClientIdentifiers.DEFAULT;
+        return "table-record-version-service-client";
     }
 
     @Nullable

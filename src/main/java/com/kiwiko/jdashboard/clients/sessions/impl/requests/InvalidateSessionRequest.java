@@ -8,7 +8,6 @@ import com.kiwiko.jdashboard.library.http.url.UriBuilder;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.InvalidateSessionInput;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.InvalidateSessionOutput;
 import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiRequest;
-import com.kiwiko.jdashboard.tools.apiclient.JdashboardServiceClientIdentifiers;
 
 import javax.annotation.Nullable;
 
@@ -40,7 +39,7 @@ public class InvalidateSessionRequest extends JdashboardApiRequest {
     @Nullable
     @Override
     public String getClientIdentifier() {
-        return JdashboardServiceClientIdentifiers.DEFAULT;
+        return "session-service-client";
     }
 
     @Nullable

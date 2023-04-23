@@ -4,7 +4,6 @@ import com.kiwiko.jdashboard.clients.users.api.interfaces.queries.GetUsersQuery;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.GetUsersByQueryResponse;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.LockedApi;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.UserAuthCheck;
-import com.kiwiko.jdashboard.tools.apiclient.JdashboardServiceClientIdentifiers;
 import com.kiwiko.jdashboard.webapp.framework.json.api.ResponseBuilder;
 import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
@@ -51,7 +50,7 @@ public class UserAPIController {
     }
 
     @GetMapping("/users/api/internal/query")
-    @LockedApi(clients = JdashboardServiceClientIdentifiers.DEFAULT)
+    @LockedApi
     @ResponseBody
     public GetUsersByQueryResponse getUsersByQuery(
             @RequestParam("query") String queryJson) {

@@ -5,7 +5,6 @@ import com.kiwiko.jdashboard.clients.users.api.dto.User;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.UserClient;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.LockedApi;
 import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
-import com.kiwiko.jdashboard.tools.apiclient.JdashboardServiceClientIdentifiers;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.auth.AuthenticatedUser;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.CrossOriginConfigured;
 import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiClient;
@@ -62,7 +61,7 @@ public class PlaygroundController {
         return jdashboardApiClient.synchronousCall(request);
     }
 
-    @LockedApi(clients = JdashboardServiceClientIdentifiers.DEFAULT)
+    @LockedApi
     @PostMapping("/playground-api/test")
     @ResponseBody
     public String testPost(@RequestBody User user) throws Exception {

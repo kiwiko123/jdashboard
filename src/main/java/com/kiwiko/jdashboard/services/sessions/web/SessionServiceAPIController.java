@@ -9,7 +9,6 @@ import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsInput;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsOutput;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.InvalidateSessionOutput;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
-import com.kiwiko.jdashboard.tools.apiclient.JdashboardServiceClientIdentifiers;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +27,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/sessions/service-api")
 @JdashboardConfigured
-@LockedApi(clients = JdashboardServiceClientIdentifiers.DEFAULT)
+@LockedApi
 public class SessionServiceAPIController {
 
     @Inject private SessionService sessionService;

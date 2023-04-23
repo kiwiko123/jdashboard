@@ -11,7 +11,6 @@ import com.kiwiko.jdashboard.services.tablerecordversions.api.dto.TableRecordVer
 import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.TableRecordVersionService;
 import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.GetTableRecordVersionOutput;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.parameters.GetTableRecordVersions;
-import com.kiwiko.jdashboard.tools.apiclient.JdashboardServiceClientIdentifiers;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +31,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/table-record-versions/service-api")
 @JdashboardConfigured
-@LockedApi(clients = JdashboardServiceClientIdentifiers.DEFAULT)
+@LockedApi
 public class TableRecordVersionServiceApiController {
 
     @Inject private TableRecordVersionService tableRecordVersionService;

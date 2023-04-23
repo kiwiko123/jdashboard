@@ -7,7 +7,6 @@ import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardCon
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.LockedApi;
 import com.kiwiko.jdashboard.services.permissions.api.dto.Permission;
 import com.kiwiko.jdashboard.services.permissions.api.interfaces.PermissionService;
-import com.kiwiko.jdashboard.tools.apiclient.JdashboardServiceClientIdentifiers;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +22,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/permissions/service-api")
 @JdashboardConfigured
-@LockedApi(clients = JdashboardServiceClientIdentifiers.DEFAULT)
+@LockedApi
 public class PermissionsServiceController {
 
     @Inject private PermissionService permissionService;

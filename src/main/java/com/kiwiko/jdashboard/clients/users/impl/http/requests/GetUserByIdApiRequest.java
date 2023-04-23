@@ -6,7 +6,6 @@ import com.kiwiko.jdashboard.services.users.api.dto.User;
 import com.kiwiko.jdashboard.library.http.client.RequestUrl;
 import com.kiwiko.jdashboard.library.http.url.UriBuilder;
 import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiRequest;
-import com.kiwiko.jdashboard.tools.apiclient.JdashboardServiceClientIdentifiers;
 
 import javax.annotation.Nullable;
 
@@ -37,7 +36,7 @@ public class GetUserByIdApiRequest extends JdashboardApiRequest {
     @Nullable
     @Override
     public String getClientIdentifier() {
-        return JdashboardServiceClientIdentifiers.DEFAULT;
+        return "user-service-client";
     }
 
     @Nullable

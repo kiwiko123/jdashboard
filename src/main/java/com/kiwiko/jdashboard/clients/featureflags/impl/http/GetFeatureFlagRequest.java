@@ -4,7 +4,6 @@ import com.kiwiko.jdashboard.clients.featureflags.api.interfaces.parameters.GetF
 import com.kiwiko.jdashboard.library.http.client.RequestMethod;
 import com.kiwiko.jdashboard.library.http.client.caching.RequestCacheStrategy;
 import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiRequest;
-import com.kiwiko.jdashboard.tools.apiclient.JdashboardServiceClientIdentifiers;
 
 import javax.annotation.Nullable;
 
@@ -29,7 +28,7 @@ abstract class GetFeatureFlagRequest extends JdashboardApiRequest {
     @Nullable
     @Override
     public String getClientIdentifier() {
-        return JdashboardServiceClientIdentifiers.DEFAULT;
+        return "feature-flag-service-client";
     }
 
     @Nullable

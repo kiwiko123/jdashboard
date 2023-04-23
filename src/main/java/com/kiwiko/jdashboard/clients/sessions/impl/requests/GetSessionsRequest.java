@@ -9,7 +9,6 @@ import com.kiwiko.jdashboard.library.http.url.UrlQuery;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsInput;
 import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsOutput;
 import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiRequest;
-import com.kiwiko.jdashboard.tools.apiclient.JdashboardServiceClientIdentifiers;
 
 import javax.annotation.Nullable;
 
@@ -41,7 +40,7 @@ public class GetSessionsRequest extends JdashboardApiRequest {
     @Nullable
     @Override
     public String getClientIdentifier() {
-        return JdashboardServiceClientIdentifiers.DEFAULT;
+        return "session-service-client";
     }
 
     @Nullable
