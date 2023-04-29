@@ -1,5 +1,6 @@
 package com.kiwiko.jdashboard.services.featureflags;
 
+import com.kiwiko.jdashboard.framework.persistence.transactions.api.interfaces.TransactionProvider;
 import com.kiwiko.jdashboard.services.featureflags.internal.FeatureFlagUserAssociationEntityMapper;
 import com.kiwiko.jdashboard.services.featureflags.internal.FeatureFlagUserAssociationEntityService;
 import com.kiwiko.jdashboard.services.featureflags.internal.data.FeatureFlagUserAssociationEntityDataFetcher;
@@ -38,7 +39,13 @@ public class FeatureFlagInternalConfiguration {
 
     @Bean
     @ConfiguredBy(PersistenceServicesCrudConfiguration.class)
-    public FeatureFlagUserAssociationEntityService featureFlagUserAssociationEntityService() {
-        return new FeatureFlagUserAssociationEntityService();
+    public FeatureFlagUserAssociationEntityService featureFlagUserAssociationEntityService(
+            FeatureFlagUserAssociationEntityDataFetcher featureFlagUserAssociationEntityDataFetcher,
+            FeatureFlagUserAssociationEntityMapper featureFlagUserAssociationEntityMapper,
+            TransactionProvider transactionProvider) {
+        return new FeatureFlagUserAssociationEntityService(
+                featureFlagUserAssociationEntityDataFetcher,
+                featureFlagUserAssociationEntityMapper,
+                transactionProvider);
     }
 }

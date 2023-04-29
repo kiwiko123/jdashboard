@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@Deprecated
 public abstract class CreateReadUpdateDeleteService<
         Entity extends Identifiable<Long>,
         DTO extends Identifiable<Long>,
