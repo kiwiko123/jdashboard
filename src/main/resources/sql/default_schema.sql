@@ -115,6 +115,15 @@ CREATE TABLE feature_flags (
 CREATE UNIQUE INDEX ON feature_flags (lower(name)) WHERE is_removed = false;
 CREATE INDEX ON feature_flags (lower(name), user_scope, user_id);
 
+CREATE TABLE feature_flag_user_associations (
+    id BIGSERIAL PRIMARY KEY,
+    feature_flag_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    is_removed BOOLEAN NOT NULL DEFAULT FALSE
+);
+CREATE INDEX ON feature_flag_user_associations (feature_flag_id);
+CREATE INDEX ON feature_flag_user_associations (user_id);
+
 CREATE TABLE table_record_versions (
     id BIGSERIAL PRIMARY KEY,
     table_name TEXT NOT NULL,
