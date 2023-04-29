@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.services.featureflags.api.interfaces;
 
-import com.kiwiko.jdashboard.clients.featureflags.api.dto.FeatureFlagUserScope;
+import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagUserScope;
 
 import javax.annotation.Nullable;
 

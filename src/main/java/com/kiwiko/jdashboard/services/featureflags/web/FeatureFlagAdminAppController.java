@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.services.featureflags.web;
 
-import com.kiwiko.jdashboard.clients.featureflags.api.dto.FeatureFlag;
+import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlag;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.UserPermissionCheck;
 import com.kiwiko.jdashboard.services.permissions.api.interfaces.PermissionNames;

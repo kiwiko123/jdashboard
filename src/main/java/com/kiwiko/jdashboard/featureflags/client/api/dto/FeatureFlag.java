@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.clients.featureflags.api.dto;
+package com.kiwiko.jdashboard.featureflags.client.api.dto;
 
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletableDataEntityDTO;
 

@@ -1,7 +1,7 @@
-package com.kiwiko.jdashboard.clients.featureflags;
+package com.kiwiko.jdashboard.featureflags.client;
 
-import com.kiwiko.jdashboard.clients.featureflags.api.interfaces.FeatureFlagClient;
-import com.kiwiko.jdashboard.clients.featureflags.impl.http.FeatureFlagHttpClient;
+import com.kiwiko.jdashboard.featureflags.client.api.interfaces.FeatureFlagClient;
+import com.kiwiko.jdashboard.featureflags.client.impl.http.FeatureFlagHttpClient;
 import com.kiwiko.jdashboard.tools.apiclient.configuration.JdashboardApiClientConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import org.springframework.context.annotation.Bean;

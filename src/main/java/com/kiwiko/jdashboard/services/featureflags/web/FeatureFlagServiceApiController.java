@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.services.featureflags.web;
 
-import com.kiwiko.jdashboard.clients.featureflags.api.dto.FeatureFlag;
-import com.kiwiko.jdashboard.clients.featureflags.api.interfaces.parameters.GetFeatureFlagOutput;
+import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlag;
+import com.kiwiko.jdashboard.featureflags.client.api.interfaces.parameters.GetFeatureFlagOutput;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.LockedApi;
 import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagService;

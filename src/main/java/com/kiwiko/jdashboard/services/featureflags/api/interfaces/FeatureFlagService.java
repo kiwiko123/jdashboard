@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.services.featureflags.api.interfaces;
 
 import com.kiwiko.jdashboard.library.persistence.interfaces.api.CreateReadUpdateDeleteAPI;
-import com.kiwiko.jdashboard.clients.featureflags.api.dto.FeatureFlag;
+import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlag;
 
 import java.util.Optional;
 import java.util.Set;

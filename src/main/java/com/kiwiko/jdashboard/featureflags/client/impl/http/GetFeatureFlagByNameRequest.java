@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.clients.featureflags.impl.http;
+package com.kiwiko.jdashboard.featureflags.client.impl.http;
 
 import com.kiwiko.jdashboard.library.http.client.RequestUrl;
 import com.kiwiko.jdashboard.library.http.url.QueryParameter;

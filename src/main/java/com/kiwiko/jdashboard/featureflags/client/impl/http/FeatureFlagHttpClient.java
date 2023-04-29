@@ -1,8 +1,8 @@
-package com.kiwiko.jdashboard.clients.featureflags.impl.http;
+package com.kiwiko.jdashboard.featureflags.client.impl.http;
 
-import com.kiwiko.jdashboard.clients.featureflags.api.interfaces.FeatureFlagClient;
-import com.kiwiko.jdashboard.clients.featureflags.api.interfaces.parameters.GetFeatureFlagInput;
-import com.kiwiko.jdashboard.clients.featureflags.api.interfaces.parameters.GetFeatureFlagOutput;
+import com.kiwiko.jdashboard.featureflags.client.api.interfaces.FeatureFlagClient;
+import com.kiwiko.jdashboard.featureflags.client.api.interfaces.parameters.GetFeatureFlagInput;
+import com.kiwiko.jdashboard.featureflags.client.api.interfaces.parameters.GetFeatureFlagOutput;
 import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
 import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiRequest;
 import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiClient;

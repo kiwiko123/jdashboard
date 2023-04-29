@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.clients.featureflags.api.interfaces.parameters;
+package com.kiwiko.jdashboard.featureflags.client.api.interfaces.parameters;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.services.featureflags.internal.data;
 
-import com.kiwiko.jdashboard.clients.featureflags.api.dto.FeatureFlagUserScope;
+import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagUserScope;
 import com.kiwiko.jdashboard.tools.dataaccess.impl.JpaDataAccessObject;
 
 import javax.persistence.criteria.CriteriaBuilder;
