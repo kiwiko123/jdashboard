@@ -14,15 +14,12 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import javax.inject.Inject;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @Configuration
 public class FrameworkInternalDatasourceConfiguration {
     private static final String ENTITY_MANAGER_FACTORY_BEAN_NAME = "entityManagerFactory_frameworkInternal";
-
-    @Inject private JpaVendorAdapter jpaVendorAdapter;
 
     @Bean(name = JdashboardDataSources.FRAMEWORK_INTERNAL)
     @ConfigurationProperties(prefix = "spring.datasource.framework-internal")
@@ -33,7 +30,9 @@ public class FrameworkInternalDatasourceConfiguration {
     }
 
     @Bean(name = ENTITY_MANAGER_FACTORY_BEAN_NAME)
-    public EntityManagerFactory frameworkInternalEntityManagerFactory(@Qualifier(JdashboardDataSources.FRAMEWORK_INTERNAL) DataSource dataSource) {
+    public EntityManagerFactory frameworkInternalEntityManagerFactory(
+            @Qualifier(JdashboardDataSources.FRAMEWORK_INTERNAL) DataSource dataSource,
+            JpaVendorAdapter jpaVendorAdapter) {
         LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactory.setDataSource(dataSource);
         entityManagerFactory.setJpaVendorAdapter(jpaVendorAdapter);

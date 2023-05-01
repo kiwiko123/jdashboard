@@ -14,7 +14,6 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.inject.Inject;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Map;
@@ -22,8 +21,6 @@ import java.util.Map;
 @Configuration
 @EnableTransactionManagement
 public class DatasourceConfiguration {
-
-    @Inject private JpaVendorAdapter jpaVendorAdapter;
 
     @Bean(name = JdashboardDataSources.DEFAULT)
     @Primary
@@ -36,7 +33,9 @@ public class DatasourceConfiguration {
 
     @Bean(name = "entityManagerFactory_default")
     @Primary
-    public EntityManagerFactory defaultEntityManagerFactory(@Qualifier(JdashboardDataSources.DEFAULT) DataSource dataSource) {
+    public EntityManagerFactory defaultEntityManagerFactory(
+            @Qualifier(JdashboardDataSources.DEFAULT) DataSource dataSource,
+            JpaVendorAdapter jpaVendorAdapter) {
         LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactory.setDataSource(dataSource);
         entityManagerFactory.setJpaVendorAdapter(jpaVendorAdapter);
