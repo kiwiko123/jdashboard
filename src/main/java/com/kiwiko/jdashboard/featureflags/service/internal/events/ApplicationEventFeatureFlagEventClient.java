@@ -1,10 +1,10 @@
-package com.kiwiko.jdashboard.services.featureflags.internal.events;
+package com.kiwiko.jdashboard.featureflags.service.internal.events;
 
 import com.kiwiko.jdashboard.webapp.application.events.api.dto.ApplicationEvent;
 import com.kiwiko.jdashboard.webapp.application.events.queue.api.dto.ApplicationEventQueueItem;
 import com.kiwiko.jdashboard.webapp.application.events.queue.api.interfaces.ApplicationEventQueue;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlag;
-import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagEventClient;
+import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagEventClient;
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonProvider;
 
 import javax.inject.Inject;

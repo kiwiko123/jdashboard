@@ -1,10 +1,10 @@
-package com.kiwiko.jdashboard.services.featureflags.web;
+package com.kiwiko.jdashboard.featureflags.service.web;
 
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlag;
 import com.kiwiko.jdashboard.featureflags.client.api.interfaces.parameters.GetFeatureFlagOutput;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.LockedApi;
-import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagService;
+import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

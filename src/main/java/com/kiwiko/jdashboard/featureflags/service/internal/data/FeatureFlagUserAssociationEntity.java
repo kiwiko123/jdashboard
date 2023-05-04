@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.services.featureflags.internal.data;
+package com.kiwiko.jdashboard.featureflags.service.internal.data;
 
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.LongDataEntity;
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletable;

@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.services.featureflags.api.interfaces;
+package com.kiwiko.jdashboard.featureflags.service.api.interfaces;
 
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagUserScope;
 

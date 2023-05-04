@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.services.featureflags.web.responses;
+package com.kiwiko.jdashboard.featureflags.service.web.responses;
 
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlag;
 import com.kiwiko.jdashboard.services.users.api.dto.User;

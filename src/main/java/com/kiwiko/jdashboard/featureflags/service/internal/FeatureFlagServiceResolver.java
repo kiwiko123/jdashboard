@@ -1,8 +1,8 @@
-package com.kiwiko.jdashboard.services.featureflags.internal;
+package com.kiwiko.jdashboard.featureflags.service.internal;
 
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagUserScope;
-import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagResolver;
-import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagService;
+import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagResolver;
+import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagService;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlag;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagStatus;
 

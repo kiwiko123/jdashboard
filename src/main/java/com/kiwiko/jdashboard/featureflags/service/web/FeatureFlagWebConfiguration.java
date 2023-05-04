@@ -1,8 +1,8 @@
-package com.kiwiko.jdashboard.services.featureflags.web;
+package com.kiwiko.jdashboard.featureflags.service.web;
 
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfigurationScope;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfigurationScopeLevel;
-import com.kiwiko.jdashboard.services.featureflags.FeatureFlagConfiguration;
+import com.kiwiko.jdashboard.featureflags.service.FeatureFlagConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

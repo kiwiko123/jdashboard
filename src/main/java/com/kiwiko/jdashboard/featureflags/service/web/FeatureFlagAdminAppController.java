@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.services.featureflags.web;
+package com.kiwiko.jdashboard.featureflags.service.web;
 
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlag;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;

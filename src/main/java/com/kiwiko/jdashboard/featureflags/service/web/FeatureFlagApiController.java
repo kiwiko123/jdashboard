@@ -1,10 +1,10 @@
-package com.kiwiko.jdashboard.services.featureflags.web;
+package com.kiwiko.jdashboard.featureflags.service.web;
 
-import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagEventClient;
-import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagResolver;
-import com.kiwiko.jdashboard.services.featureflags.api.interfaces.FeatureFlagService;
+import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagEventClient;
+import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagResolver;
+import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagService;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlag;
-import com.kiwiko.jdashboard.services.featureflags.web.responses.FeatureFlagListItem;
+import com.kiwiko.jdashboard.featureflags.service.web.responses.FeatureFlagListItem;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.UserAuthCheck;
 import com.kiwiko.jdashboard.webapp.framework.json.api.ResponseBuilder;

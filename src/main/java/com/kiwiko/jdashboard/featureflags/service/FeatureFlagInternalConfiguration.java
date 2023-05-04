@@ -1,13 +1,13 @@
-package com.kiwiko.jdashboard.services.featureflags;
+package com.kiwiko.jdashboard.featureflags.service;
 
 import com.kiwiko.jdashboard.framework.persistence.transactions.api.interfaces.TransactionProvider;
-import com.kiwiko.jdashboard.services.featureflags.internal.FeatureFlagUserAssociationEntityMapper;
-import com.kiwiko.jdashboard.services.featureflags.internal.FeatureFlagUserAssociationEntityService;
-import com.kiwiko.jdashboard.services.featureflags.internal.data.FeatureFlagUserAssociationEntityDataFetcher;
+import com.kiwiko.jdashboard.featureflags.service.internal.FeatureFlagUserAssociationEntityMapper;
+import com.kiwiko.jdashboard.featureflags.service.internal.FeatureFlagUserAssociationEntityService;
+import com.kiwiko.jdashboard.featureflags.service.internal.data.FeatureFlagUserAssociationEntityDataFetcher;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfigurationScope;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfigurationScopeLevel;
-import com.kiwiko.jdashboard.services.featureflags.internal.FeatureFlagEntityMapper;
-import com.kiwiko.jdashboard.services.featureflags.internal.data.FeatureFlagEntityDataFetcher;
+import com.kiwiko.jdashboard.featureflags.service.internal.FeatureFlagEntityMapper;
+import com.kiwiko.jdashboard.featureflags.service.internal.data.FeatureFlagEntityDataFetcher;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.PersistenceServicesCrudConfiguration;
 import org.springframework.context.annotation.Bean;

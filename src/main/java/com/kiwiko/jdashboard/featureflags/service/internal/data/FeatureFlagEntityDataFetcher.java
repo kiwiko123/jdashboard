@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.services.featureflags.internal.data;
+package com.kiwiko.jdashboard.featureflags.service.internal.data;
 
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagUserScope;
 import com.kiwiko.jdashboard.tools.dataaccess.impl.JpaDataAccessObject;
