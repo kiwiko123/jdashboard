@@ -22,7 +22,7 @@ public class FeatureFlagEntity implements LongDataEntity, SoftDeletable {
     private String status;
     private @Nullable String value;
     private String userScope;
-    private @Nullable Long userId;
+    @Deprecated private @Nullable Long userId;
     private boolean isRemoved;
 
     @Id
@@ -74,12 +74,14 @@ public class FeatureFlagEntity implements LongDataEntity, SoftDeletable {
         this.userScope = userScope;
     }
 
+    @Deprecated
     @Column(name = "user_id")
     @Nullable
     public Long getUserId() {
         return userId;
     }
 
+    @Deprecated
     public void setUserId(@Nullable Long userId) {
         this.userId = userId;
     }

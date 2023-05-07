@@ -18,6 +18,7 @@ public class FeatureFlagUserAssociationEntity implements LongDataEntity, SoftDel
     private Long id;
     private Long featureFlagId;
     private Long userId;
+    private String featureFlagStatus;
     private boolean isRemoved;
 
     @Id
@@ -48,6 +49,15 @@ public class FeatureFlagUserAssociationEntity implements LongDataEntity, SoftDel
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    @Column(name = "feature_flag_status", nullable = false)
+    public String getFeatureFlagStatus() {
+        return featureFlagStatus;
+    }
+
+    public void setFeatureFlagStatus(String featureFlagStatus) {
+        this.featureFlagStatus = featureFlagStatus;
     }
 
     @Column(name = "is_removed", nullable = false)

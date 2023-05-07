@@ -1,5 +1,9 @@
 package com.kiwiko.jdashboard.featureflags.service;
 
+import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagStateService;
+import com.kiwiko.jdashboard.featureflags.service.internal.FeatureFlagStateMapper;
+import com.kiwiko.jdashboard.featureflags.service.internal.FeatureFlagStateServiceImpl;
+import com.kiwiko.jdashboard.featureflags.service.internal.FeatureFlagStatusResolver;
 import com.kiwiko.jdashboard.framework.persistence.transactions.api.interfaces.TransactionProvider;
 import com.kiwiko.jdashboard.featureflags.service.internal.FeatureFlagUserAssociationEntityMapper;
 import com.kiwiko.jdashboard.featureflags.service.internal.FeatureFlagUserAssociationEntityService;
@@ -47,5 +51,20 @@ public class FeatureFlagInternalConfiguration {
                 featureFlagUserAssociationEntityDataFetcher,
                 featureFlagUserAssociationEntityMapper,
                 transactionProvider);
+    }
+
+    @Bean
+    public FeatureFlagStateMapper featureFlagStateMapper() {
+        return new FeatureFlagStateMapper();
+    }
+
+    @Bean
+    public FeatureFlagStateService featureFlagStateService() {
+        return new FeatureFlagStateServiceImpl();
+    }
+
+    @Bean
+    public FeatureFlagStatusResolver featureFlagStatusResolver() {
+        return new FeatureFlagStatusResolver();
     }
 }

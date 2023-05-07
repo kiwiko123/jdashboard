@@ -17,7 +17,7 @@ public abstract class CreateReadUpdateDeleteService<
         DataAccessObject extends com.kiwiko.jdashboard.tools.dataaccess.api.interfaces.DataAccessObject<Entity>> {
     protected final DataAccessObject dataAccessObject;
     protected final DataEntityMapper<Entity, Dto> mapper;
-    private final SimpleTransactionProvider transactionProvider;
+    protected final SimpleTransactionProvider transactionProvider;
     private final ObjectMerger<Dto> dtoObjectMerger;
 
     protected CreateReadUpdateDeleteService(

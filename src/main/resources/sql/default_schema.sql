@@ -119,10 +119,12 @@ CREATE TABLE feature_flag_user_associations (
     id BIGSERIAL PRIMARY KEY,
     feature_flag_id BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
+    feature_flag_status TEXT NOT NULL,
     is_removed BOOLEAN NOT NULL DEFAULT FALSE
 );
 CREATE INDEX ON feature_flag_user_associations (feature_flag_id);
 CREATE INDEX ON feature_flag_user_associations (user_id);
+CREATE UNIQUE INDEX ON feature_flag_user_associations (feature_flag_id, user_id) WHERE is_removed = false;
 
 CREATE TABLE table_record_versions (
     id BIGSERIAL PRIMARY KEY,

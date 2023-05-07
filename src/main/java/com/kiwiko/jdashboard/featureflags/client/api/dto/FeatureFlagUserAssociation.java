@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 public class FeatureFlagUserAssociation extends SoftDeletableDataEntityDTO {
     private Long featureFlagId;
     private Long userId;
+    private String featureFlagStatus;
 }

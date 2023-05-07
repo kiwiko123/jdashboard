@@ -17,7 +17,7 @@ public class FeatureFlag extends SoftDeletableDataEntityDTO {
     private String status;
     private @Nullable String value;
     private String userScope;
-    private @Nullable Long userId;
+    @Deprecated private @Nullable Long userId;
 
     public String getName() {
         return name;
@@ -52,11 +52,13 @@ public class FeatureFlag extends SoftDeletableDataEntityDTO {
         this.userScope = userScope;
     }
 
+    @Deprecated
     @Nullable
     public Long getUserId() {
         return userId;
     }
 
+    @Deprecated
     public void setUserId(@Nullable Long userId) {
         this.userId = userId;
     }
