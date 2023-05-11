@@ -25,7 +25,7 @@ import java.nio.charset.StandardCharsets;
 @RestController
 @RequestMapping("/feature-flags/service-api")
 @JdashboardConfigured
-@LockedApi
+@LockedApi(clients = "feature-flag-service-client")
 public class FeatureFlagServiceApiController {
 
     @Inject private FeatureFlagService featureFlagService;
@@ -52,8 +52,9 @@ public class FeatureFlagServiceApiController {
     public ResolvedFeatureFlag getFlagState(
             @RequestParam("fn") String featureFlagName,
             @RequestParam(value = "u", required = false) @Nullable Long userId) {
-        FeatureFlagState state = featureFlagStateService.getForUser(featureFlagName, userId)
-                .orElse(null);
+        FeatureFlagState state = userId == null
+                ? featureFlagStateService.getPublicFlagByName(featureFlagName).orElse(null)
+                : featureFlagStateService.getUserFlagByName(featureFlagName, userId).orElse(null);
         return new ResolvedFeatureFlag(state);
     }
 

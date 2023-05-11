@@ -105,12 +105,12 @@ public class FeatureFlagStateServiceImpl implements FeatureFlagStateService {
     }
 
     @Override
-    public Optional<FeatureFlagState> getByName(String name) {
-        return getForUser(name, null);
+    public Optional<FeatureFlagState> getPublicFlagByName(String name) {
+        return getUserFlagByName(name, null);
     }
 
     @Override
-    public Optional<FeatureFlagState> getForUser(String name, Long userId) {
+    public Optional<FeatureFlagState> getUserFlagByName(String name, Long userId) {
         FeatureFlag featureFlag = featureFlagService.getByName(name).orElse(null);
         if (featureFlag == null) {
             return Optional.empty();
@@ -128,15 +128,15 @@ public class FeatureFlagStateServiceImpl implements FeatureFlagStateService {
 
     @Override
     public FeatureFlagState toggle(String name) {
-        FeatureFlagState existingState = getByName(name)
+        FeatureFlagState existingState = getPublicFlagByName(name)
                 .orElseThrow(() -> new FeatureFlagDoesNotExistException(String.format("Cannot toggle feature flag %s because it does not exist", name)));
 
-        return setForUser(name, null, FeatureFlagStatus.opposite(existingState.getStatus()));
+        return setForPublic(name, FeatureFlagStatus.opposite(existingState.getStatus()));
     }
 
     @Override
     public FeatureFlagState toggle(String name, Long userId) {
-        FeatureFlagState existingState = getForUser(name, userId)
+        FeatureFlagState existingState = getUserFlagByName(name, userId)
                 .orElseThrow(() -> new FeatureFlagDoesNotExistException(String.format("Cannot toggle feature flag %s because it does not exist", name)));
 
         return setForUser(name, userId, FeatureFlagStatus.opposite(existingState.getStatus()));
@@ -165,7 +165,7 @@ public class FeatureFlagStateServiceImpl implements FeatureFlagStateService {
     }
 
     private FeatureFlagState setForPublic(String featureFlagName, String newFeatureFlagStatus) {
-        FeatureFlagState existingState = getByName(featureFlagName).orElse(null);
+        FeatureFlagState existingState = getPublicFlagByName(featureFlagName).orElse(null);
 
         if (existingState == null) {
             FeatureFlagState stateToCreate = new FeatureFlagState();
@@ -179,7 +179,7 @@ public class FeatureFlagStateServiceImpl implements FeatureFlagStateService {
     }
 
     private FeatureFlagState setForUser(String featureFlagName, Long userId, String newFeatureFlagStatus) {
-        FeatureFlagState existingState = getForUser(featureFlagName, userId).orElse(null);
+        FeatureFlagState existingState = getUserFlagByName(featureFlagName, userId).orElse(null);
 
         if (existingState == null) {
             FeatureFlagState stateToCreate = new FeatureFlagState();

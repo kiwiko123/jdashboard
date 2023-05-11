@@ -13,4 +13,8 @@ public class FeatureFlagState {
     private String status;
     private @Nullable String value;
     private String userScope;
+
+    public boolean isEnabled() {
+        return FeatureFlagStatus.ENABLED.getId().equals(status);
+    }
 }

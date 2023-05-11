@@ -10,6 +10,6 @@ class GetFeatureFlagCacheStrategy extends RequestCacheStrategy {
     @Nullable
     @Override
     public Duration getCacheDuration() {
-        return Duration.ofSeconds(30);
+        return Duration.ofSeconds(5);
     }
 }

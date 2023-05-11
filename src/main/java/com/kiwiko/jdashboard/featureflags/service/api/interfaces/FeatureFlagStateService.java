@@ -5,9 +5,9 @@ import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagState;
 import java.util.Optional;
 
 public interface FeatureFlagStateService {
-    Optional<FeatureFlagState> getByName(String name);
+    Optional<FeatureFlagState> getPublicFlagByName(String name);
 
-    Optional<FeatureFlagState> getForUser(String name, Long userId);
+    Optional<FeatureFlagState> getUserFlagByName(String name, Long userId);
 
     FeatureFlagState toggle(String name);
 
