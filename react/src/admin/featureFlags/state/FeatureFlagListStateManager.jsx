@@ -56,9 +56,14 @@ export default class FeatureFlagListStateManager extends StateManager {
         featureFlagListItems[listItemIndex].isLoading = true;
         this.setState({ featureFlagListItems });
 
-        const featureFlagId = get(featureFlagListItems, [listItemIndex, 'featureFlag', 'id']);
-        Request.to(`/feature-flags/app-api/${featureFlagId}/status/toggle`)
+        const payload = {
+            featureFlagName: get(featureFlagListItems, [listItemIndex, 'featureFlag', 'name']),
+            userScope: 'public',
+        };
+
+        Request.to('/feature-flags/app-api/flags/toggle')
             .authenticated()
+            .body(payload)
             .post()
             .then(() => {
                 this.refreshFeatureFlags();

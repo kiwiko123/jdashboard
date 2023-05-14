@@ -16,4 +16,12 @@ public enum FeatureFlagUserScope implements Identifiable<String> {
     public String getId() {
         return id;
     }
+
+    public static boolean isPublic(String value) {
+        return PUBLIC.getId().equals(value);
+    }
+
+    public static boolean isIndividual(String value) {
+        return INDIVIDUAL.getId().equals(value);
+    }
 }

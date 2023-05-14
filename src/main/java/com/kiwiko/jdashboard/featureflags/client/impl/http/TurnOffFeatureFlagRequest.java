@@ -10,9 +10,9 @@ class TurnOffFeatureFlagRequest extends AbstractToggleFeatureFlagRequest {
     private final RequestUrl requestUrl;
     private final TurnOffFeatureFlagInput input;
 
-    public TurnOffFeatureFlagRequest(String featureFlagName, @Nullable Long userId) {
+    public TurnOffFeatureFlagRequest(TurnOffFeatureFlagInput input) {
         requestUrl = RequestUrl.fromPartial(new UriBuilder().setPath("/feature-flags/service-api/state/off"));
-        input = new TurnOffFeatureFlagInput(featureFlagName, userId);
+        this.input = input;
     }
 
     @Override

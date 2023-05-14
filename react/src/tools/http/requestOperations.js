@@ -5,9 +5,6 @@ function normalizeUrl(base, url) {
         if (!startsWith(url, '/')) {
             url = `/${url}`;
         }
-        if (!endsWith(url, '/')) {
-            url = `${url}/`;
-        }
     }
     return `${base}${url}`;
 }

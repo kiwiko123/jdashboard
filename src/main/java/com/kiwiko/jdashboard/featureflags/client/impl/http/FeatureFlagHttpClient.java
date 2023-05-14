@@ -1,9 +1,12 @@
 package com.kiwiko.jdashboard.featureflags.client.impl.http;
 
+import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagUserScope;
 import com.kiwiko.jdashboard.featureflags.client.api.interfaces.FeatureFlagClient;
 import com.kiwiko.jdashboard.featureflags.client.api.interfaces.parameters.GetFeatureFlagInput;
 import com.kiwiko.jdashboard.featureflags.client.api.interfaces.parameters.GetFeatureFlagOutput;
 import com.kiwiko.jdashboard.featureflags.client.api.interfaces.parameters.ResolvedFeatureFlag;
+import com.kiwiko.jdashboard.featureflags.client.api.interfaces.parameters.TurnOffFeatureFlagInput;
+import com.kiwiko.jdashboard.featureflags.client.api.interfaces.parameters.TurnOnFeatureFlagInput;
 import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
 import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiRequest;
 import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiClient;
@@ -56,7 +59,11 @@ public class FeatureFlagHttpClient implements FeatureFlagClient {
 
     @Override
     public ResolvedFeatureFlag turnOnForPublic(String featureFlagName) {
-        TurnOnFeatureFlagRequest request = new TurnOnFeatureFlagRequest(featureFlagName, null);
+        TurnOnFeatureFlagInput turnOnFeatureFlagInput = new TurnOnFeatureFlagInput();
+        turnOnFeatureFlagInput.setFeatureFlagName(featureFlagName);
+        turnOnFeatureFlagInput.setUserScope(FeatureFlagUserScope.PUBLIC.getId());
+
+        TurnOnFeatureFlagRequest request = new TurnOnFeatureFlagRequest(turnOnFeatureFlagInput);
         ClientResponse<ResolvedFeatureFlag> response = jdashboardApiClient.silentSynchronousCall(request);
 
         return response.isSuccessful() ? response.getPayload() : new ResolvedFeatureFlag(null);
@@ -64,7 +71,12 @@ public class FeatureFlagHttpClient implements FeatureFlagClient {
 
     @Override
     public ResolvedFeatureFlag turnOnForUser(String featureFlagName, Long userId) {
-        TurnOnFeatureFlagRequest request = new TurnOnFeatureFlagRequest(featureFlagName, userId);
+        TurnOnFeatureFlagInput turnOnFeatureFlagInput = new TurnOnFeatureFlagInput();
+        turnOnFeatureFlagInput.setFeatureFlagName(featureFlagName);
+        turnOnFeatureFlagInput.setUserScope(FeatureFlagUserScope.INDIVIDUAL.getId());
+        turnOnFeatureFlagInput.setUserId(userId);
+
+        TurnOnFeatureFlagRequest request = new TurnOnFeatureFlagRequest(turnOnFeatureFlagInput);
         ClientResponse<ResolvedFeatureFlag> response = jdashboardApiClient.silentSynchronousCall(request);
 
         return response.isSuccessful() ? response.getPayload() : new ResolvedFeatureFlag(null);
@@ -83,7 +95,11 @@ public class FeatureFlagHttpClient implements FeatureFlagClient {
 
     @Override
     public ResolvedFeatureFlag turnOffForPublic(String featureFlagName) {
-        TurnOffFeatureFlagRequest request = new TurnOffFeatureFlagRequest(featureFlagName, null);
+        TurnOffFeatureFlagInput turnOffFeatureFlagInput = new TurnOffFeatureFlagInput();
+        turnOffFeatureFlagInput.setFeatureFlagName(featureFlagName);
+        turnOffFeatureFlagInput.setUserScope(FeatureFlagUserScope.PUBLIC.getId());
+
+        TurnOffFeatureFlagRequest request = new TurnOffFeatureFlagRequest(turnOffFeatureFlagInput);
         ClientResponse<ResolvedFeatureFlag> response = jdashboardApiClient.silentSynchronousCall(request);
 
         return response.isSuccessful() ? response.getPayload() : new ResolvedFeatureFlag(null);
@@ -91,7 +107,12 @@ public class FeatureFlagHttpClient implements FeatureFlagClient {
 
     @Override
     public ResolvedFeatureFlag turnOffForUser(String featureFlagName, Long userId) {
-        TurnOffFeatureFlagRequest request = new TurnOffFeatureFlagRequest(featureFlagName, userId);
+        TurnOffFeatureFlagInput turnOffFeatureFlagInput = new TurnOffFeatureFlagInput();
+        turnOffFeatureFlagInput.setFeatureFlagName(featureFlagName);
+        turnOffFeatureFlagInput.setUserScope(FeatureFlagUserScope.INDIVIDUAL.getId());
+        turnOffFeatureFlagInput.setUserId(userId);
+
+        TurnOffFeatureFlagRequest request = new TurnOffFeatureFlagRequest(turnOffFeatureFlagInput);
         ClientResponse<ResolvedFeatureFlag> response = jdashboardApiClient.silentSynchronousCall(request);
 
         return response.isSuccessful() ? response.getPayload() : new ResolvedFeatureFlag(null);
