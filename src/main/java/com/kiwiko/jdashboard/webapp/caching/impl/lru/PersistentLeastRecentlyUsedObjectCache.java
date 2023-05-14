@@ -8,7 +8,7 @@ import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.time.temporal.TemporalAmount;
+import java.time.Duration;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -55,7 +55,7 @@ public class PersistentLeastRecentlyUsedObjectCache implements ObjectCache {
     }
 
     @Override
-    public <T> T cache(String key, T value, TemporalAmount duration) {
+    public <T> T cache(String key, T value, Duration duration) {
         CacheValue<T> cacheValue = new CacheValue<>(value, duration);
         keyCache.add(key);
         table.put(key, cacheValue);

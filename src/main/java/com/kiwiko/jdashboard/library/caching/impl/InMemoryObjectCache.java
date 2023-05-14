@@ -4,8 +4,7 @@ import com.kiwiko.jdashboard.library.caching.api.ObjectCache;
 import com.kiwiko.jdashboard.library.caching.impl.data.CacheValue;
 
 import javax.inject.Singleton;
-import java.time.Instant;
-import java.time.temporal.TemporalAmount;
+import java.time.Duration;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -41,7 +40,7 @@ public class InMemoryObjectCache implements ObjectCache {
     }
 
     @Override
-    public <T> T cache(String key, T value, TemporalAmount duration) {
+    public <T> T cache(String key, T value, Duration duration) {
         CacheValue<T> cacheValue = new CacheValue<>(value, duration);
         IN_MEMORY_CACHE.put(key, cacheValue);
         return value;
@@ -55,8 +54,7 @@ public class InMemoryObjectCache implements ObjectCache {
     }
 
     private boolean isExpired(CacheValue<?> value) {
-        return value.getExpirationTime()
-                .map(Instant.now()::isAfter)
-                .orElse(false);
+        Long expirationTimeMs = value.getExpirationTimeMs();
+        return expirationTimeMs != null && System.currentTimeMillis() >= expirationTimeMs;
     }
 }

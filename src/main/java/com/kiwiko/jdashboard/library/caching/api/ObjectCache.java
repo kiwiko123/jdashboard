@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.library.caching.api;
 
-import java.time.temporal.TemporalAmount;
+import java.time.Duration;
 import java.util.Optional;
 
 public interface ObjectCache {
@@ -31,7 +31,7 @@ public interface ObjectCache {
      * @param <T> the value's type.
      * @return the value
      */
-    <T> T cache(String key, T value, TemporalAmount duration);
+    <T> T cache(String key, T value, Duration duration);
 
     /**
      * Discards the value associated with the given key.

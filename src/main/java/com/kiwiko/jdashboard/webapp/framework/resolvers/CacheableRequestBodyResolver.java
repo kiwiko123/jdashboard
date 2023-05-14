@@ -37,7 +37,7 @@ public abstract class CacheableRequestBodyResolver {
      *
      * @return the duration of time to cache a given request's body.
      */
-    protected TemporalAmount getRequestBodyCacheDuration() {
+    protected Duration getRequestBodyCacheDuration() {
         return Duration.ofSeconds(10);
     }
 
