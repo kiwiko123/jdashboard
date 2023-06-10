@@ -4,6 +4,10 @@
     row-gap: 1.5rem;
 }
 
+.SimpleForm > .form-errors {
+    margin: 0 15% 0 15%;
+}
+
 .SimpleForm > .form-buttons {
     display: flex;
     align-self: flex-end;
@@ -26,4 +30,12 @@
 
 .SimpleForm.theme-light > .fields > .FormField > .label {
     color: #000;
+}
+
+.SimpleForm.theme-light > .form-errors > .Banner {
+    color: #000;
+}
+
+.SimpleForm.theme-dark > .form-errors > .Banner {
+    color: #FFF;
 }

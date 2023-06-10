@@ -1,11 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { isEmpty } from 'lodash';
 import InputFormField from 'common/forms/components/core/InputFormField';
 import DropdownSelectorFormField from 'common/forms/components/core/DropdownSelectorFormField';
 import StandardButton from 'ui/StandardButton';
+import Banner, { BANNER_TYPES } from 'common/components/Banner';
 
 import './SimpleForm.css';
+
+function getFormErrors(errors) {
+    if (isEmpty(errors)) {
+        return null;
+    }
+    const banners = errors.map(error => (
+        <Banner
+            key={error.message}
+            type={BANNER_TYPES.danger}
+        >
+            {error.message}
+        </Banner>
+    ));
+    return (
+        <div className="form-errors">
+            {banners}
+        </div>
+    );
+}
 
 function getFieldComponent(type) {
     switch (type) {
@@ -31,8 +52,9 @@ function getFieldComponents(fields) {
 }
 
 const SimpleForm = ({
-    fields, isFormValid, actions, className, theme,
+    fields, isFormValid, errors, actions, className, theme,
 }) => {
+    const formErrors = getFormErrors(errors);
     const fieldComponents = getFieldComponents(fields);
     const divClassName = classnames('SimpleForm', className, {
         [`theme-${theme}`]: theme,
@@ -40,6 +62,7 @@ const SimpleForm = ({
 
     return (
         <div className={divClassName}>
+            {formErrors}
             <div className="fields">
                 {fieldComponents}
             </div>
@@ -82,6 +105,9 @@ SimpleForm.propTypes = {
         submitForm: PropTypes.func.isRequired,
         clearForm: PropTypes.func.isRequired,
     }).isRequired,
+    errors: PropTypes.arrayOf(PropTypes.shape({
+        message: PropTypes.string.isRequired,
+    })),
     className: PropTypes.string,
     theme: PropTypes.oneOf(['light', 'dark']),
 };
@@ -89,6 +115,7 @@ SimpleForm.propTypes = {
 SimpleForm.defaultProps = {
     fields: {},
     isFormValid: false,
+    errors: null,
     className: null,
     theme: null,
 };

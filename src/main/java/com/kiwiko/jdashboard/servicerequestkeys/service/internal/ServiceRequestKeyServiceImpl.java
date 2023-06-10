@@ -11,7 +11,10 @@ import com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces.Cre
 
 import javax.inject.Inject;
 import java.time.Instant;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ServiceRequestKeyServiceImpl implements ServiceRequestKeyService {
 
@@ -35,6 +38,15 @@ public class ServiceRequestKeyServiceImpl implements ServiceRequestKeyService {
     public Optional<ServiceRequestKey> getByToken(String token) {
         return transactionProvider.readOnly(() -> dataAccessObject.getByToken(token).map(mapper::toDto));
     }
+
+    @Override
+    public List<ServiceRequestKey> getForUsers(Collection<Long> userIds) {
+        return transactionProvider.readOnly(
+                () -> dataAccessObject.getForUsers(userIds).stream()
+                        .map(mapper::toDto)
+                        .collect(Collectors.toList()));
+    }
+
 
     @Override
     public ServiceRequestKey create(ServiceRequestKey serviceRequestKey) {

@@ -1,6 +1,8 @@
 package com.kiwiko.jdashboard.servicerequestkeys.service;
 
 import com.kiwiko.jdashboard.framework.datasources.DefaultEntityManagerProvider;
+import com.kiwiko.jdashboard.servicerequestkeys.service.interfaces.app.ServiceRequestKeyAppService;
+import com.kiwiko.jdashboard.servicerequestkeys.service.internal.app.ServiceRequestKeyAppServiceImpl;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfigurationScope;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfigurationScopeLevel;
 import com.kiwiko.jdashboard.framework.datasources.frameworkinternal.FrameworkInternalDatasourceConfiguration;
@@ -34,5 +36,10 @@ public class ServiceRequestKeyServiceInternalConfiguration {
     @Bean
     public ServiceRequestKeyEntityMapper serviceRequestKeyEntityMapper() {
         return new ServiceRequestKeyEntityMapper();
+    }
+
+    @Bean
+    public ServiceRequestKeyAppService serviceRequestKeyAppService() {
+        return new ServiceRequestKeyAppServiceImpl();
     }
 }

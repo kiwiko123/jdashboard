@@ -96,6 +96,7 @@ export default class FormStateManager extends StateManager {
         this.addState({
             fields: {},
             isFormValid: false,
+            errors: null,
         });
         Object.entries(this.defaultFields())
             .forEach(([name, field]) => this.addField({ ...field, name }));

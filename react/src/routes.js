@@ -10,6 +10,8 @@ import ChatroomPage from 'chatroom/ChatroomPage';
 import ChatroomRoomPage from 'chatroom/rooms/ChatroomRoomPage';
 import GroceryListPage from 'grocerylist/GroceryListPage';
 import GroceryListDetailsPage from 'grocerylist/GroceryListDetailsPage';
+import ServiceRequestKeyManagerPage from 'developers/serviceRequestKeyManager/ServiceRequestKeyManagerPage';
+import CreateServiceRequestKeyPage from 'developers/serviceRequestKeyManager/create/CreateServiceRequestKeyPage';
 import NotFoundPage from './dashboard/pages/NotFoundPage';
 
 const ROUTES = {
@@ -79,6 +81,16 @@ const ROUTES = {
         id: 'groceryListDetails',
         path: '/grocerylist/:listId',
         component: GroceryListDetailsPage,
+    },
+    ServiceRequestKeyManager: {
+        id: 'serviceRequestKeyManager',
+        path: '/developers/service-request-key-manager',
+        component: ServiceRequestKeyManagerPage,
+    },
+    CreateServiceRequestKeyPage: {
+        id: 'createServiceRequestKey',
+        path: '/developers/service-request-key-manager/create',
+        component: CreateServiceRequestKeyPage,
     },
 };
 

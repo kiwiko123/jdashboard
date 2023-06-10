@@ -73,5 +73,12 @@ export function makeQuickLinkButtonSettings(props) {
             icon: 'fas fa-list-ul',
             shouldShow: () => props.isLoggedIn,
         },
+        {
+            id: 'developers',
+            label: 'Developers',
+            url: '/developers/service-request-key-manager',
+            icon: 'fas fa-code',
+            shouldShow: () => props.isLoggedIn,
+        },
     ];
 }
