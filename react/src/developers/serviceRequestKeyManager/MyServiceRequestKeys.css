@@ -1,0 +1,8 @@
+.MyServiceRequestKeys > .heading {
+    color: white;
+}
+
+.MyServiceRequestKeys > .service-request-keys-list {
+    color: white;
+    padding: 0 2.5rem 0 2.5rem;
+}

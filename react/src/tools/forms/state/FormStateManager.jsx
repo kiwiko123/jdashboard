@@ -110,10 +110,7 @@ export default class FormStateManager extends StateManager {
     packageFormData() {
         return mapValues(
             this.state.fields,
-            field => ({
-                name: field.name,
-                value: field.value,
-            }),
+            field => field.value,
         );
     }
 }

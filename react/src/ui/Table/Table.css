@@ -1,0 +1,25 @@
+.Table > .header {
+    font-weight: bold;
+}
+
+.Table > .header.grid {
+    border-top: 1px solid white;
+}
+
+.Table > .header.grid, .header.lines {
+    border-bottom: 1px solid white;
+}
+
+.Table > .row {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.Table > .row > .column.grid {
+    border-left: 0.25px solid white;
+    border-right: 0.25px solid white;
+}
+
+.Table > .row.grid:not(.header), .row.lines:not(.header) {
+    border-bottom: 0.5px solid white;
+}

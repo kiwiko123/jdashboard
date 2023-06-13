@@ -7,13 +7,19 @@ export default class CreateServiceRequestKeyFormStateManager extends FormStateMa
     submitForm() {
         this.setState({ errors: null });
 
-        const payload = this.packageFormData();
+        const payload = {
+            scope: this.state.fields.scope.value,
+            serviceClientName: this.state.fields.serviceClientName.value,
+            description: this.state.fields.description.value,
+            expirationDate: new Date(this.state.fields.expirationDate.value).toISOString(),
+        };
+
         Request.to('/developers/service-request-keys/app-api')
             .body(payload)
             .authenticated()
             .post()
             .then((response) => {
-                goTo('/developers-service-request-keys');
+                goTo('/developers/service-request-key-manager');
             })
             .catch((error) => {
                 this.setState({
@@ -28,6 +34,7 @@ export default class CreateServiceRequestKeyFormStateManager extends FormStateMa
                 name: 'scope',
                 type: 'dropdownSelector',
                 label: 'Scope',
+                value: 'internal',
                 isRequired: true,
                 validate: Boolean,
                 options: [
@@ -58,10 +65,10 @@ export default class CreateServiceRequestKeyFormStateManager extends FormStateMa
             },
             expirationDate: {
                 name: 'expirationDate',
-                type: 'input',
+                type: 'datetime-local',
                 label: 'Expiration date',
                 isRequired: false,
-                validate: Boolean,
+                validate: date => new Date(date) >= new Date(),
             },
         };
     }

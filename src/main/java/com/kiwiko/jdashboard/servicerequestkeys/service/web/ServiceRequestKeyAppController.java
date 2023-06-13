@@ -7,7 +7,6 @@ import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.UserAu
 import com.kiwiko.jdashboard.servicerequestkeys.service.interfaces.ServiceRequestKey;
 import com.kiwiko.jdashboard.servicerequestkeys.service.interfaces.app.GetServiceRequestKeysResponse;
 import com.kiwiko.jdashboard.servicerequestkeys.service.interfaces.app.ServiceRequestKeyAppService;
-import com.kiwiko.jdashboard.webapp.framework.json.deserialization.api.impl.GsonRequestBodyDeserializationStrategy;
 import com.kiwiko.jdashboard.webapp.framework.json.deserialization.api.interfaces.CustomRequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +30,7 @@ public class ServiceRequestKeyAppController {
 
     @PostMapping("")
     public ServiceRequestKey createServiceRequestKey(
-            @CustomRequestBody(strategy = GsonRequestBodyDeserializationStrategy.class) ServiceRequestKey serviceRequestKey,
+            @CustomRequestBody(strategy = CreateServiceRequestKeyRequestBodyDeserializer.class) ServiceRequestKey serviceRequestKey,
             @AuthenticatedUser User currentUser) {
         serviceRequestKey.setCreatedByUserId(currentUser.getId());
         return serviceRequestKeyAppService.create(serviceRequestKey);

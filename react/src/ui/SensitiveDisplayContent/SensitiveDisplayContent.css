@@ -1,0 +1,13 @@
+.SensitiveDisplayContent {
+    display: flex;
+    align-items: center;
+    column-gap: 1rem;
+}
+
+.SensitiveDisplayContent > .content-placeholder {
+    height: 2rem;
+    width: 5rem;
+    filter: blur(10px);
+    background-color: white;
+    opacity: 50%;
+}
