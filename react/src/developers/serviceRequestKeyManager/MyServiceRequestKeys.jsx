@@ -37,7 +37,7 @@ const MyServiceRequestKeys = ({
             },
             {
                 name: 'requestToken',
-                content: <SensitiveDisplayContent>{serviceRequestKey.requestToken}</SensitiveDisplayContent>,
+                content: <SensitiveDisplayContent startHidden={true}>{serviceRequestKey.requestToken}</SensitiveDisplayContent>,
             },
         ],
         name: serviceRequestKey.id,

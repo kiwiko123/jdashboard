@@ -3,6 +3,10 @@ import StateManager from 'state/StateManager';
 import Request from 'tools/http/Request';
 import logger from 'tools/monitoring/logging';
 
+function formatIsoStringToReadableDate(isoString) {
+    return new Date(isoString).toLocaleString();
+}
+
 export default class MyServiceRequestKeysStateManager extends StateManager {
     constructor() {
         super();
@@ -19,7 +23,11 @@ export default class MyServiceRequestKeysStateManager extends StateManager {
             .authenticated()
             .get()
             .then((response) => {
-                const serviceRequestKeys = get(response, 'serviceRequestKeys', []);
+                const serviceRequestKeys = get(response, 'serviceRequestKeys', [])
+                    .map(serviceRequestKey => ({
+                        ...serviceRequestKey,
+                        expirationDate: formatIsoStringToReadableDate(serviceRequestKey.expirationDate),
+                    }));
                 this.setState({ serviceRequestKeys });
             });
     }

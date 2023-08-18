@@ -27,14 +27,21 @@ const Table = ({
     }
 
     const rowElements = rows.map((row) => {
-        const cells = row.columns.map(column => (
-            <div
-                key={column.name}
-                className={classnames('column', style)}
-            >
-                {column.content}
-            </div>
-        ));
+        const cells = row.columns.map(column => {
+            const content = typeof column.content === 'function'
+                ? column.content()
+                : column.content;
+
+            return (
+                <div
+                    key={column.name}
+                    className={classnames('column', style)}
+                >
+                    {content}
+                </div>
+            );
+        });
+
         return (
             <div
                 key={row.name}
@@ -60,7 +67,7 @@ Table.propTypes = {
     })),
     rows: PropTypes.arrayOf(PropTypes.shape({
         columns: PropTypes.arrayOf(PropTypes.shape({
-            content: PropTypes.node.isRequired,
+            content: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
             name: PropTypes.string.isRequired,
         })),
         name: PropTypes.string.isRequired,
@@ -71,6 +78,7 @@ Table.propTypes = {
 Table.defaultProps = {
     className: null,
     headers: [],
+    rows: [],
     style: 'grid',
 }
 
