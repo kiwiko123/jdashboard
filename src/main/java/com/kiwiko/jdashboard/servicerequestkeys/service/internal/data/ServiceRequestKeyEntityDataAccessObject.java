@@ -11,6 +11,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -45,7 +46,10 @@ public class ServiceRequestKeyEntityDataAccessObject extends CustomJpaDataAccess
         Expression<Long> userId = root.get("createdByUserId");
         Predicate wasCreatedByUser = userId.in(userIds);
 
-        criteriaQuery.where(wasCreatedByUser);
+        Expression<Instant> expirationDate = root.get("expirationDate");
+        Predicate isActive = criteriaBuilder.greaterThan(expirationDate, Instant.now());
+
+        criteriaQuery.where(wasCreatedByUser, isActive);
         return createQuery(criteriaQuery).getResultList();
     }
 }
