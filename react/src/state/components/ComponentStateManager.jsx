@@ -16,6 +16,13 @@ const ComponentStateManager = ({
                 setManagerState(state);
             },
         );
+        if (stateManager.__setStateCount > 0) {
+            // The state manager may have already made state updates before being linked to its component.
+            // In that event, an update must be manually triggered so that the component renders with fresh data.
+            // Without doing this, the component may sometimes render with the default (empty) state based on render
+            // timing.
+            stateManager.update();
+        }
 
         return () => {
             logger.debug(`[ComponentStateManager] Unlinking ${componentId}`);

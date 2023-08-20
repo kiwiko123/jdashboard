@@ -2,6 +2,7 @@ export default class CoreStateManager {
     constructor() {
         this.state = {};
         this.__stateProcessorsById = new Map();
+        this.__setStateCount = 0;
     }
 
     /**
@@ -9,6 +10,7 @@ export default class CoreStateManager {
      */
     setState(newState) {
         Object.assign(this.state, newState);
+        ++this.__setStateCount;
     }
 
     registerMethod(method) {
