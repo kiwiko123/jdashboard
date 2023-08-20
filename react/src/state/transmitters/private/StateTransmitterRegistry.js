@@ -35,10 +35,8 @@ function routeState(transmitter, sourceTag, sourceState, metadata) {
     const receiveSpecificTransmitterFunctionName = `receive${sourceTag}`;
     let receiveSpecificTransmitter = transmitter[receiveSpecificTransmitterFunctionName];
     if (receiveSpecificTransmitter) {
-        logger.debug(`Routing state to ${transmitter.tag}.${receiveSpecificTransmitterFunctionName}`);
         receiveSpecificTransmitter.bind(transmitter)(sourceState, metadata);
     } else {
-        logger.debug(`No specific receive method found matching "${receiveSpecificTransmitterFunctionName}"; routing to receive`);
         transmitter.receiveState(sourceTag, sourceState, metadata);
     }
 }
