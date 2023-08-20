@@ -8,7 +8,7 @@ function register(stateTransmitter) {
         : new Set([]);
     transmitters.add(stateTransmitter);
     STATE_TRANSMITTERS_BY_TAG.set(stateTransmitter.tag, transmitters);
-    logger.debug(`Registered state transmitter ${stateTransmitter.id}`);
+    logger.debug(`Registered state transmitter ${stateTransmitter.__id}`);
 }
 
 function deregister(stateTransmitter) {
@@ -18,7 +18,7 @@ function deregister(stateTransmitter) {
     const transmitters = STATE_TRANSMITTERS_BY_TAG.get(stateTransmitter.tag);
     transmitters.delete(stateTransmitter);
     STATE_TRANSMITTERS_BY_TAG.set(stateTransmitter.tag, transmitters);
-    logger.debug(`De-registered state transmitter ${stateTransmitter.id}`);
+    logger.debug(`De-registered state transmitter ${stateTransmitter.__id}`);
 }
 
 function get(tag) {
