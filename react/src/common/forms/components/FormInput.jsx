@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 const FormInput = ({
-    text, type, name, className, onSubmit, onChange, onBlur, autoComplete, placeholder,
+    text, type, name, className, onSubmit, onChange, onBlur, autoComplete, placeholder, ...props,
 }) => {
     const divClassName = classnames('FormInput', className);
     // TODO useEventSubmit
@@ -15,6 +15,7 @@ const FormInput = ({
 
     return (
         <input
+            {...props}
             className={divClassName}
             type={type}
             value={text || ''}

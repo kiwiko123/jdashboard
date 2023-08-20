@@ -51,9 +51,16 @@ export default class FormStateManager extends StateManager {
     /**
      * Add a new field to the form. Derived state managers should invoke this in their constructors to set up the form's necessary fields.
      */
-    addField({ name, type, label, value, isRequired, validate, options }) {
+    addField(props) {
+        const {
+            // Listed props officially recognized by FormStateManager.
+            // Destructured for clarity as to what fields are set.
+            name, type, label, value, isRequired, validate, options,
+        } = props;
+
         const { fields } = this.state;
         fields[name] = {
+            ...props,
             name,
             type,
             label,
