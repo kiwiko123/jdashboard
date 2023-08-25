@@ -9,7 +9,6 @@ import com.kiwiko.jdashboard.framework.controllers.api.annotations.auth.Authenti
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.framework.json.api.ResponseBuilder;
 import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.events.UserAuthenticationEventClient;
 import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionService;
 import com.kiwiko.jdashboard.clients.sessions.api.dto.Session;
 import com.kiwiko.jdashboard.services.users.api.interfaces.UserService;
@@ -23,13 +22,16 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * @deprecated Prefer {@link com.kiwiko.jdashboard.services.userauth.web.UserAuthApiController}
+ */
 @JdashboardConfigured
 @RestController
+@Deprecated
 public class LegacyUserAuthenticationAPIController {
 
     @Inject private SessionService sessionService;
     @Inject private UserService userService;
-    @Inject private UserAuthenticationEventClient userAuthenticationEventClient;
     @Inject private UserCredentialClient userCredentialClient;
     @Inject private Logger logger;
 
@@ -53,7 +55,6 @@ public class LegacyUserAuthenticationAPIController {
     @PostMapping("/user-auth/api/users/current/logout")
     public ResponsePayload logCurrentUserOut(@AuthenticatedUser com.kiwiko.jdashboard.clients.users.api.dto.User user) {
         sessionService.endSessionForUser(user.getId());
-        userAuthenticationEventClient.recordLogOutEvent(user.getId());
 
         return ResponseBuilder.ok();
     }
