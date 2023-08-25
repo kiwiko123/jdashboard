@@ -1,6 +1,5 @@
 package com.kiwiko.jdashboard.featureflags.service.web;
 
-import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagEventClient;
 import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagResolver;
 import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagService;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlag;
@@ -31,7 +30,6 @@ import java.util.List;
 public class FeatureFlagApiController {
 
     @Inject private FeatureFlagAPIHelper featureFlagAPIHelper;
-    @Inject private FeatureFlagEventClient featureFlagEventClient;
     @Inject private FeatureFlagService featureFlagService;
     @Inject private FeatureFlagResolver featureFlagResolver;
 
@@ -61,7 +59,6 @@ public class FeatureFlagApiController {
     @PostMapping("/feature-flags/api")
     @ResponseBody
     public FeatureFlag create(@RequestBody FeatureFlag featureFlag) {
-        featureFlagEventClient.createCreateFeatureFlagEvent(featureFlag);
         return featureFlagService.create(featureFlag);
     }
 
@@ -72,7 +69,6 @@ public class FeatureFlagApiController {
             @PathVariable("id") long id,
             @CustomRequestBody(strategy = GsonRequestBodyDeserializationStrategy.class) FeatureFlag featureFlag) {
         featureFlag.setId(id);
-        featureFlagEventClient.createUpdateFeatureFlagEvent(featureFlag);
         return featureFlagService.update(featureFlag);
     }
 
@@ -83,15 +79,12 @@ public class FeatureFlagApiController {
             @PathVariable("id") long id,
             @RequestBody FeatureFlag featureFlag) {
         featureFlag.setId(id);
-        featureFlagEventClient.createMergeFeatureFlagEvent(featureFlag);
         return featureFlagService.merge(featureFlag);
     }
 
     @UserAuthCheck
     @DeleteMapping("/feature-flags/api/{id}")
     public ResponsePayload remove(@PathVariable("id") long id) {
-        featureFlagEventClient.createDeleteFeatureFlagEvent(id);
-
         featureFlagService.delete(id);
         return ResponseBuilder.ok();
     }
