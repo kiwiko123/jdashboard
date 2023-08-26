@@ -217,3 +217,13 @@ CREATE TABLE service_request_keys (
 );
 CREATE INDEX ON service_request_keys (service_client_name);
 CREATE INDEX ON service_request_keys (request_token);
+
+CREATE TABLE timeline_events (
+    id BIGSERIAL PRIMARY KEY,
+    event_name TEXT NOT NULL,
+    event_key TEXT,
+    metadata TEXT,
+    created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    created_by_user_id BIGINT NOT NULL
+);
+CREATE INDEX ON timeline_events (event_name, event_key);

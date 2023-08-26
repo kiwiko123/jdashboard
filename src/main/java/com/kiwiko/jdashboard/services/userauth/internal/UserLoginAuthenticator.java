@@ -20,6 +20,8 @@ import com.kiwiko.jdashboard.services.userauth.api.interfaces.exceptions.Invalid
 import com.kiwiko.jdashboard.services.userauth.api.interfaces.exceptions.UserAuthenticationException;
 import com.kiwiko.jdashboard.services.userauth.web.dto.LogUserInInput;
 import com.kiwiko.jdashboard.services.userauth.web.dto.LogUserInOutput;
+import com.kiwiko.jdashboard.timeline.events.client.api.CreateTimelineEventInput;
+import com.kiwiko.jdashboard.timeline.events.client.api.TimelineEventClient;
 import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
 
 import javax.inject.Inject;
@@ -34,11 +36,19 @@ public class UserLoginAuthenticator {
     @Inject private UserClient userClient;
     @Inject private UserCredentialClient userCredentialClient;
     @Inject private SessionClient sessionClient;
+    @Inject private TimelineEventClient timelineEventClient;
 
     public LogUserInOutput logUserIn(LogUserInInput input) throws UserAuthenticationException {
         User user = getUserByUsername(input.getUserLoginData().getUsername());
         validatePassword(input.getUserLoginData().getPassword(), user.getId());
         logUserIn(user.getId(), input.getHttpServletResponse());
+
+        CreateTimelineEventInput createTimelineEventInput = CreateTimelineEventInput.builder()
+                .eventName("user-log-in")
+                .eventKey(user.getId().toString())
+                .currentUserId(user.getId())
+                .build();
+        timelineEventClient.pushNewTimelineEvent(createTimelineEventInput);
 
         LogUserInOutput output = new LogUserInOutput();
         output.setUserId(user.getId());
