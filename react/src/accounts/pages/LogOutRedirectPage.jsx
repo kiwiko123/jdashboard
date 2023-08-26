@@ -5,7 +5,7 @@ const LogOutRedirectPage = () => (
     <UserAuthRedirectPage
         className="LogOutRedirectPage"
         text="Logging out..."
-        redirectWaitSeconds={4}
+        redirectWaitSeconds={1}
     />
 );
 

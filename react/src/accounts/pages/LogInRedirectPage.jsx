@@ -5,7 +5,7 @@ const LogInRedirectPage = () => (
     <UserAuthRedirectPage
         className="LogInRedirectPage"
         text="Logging in..."
-        redirectWaitSeconds={4}
+        redirectWaitSeconds={1}
     />
 );
 
