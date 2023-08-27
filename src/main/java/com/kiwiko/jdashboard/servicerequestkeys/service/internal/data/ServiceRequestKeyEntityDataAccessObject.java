@@ -1,11 +1,7 @@
 package com.kiwiko.jdashboard.servicerequestkeys.service.internal.data;
 
-import com.kiwiko.jdashboard.framework.datasources.DefaultEntityManagerProvider;
-import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.jdashboard.tools.dataaccess.impl.CustomJpaDataAccessObject;
-import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.DataChangeCapturer;
+import com.kiwiko.jdashboard.tools.dataaccess.impl.JpaDataAccessObject;
 
-import javax.inject.Inject;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
@@ -16,15 +12,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public class ServiceRequestKeyEntityDataAccessObject extends CustomJpaDataAccessObject<ServiceRequestKeyEntity> {
-
-    @Inject
-    public ServiceRequestKeyEntityDataAccessObject(
-            DefaultEntityManagerProvider entityManagerProvider,
-            DataChangeCapturer dataChangeCapturer,
-            Logger logger) {
-        super(entityManagerProvider, dataChangeCapturer, logger);
-    }
+public class ServiceRequestKeyEntityDataAccessObject extends JpaDataAccessObject<ServiceRequestKeyEntity> {
 
     public Optional<ServiceRequestKeyEntity> getByToken(String token) {
         CriteriaBuilder criteriaBuilder = getCriteriaBuilder();

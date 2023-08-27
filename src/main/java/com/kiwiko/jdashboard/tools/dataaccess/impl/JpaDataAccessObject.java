@@ -3,11 +3,12 @@ package com.kiwiko.jdashboard.tools.dataaccess.impl;
 import com.kiwiko.jdashboard.tools.dataaccess.api.interfaces.DataAccessObject;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.parameters.SaveDataChangeCaptureParameters;
 import com.kiwiko.jdashboard.library.lang.reflection.ReflectionHelper;
-import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.LongDataEntity;
 import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.SoftDeletable;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.api.interfaces.CaptureDataChanges;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.DataChangeCapturer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Nullable;
@@ -23,17 +24,13 @@ import javax.persistence.criteria.CriteriaQuery;
 import java.util.Objects;
 import java.util.Optional;
 
-/**
- * @deprecated prefer {@link CustomJpaDataAccessObject}
- */
-@Deprecated
 @Repository
 public abstract class JpaDataAccessObject<T extends LongDataEntity> implements DataAccessObject<T> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(JpaDataAccessObject.class);
 
     // Spring-provisioned fields.
     @PersistenceContext private EntityManager entityManager;
     @Inject private DataChangeCapturer dataChangeCapturer;
-    @Inject private Logger logger;
 
     // Stateful data.
     private final @Nullable CaptureDataChanges captureDataChanges;
@@ -185,7 +182,7 @@ public abstract class JpaDataAccessObject<T extends LongDataEntity> implements D
         try {
             return dataChangeCapturer.save(parameters);
         } catch (Exception e) {
-            logger.error(String.format("Error capturing data change for entity %s", entity), e);
+            LOGGER.error(String.format("Error capturing data change for entity %s", entity), e);
             if (captureDataChanges.exceptionOnFailure()) {
                 throw e;
             }
