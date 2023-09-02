@@ -17,7 +17,7 @@ public @interface UserPermissionCheck {
 
     /**
      * @return the permission names that are required to access the annotated controller or method.
-     * @see com.kiwiko.jdashboard.services.permissions.api.interfaces.PermissionNames
+     * @see com.kiwiko.jdashboard.permissions.service.api.interfaces.PermissionNames
      */
     String[] value() default {};
 }

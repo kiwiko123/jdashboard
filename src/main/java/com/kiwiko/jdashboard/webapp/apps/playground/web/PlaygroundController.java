@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.apps.playground.web;
 
-import com.kiwiko.jdashboard.clients.permissions.api.interfaces.PermissionClient;
+import com.kiwiko.jdashboard.permissions.client.api.interfaces.PermissionClient;
 import com.kiwiko.jdashboard.clients.users.api.dto.User;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.UserClient;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.LockedApi;

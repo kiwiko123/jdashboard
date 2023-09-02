@@ -10,7 +10,7 @@ import com.kiwiko.jdashboard.featureflags.client.api.interfaces.parameters.Updat
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.auth.AuthenticatedUser;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.UserPermissionCheck;
-import com.kiwiko.jdashboard.services.permissions.api.interfaces.PermissionNames;
+import com.kiwiko.jdashboard.permissions.service.api.interfaces.PermissionNames;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;

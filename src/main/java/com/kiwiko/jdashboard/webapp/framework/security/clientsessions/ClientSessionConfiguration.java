@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.security.clientsessions;
 
-import com.kiwiko.jdashboard.clients.permissions.PermissionClientConfiguration;
+import com.kiwiko.jdashboard.permissions.client.PermissionClientConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.requests.RequestConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.security.clientsessions.api.interfaces.ClientSessionService;

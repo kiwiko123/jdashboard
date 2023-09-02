@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.services.tablerecordversions.web;
 
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
-import com.kiwiko.jdashboard.services.permissions.api.interfaces.PermissionNames;
+import com.kiwiko.jdashboard.permissions.service.api.interfaces.PermissionNames;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.UserPermissionCheck;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.interfaces.parameters.GetTableRecordVersions;
 import com.kiwiko.jdashboard.services.tablerecordversions.api.dto.TableRecordVersion;

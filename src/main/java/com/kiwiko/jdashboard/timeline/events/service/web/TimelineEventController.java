@@ -2,7 +2,7 @@ package com.kiwiko.jdashboard.timeline.events.service.web;
 
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.UserPermissionCheck;
-import com.kiwiko.jdashboard.services.permissions.api.interfaces.PermissionNames;
+import com.kiwiko.jdashboard.permissions.service.api.interfaces.PermissionNames;
 import com.kiwiko.jdashboard.timeline.events.client.api.TimelineEvent;
 import com.kiwiko.jdashboard.timeline.events.service.internal.TimelineEventService;
 import org.springframework.web.bind.annotation.GetMapping;

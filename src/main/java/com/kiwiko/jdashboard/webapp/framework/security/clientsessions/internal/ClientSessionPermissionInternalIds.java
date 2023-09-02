@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.security.clientsessions.internal;
 
-import com.kiwiko.jdashboard.services.permissions.api.interfaces.PermissionNames;
+import com.kiwiko.jdashboard.permissions.service.api.interfaces.PermissionNames;
 
 import java.util.Arrays;
 import java.util.Map;
