@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.webapp.framework;
 
 import com.kiwiko.jdashboard.permissions.client.PermissionClientConfiguration;
-import com.kiwiko.jdashboard.clients.sessions.SessionClientConfiguration;
+import com.kiwiko.jdashboard.sessions.client.SessionClientConfiguration;
 import com.kiwiko.jdashboard.clients.users.UserClientConfiguration;
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
 import com.kiwiko.jdashboard.framework.permissions.internal.UserPermissionCheckInterceptor;

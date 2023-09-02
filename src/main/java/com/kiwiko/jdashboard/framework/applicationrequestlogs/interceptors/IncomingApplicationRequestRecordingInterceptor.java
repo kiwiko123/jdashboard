@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.framework.applicationrequestlogs.interceptors;
 
-import com.kiwiko.jdashboard.clients.sessions.api.dto.Session;
+import com.kiwiko.jdashboard.sessions.client.api.dto.Session;
 import com.kiwiko.jdashboard.framework.applicationrequestlogs.incoming.service.interfaces.IncomingApplicationRequestLog;
 import com.kiwiko.jdashboard.framework.applicationrequestlogs.incoming.service.interfaces.IncomingApplicationRequestLogService;
 import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.RequestInterceptor;

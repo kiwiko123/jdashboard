@@ -1,9 +1,9 @@
 package com.kiwiko.jdashboard.services.userauth.internal;
 
-import com.kiwiko.jdashboard.clients.sessions.api.dto.Session;
-import com.kiwiko.jdashboard.clients.sessions.api.interfaces.CreateSessionInput;
-import com.kiwiko.jdashboard.clients.sessions.api.interfaces.CreateSessionOutput;
-import com.kiwiko.jdashboard.clients.sessions.api.interfaces.SessionClient;
+import com.kiwiko.jdashboard.sessions.client.api.dto.Session;
+import com.kiwiko.jdashboard.sessions.client.api.interfaces.CreateSessionInput;
+import com.kiwiko.jdashboard.sessions.client.api.interfaces.CreateSessionOutput;
+import com.kiwiko.jdashboard.sessions.client.api.interfaces.SessionClient;
 import com.kiwiko.jdashboard.clients.usercredentials.api.dto.UserCredential;
 import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.UserCredentialClient;
 import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.QueryUserCredentialsInput;
@@ -14,7 +14,7 @@ import com.kiwiko.jdashboard.clients.users.api.dto.User;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.UserClient;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.queries.GetUsersQuery;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.GetUsersByQueryResponse;
-import com.kiwiko.jdashboard.services.sessions.api.dto.SessionProperties;
+import com.kiwiko.jdashboard.sessions.service.api.dto.SessionProperties;
 import com.kiwiko.jdashboard.services.userauth.api.interfaces.exceptions.IncorrectPasswordException;
 import com.kiwiko.jdashboard.services.userauth.api.interfaces.exceptions.InvalidUsernameException;
 import com.kiwiko.jdashboard.services.userauth.api.interfaces.exceptions.UserAuthenticationException;

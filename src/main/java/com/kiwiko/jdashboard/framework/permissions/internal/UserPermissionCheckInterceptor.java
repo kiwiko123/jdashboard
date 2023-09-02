@@ -4,7 +4,7 @@ import com.kiwiko.jdashboard.permissions.client.api.interfaces.PermissionClient;
 import com.kiwiko.jdashboard.permissions.client.api.interfaces.parameters.QueryPermissionsInput;
 import com.kiwiko.jdashboard.permissions.client.api.interfaces.parameters.QueryPermissionsOutput;
 import com.kiwiko.jdashboard.webapp.framework.interceptors.internal.SessionRequestHelper;
-import com.kiwiko.jdashboard.clients.sessions.api.dto.Session;
+import com.kiwiko.jdashboard.sessions.client.api.dto.Session;
 import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.RequestInterceptor;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.UserPermissionCheck;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;

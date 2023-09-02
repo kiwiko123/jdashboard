@@ -5,8 +5,8 @@ import com.kiwiko.jdashboard.webapp.framework.interceptors.internal.SessionReque
 import com.kiwiko.jdashboard.webapp.framework.requests.api.RequestContextService;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.RequestError;
 import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
-import com.kiwiko.jdashboard.clients.sessions.api.dto.Session;
-import com.kiwiko.jdashboard.services.sessions.api.dto.SessionProperties;
+import com.kiwiko.jdashboard.sessions.client.api.dto.Session;
+import com.kiwiko.jdashboard.sessions.service.api.dto.SessionProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.method.HandlerMethod;

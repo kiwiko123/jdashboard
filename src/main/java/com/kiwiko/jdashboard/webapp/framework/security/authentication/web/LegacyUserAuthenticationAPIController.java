@@ -9,8 +9,8 @@ import com.kiwiko.jdashboard.framework.controllers.api.annotations.auth.Authenti
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.webapp.framework.json.api.ResponseBuilder;
 import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
-import com.kiwiko.jdashboard.services.sessions.api.interfaces.SessionService;
-import com.kiwiko.jdashboard.clients.sessions.api.dto.Session;
+import com.kiwiko.jdashboard.sessions.service.api.interfaces.SessionService;
+import com.kiwiko.jdashboard.sessions.client.api.dto.Session;
 import com.kiwiko.jdashboard.services.users.api.interfaces.UserService;
 import com.kiwiko.jdashboard.services.users.api.interfaces.parameters.CreateUserParameters;
 import com.kiwiko.jdashboard.services.users.api.dto.User;

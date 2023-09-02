@@ -9,7 +9,7 @@ import com.kiwiko.jdashboard.webapp.framework.requests.api.RequestError;
 import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
 import com.kiwiko.jdashboard.library.json.data.IntermediateJsonBody;
 import com.kiwiko.jdashboard.webapp.framework.resolvers.data.RequestBodyCacheData;
-import com.kiwiko.jdashboard.services.sessions.api.dto.SessionProperties;
+import com.kiwiko.jdashboard.sessions.service.api.dto.SessionProperties;
 import org.springframework.lang.Nullable;
 
 import javax.inject.Inject;
@@ -17,7 +17,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.time.Duration;
-import java.time.temporal.TemporalAmount;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;

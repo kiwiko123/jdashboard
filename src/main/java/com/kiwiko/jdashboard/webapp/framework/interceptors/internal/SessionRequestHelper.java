@@ -2,14 +2,14 @@ package com.kiwiko.jdashboard.webapp.framework.interceptors.internal;
 
 import com.kiwiko.jdashboard.library.http.client.exceptions.ApiClientException;
 import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
-import com.kiwiko.jdashboard.clients.sessions.api.dto.Session;
-import com.kiwiko.jdashboard.services.sessions.api.dto.SessionProperties;
-import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsInput;
-import com.kiwiko.jdashboard.clients.sessions.api.interfaces.GetSessionsOutput;
-import com.kiwiko.jdashboard.clients.sessions.api.interfaces.InvalidateSessionInput;
-import com.kiwiko.jdashboard.clients.sessions.api.interfaces.InvalidateSessionOutput;
-import com.kiwiko.jdashboard.clients.sessions.api.interfaces.SessionClient;
-import com.kiwiko.jdashboard.clients.sessions.api.interfaces.SessionData;
+import com.kiwiko.jdashboard.sessions.client.api.dto.Session;
+import com.kiwiko.jdashboard.sessions.service.api.dto.SessionProperties;
+import com.kiwiko.jdashboard.sessions.client.api.interfaces.GetSessionsInput;
+import com.kiwiko.jdashboard.sessions.client.api.interfaces.GetSessionsOutput;
+import com.kiwiko.jdashboard.sessions.client.api.interfaces.InvalidateSessionInput;
+import com.kiwiko.jdashboard.sessions.client.api.interfaces.InvalidateSessionOutput;
+import com.kiwiko.jdashboard.sessions.client.api.interfaces.SessionClient;
+import com.kiwiko.jdashboard.sessions.client.api.interfaces.SessionData;
 import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
 
 import javax.annotation.Nullable;

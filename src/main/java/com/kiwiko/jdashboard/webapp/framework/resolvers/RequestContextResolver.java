@@ -3,7 +3,7 @@ package com.kiwiko.jdashboard.webapp.framework.resolvers;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.RequestContextService;
 import com.kiwiko.jdashboard.webapp.framework.requests.api.RequestError;
 import com.kiwiko.jdashboard.webapp.framework.requests.data.RequestContext;
-import com.kiwiko.jdashboard.services.sessions.api.dto.SessionProperties;
+import com.kiwiko.jdashboard.sessions.service.api.dto.SessionProperties;
 import org.springframework.core.MethodParameter;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.support.WebDataBinderFactory;

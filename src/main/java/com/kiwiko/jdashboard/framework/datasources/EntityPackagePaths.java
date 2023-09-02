@@ -17,7 +17,7 @@ public final class EntityPackagePaths {
             "com.kiwiko.jdashboard.webapp.notifications.internal.dataaccess",
             "com.kiwiko.jdashboard.services.usercredentials.internal.data",
             "com.kiwiko.jdashboard.permissions.service.internal.data",
-            "com.kiwiko.jdashboard.services.sessions.internal.data",
+            "com.kiwiko.jdashboard.sessions.service.internal.data",
             "com.kiwiko.jdashboard.services.users.internal.data",
             "com.kiwiko.jdashboard.services.tablerecordversions.internal.data",
             "com.kiwiko.jdashboard.featureflags.service.internal.data",

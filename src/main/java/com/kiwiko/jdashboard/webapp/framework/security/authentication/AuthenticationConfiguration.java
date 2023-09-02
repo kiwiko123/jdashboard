@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.security.authentication;
 
-import com.kiwiko.jdashboard.services.sessions.SessionConfiguration;
+import com.kiwiko.jdashboard.sessions.service.SessionConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.MvcConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.HttpAuthenticationConfiguration;
