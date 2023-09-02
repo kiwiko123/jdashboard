@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.apps.chatroom.api.dto.inbox;
 
-import com.kiwiko.jdashboard.clients.users.api.dto.User;
+import com.kiwiko.jdashboard.users.client.api.dto.User;
 
 public class ChatroomInboxItemUserData {
     public static ChatroomInboxItemUserData fromUser(User user) {

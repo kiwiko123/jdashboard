@@ -60,7 +60,7 @@ public class PazaakGameController {
     @ResponseBody
     public PazaakGame createNewGame(
             @RequestBody PazaakCreateNewGameParameters parameters,
-            @AuthenticatedUser com.kiwiko.jdashboard.clients.users.api.dto.User currentUser) {
+            @AuthenticatedUser com.kiwiko.jdashboard.users.client.api.dto.User currentUser) {
         Objects.requireNonNull(parameters.getPlayerId(), "Player ID is required");
         Objects.requireNonNull(parameters.getOpponentId(), "Opponent ID is required");
 
@@ -74,7 +74,7 @@ public class PazaakGameController {
     public PazaakEndTurnResponse endTurn(
             @PathVariable("gameId") long gameId,
             @RequestBody PazaakEndTurnRequest request,
-            @AuthenticatedUser com.kiwiko.jdashboard.clients.users.api.dto.User currentUser) {
+            @AuthenticatedUser com.kiwiko.jdashboard.users.client.api.dto.User currentUser) {
         request.setGameId(gameId);
         request.setUserId(currentUser.getId());
 
@@ -86,7 +86,7 @@ public class PazaakGameController {
     public PazaakGame selectHandCard(
             @PathVariable("gameId") long gameId,
             @RequestBody PazaakSelectHandCardRequest request,
-            @AuthenticatedUser com.kiwiko.jdashboard.clients.users.api.dto.User currentUser) {
+            @AuthenticatedUser com.kiwiko.jdashboard.users.client.api.dto.User currentUser) {
         request.setGameId(gameId);
         request.setUserId(currentUser.getId());
 
@@ -98,7 +98,7 @@ public class PazaakGameController {
     public PazaakGame stand(
             @PathVariable("gameId") long gameId,
             @RequestBody PazaakStandRequest request,
-            @AuthenticatedUser com.kiwiko.jdashboard.clients.users.api.dto.User currentUser) {
+            @AuthenticatedUser com.kiwiko.jdashboard.users.client.api.dto.User currentUser) {
         request.setGameId(gameId);
         request.setUserId(currentUser.getId());
 

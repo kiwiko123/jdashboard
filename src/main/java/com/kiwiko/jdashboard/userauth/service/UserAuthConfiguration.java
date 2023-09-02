@@ -2,7 +2,7 @@ package com.kiwiko.jdashboard.userauth.service;
 
 import com.kiwiko.jdashboard.sessions.client.SessionClientConfiguration;
 import com.kiwiko.jdashboard.usercredentials.client.UserCredentialClientConfiguration;
-import com.kiwiko.jdashboard.clients.users.UserClientConfiguration;
+import com.kiwiko.jdashboard.users.client.UserClientConfiguration;
 import com.kiwiko.jdashboard.userauth.service.internal.UserCreator;
 import com.kiwiko.jdashboard.userauth.service.internal.UserLoginAuthenticator;
 import com.kiwiko.jdashboard.timeline.events.client.TimelineEventClientConfiguration;

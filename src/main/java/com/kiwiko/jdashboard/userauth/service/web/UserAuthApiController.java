@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.userauth.service.web;
 
-import com.kiwiko.jdashboard.clients.users.api.dto.User;
-import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.CreateUserOutput;
+import com.kiwiko.jdashboard.users.client.api.dto.User;
+import com.kiwiko.jdashboard.users.client.api.interfaces.responses.CreateUserOutput;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.auth.AuthenticatedUser;
 import com.kiwiko.jdashboard.userauth.service.api.interfaces.exceptions.CreateUserException;
 import com.kiwiko.jdashboard.userauth.service.internal.UserCreator;

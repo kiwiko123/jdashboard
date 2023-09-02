@@ -9,7 +9,7 @@ import com.kiwiko.jdashboard.featureflags.client.api.interfaces.parameters.Updat
 import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagService;
 import com.kiwiko.jdashboard.featureflags.service.web.responses.FeatureFlagListItem;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlag;
-import com.kiwiko.jdashboard.services.users.api.dto.User;
+import com.kiwiko.jdashboard.users.service.api.dto.User;
 
 import javax.inject.Inject;
 import java.util.ArrayList;

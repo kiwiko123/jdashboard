@@ -8,7 +8,7 @@ import com.kiwiko.jdashboard.webapp.apps.games.scrabble.game.data.ScrabblePlayer
 import com.kiwiko.jdashboard.webapp.apps.games.scrabble.game.data.ScrabbleTile;
 import com.kiwiko.jdashboard.webapp.apps.games.state.api.GameStateService;
 import com.kiwiko.jdashboard.webapp.apps.games.state.data.GameType;
-import com.kiwiko.jdashboard.services.users.api.dto.User;
+import com.kiwiko.jdashboard.users.service.api.dto.User;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;

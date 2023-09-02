@@ -3,9 +3,9 @@ package com.kiwiko.jdashboard.userauth.service.internal;
 import com.kiwiko.jdashboard.usercredentials.client.api.interfaces.UserCredentialClient;
 import com.kiwiko.jdashboard.usercredentials.client.api.interfaces.parameters.CreateUserCredentialInput;
 import com.kiwiko.jdashboard.usercredentials.client.api.interfaces.parameters.CreateUserCredentialOutput;
-import com.kiwiko.jdashboard.clients.users.api.dto.User;
-import com.kiwiko.jdashboard.clients.users.api.interfaces.UserClient;
-import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.CreateUserOutput;
+import com.kiwiko.jdashboard.users.client.api.dto.User;
+import com.kiwiko.jdashboard.users.client.api.interfaces.UserClient;
+import com.kiwiko.jdashboard.users.client.api.interfaces.responses.CreateUserOutput;
 import com.kiwiko.jdashboard.userauth.service.api.interfaces.exceptions.CreateUserException;
 import com.kiwiko.jdashboard.userauth.service.web.dto.CreateUserInput;
 import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
@@ -22,7 +22,7 @@ public class UserCreator {
         Objects.requireNonNull(input.getUsername(), "Username is required to create user");
         Objects.requireNonNull(input.getPassword(), "Password is required to create user");
 
-        com.kiwiko.jdashboard.clients.users.api.interfaces.responses.CreateUserInput clientCreateUserInput = new com.kiwiko.jdashboard.clients.users.api.interfaces.responses.CreateUserInput();
+        com.kiwiko.jdashboard.users.client.api.interfaces.responses.CreateUserInput clientCreateUserInput = new com.kiwiko.jdashboard.users.client.api.interfaces.responses.CreateUserInput();
         clientCreateUserInput.setUsername(input.getUsername());
         clientCreateUserInput.setEmailAddress(input.getEmailAddress());
 

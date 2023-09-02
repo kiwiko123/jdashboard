@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.servicerequestkeys.service.web;
 
-import com.kiwiko.jdashboard.clients.users.api.dto.User;
+import com.kiwiko.jdashboard.users.client.api.dto.User;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.auth.AuthenticatedUser;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.UserAuthCheck;

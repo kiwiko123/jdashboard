@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.apps.chatroom;
 
-import com.kiwiko.jdashboard.clients.users.UserClientConfiguration;
+import com.kiwiko.jdashboard.users.client.UserClientConfiguration;
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
 import com.kiwiko.jdashboard.framework.persistence.transactions.TransactionConfiguration;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.ChatroomInboxService;

@@ -11,9 +11,9 @@ import com.kiwiko.jdashboard.webapp.framework.json.api.ResponseBuilder;
 import com.kiwiko.jdashboard.webapp.framework.json.data.ResponsePayload;
 import com.kiwiko.jdashboard.sessions.service.api.interfaces.SessionService;
 import com.kiwiko.jdashboard.sessions.client.api.dto.Session;
-import com.kiwiko.jdashboard.services.users.api.interfaces.UserService;
-import com.kiwiko.jdashboard.services.users.api.interfaces.parameters.CreateUserParameters;
-import com.kiwiko.jdashboard.services.users.api.dto.User;
+import com.kiwiko.jdashboard.users.service.api.interfaces.UserService;
+import com.kiwiko.jdashboard.users.service.api.interfaces.parameters.CreateUserParameters;
+import com.kiwiko.jdashboard.users.service.api.dto.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,14 +53,14 @@ public class LegacyUserAuthenticationAPIController {
 
     @UserAuthCheck
     @PostMapping("/user-auth/api/users/current/logout")
-    public ResponsePayload logCurrentUserOut(@AuthenticatedUser com.kiwiko.jdashboard.clients.users.api.dto.User user) {
+    public ResponsePayload logCurrentUserOut(@AuthenticatedUser com.kiwiko.jdashboard.users.client.api.dto.User user) {
         sessionService.endSessionForUser(user.getId());
 
         return ResponseBuilder.ok();
     }
 
     @GetMapping("/user-auth/api/users/current")
-    public ResponsePayload getCurrentUser(@AuthenticatedUser(required = false) com.kiwiko.jdashboard.clients.users.api.dto.User currentUser) {
+    public ResponsePayload getCurrentUser(@AuthenticatedUser(required = false) com.kiwiko.jdashboard.users.client.api.dto.User currentUser) {
         return new ResponseBuilder()
                 .withBody(currentUser)
                 .build();

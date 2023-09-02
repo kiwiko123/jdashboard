@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.featureflags.service.web;
 
-import com.kiwiko.jdashboard.clients.users.api.dto.User;
+import com.kiwiko.jdashboard.users.client.api.dto.User;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlag;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagState;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagUserScope;

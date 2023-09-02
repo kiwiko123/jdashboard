@@ -10,10 +10,10 @@ import com.kiwiko.jdashboard.usercredentials.client.api.interfaces.parameters.Qu
 import com.kiwiko.jdashboard.usercredentials.client.api.interfaces.parameters.QueryUserCredentialsOutput;
 import com.kiwiko.jdashboard.usercredentials.client.api.interfaces.parameters.ValidateUserCredentialInput;
 import com.kiwiko.jdashboard.usercredentials.client.api.interfaces.parameters.ValidateUserCredentialOutput;
-import com.kiwiko.jdashboard.clients.users.api.dto.User;
-import com.kiwiko.jdashboard.clients.users.api.interfaces.UserClient;
-import com.kiwiko.jdashboard.clients.users.api.interfaces.queries.GetUsersQuery;
-import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.GetUsersByQueryResponse;
+import com.kiwiko.jdashboard.users.client.api.dto.User;
+import com.kiwiko.jdashboard.users.client.api.interfaces.UserClient;
+import com.kiwiko.jdashboard.users.client.api.interfaces.queries.GetUsersQuery;
+import com.kiwiko.jdashboard.users.client.api.interfaces.responses.GetUsersByQueryResponse;
 import com.kiwiko.jdashboard.sessions.service.api.dto.SessionProperties;
 import com.kiwiko.jdashboard.userauth.service.api.interfaces.exceptions.IncorrectPasswordException;
 import com.kiwiko.jdashboard.userauth.service.api.interfaces.exceptions.InvalidUsernameException;

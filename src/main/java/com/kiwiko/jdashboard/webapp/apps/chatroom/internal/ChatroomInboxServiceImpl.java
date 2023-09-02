@@ -12,9 +12,9 @@ import com.kiwiko.jdashboard.webapp.apps.chatroom.api.interfaces.parameters.GetI
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.ChatroomMessageRoomService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.ChatroomMessageRoomUserService;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.exceptions.ChatroomMessageRoomAlreadyExistsException;
-import com.kiwiko.jdashboard.clients.users.api.dto.User;
-import com.kiwiko.jdashboard.clients.users.api.interfaces.UserClient;
-import com.kiwiko.jdashboard.clients.users.api.interfaces.queries.GetUsersQuery;
+import com.kiwiko.jdashboard.users.client.api.dto.User;
+import com.kiwiko.jdashboard.users.client.api.interfaces.UserClient;
+import com.kiwiko.jdashboard.users.client.api.interfaces.queries.GetUsersQuery;
 import com.kiwiko.jdashboard.webapp.apps.chatroom.internal.core.exceptions.InvalidUsersException;
 import com.kiwiko.jdashboard.webapp.persistence.identification.unique.api.interfaces.UniqueIdentifierService;
 import com.kiwiko.jdashboard.library.lang.util.TypedObjects;
