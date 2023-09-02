@@ -5,7 +5,7 @@ import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annot
 import com.kiwiko.jdashboard.webapp.framework.json.gson.GsonJsonConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.requests.RequestConfiguration;
 import com.kiwiko.jdashboard.webapp.persistence.data.cdc.internal.DataChangeCapturer;
-import com.kiwiko.jdashboard.services.tablerecordversions.TableRecordVersionsConfiguration;
+import com.kiwiko.jdashboard.tablerecordversions.service.TableRecordVersionsConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

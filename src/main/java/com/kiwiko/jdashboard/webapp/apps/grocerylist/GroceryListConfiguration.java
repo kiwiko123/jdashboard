@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.apps.grocerylist;
 
-import com.kiwiko.jdashboard.clients.tablerecordversions.TableRecordVersionClientConfiguration;
+import com.kiwiko.jdashboard.tablerecordversions.client.TableRecordVersionClientConfiguration;
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.internal.GroceryListAppService;
 import com.kiwiko.jdashboard.webapp.apps.grocerylist.internal.GroceryListCoreConfiguration;

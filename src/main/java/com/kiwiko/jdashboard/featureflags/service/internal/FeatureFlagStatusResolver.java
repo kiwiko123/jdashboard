@@ -1,12 +1,12 @@
 package com.kiwiko.jdashboard.featureflags.service.internal;
 
-import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.TableRecordVersionClient;
-import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.GetLastUpdatedInput;
-import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.GetLastUpdatedOutput;
-import com.kiwiko.jdashboard.clients.tablerecordversions.api.interfaces.parameters.VersionRecord;
+import com.kiwiko.jdashboard.tablerecordversions.client.api.interfaces.TableRecordVersionClient;
+import com.kiwiko.jdashboard.tablerecordversions.client.api.interfaces.parameters.GetLastUpdatedInput;
+import com.kiwiko.jdashboard.tablerecordversions.client.api.interfaces.parameters.GetLastUpdatedOutput;
+import com.kiwiko.jdashboard.tablerecordversions.client.api.interfaces.parameters.VersionRecord;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlag;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagUserAssociation;
-import com.kiwiko.jdashboard.services.tablerecordversions.api.dto.TableRecordVersion;
+import com.kiwiko.jdashboard.tablerecordversions.service.api.dto.TableRecordVersion;
 import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

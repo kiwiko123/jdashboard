@@ -18,7 +18,7 @@ import java.util.Objects;
  * Custom behavior provided includes:
  * <ul>
  *     <li>Custom {@link EntityManager} via an {@link EntityManagerProvider}.</li>
- *     <li>Change data capture as {@link com.kiwiko.jdashboard.services.tablerecordversions.api.dto.TableRecordVersion}s.</li>
+ *     <li>Change data capture as {@link com.kiwiko.jdashboard.tablerecordversions.service.api.dto.TableRecordVersion}s.</li>
  * </ul>
  *
  * @param <T>
