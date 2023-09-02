@@ -1,8 +1,8 @@
 package com.kiwiko.jdashboard.webapp.framework.security.authentication.web;
 
-import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.UserCredentialClient;
-import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.CreateUserCredentialInput;
-import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.EncryptionStrategies;
+import com.kiwiko.jdashboard.usercredentials.client.api.interfaces.UserCredentialClient;
+import com.kiwiko.jdashboard.usercredentials.client.api.interfaces.parameters.CreateUserCredentialInput;
+import com.kiwiko.jdashboard.usercredentials.client.api.interfaces.parameters.EncryptionStrategies;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.UserAuthCheck;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.auth.AuthenticatedUser;

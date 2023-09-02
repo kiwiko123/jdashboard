@@ -15,7 +15,7 @@ public final class EntityPackagePaths {
             "com.kiwiko.jdashboard.webapp.apps.games.state.internal.data",
             "com.kiwiko.jdashboard.webapp.apps.games.scrabble.words.internal.dataAccess",
             "com.kiwiko.jdashboard.webapp.notifications.internal.dataaccess",
-            "com.kiwiko.jdashboard.services.usercredentials.internal.data",
+            "com.kiwiko.jdashboard.usercredentials.service.internal.data",
             "com.kiwiko.jdashboard.permissions.service.internal.data",
             "com.kiwiko.jdashboard.sessions.service.internal.data",
             "com.kiwiko.jdashboard.services.users.internal.data",

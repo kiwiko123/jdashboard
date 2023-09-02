@@ -1,8 +1,8 @@
 package com.kiwiko.jdashboard.userauth.service.internal;
 
-import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.UserCredentialClient;
-import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.CreateUserCredentialInput;
-import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.CreateUserCredentialOutput;
+import com.kiwiko.jdashboard.usercredentials.client.api.interfaces.UserCredentialClient;
+import com.kiwiko.jdashboard.usercredentials.client.api.interfaces.parameters.CreateUserCredentialInput;
+import com.kiwiko.jdashboard.usercredentials.client.api.interfaces.parameters.CreateUserCredentialOutput;
 import com.kiwiko.jdashboard.clients.users.api.dto.User;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.UserClient;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.CreateUserOutput;
