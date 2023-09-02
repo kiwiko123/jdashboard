@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.services.userauth.internal;
+package com.kiwiko.jdashboard.userauth.service.internal;
 
 import com.kiwiko.jdashboard.sessions.client.api.dto.Session;
 import com.kiwiko.jdashboard.sessions.client.api.interfaces.CreateSessionInput;
@@ -15,11 +15,11 @@ import com.kiwiko.jdashboard.clients.users.api.interfaces.UserClient;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.queries.GetUsersQuery;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.GetUsersByQueryResponse;
 import com.kiwiko.jdashboard.sessions.service.api.dto.SessionProperties;
-import com.kiwiko.jdashboard.services.userauth.api.interfaces.exceptions.IncorrectPasswordException;
-import com.kiwiko.jdashboard.services.userauth.api.interfaces.exceptions.InvalidUsernameException;
-import com.kiwiko.jdashboard.services.userauth.api.interfaces.exceptions.UserAuthenticationException;
-import com.kiwiko.jdashboard.services.userauth.web.dto.LogUserInInput;
-import com.kiwiko.jdashboard.services.userauth.web.dto.LogUserInOutput;
+import com.kiwiko.jdashboard.userauth.service.api.interfaces.exceptions.IncorrectPasswordException;
+import com.kiwiko.jdashboard.userauth.service.api.interfaces.exceptions.InvalidUsernameException;
+import com.kiwiko.jdashboard.userauth.service.api.interfaces.exceptions.UserAuthenticationException;
+import com.kiwiko.jdashboard.userauth.service.web.dto.LogUserInInput;
+import com.kiwiko.jdashboard.userauth.service.web.dto.LogUserInOutput;
 import com.kiwiko.jdashboard.timeline.events.client.api.CreateTimelineEventInput;
 import com.kiwiko.jdashboard.timeline.events.client.api.TimelineEventClient;
 import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;

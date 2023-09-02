@@ -1,17 +1,17 @@
-package com.kiwiko.jdashboard.services.userauth.web;
+package com.kiwiko.jdashboard.userauth.service.web;
 
 import com.kiwiko.jdashboard.clients.users.api.dto.User;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.CreateUserOutput;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.auth.AuthenticatedUser;
-import com.kiwiko.jdashboard.services.userauth.api.interfaces.exceptions.CreateUserException;
-import com.kiwiko.jdashboard.services.userauth.internal.UserCreator;
-import com.kiwiko.jdashboard.services.userauth.internal.UserLoginAuthenticator;
-import com.kiwiko.jdashboard.services.userauth.api.interfaces.exceptions.UserAuthenticationException;
-import com.kiwiko.jdashboard.services.userauth.web.dto.CreateUserInput;
-import com.kiwiko.jdashboard.services.userauth.web.dto.GetCurrentUserResponse;
-import com.kiwiko.jdashboard.services.userauth.web.dto.LogUserInInput;
-import com.kiwiko.jdashboard.services.userauth.web.dto.UserLoginData;
-import com.kiwiko.jdashboard.services.userauth.web.dto.LogUserInOutput;
+import com.kiwiko.jdashboard.userauth.service.api.interfaces.exceptions.CreateUserException;
+import com.kiwiko.jdashboard.userauth.service.internal.UserCreator;
+import com.kiwiko.jdashboard.userauth.service.internal.UserLoginAuthenticator;
+import com.kiwiko.jdashboard.userauth.service.api.interfaces.exceptions.UserAuthenticationException;
+import com.kiwiko.jdashboard.userauth.service.web.dto.CreateUserInput;
+import com.kiwiko.jdashboard.userauth.service.web.dto.GetCurrentUserResponse;
+import com.kiwiko.jdashboard.userauth.service.web.dto.LogUserInInput;
+import com.kiwiko.jdashboard.userauth.service.web.dto.UserLoginData;
+import com.kiwiko.jdashboard.userauth.service.web.dto.LogUserInOutput;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.services.userauth.api.interfaces.exceptions;
+package com.kiwiko.jdashboard.userauth.service.api.interfaces.exceptions;
 
 public class UserAuthenticationException extends Exception {
 

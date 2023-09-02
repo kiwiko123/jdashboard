@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.services.userauth.internal;
+package com.kiwiko.jdashboard.userauth.service.internal;
 
 import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.UserCredentialClient;
 import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.CreateUserCredentialInput;
@@ -6,8 +6,8 @@ import com.kiwiko.jdashboard.clients.usercredentials.api.interfaces.parameters.C
 import com.kiwiko.jdashboard.clients.users.api.dto.User;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.UserClient;
 import com.kiwiko.jdashboard.clients.users.api.interfaces.responses.CreateUserOutput;
-import com.kiwiko.jdashboard.services.userauth.api.interfaces.exceptions.CreateUserException;
-import com.kiwiko.jdashboard.services.userauth.web.dto.CreateUserInput;
+import com.kiwiko.jdashboard.userauth.service.api.interfaces.exceptions.CreateUserException;
+import com.kiwiko.jdashboard.userauth.service.web.dto.CreateUserInput;
 import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
 
 import javax.inject.Inject;

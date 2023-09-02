@@ -1,10 +1,10 @@
-package com.kiwiko.jdashboard.services.userauth;
+package com.kiwiko.jdashboard.userauth.service;
 
 import com.kiwiko.jdashboard.sessions.client.SessionClientConfiguration;
 import com.kiwiko.jdashboard.clients.usercredentials.UserCredentialClientConfiguration;
 import com.kiwiko.jdashboard.clients.users.UserClientConfiguration;
-import com.kiwiko.jdashboard.services.userauth.internal.UserCreator;
-import com.kiwiko.jdashboard.services.userauth.internal.UserLoginAuthenticator;
+import com.kiwiko.jdashboard.userauth.service.internal.UserCreator;
+import com.kiwiko.jdashboard.userauth.service.internal.UserLoginAuthenticator;
 import com.kiwiko.jdashboard.timeline.events.client.TimelineEventClientConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import org.springframework.context.annotation.Bean;

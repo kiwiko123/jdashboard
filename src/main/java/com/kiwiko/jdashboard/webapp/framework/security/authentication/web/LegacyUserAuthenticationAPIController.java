@@ -23,7 +23,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @deprecated Prefer {@link com.kiwiko.jdashboard.services.userauth.web.UserAuthApiController}
+ * @deprecated Prefer {@link com.kiwiko.jdashboard.userauth.service.web.UserAuthApiController}
  */
 @JdashboardConfigured
 @RestController

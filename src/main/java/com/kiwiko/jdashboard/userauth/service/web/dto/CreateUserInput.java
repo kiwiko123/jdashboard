@@ -1,8 +1,11 @@
-package com.kiwiko.jdashboard.services.userauth.web.dto;
+package com.kiwiko.jdashboard.userauth.service.web.dto;
 
-public class UserLoginData {
+import javax.annotation.Nullable;
+
+public class CreateUserInput {
     private String username;
     private String password;
+    private @Nullable String emailAddress;
 
     public String getUsername() {
         return username;
@@ -18,5 +21,14 @@ public class UserLoginData {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Nullable
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(@Nullable String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 }

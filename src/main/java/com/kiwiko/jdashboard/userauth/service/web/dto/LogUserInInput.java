@@ -1,4 +1,4 @@
-package com.kiwiko.jdashboard.services.userauth.web.dto;
+package com.kiwiko.jdashboard.userauth.service.web.dto;
 
 import javax.servlet.http.HttpServletResponse;
 
