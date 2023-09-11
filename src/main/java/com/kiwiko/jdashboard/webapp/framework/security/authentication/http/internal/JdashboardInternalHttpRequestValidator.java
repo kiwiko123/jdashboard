@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.security.authentication.http.internal;
 
-import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.LockedApi;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.ServiceRequestLock;
 import com.kiwiko.jdashboard.servicerequestkeys.client.ProvisionServiceRequestKeyException;
 import com.kiwiko.jdashboard.servicerequestkeys.client.ProvisionServiceRequestKeyInput;
 import com.kiwiko.jdashboard.servicerequestkeys.client.ProvisionServiceRequestKeyOutput;
@@ -49,7 +49,7 @@ public class JdashboardInternalHttpRequestValidator implements InternalHttpReque
     }
 
     @Override
-    public void validateIncomingRequest(HttpServletRequest request, LockedApi lockedApi) throws UnauthorizedInternalRequestException {
+    public void validateIncomingRequest(HttpServletRequest request, ServiceRequestLock serviceRequestLock) throws UnauthorizedInternalRequestException {
         String url = getFullUrl(request);
         String requestToken = request.getHeader(JdashboardInternalHttpRequestProperties.SERVICE_CLIENT_IDENTIFIER_REQUEST_HEADER);
 
@@ -60,12 +60,12 @@ public class JdashboardInternalHttpRequestValidator implements InternalHttpReque
         ServiceRequestKey serviceRequestKey = serviceRequestKeyService.getByToken(requestToken)
                 .orElseThrow(() -> new InvalidServiceClientIdentifierRequestHeaderIdException(String.format("Request url: %s", url)));
 
-        Set<String> allowedClients = Set.of(lockedApi.clients());
+        Set<String> allowedClients = Set.of(serviceRequestLock.clients());
         if (!allowedClients.isEmpty() && !allowedClients.contains(serviceRequestKey.getServiceClientName())) {
             throw new UnauthorizedServiceClientIdentifierException(String.format("Unrecognized service client identifier \"%s\". Request url: %s", serviceRequestKey.getServiceClientName(), url));
         }
 
-        Set<String> allowedScopes = Set.of(lockedApi.scope());
+        Set<String> allowedScopes = Set.of(serviceRequestLock.scope());
         if (!allowedScopes.contains(serviceRequestKey.getScope())) {
             throw new InvalidServiceRequestScopeException(
                     String.format(

@@ -4,7 +4,7 @@ import com.kiwiko.jdashboard.sessions.service.SessionConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.MvcConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.HttpAuthenticationConfiguration;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.interceptors.LockedApiInterceptor;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.interceptors.ServiceRequestLockInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.interceptors.UserAuthCheckInterceptor;
 import com.kiwiko.jdashboard.framework.monitoring.logging.LoggingConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +23,7 @@ public class AuthenticationConfiguration {
 
     @Bean
     @ConfiguredBy({ LoggingConfiguration.class, HttpAuthenticationConfiguration.class })
-    public LockedApiInterceptor internalServiceCheckInterceptor() {
-        return new LockedApiInterceptor();
+    public ServiceRequestLockInterceptor internalServiceCheckInterceptor() {
+        return new ServiceRequestLockInterceptor();
     }
 }

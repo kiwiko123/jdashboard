@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.interceptors;
 
-import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.LockedApi;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.ServiceRequestLock;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.InternalHttpRequestValidator;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.errors.UnauthorizedInternalRequestException;
 import com.kiwiko.jdashboard.framework.interceptors.api.interfaces.RequestInterceptor;
@@ -14,21 +14,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
-public class LockedApiInterceptor implements RequestInterceptor {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LockedApiInterceptor.class);
+public class ServiceRequestLockInterceptor implements RequestInterceptor {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceRequestLockInterceptor.class);
 
     @Inject private InternalHttpRequestValidator internalHttpRequestValidator;
 
     @Override
     public boolean allowRequest(HttpServletRequest request, HttpServletResponse response, HandlerMethod method) throws Exception {
-        LockedApi lockedApi = Optional.ofNullable(AnnotationUtils.findAnnotation(method.getMethod(), LockedApi.class))
-                .orElseGet(() -> AnnotationUtils.findAnnotation(method.getMethod().getDeclaringClass(), LockedApi.class));
+        ServiceRequestLock serviceRequestLock = Optional.ofNullable(AnnotationUtils.findAnnotation(method.getMethod(), ServiceRequestLock.class))
+                .orElseGet(() -> AnnotationUtils.findAnnotation(method.getMethod().getDeclaringClass(), ServiceRequestLock.class));
 
-        if (lockedApi == null) {
+        if (serviceRequestLock == null) {
             return true;
         }
 
-        boolean isAuthorized = isInternalServiceAuthorized(request, lockedApi);
+        boolean isAuthorized = isInternalServiceAuthorized(request, serviceRequestLock);
         if (!isAuthorized) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Access denied");
         }
@@ -36,9 +36,9 @@ public class LockedApiInterceptor implements RequestInterceptor {
         return isAuthorized;
     }
 
-    private boolean isInternalServiceAuthorized(HttpServletRequest request, LockedApi lockedApi) {
+    private boolean isInternalServiceAuthorized(HttpServletRequest request, ServiceRequestLock serviceRequestLock) {
         try {
-            internalHttpRequestValidator.validateIncomingRequest(request, lockedApi);
+            internalHttpRequestValidator.validateIncomingRequest(request, serviceRequestLock);
         } catch (UnauthorizedInternalRequestException e) {
             LOGGER.warn("Unauthorized request attempt to internal service endpoint {}", request.getRequestURL(), e);
             return false;

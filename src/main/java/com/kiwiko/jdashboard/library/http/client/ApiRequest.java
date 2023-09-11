@@ -1,5 +1,6 @@
 package com.kiwiko.jdashboard.library.http.client;
 
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.ServiceRequestLock;
 import com.kiwiko.jdashboard.library.http.client.caching.RequestCacheStrategy;
 
 import javax.annotation.Nullable;
@@ -73,7 +74,7 @@ public interface ApiRequest {
     RequestCacheStrategy getCacheStrategy();
 
     /**
-     * Required if making a request to a {@link com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.LockedApi}.
+     * Required if making a request to a {@link ServiceRequestLock}.
      * When provided, Jdashboard will automatically sign this as a secure internal service-to-service request.
      *
      * A string that identifies the caller issuing the request.

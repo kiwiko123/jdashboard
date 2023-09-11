@@ -4,7 +4,7 @@ import com.kiwiko.jdashboard.permissions.client.api.interfaces.parameters.Create
 import com.kiwiko.jdashboard.permissions.client.api.interfaces.parameters.CreatePermissionOutput;
 import com.kiwiko.jdashboard.permissions.client.api.interfaces.parameters.QueryPermissionsInput;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
-import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.LockedApi;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.ServiceRequestLock;
 import com.kiwiko.jdashboard.permissions.service.api.dto.Permission;
 import com.kiwiko.jdashboard.permissions.service.api.interfaces.PermissionService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +22,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/permissions/service-api")
 @JdashboardConfigured
-@LockedApi
+@ServiceRequestLock
 public class PermissionsServiceController {
 
     @Inject private PermissionService permissionService;

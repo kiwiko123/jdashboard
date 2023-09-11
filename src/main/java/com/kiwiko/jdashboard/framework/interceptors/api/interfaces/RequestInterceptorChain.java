@@ -5,7 +5,7 @@ import com.kiwiko.jdashboard.framework.permissions.internal.UserPermissionCheckI
 import com.kiwiko.jdashboard.framework.ratelimiting.interceptors.RateLimiterInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.requests.internal.interceptors.RequestContextInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.requests.internal.interceptors.RequestErrorInterceptor;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.interceptors.LockedApiInterceptor;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.interceptors.ServiceRequestLockInterceptor;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.interceptors.UserAuthCheckInterceptor;
 import com.kiwiko.jdashboard.framework.security.csrf.interceptors.CrossSiteRequestForgeryPreventionInterceptor;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ public class RequestInterceptorChain {
     @Inject private CrossSiteRequestForgeryPreventionInterceptor crossSiteRequestForgeryPreventionInterceptor;
     @Inject private RateLimiterInterceptor rateLimiterInterceptor;
     @Inject private UserAuthCheckInterceptor userAuthCheckInterceptor;
-    @Inject private LockedApiInterceptor lockedApiInterceptor;
+    @Inject private ServiceRequestLockInterceptor serviceRequestLockInterceptor;
     @Inject private UserPermissionCheckInterceptor userPermissionCheckInterceptor;
     @Inject private IncomingApplicationRequestRecordingInterceptor incomingApplicationRequestRecordingInterceptor;
     @Inject private RequestContextInterceptor requestContextInterceptor;
@@ -38,7 +38,7 @@ public class RequestInterceptorChain {
         // Add interceptors here.
         interceptors.add(crossSiteRequestForgeryPreventionInterceptor);
         interceptors.add(rateLimiterInterceptor);
-        interceptors.add(lockedApiInterceptor);
+        interceptors.add(serviceRequestLockInterceptor);
         interceptors.add(userAuthCheckInterceptor);
         interceptors.add(userPermissionCheckInterceptor);
         interceptors.add(incomingApplicationRequestRecordingInterceptor);

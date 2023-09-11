@@ -8,7 +8,7 @@ import com.kiwiko.jdashboard.timeline.events.client.api.CreateTimelineEventInput
 import com.kiwiko.jdashboard.timeline.events.client.api.TimelineEventClient;
 import com.kiwiko.jdashboard.users.client.api.dto.User;
 import com.kiwiko.jdashboard.users.client.api.interfaces.UserClient;
-import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.LockedApi;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.ServiceRequestLock;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.auth.AuthenticatedUser;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.api.annotations.CrossOriginConfigured;
 import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiClient;
@@ -66,7 +66,7 @@ public class PlaygroundController {
         return true;
     }
 
-    @LockedApi
+    @ServiceRequestLock
     @PostMapping("/playground-api/test")
     @ResponseBody
     public String testPost(@RequestBody User user) throws Exception {

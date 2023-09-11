@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.timeline.events.service.web;
 
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
-import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.LockedApi;
+import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.ServiceRequestLock;
 import com.kiwiko.jdashboard.timeline.events.client.api.CreateTimelineEventInput;
 import com.kiwiko.jdashboard.timeline.events.client.api.CreateTimelineEventOutput;
 import com.kiwiko.jdashboard.timeline.events.service.internal.TimelineEventService;
@@ -15,7 +15,7 @@ import javax.inject.Inject;
 
 @Controller
 @JdashboardConfigured
-@LockedApi(clients = "timeline-event-service-client")
+@ServiceRequestLock(clients = "timeline-event-service-client")
 @RequestMapping("timeline-api/service-client/timeline-events")
 public class TimelineEventServiceClientController {
     @Inject private TimelineEventService timelineEventService;

@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.framework.controllers.api.annotations.checks;
 
 import com.kiwiko.jdashboard.servicerequestkeys.service.interfaces.ServiceRequestKeyScopes;
-import com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.interceptors.LockedApiInterceptor;
+import com.kiwiko.jdashboard.webapp.framework.security.authentication.internal.interceptors.ServiceRequestLockInterceptor;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -12,11 +12,11 @@ import java.lang.annotation.Target;
  * Annotate an endpoint method or controller class with this to indicate that it can only receive requests containing
  * a valid {@link com.kiwiko.jdashboard.servicerequestkeys.service.interfaces.ServiceRequestKey}.
  *
- * @see LockedApiInterceptor
+ * @see ServiceRequestLockInterceptor
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface LockedApi {
+public @interface ServiceRequestLock {
 
     /**
      * Designate the client identifiers allowed by this API. If provided, each request made to this API must have both:
