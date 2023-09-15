@@ -115,6 +115,19 @@ CREATE TABLE feature_flags (
 CREATE UNIQUE INDEX ON feature_flags (lower(name)) WHERE is_removed = false;
 CREATE INDEX ON feature_flags (lower(name), user_scope, user_id);
 
+CREATE TABLE feature_flag_contexts (
+    id BIGSERIAL PRIMARY KEY,
+    feature_flag_id BIGINT NOT NULL REFERENCES feature_flags(feature_flag_id),
+    scope TEXT NOT NULL,
+    user_id BIGINT,
+    flag_status TEXT NOT NULL,
+    flag_value TEXT,
+    start_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    end_date TIMESTAMP WITH TIME ZONE
+);
+CREATE INDEX ON feature_flag_contexts (feature_flag_id) WHERE end_date IS NULL;
+CREATE INDEX ON feature_flag_contexts (user_id) WHERE end_date IS NULL;
+
 CREATE TABLE feature_flag_user_associations (
     id BIGSERIAL PRIMARY KEY,
     feature_flag_id BIGINT NOT NULL,
