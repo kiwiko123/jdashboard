@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class FeatureFlagContextEntityDataAccessObject extends JpaDataAccessObject<FeatureFlagRuleEntity> {
+public class FeatureFlagRuleEntityDataAccessObject extends JpaDataAccessObject<FeatureFlagRuleEntity> {
 
     public Optional<FeatureFlagRuleEntity> findMostRecentActive(
             long featureFlagId, String scope, @Nullable Long userId) {

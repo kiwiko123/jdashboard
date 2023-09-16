@@ -9,7 +9,7 @@ import java.time.Instant;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class FeatureFlagContext extends DataEntityDTO {
+public class FeatureFlagRule extends DataEntityDTO {
     private Long featureFlagId;
     private String scope;
     private @Nullable Long userId;

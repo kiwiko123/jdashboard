@@ -1,57 +1,57 @@
 package com.kiwiko.jdashboard.featureflags.service.internal;
 
-import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagContext;
+import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagRule;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagUserScope;
-import com.kiwiko.jdashboard.featureflags.service.internal.data.FeatureFlagContextEntityDataAccessObject;
+import com.kiwiko.jdashboard.featureflags.service.internal.data.FeatureFlagRuleEntityDataAccessObject;
 import com.kiwiko.jdashboard.framework.persistence.transactions.api.interfaces.TransactionProvider;
 import com.kiwiko.jdashboard.webapp.persistence.services.crud.api.interfaces.CreateReadUpdateDeleteExecutor;
 
 import javax.inject.Inject;
 import java.util.Optional;
 
-public class FeatureFlagContextEntityService {
-    @Inject private FeatureFlagContextEntityDataAccessObject dataAccessObject;
-    @Inject private FeatureFlagContextEntityMapper featureFlagContextEntityMapper;
+public class FeatureFlagRuleEntityService {
+    @Inject private FeatureFlagRuleEntityDataAccessObject dataAccessObject;
+    @Inject private FeatureFlagRuleEntityMapper featureFlagRuleEntityMapper;
     @Inject private CreateReadUpdateDeleteExecutor crudExecutor;
     @Inject private TransactionProvider transactionProvider;
 
-    public Optional<FeatureFlagContext> get(long id) {
-        return crudExecutor.get(id, dataAccessObject, featureFlagContextEntityMapper);
+    public Optional<FeatureFlagRule> get(long id) {
+        return crudExecutor.get(id, dataAccessObject, featureFlagRuleEntityMapper);
     }
 
-    public FeatureFlagContext create(FeatureFlagContext obj) {
-        return crudExecutor.create(obj, dataAccessObject, featureFlagContextEntityMapper);
+    public FeatureFlagRule create(FeatureFlagRule obj) {
+        return crudExecutor.create(obj, dataAccessObject, featureFlagRuleEntityMapper);
     }
 
-    public FeatureFlagContext update(FeatureFlagContext obj) {
-        return crudExecutor.update(obj, dataAccessObject, featureFlagContextEntityMapper);
+    public FeatureFlagRule update(FeatureFlagRule obj) {
+        return crudExecutor.update(obj, dataAccessObject, featureFlagRuleEntityMapper);
     }
 
-    public FeatureFlagContext merge(FeatureFlagContext obj) {
-        return crudExecutor.merge(obj, dataAccessObject, featureFlagContextEntityMapper);
+    public FeatureFlagRule merge(FeatureFlagRule obj) {
+        return crudExecutor.merge(obj, dataAccessObject, featureFlagRuleEntityMapper);
     }
 
-    public FeatureFlagContext delete(long id) {
-        return crudExecutor.delete(id, dataAccessObject, featureFlagContextEntityMapper);
+    public FeatureFlagRule delete(long id) {
+        return crudExecutor.delete(id, dataAccessObject, featureFlagRuleEntityMapper);
     }
 
-    public Optional<FeatureFlagContext> findPublic(long featureFlagId) {
+    public Optional<FeatureFlagRule> findPublic(long featureFlagId) {
         return transactionProvider.readOnly(
                 () ->
                         dataAccessObject.findMostRecentActive(
                                 featureFlagId,
                                 FeatureFlagUserScope.PUBLIC.getId(),
                                 null)
-                                .map(featureFlagContextEntityMapper::toDto));
+                                .map(featureFlagRuleEntityMapper::toDto));
     }
 
-    public Optional<FeatureFlagContext> findForUser(long featureFlagId, long userId) {
+    public Optional<FeatureFlagRule> findForUser(long featureFlagId, long userId) {
         return transactionProvider.readOnly(
                 () ->
                         dataAccessObject.findMostRecentActive(
                                 featureFlagId,
                                 FeatureFlagUserScope.INDIVIDUAL.getId(),
                                 userId)
-                                .map(featureFlagContextEntityMapper::toDto));
+                                .map(featureFlagRuleEntityMapper::toDto));
     }
 }

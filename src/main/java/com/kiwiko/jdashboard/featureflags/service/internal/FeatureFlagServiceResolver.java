@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.featureflags.service.internal;
 
-import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagContext;
+import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagRule;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagUserScope;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.ResolvedFeatureFlag;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.ResolvedPublicFeatureFlag;
@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 public class FeatureFlagServiceResolver implements FeatureFlagResolver {
 
     @Inject private FeatureFlagService featureFlagService;
-    @Inject private FeatureFlagContextEntityService featureFlagContextEntityService;
+    @Inject private FeatureFlagRuleEntityService featureFlagRuleEntityService;
     @Inject private FeatureFlagStateMapper featureFlagStateMapper;
 
     @Override
@@ -48,12 +48,12 @@ public class FeatureFlagServiceResolver implements FeatureFlagResolver {
             return Optional.empty();
         }
 
-        FeatureFlagContext featureFlagContext = featureFlagContextEntityService.findPublic(featureFlag.getId()).orElse(null);
-        if (featureFlagContext == null) {
+        FeatureFlagRule featureFlagRule = featureFlagRuleEntityService.findPublic(featureFlag.getId()).orElse(null);
+        if (featureFlagRule == null) {
             return Optional.empty();
         }
 
-        return Optional.of(featureFlagStateMapper.mapPublicFlag(featureFlag, featureFlagContext));
+        return Optional.of(featureFlagStateMapper.mapPublicFlag(featureFlag, featureFlagRule));
     }
 
     @Override
@@ -63,9 +63,9 @@ public class FeatureFlagServiceResolver implements FeatureFlagResolver {
             return Optional.empty();
         }
 
-        FeatureFlagContext userContext = featureFlagContextEntityService.findForUser(featureFlag.getId(), userId)
+        FeatureFlagRule userContext = featureFlagRuleEntityService.findForUser(featureFlag.getId(), userId)
                 .orElse(null);
-        FeatureFlagContext publicContext = featureFlagContextEntityService.findPublic(featureFlag.getId())
+        FeatureFlagRule publicContext = featureFlagRuleEntityService.findPublic(featureFlag.getId())
                 .orElse(null);
 
         return Stream.of(userContext, publicContext)

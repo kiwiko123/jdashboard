@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.featureflags.service.internal;
 
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlag;
-import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagContext;
+import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagRule;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagState;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.ResolvedPublicFeatureFlag;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.ResolvedUserFeatureFlag;
@@ -18,31 +18,31 @@ public class FeatureFlagStateMapper {
         return state;
     }
 
-    public ResolvedPublicFeatureFlag mapPublicFlag(FeatureFlag featureFlag, FeatureFlagContext featureFlagContext) {
+    public ResolvedPublicFeatureFlag mapPublicFlag(FeatureFlag featureFlag, FeatureFlagRule featureFlagRule) {
         ResolvedPublicFeatureFlag resolvedFlag = new ResolvedPublicFeatureFlag();
 
         resolvedFlag.setFeatureFlagId(featureFlag.getId());
-        resolvedFlag.setFeatureFlagContextId(featureFlagContext.getId());
+        resolvedFlag.setFeatureFlagContextId(featureFlagRule.getId());
         resolvedFlag.setFlagName(featureFlag.getName());
-        resolvedFlag.setScope(featureFlagContext.getScope());
-        resolvedFlag.setStatus(featureFlagContext.getFlagStatus());
-        resolvedFlag.setFlagValue(featureFlagContext.getFlagValue());
-        resolvedFlag.setStartDate(featureFlagContext.getStartDate());
+        resolvedFlag.setScope(featureFlagRule.getScope());
+        resolvedFlag.setStatus(featureFlagRule.getFlagStatus());
+        resolvedFlag.setFlagValue(featureFlagRule.getFlagValue());
+        resolvedFlag.setStartDate(featureFlagRule.getStartDate());
 
         return resolvedFlag;
     }
 
-    public ResolvedUserFeatureFlag mapUserFlag(FeatureFlag featureFlag, FeatureFlagContext featureFlagContext) {
+    public ResolvedUserFeatureFlag mapUserFlag(FeatureFlag featureFlag, FeatureFlagRule featureFlagRule) {
         ResolvedUserFeatureFlag resolvedFlag = new ResolvedUserFeatureFlag();
 
         resolvedFlag.setFeatureFlagId(featureFlag.getId());
-        resolvedFlag.setFeatureFlagContextId(featureFlagContext.getId());
+        resolvedFlag.setFeatureFlagContextId(featureFlagRule.getId());
         resolvedFlag.setFlagName(featureFlag.getName());
-        resolvedFlag.setScope(featureFlagContext.getScope());
-        resolvedFlag.setStatus(featureFlagContext.getFlagStatus());
-        resolvedFlag.setUserId(featureFlagContext.getUserId());
-        resolvedFlag.setFlagValue(featureFlagContext.getFlagValue());
-        resolvedFlag.setStartDate(featureFlagContext.getStartDate());
+        resolvedFlag.setScope(featureFlagRule.getScope());
+        resolvedFlag.setStatus(featureFlagRule.getFlagStatus());
+        resolvedFlag.setUserId(featureFlagRule.getUserId());
+        resolvedFlag.setFlagValue(featureFlagRule.getFlagValue());
+        resolvedFlag.setStartDate(featureFlagRule.getStartDate());
 
         return resolvedFlag;
     }

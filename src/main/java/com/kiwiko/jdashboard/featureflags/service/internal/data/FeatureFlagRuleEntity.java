@@ -12,8 +12,8 @@ import javax.persistence.Table;
 import java.time.Instant;
 
 @Entity
-@Table(name = "feature_flag_contexts")
-public class FeatureFlagContextEntity implements LongDataEntity {
+@Table(name = "feature_flag_rules")
+public class FeatureFlagRuleEntity implements LongDataEntity {
     private Long id;
     private Long featureFlagId;
     private String scope;

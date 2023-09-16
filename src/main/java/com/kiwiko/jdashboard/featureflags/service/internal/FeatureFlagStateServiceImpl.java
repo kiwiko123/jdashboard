@@ -1,7 +1,7 @@
 package com.kiwiko.jdashboard.featureflags.service.internal;
 
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlag;
-import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagContext;
+import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagRule;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagStatus;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagUserScope;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.ResolvedPublicFeatureFlag;
@@ -17,7 +17,7 @@ import java.util.Optional;
 
 public class FeatureFlagStateServiceImpl implements FeatureFlagStateService {
     @Inject private FeatureFlagService featureFlagService;
-    @Inject private FeatureFlagContextEntityService featureFlagContextEntityService;
+    @Inject private FeatureFlagRuleEntityService featureFlagRuleEntityService;
     @Inject private FeatureFlagUserAssociationEntityService featureFlagUserAssociationService;
     @Inject private FeatureFlagStateMapper featureFlagStateMapper;
     @Inject private FeatureFlagStatusResolver featureFlagStatusResolver;
@@ -73,39 +73,39 @@ public class FeatureFlagStateServiceImpl implements FeatureFlagStateService {
         FeatureFlag featureFlag = featureFlagService.getByName(name)
                 .orElseThrow(() -> new FeatureFlagDoesNotExistException(String.format("Feature flag \"%s\" does not exist", name)));
 
-        FeatureFlagContext featureFlagContext = featureFlagContextEntityService.findPublic(featureFlag.getId())
+        FeatureFlagRule featureFlagRule = featureFlagRuleEntityService.findPublic(featureFlag.getId())
                 .orElse(null);
 
-        if (featureFlagContext == null) {
-            FeatureFlagContext contextToCreate = new FeatureFlagContext();
+        if (featureFlagRule == null) {
+            FeatureFlagRule contextToCreate = new FeatureFlagRule();
 
             contextToCreate.setFeatureFlagId(featureFlag.getId());
             contextToCreate.setFlagStatus(desiredStatus);
             contextToCreate.setScope(FeatureFlagUserScope.PUBLIC.getId());
             contextToCreate.setStartDate(Instant.now());
 
-            featureFlagContext = featureFlagContextEntityService.create(contextToCreate);
+            featureFlagRule = featureFlagRuleEntityService.create(contextToCreate);
         } else {
-            if (desiredStatus.equals(featureFlagContext.getFlagStatus())) {
+            if (desiredStatus.equals(featureFlagRule.getFlagStatus())) {
                 // No updates to be made
             } else {
-                featureFlagContext.setEndDate(Instant.now());
-                featureFlagContextEntityService.update(featureFlagContext);
+                featureFlagRule.setEndDate(Instant.now());
+                featureFlagRuleEntityService.update(featureFlagRule);
             }
         }
 
-        return featureFlagStateMapper.mapPublicFlag(featureFlag, featureFlagContext);
+        return featureFlagStateMapper.mapPublicFlag(featureFlag, featureFlagRule);
     }
 
     private ResolvedUserFeatureFlag setUserFlag(String name, Long userId, String desiredStatus) {
         FeatureFlag featureFlag = featureFlagService.getByName(name)
                 .orElseThrow(() -> new FeatureFlagDoesNotExistException(String.format("Feature flag \"%s\" does not exist", name)));
 
-        FeatureFlagContext featureFlagContext = featureFlagContextEntityService.findForUser(featureFlag.getId(), userId)
+        FeatureFlagRule featureFlagRule = featureFlagRuleEntityService.findForUser(featureFlag.getId(), userId)
                 .orElse(null);
 
-        if (featureFlagContext == null) {
-            FeatureFlagContext contextToCreate = new FeatureFlagContext();
+        if (featureFlagRule == null) {
+            FeatureFlagRule contextToCreate = new FeatureFlagRule();
 
             contextToCreate.setFeatureFlagId(featureFlag.getId());
             contextToCreate.setFlagStatus(desiredStatus);
@@ -113,17 +113,17 @@ public class FeatureFlagStateServiceImpl implements FeatureFlagStateService {
             contextToCreate.setUserId(userId);
             contextToCreate.setStartDate(Instant.now());
 
-            featureFlagContext = featureFlagContextEntityService.create(contextToCreate);
+            featureFlagRule = featureFlagRuleEntityService.create(contextToCreate);
         } else {
-            if (desiredStatus.equals(featureFlagContext.getFlagStatus())) {
+            if (desiredStatus.equals(featureFlagRule.getFlagStatus())) {
                 // No updates to be made
             } else {
-                featureFlagContext.setEndDate(Instant.now());
-                featureFlagContextEntityService.update(featureFlagContext);
+                featureFlagRule.setEndDate(Instant.now());
+                featureFlagRuleEntityService.update(featureFlagRule);
             }
         }
 
-        return featureFlagStateMapper.mapUserFlag(featureFlag, featureFlagContext);
+        return featureFlagStateMapper.mapUserFlag(featureFlag, featureFlagRule);
     }
 
     //    private FeatureFlagState createForPublic(FeatureFlagState featureFlagState) {
