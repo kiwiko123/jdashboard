@@ -1,5 +1,6 @@
 package com.kiwiko.jdashboard.featureflags.client.impl.http;
 
+import com.kiwiko.jdashboard.featureflags.client.api.dto.ResolvedFeatureFlag;
 import com.kiwiko.jdashboard.featureflags.client.api.interfaces.parameters.TurnOffFeatureFlagInput;
 import com.kiwiko.jdashboard.library.http.client.RequestUrl;
 import com.kiwiko.jdashboard.library.http.url.UriBuilder;
@@ -24,5 +25,11 @@ class TurnOffFeatureFlagRequest extends AbstractToggleFeatureFlagRequest {
     @Override
     public Object getRequestBody() {
         return input;
+    }
+
+    @Nullable
+    @Override
+    public Class<?> getResponseType() {
+        return ResolvedFeatureFlag.class;
     }
 }

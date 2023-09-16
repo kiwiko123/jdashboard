@@ -1,6 +1,10 @@
 package com.kiwiko.jdashboard.featureflags.service.internal;
 
+import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagContext;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagUserScope;
+import com.kiwiko.jdashboard.featureflags.client.api.dto.ResolvedFeatureFlag;
+import com.kiwiko.jdashboard.featureflags.client.api.dto.ResolvedPublicFeatureFlag;
+import com.kiwiko.jdashboard.featureflags.client.api.dto.ResolvedUserFeatureFlag;
 import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagResolver;
 import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagService;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlag;
@@ -8,19 +12,71 @@ import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagStatus;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class FeatureFlagServiceResolver implements FeatureFlagResolver {
 
     @Inject private FeatureFlagService featureFlagService;
+    @Inject private FeatureFlagContextEntityService featureFlagContextEntityService;
+    @Inject private FeatureFlagStateMapper featureFlagStateMapper;
 
     @Override
-    public boolean resolve(String name) {
-        return resolve(name, null);
+    public Optional<? extends ResolvedFeatureFlag> resolve(String featureFlagName) {
+        return resolveForPublic(featureFlagName);
     }
 
     @Override
-    public boolean resolve(String name, @Nullable Long userId) {
+    public Optional<? extends ResolvedFeatureFlag> resolve(String featureFlagName, @Nullable Long userId) {
+        if (userId == null) {
+            return resolveForPublic(featureFlagName);
+        }
+
+        Optional<ResolvedUserFeatureFlag> resolvedUserFeatureFlag = resolveForUser(featureFlagName, userId);
+        if (resolvedUserFeatureFlag.isPresent()) {
+            return resolvedUserFeatureFlag;
+        }
+
+        return resolveForPublic(featureFlagName);
+    }
+
+    @Override
+    public Optional<ResolvedPublicFeatureFlag> resolveForPublic(String featureFlagName) {
+        FeatureFlag featureFlag = featureFlagService.getByName(featureFlagName).orElse(null);
+        if (featureFlag == null) {
+            return Optional.empty();
+        }
+
+        FeatureFlagContext featureFlagContext = featureFlagContextEntityService.findPublic(featureFlag.getId()).orElse(null);
+        if (featureFlagContext == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(featureFlagStateMapper.mapPublicFlag(featureFlag, featureFlagContext));
+    }
+
+    @Override
+    public Optional<ResolvedUserFeatureFlag> resolveForUser(String featureFlagName, long userId) {
+        FeatureFlag featureFlag = featureFlagService.getByName(featureFlagName).orElse(null);
+        if (featureFlag == null) {
+            return Optional.empty();
+        }
+
+        FeatureFlagContext userContext = featureFlagContextEntityService.findForUser(featureFlag.getId(), userId)
+                .orElse(null);
+        FeatureFlagContext publicContext = featureFlagContextEntityService.findPublic(featureFlag.getId())
+                .orElse(null);
+
+        return Stream.of(userContext, publicContext)
+                .filter(Objects::nonNull)
+                .peek(context -> context.setUserId(userId))
+                .map(context -> featureFlagStateMapper.mapUserFlag(featureFlag, context))
+                .findFirst();
+    }
+
+    @Override
+    public boolean resolveLegacy(String name, @Nullable Long userId) {
         Optional<FeatureFlag> flag = Optional.empty();
 
         // If a user is specified, first try searching for an individual flag tied to them.
@@ -38,6 +94,11 @@ public class FeatureFlagServiceResolver implements FeatureFlagResolver {
         return flag.map(FeatureFlag::getStatus)
                 .map(FeatureFlagStatus.ENABLED.getId()::equalsIgnoreCase)
                 .orElse(false);
+    }
+
+    @Override
+    public boolean resolveLegacy(String name) {
+        return this.resolveLegacy(name, null);
     }
 
     private boolean isPublic(FeatureFlag flag) {

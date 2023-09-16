@@ -1,6 +1,9 @@
 package com.kiwiko.jdashboard.featureflags.service;
 
 import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagStateService;
+import com.kiwiko.jdashboard.featureflags.service.internal.data.FeatureFlagContextEntityDataAccessObject;
+import com.kiwiko.jdashboard.featureflags.service.internal.FeatureFlagContextEntityMapper;
+import com.kiwiko.jdashboard.featureflags.service.internal.FeatureFlagContextEntityService;
 import com.kiwiko.jdashboard.featureflags.service.internal.FeatureFlagStateMapper;
 import com.kiwiko.jdashboard.featureflags.service.internal.FeatureFlagStateServiceImpl;
 import com.kiwiko.jdashboard.featureflags.service.internal.FeatureFlagStatusResolver;
@@ -51,6 +54,21 @@ public class FeatureFlagInternalConfiguration {
                 featureFlagUserAssociationEntityDataFetcher,
                 featureFlagUserAssociationEntityMapper,
                 transactionProvider);
+    }
+
+    @Bean
+    public FeatureFlagContextEntityDataAccessObject featureFlagContextEntityDataAccessObject() {
+        return new FeatureFlagContextEntityDataAccessObject();
+    }
+
+    @Bean
+    public FeatureFlagContextEntityMapper featureFlagContextEntityMapper() {
+        return new FeatureFlagContextEntityMapper();
+    }
+
+    @Bean
+    public FeatureFlagContextEntityService featureFlagContextEntityService() {
+        return new FeatureFlagContextEntityService();
     }
 
     @Bean

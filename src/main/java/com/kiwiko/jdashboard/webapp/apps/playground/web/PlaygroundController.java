@@ -1,11 +1,14 @@
 package com.kiwiko.jdashboard.webapp.apps.playground.web;
 
+import com.kiwiko.jdashboard.featureflags.client.api.dto.ResolvedFeatureFlag;
+import com.kiwiko.jdashboard.featureflags.client.api.interfaces.FeatureFlagClient;
 import com.kiwiko.jdashboard.framework.jobscheduler.api.JobFunctionOutput;
 import com.kiwiko.jdashboard.framework.jobscheduler.api.JobScheduler;
 import com.kiwiko.jdashboard.framework.jobscheduler.api.ScheduleJobInput;
 import com.kiwiko.jdashboard.permissions.client.api.interfaces.PermissionClient;
 import com.kiwiko.jdashboard.timeline.events.client.api.CreateTimelineEventInput;
 import com.kiwiko.jdashboard.timeline.events.client.api.TimelineEventClient;
+import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
 import com.kiwiko.jdashboard.users.client.api.dto.User;
 import com.kiwiko.jdashboard.users.client.api.interfaces.UserClient;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.ServiceRequestLock;
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
@@ -30,6 +34,7 @@ import java.time.Instant;
 public class PlaygroundController {
     private static final Logger LOGGER = LoggerFactory.getLogger(PlaygroundController.class);
 
+    @Inject private FeatureFlagClient featureFlagClient;
     @Inject private JdashboardApiClient jdashboardApiClient;
     @Inject private UserClient userClient;
     @Inject private PermissionClient permissionClient;
@@ -37,33 +42,16 @@ public class PlaygroundController {
     @Inject private TimelineEventClient timelineEventClient;
     @Inject private JobScheduler jobScheduler;
 
-    @GetMapping("/playground-api/test")
+    @GetMapping("/playground-api/ff/on")
     @ResponseBody
-    public boolean test(@AuthenticatedUser User currentUser) throws Exception {
-        for (int i = 0; i < 100; ++i) {
-            final int iteration = i;
-            ScheduleJobInput scheduleJobInput = ScheduleJobInput.builder()
-                    .jobName(String.format("Playground test job %d", i))
-                    .scheduledRunTime(Instant.now().plus(Duration.ofSeconds(20)))
-                    .function((input) -> {
-                        LOGGER.info("Playground test job!");
+    public ClientResponse<ResolvedFeatureFlag> ffOn(@RequestParam("f") String featureFlagName) {
+        return featureFlagClient.turnOn(featureFlagName);
+    }
 
-                        CreateTimelineEventInput createTimelineEventInput = CreateTimelineEventInput.builder()
-                                .eventName("TEST_playground-job-test")
-                                .eventKey(Integer.toString(iteration))
-                                .currentUserId(currentUser.getId())
-                                .build();
-                        timelineEventClient.pushNewTimelineEvent(createTimelineEventInput);
-
-                        Thread.sleep(Duration.ofSeconds(5).toMillis());
-                        return JobFunctionOutput.create();
-                    })
-                    .build();
-
-            jobScheduler.queue(scheduleJobInput);
-        }
-
-        return true;
+    @GetMapping("/playground-api/ff/off")
+    @ResponseBody
+    public ClientResponse<ResolvedFeatureFlag> ffOff(@RequestParam("f") String featureFlagName) {
+        return featureFlagClient.turnOff(featureFlagName);
     }
 
     @ServiceRequestLock

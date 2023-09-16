@@ -1,10 +1,10 @@
 package com.kiwiko.jdashboard.featureflags.service.web;
 
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlag;
-import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagState;
+import com.kiwiko.jdashboard.featureflags.client.api.dto.ResolvedFeatureFlag;
+import com.kiwiko.jdashboard.featureflags.client.api.interfaces.parameters.TurnOffFeatureFlagInput;
 import com.kiwiko.jdashboard.featureflags.client.api.interfaces.parameters.TurnOnFeatureFlagInput;
 import com.kiwiko.jdashboard.featureflags.client.api.interfaces.parameters.GetFeatureFlagOutput;
-import com.kiwiko.jdashboard.featureflags.client.api.interfaces.parameters.ResolvedFeatureFlag;
 import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagStateService;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.ServiceRequestLock;
@@ -21,6 +21,7 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/feature-flags/service-api")
@@ -52,25 +53,24 @@ public class FeatureFlagServiceApiController {
     public ResolvedFeatureFlag getFlagState(
             @RequestParam("fn") String featureFlagName,
             @RequestParam(value = "u", required = false) @Nullable Long userId) {
-        FeatureFlagState state = userId == null
-                ? featureFlagStateService.getPublicFlagByName(featureFlagName).orElse(null)
-                : featureFlagStateService.getUserFlagByName(featureFlagName, userId).orElse(null);
-        return new ResolvedFeatureFlag(state);
+        Optional<? extends ResolvedFeatureFlag> resolvedFlag = userId == null
+                ? featureFlagStateService.getPublicFlagByName(featureFlagName)
+                : featureFlagStateService.getUserFlagByName(featureFlagName, userId);
+
+        return resolvedFlag.orElse(null);
     }
 
     @PostMapping("/state/on")
     public ResolvedFeatureFlag turnOn(@RequestBody TurnOnFeatureFlagInput input) {
-        FeatureFlagState state = input.getUserId() == null
+        return input.getUserId() == null
                 ? featureFlagStateService.turnOn(input.getFeatureFlagName())
                 : featureFlagStateService.turnOn(input.getFeatureFlagName(), input.getUserId());
-        return new ResolvedFeatureFlag(state);
     }
 
     @PostMapping("/state/off")
-    public ResolvedFeatureFlag turnOff(@RequestBody TurnOnFeatureFlagInput input) {
-        FeatureFlagState state = input.getUserId() == null
+    public ResolvedFeatureFlag turnOff(@RequestBody TurnOffFeatureFlagInput input) {
+        return input.getUserId() == null
                 ? featureFlagStateService.turnOff(input.getFeatureFlagName())
                 : featureFlagStateService.turnOff(input.getFeatureFlagName(), input.getUserId());
-        return new ResolvedFeatureFlag(state);
     }
 }

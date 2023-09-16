@@ -1,6 +1,6 @@
 package com.kiwiko.jdashboard.featureflags.client.impl.http;
 
-import com.kiwiko.jdashboard.featureflags.client.api.interfaces.parameters.ResolvedFeatureFlag;
+import com.kiwiko.jdashboard.featureflags.client.api.dto.ResolvedFeatureFlag;
 import com.kiwiko.jdashboard.library.http.client.RequestMethod;
 import com.kiwiko.jdashboard.library.http.client.RequestUrl;
 import com.kiwiko.jdashboard.library.http.url.QueryParameter;

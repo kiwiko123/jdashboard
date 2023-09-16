@@ -1,11 +1,10 @@
 package com.kiwiko.jdashboard.featureflags.service.web;
 
+import com.kiwiko.jdashboard.featureflags.client.api.dto.ResolvedFeatureFlag;
 import com.kiwiko.jdashboard.users.client.api.dto.User;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlag;
-import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagState;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagUserScope;
 import com.kiwiko.jdashboard.featureflags.client.api.interfaces.FeatureFlagClient;
-import com.kiwiko.jdashboard.featureflags.client.api.interfaces.parameters.ResolvedFeatureFlag;
 import com.kiwiko.jdashboard.featureflags.client.api.interfaces.parameters.UpdateFeatureFlagInput;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.auth.AuthenticatedUser;
@@ -36,20 +35,18 @@ public class FeatureFlagAdminAppController {
     }
 
     @PostMapping("/flags/toggle")
-    public FeatureFlagState toggleStatusByName(
+    public ResolvedFeatureFlag toggleStatusByName(
             @RequestBody UpdateFeatureFlagInput input,
             @AuthenticatedUser User currentUser) {
         if (FeatureFlagUserScope.isIndividual(input.getUserScope()) && input.getUserId() == null) {
             input.setUserId(currentUser.getId());
         }
 
-        return featureFlagAPIHelper.toggleStatus(input)
-                .flatMap(ResolvedFeatureFlag::get)
-                .orElse(null);
+        return featureFlagAPIHelper.toggleStatus(input);
     }
 
     @GetMapping("/state")
-    public FeatureFlagState getState(@RequestParam("fn") String featureFlagName) {
-        return featureFlagClient.resolve(featureFlagName).get().orElse(null);
+    public ResolvedFeatureFlag getState(@RequestParam("fn") String featureFlagName) {
+        return featureFlagClient.resolve(featureFlagName).orElse(null);
     }
 }

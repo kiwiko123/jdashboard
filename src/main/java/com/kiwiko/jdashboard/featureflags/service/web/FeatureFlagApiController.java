@@ -37,7 +37,7 @@ public class FeatureFlagApiController {
     public ResponsePayload resolveFlag(
             @RequestParam("name") String name,
             @RequestParam(value = "userId", required = false) @Nullable Long userId) {
-        boolean isResolved = featureFlagResolver.resolve(name, userId);
+        boolean isResolved = featureFlagResolver.resolveLegacy(name, userId);
         return ResponseBuilder.payload(isResolved);
     }
 
