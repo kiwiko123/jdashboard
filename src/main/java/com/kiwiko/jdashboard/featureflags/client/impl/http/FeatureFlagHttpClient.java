@@ -32,6 +32,11 @@ public class FeatureFlagHttpClient implements FeatureFlagClient {
     }
 
     @Override
+    public Optional<Boolean> isOn(String featureFlagName) {
+        return resolve(featureFlagName).map(ResolvedFeatureFlag::isEnabled);
+    }
+
+    @Override
     public Optional<ResolvedFeatureFlag> resolveForPublic(String featureFlagName) {
         GetFeatureFlagStateRequest request = new GetFeatureFlagStateRequest(featureFlagName, null);
         ClientResponse<ResolvedFeatureFlag> response = jdashboardApiClient.silentSynchronousCall(request);

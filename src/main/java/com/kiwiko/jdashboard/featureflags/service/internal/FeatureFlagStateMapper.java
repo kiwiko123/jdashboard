@@ -22,7 +22,7 @@ public class FeatureFlagStateMapper {
         ResolvedPublicFeatureFlag resolvedFlag = new ResolvedPublicFeatureFlag();
 
         resolvedFlag.setFeatureFlagId(featureFlag.getId());
-        resolvedFlag.setFeatureFlagContextId(featureFlagRule.getId());
+        resolvedFlag.setFeatureFlagRuleId(featureFlagRule.getId());
         resolvedFlag.setFlagName(featureFlag.getName());
         resolvedFlag.setScope(featureFlagRule.getScope());
         resolvedFlag.setStatus(featureFlagRule.getFlagStatus());
@@ -36,7 +36,7 @@ public class FeatureFlagStateMapper {
         ResolvedUserFeatureFlag resolvedFlag = new ResolvedUserFeatureFlag();
 
         resolvedFlag.setFeatureFlagId(featureFlag.getId());
-        resolvedFlag.setFeatureFlagContextId(featureFlagRule.getId());
+        resolvedFlag.setFeatureFlagRuleId(featureFlagRule.getId());
         resolvedFlag.setFlagName(featureFlag.getName());
         resolvedFlag.setScope(featureFlagRule.getScope());
         resolvedFlag.setStatus(featureFlagRule.getFlagStatus());

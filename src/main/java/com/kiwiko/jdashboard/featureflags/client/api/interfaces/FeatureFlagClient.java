@@ -11,6 +11,8 @@ public interface FeatureFlagClient {
 
     GetFeatureFlagOutput getFlag(GetFeatureFlagInput input);
 
+    Optional<Boolean> isOn(String featureFlagName);
+
     Optional<ResolvedFeatureFlag> resolveForPublic(String featureFlagName);
     Optional<ResolvedFeatureFlag> resolveForUser(String featureFlagName, Long userId);
     Optional<ResolvedFeatureFlag> resolve(String featureFlagName);

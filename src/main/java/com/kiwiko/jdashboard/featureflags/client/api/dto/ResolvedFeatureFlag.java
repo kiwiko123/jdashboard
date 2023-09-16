@@ -7,12 +7,8 @@ import java.time.Instant;
 
 @Data
 public class ResolvedFeatureFlag {
-    public static ResolvedFeatureFlag unsuccessful() {
-        return new ResolvedFeatureFlag();
-    }
-
     private Long featureFlagId;
-    private Long featureFlagContextId;
+    private @Nullable Long featureFlagRuleId;
     private String flagName;
     private String scope;
     private String status;
