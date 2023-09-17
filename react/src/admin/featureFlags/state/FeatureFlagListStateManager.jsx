@@ -50,10 +50,8 @@ export default class FeatureFlagListStateManager extends StateManager {
     }
 
     editFeatureFlagForm(featureFlagIndex) {
-        const featureFlag = get(this.state.featureFlagListItems, [featureFlagIndex, 'featureFlag']);
-        const state = {
-            featureFlagId: featureFlag.id,
-        };
+        const featureFlagId = get(this.state.featureFlagListItems, [featureFlagIndex, 'id']);
+        const state = { featureFlagId };
         this.sendState('FeatureFlagModalDelegateStateManager', state, 'editFeatureFlagForm');
     }
 

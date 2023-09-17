@@ -2,6 +2,7 @@ package com.kiwiko.jdashboard.featureflags.service.web;
 
 import com.kiwiko.jdashboard.featureflags.client.api.dto.ResolvedFeatureFlag;
 import com.kiwiko.jdashboard.featureflags.service.web.responses.GetFeatureFlagListResponse;
+import com.kiwiko.jdashboard.featureflags.service.web.responses.ModifyFeatureFlagData;
 import com.kiwiko.jdashboard.users.client.api.dto.User;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlag;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagUserScope;
@@ -49,6 +50,11 @@ public class FeatureFlagAdminAppController {
         }
 
         return featureFlagAPIHelper.toggleStatus(input);
+    }
+
+    @GetMapping("/{id:\\d+}/edit-form-data")
+    public ModifyFeatureFlagData getModifyFeatureFlagFormData(@PathVariable("id") long featureFlagId) {
+        return featureFlagAPIHelper.getModifyFeatureFlagFormData(featureFlagId);
     }
 
     @GetMapping("/state")

@@ -13,6 +13,7 @@ import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlag;
 import com.kiwiko.jdashboard.featureflags.service.web.responses.FeatureFlagListItemRule;
 import com.kiwiko.jdashboard.featureflags.service.web.responses.FeatureFlagListItemV2;
 import com.kiwiko.jdashboard.featureflags.service.web.responses.GetFeatureFlagListResponse;
+import com.kiwiko.jdashboard.featureflags.service.web.responses.ModifyFeatureFlagData;
 import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
 import com.kiwiko.jdashboard.users.service.api.dto.User;
 
@@ -110,6 +111,23 @@ class FeatureFlagAPIHelper {
 
         return result;
     }
+
+    public ModifyFeatureFlagData getModifyFeatureFlagFormData(long featureFlagId) {
+        FeatureFlag featureFlag = featureFlagService.get(featureFlagId)
+                .orElseThrow(() -> new IllegalArgumentException("No feature flag exists"));
+        List<FeatureFlagListItemRule> rules = featureFlagRuleService.findByFeatureFlagIds(Collections.singleton(featureFlagId)).stream()
+                .map(this::mapToListItemRule)
+                .toList();
+
+        ModifyFeatureFlagData result = new ModifyFeatureFlagData();
+        result.setFeatureFlagId(featureFlagId);
+        result.setFeatureFlagName(featureFlag.getName());
+        result.setRules(rules);
+
+        return result;
+    }
+
+    // -- DEPRECATED
 
     public List<FeatureFlagListItem> getListItems() {
         Set<FeatureFlag> flags = featureFlagService.getAll();

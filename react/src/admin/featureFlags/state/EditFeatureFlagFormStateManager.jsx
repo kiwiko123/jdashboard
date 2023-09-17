@@ -1,4 +1,4 @@
-import { get, set } from 'lodash';
+import { get, isEmpty, set } from 'lodash';
 import FormStateManager from 'tools/forms/state/FormStateManager';
 import logger from 'common/js/logging';
 import Request from 'tools/http/Request';
@@ -10,20 +10,25 @@ export default class EditFeatureFlagFormStateManager extends FormStateManager {
         this.featureFlagId = featureFlagId;
         this.onSuccessfulEdit = onSuccessfulEdit;
 
-        Request.to(`/feature-flags/api/${this.featureFlagId}`)
+        Request.to(`/feature-flags/app-api/${this.featureFlagId}/edit-form-data`)
             .authenticated()
             .get()
             .then((response) => {
-                this.updateFieldValue('name', response.name);
-                this.updateFieldValue('status', response.status);
-                this.updateFieldValue('value', response.value);
-                this.updateFieldValue('userScope', response.userScope);
-                this.updateFieldValue('userId', response.userId);
+                this.updateFieldValue('name', response.featureFlagName);
             });
     }
 
     defaultFields() {
-        return FIELDS;
+        return {
+            name: {
+                name: 'flag-name',
+                type: 'input',
+                label: 'Flag name',
+                value: null,
+                isRequired: true,
+                validate: value => !isEmpty(value),
+            },
+        };
     }
 
     submitForm() {
