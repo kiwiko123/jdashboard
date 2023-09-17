@@ -8,19 +8,8 @@ import featureFlagPropTypeShape from './propTypes/featureFlagPropTypeShape';
 import './FeatureFlagListItem.css';
 
 const FeatureFlagListItem = ({
-    id, name, status, value, userScope, userId, isRemoved, versions, actions, disabled, isLoading,
+    id, name, isOnForMe, isOnForPublic, createdDate, lastUpdatedDate, rules, actions, disabled, isLoading,
 }) => {
-    const userIdField = userScope === 'individual' && (
-        <div className="userId">
-            <span className="label">
-                User ID:
-            </span>
-            <span className="value">
-                {userId}
-            </span>
-        </div>
-    );
-
     return (
         <div className="FeatureFlagListItem">
             <div className="toolbar">
@@ -46,34 +35,36 @@ const FeatureFlagListItem = ({
                 </div>
             </div>
             <div className="fields">
-                <div className="status">
-                    <span className="label">
-                        Status
-                    </span>
+                <div className="status for-me">
                     <ToggleSwitch
                         className="status-switch value"
-                        isSelected={status === 'enabled'}
-                        onToggle={actions.toggleStatus}
+                        isSelected={isOnForMe}
+                        onToggle={actions.toggleStatusForMe}
                         disabled={disabled}
                     />
-                </div>
-                <div className="flag-value">
                     <span className="label">
-                        Value:
-                    </span>
-                    <span className="value">
-                        {value}
+                        For me
                     </span>
                 </div>
-                <div className="user-scope">
+                <div className="status for-everyone">
+                    <ToggleSwitch
+                        className="status-switch value"
+                        isSelected={isOnForPublic}
+                        onToggle={actions.toggleStatusForPublic}
+                        disabled={disabled}
+                    />
                     <span className="label">
-                        User scope:
-                    </span>
-                    <span className="value">
-                        {userScope}
+                        For everyone
                     </span>
                 </div>
-                {userIdField}
+            </div>
+            <div className="dates">
+                <div className="last-updated-date">
+                    {`Last updated on ${lastUpdatedDate}`}
+                </div>
+                <div className="created-date">
+                    {`Created on ${createdDate}`}
+                </div>
             </div>
         </div>
     );
@@ -83,7 +74,8 @@ FeatureFlagListItem.propTypes = {
     ...featureFlagPropTypeShape,
     actions: PropTypes.shape({
         openEditModal: PropTypes.func.isRequired,
-        toggleStatus: PropTypes.func.isRequired,
+        toggleStatusForMe: PropTypes.func.isRequired,
+        toggleStatusForPublic: PropTypes.func.isRequired,
         removeFlag: PropTypes.func.isRequired,
     }),
     disabled: PropTypes.bool,

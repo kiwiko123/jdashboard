@@ -1,6 +1,7 @@
 package com.kiwiko.jdashboard.featureflags.service.web;
 
 import com.kiwiko.jdashboard.featureflags.client.api.dto.ResolvedFeatureFlag;
+import com.kiwiko.jdashboard.featureflags.service.web.responses.GetFeatureFlagListResponse;
 import com.kiwiko.jdashboard.users.client.api.dto.User;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlag;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagUserScope;
@@ -27,6 +28,11 @@ import javax.inject.Inject;
 public class FeatureFlagAdminAppController {
     @Inject private FeatureFlagAPIHelper featureFlagAPIHelper;
     @Inject private FeatureFlagClient featureFlagClient;
+
+    @GetMapping("/list")
+    public GetFeatureFlagListResponse getFeatureFlagList(@AuthenticatedUser User currentUser) {
+        return featureFlagAPIHelper.getFeatureFlagList(currentUser.getId());
+    }
 
     @Deprecated
     @PostMapping("/{id:\\d+}/status/toggle")

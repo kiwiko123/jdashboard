@@ -126,7 +126,7 @@ CREATE TABLE feature_flag_rules (
     end_date TIMESTAMP WITH TIME ZONE
 );
 CREATE INDEX ON feature_flag_rules (feature_flag_id);
-CREATE UNIQUE INDEX ON feature_flag_rules (scope, user_id) WHERE end_date IS NULL;
+CREATE UNIQUE INDEX ON feature_flag_rules (feature_flag_id, scope, user_id) WHERE end_date IS NULL;
 
 CREATE TABLE feature_flag_user_associations (
     id BIGSERIAL PRIMARY KEY,

@@ -49,11 +49,16 @@
     color: black;
 }
 
-.FeatureFlagListItem > .fields > * > .value {
-    margin-left: auto;
-    text-transform: uppercase;
+.FeatureFlagListItem > .fields > .status > .status-switch {
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 .FeatureFlagListItem > .fields > .status > .status-switch.on {
     color: #008a00;
+}
+
+.FeatureFlagListItem > .dates {
+    font-size: small;
+    margin-top: 1rem;
 }

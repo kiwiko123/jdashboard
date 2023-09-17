@@ -5,9 +5,11 @@ import com.kiwiko.jdashboard.tools.dataaccess.impl.JpaDataAccessObject;
 import javax.annotation.Nullable;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,5 +41,18 @@ public class FeatureFlagRuleEntityDataAccessObject extends JpaDataAccessObject<F
                 .orderBy(builder.desc(root.get("startDate")));
 
         return getSingleResult(query);
+    }
+
+    public List<FeatureFlagRuleEntity> findByFeatureFlagIds(Collection<Long> featureFlagIds) {
+        CriteriaBuilder builder = getCriteriaBuilder();
+        CriteriaQuery<FeatureFlagRuleEntity> query = builder.createQuery(entityType);
+        Root<FeatureFlagRuleEntity> root = query.from(entityType);
+
+        Expression<Long> featureFlagId = root.get("featureFlagId");
+        Predicate hasFeatureFlagId = featureFlagId.in(featureFlagIds);
+
+        query.where(hasFeatureFlagId);
+
+        return createQuery(query).getResultList();
     }
 }

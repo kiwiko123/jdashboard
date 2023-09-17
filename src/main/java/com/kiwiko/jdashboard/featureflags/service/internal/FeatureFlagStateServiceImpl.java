@@ -8,6 +8,7 @@ import com.kiwiko.jdashboard.featureflags.client.api.dto.ResolvedPublicFeatureFl
 import com.kiwiko.jdashboard.featureflags.client.api.dto.ResolvedUserFeatureFlag;
 import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagDoesNotExistException;
 import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagResolver;
+import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagRuleService;
 import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagService;
 import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagStateService;
 
@@ -17,7 +18,7 @@ import java.util.Optional;
 
 public class FeatureFlagStateServiceImpl implements FeatureFlagStateService {
     @Inject private FeatureFlagService featureFlagService;
-    @Inject private FeatureFlagRuleEntityService featureFlagRuleEntityService;
+    @Inject private FeatureFlagRuleService featureFlagRuleEntityService;
     @Inject private FeatureFlagUserAssociationEntityService featureFlagUserAssociationService;
     @Inject private FeatureFlagStateMapper featureFlagStateMapper;
     @Inject private FeatureFlagStatusResolver featureFlagStatusResolver;

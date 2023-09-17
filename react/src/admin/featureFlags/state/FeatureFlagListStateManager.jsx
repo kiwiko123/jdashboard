@@ -10,7 +10,8 @@ export default class FeatureFlagListStateManager extends StateManager {
         });
 
         this.registerMethod(this.editFeatureFlagForm);
-        this.registerMethod(this.toggleFeatureFlagStatus);
+        this.registerMethod(this.toggleFeatureFlagStatusForMe);
+        this.registerMethod(this.toggleFeatureFlagStatusForPublic);
         this.registerMethod(this.removeFeatureFlag);
 
         this.refreshFeatureFlags();
@@ -29,12 +30,18 @@ export default class FeatureFlagListStateManager extends StateManager {
     }
 
     refreshFeatureFlags() {
-        Request.to('/feature-flags/api/list')
+        Request.to('/feature-flags/app-api/list')
             .authenticated()
             .get()
             .then((response) => {
-                const listItems = response.payload.map(item => ({
-                    ...item,
+                const listItems = response.listItems.map(item => ({
+                    id: item.featureFlagId,
+                    name: item.featureFlagName,
+                    createdDate: new Date(item.createdDate).toLocaleString(),
+                    lastUpdatedDate: new Date(item.lastUpdatedDate).toLocaleString(),
+                    isOnForMe: item.isOnForMe,
+                    isOnForPublic: item.isOnForPublic,
+                    rules: item.rules,
                     isLoading: false,
                     disabled: false,
                 }));
@@ -50,15 +57,15 @@ export default class FeatureFlagListStateManager extends StateManager {
         this.sendState('FeatureFlagModalDelegateStateManager', state, 'editFeatureFlagForm');
     }
 
-    toggleFeatureFlagStatus(listItemIndex, isOn) {
+    toggleFeatureFlagStatus(listItemIndex, scope) {
         const { featureFlagListItems } = this.state;
         featureFlagListItems[listItemIndex].disabled = true;
         featureFlagListItems[listItemIndex].isLoading = true;
         this.setState({ featureFlagListItems });
 
         const payload = {
-            featureFlagName: get(featureFlagListItems, [listItemIndex, 'featureFlag', 'name']),
-            userScope: 'public',
+            featureFlagName: get(featureFlagListItems, [listItemIndex, 'name']),
+            userScope: scope,
         };
 
         Request.to('/feature-flags/app-api/flags/toggle')
@@ -68,6 +75,14 @@ export default class FeatureFlagListStateManager extends StateManager {
             .then(() => {
                 this.refreshFeatureFlags();
             });
+    }
+
+    toggleFeatureFlagStatusForMe(listItemIndex) {
+        this.toggleFeatureFlagStatus(listItemIndex, 'individual');
+    }
+
+    toggleFeatureFlagStatusForPublic(listItemIndex) {
+        this.toggleFeatureFlagStatus(listItemIndex, 'public');
     }
 
     removeFeatureFlag(listItemIndex) {

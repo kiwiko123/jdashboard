@@ -6,6 +6,7 @@ import com.kiwiko.jdashboard.featureflags.client.api.dto.ResolvedFeatureFlag;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.ResolvedPublicFeatureFlag;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.ResolvedUserFeatureFlag;
 import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagResolver;
+import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagRuleService;
 import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagService;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlag;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagStatus;
@@ -19,7 +20,7 @@ import java.util.stream.Stream;
 public class FeatureFlagServiceResolver implements FeatureFlagResolver {
 
     @Inject private FeatureFlagService featureFlagService;
-    @Inject private FeatureFlagRuleEntityService featureFlagRuleEntityService;
+    @Inject private FeatureFlagRuleService featureFlagRuleEntityService;
     @Inject private FeatureFlagStateMapper featureFlagStateMapper;
 
     @Override

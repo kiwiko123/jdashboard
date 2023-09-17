@@ -3,7 +3,6 @@ package com.kiwiko.jdashboard.featureflags.service;
 import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagStateService;
 import com.kiwiko.jdashboard.featureflags.service.internal.data.FeatureFlagRuleEntityDataAccessObject;
 import com.kiwiko.jdashboard.featureflags.service.internal.FeatureFlagRuleEntityMapper;
-import com.kiwiko.jdashboard.featureflags.service.internal.FeatureFlagRuleEntityService;
 import com.kiwiko.jdashboard.featureflags.service.internal.FeatureFlagStateMapper;
 import com.kiwiko.jdashboard.featureflags.service.internal.FeatureFlagStateServiceImpl;
 import com.kiwiko.jdashboard.featureflags.service.internal.FeatureFlagStatusResolver;
@@ -64,11 +63,6 @@ public class FeatureFlagInternalConfiguration {
     @Bean
     public FeatureFlagRuleEntityMapper featureFlagContextEntityMapper() {
         return new FeatureFlagRuleEntityMapper();
-    }
-
-    @Bean
-    public FeatureFlagRuleEntityService featureFlagContextEntityService() {
-        return new FeatureFlagRuleEntityService();
     }
 
     @Bean

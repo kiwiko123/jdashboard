@@ -1,5 +1,7 @@
 package com.kiwiko.jdashboard.featureflags.service;
 
+import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagRuleService;
+import com.kiwiko.jdashboard.featureflags.service.internal.FeatureFlagRuleEntityService;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfigurationScope;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfigurationScopeLevel;
 import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagResolver;
@@ -24,6 +26,11 @@ public class FeatureFlagConfiguration {
     })
     public FeatureFlagService featureFlagService() {
         return new FeatureFlagEntityService();
+    }
+
+    @Bean
+    public FeatureFlagRuleService featureFlagRuleService() {
+        return new FeatureFlagRuleEntityService();
     }
 
     @Bean

@@ -6,18 +6,19 @@ import FeatureFlagListItem from './FeatureFlagListItem';
 import './FeatureFlagList.css';
 
 const FeatureFlagList = ({
-    featureFlagListItems, editFeatureFlagForm, toggleFeatureFlagStatus, removeFeatureFlag,
+    featureFlagListItems, editFeatureFlagForm, toggleFeatureFlagStatusForMe, toggleFeatureFlagStatusForPublic, removeFeatureFlag,
 }) => {
     const listItems = featureFlagListItems.map((item, index) => {
         const actions = {
             openEditModal: () => editFeatureFlagForm(index),
-            toggleStatus: (event, value) => toggleFeatureFlagStatus(index, value),
+            toggleStatusForMe: () => toggleFeatureFlagStatusForMe(index),
+            toggleStatusForPublic: () => toggleFeatureFlagStatusForPublic(index),
             removeFlag: () => removeFeatureFlag(index),
         };
         return (
            <FeatureFlagListItem
-               {...item.featureFlag}
-               key={item.featureFlag.id}
+               {...item}
+               key={item.id}
                actions={actions}
                disabled={item.disabled}
                isLoading={item.isLoading}
@@ -35,7 +36,8 @@ const FeatureFlagList = ({
 FeatureFlagList.propTypes = {
     featureFlagListItems: PropTypes.arrayOf(PropTypes.shape(FeatureFlagListItem.propTypes)),
     editFeatureFlagForm: PropTypes.func.isRequired,
-    toggleFeatureFlagStatus: PropTypes.func.isRequired,
+    toggleFeatureFlagStatusForMe: PropTypes.func.isRequired,
+    toggleFeatureFlagStatusForPublic: PropTypes.func.isRequired,
     removeFeatureFlag: PropTypes.func.isRequired,
 };
 
