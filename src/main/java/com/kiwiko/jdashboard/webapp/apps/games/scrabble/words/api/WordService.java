@@ -3,6 +3,7 @@ package com.kiwiko.jdashboard.webapp.apps.games.scrabble.words.api;
 import com.kiwiko.jdashboard.webapp.apps.games.scrabble.words.data.Word;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public interface WordService {
@@ -11,9 +12,7 @@ public interface WordService {
 
     Collection<Word> findByWords(Collection<String> words);
 
-    Collection<Word> getByIds(Collection<Long> wordIds);
+    Word create(Word word);
 
-    Optional<Word> createWord(String word);
-
-    Collection<Word> createWords(Collection<String> words);
+    List<Word> create(Collection<Word> words);
 }

@@ -1,31 +1,12 @@
 package com.kiwiko.jdashboard.webapp.apps.games.scrabble.words.data;
 
-import com.kiwiko.jdashboard.library.persistence.identification.TypeIdentifiable;
+import com.kiwiko.jdashboard.library.persistence.data.api.interfaces.DataEntityDTO;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-public class Word extends TypeIdentifiable<Long> {
-
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class Word extends DataEntityDTO {
     private Long id;
     private String word;
-
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getWord() {
-        return word;
-    }
-
-    public void setWord(String word) {
-        this.word = word;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%s(%s)", getClass().getSimpleName(), getWord());
-    }
 }
