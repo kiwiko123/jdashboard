@@ -5,6 +5,7 @@ import com.kiwiko.jdashboard.framework.codeanalysis.spidi.interfaces.SpiDiExcept
 import com.kiwiko.jdashboard.framework.codeanalysis.spidi.interfaces.SpiDiService;
 import com.kiwiko.jdashboard.framework.lifecycle.startup.api.interfaces.ApplicationStartupHook;
 import com.kiwiko.jdashboard.framework.lifecycle.startup.api.interfaces.ApplicationStartupHookException;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.inject.Inject;
 
@@ -12,8 +13,14 @@ public class SpiDiStartupHook implements ApplicationStartupHook {
 
     @Inject private SpiDiService spiDiService;
 
+    @Value("${jdashboard.static-code-analysis.spidi.enabled}") boolean enableSpiDiStaticCodeAnalysis;
+
     @Override
     public void run() throws ApplicationStartupHookException {
+        if (!enableSpiDiStaticCodeAnalysis) {
+            return;
+        }
+
         ResolveDependenciesInput input = ResolveDependenciesInput.builder()
                 .rootPackagePath("com.kiwiko.jdashboard")
                 .build();
