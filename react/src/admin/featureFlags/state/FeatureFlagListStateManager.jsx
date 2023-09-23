@@ -1,6 +1,7 @@
 import { get } from 'lodash';
 import StateManager from 'state/StateManager';
 import Request from 'tools/http/Request';
+import { goTo } from 'common/js/urltools';
 
 export default class FeatureFlagListStateManager extends StateManager {
     constructor() {
@@ -51,8 +52,7 @@ export default class FeatureFlagListStateManager extends StateManager {
 
     editFeatureFlagForm(featureFlagIndex) {
         const featureFlagId = get(this.state.featureFlagListItems, [featureFlagIndex, 'id']);
-        const state = { featureFlagId };
-        this.sendState('FeatureFlagModalDelegateStateManager', state, 'editFeatureFlagForm');
+        goTo(`/admin/feature-flags/${featureFlagId}/edit`);
     }
 
     toggleFeatureFlagStatus(listItemIndex, scope) {

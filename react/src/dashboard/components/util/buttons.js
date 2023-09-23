@@ -80,5 +80,12 @@ export function makeQuickLinkButtonSettings(props) {
             icon: 'fas fa-code',
             shouldShow: () => props.isLoggedIn,
         },
+        {
+            id: 'featureFlags',
+            label: 'Feature Flags',
+            url: '/admin/feature-flags',
+            icon: 'fas fa-flag',
+            shouldShow: () => props.isLoggedIn && props.permissions.has('admin'),
+        },
     ];
 }

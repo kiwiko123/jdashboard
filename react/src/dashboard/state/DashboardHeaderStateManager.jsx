@@ -23,6 +23,7 @@ export default class DashboardHeaderStateManager extends StateManager {
             this.setState({
                 userData: {
                     username: user.username,
+                    permissions: new Set(user.permissions),
                     isLoggedIn: true,
                     logOut: this.logOut.bind(this),
                 },

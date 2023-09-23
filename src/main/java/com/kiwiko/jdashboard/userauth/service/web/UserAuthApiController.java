@@ -1,5 +1,9 @@
 package com.kiwiko.jdashboard.userauth.service.web;
 
+import com.kiwiko.jdashboard.permissions.client.api.interfaces.PermissionClient;
+import com.kiwiko.jdashboard.permissions.client.api.interfaces.parameters.QueryPermissionsInput;
+import com.kiwiko.jdashboard.permissions.client.api.interfaces.parameters.QueryPermissionsOutput;
+import com.kiwiko.jdashboard.permissions.service.api.dto.Permission;
 import com.kiwiko.jdashboard.users.client.api.dto.User;
 import com.kiwiko.jdashboard.users.client.api.interfaces.responses.CreateUserOutput;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.auth.AuthenticatedUser;
@@ -22,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 @RestController
 @JdashboardConfigured
@@ -30,6 +36,7 @@ public class UserAuthApiController {
 
     @Inject private UserLoginAuthenticator userLoginAuthenticator;
     @Inject private UserCreator userCreator;
+    @Inject private PermissionClient permissionClient;
 
     @GetMapping("/users/current")
     public GetCurrentUserResponse getCurrentUser(@AuthenticatedUser(required = false) @Nullable User user) {
@@ -37,9 +44,19 @@ public class UserAuthApiController {
             return null;
         }
 
+        QueryPermissionsInput queryPermissionsInput = QueryPermissionsInput.newBuilder()
+                .setUserIds(Collections.singleton(user.getId()))
+                .build();
+        QueryPermissionsOutput queryPermissionsOutput = permissionClient.query(queryPermissionsInput);
+
         GetCurrentUserResponse response = new GetCurrentUserResponse();
         response.setUserId(user.getId());
         response.setUsername(user.getUsername());
+        response.setPermissions(
+                queryPermissionsOutput.getPermissions()
+                        .stream()
+                        .map(Permission::getPermissionName)
+                        .collect(Collectors.toUnmodifiableSet()));
         return  response;
     }
 

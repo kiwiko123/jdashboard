@@ -1,5 +1,6 @@
 import HomePage from './home/pages/HomePage';
 import FeatureFlagPage from './admin/featureFlags/FeatureFlagPage';
+import EditFeatureFlagPage from './admin/featureFlags/edit/EditFeatureFlagPage';
 import CreateAccountPage from './accounts/create/CreateAccountPage';
 import LoginPage from './accounts/pages/LoginPage';
 import LogInRedirectPage from './accounts/pages/LogInRedirectPage';
@@ -61,6 +62,11 @@ const ROUTES = {
         id: 'featureFlags',
         path: '/admin/feature-flags',
         component: FeatureFlagPage,
+    },
+    EditFeatureFlag: {
+        id: 'editFeatureFlag',
+        path: '/admin/feature-flags/:featureFlagId/edit',
+        component: EditFeatureFlagPage,
     },
     Pazaak: {
         id: 'pazaakPlay',

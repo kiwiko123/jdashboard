@@ -1,22 +1,14 @@
 package com.kiwiko.jdashboard.userauth.service.web.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.Set;
+
+@Getter
+@Setter
 public class GetCurrentUserResponse {
     private long userId;
     private String username;
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    private Set<String> permissions;
 }
