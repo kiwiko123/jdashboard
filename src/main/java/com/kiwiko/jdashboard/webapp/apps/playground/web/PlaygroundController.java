@@ -9,6 +9,7 @@ import com.kiwiko.jdashboard.permissions.client.api.interfaces.PermissionClient;
 import com.kiwiko.jdashboard.timeline.events.client.api.CreateTimelineEventInput;
 import com.kiwiko.jdashboard.timeline.events.client.api.TimelineEventClient;
 import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
+import com.kiwiko.jdashboard.tools.apiclient.impl.http.plugins.v2.DefaultJdashboardApiClientPlugins;
 import com.kiwiko.jdashboard.users.client.api.dto.User;
 import com.kiwiko.jdashboard.users.client.api.interfaces.UserClient;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.ServiceRequestLock;
@@ -41,6 +42,7 @@ public class PlaygroundController {
     @Inject private PushService pushService;
     @Inject private TimelineEventClient timelineEventClient;
     @Inject private JobScheduler jobScheduler;
+    @Inject private DefaultJdashboardApiClientPlugins defaultJdashboardApiClientPlugins;
 
     @GetMapping("/playground-api/ff/on")
     @ResponseBody
@@ -54,10 +56,21 @@ public class PlaygroundController {
         return featureFlagClient.turnOff(featureFlagName);
     }
 
+    @GetMapping("/playground-api/test")
+    @ResponseBody
+    public ClientResponse<String> testPostFromGet(@RequestParam("m") String message) throws Exception {
+        TestPostApiRequestV2 request = new TestPostApiRequestV2(message);
+
+        TestPostApiRequestV2Context requestContext = new TestPostApiRequestV2Context(request);
+        requestContext.setPreRequestPlugins(defaultJdashboardApiClientPlugins.getPreRequestPlugins());
+
+        return jdashboardApiClient.synchronousCall(request, requestContext);
+    }
+
     @ServiceRequestLock
     @PostMapping("/playground-api/test")
     @ResponseBody
-    public String testPost(@RequestBody User user) throws Exception {
-        return "Success! " + user.toString();
+    public String testPost(@RequestBody String message) throws Exception {
+        return String.format("The message is: \"%s\"", message);
     }
 }

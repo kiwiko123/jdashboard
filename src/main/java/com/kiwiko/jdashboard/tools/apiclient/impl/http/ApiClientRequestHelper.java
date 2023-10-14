@@ -1,5 +1,10 @@
 package com.kiwiko.jdashboard.tools.apiclient.impl.http;
 
+import com.kiwiko.jdashboard.library.http.client.plugins.v2.RequestPlugins;
+import com.kiwiko.jdashboard.tools.apiclient.HttpApiRequest;
+import com.kiwiko.jdashboard.tools.apiclient.HttpApiRequestContext;
+import com.kiwiko.jdashboard.tools.apiclient.impl.http.plugins.v2.DefaultJdashboardApiClientPlugins;
+import com.kiwiko.jdashboard.library.http.client.plugins.v2.PreRequestPlugin;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.api.InternalHttpRequestValidator;
 import com.kiwiko.jdashboard.webapp.framework.security.environments.api.EnvironmentService;
 import com.kiwiko.jdashboard.library.http.client.ApiRequest;
@@ -18,6 +23,16 @@ public class ApiClientRequestHelper {
 
     @Inject private EnvironmentService environmentService;
     @Inject private InternalHttpRequestValidator internalHttpRequestValidator;
+    @Inject private DefaultJdashboardApiClientPlugins defaultJdashboardApiClientPlugins;
+
+    public void validateRequest(HttpApiRequest request) throws ClientException {
+        try {
+            Objects.requireNonNull(request.getRequestUrl(), "Request URL is required");
+            Objects.requireNonNull(request.getRequestMethod(), "Request method is required");
+        } catch (NullPointerException e) {
+            throw new ClientException("Request object failed validation", e);
+        }
+    }
 
     public void validateRequest(ApiRequest request) throws ClientException {
         try {
@@ -26,6 +41,53 @@ public class ApiClientRequestHelper {
             Objects.requireNonNull(request.getRequestErrorHandler(), "Request error handler is required");
         } catch (NullPointerException e) {
             throw new ClientException("Request object failed validation", e);
+        }
+    }
+
+    public <RequestType extends HttpApiRequest, RequestContextType extends HttpApiRequestContext<RequestType>>
+        HttpRequest makeHttpRequest(RequestType request, RequestContextType requestContext) throws ClientException {
+        runPreRequestPlugins(request, requestContext);
+
+        HttpRequest.Builder httpRequestBuilder = HttpRequest.newBuilder();
+
+        switch (request.getRequestMethod()) {
+            case GET:
+                httpRequestBuilder.GET();
+                break;
+            case POST:
+                httpRequestBuilder.POST(makeBodyPublisher(request, requestContext));
+                break;
+            case PUT:
+                httpRequestBuilder.PUT(makeBodyPublisher(request, requestContext));
+                break;
+            case DELETE:
+                httpRequestBuilder.DELETE();
+                break;
+            default:
+                throw new ClientException(String.format("Unsupported request method: %s", request.getRequestMethod()));
+        }
+
+        URI uri = toUri(request.getRequestUrl());
+        httpRequestBuilder.uri(uri);
+
+        request.getRequestHeaders()
+                .forEach(header -> httpRequestBuilder.header(header.getName(), header.getValue()));
+
+        Optional.ofNullable(requestContext.getRequestTimeout())
+                .ifPresent(httpRequestBuilder::timeout);
+
+        return httpRequestBuilder.build();
+    }
+
+    private <RequestType extends HttpApiRequest, RequestContextType extends HttpApiRequestContext<RequestType>>
+        void runPreRequestPlugins(RequestType request, RequestContextType requestContext) throws ClientException {
+        RequestPlugins<PreRequestPlugin> requestPlugins = requestContext.getPreRequestPlugins();
+        if (requestPlugins == null) {
+            return;
+        }
+
+        for (PreRequestPlugin preRequestPlugin : requestPlugins.getPlugins()) {
+            preRequestPlugin.preRequest(request, requestContext);
         }
     }
 
@@ -47,7 +109,7 @@ public class ApiClientRequestHelper {
                 break;
         }
 
-        URI uri = toUri(apiRequest);
+        URI uri = toUri(apiRequest.getRequestUrl());
         builder.uri(uri);
 
         apiRequest.getRequestHeaders()
@@ -61,6 +123,21 @@ public class ApiClientRequestHelper {
                 .ifPresent(builder::timeout);
 
         return builder.build();
+    }
+
+    private <RequestType extends HttpApiRequest, RequestContextType extends HttpApiRequestContext<RequestType>>
+        HttpRequest.BodyPublisher makeBodyPublisher(RequestType request, RequestContextType requestContext) throws ClientException {
+        Object requestBody = request.getRequestBody();
+        if (requestBody == null) {
+            return HttpRequest.BodyPublishers.noBody();
+        }
+
+        String bodyString = requestContext.getRequestBodySerializer().serialize(requestBody);
+        if (bodyString == null) {
+            return HttpRequest.BodyPublishers.noBody();
+        }
+
+        return HttpRequest.BodyPublishers.ofString(bodyString);
     }
 
     private HttpRequest.BodyPublisher makeBodyPublisher(ApiRequest apiRequest) throws ClientException {
@@ -77,8 +154,7 @@ public class ApiClientRequestHelper {
         return HttpRequest.BodyPublishers.ofString(bodyString);
     }
 
-    private URI toUri(ApiRequest apiRequest) throws ClientException {
-        RequestUrl requestUrl = apiRequest.getRequestUrl();
+    private URI toUri(RequestUrl requestUrl) throws ClientException {
         if (requestUrl.getUri() != null) {
             return requestUrl.getUri();
         }

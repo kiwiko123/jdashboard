@@ -11,6 +11,7 @@ public class ApplicationStartupChain {
     @Inject private SpiDiStartupHook spiDiStartupHook;
 
     public final List<ApplicationStartupHook> getStartupHooks() {
-        return List.of(spiDiStartupHook);
+        return List.of();
+//        return List.of(spiDiStartupHook);
     }
 }

@@ -6,6 +6,9 @@ import com.kiwiko.jdashboard.library.http.client.exceptions.ClientException;
 import com.kiwiko.jdashboard.library.http.client.exceptions.ServerException;
 import com.kiwiko.jdashboard.library.http.client.ApiClient;
 import com.kiwiko.jdashboard.library.http.client.impl.CoreHttpClient;
+import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
+import com.kiwiko.jdashboard.tools.apiclient.HttpApiRequest;
+import com.kiwiko.jdashboard.tools.apiclient.HttpApiRequestContext;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.caching.ApiClientCache;
 
 import javax.inject.Inject;
@@ -21,6 +24,20 @@ public class HttpApiClient implements ApiClient {
     @Inject private ApiClientResponseHelper responseHelper;
     @Inject private ApiClientCache apiClientCache;
     @Inject private HttpApiClientPlugins httpApiClientPlugins;
+
+    public <RequestType extends HttpApiRequest, RequestContextType extends HttpApiRequestContext<RequestType>, ResponseType>
+        ApiResponse<ResponseType>
+            synchronousCall(RequestType request, RequestContextType requestContext)
+                throws ClientException, ServerException, InterruptedException {
+        requestHelper.validateRequest(request);
+
+        HttpRequest httpRequest = requestHelper.makeHttpRequest(request, requestContext);
+        HttpResponse<String> httpResponse = httpClient.sendSynchronousRequest(httpRequest);
+
+        ApiResponse<ResponseType> apiResponse = responseHelper.convertHttpResponse(request, requestContext, httpResponse);
+        // TODO run plugins
+        return apiResponse;
+    }
 
     @Override
     public <ResponseType> ApiResponse<ResponseType> synchronousCall(ApiRequest request)

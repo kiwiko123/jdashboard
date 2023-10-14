@@ -4,27 +4,42 @@ import com.kiwiko.jdashboard.library.http.client.ApiRequest;
 import com.kiwiko.jdashboard.library.http.client.ApiResponse;
 import com.kiwiko.jdashboard.library.http.client.exceptions.ClientException;
 import com.kiwiko.jdashboard.library.http.client.exceptions.ServerException;
-import com.kiwiko.jdashboard.library.monitoring.logging.api.interfaces.Logger;
 import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
+import com.kiwiko.jdashboard.tools.apiclient.HttpApiRequest;
+import com.kiwiko.jdashboard.tools.apiclient.HttpApiRequestContext;
 import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiRequest;
 import com.kiwiko.jdashboard.tools.apiclient.JdashboardApiClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
 import javax.inject.Inject;
-import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 public class JdashboardHttpApiClient implements JdashboardApiClient {
+    private static final Logger LOGGER = LoggerFactory.getLogger(JdashboardHttpApiClient.class);
 
     @Inject private HttpApiClient httpApiClient;
-    @Inject private Logger logger;
+
+    @Override
+    public <RequestType extends HttpApiRequest, RequestContextType extends HttpApiRequestContext<RequestType>, ResponseType>
+        ClientResponse<ResponseType>
+            synchronousCall(RequestType request, RequestContextType requestContext)
+                throws ClientException, ServerException, InterruptedException {
+        ApiResponse<ResponseType> apiResponse = httpApiClient.synchronousCall(request, requestContext);
+        return toClientResponse(apiResponse);
+    }
 
     @Override
     public <ResponseType> ClientResponse<ResponseType> synchronousCall(ApiRequest apiRequest)
             throws ClientException, ServerException, InterruptedException {
         ApiResponse<ResponseType> apiResponse = httpApiClient.synchronousCall(apiRequest);
         return toClientResponse(apiResponse);
+    }
+
+    @Override
+    public <RequestType extends HttpApiRequest, RequestContextType extends HttpApiRequestContext<RequestType>, ResponseType> ClientResponse<ResponseType> silentSynchronousCall(RequestType request, RequestContextType requestContext) throws ClientException, ServerException, InterruptedException {
+        return null;
     }
 
     @Override
@@ -68,7 +83,7 @@ public class JdashboardHttpApiClient implements JdashboardApiClient {
     }
 
     private <ResponseType> ClientResponse<ResponseType> getErrorResponse(ApiRequest apiRequest, Throwable throwable) {
-        logger.error(String.format("Error issuing silenced request %s", apiRequest), throwable);
+        LOGGER.error(String.format("Error issuing silenced request %s", apiRequest), throwable);
 
         // TODO include more detailed error information?
         return ClientResponse.unsuccessful("failure", throwable.toString());

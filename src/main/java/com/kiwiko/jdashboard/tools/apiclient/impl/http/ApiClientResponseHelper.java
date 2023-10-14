@@ -6,6 +6,8 @@ import com.kiwiko.jdashboard.library.http.client.RequestHeader;
 import com.kiwiko.jdashboard.library.http.client.exceptions.ClientException;
 import com.kiwiko.jdashboard.library.http.client.exceptions.ApiClientRuntimeException;
 import com.kiwiko.jdashboard.library.http.client.exceptions.ServerException;
+import com.kiwiko.jdashboard.tools.apiclient.HttpApiRequest;
+import com.kiwiko.jdashboard.tools.apiclient.HttpApiRequestContext;
 
 import java.net.http.HttpResponse;
 import java.util.HashSet;
@@ -23,6 +25,35 @@ public class ApiClientResponseHelper {
         });
 
         return headers;
+    }
+
+    public <RequestType extends HttpApiRequest, RequestContextType extends HttpApiRequestContext<RequestType>, ResponseType>
+            ApiResponse<ResponseType> convertHttpResponse(RequestType request, RequestContextType requestContext, HttpResponse<String> httpResponse) throws ClientException, ServerException {
+        requestContext.getRequestErrorHandler().handleError(httpResponse);
+
+        int status = httpResponse.statusCode();
+
+        @SuppressWarnings("unchecked")
+        Class<ResponseType> responseType = (Class<ResponseType>) requestContext.getResponseType();
+
+        Set<RequestHeader> responseHeaders = makeHeaders(httpResponse);
+
+        ResponseType payload;
+
+        if (responseType == null) {
+            payload = null;
+        } else if (responseType == String.class) {
+            payload = (ResponseType) (httpResponse.body());
+        } else {
+            String body = httpResponse.body();
+            payload = requestContext.getResponseBodyDeserializer().deserialize(body, responseType);
+        }
+
+        return new ApiResponse<>(
+                payload,
+                status,
+                responseHeaders,
+                httpResponse.uri().toString());
     }
 
     @SuppressWarnings("unchecked")
