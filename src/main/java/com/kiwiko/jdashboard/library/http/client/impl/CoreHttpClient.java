@@ -34,7 +34,10 @@ public class CoreHttpClient {
         try {
             return httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
         } catch (HttpTimeoutException e) {
-            throw new RequestTimeoutException(String.format("Request timed out: %s", httpRequest.toString()), e);
+            String message = httpRequest.timeout()
+                    .map(timeout -> String.format("Request timed out after %d milliseconds: %s", timeout.toMillis(), httpRequest))
+                    .orElse(String.format("Request timed out: %s", httpRequest));
+            throw new RequestTimeoutException(message, e);
         } catch (IOException e) {
             throw new ServerException(String.format("I/O error occurred with request %s", httpRequest.toString()), e);
         }

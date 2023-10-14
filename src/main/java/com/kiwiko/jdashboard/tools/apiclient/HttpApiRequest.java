@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Collections;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -16,5 +17,5 @@ public abstract class HttpApiRequest {
     private @Nonnull RequestMethod requestMethod;
     private @Nonnull RequestUrl requestUrl;
     private @Nullable Object requestBody;
-    private @Nonnull Set<RequestHeader> requestHeaders;
+    private @Nonnull Set<RequestHeader> requestHeaders = Collections.emptySet();
 }

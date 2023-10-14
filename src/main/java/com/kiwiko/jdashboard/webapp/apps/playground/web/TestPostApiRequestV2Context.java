@@ -8,6 +8,7 @@ public class TestPostApiRequestV2Context extends HttpApiRequestContext<TestPostA
 
     public TestPostApiRequestV2Context(@Nonnull TestPostApiRequestV2 request) {
         super(request);
+        setClientIdentifier("playground-client");
         setResponseType(String.class);
     }
 }
