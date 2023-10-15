@@ -8,11 +8,13 @@ import com.kiwiko.jdashboard.tools.apiclient.impl.http.security.plugins.ServiceR
 import javax.inject.Inject;
 
 public class DefaultJdashboardApiClientPlugins {
-    @Inject private RequestLoggerPreRequestPlugin requestLoggerPreRequestPlugin;
+    @Inject private JsonContentTypeHeaderPreRequestPlugin jsonContentTypeHeaderPreRequestPlugin;
     @Inject private ServiceRequestKeyProvisioningPreRequestPlugin serviceRequestKeyProvisioningPreRequestPlugin;
+    @Inject private RequestLoggerPreRequestPlugin requestLoggerPreRequestPlugin;
 
     public RequestPlugins<PreRequestPlugin> getPreRequestPlugins() {
         return RequestPlugins.of(
+                jsonContentTypeHeaderPreRequestPlugin,
                 serviceRequestKeyProvisioningPreRequestPlugin,
                 requestLoggerPreRequestPlugin);
     }

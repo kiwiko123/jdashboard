@@ -42,7 +42,6 @@ public class PlaygroundController {
     @Inject private PushService pushService;
     @Inject private TimelineEventClient timelineEventClient;
     @Inject private JobScheduler jobScheduler;
-    @Inject private DefaultJdashboardApiClientPlugins defaultJdashboardApiClientPlugins;
 
     @GetMapping("/playground-api/ff/on")
     @ResponseBody
@@ -62,7 +61,6 @@ public class PlaygroundController {
         TestPostApiRequestV2 request = new TestPostApiRequestV2(message);
 
         TestPostApiRequestV2Context requestContext = new TestPostApiRequestV2Context(request);
-        requestContext.setPreRequestPlugins(defaultJdashboardApiClientPlugins.getPreRequestPlugins());
 
         return jdashboardApiClient.synchronousCall(request, requestContext);
     }

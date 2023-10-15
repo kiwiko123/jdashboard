@@ -1,6 +1,5 @@
 package com.kiwiko.jdashboard.tools.apiclient.impl.http;
 
-import com.kiwiko.jdashboard.library.http.client.plugins.v2.RequestPlugins;
 import com.kiwiko.jdashboard.tools.apiclient.HttpApiRequest;
 import com.kiwiko.jdashboard.tools.apiclient.HttpApiRequestContext;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.plugins.v2.DefaultJdashboardApiClientPlugins;
@@ -16,8 +15,10 @@ import javax.inject.Inject;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpRequest;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class ApiClientRequestHelper {
 
@@ -46,6 +47,7 @@ public class ApiClientRequestHelper {
 
     public <RequestType extends HttpApiRequest, RequestContextType extends HttpApiRequestContext<RequestType>>
         HttpRequest makeHttpRequest(RequestType request, RequestContextType requestContext) throws ClientException {
+        // Run pre-request plugins first because they may mutate the request/context state.
         runPreRequestPlugins(request, requestContext);
 
         HttpRequest.Builder httpRequestBuilder = HttpRequest.newBuilder();
@@ -81,12 +83,19 @@ public class ApiClientRequestHelper {
 
     private <RequestType extends HttpApiRequest, RequestContextType extends HttpApiRequestContext<RequestType>>
         void runPreRequestPlugins(RequestType request, RequestContextType requestContext) throws ClientException {
-        RequestPlugins<PreRequestPlugin> requestPlugins = requestContext.getPreRequestPlugins();
-        if (requestPlugins == null) {
-            return;
+        List<PreRequestPlugin> preRequestPlugins = requestContext.getPreRequestPlugins().getPlugins().stream()
+                .distinct()
+                .toList();
+        if (requestContext.shouldEnableDefaultRequestPlugins()) {
+            List<PreRequestPlugin> customPreRequestPlugins = requestContext.getPreRequestPlugins().getPlugins();
+            List<PreRequestPlugin> defaultPreRequestPlugins = defaultJdashboardApiClientPlugins.getPreRequestPlugins().getPlugins();
+
+            preRequestPlugins = Stream.concat(customPreRequestPlugins.stream(), defaultPreRequestPlugins.stream())
+                    .distinct()
+                    .toList();
         }
 
-        for (PreRequestPlugin preRequestPlugin : requestPlugins.getPlugins()) {
+        for (PreRequestPlugin preRequestPlugin : preRequestPlugins) {
             preRequestPlugin.preRequest(request, requestContext);
         }
     }

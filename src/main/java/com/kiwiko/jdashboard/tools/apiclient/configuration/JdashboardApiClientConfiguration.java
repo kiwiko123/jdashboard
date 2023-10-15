@@ -9,9 +9,6 @@ import com.kiwiko.jdashboard.tools.apiclient.impl.http.HttpApiClientPlugins;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.JdashboardHttpApiClient;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.ApiClientResponseHelper;
 import com.kiwiko.jdashboard.tools.apiclient.impl.http.caching.HttpApiClientCachingConfiguration;
-import com.kiwiko.jdashboard.tools.apiclient.impl.http.plugins.HttpApiClientDefaultPluginsConfiguration;
-import com.kiwiko.jdashboard.tools.apiclient.impl.http.plugins.v2.DefaultJdashboardApiClientPlugins;
-import com.kiwiko.jdashboard.tools.apiclient.impl.http.plugins.v2.RequestLoggerPreRequestPlugin;
 import com.kiwiko.jdashboard.webapp.framework.configuration.api.interfaces.annotations.ConfiguredBy;
 import com.kiwiko.jdashboard.webapp.framework.security.authentication.http.HttpAuthenticationConfiguration;
 import com.kiwiko.jdashboard.webapp.framework.security.environments.EnvironmentConfiguration;
@@ -53,16 +50,6 @@ public class JdashboardApiClientConfiguration {
     @Bean
     public ApiClientResponseHelper apiClientResponseHelper() {
         return new ApiClientResponseHelper();
-    }
-
-    @Bean
-    public DefaultJdashboardApiClientPlugins defaultJdashboardApiClientPlugins() {
-        return new DefaultJdashboardApiClientPlugins();
-    }
-
-    @Bean
-    public RequestLoggerPreRequestPlugin requestLoggerPreRequestPlugin() {
-        return new RequestLoggerPreRequestPlugin();
     }
 
     @Deprecated

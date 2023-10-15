@@ -1,11 +1,9 @@
 package com.kiwiko.jdashboard.tools.apiclient.impl.http.security.plugins;
 
-import com.google.common.collect.ImmutableSet;
 import com.kiwiko.jdashboard.library.http.client.RequestHeader;
 import com.kiwiko.jdashboard.library.http.client.exceptions.ClientException;
 import com.kiwiko.jdashboard.library.http.client.exceptions.ServerException;
 import com.kiwiko.jdashboard.library.http.client.plugins.v2.PreRequestPlugin;
-import com.kiwiko.jdashboard.library.http.client.plugins.v2.RequestPlugins;
 import com.kiwiko.jdashboard.servicerequestkeys.client.ProvisionServiceRequestKeyInput;
 import com.kiwiko.jdashboard.servicerequestkeys.client.ProvisionServiceRequestKeyOutput;
 import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
@@ -19,8 +17,6 @@ import com.kiwiko.jdashboard.tools.apiclient.impl.http.security.plugins.srk.GetI
 import javax.inject.Inject;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Set;
-import java.util.stream.Stream;
 
 public class ServiceRequestKeyProvisioningPreRequestPlugin implements PreRequestPlugin {
     @Inject private JdashboardApiClient jdashboardApiClient;
@@ -41,7 +37,7 @@ public class ServiceRequestKeyProvisioningPreRequestPlugin implements PreRequest
 
         GetInternalServiceRequestKeyRequest getInternalServiceRequestKeyRequest = new GetInternalServiceRequestKeyRequest(provisionServiceRequestKeyInput);
         GetInternalServiceRequestKeyRequestContext getInternalServiceRequestKeyRequestContext = new GetInternalServiceRequestKeyRequestContext(getInternalServiceRequestKeyRequest);
-        getInternalServiceRequestKeyRequestContext.setPreRequestPlugins(RequestPlugins.of(requestLoggerPreRequestPlugin));
+        getInternalServiceRequestKeyRequestContext.addPreRequestPlugin(requestLoggerPreRequestPlugin);
 
         ClientResponse<ProvisionServiceRequestKeyOutput> response;
         try {
@@ -57,12 +53,6 @@ public class ServiceRequestKeyProvisioningPreRequestPlugin implements PreRequest
         }
 
         ProvisionServiceRequestKeyOutput serviceRequestKey = response.getPayload();
-        RequestHeader requestHeader = new RequestHeader(serviceRequestKey.getRequestKeyHeaderName(), serviceRequestKey.getRequestKey());
-
-        Set<RequestHeader> requestHeaders = new ImmutableSet.Builder<RequestHeader>()
-                .addAll(request.getRequestHeaders())
-                .add(requestHeader)
-                .build();
-        request.setRequestHeaders(requestHeaders);
+        request.addRequestHeader(new RequestHeader(serviceRequestKey.getRequestKeyHeaderName(), serviceRequestKey.getRequestKey()));
     }
 }

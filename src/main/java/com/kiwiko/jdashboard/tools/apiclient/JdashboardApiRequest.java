@@ -17,6 +17,9 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.Set;
 
+/**
+ * {@link JdashboardApiRequest} may be deprecated in the future in favor of {@link HttpApiRequest}.
+ */
 public abstract class JdashboardApiRequest implements ApiRequest {
     private static final PayloadSerializer DEFAULT_PAYLOAD_SERIALIZER = new DefaultGsonPayloadSerializer();
     private static final PayloadDeserializer DEFAULT_PAYLOAD_DESERIALIZER = new DefaultGsonPayloadDeserializer();

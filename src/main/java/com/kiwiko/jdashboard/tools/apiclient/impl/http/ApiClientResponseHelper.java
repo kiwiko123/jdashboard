@@ -8,8 +8,10 @@ import com.kiwiko.jdashboard.library.http.client.exceptions.ApiClientRuntimeExce
 import com.kiwiko.jdashboard.library.http.client.exceptions.ServerException;
 import com.kiwiko.jdashboard.tools.apiclient.HttpApiRequest;
 import com.kiwiko.jdashboard.tools.apiclient.HttpApiRequestContext;
+import org.springframework.http.HttpStatus;
 
 import java.net.http.HttpResponse;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -24,18 +26,15 @@ public class ApiClientResponseHelper {
                     .forEach(headers::add);
         });
 
-        return headers;
+        return Collections.unmodifiableSet(headers);
     }
 
     public <RequestType extends HttpApiRequest, RequestContextType extends HttpApiRequestContext<RequestType>, ResponseType>
             ApiResponse<ResponseType> convertHttpResponse(RequestType request, RequestContextType requestContext, HttpResponse<String> httpResponse) throws ClientException, ServerException {
-        requestContext.getRequestErrorHandler().handleError(httpResponse);
-
-        int status = httpResponse.statusCode();
+        validateHttpStatusCode(httpResponse);
 
         @SuppressWarnings("unchecked")
         Class<ResponseType> responseType = (Class<ResponseType>) requestContext.getResponseType();
-
         Set<RequestHeader> responseHeaders = makeHeaders(httpResponse);
 
         ResponseType payload;
@@ -51,7 +50,7 @@ public class ApiClientResponseHelper {
 
         return new ApiResponse<>(
                 payload,
-                status,
+                httpResponse.statusCode(),
                 responseHeaders,
                 httpResponse.uri().toString());
     }
@@ -94,5 +93,16 @@ public class ApiClientResponseHelper {
                 throw new ApiClientRuntimeException(e);
             }
         });
+    }
+
+    private void validateHttpStatusCode(HttpResponse<?> httpResponse) throws ClientException, ServerException {
+        HttpStatus httpStatus = HttpStatus.valueOf(httpResponse.statusCode());
+        if (httpStatus.is4xxClientError()) {
+            throw new ClientException(String.format("Request failed with HTTP status %s: %s", httpStatus, httpResponse));
+        }
+
+        if (httpStatus.is5xxServerError()) {
+            throw new ServerException(String.format("Request failed with HTTP status %s: %s", httpStatus, httpResponse));
+        }
     }
 }

@@ -4,13 +4,24 @@ import com.kiwiko.jdashboard.servicerequestkeys.client.ProvisionServiceRequestKe
 import com.kiwiko.jdashboard.tools.apiclient.HttpApiRequestContext;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.time.Duration;
 
 public class GetInternalServiceRequestKeyRequestContext extends HttpApiRequestContext<GetInternalServiceRequestKeyRequest> {
+
     public GetInternalServiceRequestKeyRequestContext(@Nonnull GetInternalServiceRequestKeyRequest request) {
         super(request);
+    }
 
-        setRequestTimeout(Duration.ofSeconds(1));
-        setResponseType(ProvisionServiceRequestKeyOutput.class);
+    @Nullable
+    @Override
+    public Duration getRequestTimeout() {
+        return Duration.ofSeconds(1);
+    }
+
+    @Nullable
+    @Override
+    public Class<?> getResponseType() {
+        return ProvisionServiceRequestKeyOutput.class;
     }
 }
