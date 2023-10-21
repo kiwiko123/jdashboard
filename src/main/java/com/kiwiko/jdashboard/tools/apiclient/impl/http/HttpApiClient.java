@@ -30,12 +30,14 @@ public class HttpApiClient implements ApiClient {
             synchronousCall(RequestType request, RequestContextType requestContext)
                 throws ClientException, ServerException, InterruptedException {
         requestHelper.validateRequest(request);
+        requestHelper.runPreRequestPlugins(request, requestContext);
 
         HttpRequest httpRequest = requestHelper.makeHttpRequest(request, requestContext);
         HttpResponse<String> httpResponse = httpClient.sendSynchronousRequest(httpRequest);
 
         ApiResponse<ResponseType> apiResponse = responseHelper.convertHttpResponse(request, requestContext, httpResponse);
-        // TODO run plugins
+        responseHelper.runPostRequestPlugins(request, requestContext, apiResponse);
+
         return apiResponse;
     }
 

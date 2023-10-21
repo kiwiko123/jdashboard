@@ -62,8 +62,6 @@ public abstract class HttpApiRequestContext<R extends HttpApiRequest> {
     /**
      * (Optional) The cache strategy for this request. If null, the request will not be cached.
      *
-     * TODO: Investigate if this can be instead implemented as a {@link PreRequestPlugin}.
-     *
      * @return the cache strategy for this request
      */
     @Nullable
@@ -115,6 +113,8 @@ public abstract class HttpApiRequestContext<R extends HttpApiRequest> {
      * Invoke this method to add a pre-request plugin to the request. This can be utilized in a programmatic context,
      * like in a {@link com.kiwiko.jdashboard.library.http.client.plugins.v2.PreRequestPlugin}.
      *
+     * Request plugins are created through dependency injection, and must be added to the request context externally.
+     *
      * @param preRequestPlugin the pre-request plugin to add
      */
     public final void addPreRequestPlugin(@Nonnull PreRequestPlugin preRequestPlugin) {
@@ -128,6 +128,8 @@ public abstract class HttpApiRequestContext<R extends HttpApiRequest> {
     /**
      * Invoke this method to add a post-request plugin to the request. This can be utilized in a programmatic context,
      * like in a {@link com.kiwiko.jdashboard.library.http.client.plugins.v2.PostRequestPlugin}.
+     *
+     * Request plugins are created through dependency injection, and must be added to the request context externally.
      *
      * @param postRequestPlugin the post-request plugin to add
      */

@@ -8,18 +8,19 @@ import java.util.concurrent.CompletableFuture;
 
 public interface JdashboardApiClient {
 
-    <RequestType extends HttpApiRequest, RequestContextType extends HttpApiRequestContext<RequestType>, ResponseType>
+    <Request extends HttpApiRequest, RequestContext extends HttpApiRequestContext<Request>, ResponseType>
         ClientResponse<ResponseType>
-            synchronousCall(RequestType request, RequestContextType requestContext)
+            synchronousCall(Request request, RequestContext requestContext)
                 throws ClientException, ServerException, InterruptedException;
 
+
+    <Request extends HttpApiRequest, RequestContext extends HttpApiRequestContext<Request>, Response>
+        ClientResponse<Response>
+            silentSynchronousCall(Request request, RequestContext requestContext);
+
+    @Deprecated
     <ResponseType> ClientResponse<ResponseType> synchronousCall(ApiRequest apiRequest)
             throws ClientException, ServerException, InterruptedException;
-
-    <RequestType extends HttpApiRequest, RequestContextType extends HttpApiRequestContext<RequestType>, ResponseType>
-        ClientResponse<ResponseType>
-            silentSynchronousCall(RequestType request, RequestContextType requestContext)
-                throws ClientException, ServerException, InterruptedException;
 
     /**
      * Like {@link #synchronousCall(ApiRequest)}, but does not throw checked exceptions.

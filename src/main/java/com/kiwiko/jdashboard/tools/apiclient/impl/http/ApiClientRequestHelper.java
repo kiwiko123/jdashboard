@@ -47,9 +47,6 @@ public class ApiClientRequestHelper {
 
     public <RequestType extends HttpApiRequest, RequestContextType extends HttpApiRequestContext<RequestType>>
         HttpRequest makeHttpRequest(RequestType request, RequestContextType requestContext) throws ClientException {
-        // Run pre-request plugins first because they may mutate the request/context state.
-        runPreRequestPlugins(request, requestContext);
-
         HttpRequest.Builder httpRequestBuilder = HttpRequest.newBuilder();
 
         switch (request.getRequestMethod()) {
@@ -81,7 +78,7 @@ public class ApiClientRequestHelper {
         return httpRequestBuilder.build();
     }
 
-    private <RequestType extends HttpApiRequest, RequestContextType extends HttpApiRequestContext<RequestType>>
+    public <RequestType extends HttpApiRequest, RequestContextType extends HttpApiRequestContext<RequestType>>
         void runPreRequestPlugins(RequestType request, RequestContextType requestContext) throws ClientException {
         List<PreRequestPlugin> preRequestPlugins = requestContext.getPreRequestPlugins().getPlugins().stream()
                 .distinct()

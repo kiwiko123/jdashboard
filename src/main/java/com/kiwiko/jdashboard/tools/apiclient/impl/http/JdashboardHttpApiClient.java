@@ -31,15 +31,24 @@ public class JdashboardHttpApiClient implements JdashboardApiClient {
     }
 
     @Override
+    public <Request extends HttpApiRequest, RequestContext extends HttpApiRequestContext<Request>, Response>
+        ClientResponse<Response> silentSynchronousCall(Request request, RequestContext requestContext) {
+        ClientResponse<Response> response;
+
+        try {
+            response = synchronousCall(request, requestContext);
+        } catch (ClientException | ServerException | InterruptedException e) {
+            response = makeErrorResponse(request, e);
+        }
+
+        return response;
+    }
+
+    @Override
     public <ResponseType> ClientResponse<ResponseType> synchronousCall(ApiRequest apiRequest)
             throws ClientException, ServerException, InterruptedException {
         ApiResponse<ResponseType> apiResponse = httpApiClient.synchronousCall(apiRequest);
         return toClientResponse(apiResponse);
-    }
-
-    @Override
-    public <RequestType extends HttpApiRequest, RequestContextType extends HttpApiRequestContext<RequestType>, ResponseType> ClientResponse<ResponseType> silentSynchronousCall(RequestType request, RequestContextType requestContext) throws ClientException, ServerException, InterruptedException {
-        return null;
     }
 
     @Override
@@ -82,6 +91,13 @@ public class JdashboardHttpApiClient implements JdashboardApiClient {
         return ClientResponse.unsuccessful(statusCode, httpStatus.getReasonPhrase());
     }
 
+    private <Request extends HttpApiRequest, Response> ClientResponse<Response> makeErrorResponse(Request request, Throwable throwable) {
+        LOGGER.error("Error issuing silenced request: {}", request, throwable);
+        // TODO include more detailed error information?
+        return ClientResponse.unsuccessful("failure", throwable.toString());
+    }
+
+    @Deprecated
     private <ResponseType> ClientResponse<ResponseType> getErrorResponse(ApiRequest apiRequest, Throwable throwable) {
         LOGGER.error(String.format("Error issuing silenced request %s", apiRequest), throwable);
 

@@ -2,6 +2,8 @@ package com.kiwiko.jdashboard.library.http.client.caching;
 
 import com.kiwiko.jdashboard.library.http.client.RequestMethod;
 import com.kiwiko.jdashboard.library.http.client.ApiRequest;
+import com.kiwiko.jdashboard.tools.apiclient.HttpApiRequest;
+import com.kiwiko.jdashboard.tools.apiclient.HttpApiRequestContext;
 
 import javax.annotation.Nullable;
 import java.time.Duration;
@@ -40,6 +42,11 @@ public abstract class RequestCacheStrategy {
      * @return the cache key for this request
      */
     public String getCacheKey(ApiRequest request) {
+        return request.getRequestUrl().toUrlString();
+    }
+
+    public <Request extends HttpApiRequest, RequestContext extends HttpApiRequestContext<Request>>
+        String getCacheKey(Request request, RequestContext requestContext) {
         return request.getRequestUrl().toUrlString();
     }
 

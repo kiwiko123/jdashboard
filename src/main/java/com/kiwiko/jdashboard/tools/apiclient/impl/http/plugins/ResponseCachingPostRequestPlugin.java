@@ -8,6 +8,7 @@ import com.kiwiko.jdashboard.tools.apiclient.impl.http.caching.ApiClientCache;
 
 import javax.inject.Inject;
 
+@Deprecated
 public class ResponseCachingPostRequestPlugin implements PostRequestPlugin {
 
     @Inject private ApiClientCache apiClientCache;
