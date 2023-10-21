@@ -4,17 +4,16 @@ import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagRule;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagStatus;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlagUserScope;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.ResolvedFeatureFlag;
-import com.kiwiko.jdashboard.featureflags.client.api.interfaces.FeatureFlagClient;
 import com.kiwiko.jdashboard.featureflags.client.api.interfaces.parameters.UpdateFeatureFlagInput;
 import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagRuleService;
 import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagService;
+import com.kiwiko.jdashboard.featureflags.service.api.interfaces.FeatureFlagStateService;
 import com.kiwiko.jdashboard.featureflags.service.web.responses.FeatureFlagListItem;
 import com.kiwiko.jdashboard.featureflags.client.api.dto.FeatureFlag;
 import com.kiwiko.jdashboard.featureflags.service.web.responses.FeatureFlagListItemRule;
 import com.kiwiko.jdashboard.featureflags.service.web.responses.FeatureFlagListItemV2;
 import com.kiwiko.jdashboard.featureflags.service.web.responses.GetFeatureFlagListResponse;
 import com.kiwiko.jdashboard.featureflags.service.web.responses.ModifyFeatureFlagData;
-import com.kiwiko.jdashboard.tools.apiclient.ClientResponse;
 import com.kiwiko.jdashboard.users.service.api.dto.User;
 
 import javax.inject.Inject;
@@ -32,10 +31,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 class FeatureFlagAPIHelper {
-
-    @Inject private FeatureFlagClient featureFlagClient;
     @Inject private FeatureFlagService featureFlagService;
     @Inject private FeatureFlagRuleService featureFlagRuleService;
+    @Inject private FeatureFlagStateService featureFlagStateService;
 
     public GetFeatureFlagListResponse getFeatureFlagList(long currentUserId) {
         Set<FeatureFlag> allFeatureFlags = featureFlagService.getAll();
@@ -76,10 +74,10 @@ class FeatureFlagAPIHelper {
                 .orElse(earliestDate);
 
         // TODO don't make client call for these
-        boolean isOnForPublic = featureFlagClient.resolveForPublic(featureFlag.getName())
+        boolean isOnForPublic = featureFlagStateService.getPublicFlagByName(featureFlag.getName())
                 .map(ResolvedFeatureFlag::isEnabled)
                 .orElse(false);
-        boolean isOnForMe = featureFlagClient.resolveForUser(featureFlag.getName(), currentUserId)
+        boolean isOnForMe = featureFlagStateService.getUserFlagByName(featureFlag.getName(), currentUserId)
                 .map(ResolvedFeatureFlag::isEnabled)
                 .orElse(false);
 
@@ -143,29 +141,27 @@ class FeatureFlagAPIHelper {
 
     public ResolvedFeatureFlag toggleStatus(UpdateFeatureFlagInput input) {
         String featureFlagName = input.getFeatureFlagName();
-        boolean isOn = featureFlagClient.resolveForUser(featureFlagName, input.getUserId())
-                .map(ResolvedFeatureFlag::isEnabled)
-                .orElse(false);
 
-        ClientResponse<ResolvedFeatureFlag> updatedFlagResponse;
         if (FeatureFlagUserScope.isIndividual(input.getUserScope())) {
             Long userId = input.getUserId();
             Objects.requireNonNull(userId, "A user ID is required to toggle an individually-scoped feature flag");
 
-            updatedFlagResponse = isOn
-                    ? featureFlagClient.turnOffForUser(featureFlagName, userId)
-                    : featureFlagClient.turnOnForUser(featureFlagName, userId);
+            boolean isOn = featureFlagStateService.getUserFlagByName(featureFlagName, userId)
+                    .map(ResolvedFeatureFlag::isEnabled)
+                    .orElse(false);
+
+            return isOn
+                    ? featureFlagStateService.turnOff(featureFlagName, userId)
+                    : featureFlagStateService.turnOn(featureFlagName, userId);
         } else {
-            updatedFlagResponse = isOn
-                    ? featureFlagClient.turnOffForPublic(featureFlagName)
-                    : featureFlagClient.turnOnForPublic(featureFlagName);
-        }
+            boolean isOn = featureFlagStateService.getPublicFlagByName(featureFlagName)
+                    .map(ResolvedFeatureFlag::isEnabled)
+                    .orElse(false);
 
-        if (!updatedFlagResponse.isSuccessful()) {
-            throw new IllegalStateException("Error feature flag");
+            return isOn
+                    ? featureFlagStateService.turnOff(featureFlagName)
+                    : featureFlagStateService.turnOn(featureFlagName);
         }
-
-        return updatedFlagResponse.getPayload();
     }
 
     @Deprecated
