@@ -5,6 +5,7 @@ import logger from '../../common/js/logging';
 function getDefaultState() {
     return {
         username: null,
+        permissions: [],
         id: null,
         userId: null, // alias for id; deprecated
         isLoaded: false,
@@ -31,6 +32,7 @@ export default class UserDataBroadcaster extends Broadcaster {
         getCurrentUserData()
             .then(user => this.setState({
                 username: user.username,
+                permissions: new Set(user.permissions),
                 id: user.id,
                 userId: user.id, // deprecated
                 isLoaded: true,
