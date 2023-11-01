@@ -1,0 +1,51 @@
+version: '3.8'
+services:
+  db-monolith:
+    image: postgres
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+      interval: 1s
+      timeout: 5s
+      retries: 3
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: jdashboard_tester
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: jdashboard_test
+    volumes:
+      - pgdata-monolith:/var/lib/postgresql/data
+  db-monolith-framework-internal:
+    image: postgres
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+      interval: 1s
+      timeout: 5s
+      retries: 3
+    ports:
+      - 5433:5433
+    environment:
+      POSTGRES_USER: jdashboard_tester
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: jdashboard_framework_internal_test
+    volumes:
+      - pgdata-frameworkinternal:/var/lib/postgresql/data
+  monolith-web:
+    build: ./service-monolith
+    working_dir: /jdashboard
+    ports:
+      - 80:8080
+    depends_on:
+      db-monolith:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_PRIMARY_URL=jdbc:postgresql://db-monolith:5432/jdashboard_test
+      - SPRING_DATASOURCE_PRIMARY_USERNAME=jdashboard_tester
+      - SPRING_DATASOURCE_FRAMEWORKINTERNAL_URL=jdbc:postgresql://db-monolith-framework-internal:5433/jdashboard_framework_internal_test
+      - SPRING_DATASOURCE_FRAMEWORKINTERNAL_USERNAME=jdashboard_tester
+
+volumes:
+  pgdata-monolith:
+  pgdata-frameworkinternal:

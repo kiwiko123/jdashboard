@@ -3,3 +3,4 @@
  */
 
 rootProject.name = 'jdashboard'
+include('service-monolith')
