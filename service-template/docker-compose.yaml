@@ -1,5 +1,6 @@
 version: '3.8'
 services:
+  # => Replace "service-template" with your service's name
   db-service-template:
     image: 'postgres:16.1'
     restart: always
@@ -13,21 +14,27 @@ services:
     environment:
       POSTGRES_USER: jdashboard_tester
       POSTGRES_PASSWORD: password
+      # => Replace with your desired database name
       POSTGRES_DB: service_template_test
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  # => Replace "service-template" with your service's name
   webapp-service-template:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ./..
+      # => Replace "service-template" with your service's name
+      dockerfile: ./service-template/Dockerfile
+    # => Replace "service-template" with your service's name
     working_dir: /service-template
     ports:
       - '7002:8080'
     depends_on:
+      # => Replace with your database's docker-compose service name (from above)
       db-service-template:
         condition: service_healthy
     environment:
+      # => Replace with your database credentials (from above)
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db-service-template:5432/service_template_test
       - SPRING_DATASOURCE_USERNAME=jdashboard_tester
       - SPRING_DATASOURCE_PASSWORD=password

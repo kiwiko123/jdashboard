@@ -1,0 +1,10 @@
+dependencyResolutionManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+}
+
+includeBuild '../platforms'
+
+rootProject.name = 'conventions'
+include 'spring-boot-web-service'

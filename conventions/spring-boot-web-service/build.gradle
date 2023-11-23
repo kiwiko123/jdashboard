@@ -1,0 +1,9 @@
+plugins {
+    id 'groovy-gradle-plugin'
+}
+
+dependencies {
+    implementation platform('com.kiwiko.jdashboard.platforms:spring-boot-web-service-platform')
+
+    implementation 'org.springframework.boot:org.springframework.boot.gradle.plugin'
+}

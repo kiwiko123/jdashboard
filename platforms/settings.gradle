@@ -1,0 +1,2 @@
+rootProject.name = 'platforms'
+include 'spring-boot-web-service-platform'
