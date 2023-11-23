@@ -4,6 +4,6 @@ plugins {
 
 dependencies {
     implementation platform('com.kiwiko.jdashboard.platforms:spring-boot-web-service-platform')
-
+    implementation project(':core-commons')
     implementation 'org.springframework.boot:org.springframework.boot.gradle.plugin'
 }

@@ -1,2 +1,3 @@
 rootProject.name = 'platforms'
+include 'core-commons-platform'
 include 'spring-boot-web-service-platform'

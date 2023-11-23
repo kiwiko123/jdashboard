@@ -7,4 +7,5 @@ dependencyResolutionManagement {
 includeBuild '../platforms'
 
 rootProject.name = 'build-conventions'
+include 'core-commons'
 include 'spring-boot-web-service'

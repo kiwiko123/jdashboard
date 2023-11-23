@@ -1,5 +1,5 @@
 plugins {
-	id 'com.kiwiko.jdashboard.conventions.spring-boot-web-service'
+	id 'com.kiwiko.jdashboard.build-conventions.spring-boot-web-service'
 }
 
 group = 'com.kiwiko.jdashboard.service-template'
