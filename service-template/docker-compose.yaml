@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  db-service-template:
+    image: 'postgres:16.1'
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+      interval: 1s
+      timeout: 5s
+      retries: 3
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: jdashboard_tester
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: service_template_test
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  webapp-service-template:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /service-template
+    ports:
+      - '7002:8080'
+    depends_on:
+      db-service-template:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-service-template:5432/service_template_test
+      - SPRING_DATASOURCE_USERNAME=jdashboard_tester
+      - SPRING_DATASOURCE_PASSWORD=password
+
+volumes:
+  pgdata:

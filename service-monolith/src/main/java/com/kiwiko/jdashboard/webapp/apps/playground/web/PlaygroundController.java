@@ -57,8 +57,8 @@ public class PlaygroundController {
 
     @GetMapping("/playground-api/test")
     @ResponseBody
-    public ClientResponse<String> testPostFromGet(@RequestParam("m") String message) throws Exception {
-        TestPostApiRequestV2 request = new TestPostApiRequestV2(message);
+    public ClientResponse<String> testPostFromGet() throws Exception {
+        TestPostApiRequestV2 request = new TestPostApiRequestV2();
 
         TestPostApiRequestV2Context requestContext = new TestPostApiRequestV2Context(request);
 

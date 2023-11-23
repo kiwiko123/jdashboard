@@ -13,12 +13,6 @@ public class TestPostApiRequestV2Context extends HttpApiRequestContext<TestPostA
 
     @Nullable
     @Override
-    public String getClientIdentifier() {
-        return "playground-client";
-    }
-
-    @Nullable
-    @Override
     public Class<?> getResponseType() {
         return String.class;
     }

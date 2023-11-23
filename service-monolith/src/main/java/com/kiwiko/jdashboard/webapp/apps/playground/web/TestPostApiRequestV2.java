@@ -7,31 +7,24 @@ import com.kiwiko.jdashboard.tools.apiclient.HttpApiRequest;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.net.URI;
 
 public class TestPostApiRequestV2 extends HttpApiRequest {
     private RequestUrl requestUrl;
-    private String message;
 
-    public TestPostApiRequestV2(String message) {
-        this.requestUrl = RequestUrl.fromPartial(new UriBuilder().setPath("/playground-api/test"));
-        this.message = message;
+    public TestPostApiRequestV2() {
+        this.requestUrl = RequestUrl.fromString("http://localhost:7002/public-api/test");
     }
 
     @Nonnull
     @Override
     public RequestMethod getRequestMethod() {
-        return RequestMethod.POST;
+        return RequestMethod.GET;
     }
 
     @Nonnull
     @Override
     public RequestUrl getRequestUrl() {
         return requestUrl;
-    }
-
-    @Nullable
-    @Override
-    public Object getRequestBody() {
-        return message;
     }
 }
