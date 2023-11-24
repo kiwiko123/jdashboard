@@ -1,0 +1,11 @@
+plugins {
+    id 'java-platform'
+}
+
+group = 'com.kiwiko.jdashboard.platforms'
+
+dependencies {
+    constraints {
+        api 'org.springframework.data:spring-data-jpa:3.1.5'
+    }
+}

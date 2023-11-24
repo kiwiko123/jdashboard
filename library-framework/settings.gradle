@@ -1,0 +1,17 @@
+pluginManagement {
+    repositories {
+        mavenCentral()
+    }
+    includeBuild('../build-conventions')
+}
+
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+    }
+}
+
+includeBuild '../platforms'
+
+rootProject.name = 'library-framework'
+include 'data'

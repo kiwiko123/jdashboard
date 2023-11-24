@@ -1,0 +1,11 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    implementation platform('com.kiwiko.jdashboard.platforms:core-commons-platform')
+    implementation platform('com.kiwiko.jdashboard.platforms:spring-platform')
+
+    implementation 'com.google.code.findbugs:jsr305'
+    implementation 'org.springframework.data:spring-data-jpa'
+}
