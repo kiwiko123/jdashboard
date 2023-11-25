@@ -1,0 +1,3 @@
+CREATE TABLE TEST_templates (
+    id BIGSERIAL PRIMARY KEY
+);

@@ -1,0 +1,10 @@
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+    }
+}
+
+includeBuild '../platforms'
+
+rootProject.name = 'library-lang'
+include 'utils'

@@ -6,6 +6,8 @@ ARG BUILD_WORKSPACE=/build/service-template
 # Copy common modules into the build workspace.
 COPY ./platforms /build/platforms
 COPY ./build-conventions /build/build-conventions
+COPY ./library-framework /build/library-framework
+COPY ./library-lang /build/library-lang
 
 # => Replace "service-template" with your module's name
 COPY ./service-template $BUILD_WORKSPACE

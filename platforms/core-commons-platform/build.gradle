@@ -11,5 +11,10 @@ dependencies {
         api 'com.google.guava:guava:28.1-jre'
         api 'javax.inject:javax.inject:1'
         api 'org.projectlombok:lombok:1.18.24'
+        api 'org.slf4j:slf4j-api:2.0.9'
+
+        // Testing
+        api 'org.hamcrest:hamcrest:2.2'
+        api 'org.junit.jupiter:junit-jupiter-api:5.10.1'
     }
 }

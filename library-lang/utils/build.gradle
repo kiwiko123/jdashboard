@@ -1,0 +1,19 @@
+plugins {
+    id 'java-library'
+}
+
+group = 'com.kiwiko.jdashboard.lang'
+
+dependencies {
+    implementation platform('com.kiwiko.jdashboard.platforms:core-commons-platform')
+
+    implementation 'com.google.guava:guava'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testImplementation 'org.hamcrest:hamcrest'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

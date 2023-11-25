@@ -5,4 +5,7 @@ pluginManagement {
     includeBuild('../build-conventions')
 }
 
+includeBuild '../platforms'
+includeBuild '../library-framework'
+
 rootProject.name = 'service-template'

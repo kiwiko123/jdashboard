@@ -12,6 +12,8 @@ dependencyResolutionManagement {
 }
 
 includeBuild '../platforms'
+includeBuild '../library-lang'
 
 rootProject.name = 'library-framework'
-include 'data'
+include 'data-api'
+include 'data-jakarta'
