@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { get } from 'lodash';
 
 import './StatusPlane.css';
 
@@ -27,13 +26,13 @@ const StatusPlane = ({
             ]);
 
             if (!currentIncomingMessage) {
-                setCurrentIncomingMessage(newMessages[0]);
+                setCurrentIncomingMessage(incomingMessages[0]);
             }
         }
     }, [messages]);
 
     useEffect(() => {
-        if (!currentIncomingMessage || incomingMessages.length <= 0) {
+        if (!currentIncomingMessage) {
             return;
         }
 
@@ -66,7 +65,6 @@ const StatusPlane = ({
                 'fas fa-circle': !isHovering,
                 'fas fa-expand-alt': isHovering,
             });
-            const introIcon = <i className={introIconClassName} />;
             collapsedViewContent = (
                 <div className="icons">
                     <i className={introIconClassName} />

@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import IconButton from '../../common/components/IconButton';
 import { GLOBAL_addMessage } from '../../dashboard/status/StatusPlaneStateManager';
 
 import './HomeContent.css';
 
 const HomeContent = ({ push }) => {
+    const [counter, incrementCounter] = useReducer(i => i + 1, 0);
+
     const onPush = () => {
         push({ recipientUserId: 1, message: 'Hello!' });
         GLOBAL_addMessage({
-            id: 'test1',
-            message: 'Hi! This is a test.',
+            id: `${counter}`,
+            message: `(${counter}) Hi! This is a test.`,
         });
+        incrementCounter();
     };
 
     return (

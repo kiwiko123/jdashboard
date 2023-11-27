@@ -23,13 +23,5 @@ export default class StatusPlaneStateManager extends StateManager {
             ...this.state.messages,
         ];
         this.setState({ messages });
-
-        setTimeout(
-            () => {
-                const messages = this.state.messages.filter(message => message.id !== messagePayload.id);
-                this.setState({ messages });
-            },
-            5000,
-        );
     }
 }
