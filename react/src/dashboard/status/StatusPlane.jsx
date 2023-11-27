@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
@@ -9,39 +9,30 @@ const StatusPlane = ({
 }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [isHovering, setIsHovering] = useState(false);
-    const [incomingMessages, setIncomingMessages] = useState([]);
     const [currentIncomingMessage, setCurrentIncomingMessage] = useState(null);
+    const currentIncomingMessageTimeoutIdRef = useRef(null);
 
     useEffect(() => {
         if (messages.length <= 0) {
             return;
         }
 
-        const knownMessageIds = new Set(incomingMessages.map(message => message.id));
-        const newMessages = messages.filter(message => !knownMessageIds.has(message.id));
-        if (newMessages.length > 0) {
-            setIncomingMessages([
-                ...incomingMessages,
-                ...newMessages,
-            ]);
-
-            if (!currentIncomingMessage) {
-                setCurrentIncomingMessage(incomingMessages[0]);
-            }
-        }
-    }, [messages]);
-
-    useEffect(() => {
-        if (!currentIncomingMessage) {
+        const newestMessage = messages[0];
+        if (currentIncomingMessage && (currentIncomingMessage.id === newestMessage.id)) {
             return;
         }
 
-        setTimeout(() => {
-            const remainingMessages = incomingMessages.filter(message => message.id !== currentIncomingMessage.id);
-            setIncomingMessages(remainingMessages);
-            setCurrentIncomingMessage(remainingMessages.length >= 0 ? remainingMessages[0] : null);
+        setCurrentIncomingMessage(newestMessage);
+        if (currentIncomingMessageTimeoutIdRef.current) {
+            clearTimeout(currentIncomingMessageTimeoutIdRef.current);
+            currentIncomingMessageTimeoutIdRef.current = null;
+        }
+
+        currentIncomingMessageTimeoutIdRef.current = setTimeout(() => {
+            setCurrentIncomingMessage(null);
+            currentIncomingMessageTimeoutIdRef.current = null;
         }, 4000);
-    }, [currentIncomingMessage]);
+    }, [messages]);
 
     let collapsedView;
     const shouldShowCollapsedView = !isExpanded;
@@ -61,13 +52,27 @@ const StatusPlane = ({
                 </div>
             );
         } else {
+            let unreadMessagesArea;
+            const hasUnreadMessages = messages.length > 0;
+            if (hasUnreadMessages) {
+                unreadMessagesArea = (
+                    <div className="unread-message-notify">
+                        <i className="unread-message-icon fas fa-bell" />
+                        <span className="count">{messages.length}</span>
+                    </div>
+                );
+            }
+
             const introIconClassName = classnames('intro-icon', {
-                'fas fa-circle': !isHovering,
-                'fas fa-expand-alt': isHovering,
+                'fas fa-circle': !hasUnreadMessages && !isHovering,
+                'fas fa-expand-alt': isHovering || hasUnreadMessages,
             });
             collapsedViewContent = (
                 <div className="icons">
-                    <i className={introIconClassName} />
+                    {unreadMessagesArea}
+                    <div className="intro">
+                        <i className={introIconClassName} />
+                    </div>
                 </div>
             );
         }
@@ -93,6 +98,7 @@ const StatusPlane = ({
         collapsed: shouldShowCollapsedView,
         expanded: shouldShowExpandedView,
         'incoming-message': Boolean(currentIncomingMessage),
+        'unread-messages': messages.length > 0,
     });
 
     return (

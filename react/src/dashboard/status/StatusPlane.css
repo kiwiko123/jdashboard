@@ -36,8 +36,14 @@
     animation: expandPlane 0.3s;
 }
 
+.StatusPlane.collapsed.unread-messages:not(.incoming-message) {
+    width: 5rem;
+}
+
 .StatusPlane > .collapsed-view > .icons {
     display: flex;
+    align-items: center;
+    column-gap: 1rem;
 }
 
 .StatusPlane > .collapsed-view > .icons > * {
@@ -47,6 +53,12 @@
 .StatusPlane:hover > .collapsed-view > .icons > * {
     color: white;
     font-size: 1.25rem;
+}
+
+.StatusPlane > .collapsed-view > .icons > .unread-message-notify {
+    display: flex;
+    align-items: center;
+    column-gap: 0.25rem;
 }
 
 .StatusPlane > .collapsed-view > .incoming-message {
