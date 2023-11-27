@@ -1,13 +1,14 @@
 .DashboardHeader {
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 
 .DashboardHeader > .content {
     display: flex;
     margin: 1rem;
     align-items: center;
-    width: 100%;
+    column-gap: 0.5rem;
 }
 
 .greeting {

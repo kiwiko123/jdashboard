@@ -5,11 +5,15 @@ import ComponentStateManager from 'state/components/ComponentStateManager';
 import JdashboardHeaderStateManager from '../header/JdashboardHeaderStateManager';
 import IconButton from '../../common/components/IconButton';
 import DashboardMenuSlideOverPane from './DashboardMenuSlideOverPane';
+import StatusPlane from '../status/StatusPlane';
+import StatusPlaneStateManager from '../status/StatusPlaneStateManager';
 
 import './styles/DashboardHeader.css';
 
 const DashboardHeader = (props) => {
     const headerStateManager = useStateManager(() => new JdashboardHeaderStateManager());
+    const statusPlaneStateManager = useStateManager(() => new StatusPlaneStateManager());
+
     const menuSlideOverPaneProps = {
         appId: props.appId,
         expanded: props.isMenuSlideOverExpanded,
@@ -34,6 +38,13 @@ const DashboardHeader = (props) => {
                    {props.title}
                </h1>
            </div>
+           <div className="status-area">
+               <ComponentStateManager
+                   component={StatusPlane}
+                   stateManager={statusPlaneStateManager}
+               />
+           </div>
+           <div className="empty-placeholder" />
        </div>
    );
 };

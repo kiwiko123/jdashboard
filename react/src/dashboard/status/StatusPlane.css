@@ -1,0 +1,98 @@
+.StatusPlane {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: solid;
+    border-radius: 2.5rem;
+    width: 2rem;
+    cursor: pointer;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
+.StatusPlane.collapsed {
+    opacity: 50%;
+    border-color: slategray;
+    animation: collapsePlane 0.15s;
+}
+
+.StatusPlane:hover {
+    opacity: 100%;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    height: 2rem;
+    transition: 0.3s;
+}
+
+.StatusPlane:hover > * > * {
+    transition: 0.3s;
+}
+
+.StatusPlane.incoming-message {
+    opacity: 100%;
+    width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    animation: expandPlane 0.3s;
+}
+
+.StatusPlane > .collapsed-view > .icons {
+    display: flex;
+}
+
+.StatusPlane > .collapsed-view > .icons > * {
+    color: slategray;
+}
+
+.StatusPlane:hover > .collapsed-view > .icons > * {
+    color: white;
+    font-size: 1.25rem;
+}
+
+.StatusPlane > .collapsed-view > .incoming-message {
+    color: white;
+    display: flex;
+    column-gap: 0.5rem;
+}
+
+.StatusPlane > .collapsed-view > .incoming-message > .message-icon {
+    animation: tilt-shaking 0.2s;
+    animation-iteration-count: 3;
+}
+
+.StatusPlane.expanded {
+    width: 20rem;
+    height: 10rem;
+    animation: expandPlane 0.15s;
+    border-color: white;
+}
+
+.StatusPlane > .content:not(.expanded) {
+    display: none;
+}
+
+@keyframes expandPlane {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes collapsePlane {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(0);
+    }
+}
+
+@keyframes tilt-shaking {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    50% { transform: rotate(0eg); }
+    75% { transform: rotate(-5deg); }
+    100% { transform: rotate(0deg); }
+}
