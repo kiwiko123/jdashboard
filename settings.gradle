@@ -3,3 +3,6 @@
  */
 
 rootProject.name = 'jdashboard'
+includeBuild('build-conventions')
+includeBuild('service-monolith')
+

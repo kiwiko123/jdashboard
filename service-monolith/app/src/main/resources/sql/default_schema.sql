@@ -171,7 +171,6 @@ CREATE TABLE chatroom_message_room_users (
 );
 CREATE INDEX ON chatroom_message_room_users (chatroom_message_room_id) WHERE is_removed = false;
 CREATE INDEX ON chatroom_message_room_users (user_id) WHERE is_removed = false;
-CREATE INDEX ON chatroom_messages (chatroom_message_room_id) WHERE is_removed = false;
 
 CREATE TABLE chatroom_messages (
     id BIGSERIAL PRIMARY KEY,
@@ -182,6 +181,7 @@ CREATE TABLE chatroom_messages (
     message TEXT,
     is_removed BOOLEAN NOT NULL DEFAULT FALSE
 );
+CREATE INDEX ON chatroom_messages (chatroom_message_room_id) WHERE is_removed = false;
 
 CREATE TABLE permissions (
     id BIGSERIAL PRIMARY KEY,
@@ -200,7 +200,6 @@ CREATE TABLE grocery_lists (
     is_removed BOOLEAN NOT NULL DEFAULT FALSE
 );
 CREATE INDEX ON grocery_lists (user_id) WHERE is_removed = false;
-CREATE INDEX ON grocery_items (lower(name)) WHERE is_removed = false;
 
 CREATE TABLE grocery_items (
     id BIGSERIAL PRIMARY KEY,
@@ -208,6 +207,7 @@ CREATE TABLE grocery_items (
     category TEXT,
     is_removed BOOLEAN NOT NULL DEFAULT FALSE
 );
+CREATE INDEX ON grocery_items (lower(name)) WHERE is_removed = false;
 
 CREATE TABLE grocery_list_items (
     id BIGSERIAL PRIMARY KEY,
