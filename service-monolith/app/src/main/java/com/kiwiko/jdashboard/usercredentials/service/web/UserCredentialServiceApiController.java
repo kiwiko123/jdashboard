@@ -10,6 +10,8 @@ import com.kiwiko.jdashboard.usercredentials.client.api.interfaces.parameters.Va
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.JdashboardConfigured;
 import com.kiwiko.jdashboard.framework.controllers.api.annotations.checks.ServiceRequestLock;
 import com.kiwiko.jdashboard.usercredentials.service.api.interfaces.UserCredentialService;
+import com.kiwiko.jdashboard.webapp.framework.json.deserialization.api.impl.GsonRequestBodyDeserializationStrategy;
+import com.kiwiko.jdashboard.webapp.framework.json.deserialization.api.interfaces.CustomRequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,7 +55,7 @@ public class UserCredentialServiceApiController {
     }
 
     @PostMapping("")
-    public CreateUserCredentialOutput createUserCredential(@RequestBody CreateUserCredentialInput input) {
+    public CreateUserCredentialOutput createUserCredential(@CustomRequestBody(strategy = GsonRequestBodyDeserializationStrategy.class) CreateUserCredentialInput input) {
         UserCredential userCredential = userCredentialService.create(input);
 
         CreateUserCredentialOutput output = new CreateUserCredentialOutput();
