@@ -6,15 +6,15 @@ plugins {
 }
 
 // UPDATE THIS
-mainClassName = 'com.kiwiko.jdashboard.example.service.app.ExampleServiceApplication'
+mainClassName = 'com.kiwiko.jdashboard.springbootexample.service.app.SpringBootExampleServiceApplication'
 
-description = 'Jdashboard Example Service'
-group = 'com.kiwiko.jdashboard'
+description = 'Spring Boot Example Service'
+group = 'com.kiwiko.jdashboard.springbootexample.service'
 version = '0.0.1-SNAPSHOT'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(23)
     }
 }
 
@@ -27,7 +27,11 @@ repositories {
 }
 
 dependencies {
+    implementation 'com.kiwiko.jdashboard.framework:library-framework-data-access'
+    implementation 'jakarta.inject:jakarta.inject-api'
+    implementation 'org.postgresql:postgresql'
     implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

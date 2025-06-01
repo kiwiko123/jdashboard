@@ -4,6 +4,7 @@
 
 rootProject.name = 'jdashboard'
 includeBuild('build-conventions')
+includeBuild('library-framework-data-access')
 includeBuild('service-monolith')
 includeBuild('service-spring-boot-example')
 

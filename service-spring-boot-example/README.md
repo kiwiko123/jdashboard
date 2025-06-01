@@ -7,6 +7,5 @@
 
 ### ...via Docker
 ```shell
-./bin/build-service.sh
-./bin/run-service.sh
+docker-compose up
 ```
