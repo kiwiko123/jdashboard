@@ -1,0 +1,8 @@
+dependencies {
+    constraints {
+        implementation 'com.github.spotbugs:spotbugs-annotations:4.9.3'
+        testImplementation 'junit:junit:4.13'
+        testImplementation 'org.hamcrest:hamcrest:2.2'
+        compileOnly 'org.projectlombok:lombok:1.18.24'
+    }
+}

@@ -1,0 +1,26 @@
+services:
+  database:
+    image: postgres
+    container_name: spring-boot-example-service-database
+    restart: always
+    environment:
+      - POSTGRES_USER=jdashboard_tester
+      - POSTGRES_PASSWORD=hello
+      - POSTGRES_DB=spring_boot_example_service_test
+    ports:
+      - '5433:5432'
+
+  webapp:
+    container_name: spring-boot-example-service-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8101:8080'
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://spring-boot-example-service-database:5432/spring_boot_example_service_test
+      - SPRING_DATASOURCE_USERNAME=jdashboard_tester
+      - SPRING_DATASOURCE_PASSWORD=hello
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      - database

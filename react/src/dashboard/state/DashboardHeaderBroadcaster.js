@@ -24,6 +24,7 @@ export default class DashboardHeaderBroadcaster extends Broadcaster {
             this.setState({
                 userData: {
                     username: state.username,
+                    permissions: state.permissions,
                     isLoggedIn: state.isLoaded ? Boolean(state.username) : null,
                     logOut: this.logOut,
                 },

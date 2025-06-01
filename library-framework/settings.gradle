@@ -1,0 +1,6 @@
+pluginManagement {
+    includeBuild('../build-conventions')
+}
+
+rootProject.name = 'library-framework'
+include('data-access')

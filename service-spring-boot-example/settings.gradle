@@ -1,0 +1,3 @@
+rootProject.name = 'service-spring-boot-example'
+
+includeBuild('../library-framework')
