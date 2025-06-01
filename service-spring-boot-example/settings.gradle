@@ -1,3 +1,3 @@
 rootProject.name = 'service-spring-boot-example'
 
-includeBuild('../library-framework-data-access')
+includeBuild('../library-framework')

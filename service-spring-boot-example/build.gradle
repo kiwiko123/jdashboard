@@ -27,7 +27,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.kiwiko.jdashboard.framework:library-framework-data-access'
+    implementation 'com.kiwiko.jdashboard.framework:data-access'
     implementation 'jakarta.inject:jakarta.inject-api'
     implementation 'org.postgresql:postgresql'
     implementation 'org.springframework.boot:spring-boot-starter'
