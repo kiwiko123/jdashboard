@@ -1,2 +1,4 @@
 rootProject.name = 'build-conventions'
+include('common-practice')
 include('monolith')
+include('spring-boot-web')
