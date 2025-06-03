@@ -8,9 +8,13 @@ import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -39,6 +43,18 @@ public abstract class AbstractJpaDataAccessObject<Id, Entity extends DataEntity<
         }
 
         return Optional.ofNullable(reference);
+    }
+
+    public List<Entity> get(Collection<Id> ids) {
+        CriteriaBuilder criteriaBuilder = getCriteriaBuilder();
+        CriteriaQuery<Entity> query = criteriaBuilder.createQuery(entityType);
+        Root<Entity> root = query.from(entityType);
+
+        Predicate hasId = root.get("id").in(ids);
+
+        query.select(root).where(hasId);
+
+        return createQuery(query).getResultList();
     }
 
     @Nonnull
@@ -85,6 +101,15 @@ public abstract class AbstractJpaDataAccessObject<Id, Entity extends DataEntity<
      */
     protected Query createNativeQuery(String query) {
         return entityManager.createNativeQuery(query, entityType);
+    }
+
+    protected CriteriaQuery<Entity> selectWhereEqual(String field, Object expectedValue) {
+        CriteriaBuilder criteriaBuilder = getCriteriaBuilder();
+        CriteriaQuery<Entity> query = criteriaBuilder.createQuery(entityType);
+        Root<Entity> root = query.from(entityType);
+
+        Predicate predicate = criteriaBuilder.equal(root.get(field), expectedValue);
+        return query.select(root).where(predicate);
     }
 
     protected Class<Entity> getEntityType() {

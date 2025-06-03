@@ -7,4 +7,5 @@ includeBuild('build-conventions')
 includeBuild('library-framework')
 includeBuild('service-monolith')
 includeBuild('service-spring-boot-example')
+includeBuild('service-users')
 
