@@ -1,6 +1,13 @@
 .DashboardMenuSlideOverPane {
-    background-color: white;
     opacity: 98%;
+}
+
+.DashboardMenuSlideOverPane.theme-dark {
+    color: white;
+}
+
+.DashboardMenuSlideOverPane.open {
+    width: 33%;
 }
 
 .DashboardMenuSlideOverPane > * {
@@ -16,8 +23,8 @@
     align-items: center;
 }
 
-.DashboardMenuSlideOverPane > .account-information > .account-header > .greeting {
-    color: black;
+.DashboardMenuSlideOverPane.theme-dark > .account-information > .account-header > .greeting {
+    color: white;
 }
 
 .DashboardMenuSlideOverPane > .account-information > .account-header > .greeting > .username {

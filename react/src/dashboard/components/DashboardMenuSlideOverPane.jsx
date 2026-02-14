@@ -17,7 +17,7 @@ function makeButtons(settings, props) {
             <IconButton
                 key={data.id}
                 className={`account-button ${data.id}`}
-                variant="outline-dark"
+                variant="outline-light"
                 fontAwesomeClassName={data.icon}
                 size="sm"
                 onClick={() => onClickNavigationButton(data)}
@@ -43,8 +43,9 @@ const DashboardMenuSlideOverPane = ({
 
     return (
         <SlideOverPane
-            className="DashboardMenuSlideOverPane"
+            className="DashboardMenuSlideOverPane immersive"
             expanded={expanded}
+            openFrom="side"
         >
             <div className="header">
                 <h1>Dashboard</h1>

@@ -1,0 +1,7 @@
+pluginManagement {
+    includeBuild('../build-conventions')
+}
+
+rootProject.name = 'library-http-client'
+include('configuration-spring')
+include('impl-default')

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { omit } from 'lodash';
-import Modal from './Modal';
+import Modal from './index';
 
 import './TitleModal.css';
 

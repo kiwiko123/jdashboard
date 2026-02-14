@@ -3,6 +3,11 @@
     z-index: 1;
     overflow-x: hidden;
     transition-timing-function: ease;
+    transition-duration: 0.45s;
+}
+
+.SlideOverPane:not(.glass).theme-dark {
+    background-color: white;
 }
 
 .SlideOverPane.open {
@@ -10,18 +15,18 @@
     height: 100%;
 }
 
-.SlideOverPane.from-side {
-    transition: 0.45s;
+.SlideOverPane.closed {
+    width: 0;
+    height: 0;
+    visibility: hidden;
 }
 
 .SlideOverPane.from-side.closed {
-    width: 0;
     height: 100%;
 }
 
 .SlideOverPane.from-top, .SlideOverPane.from-bottom {
-    transition: 0.45s;
-    width: 33%;
+    transition-property: height, visibility;
 }
 
 .SlideOverPane.from-top {
@@ -33,7 +38,7 @@
 }
 
 .SlideOverPane.from-top.closed, .SlideOverPane.from-bottom.closed {
-    height: 0;
+    width: 33%;
 }
 
 .SlideOverPane > .body {

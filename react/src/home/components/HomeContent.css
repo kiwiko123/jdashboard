@@ -1,3 +1,7 @@
 .HomeContent {
     color: white;
 }
+
+.HomeContent > .StandardButton {
+    color: white;
+}

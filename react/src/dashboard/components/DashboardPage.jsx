@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import AppearanceContext from 'ui/appearance/AppearanceContext';
 import BroadcasterComponentStateManager from '../../state/components/BroadcasterComponentStateManager';
 import Broadcaster from '../../state/Broadcaster';
 import UserDataBroadcaster from '../../accounts/state/UserDataBroadcaster';
@@ -46,6 +47,8 @@ const DashboardPage = ({
     // (although page-level re-renders should be few and far between).
     const [broadcasters] = useState(createPageBroadcasters(broadcasterSubscribers));
 
+    const { themeClassName } = useContext(AppearanceContext);
+
     // Clean-up all page-level broadcasters when the page unmounts.
     useEffect(() => {
         return () => {
@@ -60,7 +63,7 @@ const DashboardPage = ({
     });
 
     const { headerBroadcaster, alertBroadcaster } = broadcasters;
-    const pageClassName = classnames('DashboardPage', className);
+    const pageClassName = classnames('DashboardPage', themeClassName, className);
     const menuAssistant = showMenuAssistant && (
         <DashboardMenuAssistantPane
             openFrom="auto"

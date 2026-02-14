@@ -1,0 +1,26 @@
+services:
+  database:
+    image: postgres
+    container_name: user-service-database
+    restart: always
+    environment:
+      - POSTGRES_USER=jdashboard_tester
+      - POSTGRES_PASSWORD=hello
+      - POSTGRES_DB=user_service_test
+    ports:
+      - '5434:5432'
+
+  webapp:
+    container_name: user-service-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8102:8080'
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://user-service-database:5432/user_service_test
+      - SPRING_DATASOURCE_USERNAME=jdashboard_tester
+      - SPRING_DATASOURCE_PASSWORD=hello
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      - database

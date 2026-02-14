@@ -1,15 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useStateManager } from 'state/hooks';
+import { useOnClickOutside, useStateManager } from 'state/hooks';
 import ComponentStateManager from 'state/components/ComponentStateManager';
+import StandardButton from 'ui/StandardButton';
 import JdashboardHeaderStateManager from '../header/JdashboardHeaderStateManager';
 import IconButton from '../../common/components/IconButton';
 import DashboardMenuSlideOverPane from './DashboardMenuSlideOverPane';
+import SystemSettingsPane from './SystemSettingsPane';
+import SlideOverPane from '../../common/components/SlideOverPane';
 
 import './styles/DashboardHeader.css';
 
 const DashboardHeader = (props) => {
     const headerStateManager = useStateManager(() => new JdashboardHeaderStateManager());
+    const [isSystemSettingsPaneExpanded, setIsSystemSettingsPaneExpanded] = useState(false);
+    const systemSettingsPaneRef = useOnClickOutside(() => {
+        if (isSystemSettingsPaneExpanded) {
+            setIsSystemSettingsPaneExpanded(false);
+        }
+    });
     const menuSlideOverPaneProps = {
         appId: props.appId,
         expanded: props.isMenuSlideOverExpanded,
@@ -25,14 +34,28 @@ const DashboardHeader = (props) => {
                    component={DashboardMenuSlideOverPane}
                    staticProps={menuSlideOverPaneProps}
                />
-               <IconButton
+               <StandardButton
                    fontAwesomeClassName="fas fa-bars"
-                   variant="outline-light"
                    onClick={props.toggleMenuSlideOver}
                />
                <h1 className="color-white">
                    {props.title}
                </h1>
+               <div className="section-system-settings">
+                   <StandardButton
+                      className="system-settings clear"
+                      fontAwesomeClassName="fas fa-cog"
+                      onClick={() => setIsSystemSettingsPaneExpanded(!isSystemSettingsPaneExpanded)}
+                  />
+                  <SlideOverPane
+                      className="system-settings-pane immersive"
+                      ref={systemSettingsPaneRef}
+                      expanded={isSystemSettingsPaneExpanded}
+                      openFrom="top"
+                  >
+                      <SystemSettingsPane />
+                  </SlideOverPane>
+               </div>
            </div>
        </div>
    );

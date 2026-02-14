@@ -1,0 +1,17 @@
+.GlassStandardButton:hover > button:not(.disabled) {
+    color: white;
+}
+
+.GlassStandardButton > button {
+    background: none;
+    border: none;
+    color: #ffffffb3;
+}
+
+.GlassStandardButton > .disabled {
+    color: #ffffff2b;
+}
+
+.GlassStandardButton.highlighted {
+    background: rgba(255, 255, 255, 0.3);
+}

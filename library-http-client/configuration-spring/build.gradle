@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+    id 'jdashboard.spring-boot-web'
+}
+
+group = 'com.kiwiko.jdashboard.http.client'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':impl-default')
+
+    implementation 'org.springframework:spring-context'
+}
+
+test {
+    useJUnitPlatform()
+}
