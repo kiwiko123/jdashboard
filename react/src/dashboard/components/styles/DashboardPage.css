@@ -1,3 +1,11 @@
+.DashboardPage {
+    height: 100vh;
+}
+
+.DashboardPage.theme-dark {
+    background-color: black;
+}
+
 .header-divider {
     border-color: white;
     width: 95%;

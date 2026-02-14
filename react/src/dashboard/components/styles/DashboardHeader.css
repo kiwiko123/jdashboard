@@ -16,11 +16,25 @@
     color: white;
 }
 
-.DashboardHeader > .content > .DashboardMenuSlideOverPane {
+.DashboardHeader > .content > .DashboardMenuSlideOverPane.from-side {
     bottom: 0;
     height: 100%;
 }
 
 .DashboardHeader > .content > .DashboardMenuSlideOverPane > .content > .quick-links > .buttons {
     display: flex;
+}
+
+.DashboardHeader > .content > .section-system-settings {
+    margin-left: auto;
+}
+
+.DashboardHeader > .content > .section-system-settings > .system-settings-pane {
+    top: unset;
+    right: 0;
+    width: 20rem;
+}
+
+.DashboardHeader > .content > .section-system-settings > .system-settings-pane.open {
+    height: 33%;
 }

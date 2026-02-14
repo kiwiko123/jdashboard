@@ -1,11 +1,11 @@
 package com.kiwiko.jdashboard.library.persistence.identification;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class GeneratedLongIdentifiable extends TypeIdentifiable<Long> {
 
-    private static Map<String, Long> ids = new HashMap<>();
+    private static Map<String, Long> ids = new ConcurrentHashMap<>();
 
     private final Long id;
 

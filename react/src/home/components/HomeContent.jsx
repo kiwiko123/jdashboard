@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import IconButton from '../../common/components/IconButton';
+import StandardButton from 'ui/StandardButton';
 import { ControllerContext } from 'ui/SinglePageApp';
 
 import './HomeContent.css';
@@ -12,9 +12,9 @@ const HomeContent = ({ push }) => {
                 <span>
                     You have gone to the next page!
                 </span>
-                <IconButton onClick={controller.renderPrevious}>
+                <StandardButton onClick={controller.renderPrevious}>
                     Go back!
-                </IconButton>
+                </StandardButton>
             </div>
         ));
     };
@@ -24,16 +24,16 @@ const HomeContent = ({ push }) => {
             <span>
                 Hi! Welcome to Jdashboard.
             </span>
-            <IconButton
-                onClick={() => push({ recipientUserId: 1, message: 'Hello!' })}
+            <StandardButton
+//                 onClick={() => push({ recipientUserId: 1, message: 'Hello!' })}
             >
                 Press me!
-            </IconButton>
-            <IconButton
+            </StandardButton>
+            <StandardButton
                 onClick={nextClick}
             >
                 Press me to re-render!
-            </IconButton>
+            </StandardButton>
         </div>
     );
 };

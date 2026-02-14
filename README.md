@@ -23,8 +23,8 @@ sh ./setup.sh
 ### PostgreSQL
 Control the PostgreSQL server manually with the following commands:
 ```shell
-/opt/homebrew/opt/postgresql@17/bin/pg_ctl start -D /opt/homebrew/var/postgresql@17
-/opt/homebrew/opt/postgresql@17/bin/pg_ctl stop -D /opt/homebrew/var/postgresql@17
+/opt/homebrew/Cellar/postgresql@17/17.2/bin/pg_ctl start -D /opt/homebrew/var/postgresql@17
+/opt/homebrew/Cellar/postgresql@17/17.2/bin/pg_ctl stop -D /opt/homebrew/var/postgresql@17
 ```
 
 #### One-time setup

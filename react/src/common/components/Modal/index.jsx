@@ -1,2 +1,3 @@
 import Modal from './Modal';
-export default Modal;
+import GlassModal from './GlassModal';
+export default GlassModal;

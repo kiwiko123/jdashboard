@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import ComponentStateManager from 'state/components/ComponentStateManager';
 import { useStateManager, useTabTitle } from 'state/hooks';
 import DashboardHeaderStateManager from 'dashboard/state/DashboardHeaderStateManager';
 import DashboardHeader from 'dashboard/components/DashboardHeader';
+import AppearanceContext, { makeAppearanceContext } from 'ui/appearance/AppearanceContext';
+import Themes from 'ui/appearance/theme/Themes';
 import JdashboardPageView from './JdashboardPageView';
 import conditionsPropType from '../conditions/conditionsPropType';
 import DashboardMenuAssistantPane from 'dashboard/components/DashboardMenuAssistantPane';
@@ -23,8 +25,16 @@ const JdashboardPage = ({
     useTabTitle(title);
     useManagedClientSession();
     const headerStateManager = useStateManager(() => new DashboardHeaderStateManager());
+    const [theme, setTheme] = useState(Themes.dark);
+    const appearanceContext = makeAppearanceContext({
+        theme,
+        toggleTheme: () => {
+          const newTheme = (theme === Themes.light) ? Themes.dark : Themes.light;
+          setTheme(newTheme);
+      },
+    });
 
-    const pageClassName = classnames('JdashboardPage', className);
+    const pageClassName = classnames('JdashboardPage', appearanceContext.themeClassName, className);
     const menuAssistant = showMenuAssistant && (
         <DashboardMenuAssistantPane
             openFrom="auto"
@@ -35,18 +45,20 @@ const JdashboardPage = ({
     const ViewComponent = enableInteractivePerimeter ? JdashboardPageView : Div;
 
     return (
-        <ViewComponent className={pageClassName}>
-            {menuAssistant}
-            <ComponentStateManager
-                stateManager={headerStateManager}
-                component={DashboardHeader}
-                staticProps={{ title, appId }}
-            />
-            <hr className="header-divider" />
-            <div className="body">
-                {children}
-            </div>
-        </ViewComponent>
+        <AppearanceContext.Provider value={appearanceContext}>
+            <ViewComponent className={pageClassName}>
+                {menuAssistant}
+                <ComponentStateManager
+                    stateManager={headerStateManager}
+                    component={DashboardHeader}
+                    staticProps={{ title, appId }}
+                />
+                <hr className="header-divider" />
+                <div className="body">
+                    {children}
+                </div>
+            </ViewComponent>
+        </AppearanceContext.Provider>
     );
 }
 

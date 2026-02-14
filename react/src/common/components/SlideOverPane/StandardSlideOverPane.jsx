@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import './styles/SlideOverPane.css';
+import './SlideOverPane.css';
 
-const SlideOverPane = ({
+const StandardSlideOverPane = ({
     children, className, expanded, openFrom,
 }) => {
     const [isExpanded, setIsExpanded] = useState(expanded);
@@ -27,18 +27,18 @@ const SlideOverPane = ({
     );
 };
 
-SlideOverPane.propTypes = {
+StandardSlideOverPane.propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
     expanded: PropTypes.bool,
     openFrom: PropTypes.oneOf(['side', 'top', 'bottom']),
 };
 
-SlideOverPane.defaultProps = {
+StandardSlideOverPane.defaultProps = {
     children: null,
     className: null,
     expanded: true,
     openFrom: 'side',
 };
 
-export default SlideOverPane;
+export default StandardSlideOverPane;
